@@ -6,14 +6,14 @@ import 'package:sindbad_management_app/store_app_features/home/domain/repos/all_
 import '../entities/all_order_entity.dart';
 
 class AllOrderUsecase
-    extends UseCaseWithParam<List<AllOrderEntity>, AllOraderParam> {
+    extends UseCaseWithParam<List<AllOrderEntity>, AllOrderParam> {
   final AllOrderRepo allOrderRepo;
 
   AllOrderUsecase(this.allOrderRepo);
 
   @override
   Future<Either<Failure, List<AllOrderEntity>>> execute(
-      AllOraderParam params) async {
+      AllOrderParam params) async {
     return await allOrderRepo.fetchAllOrder(
         pageNumber: params.pageNumber,
         pageSize: params.pageSize,
@@ -22,11 +22,11 @@ class AllOrderUsecase
   }
 }
 
-class AllOraderParam {
+class AllOrderParam {
   final String storeId;
   final int srearchKeyword;
   final int pageNumber;
   final int pageSize;
-  AllOraderParam(
+  AllOrderParam(
       this.pageNumber, this.pageSize, this.storeId, this.srearchKeyword);
 }
