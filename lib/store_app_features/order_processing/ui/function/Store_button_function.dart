@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sindbad_management_app/core/styles/Colors.dart';
-import 'package:sindbad_management_app/core/widgets/custom_data_dialog_widget.dart';
 import 'package:sindbad_management_app/core/widgets/custom_primary_button_widget.dart';
-import 'package:sindbad_management_app/core/widgets/custom_print_dialog_widget.dart';
+import 'package:sindbad_management_app/store_app_features/order_processing/ui/widget/action_button_order_cancle.dart';
+import 'package:sindbad_management_app/store_app_features/order_processing/ui/widget/button_bill.dart';
+import 'package:sindbad_management_app/store_app_features/order_processing/ui/widget/button_order_send.dart';
+import 'package:sindbad_management_app/store_app_features/order_processing/ui/widget/button_print_order_title.dart';
 
-class StoreButtonListViewFunction extends StatelessWidget {
-  const StoreButtonListViewFunction({super.key});
+class StoreButtonList extends StatelessWidget {
+  const StoreButtonList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,36 +19,15 @@ class StoreButtonListViewFunction extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            KCustomPrimaryButtonWidget(
-                buttonName: "الفاتورة",
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return const CustomDataDialogWidget(
-                          headTitle: 'بيانات الفاتورة',
-                          firstTitle: 'التاريخ',
-                          firstTitleContent: '2024/10/2',
-                          secondTitle: 'رقم الفاتورة',
-                          secondTitleContent: '2102511025',
-                          thierdTitle: 'قيمة الفاتورة',
-                          thierdTitleContent: '125.00',
-                        );
-                      });
-                }),
+            const ButtonBill(
+              billDate: '2024/10/2',
+              billNumber: '2102511025',
+              billMount: '125.00',
+            ),
             SizedBox(
               width: 50.w,
             ),
-            KCustomPrimaryButtonWidget(
-                buttonName: "طباعة عنوان الطلب",
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return const KCustomPrintDialogWidget(
-                            numberOfCopies: 2, printName: "");
-                      });
-                }),
+            const ButtonPrintOrderTitle(),
           ],
         ),
         SizedBox(
@@ -56,36 +36,16 @@ class StoreButtonListViewFunction extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              children: [
-                KCustomPrimaryButtonWidget(
-                    buttonName: "تم ارسال الطلب",
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return const CustomDataDialogWidget(
-                              headTitle: 'بيانات الشحن',
-                              firstTitle: 'التاريخ',
-                              firstTitleContent: '2024/10/2',
-                              secondTitle: 'رقم فاتورة الشحن',
-                              secondTitleContent: '2102511025',
-                              thierdTitle: 'شركة النقل',
-                              thierdTitleContent: 'اسم الشركة الناقلة',
-                            );
-                          });
-                    }),
-                SizedBox(
-                  width: 50.w,
-                ),
-                KCustomPrimaryButtonWidget(
-                  buttonName: "الغاء الطلب",
-                  onPressed: () {
-                    orderCancle(context);
-                  },
-                )
-              ],
+            const ButtonOrderSend(),
+            SizedBox(
+              width: 50.w,
             ),
+            KCustomPrimaryButtonWidget(
+              buttonName: "الغاء الطلب",
+              onPressed: () {
+                orderCancle(context);
+              },
+            )
           ],
         )
       ],
@@ -97,7 +57,7 @@ class StoreButtonListViewFunction extends StatelessWidget {
         context: context,
         builder: (context) {
           return AlertDialog(
-            content: Container(
+            content: SizedBox(
               height: 30.h,
               child: const Text(
                 "هل تريد الغاء الطلب؟",
@@ -105,37 +65,15 @@ class StoreButtonListViewFunction extends StatelessWidget {
               ),
             ),
             actions: [
-              InkWell(
+              ActionButtonOrderCancle(
+                title: 'موافق',
                 onTap: () {},
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 30.h,
-                  width: 60.w,
-                  decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(25.r)),
-                  child: const Text(
-                    "موافق",
-                    style: TextStyle(color: AppColors.primaryColor),
-                  ),
-                ),
               ),
-              InkWell(
+              ActionButtonOrderCancle(
+                title: 'تراجع',
                 onTap: () {
                   Navigator.of(context).pop();
                 },
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 30.h,
-                  width: 60.w,
-                  decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(25.r)),
-                  child: const Text(
-                    "تراجع",
-                    style: TextStyle(color: AppColors.primaryColor),
-                  ),
-                ),
               ),
             ],
           );
