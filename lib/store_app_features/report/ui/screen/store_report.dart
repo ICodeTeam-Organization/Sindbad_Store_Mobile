@@ -10,7 +10,7 @@ class StoreReport extends StatelessWidget {
       body: Column(
         children: [
           KCustomAppBarWidget(
-            nameAppbar: "ملف اكسل",
+            nameAppbar: "التقارير",
             count: 0,
             isHome: false,
           ),
