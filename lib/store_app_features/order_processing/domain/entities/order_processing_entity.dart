@@ -1,14 +1,16 @@
 class OrderProcessingEntity {
-  final String productName;
-  final num productPrice;
-  final String productDescription;
-  final String productMainImageUrl;
-  final int quantity;
+  final String nameProduct;
+  final num orderDetailsId;
+  final num priceProduct;
+  final String description;
+  final String productImage;
+  final int quantites;
 
   OrderProcessingEntity(
-      {required this.productName,
-      required this.productPrice,
-      required this.productDescription,
-      required this.productMainImageUrl,
-      required this.quantity});
+      {required this.orderDetailsId,
+      required this.nameProduct,
+      required this.priceProduct,
+      required this.description,
+      required this.productImage,
+      required this.quantites});
 }
