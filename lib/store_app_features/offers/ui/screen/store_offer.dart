@@ -12,15 +12,8 @@ class StoreOffer extends StatelessWidget {
         children: [
           KCustomAppBarWidget(nameAppbar: "العروض"),
           SingleChildScrollView(
-              child: StoreListViewOffer(
-            offerStart: '2024/10/2',
-            offerFinish: '2024/10/4',
-            offerType: 'خصم/بونص',
-            categorys: 'ملف اكسل',
-            category: '',
-            discountRate: '',
-            bouns: '',
-          )),
+            child: StoreListViewOffer(),
+          ),
         ],
       ),
     );
