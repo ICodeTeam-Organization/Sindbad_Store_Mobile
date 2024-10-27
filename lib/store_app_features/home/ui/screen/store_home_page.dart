@@ -11,32 +11,36 @@ class StoreHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 2,
-        child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: AppColors.primaryColor,
-              title: TabBar(
-                  indicatorWeight: 4.w,
-                  dividerColor: AppColors.scaffColor,
-                  indicatorColor: AppColors.redDark,
-                  labelColor: AppColors.black,
-                  unselectedLabelColor: AppColors.black,
-                  tabs: [
-                    Tab(
-                      child: Text("الطلبات", style: KTextStyle.tabs),
-                    ),
-                    Tab(
-                      child: Text(
-                        "الاصناف",
-                        style: KTextStyle.tabs,
-                      ),
-                    ),
-                  ]),
-            ),
-            body: const TabBarView(children: [
-              StoreHomePageOrderWidget(),
-              ///////////////////////////
-              StoreHomePageItemWidget()
-            ])));
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppColors.primaryColor,
+          title: TabBar(
+              indicatorWeight: 4.w,
+              dividerColor: AppColors.scaffColor,
+              indicatorColor: AppColors.redDark,
+              labelColor: AppColors.black,
+              unselectedLabelColor: AppColors.black,
+              tabs: [
+                Tab(
+                  child: Text("الطلبات", style: KTextStyle.tabs),
+                ),
+                Tab(
+                  child: Text(
+                    "الاصناف",
+                    style: KTextStyle.tabs,
+                  ),
+                ),
+              ]),
+        ),
+        body: const TabBarView(
+          children: [
+            StoreHomePageOrderWidget(),
+            ///////////////////////////
+            StoreHomePageItemWidget()
+          ],
+        ),
+      ),
+    );
   }
 }
