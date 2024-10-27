@@ -12,11 +12,8 @@ import 'package:sindbad_management_app/store_app_features/stop_product/ui/screen
 import 'package:sindbad_management_app/store_app_features/stopped_product/ui/screen/store_stopped_product.dart';
 // Update with the actual import paths for your views
 
-
-
-
-class StoreRouters{
-  String kStoreHome = '/store/home';
+class StoreRouters {
+  String kStoreHome = '/';
   String kStoreAddProduct = '/store/addProduct';
   String kStoreOrderProcessing = '/store/orderProcessing';
   String kStoreProducts = '/store/products';
@@ -29,16 +26,12 @@ class StoreRouters{
   String kStoreReport = '/store/report';
 }
 
-
-
-
-abstract class AppRouter{
-  static const kLoginScreen = '/';
+abstract class AppRouter {
+  static const kStoreHome = '/';
 
   static StoreRouters storeRouters = StoreRouters();
-   static final router = GoRouter(
+  static final router = GoRouter(
     routes: [
-   
       // Store Routes
       GoRoute(
         path: AppRouter.storeRouters.kStoreHome,
@@ -84,10 +77,8 @@ abstract class AppRouter{
         path: AppRouter.storeRouters.kStoreReport,
         builder: (context, state) => const StoreReport(),
       ),
-
     ],
   );
-
 }
 
 
