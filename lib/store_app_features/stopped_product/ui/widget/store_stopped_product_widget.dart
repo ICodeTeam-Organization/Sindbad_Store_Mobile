@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sindbad_management_app/core/shared_widgets/q_text_title_list_view_widget.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
 import 'package:sindbad_management_app/core/widgets/custom_primary_button_widget.dart';
+import 'package:sindbad_management_app/store_app_features/order_processing/ui/widget/custom_text.dart';
 
 class StoreStoppedProductWidget extends StatelessWidget {
   const StoreStoppedProductWidget(
@@ -66,8 +66,7 @@ class StoreStoppedProductWidget extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        const TextTitleListViewWidget(
-                            textName: "اسم المنتج:  "),
+                        const CustomText(text: 'اسم المنتج:  '),
                         Container(
                           margin: EdgeInsets.symmetric(vertical: 4.h),
                           width: 200.w,
