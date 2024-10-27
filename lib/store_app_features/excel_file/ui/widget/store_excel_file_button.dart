@@ -6,17 +6,15 @@ class StoreExcelFileButton extends StatelessWidget {
   const StoreExcelFileButton({
     super.key,
     required this.buttonName,
-    /* required this.routeName,*/
+    required this.onPressed,
   });
   final String buttonName;
-  /*final String routeName;*/
+  final GestureTapCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        /*Navigator.of(context).pushNamed(routeName);*/
-      },
+      onTap: onPressed,
       child: Container(
         alignment: Alignment.center,
         margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
