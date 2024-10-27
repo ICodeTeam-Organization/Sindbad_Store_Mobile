@@ -17,11 +17,7 @@ class StoreProducts extends StatelessWidget {
             count: 0,
             isHome: false,
           ),
-          StoreProductListViewWidget(
-            bondNum: '654654',
-            date: '2024/10/2',
-            itemNum: '5',
-          ),
+          StoreProductListViewWidget(),
         ],
       ),
     );
