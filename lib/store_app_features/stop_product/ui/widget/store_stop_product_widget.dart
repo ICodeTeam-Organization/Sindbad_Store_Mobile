@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sindbad_management_app/core/shared_widgets/q_text_title_list_view_widget.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
-import 'package:sindbad_management_app/core/styles/text_style.dart';
 import 'package:sindbad_management_app/core/widgets/custom_primary_button_widget.dart';
+import 'package:sindbad_management_app/store_app_features/stop_product/ui/widget/custom_text.dart';
+import 'package:sindbad_management_app/store_app_features/stop_product/ui/widget/product_input_form.dart';
 
 class StoreStopProductWidget extends StatelessWidget {
   const StoreStopProductWidget(
@@ -25,61 +25,18 @@ class StoreStopProductWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(10.r)),
           child: Column(
             children: [
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    " المنتجات: ",
-                    style: KTextStyle.secondaryTitle
-                        .copyWith(color: AppColors.greyHint),
+                  CustomText(
+                    title: ' المنتجات: ',
                   ),
-                  Text(
-                    "ملف اكسل",
-                    style: KTextStyle.secondaryTitle
-                        .copyWith(color: AppColors.greyHint),
+                  CustomText(
+                    title: 'ملف اكسل',
                   ),
                 ],
               ),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
-                padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
-                decoration: BoxDecoration(
-                    color: AppColors.scaffColor,
-                    borderRadius: BorderRadius.circular(10.r)),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          "رقم المنتج:   ",
-                          style: KTextStyle.secondaryTitle
-                              .copyWith(color: AppColors.greyHint),
-                        ),
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 4.h),
-                          width: 100.w,
-                          height: 25.h,
-                          color: AppColors.primaryColor,
-                          child: Text(productNum),
-                        )
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        const TextTitleListViewWidget(
-                            textName: "اسم المنتج:  "),
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 4.h),
-                          width: 200.w,
-                          height: 25.h,
-                          color: AppColors.primaryColor,
-                          child: Text(productName),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              const ProductInputForm(),
               SizedBox(
                 height: 200.h,
               )
