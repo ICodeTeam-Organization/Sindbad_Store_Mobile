@@ -38,7 +38,7 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
   }
 
   // get MyOrder List function
-  List<AllOrderEntity> getMyOrderList(Map<String, dynamic> data) {
+  List<AllOrderEntity> getAllOrderList(Map<String, dynamic> data) {
     return getListItemsFromData(data, (item) => AllOrderModel.fromJson(item));
   }
 
@@ -53,7 +53,7 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
         'Authorization': 'Bearer $token',
       },
     );
-    List<AllOrderEntity> orders = getMyOrderList(data);
+    List<AllOrderEntity> orders = getAllOrderList(data);
     return orders;
   }
 }
