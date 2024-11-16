@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:sindbad_management_app/new_features/order/ui/screen/order.dart';
 import 'package:sindbad_management_app/store_app_features/add_product/ui/screen/store_add_product.dart';
 import 'package:sindbad_management_app/store_app_features/excel_file/ui/screen/store_excel_file.dart';
 import 'package:sindbad_management_app/store_app_features/home/ui/screen/store_home_page.dart';
@@ -10,10 +11,17 @@ import 'package:sindbad_management_app/store_app_features/report/ui/screen/store
 import 'package:sindbad_management_app/store_app_features/search_product/ui/screen/store_search_product.dart';
 import 'package:sindbad_management_app/store_app_features/stop_product/ui/screen/store_stop_prodect.dart';
 import 'package:sindbad_management_app/store_app_features/stopped_product/ui/screen/store_stopped_product.dart';
+
+import '../../new_features/auth/ui/screen/sign_in_screen.dart';
 // Update with the actual import paths for your views
 
 class StoreRouters {
-  String kStoreHome = '/';
+  String signIn = '/';
+  String order = '/order';
+  ///////////////////////////////////////////////////
+  //////////////////////////////////////////////////
+
+  String kStoreHome = '/store/home';
   String kStoreAddProduct = '/store/addProduct';
   String kStoreOrderProcessing = '/store/orderProcessing';
   String kStoreProducts = '/store/products';
@@ -27,16 +35,23 @@ class StoreRouters {
 }
 
 abstract class AppRouter {
-  static const kStoreHome = '/';
+  static const signIn = '/';
 
   static StoreRouters storeRouters = StoreRouters();
   static final router = GoRouter(
     routes: [
       // Store Routes
       GoRoute(
-        path: AppRouter.storeRouters.kStoreHome,
-        builder: (context, state) => const StoreHomePage(),
+        path: AppRouter.storeRouters.signIn,
+        builder: (context, state) => const SignInScreen(),
       ),
+      GoRoute(
+        path: AppRouter.storeRouters.order,
+        builder: (context, state) => const Order(),
+      ),
+      ///////////////////////////////////////////////////////
+      //////////////////////////////////////////////////////
+      /////////////////////////////////////////////////////
       GoRoute(
         path: AppRouter.storeRouters.kStoreAddProduct,
         builder: (context, state) => const StoreAddProduct(),
