@@ -7,9 +7,9 @@ abstract class KTextStyle {
   static TextStyle textStyle18 =
       TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w500);
   static TextStyle textStyle16 =
-      TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500);
   static TextStyle textStyle14 =
-      TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500);
+      TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w700);
   static TextStyle textStyle12 =
       TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w700);
   //////////////////////////////////////////////
