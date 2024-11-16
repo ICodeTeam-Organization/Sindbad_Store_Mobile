@@ -13,13 +13,14 @@ import 'package:sindbad_management_app/store_app_features/stop_product/ui/screen
 import 'package:sindbad_management_app/store_app_features/stopped_product/ui/screen/store_stopped_product.dart';
 
 import '../../features/auth_features/ui/screen/sign_in_screen.dart';
+import '../../features/root.dart';
 // Update with the actual import paths for your views
 
 class StoreRouters {
   String signIn = '/';
-  String order = '/order';
+  String root = '/root';
   ///////////////////////////////////////////////////
-  //////////////////////////////////////////////////
+  ///////////////////////////////////////////////////
 
   String kStoreHome = '/store/home';
   String kStoreAddProduct = '/store/addProduct';
@@ -46,8 +47,8 @@ abstract class AppRouter {
         builder: (context, state) => const SignInScreen(),
       ),
       GoRoute(
-        path: AppRouter.storeRouters.order,
-        builder: (context, state) => const Order(),
+        path: AppRouter.storeRouters.root,
+        builder: (context, state) => const Root(),
       ),
       ///////////////////////////////////////////////////////
       //////////////////////////////////////////////////////

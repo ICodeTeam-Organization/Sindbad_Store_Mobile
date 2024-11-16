@@ -81,7 +81,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         print(state.errorMessage);
                       } else if (state is SignInSuccess) {
                         if (state.user.userRoles[0] == 'Store') {
-                          context.push(AppRouter.storeRouters.order);
+                          context.push(AppRouter.storeRouters.root);
                           phoneController.clear();
                           passwordController.clear();
                         }
