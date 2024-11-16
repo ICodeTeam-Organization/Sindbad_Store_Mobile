@@ -4,12 +4,12 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sindbad_management_app/core/utils/route.dart';
-import 'package:sindbad_management_app/new_features/auth/data/repos_impl/sign_in_repo_impl.dart';
-import 'package:sindbad_management_app/new_features/auth/domain/usecases/sign_in_usecase.dart';
+import 'package:sindbad_management_app/features/auth/data/repos_impl/sign_in_repo_impl.dart';
+import 'package:sindbad_management_app/features/auth/domain/usecases/sign_in_usecase.dart';
 
 import 'core/setup_service_locator.dart';
 import 'core/simple_bloc_observer.dart';
-import 'new_features/auth/ui/manager/cubit/sign_in_cubit.dart';
+import 'features/auth/ui/manager/cubit/sign_in_cubit.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:sindbad_management_app/new_features/auth/domain/repos/sign_in_repo.dart';
+import 'package:sindbad_management_app/features/auth/domain/repos/sign_in_repo.dart';
 
 import '../../../../core/errors/failure.dart';
 import '../../domain/entities/sign_in_entity.dart';
