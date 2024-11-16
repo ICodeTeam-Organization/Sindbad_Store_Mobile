@@ -8,7 +8,9 @@ class AppColors {
   static const Color readyAfter = Color(0xff0E9577);
   static const Color readyCash = Color(0xff0E9577);
   static const Color shipping = Color(0xff1BB5EC);
+  static const Color grey = Color(0xffDDDDDD);
   static const Color black = Colors.black;
+  static const Color white = Colors.white;
   /////////////////////////////////////
   ///Old Colors
   static const Color backgroundColor = Color(0xFFF9F9F9); // #f9f9f9 BG
@@ -29,6 +31,6 @@ class AppColors {
   static const greyHint = Color(0xffB7B7B7);
   static const greyLight = Color(0xffF5F5F5);
   static const brownLight = Color(0xffC3B0B0);
-  static const white = Colors.white;
+  // static const white = Colors.white;
   // static const black = Colors.black;
 }
