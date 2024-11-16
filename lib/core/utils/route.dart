@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:sindbad_management_app/new_features/order/ui/screen/order.dart';
+import 'package:sindbad_management_app/features/order/ui/screen/order.dart';
 import 'package:sindbad_management_app/store_app_features/add_product/ui/screen/store_add_product.dart';
 import 'package:sindbad_management_app/store_app_features/excel_file/ui/screen/store_excel_file.dart';
 import 'package:sindbad_management_app/store_app_features/home/ui/screen/store_home_page.dart';
@@ -12,7 +12,7 @@ import 'package:sindbad_management_app/store_app_features/search_product/ui/scre
 import 'package:sindbad_management_app/store_app_features/stop_product/ui/screen/store_stop_prodect.dart';
 import 'package:sindbad_management_app/store_app_features/stopped_product/ui/screen/store_stopped_product.dart';
 
-import '../../new_features/auth/ui/screen/sign_in_screen.dart';
+import '../../features/auth/ui/screen/sign_in_screen.dart';
 // Update with the actual import paths for your views
 
 class StoreRouters {

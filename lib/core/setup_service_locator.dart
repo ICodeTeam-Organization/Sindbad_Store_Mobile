@@ -22,8 +22,8 @@ import 'package:get_it/get_it.dart';
 
 // import 'package:test_order_life_cycle/features/delivery/Receive_Parcels/data/data_source/remote/receive_parcels_remote_data_source.dart';
 
-import '../new_features/auth/data/data_sources/sign_in_remot_data_source.dart';
-import '../new_features/auth/data/repos_impl/sign_in_repo_impl.dart';
+import '../features/auth/data/data_sources/sign_in_remot_data_source.dart';
+import '../features/auth/data/repos_impl/sign_in_repo_impl.dart';
 import 'api_service.dart';
 
 final getit = GetIt.instance;
