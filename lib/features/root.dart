@@ -27,12 +27,16 @@ class _RootState extends State<Root> {
         children: widgetList,
       ),
       bottomNavigationBar: Container(
+        height: 100,
         padding: EdgeInsets.all(10),
         margin: EdgeInsets.all(10),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(50)),
+        decoration: BoxDecoration(
+            // border: Border.all(color: AppColors.black),
+            borderRadius: BorderRadius.circular(50)),
         child: BottomNavigationBar(
           showUnselectedLabels: true,
-          selectedItemColor: AppColors.black,
+          selectedItemColor: AppColors.colorButton,
+          unselectedItemColor: AppColors.black,
           onTap: (index) {
             setState(() {
               myIndex = index;
@@ -41,19 +45,19 @@ class _RootState extends State<Root> {
           currentIndex: myIndex,
           items: [
             BottomNavigationBarItem(
-                backgroundColor: AppColors.colorButton,
+                backgroundColor: Colors.white,
                 icon: Icon(Icons.home),
                 label: 'الطلبات'),
             BottomNavigationBarItem(
-                backgroundColor: AppColors.colorButton,
+                backgroundColor: Colors.white,
                 icon: Icon(Icons.home),
                 label: 'المنتجات'),
             BottomNavigationBarItem(
-                backgroundColor: AppColors.colorButton,
+                backgroundColor: Colors.white,
                 icon: Icon(Icons.home),
                 label: 'العروض'),
             BottomNavigationBarItem(
-                backgroundColor: AppColors.colorButton,
+                backgroundColor: Colors.white,
                 icon: Icon(Icons.home),
                 label: 'التقارير'),
           ],
