@@ -17,8 +17,8 @@ import '../../features/root.dart';
 // Update with the actual import paths for your views
 
 class StoreRouters {
-  String signIn = '/';
-  String root = '/root';
+  // String signIn = '/';
+  String root = '/';
   ///////////////////////////////////////////////////
   ///////////////////////////////////////////////////
 
@@ -42,10 +42,10 @@ abstract class AppRouter {
   static final router = GoRouter(
     routes: [
       // Store Routes
-      GoRoute(
-        path: AppRouter.storeRouters.signIn,
-        builder: (context, state) => const SignInScreen(),
-      ),
+      // GoRoute(
+      //   path: AppRouter.storeRouters.signIn,
+      //   builder: (context, state) => const SignInScreen(),
+      // ),
       GoRoute(
         path: AppRouter.storeRouters.root,
         builder: (context, state) => const Root(),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
+import 'package:sindbad_management_app/features/offer_features/view_offer_feature/ui/screens/view_offer_screen.dart';
 import 'package:sindbad_management_app/features/order/ui/screen/order.dart';
 
 class Root extends StatefulWidget {
@@ -16,7 +17,7 @@ class _RootState extends State<Root> {
     // Text('الطلبات'),
     Order(),
     Text('المنتجات'),
-    Text('العروض'),
+    ViewOfferScreen(),
     Text('التقارير'),
   ];
   @override
@@ -54,7 +55,7 @@ class _RootState extends State<Root> {
                 label: 'المنتجات'),
             BottomNavigationBarItem(
                 backgroundColor: Colors.white,
-                icon: Icon(Icons.home),
+                icon: Icon(Icons.local_offer),
                 label: 'العروض'),
             BottomNavigationBarItem(
                 backgroundColor: Colors.white,
