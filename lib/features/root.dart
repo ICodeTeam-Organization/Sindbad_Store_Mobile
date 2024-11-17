@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sindbad_management_app/core/functions/image_picker_function.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'order_management _features/ui/screen/order_management_screen.dart';
 
