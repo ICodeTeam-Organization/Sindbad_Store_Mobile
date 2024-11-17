@@ -27,7 +27,7 @@ class _RootState extends State<Root> {
         children: widgetList,
       ),
       bottomNavigationBar: Container(
-        height: 100,
+        height: 80,
         padding: EdgeInsets.all(10),
         margin: EdgeInsets.all(10),
         decoration: BoxDecoration(

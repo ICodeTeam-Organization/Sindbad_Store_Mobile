@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sindbad_management_app/core/styles/Colors.dart';
 import '../../../../core/shared_widgets/new_widgets/custom_app_bar.dart';
 import '../../../../core/shared_widgets/new_widgets/custom_tab_bar_widget.dart';
 
@@ -10,7 +12,7 @@ class OrderManagementScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Column(
             children: [
               CustomAppBar(
@@ -56,7 +58,47 @@ class OrderManagementScreen extends StatelessWidget {
                         ),
                       ],
                       tabViews: [
-                        Text('data'),
+                        ListView.builder(
+                          itemCount: 10,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: AppColors.grey),
+                                  borderRadius: BorderRadius.circular(16.r)),
+                              height: 130.h,
+                              width: 380.w,
+                              child: Column(
+                                children: [
+                                  Container(
+                                    height: 60.h,
+                                    decoration: BoxDecoration(
+                                        color: AppColors.grey,
+                                        borderRadius:
+                                            BorderRadius.circular(16.r)),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Column(
+                                          children: [
+                                            Text('رقم الطلب'),
+                                            Text('1111111111'),
+                                          ],
+                                        ),
+                                        Column(
+                                          children: [
+                                            Text('رقم الفاتورة'),
+                                            Text('454645454'),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        ),
                         Text('data'),
                         Text('data'),
                         Text('data'),
@@ -65,7 +107,46 @@ class OrderManagementScreen extends StatelessWidget {
                     ),
                     Text('data'),
                     Text('data'),
-                    Text('data'),
+                    ListView.builder(
+                      itemCount: 10,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: AppColors.grey),
+                              borderRadius: BorderRadius.circular(16.r)),
+                          height: 130.h,
+                          width: 380.w,
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 60.h,
+                                decoration: BoxDecoration(
+                                    color: AppColors.grey,
+                                    borderRadius: BorderRadius.circular(16.r)),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Text('رقم الطلب'),
+                                        Text('1111111111'),
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        Text('رقم الفاتورة'),
+                                        Text('454645454'),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
