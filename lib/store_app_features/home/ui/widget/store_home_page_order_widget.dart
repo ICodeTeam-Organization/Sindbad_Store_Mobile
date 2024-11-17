@@ -7,6 +7,8 @@ import 'package:sindbad_management_app/store_app_features/home/ui/widget/store_h
 import 'package:sindbad_management_app/store_app_features/home/ui/widget/store_home_page_list_view_new.dart';
 import 'package:sindbad_management_app/store_app_features/home/ui/widget/store_home_page_list_view_quick.dart';
 
+import '../../../../core/shared_widgets/new_widgets/custom_tab_bar_widget.dart';
+
 class StoreHomePageOrderWidget extends StatelessWidget {
   const StoreHomePageOrderWidget({super.key});
 

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter/widgets.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
-import 'package:sindbad_management_app/features/order/ui/screen/primary_button.dart';
-
 import 'order_management _features/ui/screen/order_management_screen.dart';
 import 'product_features/view_product_features/ui/view/view_product.dart';
 
@@ -61,7 +59,7 @@ class _RootState extends State<Root> {
             borderRadius: BorderRadius.circular(50)),
         child: BottomNavigationBar(
           showUnselectedLabels: true,
-          selectedItemColor: AppColors.colorButton,
+          selectedItemColor: AppColors.redDark,
           unselectedItemColor: AppColors.black,
           onTap: (index) {
             setState(() {
@@ -71,9 +69,10 @@ class _RootState extends State<Root> {
           currentIndex: myIndex,
           items: [
             BottomNavigationBarItem(
-                backgroundColor: Colors.white,
-                icon: Icon(Icons.home),
-                label: 'الطلبات'),
+              backgroundColor: Colors.white,
+              icon: Icon(Icons.home),
+              label: 'الطلبات',
+            ),
             BottomNavigationBarItem(
                 backgroundColor: Colors.white,
                 icon: Icon(Icons.home),

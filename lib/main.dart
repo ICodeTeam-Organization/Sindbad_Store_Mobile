@@ -37,7 +37,7 @@ class SindbadManagementApp extends StatelessWidget {
         builder: (context, child) => MaterialApp.router(
           routerConfig: AppRouter.router,
           theme: ThemeData(
-            textTheme: GoogleFonts.almaraiTextTheme(
+            textTheme: GoogleFonts.cairoTextTheme(
               Theme.of(context).textTheme,
             ),
 
