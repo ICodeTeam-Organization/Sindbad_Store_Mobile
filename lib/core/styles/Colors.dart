@@ -10,11 +10,10 @@ class AppColors {
   static const Color shipping = Color(0xff1BB5EC);
   static const Color grey = Color(0xffDDDDDD);
   static const Color black = Colors.black;
-  static const Color white = Colors.white;
   /////////////////////////////////////
   ///Old Colors
   static const Color backgroundColor = Color(0xFFF9F9F9); // #f9f9f9 BG
-  static const Color redColor = Color(0xFFEB0000); // #eb0000 red
+  static const Color redLight = Color(0xFFEB0000); // #eb0000 red
   static const Color redAccentColor = Color(0xFFDC3A3A); // #dc3a3a red_Accent
   static const Color blueColor = Color(0xFFDAE4FF); // #dae4ff blue
   static const scaffColor = Color.fromARGB(255, 244, 244, 244);
@@ -23,11 +22,24 @@ class AppColors {
   static const secondaryColor = Colors.black;
   //////////////////////////
   ///new
-  static const redDark = Color(0xffEB0000);
-  static const redLight = Color(0xffFF6F6F);
-  static const greenDark = Color(0xff009721);
-  static const greenLight = Color(0xff1DC9A0);
-  static const blueLight = Color(0xFFDAE4FF);
+  static const transparent = Color(0x0DFF746B);//
+  static const primary = Color(0xFFFF746B);//
+  static const primaryBackground = Color(0xFFF5F5F5);//
+  static const white = Color(0xFFFFFFFF);//
+  static const redDark = Color(0xFFDE3838);//
+  static const redOpacity = Color(0x26FF0000);//
+  static const blueDark = Color(0xFF00498B);//
+  static const blueOpacity = Color(0x2600498B);//
+  static const greenDark = Color(0xff00EC9C);
+  static const greenOpacity = Color(0x1A00EC9C);//
+  static const greyDark = Color(0xff979797);//
+  static const greyBorder = Color(0xFFDDDDDD);//
+  //0xFF444444
+  //0xFF000000
+  //0xFF222B45
+  //0xFFFFFFFF
+  //0xFF686767
+  //0xFF848586
   static const greyHint = Color(0xffB7B7B7);
   static const greyLight = Color(0xffF5F5F5);
   static const brownLight = Color(0xffC3B0B0);
