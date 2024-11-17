@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/styles/Colors.dart';
 import '../../../../../core/styles/text_style.dart';
 
-// ignore: must_be_immutable
 class StorePrimaryButton extends StatelessWidget {
   StorePrimaryButton(
       {super.key,
@@ -14,26 +13,39 @@ class StorePrimaryButton extends StatelessWidget {
       this.width = 370,
       this.icon,
       this.buttonColor = AppColors.colorButton});
+
   double? width;
   double? height;
   String? title;
   GestureTapCallback? onTap;
   IconData? icon;
-
   Color? buttonColor;
-  // = AppColors.colorButton
+
+    // Constants for repeated values
+  static const double _borderRadius = 8.0;
+  static const double _iconSize = 24.0;
+
+  /// Creates a store primary button widget.
+  ///
+  /// The [title] parameter must not be null.
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
+
+      /// [qais] => Don't use the {Container} here because it is a heavy widget.
+      /// Instead, use the Alignment widget to align stuff and use the SizedBox 
+      /// widget within it to specify the width and height and Use the BoxDecoration widget 
+      /// within it to handle the decoration.
+      
       child: Container(
         alignment: Alignment.center,
         width: width,
         height: height,
         decoration: BoxDecoration(
           color: buttonColor,
-          borderRadius: BorderRadiusDirectional.circular(8),
+          borderRadius: BorderRadiusDirectional.circular(_borderRadius.r),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -42,7 +54,7 @@ class StorePrimaryButton extends StatelessWidget {
               Icon(
                 icon,
                 color: AppColors.white,
-                size: 24,
+                size: _iconSize.w,
               ),
             Text(title ?? '',
                 style: KTextStyle.textStyle14.copyWith(color: AppColors.white)),

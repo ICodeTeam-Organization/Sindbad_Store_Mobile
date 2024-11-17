@@ -1,7 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/store_app_features/add_product/ui/screen/store_add_product.dart';
 import 'package:sindbad_management_app/store_app_features/excel_file/ui/screen/store_excel_file.dart';
-import 'package:sindbad_management_app/store_app_features/home/ui/screen/store_home_page.dart';
 import 'package:sindbad_management_app/store_app_features/offer_product/ui/screen/store_offer_product.dart';
 import 'package:sindbad_management_app/store_app_features/offers/ui/screen/store_offer.dart';
 import 'package:sindbad_management_app/store_app_features/order_processing/ui/screen/store_order_processing.dart';
@@ -10,15 +9,16 @@ import 'package:sindbad_management_app/store_app_features/report/ui/screen/store
 import 'package:sindbad_management_app/store_app_features/search_product/ui/screen/store_search_product.dart';
 import 'package:sindbad_management_app/store_app_features/stop_product/ui/screen/store_stop_prodect.dart';
 import 'package:sindbad_management_app/store_app_features/stopped_product/ui/screen/store_stopped_product.dart';
-import '../../features/auth_features/ui/screen/sign_in_screen.dart';
 import '../../features/root.dart';
-// Update with the actual import paths for your views
 
 class StoreRouters {
   String signIn = '/';
   String root = '/root';
   ///////////////////////////////////////////////////
   ///////////////////////////////////////////////////
+
+// [qais + salem + abduallah] => give the screen router names a meanful name
+// for example : kStoreViewProducts not kStoreProducts and so on
 
   String kStoreHome = '/store/home';
   String kStoreAddProduct = '/store/addProduct';
