@@ -21,15 +21,27 @@ class _TextForm extends State<TextForm> {
   final _formfield = GlobalKey<FormState>();
   // final phoneController = TextEditingController();
 
+  // Constants for repeated values
+  static const double _height = 70.0;
+  static const double _paddingLabelTextRight = 10.0;
+  static const double _padding = 16.0;
+  static const double _borderRadius = 15.0;
+
+
   @override
   Widget build(BuildContext context) {
+
+    // [qais] => don`t use the container here 
+    // because it is a heavy widget and you only want a hight and color properties
+    // use sizedbox and box decoration instead
+
     return Container(
-      height: 70.h,
+      height: _height.h,
       color: Color(0xffF6F5F6),
       child: Row(
         children: [
           Padding(
-            padding: EdgeInsets.only(right: 10.0.w),
+            padding: EdgeInsets.only(right: _paddingLabelTextRight.w),
             child: Text(
               widget.labelText,
               ////
@@ -45,24 +57,24 @@ class _TextForm extends State<TextForm> {
           Expanded(
             child: Padding(
               padding:
-                  EdgeInsets.symmetric(vertical: 16.0.h, horizontal: 16.0.w),
+                  EdgeInsets.symmetric(vertical: _padding.h, horizontal: _padding.w),
               child: TextFormField(
                 key: _formfield,
                 keyboardType: widget.textInputType,
                 controller: widget.controller,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(15.0.r)),
+                    borderRadius: BorderRadius.all(Radius.circular(_borderRadius.r)),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide:
                         BorderSide(color: AppColors.greyHint, width: 1.0.w),
-                    borderRadius: BorderRadius.all(Radius.circular(15.0.r)),
+                    borderRadius: BorderRadius.all(Radius.circular(_borderRadius.r)),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide:
                         BorderSide(color: AppColors.redLight, width: 2.0.w),
-                    borderRadius: BorderRadius.all(Radius.circular(15.0.r)),
+                    borderRadius: BorderRadius.all(Radius.circular(_borderRadius.r)),
                   ),
                 ),
               ),
