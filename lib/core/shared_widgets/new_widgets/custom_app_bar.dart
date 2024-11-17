@@ -14,26 +14,27 @@ class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: AppColors.primaryBackground,
+      // backgroundColor: AppColors.primaryBackground,
       centerTitle: true,
       title: Text(
         tital,
       ),
       actions: [
-        Padding(
-          padding: const EdgeInsets.only(left: 8),
-          child: Container(
-            height: 40.h,
-            width: 40.w,
-            decoration: BoxDecoration(
-                border: Border.all(color: AppColors.grey, width: 2),
-                borderRadius: BorderRadius.circular(16),
-                color: AppColors.primaryBackground),
-            child: IconButton(
-              onPressed: onPressed,
-              iconSize: 24,
-              icon: Icon(Icons.search),
-            ),
+        Container(
+          padding: EdgeInsets.all(8),
+          alignment: Alignment.center,
+          height: 50.h,
+          width: 40.w,
+          decoration: BoxDecoration(
+              border: Border.all(color: AppColors.grey, width: 2),
+              borderRadius: BorderRadius.circular(10),
+              color: AppColors.primaryBackground),
+          child: IconButton(
+            onPressed: onPressed,
+            padding: EdgeInsets.all(0),
+            iconSize: 24,
+            color: Colors.black54,
+            icon: Icon(Icons.search),
           ),
         ),
       ],

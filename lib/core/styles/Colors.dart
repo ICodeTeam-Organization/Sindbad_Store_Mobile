@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   static const Color background = Color(0xffFDF0F0);
-  static const Color colorButton = Color(0xffFF746B);
+  static const Color colorButton = Color(0XFFFFD3D0);
   static const Color notBill = Color(0xff686767);
   static const Color notPay = Color(0xffFF3E6D);
   static const Color readyAfter = Color(0xff0E9577);
@@ -23,18 +23,18 @@ class AppColors {
   static const secondaryColor = Colors.black;
   //////////////////////////
   ///new
-  static const transparent = Color(0x0DFF746B);//
-  static const primary = Color(0xFFFF746B);//
-  static const primaryBackground = Color(0xFFF5F5F5);//
-  static const white = Color(0xFFFFFFFF);//
-  static const redDark = Color(0xFFDE3838);//
-  static const redOpacity = Color(0x26FF0000);//
-  static const blueDark = Color(0xFF00498B);//
-  static const blueOpacity = Color(0x2600498B);//
+  static const transparent = Color(0x0DFF746B); //
+  static const primary = Color(0xFFFF746B); //
+  static const primaryBackground = Color(0xFFF5F5F5); //
+  static const white = Color(0xFFFFFFFF); //
+  static const redDark = Color(0xFFDE3838); //
+  static const redOpacity = Color(0x26FF0000); //
+  static const blueDark = Color(0xFF00498B); //
+  static const blueOpacity = Color(0x2600498B); //
   static const greenDark = Color(0xff00EC9C);
-  static const greenOpacity = Color(0x1A00EC9C);//
-  static const greyDark = Color(0xff979797);//
-  static const greyBorder = Color(0xFFDDDDDD);//
+  static const greenOpacity = Color(0x1A00EC9C); //
+  static const greyDark = Color(0xff979797); //
+  static const greyBorder = Color(0xFFDDDDDD); //
   //0xFF444444
   //0xFF000000
   //0xFF222B45

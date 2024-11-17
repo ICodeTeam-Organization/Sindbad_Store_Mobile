@@ -31,13 +31,13 @@ class SindbadManagementApp extends StatelessWidget {
                 ))),
       ],
       child: ScreenUtilInit(
-        designSize: const Size(375, 650),
+        designSize: const Size(428, 1000),
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, child) => MaterialApp.router(
           routerConfig: AppRouter.router,
           theme: ThemeData(
-            textTheme: GoogleFonts.almaraiTextTheme(
+            textTheme: GoogleFonts.cairoTextTheme(
               Theme.of(context).textTheme,
             ),
 
