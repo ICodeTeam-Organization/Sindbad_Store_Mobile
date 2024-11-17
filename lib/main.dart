@@ -31,7 +31,7 @@ class SindbadManagementApp extends StatelessWidget {
                 ))),
       ],
       child: ScreenUtilInit(
-        designSize: const Size(375, 650),
+        designSize: const Size(428, 1000),
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, child) => MaterialApp.router(

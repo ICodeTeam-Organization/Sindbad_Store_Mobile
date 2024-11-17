@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+// import 'package:flutter/widgets.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/features/order/ui/screen/primary_button.dart';
 
 import 'order_management _features/ui/screen/order_management_screen.dart';
+import 'product_features/view_product_features/ui/view/view_product.dart';
 
 class Root extends StatefulWidget {
   const Root({super.key});
@@ -17,7 +18,30 @@ class _RootState extends State<Root> {
   List<Widget> widgetList = [
     // Text('الطلبات'),
     OrderManagementScreen(),
-    Text('المنتجات'),
+    ViewProduct(),
+    Scaffold(
+      body: Column(
+        children: [
+          Text("data"),
+          Text("data"),
+          Text("data"),
+          Text("data"),
+          Text("data"),
+          Text("data"),
+          Center(
+            child: PrimaryButton(
+              icon: Icons.abc,
+              title: 'تسجيل ',
+              height: 40,
+              width: 200,
+              onTap: () {
+                print("object");
+              },
+            ),
+          ),
+        ],
+      ),
+    ),
     Text('العروض'),
     Text('التقارير'),
   ];
