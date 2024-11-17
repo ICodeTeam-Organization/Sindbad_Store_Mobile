@@ -16,7 +16,7 @@ class _RootState extends State<Root> {
   int myIndex = 0;
 
   // Constants for repeated values
-  static const double _bottomNavBarHeight = 100.0;
+  static const double _bottomNavBarHeight = 105.0;
   static const double _paddingAndMagin = 10.0;
   static const double _borderRadius = 50.0;
 
@@ -43,9 +43,9 @@ class _RootState extends State<Root> {
           Container(
         height: _bottomNavBarHeight.h,
         padding: EdgeInsets.symmetric(
-            horizontal: _paddingAndMagin.h, vertical: _paddingAndMagin.w),
+            horizontal: _paddingAndMagin.w, vertical: _paddingAndMagin.h),
         margin: EdgeInsets.symmetric(
-            horizontal: _paddingAndMagin.h, vertical: _paddingAndMagin.w),
+            horizontal: _paddingAndMagin.w, vertical: _paddingAndMagin.h),
         decoration: BoxDecoration(
             // border: Border.all(color: AppColors.black),
             borderRadius: BorderRadius.circular(_borderRadius.r)),
