@@ -47,6 +47,8 @@ class ServerFailure extends Failure {
     } else if (statusCode == 500) {
       return ServerFailure(
           "There is a problem with the server, please try later");
+    } else if (statusCode == 503) {
+      return ServerFailure("There is updating in the server, please try later");
     } else if (statusCode == 400) {
       return ServerFailure(response['message']);
     } else {

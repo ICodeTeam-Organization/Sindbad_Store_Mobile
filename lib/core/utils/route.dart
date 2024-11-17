@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:sindbad_management_app/features/order/ui/screen/order.dart';
+import 'package:sindbad_management_app/features/order/ui/screen/primary_button.dart';
 import 'package:sindbad_management_app/store_app_features/add_product/ui/screen/store_add_product.dart';
 import 'package:sindbad_management_app/store_app_features/excel_file/ui/screen/store_excel_file.dart';
 import 'package:sindbad_management_app/store_app_features/home/ui/screen/store_home_page.dart';

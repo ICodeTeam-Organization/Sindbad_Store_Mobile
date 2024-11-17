@@ -15,7 +15,7 @@ class _RootState extends State<Root> {
   int myIndex = 0;
   List<Widget> widgetList = [
     // Text('الطلبات'),
-    Order(),
+    OrderManagementScreen(),
     Text('المنتجات'),
     ViewOfferScreen(),
     Text('التقارير'),
