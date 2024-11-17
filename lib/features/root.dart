@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
-import 'package:sindbad_management_app/features/order/ui/screen/order.dart';
+import 'package:sindbad_management_app/features/order/ui/screen/primary_button.dart';
 
 class Root extends StatefulWidget {
   const Root({super.key});
@@ -14,7 +14,29 @@ class _RootState extends State<Root> {
   int myIndex = 0;
   List<Widget> widgetList = [
     // Text('الطلبات'),
-    Order(),
+    Scaffold(
+      body: Column(
+        children: [
+          Text("data"),
+          Text("data"),
+          Text("data"),
+          Text("data"),
+          Text("data"),
+          Text("data"),
+          Center(
+            child: PrimaryButton(
+              icon: Icons.abc,
+              title: 'تسجيل ',
+              height: 40,
+              width: 200,
+              onTap: () {
+                print("object");
+              },
+            ),
+          ),
+        ],
+      ),
+    ),
     Text('المنتجات'),
     Text('العروض'),
     Text('التقارير'),
