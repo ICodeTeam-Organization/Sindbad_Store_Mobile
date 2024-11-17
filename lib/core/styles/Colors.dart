@@ -14,6 +14,7 @@ class AppColors {
   ///Old Colors
   static const Color backgroundColor = Color(0xFFF9F9F9); // #f9f9f9 BG
   static const Color redLight = Color(0xFFEB0000); // #eb0000 red
+  static const Color redColor = Color(0xFFEB0000); // #eb0000 red
   static const Color redAccentColor = Color(0xFFDC3A3A); // #dc3a3a red_Accent
   static const Color blueColor = Color(0xFFDAE4FF); // #dae4ff blue
   static const scaffColor = Color.fromARGB(255, 244, 244, 244);
@@ -40,6 +41,7 @@ class AppColors {
   //0xFFFFFFFF
   //0xFF686767
   //0xFF848586
+  //0xFF707070
   static const greyHint = Color(0xffB7B7B7);
   static const greyLight = Color(0xffF5F5F5);
   static const brownLight = Color(0xffC3B0B0);
