@@ -6,7 +6,6 @@ import '../../../../core/shared_widgets/new_widgets/custom_tab_bar_widget.dart';
 
 class OrderManagementScreen extends StatelessWidget {
   const OrderManagementScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +64,7 @@ class OrderManagementScreen extends StatelessWidget {
                               decoration: BoxDecoration(
                                   border: Border.all(color: AppColors.grey),
                                   borderRadius: BorderRadius.circular(16.r)),
-                              height: 130.h,
+                              height: 170.h,
                               width: 380.w,
                               child: Column(
                                 children: [
@@ -77,7 +76,7 @@ class OrderManagementScreen extends StatelessWidget {
                                             BorderRadius.circular(16.r)),
                                     child: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                          MainAxisAlignment.spaceAround,
                                       children: [
                                         Column(
                                           children: [
@@ -91,6 +90,36 @@ class OrderManagementScreen extends StatelessWidget {
                                             Text('454645454'),
                                           ],
                                         ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10.w,
+                                  ),
+                                  Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 16.w),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Icon(Icons.alarm),
+                                        Text(' 4:15 - 2024/11/17 '),
+                                        SizedBox(
+                                          width: 80.w,
+                                        ),
+                                        Icon(Icons.shopping_bag),
+                                        Text('عدد الاصناف'),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20.w),
+                                    child: Row(
+                                      children: [
+                                        Text('بيانات السداد : '),
+                                        Text('لا يوجد')
                                       ],
                                     ),
                                   )
