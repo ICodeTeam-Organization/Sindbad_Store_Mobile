@@ -7,7 +7,7 @@ import '../../../../core/setup_service_locator.dart';
 import '../../../../core/styles/Colors.dart';
 import '../../../../core/styles/text_style.dart';
 import '../../../../core/utils/route.dart';
-import '../../../../core/widgets/store_primary_button.dart';
+import '../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
 import '../../data/repos_impl/sign_in_repo_impl.dart';
 import '../../domain/usecases/sign_in_usecase.dart';
 import '../manager/cubit/sign_in_cubit.dart';
