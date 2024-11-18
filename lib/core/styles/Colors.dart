@@ -32,9 +32,15 @@ class AppColors {
   static const blueDark = Color(0xFF00498B); //
   static const blueOpacity = Color(0x2600498B); //
   static const greenDark = Color(0xff00EC9C);
-  static const greenOpacity = Color(0x1A00EC9C); //
-  static const greyDark = Color(0xff979797); //
-  static const greyBorder = Color(0xFFDDDDDD); //
+  static const greenOpacity = Color(0x1A00EC9C);//
+  static const greyDark = Color(0xFF686767);//
+  static const greyLight = Color(0xff979797);//
+  static const greyBorder = Color(0xFFDDDDDD);//
+  static const greyIcon = Color(0xFF707070);//  
+  static const blackDark = Color(0xFF000000);//
+  static const blackLight = Color(0xFF444444);//
+  
+  
   //0xFF444444
   //0xFF000000
   //0xFF222B45
@@ -43,7 +49,6 @@ class AppColors {
   //0xFF848586
   //0xFF707070
   static const greyHint = Color(0xffB7B7B7);
-  static const greyLight = Color(0xffF5F5F5);
   static const brownLight = Color(0xffC3B0B0);
   // static const white = Colors.white;
   // static const black = Colors.black;

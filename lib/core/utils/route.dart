@@ -12,8 +12,8 @@ import 'package:sindbad_management_app/store_app_features/stopped_product/ui/scr
 import '../../features/root.dart';
 
 class StoreRouters {
-  String signIn = '/';
-  String root = '/root';
+  // String signIn = '/';
+  String root = '/';
   ///////////////////////////////////////////////////
   ///////////////////////////////////////////////////
 
@@ -40,10 +40,10 @@ abstract class AppRouter {
   static final router = GoRouter(
     routes: [
       // Store Routes
-      GoRoute(
-        path: AppRouter.storeRouters.signIn,
-        builder: (context, state) => const Root(),
-      ),
+      // GoRoute(
+      //   path: AppRouter.storeRouters.signIn,
+      //   builder: (context, state) => const SignInScreen(),
+      // ),
       GoRoute(
         path: AppRouter.storeRouters.root,
         builder: (context, state) => const Root(),
