@@ -17,7 +17,8 @@ class _ViewProductState extends State<ViewProduct> {
   @override
   Widget build(BuildContext context) {
     // ======= List Name Category ==============
-    const List<String> subCategs = [
+    final List<String> subCategs = ["الكل"];
+    const List<String> subCategsApi = [
       "الكترونيات",
       "لابتوبات",
       "شنط نسائية",
@@ -35,6 +36,9 @@ class _ViewProductState extends State<ViewProduct> {
       "شنط",
       "باريس",
     ];
+    subCategs.addAll(subCategsApi);
+
+    int indexSelected = 0;
 
     final List<Map<String, dynamic>> products = List.generate(
         10,
@@ -48,7 +52,9 @@ class _ViewProductState extends State<ViewProduct> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          CustomAppBar(tital: 'المنتجات'),
+          CustomAppBar(
+            title: '',
+          ),
           SizedBox(height: 20.h),
           // =================  Start Sub Category  ======================
           SizedBox(
@@ -59,9 +65,14 @@ class _ViewProductState extends State<ViewProduct> {
                 itemCount: subCategs.length,
                 itemBuilder: (context, index) {
                   return ChipCustom(
-                    title: subCategs[index].toString(),
-                    isSelected: false,
-                    onTap: () {},
+                    title: subCategs[index],
+                    onTap: () {
+                      setState(() {
+                        indexSelected = index;
+                        debugPrint('isSelected: $indexSelected');
+                      });
+                    },
+                    isSelected: indexSelected == index,
                   );
                 }),
           ),
