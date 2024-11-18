@@ -1,8 +1,6 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
-import 'package:sindbad_management_app/core/styles/text_style.dart';
 
 class CustomTabBarWidget extends StatelessWidget {
   final List<Widget> tabs;
@@ -14,6 +12,16 @@ class CustomTabBarWidget extends StatelessWidget {
   final Color unselectedLabelColor;
   final double height;
 
+  // Constants for repeated values
+  static const double _borderRadius = 25.0;
+  static const double _indicatorPadding = 5.0;
+  static const double _sizedBoxHeight = 5.0;
+
+  /// Creates a custom tab bar widget.
+  ///
+  /// The [tabs] and [tabViews] lists must have the same length.
+  /// The [length] parameter must match the number of tabs and tab views.
+
   const CustomTabBarWidget({
     super.key,
     required this.tabs,
@@ -23,7 +31,7 @@ class CustomTabBarWidget extends StatelessWidget {
     this.indicatorWeight = 2.0,
     this.labelColor = AppColors.black,
     this.unselectedLabelColor = AppColors.black,
-    this.height = 500.0,
+    this.height = 700.0,
   })  : assert(tabs.length == tabViews.length,
             'Tabs and TabViews must have the same length'),
         assert(length == tabs.length,
@@ -36,14 +44,13 @@ class CustomTabBarWidget extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            // margin: EdgeInsets.symmetric(horizontal: 10.w),
+          DecoratedBox(
             decoration: BoxDecoration(
                 color: AppColors.colorButton,
                 borderRadius: BorderRadius.circular(25)),
             child: TabBar(
-              // labelStyle: KTextStyle.textStyle12w700,
               labelStyle:
+                  // [qais] => add this to the textStyle constants file
                   TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
               dividerColor: Colors.transparent,
               indicatorColor: indicatorColor,
@@ -52,13 +59,17 @@ class CustomTabBarWidget extends StatelessWidget {
               unselectedLabelColor: unselectedLabelColor,
               tabs: tabs,
               indicator: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(25)),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(_borderRadius.r),
+              ),
               indicatorSize: TabBarIndicatorSize.tab,
-              indicatorPadding: EdgeInsets.all(5),
+              indicatorPadding: EdgeInsets.symmetric(
+                  horizontal: _indicatorPadding.h,
+                  vertical: _indicatorPadding.w),
             ),
           ),
           SizedBox(
-            height: 10.h,
+            height: _sizedBoxHeight.h,
           ),
           Flexible(
             fit: FlexFit.loose,

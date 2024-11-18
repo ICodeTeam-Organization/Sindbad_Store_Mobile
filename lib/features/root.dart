@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'order_management _features/ui/screen/order_management_screen.dart';
 import 'product_features/view_product_features/ui/view/view_product.dart';
@@ -12,9 +12,16 @@ class Root extends StatefulWidget {
 }
 
 class _RootState extends State<Root> {
+  /// The current index of the selected item or page.
+  /// Initialized to 0 by default.
   int myIndex = 0;
+
+  // Constants for repeated values
+  static const double _bottomNavBarHeight = 105.0;
+  static const double _paddingAndMagin = 10.0;
+  static const double _borderRadius = 50.0;
+
   List<Widget> widgetList = [
-    // Text('الطلبات'),
     OrderManagementScreen(),
     ViewProduct(),
     Scaffold(
@@ -26,17 +33,17 @@ class _RootState extends State<Root> {
           Text("data"),
           Text("data"),
           Text("data"),
-          Center(
-            child: PrimaryButton(
-              icon: Icons.abc,
-              title: 'تسجيل ',
-              height: 40,
-              width: 200,
-              onTap: () {
-                print("object");
-              },
-            ),
-          ),
+          // Center(
+          //   child: PrimaryButton(
+          //     icon: Icons.abc,
+          //     title: 'تسجيل ',
+          //     height: 40,
+          //     width: 200,
+          //     onTap: () {
+          //       print("object");
+          //     },
+          //   ),
+          // ),
         ],
       ),
     ),
@@ -50,13 +57,22 @@ class _RootState extends State<Root> {
         index: myIndex,
         children: widgetList,
       ),
-      bottomNavigationBar: Container(
-        height: 100,
-        padding: EdgeInsets.all(10),
-        margin: EdgeInsets.all(10),
+      bottomNavigationBar:
+
+          /// [qais] => The bottom navigation bar container.
+          /// Note: Avoid using `Container` beacause it is a heavy widget.
+          /// Consider using `Padding`, `DecoratedBox`, and `SizedBox` instead
+          /// for better performance.
+
+          Container(
+        height: _bottomNavBarHeight.h,
+        padding: EdgeInsets.symmetric(
+            horizontal: _paddingAndMagin.w, vertical: _paddingAndMagin.h),
+        margin: EdgeInsets.symmetric(
+            horizontal: _paddingAndMagin.w, vertical: _paddingAndMagin.h),
         decoration: BoxDecoration(
             // border: Border.all(color: AppColors.black),
-            borderRadius: BorderRadius.circular(50)),
+            borderRadius: BorderRadius.circular(_borderRadius.r)),
         child: BottomNavigationBar(
           showUnselectedLabels: true,
           selectedItemColor: AppColors.redDark,
