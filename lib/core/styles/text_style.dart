@@ -21,6 +21,8 @@ abstract class KTextStyle {
       TextStyle(fontSize: 10.sp, fontWeight: FontWeight.w500);//
   static TextStyle textStyle9 =
       TextStyle(fontSize: 9.sp, fontWeight: FontWeight.w700);//  //////////////////////////////////////////////
+  static TextStyle textStyle8 =
+      TextStyle(fontSize: 8.sp, fontWeight: FontWeight.w700);//  //////////////////////////////////////////////
   ///Old
   static TextStyle primaryTitle =
       TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold);
