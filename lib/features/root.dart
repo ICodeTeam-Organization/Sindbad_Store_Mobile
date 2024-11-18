@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/features/offer_features/view_offer_feature/ui/screens/view_offer_screen.dart';
-import 'package:sindbad_management_app/features/order/ui/screen/order.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/ui/screen/order_management_screen.dart';
 
 class Root extends StatefulWidget {
   const Root({super.key});
