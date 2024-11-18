@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
+import 'package:sindbad_management_app/core/styles/text_style.dart';
 
-import '../../styles/text_style.dart';
-
-class CustomTabBarWidget extends StatelessWidget {
+class SubCustomTabBar extends StatelessWidget {
   final List<Widget> tabs;
   final List<Widget> tabViews;
   final int length;
@@ -24,7 +23,7 @@ class CustomTabBarWidget extends StatelessWidget {
   /// The [tabs] and [tabViews] lists must have the same length.
   /// The [length] parameter must match the number of tabs and tab views.
 
-  const CustomTabBarWidget({
+  const SubCustomTabBar({
     super.key,
     required this.tabs,
     required this.tabViews,
@@ -48,9 +47,10 @@ class CustomTabBarWidget extends StatelessWidget {
         children: [
           DecoratedBox(
             decoration: BoxDecoration(
-                color: AppColors.colorButton,
-                borderRadius: BorderRadius.circular(25)),
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(25.r)),
             child: TabBar(
+              padding: EdgeInsets.zero,
               labelStyle: KTextStyle.textStyle16,
               dividerColor: Colors.transparent,
               indicatorColor: indicatorColor,
@@ -59,6 +59,7 @@ class CustomTabBarWidget extends StatelessWidget {
               unselectedLabelColor: unselectedLabelColor,
               tabs: tabs,
               indicator: BoxDecoration(
+                border: Border.all(color: AppColors.grey, width: 2.w),
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(_borderRadius.r),
               ),

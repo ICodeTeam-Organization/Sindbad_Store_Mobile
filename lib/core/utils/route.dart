@@ -9,11 +9,13 @@ import 'package:sindbad_management_app/store_app_features/report/ui/screen/store
 import 'package:sindbad_management_app/store_app_features/search_product/ui/screen/store_search_product.dart';
 import 'package:sindbad_management_app/store_app_features/stop_product/ui/screen/store_stop_prodect.dart';
 import 'package:sindbad_management_app/store_app_features/stopped_product/ui/screen/store_stopped_product.dart';
+import '../../features/order_management _features/ui/screen/order_details.dart';
 import '../../features/root.dart';
 
 class StoreRouters {
   String signIn = '/';
   String root = '/root';
+  String details = '/details';
   ///////////////////////////////////////////////////
   ///////////////////////////////////////////////////
 
@@ -47,6 +49,10 @@ abstract class AppRouter {
       GoRoute(
         path: AppRouter.storeRouters.root,
         builder: (context, state) => const Root(),
+      ),
+      GoRoute(
+        path: AppRouter.storeRouters.details,
+        builder: (context, state) => const OrderDetails(),
       ),
       ///////////////////////////////////////////////////////
       //////////////////////////////////////////////////////

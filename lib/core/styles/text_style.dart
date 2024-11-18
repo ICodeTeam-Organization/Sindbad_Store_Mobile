@@ -49,8 +49,8 @@ abstract class KTextStyle {
       TextStyle(fontSize: 11.sp, fontWeight: FontWeight.w700);
 
   // Text styles with font size 10
-  static TextStyle textStyle10w500 =
-      TextStyle(fontSize: 10.sp, fontWeight: FontWeight.w500);
+  static TextStyle textStyle10w700 =
+      TextStyle(fontSize: 10.sp, fontWeight: FontWeight.w700);
 
   // Text styles with font size 9
   static TextStyle textStyle9w700 =
