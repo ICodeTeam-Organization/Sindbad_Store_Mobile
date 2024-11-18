@@ -42,10 +42,6 @@ abstract class AppRouter {
       // Store Routes
       // GoRoute(
       //   path: AppRouter.storeRouters.signIn,
-      //   builder: (context, state) => const Root(),
-      // ),
-      // GoRoute(
-      //   path: AppRouter.storeRouters.signIn,
       //   builder: (context, state) => const SignInScreen(),
       // ),
       GoRoute(
