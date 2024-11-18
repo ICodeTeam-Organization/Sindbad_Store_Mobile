@@ -59,8 +59,8 @@ class SubCustomTabBar extends StatelessWidget {
               unselectedLabelColor: unselectedLabelColor,
               tabs: tabs,
               indicator: BoxDecoration(
-                border: Border.all(color: AppColors.grey, width: 2.w),
-                color: Colors.white,
+                border: Border.all(color: AppColors.primary, width: 1.5.w),
+                color: Colors.transparent,
                 borderRadius: BorderRadius.circular(_borderRadius.r),
               ),
               indicatorSize: TabBarIndicatorSize.tab,
