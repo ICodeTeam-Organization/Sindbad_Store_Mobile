@@ -47,7 +47,7 @@ abstract class AppRouter {
       //   builder: (context, state) => const SignInScreen(),
       // ),
       GoRoute(
-        path: AppRouter.storeRouters.root,
+        path: AppRouter.storeRouters.signIn,
         builder: (context, state) => const Root(),
       ),
       GoRoute(
