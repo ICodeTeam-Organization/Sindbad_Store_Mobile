@@ -42,10 +42,10 @@ abstract class AppRouter {
   static final router = GoRouter(
     routes: [
       // Store Routes
-      GoRoute(
-        path: AppRouter.storeRouters.signIn,
-        builder: (context, state) => const Root(),
-      ),
+      // GoRoute(
+      //   path: AppRouter.storeRouters.signIn,
+      //   builder: (context, state) => const SignInScreen(),
+      // ),
       GoRoute(
         path: AppRouter.storeRouters.root,
         builder: (context, state) => const Root(),

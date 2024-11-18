@@ -21,7 +21,7 @@ class OrderManagementScreen extends StatelessWidget {
             children: [
               CustomAppBar(
                 onPressed: () {},
-                title: 'قائمة الطلبات',
+                tital: 'قائمة الطلبات',
               ),
               SizedBox(height: 5),
               Expanded(

@@ -5,61 +5,30 @@ abstract class KTextStyle {
   // Text styles with font size 20
   static TextStyle textStyle20 =
       TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w500);
-
-  // Text styles with font size 18
-  static TextStyle textStyle18 =
-      TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w500);
-  static TextStyle textStyle18w500 =
-      TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w500);
-
-  // Text styles with font size 16
   static TextStyle textStyle16 =
       TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500);
 
-  // Text styles with font size 14
+  static TextStyle textStyle18 =
+      TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w500);
   static TextStyle textStyle14 =
-      TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w700);
-  static TextStyle textStyle14w700 =
-      TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w700);
-  static TextStyle textStyle14w600 =
       TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600);
-  static TextStyle textStyle14w500 =
-      TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500);
-
-  // Text styles with font size 13
-  static TextStyle textStyle13w700 =
-      TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w700);
-  static TextStyle textStyle13w600 =
+  static TextStyle textStyle13 =
       TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w600);
-  static TextStyle textStyle13w500 =
-      TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w500);
-
-  // Text styles with font size 12
   static TextStyle textStyle12 =
-      TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w700);
-  static TextStyle textStyle12w700 =
-      TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w700);
-  static TextStyle textStyle12w600 =
-      TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w600);
-  static TextStyle textStyle12w500 =
-      TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500);
-
-  // Text styles with font size 11
-  static TextStyle textStyle11w700 =
-      TextStyle(fontSize: 11.sp, fontWeight: FontWeight.w700);
-
-  // Text styles with font size 10
-  static TextStyle textStyle10w700 =
-      TextStyle(fontSize: 10.sp, fontWeight: FontWeight.w700);
-
-  // Text styles with font size 9
-  static TextStyle textStyle9w700 =
-      TextStyle(fontSize: 9.sp, fontWeight: FontWeight.w700);
-  static TextStyle textStyle9w600 =
-      TextStyle(fontSize: 9.sp, fontWeight: FontWeight.w600);
-
-///////// -- Old -- //////////
-
+      TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w700); //
+  static TextStyle textStyle11 =
+      TextStyle(fontSize: 11.sp, fontWeight: FontWeight.w500); //
+  static TextStyle textStyle10 =
+      TextStyle(fontSize: 10.sp, fontWeight: FontWeight.w500); //
+  static TextStyle textStyle9 = TextStyle(
+      fontSize: 9.sp,
+      fontWeight:
+          FontWeight.w700); //  //////////////////////////////////////////////
+  static TextStyle textStyle8 = TextStyle(
+      fontSize: 8.sp,
+      fontWeight:
+          FontWeight.w700); //  //////////////////////////////////////////////
+  ///Old
   static TextStyle primaryTitle =
       TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold);
   static TextStyle tabs = TextStyle(
