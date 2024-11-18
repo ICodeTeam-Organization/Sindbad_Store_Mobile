@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:sindbad_management_app/features/offer_features/view_offer_feature/ui/screens/view_offer_product_details_screen.dart';
 import 'package:sindbad_management_app/store_app_features/add_product/ui/screen/store_add_product.dart';
 import 'package:sindbad_management_app/store_app_features/excel_file/ui/screen/store_excel_file.dart';
 import 'package:sindbad_management_app/store_app_features/offer_product/ui/screen/store_offer_product.dart';
@@ -14,6 +15,8 @@ import '../../features/root.dart';
 class StoreRouters {
   // String signIn = '/';
   String root = '/';
+  String kOfferProductDetails = '/offerProductDetails';
+
   ///////////////////////////////////////////////////
   ///////////////////////////////////////////////////
 
@@ -35,7 +38,6 @@ class StoreRouters {
 
 abstract class AppRouter {
   static const signIn = '/';
-
   static StoreRouters storeRouters = StoreRouters();
   static final router = GoRouter(
     routes: [
@@ -47,6 +49,16 @@ abstract class AppRouter {
       GoRoute(
         path: AppRouter.storeRouters.root,
         builder: (context, state) => const Root(),
+      ),
+GoRoute(
+        path: AppRouter.storeRouters.kOfferProductDetails,  // Use the parameterized path
+        builder: (context, state) {
+          // Extract the List from the 'extra' parameter
+          final List<dynamic> args = state.extra as List<dynamic>;
+          final String offerName = args[0];  // The first parameter in the list
+          final String offerType = args[1];      // The second parameter in the list
+          return ViewOfferProductDetailsScreen(offerName: offerName, offerType: offerType);
+        },
       ),
       ///////////////////////////////////////////////////////
       //////////////////////////////////////////////////////
