@@ -47,6 +47,29 @@ class _RootState extends State<Root> {
         ],
       ),
     ),
+    // Scaffold(
+    //   body: Column(
+    //     children: [
+    //       Text("data"),
+    //       Text("data"),
+    //       Text("data"),
+    //       Text("data"),
+    //       Text("data"),
+    //       Text("data"),
+    //       Center(
+    //         child: StorePrimaryButton(
+    //           icon: Icons.abc,
+    //           title: 'تسجيل ',
+    //           height: 40,
+    //           width: 200,
+    //           onTap: () {
+    //             print("object");
+    //           },
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // ),
     Text('العروض'),
     Text('التقارير'),
   ];
