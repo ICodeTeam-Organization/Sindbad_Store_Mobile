@@ -15,7 +15,8 @@ class CustomAppBar extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    return AppBar(
+    return 
+    AppBar(
       backgroundColor: AppColors.white,
       toolbarHeight: 50.h,
       centerTitle: true,

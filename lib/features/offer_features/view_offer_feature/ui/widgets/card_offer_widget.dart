@@ -1,181 +1,240 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
-import 'package:sindbad_management_app/core/utils/route.dart';
 import 'package:sindbad_management_app/features/offer_features/view_offer_feature/ui/widgets/action_button_widget.dart';
 
 class CardOfferWidget extends StatefulWidget {
   final String offerName;
-  final String offerType;
+  final String discountRate;
+  final String offerBouns;
   final DateTime startOffer;
   final DateTime endOffer;
-  final int countProducts;
   final bool isActive;
-  const CardOfferWidget({super.key, required this.offerName, required this.offerType, required this.startOffer, required this.endOffer, required this.countProducts, required this.isActive});
+  final String countProducts;
+  final String offerType;
+  const CardOfferWidget({super.key, 
+  required this.offerName, 
+  required this.discountRate,
+  required this.offerBouns,
+  required this.startOffer,
+  required this.endOffer, 
+  required this.isActive,
+  required this.countProducts, 
+  required this.offerType,
+  });
 
   @override
   State<CardOfferWidget> createState() => _CardOfferWidgetState();
 }
 
 class _CardOfferWidgetState extends State<CardOfferWidget> {
-    String? offerName;
-    String? offerType;
-    DateTime? startOffer;
-    DateTime? endOffer;
-    int? countProducts;
-    bool? isActive;
 
     DateTime dateNow = DateTime.now();
     int result = 0;
     bool? isRemainingDays;
-
+    String? offerTypeTitle;
+    String? isActiveTitleButton;
   @override
   void initState() {
     super.initState();
-    offerName = widget.offerName;
-    offerType = widget.offerName;
-    startOffer = widget.startOffer;
-    endOffer = widget.endOffer;
-    countProducts = widget.countProducts;
-    isActive = widget.isActive;
     remainigDays();
-
+    selectedOffer();
+    if(widget.isActive==true){
+      isActiveTitleButton = 'ايقاف عرض';
+    } else {
+      isActiveTitleButton = 'تنشيط عرض';
+    }
   }
     void remainigDays(){
       dateNow = dateNow.toUtc();
-      if (dateNow.year<=endOffer!.year) {
+      if (dateNow.year<=widget.endOffer.year) {
         if (dateNow.day==31) {
-        result = ((31+endOffer!.day)-dateNow.day)
-        + (30*((11+endOffer!.month)-dateNow.month))
-        + (360*((endOffer!.year-1)-dateNow.year));
+        result = ((31+widget.endOffer.day)-dateNow.day)
+        + (30*((11+widget.endOffer.month)-dateNow.month))
+        + (360*((widget.endOffer.year-1)-dateNow.year));
         }
-        result = ((30+endOffer!.day)-dateNow.day)
-        + (30*((11+endOffer!.month)-dateNow.month))
-        + (360*((endOffer!.year-1)-dateNow.year));
+        result = ((30+widget.endOffer.day)-dateNow.day)
+        + (30*((11+widget.endOffer.month)-dateNow.month))
+        + (360*((widget.endOffer.year-1)-dateNow.year));
         isRemainingDays = true;
         if (result<=0) {
         isRemainingDays = false;
         }
       }
     }
+    void selectedOffer(){
+      if (widget.offerType == 'Discount') {
+        offerTypeTitle = '${widget.discountRate} من إجمالي الخصم';
+      } else if (widget.offerType == 'Bouns') {
+        offerTypeTitle = widget.offerBouns;
+      }
+    }
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Container(
-          color: AppColors.transparent,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 200.h,
-                color: AppColors.white,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(25.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            color: AppColors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(25.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
                         children: [
-                          Row(
-                            children: [
-                              Text("أسم العرض : ",style: KTextStyle.textStyle14.copyWith(color: AppColors.greyDark,),),
-                              Text(offerName!,style: KTextStyle.textStyle14.copyWith(color: AppColors.blackDark,),),
-                            ],
-                          ),
-                          SizedBox(height: 15.h,),
-                          Text(offerType!,style: KTextStyle.textStyle11.copyWith(color: AppColors.greyLight,),),
-                          SizedBox(height: 10.h,),
-                          Row(
-                            children: [
-                              Text("من ",style: KTextStyle.textStyle11.copyWith(color: AppColors.greyLight,),),
-                              Text("${startOffer!.year}/${startOffer!.month}/${startOffer!.day}",style: KTextStyle.textStyle11.copyWith(color: AppColors.greyLight,),),
-                              Text(" الى  ",style: KTextStyle.textStyle11.copyWith(color: AppColors.greyLight,),),
-                              Text("${endOffer!.year}/${endOffer!.month}/${endOffer!.day}",style: KTextStyle.textStyle11.copyWith(color: AppColors.greyLight,),),
-                            ],
-                          ),
-                          SizedBox(height: 20.h,),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 37.5.w,
-                                height: 35.h,
-                                child: Stack(
-                                  children: [
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: SvgPicture.asset(
-                                      "assets/bag_amount.svg",
-                                      width: 20.w,
-                                      height: 20.h,
-                                      ),
-                                    ),
-                                  CircleAvatar(
-                                    radius: 12.5,
-                                    backgroundColor: AppColors.primaryBackground,
-                                    child: Text(countProducts.toString(),style: KTextStyle.textStyle9.copyWith(color: AppColors.primary,),),
-                                    ),
-                                 ]
+                          Text("أسم العرض : ",style: KTextStyle.textStyle14.copyWith(color: AppColors.greyDark,),),
+                          Text(widget.offerName,style: KTextStyle.textStyle14.copyWith(color: AppColors.blackDark,),),
+                        ],
+                      ),
+                      SizedBox(height: 15.h,),
+                      Text(offerTypeTitle!,style: KTextStyle.textStyle11.copyWith(color: AppColors.greyLight,),),
+                      SizedBox(height: 10.h,),
+                      Row(
+                        children: [
+                          Text("من ",style: KTextStyle.textStyle11.copyWith(color: AppColors.greyLight,),),
+                          Text("${widget.startOffer.year}/${widget.startOffer.month}/${widget.startOffer.day}",style: KTextStyle.textStyle11.copyWith(color: AppColors.greyLight,),),
+                          Text(" الى  ",style: KTextStyle.textStyle11.copyWith(color: AppColors.greyLight,),),
+                          Text("${widget.endOffer.year}/${widget.endOffer.month}/${widget.endOffer.day}",style: KTextStyle.textStyle11.copyWith(color: AppColors.greyLight,),),
+                        ],
+                      ),
+                      SizedBox(height: 20.h,),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 35.w,
+                            height: 42.5.h,
+                            child: Stack(
+                              children: [
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: SvgPicture.asset(
+                                  "assets/bag_amount.svg",
+                                  width: 22.5.w,
+                                  height: 22.5.h,
+                                  ),
                                 ),
+                              Container(
+                                alignment: Alignment.center,
+                                height: 20.h,
+                                width: 20.w,
+                                decoration: BoxDecoration(
+                                color: AppColors.primaryBackground,
+                                borderRadius: BorderRadius.circular(100),
+                                border: Border.all(color: AppColors.white,width: 2.w)
+                                ),
+                                child: Text(widget.countProducts.toString(),style: TextStyle(color: AppColors.primary,fontSize: 9,fontWeight: FontWeight.bold)),
                               ),
-                              SizedBox(width: 5.w,),
-                              Text("عدد الأصناف",style: KTextStyle.textStyle11.copyWith(color: AppColors.greyLight,),),
-                              SizedBox(width: 15.w,),
-                              SvgPicture.asset(
-                                "assets/circle_green.svg",
-                                width: 9.w,
-                                height: 9.h,
-                              ),
-                              SizedBox(width: 5.w,),
-                              Text("نشط",style: KTextStyle.textStyle11.copyWith(color: AppColors.greyLight,),),
-                            ],
+                             ]
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(25.0),
-                      child: Column(
-                        children: [
-                          isRemainingDays == true ?
-                          Row(
-                            children: [
-                              Text('( متبقي ',style: KTextStyle.textStyle8.copyWith(color: AppColors.greyLight,),),
-                              Text(result.toString(),style: KTextStyle.textStyle8.copyWith(color: AppColors.primary,),),
-                              Text(' أيام على الانتهاء )',style: KTextStyle.textStyle8.copyWith(color: AppColors.greyLight,),),
-                            ],
+                          SizedBox(width: 5.w,),
+                          Text("عدد المنتجات",style: KTextStyle.textStyle11.copyWith(color: AppColors.greyLight,),),
+                          SizedBox(width: 15.w,),
+                          widget.isActive == true ?
+                          Container(
+                            width: 75,
+                            decoration: 
+                              BoxDecoration(
+                                color: AppColors.greenOpacity,
+                                borderRadius: BorderRadius.circular(100)
+                              ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                SvgPicture.asset(
+                                  "assets/circle_green.svg",
+                                  width: 9.w,
+                                  height: 9.h,
+                                ),
+                                Text("نشط",style: KTextStyle.textStyle11.copyWith(color: AppColors.blackLight,),),
+                              ],
+                            ),
                           ):
-                          Text(' ( انتهاء العرض   ) ',style: KTextStyle.textStyle8.copyWith(color: AppColors.greyLight,),),
-                          SizedBox(height: 10.h,),
-                          ActionButtonWidget(
-                            title: 'تعديل عرض',
-                            iconPath: "assets/update.svg",
-                            isSolid: false,
-                          ),
-                          SizedBox(height: 5.h,),
-                          ActionButtonWidget(
-                            title: 'ايقاف عرض',
-                            iconPath: "assets/stop.svg",
-                            isSolid: false,
-                          ),
-                          SizedBox(height: 5.h,),
-                          ActionButtonWidget(
-                            title: 'حذف عرض',
-                            iconPath: "assets/delete.svg",
-                            isSolid: false,
+                          Container(
+                            width: 75,
+                            decoration: 
+                              BoxDecoration(
+                                color: AppColors.redOpacity,
+                                borderRadius: BorderRadius.circular(100)
+                              ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                SvgPicture.asset(
+                                  "assets/circle_red.svg",
+                                  width: 9.w,
+                                  height: 9.h,
+                                ),
+                                Text("غير نشط",style: KTextStyle.textStyle11.copyWith(color: AppColors.blackLight,),)
+                              ],
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.all(25.0),
+                  child: Column(
+                    children: [
+                      isRemainingDays == true ?
+                      Row(
+                        children: [
+                          Text('( متبقي ',style: KTextStyle.textStyle8.copyWith(color: AppColors.greyLight,),),
+                          Text(result.toString(),style: KTextStyle.textStyle8.copyWith(color: AppColors.primary,),),
+                          Text(' أيام على الانتهاء )',style: KTextStyle.textStyle8.copyWith(color: AppColors.greyLight,),),
+                        ],
+                      ):
+                      Text(' (  انتهاء العرض  ) ',style: KTextStyle.textStyle8.copyWith(color: AppColors.greyLight,)),
+                      SizedBox(height: 10.h,),
+                      ActionButtonWidget(
+                        title: 'تعديل عرض',
+                        iconPath: "assets/update.svg",
+                        isSolid: false,
+                      ),
+                      SizedBox(height: 5.h,),
+                      widget.isActive
+                    ? ActionButtonWidget(
+                        title: isActiveTitleButton!,
+                        iconPath: "assets/stop.svg",
+                        isSolid: false,
+                        onTap: () {
+                          setState(() {
+                          });
+                        },
+                      )
+                    : ActionButtonWidget(
+                        title: isActiveTitleButton!,
+                        iconPath: "assets/stop.svg",
+                        isSolid: false,
+                        onTap: () {
+                          setState(() {
+                          });
+                        },
+                      ),
+                      SizedBox(height: 5.h,),
+                      ActionButtonWidget(
+                        title: 'حذف عرض',
+                        iconPath: "assets/delete.svg",
+                        isSolid: false,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
+        ],
       ),
     );
   }
