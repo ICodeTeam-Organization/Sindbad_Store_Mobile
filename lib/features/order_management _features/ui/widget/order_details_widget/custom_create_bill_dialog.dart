@@ -7,6 +7,8 @@ import '../../../../../core/shared_widgets/new_widgets/store_primary_button.dart
 import '../../../../../core/styles/Colors.dart';
 import '../../../../../core/styles/text_style.dart';
 import '../../function/image_picker_function.dart';
+import 'custom_order_cancle_dialog.dart';
+import 'messages.dart';
 
 TextEditingController dateConroller = TextEditingController();
 TextEditingController numberConroller = TextEditingController();
@@ -108,7 +110,16 @@ class _CustomCreateBillDialogState extends State<CustomCreateBillDialog> {
             ),
             StorePrimaryButton(
               title: 'تاكيد',
-              onTap: () {},
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return Messages(
+                      isTrue: true,
+                    );
+                  },
+                );
+              },
             ),
           ],
         ),
