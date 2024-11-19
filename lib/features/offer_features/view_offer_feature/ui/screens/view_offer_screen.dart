@@ -31,12 +31,15 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
                 child: ActionButtonWidget(
                   title: 'إضافة عرض',
                   iconPath: "assets/add.svg",
+                  onTap: (){
+
+                  },
                 )
               ),
               Expanded(
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,
-                  itemCount: 3, // Use the length of the list
+                  itemCount: 5, // Use the length of the list
                   physics: const AlwaysScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return Column(
@@ -44,7 +47,7 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
                         InkWell(
                           onTap: () {
                             context.push(AppRouter.storeRouters.kOfferProductDetails,
-                            extra: ['يوم الجمعة','discount',]
+                            extra: ['يوم الجمعة','Discount',]
                             // extra: [offerName,offerType,]
                           );  // Use GoRouter to navigate to the parameterized route
                           },
@@ -53,10 +56,10 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
                             discountRate: '10%',
                             offerBouns: 'اشتري x واحصل على y',
                             startOffer: DateTime.utc(2024, 5, 1), 
-                            endOffer: DateTime.utc(2024, 11, 18), 
+                            endOffer: DateTime.utc(2024, 11, 25), 
                             isActive: true,
-                            countProducts: "17", 
-                            offerType: 'discount', 
+                            countProducts: '17', 
+                            offerType: 'Discount', 
                           ),
                         ),
                         Divider(),

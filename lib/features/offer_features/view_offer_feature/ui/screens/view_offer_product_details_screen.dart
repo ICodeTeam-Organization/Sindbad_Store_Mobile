@@ -21,7 +21,7 @@ class _ViewOfferProductDetailsScreenState extends State<ViewOfferProductDetailsS
   @override
   void initState() {
     super.initState();
-    if (widget.offerType=='discount') {
+    if (widget.offerType=='Discount') {
       offerTypeTitle = 'المنتجات بعد الخصم';
     }else if(widget.offerType=='Bouns'){
       offerTypeTitle = 'المنتجات بعد عمل البونص';
@@ -51,7 +51,7 @@ class _ViewOfferProductDetailsScreenState extends State<ViewOfferProductDetailsS
                 Expanded(
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,
-                    itemCount: 5, // Use the length of the list
+                    itemCount: 10, // Use the length of the list
                     physics: const AlwaysScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return Column(
