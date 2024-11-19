@@ -31,7 +31,7 @@ class CustomTabBarWidget extends StatelessWidget {
     this.indicatorWeight = 2.0,
     this.labelColor = AppColors.black,
     this.unselectedLabelColor = AppColors.black,
-    this.height = 700.0,
+    this.height = 56,
   })  : assert(tabs.length == tabViews.length,
             'Tabs and TabViews must have the same length'),
         assert(length == tabs.length,

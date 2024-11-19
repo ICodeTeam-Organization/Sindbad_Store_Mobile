@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:flutter_svg/svg.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 
 import '../../../../../core/shared_widgets/new_widgets/custom_app_bar.dart';
+import '../../../../../core/shared_widgets/new_widgets/custom_tab_bar_widget.dart';
 import '../../../../../core/styles/text_style.dart';
+import '../../../../offer_features/view_offer_feature/ui/widgets/action_button_widget.dart';
+import '../../data/data_source/view_product_remote_data_source.dart';
+import 'fake_data _for_test.dart/test_data_cat.dart';
+import 'widgets/button_custom.dart';
+import 'widgets/image_card_custom.dart';
+import 'widgets/sub_category_card_custom.dart';
+import 'widgets/text_style_detials.dart';
 
 class ViewProduct extends StatefulWidget {
   const ViewProduct({super.key});
@@ -16,34 +24,12 @@ class ViewProduct extends StatefulWidget {
 class _ViewProductState extends State<ViewProduct> {
   @override
   Widget build(BuildContext context) {
-    // ======= List Name Category ==============
-    final List<String> subCategs = ["الكل"];
-    const List<String> subCategsApi = [
-      "الكترونيات",
-      "لابتوبات",
-      "شنط نسائية",
-      "باريس",
-      "الكترونيات",
-      "لابتوبات",
-      "شنط",
-      "باريس",
-      "الكترونيات",
-      "لابتوبات",
-      "شنط نسائية",
-      "باريس",
-      "الكترونيات",
-      "لابتوبات",
-      "شنط",
-      "باريس",
-    ];
-    subCategs.addAll(subCategsApi);
-
     int indexSelected = 0;
 
     final List<Map<String, dynamic>> products = List.generate(
         10,
         (index) => {
-              'name': 'MacBook Air',
+              'name': 'MacBook 7',
               'id': '12342345',
               'price': '1500',
               'imageUrl': 'https://via.placeholder.com/100',
@@ -53,31 +39,124 @@ class _ViewProductState extends State<ViewProduct> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           CustomAppBar(
-            title: '',
+            tital: '',
+          ),
+          SizedBox(height: 20.h),
+          CustomTabBarWidget(
+            length: 3,
+            tabs: [
+              Text(
+                "جميع المنتجات",
+                style: KTextStyle.textStyle16,
+              ),
+              Text(
+                "جميع المنتجات",
+                style: KTextStyle.textStyle16,
+              ),
+              Text(
+                "جميع المنتجات",
+                style: KTextStyle.textStyle16,
+              ),
+            ],
+            tabViews: [
+              SizedBox(
+                height: 56.h,
+                child: ListView.builder(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: FakeDataApi().subCategs.length,
+                    itemBuilder: (context, index) {
+                      return ChipCustom(
+                        title: FakeDataApi().subCategs[index],
+                        onTap: () {
+                          setState(() {
+                            indexSelected = index;
+                            debugPrint('isSelected: $indexSelected');
+                          });
+                        },
+                        isSelected: indexSelected == index,
+                      );
+                    }),
+              ),
+              SizedBox(
+                height: 56.h,
+                child: ListView.builder(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: FakeDataApi().subCategs.length,
+                    itemBuilder: (context, index) {
+                      return ChipCustom(
+                        title: FakeDataApi().subCategs[index],
+                        onTap: () {
+                          setState(() {
+                            indexSelected = index;
+                            debugPrint('isSelected: $indexSelected');
+                          });
+                        },
+                        isSelected: indexSelected == index,
+                      );
+                    }),
+              ),
+              SizedBox(
+                height: 56.h,
+                child: ListView.builder(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: FakeDataApi().subCategs.length,
+                    itemBuilder: (context, index) {
+                      return ChipCustom(
+                        title: FakeDataApi().subCategs[index],
+                        isSelected: indexSelected == index,
+                        onTap: () {
+                          setState(() {
+                            indexSelected = index;
+                            debugPrint('isSelected: $indexSelected');
+                          });
+                        },
+                      );
+                    }),
+              ),
+            ],
           ),
           SizedBox(height: 20.h),
           // =================  Start Sub Category  ======================
-          SizedBox(
-            height: 50.h,
-            child: ListView.builder(
-                physics: AlwaysScrollableScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                itemCount: subCategs.length,
-                itemBuilder: (context, index) {
-                  return ChipCustom(
-                    title: subCategs[index],
-                    onTap: () {
-                      setState(() {
-                        indexSelected = index;
-                        debugPrint('isSelected: $indexSelected');
-                      });
-                    },
-                    isSelected: indexSelected == index,
-                  );
-                }),
+          // SizedBox(
+          //   height: 56.h,
+          //   child: ListView.builder(
+          //       physics: AlwaysScrollableScrollPhysics(),
+          //       scrollDirection: Axis.horizontal,
+          //       itemCount: FakeDataApi().subCategs.length,
+          //       itemBuilder: (context, index) {
+          //         return ChipCustom(
+          //           title: FakeDataApi().subCategs[index],
+          //           onTap: () {
+          //             setState(() {
+          //               indexSelected = index;
+          //               debugPrint('isSelected: $indexSelected');
+          //             });
+          //           },
+          //           isSelected: indexSelected == index,
+          //         );
+          //       }),
+          // ),
+          SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ActionButtonWidget(
+                  title: 'إضافة منتج',
+                  iconPath: 'assets/add.svg',
+                ),
+                ActionButtonWidget(
+                  title: 'إيقاف منتج',
+                  iconPath: 'assets/add.svg',
+                ),
+              ],
+            ),
           ),
-          // =================  end Sub Category  ======================
-          // SizedBox(height: 20),
+          // =================  Start Products View  ======================
           Expanded(
             child: ListView.builder(
               // padding: EdgeInsets.all(0),
@@ -87,7 +166,7 @@ class _ViewProductState extends State<ViewProduct> {
                 return Container(
                   // margin:
                   //     const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                  // padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.only(top: 26, bottom: 26, left: 7),
                   decoration: BoxDecoration(
                     color: index % 2 == 0 ? AppColors.background : Colors.white,
                     borderRadius: BorderRadius.circular(4),
@@ -98,73 +177,89 @@ class _ViewProductState extends State<ViewProduct> {
                     children: [
                       // Check Box
                       Checkbox(
+                        // checkColor: Colors.white, // لون العلامة ✓
+                        // activeColor: Colors.green, // لون المربع عند التحديد
+                        side: BorderSide(
+                          color: Colors.red, // لون الحواف
+                          width: 1.0, // سماكة الحواف
+                        ),
                         value: false,
                         onChanged: (bool? value) {
                           // Checkbox action
                         },
                       ),
-                      // Product Image
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.asset(
-                          "assets/2.png",
-                          width: 70.w,
-                          height: 65.h,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                      ImageCardCustom(),
                       const SizedBox(width: 10),
                       // Product Details
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'اسم المنتج: ${product['name']}',
-                              style: const TextStyle(
-                                fontSize: 8,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            Row(
+                              children: [
+                                TextStyleTitleDataProductBold(
+                                    title: ': اسم المنتج'),
+                                TextStyleDataProductGreyDark(
+                                    dataProduct: product['name']),
+                              ],
                             ),
                             const SizedBox(height: 4),
-                            Text(
-                              'رقم المنتج: ${product['id']}',
-                              style: const TextStyle(
-                                fontSize: 8,
-                                color: Colors.grey,
-                              ),
+                            Row(
+                              children: [
+                                TextStyleTitleDataProductBold(
+                                    title: ': رقم المنتج'),
+                                TextStyleDataProductGreyDark(
+                                    dataProduct: product['id']),
+                              ],
                             ),
                             const SizedBox(height: 4),
-                            Text(
-                              'السعر: \$${product['price']}',
-                              style: const TextStyle(
-                                fontSize: 8,
-                                color: Colors.red,
-                              ),
+                            Row(
+                              children: [
+                                Text(
+                                  'السعر: ',
+                                  style: TextStyle(
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  '\$${product['price']}',
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 12.sp,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
                       ),
-                      const SizedBox(width: 10),
+                      SizedBox(width: 10.w),
                       // Action Buttons
                       Column(
                         children: [
-                          IconButton(
-                            icon: const Icon(Icons.edit, color: Colors.orange),
+                          CustomButton(
+                            text: 'تعديل',
+                            icon: Icons.edit,
                             onPressed: () {
-                              // Edit action
+                              // تنفيذ الإجراء عند الضغط
+                              // print('Button Pressed!');
                             },
                           ),
-                          IconButton(
-                            icon: const Icon(Icons.delete, color: Colors.red),
-                            onPressed: () {
-                              // Delete action
-                            },
-                          ),
+                          SizedBox(height: 5.h),
+                          CustomButton(
+                              text: 'حذف',
+                              icon: Icons.edit,
+                              onPressed: () {
+                                // تنفيذ الإجراء عند الضغط
+                                // print('Button Pressed!');
+                              }),
                         ],
                       ),
                       // Checkbox
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8.w),
                     ],
                   ),
                 );
@@ -174,43 +269,6 @@ class _ViewProductState extends State<ViewProduct> {
         ],
       ),
       // ),
-    );
-  }
-}
-
-// =================  Start Sub Category Card =====================
-class ChipCustom extends StatelessWidget {
-  final String title;
-  final bool isSelected;
-  final void Function()? onTap;
-  const ChipCustom(
-      {super.key, required this.title, required this.isSelected, this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        // height: 40, // ثبات الارتفاع
-        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
-        margin: EdgeInsets.symmetric(horizontal: 2.5.w),
-        decoration: BoxDecoration(
-          // color: AppColors.background,
-          border: Border.all(
-            color: isSelected ? AppColors.primary : AppColors.greyBorder,
-          ),
-          borderRadius: BorderRadius.circular(20), // دائري أكثر
-        ),
-        child: IntrinsicWidth(
-          // يضبط العرض بناءً على النص تلقائيًا
-          child: Center(
-            child: Text(
-              title,
-              style: KTextStyle.textStyle14w500,
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

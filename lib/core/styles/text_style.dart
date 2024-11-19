@@ -15,15 +15,19 @@ abstract class KTextStyle {
   static TextStyle textStyle13 =
       TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w600);
   static TextStyle textStyle12 =
-      TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w700);//
+      TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w700); //
   static TextStyle textStyle11 =
-      TextStyle(fontSize: 11.sp, fontWeight: FontWeight.w500);//
+      TextStyle(fontSize: 11.sp, fontWeight: FontWeight.w500); //
   static TextStyle textStyle10 =
-      TextStyle(fontSize: 10.sp, fontWeight: FontWeight.w500);//
-  static TextStyle textStyle9 =
-      TextStyle(fontSize: 9.sp, fontWeight: FontWeight.w700);//  //////////////////////////////////////////////
-  static TextStyle textStyle8 =
-      TextStyle(fontSize: 8.sp, fontWeight: FontWeight.w700);//  //////////////////////////////////////////////
+      TextStyle(fontSize: 10.sp, fontWeight: FontWeight.w500); //
+  static TextStyle textStyle9 = TextStyle(
+      fontSize: 9.sp,
+      fontWeight:
+          FontWeight.w700); //  //////////////////////////////////////////////
+  static TextStyle textStyle8 = TextStyle(
+      fontSize: 8.sp,
+      fontWeight:
+          FontWeight.w700); //  //////////////////////////////////////////////
   ///Old
   static TextStyle primaryTitle =
       TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold);

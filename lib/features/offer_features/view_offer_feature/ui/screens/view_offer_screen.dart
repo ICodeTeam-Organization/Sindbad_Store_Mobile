@@ -16,7 +16,7 @@ class ViewOfferScreen extends StatefulWidget {
 
 class _ViewOfferScreenState extends State<ViewOfferScreen> {
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -28,12 +28,11 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
                 tital: 'العروض',
               ),
               Padding(
-                padding: const EdgeInsets.all(30.0),
-                child: ActionButtonWidget(
-                  title: 'إضافة عرض',
-                  iconPath: "assets/add.svg",
-                )
-              ),
+                  padding: const EdgeInsets.all(30.0),
+                  child: ActionButtonWidget(
+                    title: 'إضافة عرض',
+                    iconPath: "assets/add.svg",
+                  )),
               CardOfferWidget(),
               Divider(),
               CardOfferWidget(),

@@ -9,9 +9,8 @@ class KCardInfoPriceWidget extends StatelessWidget {
   final int orderAmount;
   final double Price;
   final double Total;
-    final double Cost;
-    final double totalCost ;
-
+  final double Cost;
+  final double totalCost;
 
   final bool isShow;
   const KCardInfoPriceWidget({

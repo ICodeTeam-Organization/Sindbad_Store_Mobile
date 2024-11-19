@@ -9,7 +9,6 @@
 //   //final String? accountAppbar;
 //     final bool isHome;
 
-
 //   @override
 //   Widget build(BuildContext context) {
 //     return Container(
@@ -27,13 +26,13 @@
 //       child: AppBar(
 //             title:  Text(
 //               nameAppbar, style: TextStyle(
-//                 color: Colors.black , 
+//                 color: Colors.black ,
 //                 fontSize: 30.sp, fontWeight: FontWeight.bold)),
 //             centerTitle: true,
 //             // backgroundColor: AppColors.primaryButtonColor,
 //             backgroundColor: AppColors.backgroundColor,
 //             // leading:  const PopIcon(),
-//             leading:  isHome ? null : const PopIcon(), 
+//             leading:  isHome ? null : const PopIcon(),
 //             // actions: [
 //             //   Container(
 //             //     margin: const EdgeInsets.all(8),

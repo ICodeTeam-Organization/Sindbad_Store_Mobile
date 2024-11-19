@@ -12,16 +12,16 @@
 //   Widget build(BuildContext context) {
 //     return AppBar(
 //           title:  Text(
-//             nameAppbar, 
+//             nameAppbar,
 //             style: TextStyle(
-//               color: Colors.black , fontSize: 25.sp, 
+//               color: Colors.black , fontSize: 25.sp,
 //               // fontWeight: FontWeight.bold
 //               )),
 //           centerTitle: true,
-          
+
 //           backgroundColor: AppColors.backgroundColor,
 //           actions:
-//           [ 
+//           [
 //             if(isHome != true) Padding(
 //             padding:  EdgeInsets.only(
 //               left:  40.0.w,
@@ -35,7 +35,7 @@
 //                 ),
 //               ),
 //           )]
-         
+
 //         );
 //   }
 // }
