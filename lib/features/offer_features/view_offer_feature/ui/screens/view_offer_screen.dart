@@ -32,7 +32,7 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
                   title: 'إضافة عرض',
                   iconPath: "assets/add.svg",
                   onTap: (){
-
+                    context.push(AppRouter.storeRouters.kNewOffer,);
                   },
                 )
               ),

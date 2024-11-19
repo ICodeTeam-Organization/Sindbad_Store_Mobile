@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/screens/new_offer_screen.dart';
 import 'package:sindbad_management_app/features/offer_features/view_offer_feature/ui/screens/view_offer_product_details_screen.dart';
 import 'package:sindbad_management_app/store_app_features/add_product/ui/screen/store_add_product.dart';
 import 'package:sindbad_management_app/store_app_features/excel_file/ui/screen/store_excel_file.dart';
@@ -17,6 +18,8 @@ class StoreRouters {
   // String signIn = '/';
   String root = '/';
   String kOfferProductDetails = '/offerProductDetails';
+  String kNewOffer = '/newOffer';
+  //NewOfferScreen
 
   String signIn = '/';
   // String root = '/root';
@@ -53,6 +56,10 @@ abstract class AppRouter {
       GoRoute(
         path: AppRouter.storeRouters.signIn,
         builder: (context, state) => const Root(),
+      ),
+      GoRoute(
+        path: AppRouter.storeRouters.kNewOffer,
+        builder: (context, state) => const NewOfferScreen(),
       ),
       GoRoute(
         path: AppRouter
