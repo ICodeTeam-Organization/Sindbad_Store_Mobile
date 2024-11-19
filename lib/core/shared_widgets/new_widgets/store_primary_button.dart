@@ -12,7 +12,8 @@ class StorePrimaryButton extends StatelessWidget {
       this.title = '',
       this.width = 370,
       this.icon,
-      this.buttonColor = AppColors.colorButton});
+      this.textColor = AppColors.white,
+      this.buttonColor = AppColors.primary});
 
   double? width;
   double? height;
@@ -20,8 +21,9 @@ class StorePrimaryButton extends StatelessWidget {
   GestureTapCallback? onTap;
   IconData? icon;
   Color? buttonColor;
+  Color? textColor;
 
-    // Constants for repeated values
+  // Constants for repeated values
   static const double _borderRadius = 8.0;
   static const double _iconSize = 24.0;
 
@@ -35,10 +37,10 @@ class StorePrimaryButton extends StatelessWidget {
       onTap: onTap,
 
       /// [qais] => Don't use the {Container} here because it is a heavy widget.
-      /// Instead, use the Alignment widget to align stuff and use the SizedBox 
-      /// widget within it to specify the width and height and Use the BoxDecoration widget 
+      /// Instead, use the Alignment widget to align stuff and use the SizedBox
+      /// widget within it to specify the width and height and Use the BoxDecoration widget
       /// within it to handle the decoration.
-      
+
       child: Container(
         alignment: Alignment.center,
         width: width,
@@ -57,7 +59,7 @@ class StorePrimaryButton extends StatelessWidget {
                 size: _iconSize.w,
               ),
             Text(title ?? '',
-                style: KTextStyle.textStyle14.copyWith(color: AppColors.white)),
+                style: KTextStyle.textStyle14.copyWith(color: textColor)),
           ],
         ),
       ),
