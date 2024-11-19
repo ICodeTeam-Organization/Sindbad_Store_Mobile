@@ -309,10 +309,8 @@ class OrderDetails extends StatelessWidget {
                         context: context,
                         builder: (context) {
                           return CustomOrderCancleDialog(
-                            headTitle: ' الفاتورة',
+                            headTitle: ' ملاحظة رفض الطلب',
                             firstTitle: ' الفاتورة',
-                            secondTitle: 'رقم الفاتورة',
-                            thierdTitle: 'قيمة الفاتورة',
                             onPressedSure: () {},
                           );
                         },
