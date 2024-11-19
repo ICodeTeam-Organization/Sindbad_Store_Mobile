@@ -21,9 +21,9 @@ class _ViewOfferProductDetailsScreenState extends State<ViewOfferProductDetailsS
   @override
   void initState() {
     super.initState();
-    if (widget.offerType=="10% من إجمالي الخصم") {
+    if (widget.offerType=='discount') {
       offerTypeTitle = 'المنتجات بعد الخصم';
-    }else if(widget.offerType=="اشتري x واحصل على y"){
+    }else if(widget.offerType=='Bouns'){
       offerTypeTitle = 'المنتجات بعد عمل البونص';
     }
   }
