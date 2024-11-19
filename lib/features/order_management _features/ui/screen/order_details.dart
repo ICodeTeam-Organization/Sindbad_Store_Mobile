@@ -1,10 +1,17 @@
+import 'dart:io';
+
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
 import '../../../../core/shared_widgets/new_widgets/custom_app_bar.dart';
+import '../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
 import '../../../../core/styles/Colors.dart';
+import '../widget/order_details_widget/custom_create_bill_dialog.dart';
+import '../widget/order_details_widget/custom_order_cancle_dialog.dart';
 
 class OrderDetails extends StatelessWidget {
   const OrderDetails({super.key});
@@ -21,6 +28,7 @@ class OrderDetails extends StatelessWidget {
                 tital: 'الطلب',
               ),
               Container(
+                margin: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     border: Border.all(color: AppColors.grey),
                     borderRadius: BorderRadius.circular(16.r)),
@@ -132,7 +140,7 @@ class OrderDetails extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Container(
                       margin: EdgeInsets.symmetric(
-                          vertical: 5.h, horizontal: 12.0.w),
+                          vertical: 10.h, horizontal: 12.0.w),
                       padding: EdgeInsets.all(10),
                       height: 320.h,
                       width: double.infinity,
@@ -232,9 +240,6 @@ class OrderDetails extends StatelessWidget {
                               ),
                               Text('\$'),
                               Spacer(),
-                              // SizedBox(
-                              //   width: 50.w,
-                              // ),
                               Text('الاجمالي'),
                               Container(
                                   padding: EdgeInsets.all(8.0),
@@ -271,6 +276,51 @@ class OrderDetails extends StatelessWidget {
                   },
                 ),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  StorePrimaryButton(
+                    width: 160.w,
+                    title: 'انشاء فاتورة',
+                    buttonColor: AppColors.greenOpacity,
+                    textColor: AppColors.greenDark,
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return CustomCreateBillDialog(
+                            headTitle: 'بيانات الفاتورة',
+                            firstTitle: 'تاريخ الفاتورة',
+                            secondTitle: 'رقم الفاتورة',
+                            thierdTitle: 'قيمة الفاتورة',
+                            onPressedSure: () {},
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  StorePrimaryButton(
+                    width: 160.w,
+                    title: 'رفض الطلب',
+                    buttonColor: AppColors.redOpacity,
+                    textColor: AppColors.redColor,
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return CustomOrderCancleDialog(
+                            headTitle: ' الفاتورة',
+                            firstTitle: ' الفاتورة',
+                            secondTitle: 'رقم الفاتورة',
+                            thierdTitle: 'قيمة الفاتورة',
+                            onPressedSure: () {},
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -278,3 +328,49 @@ class OrderDetails extends StatelessWidget {
     );
   }
 }
+
+
+///////////////////////////////////////////////////////////////
+
+
+// class CustomIMageButton extends StatelessWidget {
+//   final VoidCallback onTap;
+//   final IconData icon;
+//   final String title;
+
+//   const CustomIMageButton({
+//     super.key,
+//     required this.onTap,
+//     required this.icon,
+//     required this.title,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return InkWell(
+//       onTap: onTap,
+//       child: Container(
+//         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+//         decoration: BoxDecoration(
+//           color: Colors.grey,
+//           borderRadius: BorderRadius.circular(8),
+//         ),
+//         child: Row(
+//           mainAxisSize: MainAxisSize.min,
+//           children: [
+//             Text(
+//               title,
+//               style: KTextStyle.secondaryTitle.copyWith(color: AppColors.white),
+//             ),
+//             const SizedBox(width: 10),
+//             Icon(
+//               icon,
+//               size: 25,
+//               color: AppColors.white,
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
