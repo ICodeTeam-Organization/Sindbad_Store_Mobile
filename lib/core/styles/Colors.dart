@@ -25,7 +25,7 @@ class AppColors {
   ///new
   static const transparent = Color(0x0DFF746B); //
   static const primary = Color(0xFFFF746B); //
-  static const primaryBackground = Color(0xFFF5F5F5); //
+  static const primaryBackground = Color(0xFFF1F1F1); //
   static const white = Color(0xFFFFFFFF); //
   static const redDark = Color(0xFFDE3838); //
   static const redOpacity = Color(0x26FF0000); //
