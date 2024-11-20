@@ -1,11 +1,7 @@
 import 'package:go_router/go_router.dart';
-<<<<<<< HEAD
 import 'package:sindbad_management_app/features/offer_features/view_offer_feature/ui/screens/view_offer_product_details_bouns_screen.dart';
 import 'package:sindbad_management_app/features/offer_features/view_offer_feature/ui/screens/view_offer_product_details_discount_screen.dart';
-=======
 import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/screens/new_offer_screen.dart';
-import 'package:sindbad_management_app/features/offer_features/view_offer_feature/ui/screens/view_offer_product_details_screen.dart';
->>>>>>> 02b4152ba143d5163ce8655fb3d291cd8c087c97
 import 'package:sindbad_management_app/store_app_features/add_product/ui/screen/store_add_product.dart';
 import 'package:sindbad_management_app/store_app_features/excel_file/ui/screen/store_excel_file.dart';
 import 'package:sindbad_management_app/store_app_features/offer_product/ui/screen/store_offer_product.dart';
@@ -22,14 +18,11 @@ import '../../features/root.dart';
 class StoreRouters {
   // String signIn = '/';
   String root = '/';
-<<<<<<< HEAD
   String kOfferProductDetailsDiscount = '/offerProductDetailsDiscount';
   String kOfferProductDetailsBouns = '/offerProductDetailsBouns';
-=======
   String kOfferProductDetails = '/offerProductDetails';
   String kNewOffer = '/newOffer';
   //NewOfferScreen
->>>>>>> 02b4152ba143d5163ce8655fb3d291cd8c087c97
 
   String signIn = '/';
   // String root = '/root';
@@ -68,16 +61,12 @@ abstract class AppRouter {
         builder: (context, state) => const Root(),
       ),
       GoRoute(
-<<<<<<< HEAD
-        path: AppRouter.storeRouters.kOfferProductDetailsDiscount,
-=======
         path: AppRouter.storeRouters.kNewOffer,
         builder: (context, state) => const NewOfferScreen(),
       ),
       GoRoute(
         path: AppRouter
-            .storeRouters.kOfferProductDetails, // Use the parameterized path
->>>>>>> 02b4152ba143d5163ce8655fb3d291cd8c087c97
+            .storeRouters.kOfferProductDetailsDiscount, // Use the parameterized path
         builder: (context, state) {
           final List<dynamic> args = state.extra as List<dynamic>;
           final String offerName = args[0]; // The first parameter in the list

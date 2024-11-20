@@ -18,7 +18,7 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
   @override
   void initState() {
     super.initState();
-    offerType = 'Discount';
+    offerType = 'Bouns';
   }
   @override
   Widget build(BuildContext context) {    

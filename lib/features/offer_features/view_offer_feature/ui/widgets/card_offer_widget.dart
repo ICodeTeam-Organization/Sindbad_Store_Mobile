@@ -229,13 +229,20 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
                         iconPath: "assets/delete.svg",
                         isSolid: false,
                         onTap: (){
-                          CustomDeleteDialogWidget(
-                            title: 'هل انت متأكد من الحذف ؟', 
-                            subtitle: 'يوجد بيانات مرتبطة بهذا المدخل', 
-                            onConfirm: () {
-                              
-                            }, 
-                          );
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CustomDeleteDialogWidget(
+                                title: 'هل انت متأكد من الحذف ؟', 
+                                subtitle: 'يوجد بيانات مرتبطة بهذا المدخل', 
+                                onConfirm: () {
+                                  // Handle delete action
+                                  print('Item deleted');
+                                  Navigator.of(context).pop(); // Close dialog
+                                },
+                              );
+                            },
+                          );                          
                         },
                       ),
                     ],
