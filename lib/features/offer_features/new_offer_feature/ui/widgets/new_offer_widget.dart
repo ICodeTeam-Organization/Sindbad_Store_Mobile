@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/default_value_bouns_widget.dart';
+import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/default_value_discount_widget.dart';
 
 class NewOfferWidget extends StatefulWidget {
   const NewOfferWidget({super.key});
@@ -14,10 +16,21 @@ class NewOfferWidget extends StatefulWidget {
 }
 
 class _NewOfferWidgetState extends State<NewOfferWidget> {
+  String selectedOption = 'Discount';
+  bool isDiscountDefaultValue = true;
+  @override
+  void initState() {
+    super.initState();
+    if (selectedOption == 'Discount') {
+      isDiscountDefaultValue = true;
+    } else if(selectedOption == 'Bouns'){
+      isDiscountDefaultValue = false;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 570,
+      // height: 700,
       width: double.maxFinite,
       color: AppColors.white,
       child: Padding(
@@ -25,6 +38,8 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text('معلومات العرض',style: KTextStyle.textStyle14.copyWith(color: AppColors.blackLight,),),
+            SizedBox(height: 20.h,),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -77,7 +92,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                         "assets/calendar.svg",
                         ),
                       ),
-                      prefixIconConstraints: BoxConstraints.tight(Size(50, 50)),
+                      prefixIconConstraints: BoxConstraints.tight(Size(40, 40)),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           color: AppColors.greyBorder,
@@ -111,7 +126,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                         "assets/calendar.svg",
                         ),
                       ),
-                      prefixIconConstraints: BoxConstraints.tight(Size(50, 50)),
+                      prefixIconConstraints: BoxConstraints.tight(Size(40, 40)),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           color: AppColors.greyBorder,
@@ -131,6 +146,45 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                 ),
               ],
             ),
+            SizedBox(height: 40.h,),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('نوع الخصم',style: KTextStyle.textStyle14.copyWith(color: AppColors.blackLight,),),
+                SizedBox(height: 10.h,),
+                RadioListTile<String>(
+                  title: Text('خصم مبلغ من منتج'),
+                  value: 'Discount',
+                  groupValue: selectedOption,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedOption = value!;
+                      isDiscountDefaultValue = true;
+                      print(selectedOption);
+                    });
+                  },
+                ),
+                RadioListTile<String>(
+                  title: Text('اشتري x واحصل على y'),
+                  value: 'Bouns',
+                  groupValue: selectedOption,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedOption = value!;
+                      isDiscountDefaultValue = false;
+                      print(selectedOption);
+
+                    });
+                  },
+                ),
+              ],
+            ),
+            SizedBox(height: 40.h,),
+            isDiscountDefaultValue ?
+            DefaultValueDiscountWidget():
+            DefaultValueBounsWidget(),
+
+
           ],
         ),
       ),
