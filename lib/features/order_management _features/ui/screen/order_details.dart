@@ -1,23 +1,25 @@
-import 'dart:io';
-
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/cubit/refresh_page_cubit.dart';
 import '../../../../core/shared_widgets/new_widgets/custom_app_bar.dart';
 import '../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
 import '../../../../core/styles/Colors.dart';
 import '../widget/order_details_widget/custom_create_bill_dialog.dart';
 import '../widget/order_details_widget/custom_order_cancle_dialog.dart';
+import '../widget/order_details_widget/messages.dart';
+import '../widget/order_shipping_widgets/custom_order_print_dialog.dart';
+import '../widget/order_shipping_widgets/custom_order_shipping_dialog.dart';
 
 class OrderDetails extends StatelessWidget {
   const OrderDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
+    bool isbillDone = context.watch<RefreshPageCubit>().isbillDone;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -276,49 +278,10 @@ class OrderDetails extends StatelessWidget {
                   },
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  StorePrimaryButton(
-                    width: 160.w,
-                    title: 'انشاء فاتورة',
-                    buttonColor: AppColors.greenOpacity,
-                    textColor: AppColors.greenDark,
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return CustomCreateBillDialog(
-                            headTitle: 'بيانات الفاتورة',
-                            firstTitle: 'تاريخ الفاتورة',
-                            secondTitle: 'رقم الفاتورة',
-                            thierdTitle: 'قيمة الفاتورة',
-                            onPressedSure: () {},
-                          );
-                        },
-                      );
-                    },
-                  ),
-                  StorePrimaryButton(
-                    width: 160.w,
-                    title: 'رفض الطلب',
-                    buttonColor: AppColors.redOpacity,
-                    textColor: AppColors.redColor,
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return CustomOrderCancleDialog(
-                            headTitle: ' ملاحظة رفض الطلب',
-                            firstTitle: ' الفاتورة',
-                            onPressedSure: () {},
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ],
-              ),
+/////////////////////////////////////////////////////////////////////////////////////////////////
+              ///Show Button
+              if (isbillDone == false) ShowCreateBillAndCancelOrder(),
+              if (isbillDone == true) ShowPrintAndShippingOrder(),
             ],
           ),
         ),
@@ -327,48 +290,148 @@ class OrderDetails extends StatelessWidget {
   }
 }
 
+class ShowPrintAndShippingOrder extends StatelessWidget {
+  const ShowPrintAndShippingOrder({
+    super.key,
+  });
 
-///////////////////////////////////////////////////////////////
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RefreshPageCubit, RefreshPageState>(
+      builder: (context, state) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            StorePrimaryButton(
+              width: 160.w,
+              title: 'شحن الطلب',
+              icon: Icons.fire_truck,
+              // buttonColor: AppColors.greenOpacity,
+              // textColor: AppColors.greenDark,
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return CustomOrderShippingDialog(
+                      headTitle: 'بيانات فاتورة الشحن',
+                      firstTitle: 'تاريخ الفاتورة',
+                      secondTitle: 'رقم فاتورة الشحن',
+                      thierdTitle: 'الشركة الناقلة',
+                      onPressedSure: () {
+                        Navigator.of(context).pop();
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Messages(
+                              isTrue: true,
+                            );
+                          },
+                        );
+                      },
+                      copy: 0,
+                    );
+                  },
+                );
+              },
+            ),
+            StorePrimaryButton(
+              icon: Icons.edit_document,
+              width: 160.w,
+              title: 'طباعة العنوان',
+              // buttonColor: AppColors.redOpacity,
+              // textColor: AppColors.redColor,
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return CustomOrderPrintDialog(
+                      headTitle: '  طباعة عنوان الطلب',
+                      onPressedPrint: () {},
+                      onPressedShare: () {},
+                      copy: 0,
+                    );
+                  },
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
 
+class ShowCreateBillAndCancelOrder extends StatefulWidget {
+  const ShowCreateBillAndCancelOrder({
+    super.key,
+  });
 
-// class CustomIMageButton extends StatelessWidget {
-//   final VoidCallback onTap;
-//   final IconData icon;
-//   final String title;
+  @override
+  State<ShowCreateBillAndCancelOrder> createState() =>
+      _ShowCreateBillAndCancelOrderState();
+}
 
-//   const CustomIMageButton({
-//     super.key,
-//     required this.onTap,
-//     required this.icon,
-//     required this.title,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return InkWell(
-//       onTap: onTap,
-//       child: Container(
-//         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-//         decoration: BoxDecoration(
-//           color: Colors.grey,
-//           borderRadius: BorderRadius.circular(8),
-//         ),
-//         child: Row(
-//           mainAxisSize: MainAxisSize.min,
-//           children: [
-//             Text(
-//               title,
-//               style: KTextStyle.secondaryTitle.copyWith(color: AppColors.white),
-//             ),
-//             const SizedBox(width: 10),
-//             Icon(
-//               icon,
-//               size: 25,
-//               color: AppColors.white,
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+class _ShowCreateBillAndCancelOrderState
+    extends State<ShowCreateBillAndCancelOrder> {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        StorePrimaryButton(
+          width: 160.w,
+          title: 'انشاء فاتورة',
+          buttonColor: AppColors.greenOpacity,
+          textColor: AppColors.greenDark,
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return BlocListener<RefreshPageCubit, RefreshPageState>(
+                  listener: (context, state) {},
+                  child: CustomCreateBillDialog(
+                    headTitle: 'بيانات الفاتورة',
+                    firstTitle: 'تاريخ الفاتورة',
+                    secondTitle: 'رقم الفاتورة',
+                    thierdTitle: 'قيمة الفاتورة',
+                    onPressedSure: () {
+                      context.read<RefreshPageCubit>().refreshpage();
+                      Navigator.of(context).pop();
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Messages(
+                            isTrue: true,
+                          );
+                        },
+                      );
+                    },
+                  ),
+                );
+              },
+            );
+          },
+        ),
+        StorePrimaryButton(
+          width: 160.w,
+          title: 'رفض الطلب',
+          buttonColor: AppColors.redOpacity,
+          textColor: AppColors.redColor,
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return CustomOrderCancleDialog(
+                  headTitle: 'ملاحظة رفض الطلب',
+                  onPressedSure: () {
+                    Navigator.of(context).pop();
+                  },
+                );
+              },
+            );
+          },
+        ),
+      ],
+    );
+  }
+}

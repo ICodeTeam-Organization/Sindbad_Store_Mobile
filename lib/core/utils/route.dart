@@ -52,7 +52,7 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: AppRouter.storeRouters.details,
-        builder: (context, state) => const OrderDetails(),
+        builder: (context, state) => OrderDetails(),
       ),
       ///////////////////////////////////////////////////////
       //////////////////////////////////////////////////////

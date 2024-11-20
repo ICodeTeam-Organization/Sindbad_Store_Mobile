@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sindbad_management_app/core/utils/route.dart';
 import 'package:sindbad_management_app/features/auth_features/data/repos_impl/sign_in_repo_impl.dart';
 import 'package:sindbad_management_app/features/auth_features/domain/usecases/sign_in_usecase.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/cubit/refresh_page_cubit.dart';
 
 import 'core/setup_service_locator.dart';
 import 'core/simple_bloc_observer.dart';
@@ -29,6 +30,7 @@ class SindbadManagementApp extends StatelessWidget {
             create: (context) => SignInCubit(SignInUseCase(
                   getit.get<SignInRepoImpl>(),
                 ))),
+        BlocProvider(create: (context) => RefreshPageCubit())
       ],
       child: ScreenUtilInit(
         designSize: const Size(428, 1000),

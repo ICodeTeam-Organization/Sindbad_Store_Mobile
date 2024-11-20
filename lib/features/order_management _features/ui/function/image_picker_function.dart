@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
@@ -24,44 +25,63 @@ class _ImagePickerFunctionState extends State<ImagePickerFunction> {
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
         width: MediaQuery.sizeOf(context).width,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: AppColors.redOpacity,
-            borderRadius: BorderRadius.circular(16.r),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              SizedBox(
-                height: 8.h,
+        child: Column(
+          children: [
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: AppColors.redOpacity,
+                borderRadius: BorderRadius.circular(16.r),
               ),
-              StorePrimaryButton(
-                onTap: () => pickImageFromCamera(),
-                icon: Icons.camera_alt,
-                title: "الكاميرا",
-                width: 145.w,
+              child: DottedBorder(
+                color: AppColors.redColor,
+                radius: Radius.circular(16.r),
+                strokeWidth: 1,
+                dashPattern: [5, 10],
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      height: 207.h,
+                      width: 295.w,
+                      child: selectedImage != null
+                          ? SizedBox(
+                              height: 207.h,
+                              width: 295,
+                              child: Image.file(
+                                selectedImage!,
+                                fit: BoxFit.fill,
+                              ),
+                            )
+                          : const Text(""),
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(
-                height: 10.h,
-              ),
-              StorePrimaryButton(
-                onTap: () => pickImageFromGalary(),
-                icon: Icons.image_rounded,
-                title: "المعرض",
-                width: 145.w,
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
-              selectedImage != null
-                  ? SizedBox(
-                      height: 200.h,
-                      width: 200,
-                      child: Image.file(selectedImage!),
-                    )
-                  : const Text(""),
-            ],
-          ),
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                StorePrimaryButton(
+                  onTap: () => pickImageFromCamera(),
+                  icon: Icons.camera_alt,
+                  title: "الكاميرا",
+                  width: 80.w,
+                ),
+                SizedBox(
+                  width: 7.h,
+                ),
+                StorePrimaryButton(
+                  onTap: () => pickImageFromGalary(),
+                  icon: Icons.image_rounded,
+                  title: "المعرض",
+                  width: 80.w,
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );
