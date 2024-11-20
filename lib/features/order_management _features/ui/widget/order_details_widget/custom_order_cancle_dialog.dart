@@ -4,96 +4,34 @@ import 'package:flutter_svg/svg.dart';
 import '../../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
 import '../../../../../core/styles/Colors.dart';
 import '../../../../../core/styles/text_style.dart';
-import '../../function/image_picker_function.dart';
 
 TextEditingController cancelConroller = TextEditingController();
 
-class CustomOrderCancleDialog extends StatefulWidget {
+class CustomOrderCancleDialog extends StatelessWidget {
+  const CustomOrderCancleDialog(
+      {super.key, required this.headTitle, required this.onPressedSure});
   final String headTitle;
-  final String firstTitle;
   final GestureTapCallback onPressedSure;
-  const CustomOrderCancleDialog({
-    super.key,
-    required this.headTitle,
-    required this.firstTitle,
-    required this.onPressedSure,
-  });
-
-  @override
-  State<CustomOrderCancleDialog> createState() =>
-      _CustomOrderCancleDialogState();
-}
-
-class _CustomOrderCancleDialogState extends State<CustomOrderCancleDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: _buildDialogTitle(context),
+      title: BuildDialogTitle(
+        headTitle: headTitle,
+      ),
       titlePadding: EdgeInsets.zero,
-      content: _buildDialogContent(context),
-    );
-  }
-
-  Widget _buildDialogTitle(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(25.r)),
-        color: AppColors.primary,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: Text(
-              widget.headTitle,
-              style: KTextStyle.textStyle14.copyWith(color: AppColors.white),
-            ),
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              cancelConroller.clear();
-            },
-            icon: SvgPicture.asset(
-              "assets/cancle.svg",
-              width: 20.w,
-              height: 20.h,
-            ),
-          ),
-        ],
+      content: BuildDialogContent(
+        onPressedSure: onPressedSure,
       ),
     );
   }
+}
 
-  Widget _buildDialogContent(context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 5.h),
-      width: MediaQuery.sizeOf(context).width,
-      height: MediaQuery.sizeOf(context).height * 0.4,
-      color: Colors.transparent,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            _buildInfoRow(
-              info: cancelConroller,
-            ),
-            SizedBox(
-              height: 7.h,
-            ),
-            StorePrimaryButton(
-              title: 'تاكيد',
-              onTap: () {},
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildInfoRow({
-    required TextEditingController info,
-  }) {
+// ignore: must_be_immutable
+class BuildInfoRow extends StatelessWidget {
+  BuildInfoRow({super.key, required this.info});
+  TextEditingController info = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(bottom: 5.h),
       child: Row(
@@ -117,6 +55,73 @@ class _CustomOrderCancleDialogState extends State<CustomOrderCancleDialog> {
                 ),
               ),
               style: KTextStyle.secondaryTitle.copyWith(color: AppColors.black),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class BuildDialogContent extends StatelessWidget {
+  const BuildDialogContent({super.key, required this.onPressedSure});
+  final GestureTapCallback onPressedSure;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 5.h),
+      width: MediaQuery.sizeOf(context).width,
+      height: MediaQuery.sizeOf(context).height * 0.4,
+      color: Colors.transparent,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            BuildInfoRow(
+              info: cancelConroller,
+            ),
+            SizedBox(
+              height: 7.h,
+            ),
+            StorePrimaryButton(
+              title: 'تاكيد',
+              onTap: onPressedSure,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class BuildDialogTitle extends StatelessWidget {
+  const BuildDialogTitle({super.key, required this.headTitle});
+  final String headTitle;
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25.r)),
+        color: AppColors.primary,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Text(
+              headTitle,
+              style: KTextStyle.textStyle14.copyWith(color: AppColors.white),
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              cancelConroller.clear();
+            },
+            icon: SvgPicture.asset(
+              "assets/cancle.svg",
+              width: 20.w,
+              height: 20.h,
             ),
           ),
         ],

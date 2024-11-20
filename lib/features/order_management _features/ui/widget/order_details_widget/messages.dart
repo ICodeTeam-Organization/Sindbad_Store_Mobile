@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import '../../../../../core/styles/Colors.dart';
 import '../../../../../core/styles/text_style.dart';
 
+// ignore: must_be_immutable
 class Messages extends StatelessWidget {
   Messages({super.key, required this.isTrue});
   bool isTrue;
