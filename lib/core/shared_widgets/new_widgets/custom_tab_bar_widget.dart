@@ -13,6 +13,7 @@ class CustomTabBarWidget extends StatelessWidget {
   final Color labelColor;
   final Color unselectedLabelColor;
   final double height;
+  final double heightTab;
 
   // Constants for repeated values
   static const double _borderRadius = 25.0;
@@ -34,6 +35,7 @@ class CustomTabBarWidget extends StatelessWidget {
     this.labelColor = AppColors.black,
     this.unselectedLabelColor = AppColors.black,
     this.height = 700.0,
+    this.heightTab = 65,
   })  : assert(tabs.length == tabViews.length,
             'Tabs and TabViews must have the same length'),
         assert(length == tabs.length,
@@ -50,22 +52,25 @@ class CustomTabBarWidget extends StatelessWidget {
             decoration: BoxDecoration(
                 color: AppColors.colorButton,
                 borderRadius: BorderRadius.circular(25)),
-            child: TabBar(
-              labelStyle: KTextStyle.textStyle16,
-              dividerColor: Colors.transparent,
-              indicatorColor: indicatorColor,
-              indicatorWeight: indicatorWeight.w,
-              labelColor: labelColor,
-              unselectedLabelColor: unselectedLabelColor,
-              tabs: tabs,
-              indicator: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(_borderRadius.r),
+            child: SizedBox(
+              height: heightTab.h,
+              child: TabBar(
+                labelStyle: KTextStyle.textStyle16,
+                dividerColor: Colors.transparent,
+                indicatorColor: indicatorColor,
+                indicatorWeight: indicatorWeight.w,
+                labelColor: labelColor,
+                unselectedLabelColor: unselectedLabelColor,
+                tabs: tabs,
+                indicator: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(_borderRadius.r),
+                ),
+                indicatorSize: TabBarIndicatorSize.tab,
+                indicatorPadding: EdgeInsets.symmetric(
+                    horizontal: _indicatorPadding.h,
+                    vertical: _indicatorPadding.w),
               ),
-              indicatorSize: TabBarIndicatorSize.tab,
-              indicatorPadding: EdgeInsets.symmetric(
-                  horizontal: _indicatorPadding.h,
-                  vertical: _indicatorPadding.w),
             ),
           ),
           SizedBox(
