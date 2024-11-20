@@ -14,6 +14,12 @@ class ViewOfferScreen extends StatefulWidget {
 }
 
 class _ViewOfferScreenState extends State<ViewOfferScreen> {
+  String? offerType;
+  @override
+  void initState() {
+    super.initState();
+    offerType = 'Bouns';
+  }
   @override
   Widget build(BuildContext context) {    
     return Scaffold(
@@ -32,7 +38,7 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
                   title: 'إضافة عرض',
                   iconPath: "assets/add.svg",
                   onTap: (){
-
+                    context.push(AppRouter.storeRouters.kNewOffer,);
                   },
                 )
               ),
@@ -46,10 +52,17 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
                       children: [
                         InkWell(
                           onTap: () {
-                            context.push(AppRouter.storeRouters.kOfferProductDetails,
-                            extra: ['يوم الجمعة','Discount',]
+                            if (offerType == 'Discount') {
+                            context.push(AppRouter.storeRouters.kOfferProductDetailsDiscount,
+                            extra: ['يوم الجمعة',]
+                            );
+                            } else if(offerType == 'Bouns'){
+                            context.push(AppRouter.storeRouters.kOfferProductDetailsBouns,
+                            extra: ['يوم الجمعة',]
+                            );
+                            }
+                            // extra: ['يوم الجمعة',offerType,]
                             // extra: [offerName,offerType,]
-                          );  // Use GoRouter to navigate to the parameterized route
                           },
                           child: CardOfferWidget(
                             offerName: 'يوم الجمعة',
@@ -59,7 +72,7 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
                             endOffer: DateTime.utc(2024, 11, 25), 
                             isActive: true,
                             countProducts: '17', 
-                            offerType: 'Discount', 
+                            offerType: offerType!, 
                           ),
                         ),
                         Divider(),

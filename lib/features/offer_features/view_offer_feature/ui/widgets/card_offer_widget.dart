@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
 import 'package:sindbad_management_app/features/offer_features/view_offer_feature/ui/widgets/action_button_widget.dart';
+import 'package:sindbad_management_app/features/offer_features/view_offer_feature/ui/widgets/custom_delete_dialog_widget.dart';
 
 class CardOfferWidget extends StatefulWidget {
   final String offerName;
@@ -227,6 +228,22 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
                         title: 'حذف عرض',
                         iconPath: "assets/delete.svg",
                         isSolid: false,
+                        onTap: (){
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CustomDeleteDialogWidget(
+                                title: 'هل انت متأكد من الحذف ؟', 
+                                subtitle: 'يوجد بيانات مرتبطة بهذا المدخل', 
+                                onConfirm: () {
+                                  // Handle delete action
+                                  print('Item deleted');
+                                  Navigator.of(context).pop(); // Close dialog
+                                },
+                              );
+                            },
+                          );                          
+                        },
                       ),
                     ],
                   ),
