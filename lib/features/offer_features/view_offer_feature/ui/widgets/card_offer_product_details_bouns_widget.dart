@@ -3,18 +3,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
 
-class CardOfferProductDetailsWidget extends StatefulWidget {
+class CardOfferProductDetailsBounsWidget extends StatefulWidget {
   final String productName;
   final String productImage;
-  final String lastPrice;
-  final String newPrice;
-  const CardOfferProductDetailsWidget({super.key, required this.productName, required this.productImage, required this.lastPrice, required this.newPrice});
+  final String buysCount;
+  final String freesCount;
+  const CardOfferProductDetailsBounsWidget({super.key, required this.productName, required this.productImage, required this.buysCount, required this.freesCount});
 
   @override
-  State<CardOfferProductDetailsWidget> createState() => _CardOfferProductDetailsWidgetState();
+  State<CardOfferProductDetailsBounsWidget> createState() => _CardOfferProductDetailsBounsWidgetState();
 }
 
-class _CardOfferProductDetailsWidgetState extends State<CardOfferProductDetailsWidget> {
+class _CardOfferProductDetailsBounsWidgetState extends State<CardOfferProductDetailsBounsWidget> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -44,23 +44,11 @@ class _CardOfferProductDetailsWidgetState extends State<CardOfferProductDetailsW
                       ),
                       Row(
                         children: [
-                          Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                          Text('قبل الخصم',style: KTextStyle.textStyle11.copyWith(color: AppColors.greyLight,),),
-                          SizedBox(height: 15,),
-                          Text(widget.lastPrice,style: KTextStyle.textStyle13.copyWith(color: AppColors.greyDark, decoration: TextDecoration.lineThrough,),),
-                            ],
-                          ),
-                          SizedBox(width: 15,),
-                          Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                          Text('بعد الخصم',style: KTextStyle.textStyle11.copyWith(color: AppColors.greyLight,),),
-                          SizedBox(height: 15,),
-                          Text(widget.newPrice,style: KTextStyle.textStyle13.copyWith(color: AppColors.primary,),),
-                            ],
-                          ),
+                          Text('يشتري ',style: KTextStyle.textStyle12.copyWith(color: AppColors.greyDark,),),
+                          Text(widget.buysCount,style: KTextStyle.textStyle12.copyWith(color: AppColors.primary,),),
+                          Text(' يحصل على ',style: KTextStyle.textStyle12.copyWith(color: AppColors.greyDark,),),
+                          Text(widget.freesCount,style: KTextStyle.textStyle12.copyWith(color: AppColors.primary,),),
+                          Text(' مجاني',style: KTextStyle.textStyle12.copyWith(color: AppColors.greyDark,),),
                         ]
                       ),
                     ],
