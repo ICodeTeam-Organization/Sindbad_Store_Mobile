@@ -8,8 +8,15 @@ import 'text_style_detials.dart';
 
 class ProductsListView extends StatelessWidget {
   final List<Map<String, dynamic>> products;
+  final void Function(bool?, int) onChanged; // أضف index
+  final List<bool> checkedStates;
 
-  const ProductsListView({super.key, required this.products});
+  const ProductsListView({
+    super.key,
+    required this.products,
+    required this.onChanged,
+    required this.checkedStates,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +35,16 @@ class ProductsListView extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Checkbox (غير تفاعلي في البداية)
-              Checkbox(
-                value: false,
-                onChanged: null, // لا يسمح بالتغيير في البداية
-                side: BorderSide(
-                  color: Colors.red, // حواف المربع
-                  width: 1.0,
+              SizedBox(
+                child: Checkbox(
+                  value: checkedStates[index],
+                  onChanged: (val) => onChanged(val, index),
+                  activeColor: AppColors.redDark,
+                  checkColor: AppColors.white,
+                  side: BorderSide(
+                    color: Colors.red,
+                    width: 1.0,
+                  ),
                 ),
               ),
               ImageCardCustom(), // افترض أن لديك Card مخصص لعرض الصور

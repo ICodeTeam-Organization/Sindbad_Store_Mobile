@@ -25,12 +25,10 @@ class ChipCustom extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(20.r),
         ),
-        child: IntrinsicWidth(
-          child: Center(
-            child: Text(
-              title,
-              style: KTextStyle.textStyle14,
-            ),
+        child: Center(
+          child: Text(
+            title,
+            style: KTextStyle.textStyle14,
           ),
         ),
       ),

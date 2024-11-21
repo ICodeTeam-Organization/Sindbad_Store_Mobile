@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sindbad_management_app/core/functions/image_picker_function.dart';
-
 import '../../../../../core/shared_widgets/new_widgets/custom_tab_bar_widget.dart';
 import '../../../../../core/styles/Colors.dart';
+import 'fake_data _for_test.dart/test_data_cat.dart';
 import 'widgets/products_listview_widget.dart';
 import 'widgets/sub_category_card_custom.dart';
 
@@ -11,30 +10,38 @@ class ViewProduct extends StatefulWidget {
   const ViewProduct({super.key});
 
   @override
-  _ViewProductState createState() => _ViewProductState();
+  ViewProductState createState() => ViewProductState();
 }
 
-class _ViewProductState extends State<ViewProduct> {
+class ViewProductState extends State<ViewProduct> {
   int _selectedSubIndex = 0;
-  int _selectedTabIndex = 0; // لتخزين التبويب المحدد
-  bool _showSubCategories = true; // للتحكم في ظهور الفئات الفرعية
+  // int _selectedTabIndex = 0; // لتخزين التبويب المحدد
+  final bool _showSubCategories = true; // للتحكم في ظهور الفئات الفرعية
+  List<bool> checkedStates = [];
+  List<int> checkedIds = [];
 
-  final List<Map<String, dynamic>> products = List.generate(
-    30,
-    (index) => {
-      'name': 'Mbile $index',
-      'id': '$index',
-      'price': '1500',
-      'imageUrl': 'https://via.placeholder.com/100',
-    },
-  );
+  // void _onTabSelected(int index) {
+  //   setState(() {
+  //     _selectedTabIndex = index;
+  //     _showSubCategories =
+  //         index != 2; // عند اختيار "منتجات موقوفة" لا نعرض التصنيفات الفرعية
+  //   });
+  // }
 
-  void _onTabSelected(int index) {
+  bool isChecked = false;
+  void _onChangeCheckBox(bool? val, int index) {
     setState(() {
-      _selectedTabIndex = index;
-      _showSubCategories =
-          index != 2; // عند اختيار "منتجات موقوفة" لا نعرض التصنيفات الفرعية
+      checkedStates[index] = val ?? false;
+      checkedIds.add(index);
+      debugPrint(checkedIds.toString());
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkedStates = List<bool>.filled(
+        FakeDataApi.productsData.length, false); // تهيئة القائمة هنا
   }
 
   @override
@@ -58,10 +65,10 @@ class _ViewProductState extends State<ViewProduct> {
             ],
             length: 3,
             indicatorColor: AppColors.primary,
-            indicatorWeight: 3.0.w,
+            indicatorWeight: 0.0.w,
             labelColor: AppColors.black,
             unselectedLabelColor: AppColors.black,
-            height: heightMobile,
+            height: heightMobile, // height TabBar and all dowm him
           ),
         ],
       ),
@@ -78,11 +85,25 @@ class _ViewProductState extends State<ViewProduct> {
             // في حال كانت التصنيفات الفرعية يجب عرضها
             if (_showSubCategories) _buildSubCategories(),
             SizedBox(height: 15),
-            Expanded(child: ProductsListView(products: products)),
+            Expanded(
+              child: ProductsListView(
+                products: FakeDataApi.productsData,
+                checkedStates: checkedStates, // تمرير الحالات
+                onChanged: (val, index) =>
+                    _onChangeCheckBox(val, index), // تمرير index
+              ),
+            ),
           ],
         );
       case 2: // "منتجات موقوفة"
-        return Expanded(child: ProductsListView(products: products));
+        return Expanded(
+          child: ProductsListView(
+            products: FakeDataApi.productsData,
+            checkedStates: checkedStates, // تمرير الحالات
+            onChanged: (val, index) =>
+                _onChangeCheckBox(val, index), // تمرير index
+          ),
+        );
       default:
         return Container();
     }
