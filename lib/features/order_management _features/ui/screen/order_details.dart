@@ -1,4 +1,4 @@
-import 'package:barcode_widget/barcode_widget.dart';
+// import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -255,16 +255,16 @@ class OrderDetails extends StatelessWidget {
                             ],
                           ),
                           Divider(),
-                          BarcodeWidget(
-                            height: 70.h,
-                            width: MediaQuery.sizeOf(context).width * 0.9,
-                            data: "45465121564",
-                            textPadding: 8,
-                            style: KTextStyle.textStyle14,
-                            // data: orderNum.toString(), // Data here
-                            barcode:
-                                Barcode.code128(), // Specify the barcode type
-                          ),
+                          // BarcodeWidget(
+                          //   height: 70.h,
+                          //   width: MediaQuery.sizeOf(context).width * 0.9,
+                          //   data: "45465121564",
+                          //   textPadding: 8,
+                          //   style: KTextStyle.textStyle14,
+                          //   // data: orderNum.toString(), // Data here
+                          //   barcode:
+                          //       Barcode.code128(), // Specify the barcode type
+                          // ),
                         ],
                       ),
                     );

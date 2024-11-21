@@ -48,7 +48,6 @@ dependencies:
   flutter_bloc: ^8.1.6
   animated_segmented_tab_control: ^2.0.0
   svg_flutter: ^0.0.1
-  barcode_widget: ^2.0.4
   
 
 dev_dependencies:

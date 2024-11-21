@@ -33,7 +33,7 @@ class CustomTabBarWidget extends StatelessWidget {
     this.indicatorWeight = 2.0,
     this.labelColor = AppColors.black,
     this.unselectedLabelColor = AppColors.black,
-    this.height = 56,
+    this.height = 700,
   })  : assert(tabs.length == tabViews.length,
             'Tabs and TabViews must have the same length'),
         assert(length == tabs.length,
@@ -46,26 +46,34 @@ class CustomTabBarWidget extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          DecoratedBox(
-            decoration: BoxDecoration(
-                color: AppColors.colorButton,
-                borderRadius: BorderRadius.circular(25)),
-            child: TabBar(
-              labelStyle: KTextStyle.textStyle16,
-              dividerColor: Colors.transparent,
-              indicatorColor: indicatorColor,
-              indicatorWeight: indicatorWeight.w,
-              labelColor: labelColor,
-              unselectedLabelColor: unselectedLabelColor,
-              tabs: tabs,
-              indicator: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(_borderRadius.r),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                  color: AppColors.colorButton,
+                  borderRadius: BorderRadius.circular(25)),
+              child: SizedBox(
+                height: 65.h,
+                child: TabBar(
+                  labelStyle: KTextStyle.textStyle13,
+                  dividerColor: Colors.transparent,
+                  indicatorColor: indicatorColor,
+                  indicatorWeight: indicatorWeight.w,
+                  labelColor: labelColor,
+                  labelPadding: EdgeInsets.symmetric(
+                      horizontal: 0), // تقليل المسافة بين العناوين
+                  unselectedLabelColor: unselectedLabelColor,
+                  tabs: tabs,
+                  indicator: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(_borderRadius.r),
+                  ),
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  indicatorPadding: EdgeInsets.symmetric(
+                      horizontal: _indicatorPadding.h,
+                      vertical: _indicatorPadding.w),
+                ),
               ),
-              indicatorSize: TabBarIndicatorSize.tab,
-              indicatorPadding: EdgeInsets.symmetric(
-                  horizontal: _indicatorPadding.h,
-                  vertical: _indicatorPadding.w),
             ),
           ),
           SizedBox(

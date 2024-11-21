@@ -1,7 +1,6 @@
 // =================  Start Sub Category Card =====================
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../../../core/styles/Colors.dart';
 import '../../../../../../core/styles/text_style.dart';
 
@@ -9,6 +8,7 @@ class ChipCustom extends StatelessWidget {
   final String title;
   final bool isSelected;
   final void Function()? onTap;
+
   const ChipCustom(
       {super.key, required this.title, required this.isSelected, this.onTap});
 
@@ -17,19 +17,15 @@ class ChipCustom extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        // alignment: Alignment.center,
-        // height: 40, // ثبات الارتفاع
         padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
         margin: EdgeInsets.symmetric(horizontal: 2.5.w),
         decoration: BoxDecoration(
-          // color: AppColors.background,
           border: Border.all(
             color: isSelected ? AppColors.primary : AppColors.greyBorder,
           ),
-          borderRadius: BorderRadius.circular(20.r), // دائري أكثر
+          borderRadius: BorderRadius.circular(20.r),
         ),
         child: IntrinsicWidth(
-          // يضبط العرض بناءً على النص تلقائيًا
           child: Center(
             child: Text(
               title,
