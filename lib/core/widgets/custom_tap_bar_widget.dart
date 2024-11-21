@@ -12,7 +12,7 @@
 //   final Color unselectedLabelColor;
 //   final double height;
 
-//   const CustomTabBarWidget({super.key, 
+//   const CustomTabBarWidget({super.key,
 //     required this.tabs,
 //     required this.tabViews,
 //     required this.length,

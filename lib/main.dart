@@ -42,7 +42,7 @@ class SindbadManagementApp extends StatelessWidget {
             textTheme: GoogleFonts.cairoTextTheme(
               Theme.of(context).textTheme,
             ),
-
+            useMaterial3: false,
             scaffoldBackgroundColor:
                 const Color(0xFFF9F9F9), // Set default background color
           ),

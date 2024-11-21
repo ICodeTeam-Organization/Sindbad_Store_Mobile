@@ -21,8 +21,10 @@ class CustomAppBar extends StatelessWidget {
       toolbarHeight: 50.h,
       centerTitle: true,
       title: Text(
-        tital, 
-        style: KTextStyle.textStyle18.copyWith(color: AppColors.blackLight,),
+        tital,
+        style: KTextStyle.textStyle18.copyWith(
+          color: AppColors.blackLight,
+        ),
       ),
       actions: [
         Padding(
@@ -31,10 +33,10 @@ class CustomAppBar extends StatelessWidget {
             onPressed: onPressed,
             iconSize: 24,
             icon: SvgPicture.asset(
-                      "assets/search_appbar.svg",
-                      width: 40.w,
-                      height: 40.w,
-                    ),
+              "assets/search_appbar.svg",
+              width: 40.w,
+              height: 40.w,
+            ),
           ),
         ),
       ],

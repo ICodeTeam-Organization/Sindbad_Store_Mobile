@@ -20,8 +20,9 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
     super.initState();
     offerType = 'Bouns';
   }
+
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -33,15 +34,12 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
                 tital: 'العروض',
               ),
               Padding(
-                padding: const EdgeInsets.all(30.0),
-                child: ActionButtonWidget(
-                  title: 'إضافة عرض',
-                  iconPath: "assets/add.svg",
-                  onTap: (){
-                    context.push(AppRouter.storeRouters.kNewOffer,);
-                  },
-                )
-              ),
+                  padding: const EdgeInsets.all(30.0),
+                  child: ActionButtonWidget(
+                    title: 'إضافة عرض',
+                    iconPath: "assets/add.svg",
+                    onTap: () {},
+                  )),
               Expanded(
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,
@@ -53,26 +51,40 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
                         InkWell(
                           onTap: () {
                             if (offerType == 'Discount') {
-                            context.push(AppRouter.storeRouters.kOfferProductDetailsDiscount,
-                            extra: ['يوم الجمعة',]
-                            );
-                            } else if(offerType == 'Bouns'){
-                            context.push(AppRouter.storeRouters.kOfferProductDetailsBouns,
-                            extra: ['يوم الجمعة',]
-                            );
+                              context.push(
+                                  AppRouter.storeRouters
+                                      .kOfferProductDetailsDiscount,
+                                  extra: [
+                                    'يوم الجمعة',
+                                  ]);
+                            } else if (offerType == 'Bouns') {
+                              context.push(
+                                  AppRouter
+                                      .storeRouters.kOfferProductDetailsBouns,
+                                  extra: [
+                                    'يوم الجمعة',
+                                  ]);
                             }
                             // extra: ['يوم الجمعة',offerType,]
                             // extra: [offerName,offerType,]
+                            // context.push(
+                            //     AppRouter.storeRouters.kOfferProductDetails,
+                            //     extra: [
+                            //       'يوم الجمعة',
+                            //       'Discount',
+                            //     ]
+                            //     // extra: [offerName,offerType,]
+                            //     ); // Use GoRouter to navigate to the parameterized route
                           },
                           child: CardOfferWidget(
                             offerName: 'يوم الجمعة',
                             discountRate: '10%',
                             offerBouns: 'اشتري x واحصل على y',
-                            startOffer: DateTime.utc(2024, 5, 1), 
-                            endOffer: DateTime.utc(2024, 11, 25), 
+                            startOffer: DateTime.utc(2024, 5, 1),
+                            endOffer: DateTime.utc(2024, 11, 25),
                             isActive: true,
-                            countProducts: '17', 
-                            offerType: offerType!, 
+                            countProducts: '17',
+                            offerType: offerType!,
                           ),
                         ),
                         Divider(),

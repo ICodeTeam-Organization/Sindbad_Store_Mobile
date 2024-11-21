@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
+import 'order_management _features/ui/screen/order_management_screen.dart';
+import 'product_features/view_product_features/ui/view/view_product.dart';
 import 'package:sindbad_management_app/features/offer_features/view_offer_feature/ui/screens/view_offer_screen.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/screen/order_management_screen.dart';
 
@@ -23,7 +25,7 @@ class _RootState extends State<Root> {
 
   List<Widget> widgetList = [
     OrderManagementScreen(),
-    Text('المنتجات'),
+    ViewProduct(),
     ViewOfferScreen(),
     Text('التقارير'),
   ];

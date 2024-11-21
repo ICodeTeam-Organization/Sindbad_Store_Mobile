@@ -5,12 +5,14 @@ import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
 
 class KCustomButtonWithCountWidget extends StatelessWidget {
-
   final String partName;
   final int partCount;
   final String navigatorName;
-  const KCustomButtonWithCountWidget({super.key, required this.partName, required this.partCount,
-    required this.navigatorName});
+  const KCustomButtonWithCountWidget(
+      {super.key,
+      required this.partName,
+      required this.partCount,
+      required this.navigatorName});
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +20,15 @@ class KCustomButtonWithCountWidget extends StatelessWidget {
       children: [
         InkWell(
           // onTap: partOnTap ,
-          onTap:  (){
+          onTap: () {
             GoRouter.of(context).push(navigatorName);
           },
           child: Container(
-            padding:  EdgeInsets.symmetric(horizontal: 30.w, vertical: 10.h),
+            padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 10.h),
             decoration: BoxDecoration(
               color: AppColors.blueColor, // Add a background color if needed
-              borderRadius: BorderRadius.circular(20.0.r), // Adjust the radius as needed
+              borderRadius:
+                  BorderRadius.circular(20.0.r), // Adjust the radius as needed
               boxShadow: [
                 BoxShadow(
                   // color: AppColors.greyHint.withOpacity(0.3),
@@ -36,32 +39,32 @@ class KCustomButtonWithCountWidget extends StatelessWidget {
                 ),
               ],
             ),
-            child:  Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  // 'إحصائيات',
-                partName,
-                  style:
-                  KTextStyle.secondaryTitle  
-                  // TextStyle(fontSize: 15.sp, 
-                  // fontWeight: FontWeight.bold
-                  // ),
-                  ),
-                    SizedBox(width: 8.w),
-                   CircleAvatar(
+                    // 'إحصائيات',
+                    partName,
+                    style: KTextStyle.secondaryTitle
+                    // TextStyle(fontSize: 15.sp,
+                    // fontWeight: FontWeight.bold
+                    // ),
+                    ),
+                SizedBox(width: 8.w),
+                CircleAvatar(
                   backgroundColor: AppColors.redDark,
                   radius: 18.r,
-                  child: Center(child: Text(
-                    partCount.toString(),
-                   style: const TextStyle(color:AppColors.white))),
+                  child: Center(
+                      child: Text(partCount.toString(),
+                          style: const TextStyle(color: AppColors.white))),
                 ),
-                
               ],
             ),
           ),
         ),
-        SizedBox(height: 15.h,)
+        SizedBox(
+          height: 15.h,
+        )
       ],
     );
   }
