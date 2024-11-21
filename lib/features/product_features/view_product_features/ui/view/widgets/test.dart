@@ -301,3 +301,40 @@
 //     );
 //   }
 // }
+Row(
+  children: [
+    TextStyleTitleDataProductBold(title: 'اسم المنتج :  '),
+    Expanded(  // أضف هذا السطر
+      child: TextStyleDataProductGreyDark(
+        dataProduct: product['name'],
+      ),
+    ),
+  ],
+),
+SizedBox(height: 4),
+Row(
+  children: [
+    TextStyleTitleDataProductBold(title: 'رقم المنتج :  '),
+    Expanded(  // أضف هذا السطر
+      child: TextStyleDataProductGreyDark(
+        dataProduct: product['id'],
+      ),
+    ),
+  ],
+),
+SizedBox(height: 4),
+Row(
+  children: [
+    Text('السعر :  ',
+        style: TextStyle(
+            fontSize: 12.sp, fontWeight: FontWeight.bold)),
+    Expanded(  // أضف هذا السطر
+      child: Text(
+        '\$${product['price']}',
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(fontSize: 12.sp, color: Colors.red),
+      ),
+    ),
+  ],
+),

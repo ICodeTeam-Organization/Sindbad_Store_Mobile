@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sindbad_management_app/core/shared_widgets/new_widgets/store_primary_button.dart';
 import '../../../../../core/shared_widgets/new_widgets/custom_tab_bar_widget.dart';
 import '../../../../../core/styles/Colors.dart';
 import 'fake_data _for_test.dart/test_data_cat.dart';
@@ -15,25 +16,18 @@ class ViewProduct extends StatefulWidget {
 
 class ViewProductState extends State<ViewProduct> {
   int _selectedSubIndex = 0;
-  // int _selectedTabIndex = 0; // لتخزين التبويب المحدد
   final bool _showSubCategories = true; // للتحكم في ظهور الفئات الفرعية
   List<bool> checkedStates = [];
-  List<int> checkedIds = [];
-
-  // void _onTabSelected(int index) {
-  //   setState(() {
-  //     _selectedTabIndex = index;
-  //     _showSubCategories =
-  //         index != 2; // عند اختيار "منتجات موقوفة" لا نعرض التصنيفات الفرعية
-  //   });
-  // }
+  List<String> checkedByNames = [];
 
   bool isChecked = false;
-  void _onChangeCheckBox(bool? val, int index) {
+  void _onChangeCheckBox(bool? val, int index, String idProductChange) {
     setState(() {
       checkedStates[index] = val ?? false;
-      checkedIds.add(index);
-      debugPrint(checkedIds.toString());
+      val!
+          ? checkedByNames.add(idProductChange)
+          : checkedByNames.remove(idProductChange);
+      debugPrint(checkedByNames.toString());
     });
   }
 
@@ -68,7 +62,7 @@ class ViewProductState extends State<ViewProduct> {
             indicatorWeight: 0.0.w,
             labelColor: AppColors.black,
             unselectedLabelColor: AppColors.black,
-            height: heightMobile, // height TabBar and all dowm him
+            height: heightMobile * 0.8, // height TabBar and all dowm him
           ),
         ],
       ),
@@ -84,25 +78,81 @@ class ViewProductState extends State<ViewProduct> {
           children: [
             // في حال كانت التصنيفات الفرعية يجب عرضها
             if (_showSubCategories) _buildSubCategories(),
+            Padding(
+              padding: EdgeInsets.only(
+                  top: 30.h, left: 15.w, right: 15.w, bottom: 15.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  StorePrimaryButton(
+                    title: "إضافة منتج",
+                    icon: Icons.add_circle_outline_rounded,
+                    buttonColor: AppColors.primary,
+                    height: 55.h,
+                    width: 150.w,
+                  ),
+                  StorePrimaryButton(
+                    title: "إيقاف منتج",
+                    icon: Icons.delete_outline_rounded,
+                    buttonColor: AppColors.primary,
+                    height: 55.h,
+                    width: 150.w,
+                  )
+                ],
+              ),
+            ),
             SizedBox(height: 15),
             Expanded(
               child: ProductsListView(
                 products: FakeDataApi.productsData,
                 checkedStates: checkedStates, // تمرير الحالات
-                onChanged: (val, index) =>
-                    _onChangeCheckBox(val, index), // تمرير index
+                onChanged: (val, index) => _onChangeCheckBox(
+                    val,
+                    index,
+                    FakeDataApi.productsData[index]['id']
+                        .toString()), // تمرير index
               ),
             ),
           ],
         );
       case 2: // "منتجات موقوفة"
-        return Expanded(
-          child: ProductsListView(
-            products: FakeDataApi.productsData,
-            checkedStates: checkedStates, // تمرير الحالات
-            onChanged: (val, index) =>
-                _onChangeCheckBox(val, index), // تمرير index
-          ),
+        return Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                  top: 30.h, left: 15.w, right: 15.w, bottom: 15.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  StorePrimaryButton(
+                    title: "إضافة منتج",
+                    icon: Icons.add_circle_outline_rounded,
+                    buttonColor: AppColors.primary,
+                    height: 55.h,
+                    width: 150.w,
+                  ),
+                  StorePrimaryButton(
+                    title: "إعادة تنشيط",
+                    icon: Icons.delete_outline_rounded,
+                    buttonColor: AppColors.primary,
+                    height: 55.h,
+                    width: 150.w,
+                  )
+                ],
+              ),
+            ),
+            Expanded(
+              child: ProductsListView(
+                products: FakeDataApi.productsData,
+                checkedStates: checkedStates, // تمرير الحالات
+                onChanged: (val, index) => _onChangeCheckBox(
+                    val,
+                    index,
+                    FakeDataApi.productsData[index]['id']
+                        .toString()), // تمرير index
+              ),
+            ),
+          ],
         );
       default:
         return Container();

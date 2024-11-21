@@ -27,10 +27,10 @@ class ProductsListView extends StatelessWidget {
         bool isEven = index % 2 == 0;
 
         return Container(
-          padding: const EdgeInsets.only(top: 26, bottom: 26, left: 7),
+          padding: EdgeInsets.only(top: 26.h, bottom: 26.h, left: 7.w),
           decoration: BoxDecoration(
             color: isEven ? AppColors.background : Colors.white,
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(4.r),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -43,7 +43,7 @@ class ProductsListView extends StatelessWidget {
                   checkColor: AppColors.white,
                   side: BorderSide(
                     color: Colors.red,
-                    width: 1.0,
+                    width: 1.0.w,
                   ),
                 ),
               ),
@@ -55,21 +55,26 @@ class ProductsListView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextStyleTitleDataProductBold(title: 'اسم المنتج :  '),
-                        TextStyleDataProductGreyDark(
-                            dataProduct: product['name']),
+                        Expanded(
+                          child: TextStyleDataProductGreyDark(
+                              dataProduct: product['name']),
+                        ),
                       ],
                     ),
-                    SizedBox(height: 4),
+                    SizedBox(height: 4.h),
                     Row(
                       children: [
                         TextStyleTitleDataProductBold(title: 'رقم المنتج :  '),
-                        TextStyleDataProductGreyDark(
-                            dataProduct: product['id']),
+                        Expanded(
+                          child: TextStyleDataProductGreyDark(
+                              dataProduct: product['id']),
+                        ),
                       ],
                     ),
-                    SizedBox(height: 4),
+                    SizedBox(height: 4.h),
                     Row(
                       children: [
                         Text('السعر :  ',
