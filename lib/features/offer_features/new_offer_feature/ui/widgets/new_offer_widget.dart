@@ -176,6 +176,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                         onBuysCountChanged: (newBuysCount) {
                           setState(() {
                             buysCountNotifier.value = newBuysCount;
+                            print(buysCountNotifier.value);
                           });
                         },
                         onFreesCountChanged: (newFreesCount) {
@@ -260,8 +261,8 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                           : CardProductBounsWidget(
                               productName: selectedItems[index].title,
                               productImage: selectedItems[index].imageUrl,
-                              buysCount: buysCount, // Pass current value
-                              freesCount: freesCount, // Pass current value
+                              buysCount: buysCount,
+                              freesCount: freesCount,
                               onTapQuit: () {
                                 setState(() {
                                   selectedItems.removeAt(index);

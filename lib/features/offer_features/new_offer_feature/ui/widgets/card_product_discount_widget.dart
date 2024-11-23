@@ -43,7 +43,7 @@ class _CardProductDiscountWidgetState extends State<CardProductDiscountWidget> {
     widget.discountRateNotifier.addListener(() {
       setState(() {
         discountRateController.text =
-            widget.discountRateNotifier.value.toStringAsFixed(2);
+            widget.discountRateNotifier.value.toStringAsFixed(0);
         _updateNewPrice(double.tryParse(discountRateController.text) ?? 0);
       });
     });
