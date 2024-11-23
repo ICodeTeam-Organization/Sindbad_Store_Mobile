@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sindbad_management_app/core/shared_widgets/new_widgets/store_primary_button.dart';
+import '../../../../../core/shared_widgets/new_widgets/custom_app_bar.dart';
 import '../../../../../core/shared_widgets/new_widgets/custom_tab_bar_widget.dart';
 import '../../../../../core/styles/Colors.dart';
 import 'fake_data _for_test.dart/test_data_cat.dart';
 import 'widgets/products_listview_widget.dart';
 import 'widgets/sub_category_card_custom.dart';
+import 'widgets/two_button_in_row_costum.dart';
 
 class ViewProduct extends StatefulWidget {
   const ViewProduct({super.key});
@@ -57,29 +58,34 @@ class ViewProductState extends State<ViewProduct> {
   Widget build(BuildContext context) {
     final double heightMobile = MediaQuery.sizeOf(context).height;
     return Scaffold(
-      appBar: AppBar(title: Text("منتجات")),
-      body: Column(
-        children: [
-          SizedBox(height: 10.h),
-          CustomTabBarWidget(
-            tabs: [
-              Tab(text: "جميع المنتجات"),
-              Tab(text: "منتجات عليها عروض"),
-              Tab(text: "منتجات موقوفة"),
-            ],
-            tabViews: [
-              _buildTabView(0),
-              _buildTabView(1),
-              _buildTabView(2),
-            ],
-            length: 3,
-            indicatorColor: AppColors.primary,
-            indicatorWeight: 0.0.w,
-            labelColor: AppColors.black,
-            unselectedLabelColor: AppColors.black,
-            height: heightMobile * 0.85, // height TabBar and all dowm him
-          ),
-        ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            CustomAppBar(
+              tital: "المنتجات",
+              isBack: false,
+            ),
+            SizedBox(height: 10.h),
+            CustomTabBarWidget(
+              tabs: [
+                Tab(text: "جميع المنتجات"),
+                Tab(text: "منتجات عليها عروض"),
+                Tab(text: "منتجات موقوفة"),
+              ],
+              tabViews: [
+                _buildTabView(0),
+                _buildTabView(1),
+                _buildTabView(2),
+              ],
+              length: 3,
+              indicatorColor: AppColors.primary,
+              indicatorWeight: 0.0.w,
+              labelColor: AppColors.black,
+              unselectedLabelColor: AppColors.black,
+              height: heightMobile * 0.85, // height TabBar and all dowm him
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -92,32 +98,9 @@ class ViewProductState extends State<ViewProduct> {
           children: [
             // في حال كانت التصنيفات الفرعية يجب عرضها
             if (_showSubCategories) _buildSubCategories(),
-            Padding(
-              padding: EdgeInsets.only(
-                  top: 30.h, left: 15.w, right: 15.w, bottom: 15.h),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  StorePrimaryButton(
-                    disabled:
-                        allProductCheckedByNames.isNotEmpty ? true : false,
-                    title: "إضافة منتج",
-                    icon: Icons.add_circle_outline_rounded,
-                    buttonColor: AppColors.primary,
-                    height: 55.h,
-                    width: 150.w,
-                  ),
-                  StorePrimaryButton(
-                    title: "إيقاف منتج",
-                    icon: Icons.delete_outline_rounded,
-                    buttonColor: AppColors.primary,
-                    height: 55.h,
-                    width: 150.w,
-                  )
-                ],
-              ),
-            ),
-            SizedBox(height: 15),
+            TwoButtonInRow(
+                productCheckedByNames: allProductCheckedByNames, onTap: () {}),
+            SizedBox(height: 15.h),
             Expanded(
               child: ProductsListView(
                 products: FakeDataApi.allProductsData,
@@ -139,32 +122,10 @@ class ViewProductState extends State<ViewProduct> {
           children: [
             // في حال كانت التصنيفات الفرعية يجب عرضها
             if (_showSubCategories) _buildSubCategories(),
-            Padding(
-              padding: EdgeInsets.only(
-                  top: 30.h, left: 15.w, right: 15.w, bottom: 15.h),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  StorePrimaryButton(
-                    disabled:
-                        offerProductCheckedByNames.isNotEmpty ? true : false,
-                    title: "إضافة منتج",
-                    icon: Icons.add_circle_outline_rounded,
-                    buttonColor: AppColors.primary,
-                    height: 55.h,
-                    width: 150.w,
-                  ),
-                  StorePrimaryButton(
-                    title: "إيقاف منتج",
-                    icon: Icons.delete_outline_rounded,
-                    buttonColor: AppColors.primary,
-                    height: 55.h,
-                    width: 150.w,
-                  )
-                ],
-              ),
-            ),
-            SizedBox(height: 15),
+            TwoButtonInRow(
+                productCheckedByNames: offerProductCheckedByNames,
+                onTap: () {}),
+            SizedBox(height: 15.h),
             Expanded(
               child: ProductsListView(
                 products: FakeDataApi.offerProductsData,
@@ -184,31 +145,10 @@ class ViewProductState extends State<ViewProduct> {
       case 2: // "منتجات موقوفة"
         return Column(
           children: [
-            Padding(
-              padding: EdgeInsets.only(
-                  top: 30.h, left: 15.w, right: 15.w, bottom: 15.h),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  StorePrimaryButton(
-                    disabled:
-                        disableProductCheckedByNames.isNotEmpty ? true : false,
-                    title: "إضافة منتج",
-                    icon: Icons.add_circle_outline_rounded,
-                    buttonColor: AppColors.primary,
-                    height: 55.h,
-                    width: 150.w,
-                  ),
-                  StorePrimaryButton(
-                    title: "إعادة تنشيط",
-                    icon: Icons.delete_outline_rounded,
-                    buttonColor: AppColors.primary,
-                    height: 55.h,
-                    width: 150.w,
-                  )
-                ],
-              ),
-            ),
+            TwoButtonInRow(
+                productCheckedByNames: disableProductCheckedByNames,
+                titleLeft: "إعادة تنشيط",
+                onTap: () {}),
             Expanded(
               child: ProductsListView(
                 products: FakeDataApi.disableProductsData,
@@ -247,7 +187,7 @@ class ViewProductState extends State<ViewProduct> {
                 _selectedSubIndex = index;
               });
               // تحديث التفاعل عند الضغط على الفئات
-              print("Selected Category: $category");
+              debugPrint("Selected Category: $category");
             },
           );
         }).toList(),
