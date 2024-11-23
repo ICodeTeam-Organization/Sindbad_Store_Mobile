@@ -52,7 +52,7 @@ class _ImagePickerFunctionState extends State<ImagePickerFunction> {
                                 fit: BoxFit.fill,
                               ),
                             )
-                          : const Text(""),
+                          : const Text(" "),
                     ),
                   ],
                 ),
