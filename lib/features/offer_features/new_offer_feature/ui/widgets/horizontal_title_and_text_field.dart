@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/required_text.dart';
 
 class HorizontalTitleAndTextField extends StatelessWidget {
   final String title;
@@ -16,12 +17,7 @@ class HorizontalTitleAndTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          title,
-          style: KTextStyle.textStyle13.copyWith(
-            color: AppColors.greyLight,
-          ),
-        ),
+        RequiredText(title: title),
         SizedBox(
           width: 40.h,
         ),

@@ -30,7 +30,7 @@ class DefaultValueBounsWidget extends StatelessWidget {
           children: [
             Text(
               'كمية شراء المنتج المطلوبة للحصول على العرض ',
-              style: KTextStyle.textStyle10.copyWith(
+              style: KTextStyle.textStyle9.copyWith(
                 color: AppColors.blackDark,
               ),
             ),
@@ -46,7 +46,7 @@ class DefaultValueBounsWidget extends StatelessWidget {
           children: [
             Text(
               'الكمية التي سيحصل عليها العميل من نفس المنتج ',
-              style: KTextStyle.textStyle10.copyWith(
+              style: KTextStyle.textStyle9.copyWith(
                 color: AppColors.blackDark,
               ),
             ),

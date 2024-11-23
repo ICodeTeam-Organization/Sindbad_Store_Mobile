@@ -11,6 +11,7 @@ import 'package:sindbad_management_app/features/offer_features/new_offer_feature
 import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/default_value_bouns_widget.dart';
 import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/default_value_discount_widget.dart';
 import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/horizontal_title_and_text_field.dart';
+import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/required_text.dart';
 import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/section_title_widget.dart';
 import 'package:sindbad_management_app/features/offer_features/view_offer_feature/ui/widgets/action_button_widget.dart';
 
@@ -83,22 +84,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text.rich(
-                      TextSpan(
-                        text: 'اسم العرض ',
-                        style: KTextStyle.textStyle13.copyWith(
-                          color: AppColors.greyLight,
-                        ),
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: '*',
-                            style: KTextStyle.textStyle13.copyWith(
-                              color: AppColors.primary,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    RequiredText(title: 'اسم العرض '),
                     SizedBox(height: 10.h),
                     TextFormField(
                       decoration: InputDecoration(
@@ -125,9 +111,9 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                   ],
                 ),
                 SizedBox(height: 40.h),
-                HorizontalTitleAndTextField(title: 'بداية العرض'),
+                HorizontalTitleAndTextField(title: 'بداية العرض '),
                 SizedBox(height: 40.h),
-                HorizontalTitleAndTextField(title: 'نهاية العرض'),
+                HorizontalTitleAndTextField(title: 'نهاية العرض '),
                 SizedBox(height: 40.h),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,7 +121,12 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                     SectionTitleWidget(title: 'نوع الخصم'),
                     SizedBox(height: 10.h),
                     RadioListTile<String>(
-                      title: Text('خصم مبلغ من منتج'),
+                      title: Text(
+                        'خصم مبلغ من منتج',
+                        style: KTextStyle.textStyle13.copyWith(
+                          color: AppColors.greyLight,
+                        ),
+                      ),
                       value: 'Discount',
                       groupValue: selectedOption,
                       onChanged: (value) {
@@ -144,9 +135,16 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                           isDiscountDefaultValue = true;
                         });
                       },
+                      activeColor: AppColors.primary,
+                      visualDensity: VisualDensity(horizontal: 0, vertical: -4),
                     ),
                     RadioListTile<String>(
-                      title: Text('اشتري x واحصل على y'),
+                      title: Text(
+                        'اشتري x واحصل على y',
+                        style: KTextStyle.textStyle13.copyWith(
+                          color: AppColors.greyLight,
+                        ),
+                      ),
                       value: 'Bouns',
                       groupValue: selectedOption,
                       onChanged: (value) {
@@ -155,6 +153,8 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                           isDiscountDefaultValue = false;
                         });
                       },
+                      activeColor: AppColors.primary,
+                      visualDensity: VisualDensity(horizontal: 0, vertical: -4),
                     ),
                   ],
                 ),

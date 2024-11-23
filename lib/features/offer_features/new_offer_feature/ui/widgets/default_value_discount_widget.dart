@@ -47,7 +47,7 @@ class _DefaultValueDiscountWidgetState
                 });
               }
             },
-            style: KTextStyle.textStyle9.copyWith(
+            style: KTextStyle.textStyle12.copyWith(
               color: AppColors.blackLight,
             ),
             textAlign: TextAlign.center, // Center-align text horizontally
