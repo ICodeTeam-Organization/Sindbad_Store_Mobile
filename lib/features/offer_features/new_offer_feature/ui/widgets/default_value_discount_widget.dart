@@ -45,6 +45,10 @@ class _DefaultValueDiscountWidgetState
                 setState(() {
                   widget.onDiscountRateChanged(double.parse(value));
                 });
+              } else {
+                setState(() {
+                  widget.onDiscountRateChanged(0);
+                });
               }
             },
             style: KTextStyle.textStyle12.copyWith(
