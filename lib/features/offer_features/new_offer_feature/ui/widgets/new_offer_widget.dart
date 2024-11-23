@@ -5,6 +5,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/card_product_bouns_widget.dart';
+import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/card_product_discount_widget.dart';
+import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/custom_select_item_dialog.dart';
+import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/default_value_bouns_widget.dart';
+import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/default_value_discount_widget.dart';
+import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/horizontal_title_and_text_field.dart';
+import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/section_title_widget.dart';
+import 'package:sindbad_management_app/features/offer_features/view_offer_feature/ui/widgets/action_button_widget.dart';
 
 class NewOfferWidget extends StatefulWidget {
   const NewOfferWidget({super.key});
@@ -14,126 +22,308 @@ class NewOfferWidget extends StatefulWidget {
 }
 
 class _NewOfferWidgetState extends State<NewOfferWidget> {
+  final ValueNotifier<double> discountRateNotifier = ValueNotifier<double>(0);
+  final ValueNotifier<int> buysCountNotifier = ValueNotifier<int>(0);
+  final ValueNotifier<int> freesCountNotifier = ValueNotifier<int>(0);
+  List<Item> selectedItems = [];
+  double discountRate = 15;
+  String selectedOption = 'Discount';
+  bool isDiscountDefaultValue = true;
+
+  // Default values for bonus configuration
+  int buysCount = 2; // Default "Buy X" value
+  int freesCount = 1; // Default "Get Y" value
+
+  // List of all items
+  final List<Item> items = [
+    Item(title: "MacBook Air", imageUrl: "assets/image_example.png"),
+    Item(title: "Item 2", imageUrl: "assets/image_example.png"),
+    Item(title: "Item 3", imageUrl: "assets/image_example.png"),
+    Item(title: "Item 4", imageUrl: "assets/image_example.png"),
+    Item(title: "Item 5", imageUrl: "assets/image_example.png"),
+    Item(title: "Item 6", imageUrl: "assets/image_example.png"),
+    Item(title: "Item 7", imageUrl: "assets/image_example.png"),
+    Item(title: "Item 8", imageUrl: "assets/image_example.png"),
+    Item(title: "Item 9", imageUrl: "assets/image_example.png"),
+    Item(title: "Item 10", imageUrl: "assets/image_example.png"),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    isDiscountDefaultValue = selectedOption == 'Discount';
+  }
+
+  // Function to calculate discounted price
+  double calculateNewPrice(double lastPrice, double discountRate) {
+    return lastPrice - (lastPrice * discountRate / 100);
+  }
+
+  // Function to handle selection confirmation
+  void onItemsSelected(List<Item> selectedItems) {
+    setState(() {
+      this.selectedItems = selectedItems;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 570,
-      width: double.maxFinite,
-      color: AppColors.white,
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
+    return Column(
+      children: [
+        Container(
+          width: double.maxFinite,
+          color: AppColors.white,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SectionTitleWidget(title: 'معلومات العرض'),
+                SizedBox(height: 20.h),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text.rich(
+                      TextSpan(
+                        text: 'اسم العرض ',
+                        style: KTextStyle.textStyle13.copyWith(
+                          color: AppColors.greyLight,
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: '*',
+                            style: KTextStyle.textStyle13.copyWith(
+                              color: AppColors.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        hintText: 'أكتب اسم العرض...',
+                        hintStyle: KTextStyle.textStyle12.copyWith(
+                          color: AppColors.greyLight,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: AppColors.greyBorder,
+                            width: 1.0,
+                          ),
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: AppColors.primary,
+                            width: 1.0,
+                          ),
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 40.h),
+                HorizontalTitleAndTextField(title: 'بداية العرض'),
+                SizedBox(height: 40.h),
+                HorizontalTitleAndTextField(title: 'نهاية العرض'),
+                SizedBox(height: 40.h),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SectionTitleWidget(title: 'نوع الخصم'),
+                    SizedBox(height: 10.h),
+                    RadioListTile<String>(
+                      title: Text('خصم مبلغ من منتج'),
+                      value: 'Discount',
+                      groupValue: selectedOption,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedOption = value!;
+                          isDiscountDefaultValue = true;
+                        });
+                      },
+                    ),
+                    RadioListTile<String>(
+                      title: Text('اشتري x واحصل على y'),
+                      value: 'Bouns',
+                      groupValue: selectedOption,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedOption = value!;
+                          isDiscountDefaultValue = false;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(height: 40.h),
+                SectionTitleWidget(title: 'القيمة الأفتراضية'),
+                SizedBox(height: 20.h),
+                isDiscountDefaultValue
+                    ? DefaultValueDiscountWidget(
+                        discountRate: discountRate,
+                        onDiscountRateChanged: (newRate) {
+                          setState(() {
+                            discountRateNotifier.value = newRate;
+                          });
+                        },
+                      )
+                    : DefaultValueBounsWidget(
+                        buysCount: buysCount,
+                        freesCount: freesCount,
+                        onBuysCountChanged: (newBuysCount) {
+                          setState(() {
+                            buysCountNotifier.value = newBuysCount;
+                          });
+                        },
+                        onFreesCountChanged: (newFreesCount) {
+                          setState(() {
+                            freesCountNotifier.value = newFreesCount;
+                          });
+                        },
+                      ),
+              ],
+            ),
+          ),
+        ),
+        SizedBox(height: 10.h),
+        Container(
+          width: double.maxFinite,
+          color: AppColors.white,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text.rich(
                   TextSpan(
-                    text: 'اسم العرض ',
-                    style: KTextStyle.textStyle13.copyWith(color: AppColors.greyLight,),
+                    text: 'اختر  المنتجات ',
+                    style: KTextStyle.textStyle14.copyWith(
+                      color: AppColors.greyLight,
+                    ),
                     children: <TextSpan>[
                       TextSpan(
                         text: '*',
-                        style: KTextStyle.textStyle13.copyWith(color: AppColors.primary,),
+                        style: KTextStyle.textStyle13.copyWith(
+                          color: AppColors.primary,
+                        ),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 10.h,),
-                TextFormField(
-                  decoration: InputDecoration(
-                    hintText: 'أكتب اسم العرض...',
-                    hintStyle: KTextStyle.textStyle12.copyWith(color: AppColors.greyLight,),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: AppColors.greyBorder,
-                        width: 1.0,
+                SizedBox(height: 10.h),
+                ActionButtonWidget(
+                  title: 'تصفح المنتجات',
+                  iconPath: 'assets/add.svg',
+                  width: 333,
+                  height: 50,
+                  onTap: () async {
+                    final result = await showDialog<List<Item>>(
+                      context: context,
+                      builder: (context) => CustomSelectItemDialog(
+                        items: items,
+                        selectedItems: selectedItems,
+                        onConfirm: onItemsSelected,
                       ),
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: AppColors.primary,
-                        width: 1.0,
-                      ),
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
+                    );
+
+                    if (result != null) {
+                      setState(() {
+                        selectedItems = result;
+                      });
+                    }
+                  },
+                ),
+                SizedBox(height: 10.h),
+                SizedBox(
+                  width: double.maxFinite,
+                  height: 500.h,
+                  child: ListView.builder(
+                    itemCount: selectedItems.length,
+                    itemBuilder: (context, index) {
+                      return isDiscountDefaultValue
+                          ? CardProductDiscountWidget(
+                              productName: selectedItems[index].title,
+                              productImage: selectedItems[index].imageUrl,
+                              lastPrice: 4000,
+                              newPrice: calculateNewPrice(4000, discountRate),
+                              discountRate: discountRate,
+                              onTapQuit: () {
+                                setState(() {
+                                  selectedItems.removeAt(index);
+                                });
+                              },
+                              discountRateNotifier: discountRateNotifier,
+                            )
+                          : CardProductBounsWidget(
+                              productName: selectedItems[index].title,
+                              productImage: selectedItems[index].imageUrl,
+                              buysCount: buysCount, // Pass current value
+                              freesCount: freesCount, // Pass current value
+                              onTapQuit: () {
+                                setState(() {
+                                  selectedItems.removeAt(index);
+                                });
+                              },
+                              buysCountNotifier: buysCountNotifier,
+                              freesCountNotifier: freesCountNotifier,
+                            );
+                    },
                   ),
                 ),
-              ],
-            ),
-            SizedBox(height: 40.h,),
-            Row(
-              children: [
-                Text('بداية العرض',style: KTextStyle.textStyle13.copyWith(color: AppColors.greyLight,),),
-                SizedBox(width: 40.h,),
-                Expanded(
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      prefixIcon: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: SvgPicture.asset(
-                        "assets/calendar.svg",
+                // Bottom Buttons
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context); // Cancel and close dialog
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 40.h,
+                        width: 100.w,
+                        decoration: BoxDecoration(
+                          color: AppColors.greyLight,
+                          borderRadius: BorderRadius.circular(5.r),
+                        ),
+                        child: Text(
+                          'الغاء',
+                          style: KTextStyle.textStyle16.copyWith(
+                            color: AppColors.white,
+                          ),
                         ),
                       ),
-                      prefixIconConstraints: BoxConstraints.tight(Size(50, 50)),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: AppColors.greyBorder,
-                          width: 1.0,
-                        ),
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 40.h,
+                        width: 195.w,
+                        decoration: BoxDecoration(
                           color: AppColors.primary,
-                          width: 1.0,
+                          borderRadius: BorderRadius.circular(5.r),
                         ),
-                        borderRadius: BorderRadius.circular(5.0),
+                        child: Text(
+                          'تاكيد',
+                          style: KTextStyle.textStyle16.copyWith(
+                            color: AppColors.white,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
               ],
             ),
-            SizedBox(height: 40.h,),
-            Row(
-              children: [
-                Text('نهاية العرض',style: KTextStyle.textStyle13.copyWith(color: AppColors.greyLight,),),
-                SizedBox(width: 40.h,),
-                Expanded(
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      prefixIcon: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: SvgPicture.asset(
-                        "assets/calendar.svg",
-                        ),
-                      ),
-                      prefixIconConstraints: BoxConstraints.tight(Size(50, 50)),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: AppColors.greyBorder,
-                          width: 1.0,
-                        ),
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: AppColors.primary,
-                          width: 1.0,
-                        ),
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }
