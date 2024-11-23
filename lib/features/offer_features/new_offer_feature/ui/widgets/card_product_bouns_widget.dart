@@ -10,19 +10,59 @@ class CardProductBounsWidget extends StatefulWidget {
   final int buysCount;
   final int freesCount;
   final void Function()? onTapQuit;
-  const CardProductBounsWidget(
-      {super.key,
-      required this.productName,
-      required this.productImage,
-      required this.buysCount,
-      required this.freesCount,
-      this.onTapQuit});
+  final ValueNotifier<int> buysCountNotifier;
+  final ValueNotifier<int> freesCountNotifier;
+
+  const CardProductBounsWidget({
+    super.key,
+    required this.productName,
+    required this.productImage,
+    required this.buysCount,
+    required this.freesCount,
+    this.onTapQuit,
+    required this.buysCountNotifier,
+    required this.freesCountNotifier,
+  });
 
   @override
   State<CardProductBounsWidget> createState() => _CardProductBounsWidgetState();
 }
 
 class _CardProductBounsWidgetState extends State<CardProductBounsWidget> {
+  late int currentBuysCount;
+  late int currentFreesCount;
+
+  @override
+  void initState() {
+    super.initState();
+    currentBuysCount = widget.buysCount;
+    currentFreesCount = widget.freesCount;
+    widget.buysCountNotifier.addListener(() {
+      setState(() {
+        currentBuysCount = widget.buysCountNotifier.value;
+      });
+    });
+  }
+
+  void _updateBuysCount(int newCount) {
+    setState(() {
+      currentBuysCount = newCount;
+    });
+  }
+
+  void _updateFreesCount(int newCount) {
+    setState(() {
+      currentFreesCount = newCount;
+    });
+  }
+
+  @override
+  void dispose() {
+    widget.buysCountNotifier.removeListener(() {});
+    widget.freesCountNotifier.removeListener(() {});
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -55,35 +95,36 @@ class _CardProductBounsWidgetState extends State<CardProductBounsWidget> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(children: [
-                          Image.asset(
-                            widget.productImage,
-                            width: 45.w,
-                            height: 45.w,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            widget.productName,
-                            style: KTextStyle.textStyle14.copyWith(
-                              color: AppColors.blackLight,
+                        Row(
+                          children: [
+                            Image.asset(
+                              widget.productImage,
+                              width: 45.w,
+                              height: 45.w,
                             ),
-                          ),
-                        ]),
+                            SizedBox(width: 10),
+                            Text(
+                              widget.productName,
+                              style: KTextStyle.textStyle14.copyWith(
+                                color: AppColors.blackLight,
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
                   Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: DefaultValueBounsWidget(
-                        buysCount: widget.buysCount,
-                        freesCount: widget.freesCount,
-                        onBuysCountChanged: (int value) {},
-                        onFreesCountChanged: (int value) {},
-                      )),
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: DefaultValueBounsWidget(
+                      buysCount: currentBuysCount,
+                      freesCount: currentFreesCount,
+                      onBuysCountChanged: _updateBuysCount,
+                      onFreesCountChanged: _updateFreesCount,
+                    ),
+                  ),
                 ],
               ),
             ),
