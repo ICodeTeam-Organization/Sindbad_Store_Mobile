@@ -35,9 +35,9 @@ class _CardProductDiscountWidgetState extends State<CardProductDiscountWidget> {
   void initState() {
     super.initState();
     discountRateController =
-        TextEditingController(text: widget.discountRate.toStringAsFixed(2));
+        TextEditingController(text: widget.discountRate.toStringAsFixed(0));
     newPriceController =
-        TextEditingController(text: widget.newPrice.toStringAsFixed(2));
+        TextEditingController(text: widget.newPrice.toStringAsFixed(0));
 
     // Listen to parent text changes (if provided)
     widget.discountRateNotifier.addListener(() {
@@ -60,14 +60,14 @@ class _CardProductDiscountWidgetState extends State<CardProductDiscountWidget> {
   void _updateNewPrice(double discountRate) {
     double newPrice =
         widget.lastPrice - (widget.lastPrice * (discountRate / 100));
-    newPriceController.text = newPrice.toStringAsFixed(2);
+    newPriceController.text = newPrice.toStringAsFixed(0);
   }
 
   /// Update Discount Rate Based on New Price
   void _updateDiscountRate(double newPrice) {
     double discountRate =
         ((widget.lastPrice - newPrice) / widget.lastPrice) * 100;
-    discountRateController.text = discountRate.toStringAsFixed(2);
+    discountRateController.text = discountRate.toStringAsFixed(0);
   }
 
   /// Handle Discount Rate Changes
@@ -142,7 +142,7 @@ class _CardProductDiscountWidgetState extends State<CardProductDiscountWidget> {
                       children: [
                         Text(
                           'نسبة الخصم ',
-                          style: KTextStyle.textStyle10.copyWith(
+                          style: KTextStyle.textStyle9.copyWith(
                             color: AppColors.blackLight,
                           ),
                         ),
@@ -209,7 +209,7 @@ class _CardProductDiscountWidgetState extends State<CardProductDiscountWidget> {
                           children: [
                             Text(
                               'السعر السابق',
-                              style: KTextStyle.textStyle10.copyWith(
+                              style: KTextStyle.textStyle9.copyWith(
                                 color: AppColors.blackLight,
                               ),
                             ),
@@ -220,22 +220,21 @@ class _CardProductDiscountWidgetState extends State<CardProductDiscountWidget> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    widget.lastPrice.toStringAsFixed(2),
+                                    widget.lastPrice.toStringAsFixed(0),
                                     style: KTextStyle.textStyle10.copyWith(
                                       color: AppColors.blackLight,
                                     ),
                                   ),
                                   SizedBox(
-                                    width: 15.w,
+                                    width: 5.w,
                                   ),
-                                  Text(
-                                    '\$',
-                                    style: KTextStyle.textStyle8.copyWith(
-                                      color: AppColors.greyDark,
-                                    ),
+                                  Icon(
+                                    Icons.attach_money,
+                                    color: AppColors.greyLight,
+                                    size: 15,
                                   ),
                                   SizedBox(
-                                    width: 10.w,
+                                    width: 5.w,
                                   )
                                 ],
                               ),
@@ -247,7 +246,7 @@ class _CardProductDiscountWidgetState extends State<CardProductDiscountWidget> {
                           children: [
                             Text(
                               'السعر النهائي',
-                              style: KTextStyle.textStyle10.copyWith(
+                              style: KTextStyle.textStyle9.copyWith(
                                 color: AppColors.blackLight,
                               ),
                             ),
@@ -261,7 +260,7 @@ class _CardProductDiscountWidgetState extends State<CardProductDiscountWidget> {
                                 ),
                                 controller: newPriceController,
                                 onChanged: _onNewPriceChanged,
-                                textAlign: TextAlign.center,
+                                textAlign: TextAlign.end,
                                 decoration: InputDecoration(
                                   suffixIcon: Padding(
                                     padding:
@@ -269,7 +268,7 @@ class _CardProductDiscountWidgetState extends State<CardProductDiscountWidget> {
                                     child: Icon(
                                       Icons.attach_money,
                                       color: AppColors.greyLight,
-                                      size: 10,
+                                      size: 15,
                                     ),
                                   ),
                                   suffixIconConstraints: BoxConstraints(
