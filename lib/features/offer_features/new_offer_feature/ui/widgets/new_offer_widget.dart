@@ -11,6 +11,7 @@ import 'package:sindbad_management_app/features/offer_features/new_offer_feature
 import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/default_value_bouns_widget.dart';
 import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/default_value_discount_widget.dart';
 import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/horizontal_title_and_text_field.dart';
+import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/section_title_widget.dart';
 import 'package:sindbad_management_app/features/offer_features/view_offer_feature/ui/widgets/action_button_widget.dart';
 
 class NewOfferWidget extends StatefulWidget {
@@ -21,6 +22,9 @@ class NewOfferWidget extends StatefulWidget {
 }
 
 class _NewOfferWidgetState extends State<NewOfferWidget> {
+  final ValueNotifier<double> discountRateNotifier = ValueNotifier<double>(0);
+  final ValueNotifier<int> buysCountNotifier = ValueNotifier<int>(0);
+  final ValueNotifier<int> freesCountNotifier = ValueNotifier<int>(0);
   List<Item> selectedItems = [];
   double discountRate = 15;
   String selectedOption = 'Discount';
@@ -74,12 +78,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'معلومات العرض',
-                  style: KTextStyle.textStyle14.copyWith(
-                    color: AppColors.blackLight,
-                  ),
-                ),
+                SectionTitleWidget(title: 'معلومات العرض'),
                 SizedBox(height: 20.h),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,12 +132,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'نوع الخصم',
-                      style: KTextStyle.textStyle14.copyWith(
-                        color: AppColors.blackLight,
-                      ),
-                    ),
+                    SectionTitleWidget(title: 'نوع الخصم'),
                     SizedBox(height: 10.h),
                     RadioListTile<String>(
                       title: Text('خصم مبلغ من منتج'),
@@ -165,19 +159,14 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                   ],
                 ),
                 SizedBox(height: 40.h),
-                Text(
-                  'القيمة الأفتراضية ',
-                  style: KTextStyle.textStyle14.copyWith(
-                    color: AppColors.blackLight,
-                  ),
-                ),
+                SectionTitleWidget(title: 'القيمة الأفتراضية'),
                 SizedBox(height: 20.h),
                 isDiscountDefaultValue
                     ? DefaultValueDiscountWidget(
                         discountRate: discountRate,
                         onDiscountRateChanged: (newRate) {
                           setState(() {
-                            discountRate = newRate; // Update discount rate
+                            discountRateNotifier.value = newRate;
                           });
                         },
                       )
@@ -186,12 +175,12 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                         freesCount: freesCount,
                         onBuysCountChanged: (newBuysCount) {
                           setState(() {
-                            buysCount = newBuysCount;
+                            buysCountNotifier.value = newBuysCount;
                           });
                         },
                         onFreesCountChanged: (newFreesCount) {
                           setState(() {
-                            freesCount = newFreesCount;
+                            freesCountNotifier.value = newFreesCount;
                           });
                         },
                       ),
@@ -266,6 +255,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                                   selectedItems.removeAt(index);
                                 });
                               },
+                              discountRateNotifier: discountRateNotifier,
                             )
                           : CardProductBounsWidget(
                               productName: selectedItems[index].title,
@@ -277,6 +267,8 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                                   selectedItems.removeAt(index);
                                 });
                               },
+                              buysCountNotifier: buysCountNotifier,
+                              freesCountNotifier: freesCountNotifier,
                             );
                     },
                   ),
