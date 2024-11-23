@@ -8,6 +8,7 @@ class StorePrimaryButton extends StatelessWidget {
   StorePrimaryButton(
       {super.key,
       this.onTap,
+      this.disabled = false,
       this.height = 44,
       this.title = '',
       this.width = 370,
@@ -15,6 +16,7 @@ class StorePrimaryButton extends StatelessWidget {
       this.textColor = AppColors.white,
       this.buttonColor = AppColors.primary});
 
+  bool? disabled;
   double? width;
   double? height;
   String? title;
@@ -34,7 +36,7 @@ class StorePrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: disabled! ? null : onTap,
 
       /// [qais] => Don't use the {Container} here because it is a heavy widget.
       /// Instead, use the Alignment widget to align stuff and use the SizedBox
@@ -46,7 +48,7 @@ class StorePrimaryButton extends StatelessWidget {
         width: width,
         height: height,
         decoration: BoxDecoration(
-          color: buttonColor,
+          color: disabled! ? AppColors.greyHint : buttonColor,
           borderRadius: BorderRadiusDirectional.circular(_borderRadius.r),
         ),
         child: Row(

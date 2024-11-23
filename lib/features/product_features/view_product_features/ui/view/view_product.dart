@@ -17,25 +17,40 @@ class ViewProduct extends StatefulWidget {
 class ViewProductState extends State<ViewProduct> {
   int _selectedSubIndex = 0;
   final bool _showSubCategories = true; // للتحكم في ظهور الفئات الفرعية
-  List<bool> checkedStates = [];
-  List<String> checkedByNames = [];
 
-  bool isChecked = false;
-  void _onChangeCheckBox(bool? val, int index, String idProductChange) {
+  List<bool> allProductCheckedStates = [];
+  List<String> allProductCheckedByNames = [];
+  List<bool> offerProductCheckedStates = [];
+  List<String> offerProductCheckedByNames = [];
+  List<bool> disableProductCheckedStates = [];
+  List<String> disableProductCheckedByNames = [];
+
+  // bool disabledButtonAdd = false;
+  void _onChangeCheckBox(
+      {required String listName,
+      required List<bool> nameListCheckedStates,
+      required List<String> nameListCheckedByNames,
+      required bool val,
+      required int index,
+      required String idProductChange}) {
     setState(() {
-      checkedStates[index] = val ?? false;
-      val!
-          ? checkedByNames.add(idProductChange)
-          : checkedByNames.remove(idProductChange);
-      debugPrint(checkedByNames.toString());
+      nameListCheckedStates[index] = val;
+      val
+          ? nameListCheckedByNames.add(idProductChange)
+          : nameListCheckedByNames.remove(idProductChange);
+      debugPrint("$listName : ${nameListCheckedByNames.toString()}");
     });
   }
 
   @override
   void initState() {
     super.initState();
-    checkedStates = List<bool>.filled(
-        FakeDataApi.productsData.length, false); // تهيئة القائمة هنا
+    allProductCheckedStates = List<bool>.filled(
+        FakeDataApi.allProductsData.length, false); // تهيئة القائمة هنا
+    offerProductCheckedStates = List<bool>.filled(
+        FakeDataApi.offerProductsData.length, false); // تهيئة القائمة هنا
+    disableProductCheckedStates = List<bool>.filled(
+        FakeDataApi.disableProductsData.length, false); // تهيئة القائمة هنا
   }
 
   @override
@@ -62,7 +77,7 @@ class ViewProductState extends State<ViewProduct> {
             indicatorWeight: 0.0.w,
             labelColor: AppColors.black,
             unselectedLabelColor: AppColors.black,
-            height: heightMobile * 0.8, // height TabBar and all dowm him
+            height: heightMobile * 0.85, // height TabBar and all dowm him
           ),
         ],
       ),
@@ -73,7 +88,6 @@ class ViewProductState extends State<ViewProduct> {
   Widget _buildTabView(int tabIndex) {
     switch (tabIndex) {
       case 0: // "منتجات عليها عروض"
-      case 1: // "جميع المنتجات"
         return Column(
           children: [
             // في حال كانت التصنيفات الفرعية يجب عرضها
@@ -85,6 +99,8 @@ class ViewProductState extends State<ViewProduct> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   StorePrimaryButton(
+                    disabled:
+                        allProductCheckedByNames.isNotEmpty ? true : false,
                     title: "إضافة منتج",
                     icon: Icons.add_circle_outline_rounded,
                     buttonColor: AppColors.primary,
@@ -104,12 +120,62 @@ class ViewProductState extends State<ViewProduct> {
             SizedBox(height: 15),
             Expanded(
               child: ProductsListView(
-                products: FakeDataApi.productsData,
-                checkedStates: checkedStates, // تمرير الحالات
+                products: FakeDataApi.allProductsData,
+                checkedStates: allProductCheckedStates, // تمرير الحالات
                 onChanged: (val, index) => _onChangeCheckBox(
-                    val,
-                    index,
-                    FakeDataApi.productsData[index]['id']
+                    listName: "All Products",
+                    nameListCheckedStates: allProductCheckedStates,
+                    nameListCheckedByNames: allProductCheckedByNames,
+                    val: val!,
+                    index: index,
+                    idProductChange: FakeDataApi.allProductsData[index]['id']
+                        .toString()), // تمرير index
+              ),
+            ),
+          ],
+        );
+      case 1: // "جميع المنتجات"
+        return Column(
+          children: [
+            // في حال كانت التصنيفات الفرعية يجب عرضها
+            if (_showSubCategories) _buildSubCategories(),
+            Padding(
+              padding: EdgeInsets.only(
+                  top: 30.h, left: 15.w, right: 15.w, bottom: 15.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  StorePrimaryButton(
+                    disabled:
+                        offerProductCheckedByNames.isNotEmpty ? true : false,
+                    title: "إضافة منتج",
+                    icon: Icons.add_circle_outline_rounded,
+                    buttonColor: AppColors.primary,
+                    height: 55.h,
+                    width: 150.w,
+                  ),
+                  StorePrimaryButton(
+                    title: "إيقاف منتج",
+                    icon: Icons.delete_outline_rounded,
+                    buttonColor: AppColors.primary,
+                    height: 55.h,
+                    width: 150.w,
+                  )
+                ],
+              ),
+            ),
+            SizedBox(height: 15),
+            Expanded(
+              child: ProductsListView(
+                products: FakeDataApi.offerProductsData,
+                checkedStates: offerProductCheckedStates, // تمرير الحالات
+                onChanged: (val, index) => _onChangeCheckBox(
+                    listName: "Offer Products",
+                    nameListCheckedStates: offerProductCheckedStates,
+                    nameListCheckedByNames: offerProductCheckedByNames,
+                    val: val!,
+                    index: index,
+                    idProductChange: FakeDataApi.offerProductsData[index]['id']
                         .toString()), // تمرير index
               ),
             ),
@@ -125,6 +191,8 @@ class ViewProductState extends State<ViewProduct> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   StorePrimaryButton(
+                    disabled:
+                        disableProductCheckedByNames.isNotEmpty ? true : false,
                     title: "إضافة منتج",
                     icon: Icons.add_circle_outline_rounded,
                     buttonColor: AppColors.primary,
@@ -143,12 +211,16 @@ class ViewProductState extends State<ViewProduct> {
             ),
             Expanded(
               child: ProductsListView(
-                products: FakeDataApi.productsData,
-                checkedStates: checkedStates, // تمرير الحالات
+                products: FakeDataApi.disableProductsData,
+                checkedStates: disableProductCheckedStates, // تمرير الحالات
                 onChanged: (val, index) => _onChangeCheckBox(
-                    val,
-                    index,
-                    FakeDataApi.productsData[index]['id']
+                    listName: "Disable Products",
+                    nameListCheckedStates: disableProductCheckedStates,
+                    nameListCheckedByNames: disableProductCheckedByNames,
+                    val: val!,
+                    index: index,
+                    idProductChange: FakeDataApi.disableProductsData[index]
+                            ['id']
                         .toString()), // تمرير index
               ),
             ),
@@ -161,33 +233,11 @@ class ViewProductState extends State<ViewProduct> {
 
   // بناء قائمة التصنيفات الفرعية (Sub Categories)
   Widget _buildSubCategories() {
-    final List<String> subCategsAll = ["الكل"];
-    final List<String> subCat = [
-      "الكترونيات",
-      "لابتوبات",
-      "شنط نسائية",
-      "باريس",
-      "الكترونيات",
-      "لابتوبات",
-      "شنط",
-      "باريس",
-      "الكترونيات",
-      "لابتوبات",
-      "شنط نسائية",
-      "باريس",
-      "الكترونيات",
-      "لابتوبات",
-      "شنط",
-      "باريس"
-    ];
-    // Getter
-    List<String> subCategories = [...subCategsAll, ...subCat];
-
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: subCategories.map((category) {
-          int index = subCategories.indexOf(category);
+        children: FakeDataApi().subCategories.map((category) {
+          int index = FakeDataApi().subCategories.indexOf(category);
           return ChipCustom(
             title: category,
             isSelected:

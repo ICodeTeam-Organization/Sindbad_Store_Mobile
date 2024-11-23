@@ -1,5 +1,27 @@
 class FakeDataApi {
-  static final List<Map<String, dynamic>> productsData = [
+  final List<String> subCategsAll = ["الكل"];
+  final List<String> subCat = [
+    "الكترونيات",
+    "لابتوبات",
+    "شنط نسائية",
+    "باريس",
+    "الكترونيات",
+    "لابتوبات",
+    "شنط",
+    "باريس",
+    "الكترونيات",
+    "لابتوبات",
+    "شنط نسائية",
+    "باريس",
+    "الكترونيات",
+    "لابتوبات",
+    "شنط",
+    "باريس"
+  ];
+  // Getter
+  List<String> get subCategories => [...subCategsAll, ...subCat];
+  // ==================================================================================
+  static final List<Map<String, dynamic>> allProductsData = [
     {
       'name': 'Mobile A1',
       'id': '1',
@@ -60,36 +82,36 @@ class FakeDataApi {
       'price': '400',
       'imageUrl': 'https://via.placeholder.com/100',
     },
-    {
-      'name': 'Bluetooth Earbuds K11',
-      'id': '11',
-      'price': '350',
-      'imageUrl': 'https://via.placeholder.com/100',
-    },
-    {
-      'name': 'Smart TV L12',
-      'id': '12',
-      'price': '3000',
-      'imageUrl': 'https://via.placeholder.com/100',
-    },
-    {
-      'name': 'Gaming Console M13',
-      'id': '13',
-      'price': '4000',
-      'imageUrl': 'https://via.placeholder.com/100',
-    },
-    {
-      'name': 'Portable Charger N14',
-      'id': '14',
-      'price': '100',
-      'imageUrl': 'https://via.placeholder.com/100',
-    },
-    {
-      'name': 'Electric Kettle O15',
-      'id': '15',
-      'price': '80',
-      'imageUrl': 'https://via.placeholder.com/100',
-    },
+    // {
+    //   'name': 'Bluetooth Earbuds K11',
+    //   'id': '11',
+    //   'price': '350',
+    //   'imageUrl': 'https://via.placeholder.com/100',
+    // },
+    // {
+    //   'name': 'Smart TV L12',
+    //   'id': '12',
+    //   'price': '3000',
+    //   'imageUrl': 'https://via.placeholder.com/100',
+    // },
+    // {
+    //   'name': 'Gaming Console M13',
+    //   'id': '13',
+    //   'price': '4000',
+    //   'imageUrl': 'https://via.placeholder.com/100',
+    // },
+    // {
+    //   'name': 'Portable Charger N14',
+    //   'id': '14',
+    //   'price': '100',
+    //   'imageUrl': 'https://via.placeholder.com/100',
+    // },
+    // {
+    //   'name': 'Electric Kettle O15',
+    //   'id': '15',
+    //   'price': '80',
+    //   'imageUrl': 'https://via.placeholder.com/100',
+    // },
     // {
     //   'name': 'Washing Machine P16',
     //   'id': '16',
@@ -174,6 +196,132 @@ class FakeDataApi {
     //   'price': '70',
     //   'imageUrl': 'https://via.placeholder.com/100',
     // },
+  ];
+
+  static final List<Map<String, dynamic>> offerProductsData = [
+    {
+      'name': 'Toyota Camry',
+      'id': '1',
+      'price': '25000',
+      'imageUrl': 'https://via.placeholder.com/100',
+    },
+    {
+      'name': 'Honda Accord',
+      'id': '2',
+      'price': '27000',
+      'imageUrl': 'https://via.placeholder.com/100',
+    },
+    {
+      'name': 'Nissan Altima',
+      'id': '3',
+      'price': '24000',
+      'imageUrl': 'https://via.placeholder.com/100',
+    },
+    {
+      'name': 'Ford Mustang',
+      'id': '4',
+      'price': '35000',
+      'imageUrl': 'https://via.placeholder.com/100',
+    },
+    {
+      'name': 'Chevrolet Malibu',
+      'id': '5',
+      'price': '23000',
+      'imageUrl': 'https://via.placeholder.com/100',
+    },
+    {
+      'name': 'BMW 3 Series',
+      'id': '6',
+      'price': '42000',
+      'imageUrl': 'https://via.placeholder.com/100',
+    },
+    {
+      'name': 'Audi A4',
+      'id': '7',
+      'price': '44000',
+      'imageUrl': 'https://via.placeholder.com/100',
+    },
+    {
+      'name': 'Mercedes-Benz C-Class',
+      'id': '8',
+      'price': '48000',
+      'imageUrl': 'https://via.placeholder.com/100',
+    },
+    {
+      'name': 'Volkswagen Passat',
+      'id': '9',
+      'price': '26000',
+      'imageUrl': 'https://via.placeholder.com/100',
+    },
+    {
+      'name': 'Tesla Model 3',
+      'id': '10',
+      'price': '39000',
+      'imageUrl': 'https://via.placeholder.com/100',
+    },
+  ];
+
+  static final List<Map<String, dynamic>> disableProductsData = [
+    {
+      'name': 'Lionel Messi',
+      'id': '1',
+      'price': 'Paris Saint-Germain',
+      'imageUrl': 'https://via.placeholder.com/100',
+    },
+    {
+      'name': 'Cristiano Ronaldo',
+      'id': '2',
+      'price': 'Al Nassr',
+      'imageUrl': 'https://via.placeholder.com/100',
+    },
+    {
+      'name': 'Neymar Jr.',
+      'id': '3',
+      'price': 'Paris Saint-Germain',
+      'imageUrl': 'https://via.placeholder.com/100',
+    },
+    {
+      'name': 'Kevin De Bruyne',
+      'id': '4',
+      'price': 'Manchester City',
+      'imageUrl': 'https://via.placeholder.com/100',
+    },
+    {
+      'name': 'Kylian Mbappe',
+      'id': '5',
+      'price': 'Paris Saint-Germain',
+      'imageUrl': 'https://via.placeholder.com/100',
+    },
+    {
+      'name': 'Lionel Messi',
+      'id': '6',
+      'price': 'Paris Saint-Germain',
+      'imageUrl': 'https://via.placeholder.com/100',
+    },
+    {
+      'name': 'Cristiano Ronaldo',
+      'id': '7',
+      'price': 'Al Nassr',
+      'imageUrl': 'https://via.placeholder.com/100',
+    },
+    {
+      'name': 'Neymar Jr.',
+      'id': '8',
+      'price': 'Paris Saint-Germain',
+      'imageUrl': 'https://via.placeholder.com/100',
+    },
+    {
+      'name': 'Kevin De Bruyne',
+      'id': '9',
+      'price': 'Manchester City',
+      'imageUrl': 'https://via.placeholder.com/100',
+    },
+    {
+      'name': 'Kylian Mbappe',
+      'id': '10',
+      'price': 'Paris Saint-Germain',
+      'imageUrl': 'https://via.placeholder.com/100',
+    },
   ];
 
   // final List<String> _subCategs = ["الكل"];
