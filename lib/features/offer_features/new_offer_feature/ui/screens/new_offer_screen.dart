@@ -23,9 +23,11 @@ class _NewOfferScreenState extends State<NewOfferScreen> {
               CustomAppBar(
                 tital: 'اضافة عرض',
               ),
-              Padding(
-                padding: const EdgeInsets.all(30.0),
-                child: NewOfferWidget(),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: SingleChildScrollView(child: NewOfferWidget()),
+                ),
               ),
             ],
           ),

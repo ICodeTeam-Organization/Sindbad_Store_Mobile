@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="e37062d7-d375-4029-a514-497f1fd7063d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/offer_features/view_offer_feature/ui/widgets/card_offer_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/offer_features/view_offer_feature/ui/widgets/card_offer_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/offer_features/new_offer_feature/ui/screens/new_offer_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/offer_features/new_offer_feature/ui/screens/new_offer_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/offer_features/new_offer_feature/ui/widgets/default_value_bouns_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/offer_features/new_offer_feature/ui/widgets/default_value_bouns_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/offer_features/new_offer_feature/ui/widgets/new_offer_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/offer_features/new_offer_feature/ui/widgets/new_offer_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/offer_features/view_offer_feature/ui/screens/view_offer_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/offer_features/view_offer_feature/ui/screens/view_offer_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/offer_features/view_offer_feature/ui/widgets/action_button_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/offer_features/view_offer_feature/ui/widgets/action_button_widget.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

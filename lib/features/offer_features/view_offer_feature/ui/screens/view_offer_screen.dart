@@ -36,7 +36,7 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
                 padding: const EdgeInsets.all(30.0),
                 child: ActionButtonWidget(
                   title: 'إضافة عرض',
-                  iconPath: "assets/add.svg",
+                  iconPath: 'assets/add.svg',
                   onTap: (){
                     context.push(AppRouter.storeRouters.kNewOffer,);
                   },
