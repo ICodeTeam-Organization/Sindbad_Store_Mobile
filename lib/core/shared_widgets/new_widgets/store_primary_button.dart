@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/styles/Colors.dart';
 import '../../../../../core/styles/text_style.dart';
 
+// ignore: must_be_immutable
 class StorePrimaryButton extends StatelessWidget {
   StorePrimaryButton(
       {super.key,
