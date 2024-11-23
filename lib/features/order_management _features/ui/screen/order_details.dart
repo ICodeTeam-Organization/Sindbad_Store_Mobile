@@ -1,18 +1,13 @@
-import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:sindbad_management_app/core/styles/text_style.dart';
-import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/cubit/refresh_page_cubit.dart';
 import '../../../../core/shared_widgets/new_widgets/custom_app_bar.dart';
-import '../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
-import '../../../../core/styles/Colors.dart';
-import '../widget/order_details_widget/custom_create_bill_dialog.dart';
-import '../widget/order_details_widget/custom_order_cancle_dialog.dart';
-import '../widget/order_details_widget/messages.dart';
-import '../widget/order_shipping_widgets/custom_order_print_dialog.dart';
-import '../widget/order_shipping_widgets/custom_order_shipping_dialog.dart';
+import '../function/status_helper.dart';
+import '../manager/cubit/refresh_page_cubit.dart';
+import '../widget/order_body.dart';
+import '../widget/order_details_widget/the_order.dart';
+import '../widget/order_details_widget/order_details_body.dart';
+import '../widget/order_details_widget/show_create_bill_and_cancel_order.dart';
+import '../widget/order_details_widget/show_print_and_shipping_order.dart';
 
 class OrderDetails extends StatelessWidget {
   const OrderDetails({super.key});
@@ -29,256 +24,34 @@ class OrderDetails extends StatelessWidget {
               CustomAppBar(
                 tital: 'الطلب',
               ),
-              Container(
-                margin: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.grey),
-                    borderRadius: BorderRadius.circular(16.r)),
-                height: 160.h,
-                width: 380.w,
-                child: Column(
-                  children: [
-                    Container(
-                      height: 60.h,
-                      decoration: BoxDecoration(
-                          color: AppColors.grey,
-                          borderRadius: BorderRadius.circular(16.r)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Column(
-                            children: [
-                              Text(
-                                'رقم الطلب',
-                                style: KTextStyle.textStyle11,
-                              ),
-                              Text(
-                                '1111111111',
-                                style: KTextStyle.textStyle14,
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Text('رقم الفاتورة',
-                                  style: KTextStyle.textStyle11),
-                              Text(
-                                '454645454',
-                                style: KTextStyle.textStyle14,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SvgPicture.asset(
-                            "assets/alarm.svg",
-                            width: 30.w,
-                            height: 30.h,
-                          ),
-                          SizedBox(
-                            width: 10.w,
-                          ),
-                          Text(
-                            '4:15 - التاريخ 2024/11/17 ',
-                            style: KTextStyle.textStyle12,
-                          ),
-                          SizedBox(
-                            width: 70.w,
-                          ),
-                          SizedBox(
-                            width: 40.w,
-                            height: 40.h,
-                            child: Stack(children: [
-                              Align(
-                                alignment: Alignment.bottomCenter,
-                                child: SvgPicture.asset(
-                                  "assets/Bag.svg",
-                                  width: 40.w,
-                                  height: 40.h,
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Text(
-                                  "25",
-                                  style: KTextStyle.textStyle12.copyWith(
-                                    color: AppColors.white,
-                                  ),
-                                ),
-                              ),
-                            ]),
-                          ),
-                          Text('عدد الاصناف', style: KTextStyle.textStyle12),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20.w),
-                      child: Row(
-                        children: [
-                          Text('بيانات السداد : ',
-                              style: KTextStyle.textStyle12),
-                          Text('لا يوجد', style: KTextStyle.textStyle12)
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+              ////////////////////////////
+              ///Show Order
+              // TheOrder(
+              //   orderNumber: '111111111',
+              //   billNumber: '123456789',
+              //   clock: '4:15',
+              //   date: '2024/11/21',
+              //   itemNumber: 25,
+              //   paymentInfo: 'لا يوجد',
+              // ),
+              OrderBody(
+                billNumber: '1111111',
+                orderNumber: '123456789',
+                clock: '4:14',
+                date: '2024/11/23',
+                itemNumber: 25,
+                paymentInfo: 'لا يوجد',
+                orderStatus: 6,
+              ),
+              ///////////////////
+              ///icon
+              Center(
+                child: Icon(Icons.swipe_down),
               ),
               ////////////////////////////////////////
               ///Order Detaials
-              Expanded(
-                child: ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: EdgeInsets.symmetric(
-                          vertical: 10.h, horizontal: 12.0.w),
-                      padding: EdgeInsets.all(10),
-                      height: 320.h,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: AppColors.grey),
-                        borderRadius: BorderRadius.circular(25.r),
-                      ),
-                      child: Column(
-                        children: [
-                          ListTile(
-                            leading: Container(
-                              width: 91.w,
-                              height: 91.h,
-                              padding: EdgeInsets.all(2),
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: AppColors.grey, width: 2),
-                                  borderRadius: BorderRadius.circular(8.r)),
-                              child: Image.asset(
-                                "assets/laptop.png",
-                                width: 90.w,
-                                height: 90.h,
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                            title: Row(
-                              children: [
-                                Text(
-                                  'اسم المنتج :  ',
-                                  style: KTextStyle.textStyle14
-                                      .copyWith(fontWeight: FontWeight.w500),
-                                ),
-                                Text(
-                                  'MacBook Air',
-                                  style: KTextStyle.textStyle14
-                                      .copyWith(fontWeight: FontWeight.w500),
-                                )
-                              ],
-                            ),
-                            subtitle: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      'نوع المنتج :  ',
-                                      style: KTextStyle.textStyle14.copyWith(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Text(
-                                      'لابتوب',
-                                      style: KTextStyle.textStyle14.copyWith(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      'القرص الصلب : ',
-                                      style: KTextStyle.textStyle14.copyWith(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Text(
-                                      '512GB',
-                                      style: KTextStyle.textStyle14.copyWith(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Spacer(),
-                                    Text('|'),
-                                    Spacer(),
-                                    Text(
-                                      'الرام : 8GB',
-                                      style: KTextStyle.textStyle14.copyWith(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              Text('العدد : '),
-                              Text(
-                                '3',
-                                style: KTextStyle.textStyle16
-                                    .copyWith(color: AppColors.primary),
-                              ),
-                              SizedBox(
-                                width: 50.w,
-                              ),
-                              Text('السعر : '),
-                              Text(
-                                '3',
-                                style: KTextStyle.textStyle16
-                                    .copyWith(color: AppColors.primary),
-                              ),
-                              Text('\$'),
-                              Spacer(),
-                              Text('الاجمالي'),
-                              Container(
-                                  padding: EdgeInsets.all(8.0),
-                                  margin: EdgeInsets.all(8.0),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: AppColors.grey),
-                                      borderRadius: BorderRadius.circular(8.r)),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        '1000',
-                                        style: KTextStyle.textStyle16
-                                            .copyWith(color: AppColors.primary),
-                                      ),
-                                      Text('\$'),
-                                    ],
-                                  )),
-                            ],
-                          ),
-                          Divider(),
-                          BarcodeWidget(
-                            height: 70.h,
-                            width: MediaQuery.sizeOf(context).width * 0.9,
-                            data: "45465121564",
-                            textPadding: 8,
-                            style: KTextStyle.textStyle14,
-                            // data: orderNum.toString(), // Data here
-                            barcode:
-                                Barcode.code128(), // Specify the barcode type
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
-/////////////////////////////////////////////////////////////////////////////////////////////////
+              OrderDetailsBody(),
+              ///////////////////////////////////////
               ///Show Button
               if (isbillDone == false) ShowCreateBillAndCancelOrder(),
               if (isbillDone == true) ShowPrintAndShippingOrder(),
@@ -286,152 +59,6 @@ class OrderDetails extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class ShowPrintAndShippingOrder extends StatelessWidget {
-  const ShowPrintAndShippingOrder({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<RefreshPageCubit, RefreshPageState>(
-      builder: (context, state) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            StorePrimaryButton(
-              width: 160.w,
-              title: 'شحن الطلب',
-              icon: Icons.fire_truck,
-              // buttonColor: AppColors.greenOpacity,
-              // textColor: AppColors.greenDark,
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return CustomOrderShippingDialog(
-                      headTitle: 'بيانات فاتورة الشحن',
-                      firstTitle: 'تاريخ الفاتورة',
-                      secondTitle: 'رقم فاتورة الشحن',
-                      thierdTitle: 'الشركة الناقلة',
-                      onPressedSure: () {
-                        Navigator.of(context).pop();
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return Messages(
-                              isTrue: true,
-                            );
-                          },
-                        );
-                      },
-                      copy: 0,
-                    );
-                  },
-                );
-              },
-            ),
-            StorePrimaryButton(
-              icon: Icons.edit_document,
-              width: 160.w,
-              title: 'طباعة العنوان',
-              // buttonColor: AppColors.redOpacity,
-              // textColor: AppColors.redColor,
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return CustomOrderPrintDialog(
-                      headTitle: '  طباعة عنوان الطلب',
-                      onPressedPrint: () {},
-                      onPressedShare: () {},
-                      copy: 0,
-                    );
-                  },
-                );
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
-
-class ShowCreateBillAndCancelOrder extends StatefulWidget {
-  const ShowCreateBillAndCancelOrder({
-    super.key,
-  });
-
-  @override
-  State<ShowCreateBillAndCancelOrder> createState() =>
-      _ShowCreateBillAndCancelOrderState();
-}
-
-class _ShowCreateBillAndCancelOrderState
-    extends State<ShowCreateBillAndCancelOrder> {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        StorePrimaryButton(
-          width: 160.w,
-          title: 'انشاء فاتورة',
-          buttonColor: AppColors.greenOpacity,
-          textColor: AppColors.greenDark,
-          onTap: () {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return BlocListener<RefreshPageCubit, RefreshPageState>(
-                  listener: (context, state) {},
-                  child: CustomCreateBillDialog(
-                    headTitle: 'بيانات الفاتورة',
-                    firstTitle: 'تاريخ الفاتورة',
-                    secondTitle: 'رقم الفاتورة',
-                    thierdTitle: 'قيمة الفاتورة',
-                    onPressedSure: () {
-                      context.read<RefreshPageCubit>().refreshpage();
-                      Navigator.of(context).pop();
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return Messages(
-                            isTrue: true,
-                          );
-                        },
-                      );
-                    },
-                  ),
-                );
-              },
-            );
-          },
-        ),
-        StorePrimaryButton(
-          width: 160.w,
-          title: 'رفض الطلب',
-          buttonColor: AppColors.redOpacity,
-          textColor: AppColors.redColor,
-          onTap: () {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return CustomOrderCancleDialog(
-                  headTitle: 'ملاحظة رفض الطلب',
-                  onPressedSure: () {
-                    Navigator.of(context).pop();
-                  },
-                );
-              },
-            );
-          },
-        ),
-      ],
     );
   }
 }
