@@ -35,7 +35,8 @@ class CustomTextFormWidget extends StatelessWidget {
               ),
               TextSpan(
                 text: text,
-                style: KTextStyle.textStyle16.copyWith(color: AppColors.blackLight),
+                style: KTextStyle.textStyle16
+                    .copyWith(color: AppColors.blackLight),
               ),
             ],
           ),
@@ -47,7 +48,8 @@ class CustomTextFormWidget extends StatelessWidget {
             decoration: InputDecoration(
               labelText: labelText,
               border: OutlineInputBorder(
-                borderSide: BorderSide(color: AppColors.primaryBackground, width: 1.w),
+                borderSide:
+                    BorderSide(color: AppColors.primaryBackground, width: 1.w),
               ),
             ),
             controller: textController,

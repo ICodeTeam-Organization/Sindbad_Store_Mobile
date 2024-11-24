@@ -40,8 +40,6 @@ class CustomOrderShippingDialog extends StatelessWidget {
   }
 }
 
-
-
 // ignore: must_be_immutable
 
 // class BuildShippingImageSection extends StatelessWidget {

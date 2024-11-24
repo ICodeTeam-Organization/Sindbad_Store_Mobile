@@ -101,7 +101,8 @@ class ViewProductState extends State<ViewProduct> {
             // في حال كانت التصنيفات الفرعية يجب عرضها
             if (_showSubCategories) _buildSubCategories(),
             TwoButtonInRow(
-                productCheckedByNames: allProductCheckedByNames, onTapLeft: () {}),
+                productCheckedByNames: allProductCheckedByNames,
+                onTapLeft: () {}),
             SizedBox(height: 15.h),
             Expanded(
               child: ProductsListView(
@@ -115,15 +116,15 @@ class ViewProductState extends State<ViewProduct> {
                     index: index,
                     idProductChange: FakeDataApi.allProductsData[index]['id']
                         .toString()), // تمرير index
-                    onTapDelete: () {
-                      // تنفيذ الحذف
-                    },
-                    onTapEdit: () {
-                      // تنفيذ التعديل
-                      context.push(AppRouter.storeRouters.kStoreEditProduct,
-                          extra: 1 // here pass the product id
-                          );
-                    },
+                onTapDelete: () {
+                  // تنفيذ الحذف
+                },
+                onTapEdit: () {
+                  // تنفيذ التعديل
+                  context.push(AppRouter.storeRouters.kStoreEditProduct,
+                      extra: 1 // here pass the product id
+                      );
+                },
               ),
             ),
           ],
@@ -149,15 +150,15 @@ class ViewProductState extends State<ViewProduct> {
                     index: index,
                     idProductChange: FakeDataApi.offerProductsData[index]['id']
                         .toString()), // تمرير index
-                    onTapDelete: () {
-                      // تنفيذ الحذف
-                    },
-                    onTapEdit: () {
-                      // تنفيذ التعديل
-                      context.push(AppRouter.storeRouters.kStoreEditProduct,
-                          extra: 1 // here pass the product id
-                          );
-                    },
+                onTapDelete: () {
+                  // تنفيذ الحذف
+                },
+                onTapEdit: () {
+                  // تنفيذ التعديل
+                  context.push(AppRouter.storeRouters.kStoreEditProduct,
+                      extra: 1 // here pass the product id
+                      );
+                },
               ),
             ),
           ],
@@ -182,15 +183,15 @@ class ViewProductState extends State<ViewProduct> {
                     idProductChange: FakeDataApi.disableProductsData[index]
                             ['id']
                         .toString()), // تمرير index
-                    onTapDelete: () {
-                      // تنفيذ الحذف
-                    },
-                    onTapEdit: () {
-                      // تنفيذ التعديل
-                      context.push(AppRouter.storeRouters.kStoreEditProduct,
-                          extra: 1 // here pass the product id
-                          );
-                    },
+                onTapDelete: () {
+                  // تنفيذ الحذف
+                },
+                onTapEdit: () {
+                  // تنفيذ التعديل
+                  context.push(AppRouter.storeRouters.kStoreEditProduct,
+                      extra: 1 // here pass the product id
+                      );
+                },
               ),
             ),
           ],

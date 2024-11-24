@@ -6,22 +6,26 @@ import 'package:sindbad_management_app/core/styles/text_style.dart';
 import 'package:sindbad_management_app/features/offer_features/view_offer_feature/ui/widgets/card_offer_product_details_discount_widget.dart';
 
 class ViewOfferProductDetailsDiscountScreen extends StatefulWidget {
-  final String offerName;  // Add this line to accept the nameOffer
-  
+  final String offerName; // Add this line to accept the nameOffer
+
   // Modify the constructor to accept nameOffer
-  const ViewOfferProductDetailsDiscountScreen({super.key, required this.offerName});
+  const ViewOfferProductDetailsDiscountScreen(
+      {super.key, required this.offerName});
 
   @override
-  State<ViewOfferProductDetailsDiscountScreen> createState() => _ViewOfferProductDetailsDiscountScreenState();
+  State<ViewOfferProductDetailsDiscountScreen> createState() =>
+      _ViewOfferProductDetailsDiscountScreenState();
 }
 
-class _ViewOfferProductDetailsDiscountScreenState extends State<ViewOfferProductDetailsDiscountScreen> {
+class _ViewOfferProductDetailsDiscountScreenState
+    extends State<ViewOfferProductDetailsDiscountScreen> {
   String? offerTypeTitle;
   @override
   void initState() {
     super.initState();
-      offerTypeTitle = 'المنتجات بعد الخصم';
+    offerTypeTitle = 'المنتجات بعد الخصم';
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,13 +40,22 @@ class _ViewOfferProductDetailsDiscountScreenState extends State<ViewOfferProduct
                 CustomAppBar(
                   tital: widget.offerName,
                 ),
-                SizedBox(height: 30.h,),
+                SizedBox(
+                  height: 30.h,
+                ),
                 //'المنتجات بعد الخصم'
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(offerTypeTitle!,style: KTextStyle.textStyle14.copyWith(color: AppColors.blackLight,),),
+                  child: Text(
+                    offerTypeTitle!,
+                    style: KTextStyle.textStyle14.copyWith(
+                      color: AppColors.blackLight,
+                    ),
+                  ),
                 ),
-                SizedBox(height: 10.h,),
+                SizedBox(
+                  height: 10.h,
+                ),
                 Expanded(
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,
@@ -52,11 +65,10 @@ class _ViewOfferProductDetailsDiscountScreenState extends State<ViewOfferProduct
                       return Column(
                         children: [
                           CardOfferProductDetailsDiscountWidget(
-                            productName: 'MacBook Air', 
-                            productImage: "assets/image_example.png", 
-                            lastPrice: '\$ 4,500', 
+                            productName: 'MacBook Air',
+                            productImage: "assets/image_example.png",
+                            lastPrice: '\$ 4,500',
                             newPrice: '\$ 4,400',
-
                           ),
                           Divider(),
                         ],

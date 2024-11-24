@@ -74,21 +74,22 @@ abstract class AppRouter {
       GoRoute(
         path: AppRouter.storeRouters.kStoreEditProduct,
         builder: (context, state) {
-           final int productId= state.extra as int;
-          return  EditProductScreen(
+          final int productId = state.extra as int;
+          return EditProductScreen(
             productId: productId,
           );
         },
       ),
       GoRoute(
-        path: AppRouter
-            .storeRouters.kOfferProductDetailsDiscount, // Use the parameterized path
+        path: AppRouter.storeRouters
+            .kOfferProductDetailsDiscount, // Use the parameterized path
         builder: (context, state) {
           final List<dynamic> args = state.extra as List<dynamic>;
           final String offerName = args[0]; // The first parameter in the list
           // final String offerType = args[1]; // The second parameter in the list
           return ViewOfferProductDetailsDiscountScreen(
-              offerName: offerName,);
+            offerName: offerName,
+          );
         },
       ),
       GoRoute(
@@ -98,7 +99,8 @@ abstract class AppRouter {
           final String offerName = args[0]; // The first parameter in the list
           // final String offerType = args[1]; // The second parameter in the list
           return ViewOfferProductDetailsBounsScreen(
-              offerName: offerName,);
+            offerName: offerName,
+          );
         },
       ),
       // GoRoute(

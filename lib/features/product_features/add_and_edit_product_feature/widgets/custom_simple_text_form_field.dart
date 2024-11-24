@@ -29,7 +29,8 @@ class CustomSimpleTextFormField extends StatelessWidget {
           decoration: InputDecoration(
             hintText: hintText,
             border: OutlineInputBorder(
-              borderSide: BorderSide(color: AppColors.primaryBackground, width: 1.w),
+              borderSide:
+                  BorderSide(color: AppColors.primaryBackground, width: 1.w),
             ),
           ),
           controller: textController,

@@ -17,8 +17,8 @@ class ProductsListView extends StatelessWidget {
     super.key,
     required this.products,
     required this.onChanged,
-    required this.checkedStates, 
-    required this.onTapEdit, 
+    required this.checkedStates,
+    required this.onTapEdit,
     required this.onTapDelete,
   });
 

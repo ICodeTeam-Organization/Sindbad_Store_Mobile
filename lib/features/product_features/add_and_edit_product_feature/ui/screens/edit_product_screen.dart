@@ -11,7 +11,7 @@ import '../../widgets/custom_simple_text_form_field.dart';
 import '../../widgets/custom_text_form_widget.dart';
 
 class EditProductScreen extends StatefulWidget {
-    final int productId;
+  final int productId;
   // final String productName ;
   // final String price ;
   // final String productNumber ;
@@ -43,7 +43,7 @@ class EditProductScreen extends StatefulWidget {
   // final List<String> mainCategoryList ; if i will not fetch it from inside the widget
   // final List<String> subCategoryList ;  if i will not fetch it from inside the widget
   // final List<String> brandList ;        if i will not fetch it from inside the widget
-  
+
   const EditProductScreen({super.key, required this.productId});
 
   // Fake data for editing a product

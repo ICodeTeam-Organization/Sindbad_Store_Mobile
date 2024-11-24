@@ -20,9 +20,9 @@ class CustomDropdownWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-        // Ensure initialItem is in the items list
-    final String initialDropdownItem = items.contains(initialItem) ? initialItem! : items[1];
+    // Ensure initialItem is in the items list
+    final String initialDropdownItem =
+        items.contains(initialItem) ? initialItem! : items[1];
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
@@ -38,7 +38,8 @@ class CustomDropdownWidget extends StatelessWidget {
                 ),
                 TextSpan(
                   text: textTitle,
-                  style: KTextStyle.textStyle16.copyWith(color: AppColors.greyDark),
+                  style: KTextStyle.textStyle16
+                      .copyWith(color: AppColors.greyDark),
                 ),
               ],
             ),

@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
@@ -71,8 +70,7 @@ class _CustomAddImageWidgetState extends State<CustomAddImageWidget> {
                 child: Center(
                   child: GestureDetector(
                     onTap: () => pickImageFromGallery(),
-                    child: 
-                    selectedImage == null
+                    child: selectedImage == null
                         ? imageUrl == null
                             ? widget.hasTileButton
                                 ? SizedBox(
@@ -81,15 +79,18 @@ class _CustomAddImageWidgetState extends State<CustomAddImageWidget> {
                                     child: DecoratedBox(
                                       decoration: BoxDecoration(
                                           color: AppColors.primary,
-                                          borderRadius: BorderRadius.circular(10.r)),
+                                          borderRadius:
+                                              BorderRadius.circular(10.r)),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Text(
                                             'إضافة صورة',
                                             textAlign: TextAlign.center,
                                             style: KTextStyle.textStyle14
-                                                .copyWith(color: AppColors.white),
+                                                .copyWith(
+                                                    color: AppColors.white),
                                           ),
                                           SizedBox(width: 8.0.w),
                                           Icon(
@@ -105,48 +106,49 @@ class _CustomAddImageWidgetState extends State<CustomAddImageWidget> {
                                     width: 24.w,
                                     height: 24.h,
                                   )
-                            : Image.network(
-                                imageUrl!,
+                            : Image.network(imageUrl!,
                                 width: widget.containerWidth.w,
                                 height: widget.upContainerHeight.h,
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) {
-                                  return !widget.hasTileButton ?
-                                   SvgPicture.asset(
-                                    "assets/download-03.svg",
-                                    width: 24.w,
-                                    height: 24.h,
-                                  )
-                                  : 
-                                  ///////////// need refactoring ////////
-                                  SizedBox(
-                                    width: 135.w,
-                                    height: 40.h,
-                                    child: DecoratedBox(
-                                      decoration: BoxDecoration(
-                                          color: AppColors.primary,
-                                          borderRadius: BorderRadius.circular(10.r)),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'إضافة صورة',
-                                            textAlign: TextAlign.center,
-                                            style: KTextStyle.textStyle14
-                                                .copyWith(color: AppColors.white),
-                                          ),
-                                          SizedBox(width: 8.0.w),
-                                          Icon(
-                                            Icons.add_photo_alternate,
-                                            color: AppColors.white,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );                                
+                                return !widget.hasTileButton
+                                    ? SvgPicture.asset(
+                                        "assets/download-03.svg",
+                                        width: 24.w,
+                                        height: 24.h,
+                                      )
+                                    :
                                     ///////////// need refactoring ////////
-                                }
-                              )
+                                    SizedBox(
+                                        width: 135.w,
+                                        height: 40.h,
+                                        child: DecoratedBox(
+                                          decoration: BoxDecoration(
+                                              color: AppColors.primary,
+                                              borderRadius:
+                                                  BorderRadius.circular(10.r)),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                'إضافة صورة',
+                                                textAlign: TextAlign.center,
+                                                style: KTextStyle.textStyle14
+                                                    .copyWith(
+                                                        color: AppColors.white),
+                                              ),
+                                              SizedBox(width: 8.0.w),
+                                              Icon(
+                                                Icons.add_photo_alternate,
+                                                color: AppColors.white,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                ///////////// need refactoring ////////
+                              })
                         : Stack(
                             children: [
                               Image.file(
@@ -159,7 +161,8 @@ class _CustomAddImageWidgetState extends State<CustomAddImageWidget> {
                                 Positioned(
                                   top: 2.0,
                                   child: Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 8.0, vertical: 4.0),
                                     child: Icon(
                                       Icons.edit_square,
                                       color: Colors.white,
@@ -173,12 +176,16 @@ class _CustomAddImageWidgetState extends State<CustomAddImageWidget> {
                                   left: 8.0,
                                   child: Container(
                                     color: Colors.black54,
-                                    padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 8.0, vertical: 4.0),
                                     child: Text(
                                       'اضغط لتغيير الصورة',
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: widget.containerWidth == 100.46 ? 8.0.sp : 12.0.sp,
+                                        fontSize:
+                                            widget.containerWidth == 100.46
+                                                ? 8.0.sp
+                                                : 12.0.sp,
                                       ),
                                     ),
                                   ),
@@ -194,12 +201,16 @@ class _CustomAddImageWidgetState extends State<CustomAddImageWidget> {
                                     });
                                   },
                                   child: Container(
-                                    color: widget.upContainerHeight > 82 ? Colors.black54 : null,
+                                    color: widget.upContainerHeight > 82
+                                        ? Colors.black54
+                                        : null,
                                     padding: EdgeInsets.all(4.0),
                                     child: Icon(
                                       Icons.delete,
                                       color: Colors.white,
-                                      size: widget.upContainerHeight <= 82 ? 15.0 : 20.0,
+                                      size: widget.upContainerHeight <= 82
+                                          ? 15.0
+                                          : 20.0,
                                     ),
                                   ),
                                 ),
@@ -225,7 +236,8 @@ class _CustomAddImageWidgetState extends State<CustomAddImageWidget> {
               child: Center(
                 child: Text(
                   widget.titleText,
-                  style: KTextStyle.textStyle14.copyWith(color: AppColors.greyDark),
+                  style: KTextStyle.textStyle14
+                      .copyWith(color: AppColors.greyDark),
                 ),
               ),
             ),
@@ -236,7 +248,8 @@ class _CustomAddImageWidgetState extends State<CustomAddImageWidget> {
   }
 
   Future pickImageFromGallery() async {
-    final returnImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final returnImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (returnImage == null) return;
     setState(() {
       selectedImage = File(returnImage.path);

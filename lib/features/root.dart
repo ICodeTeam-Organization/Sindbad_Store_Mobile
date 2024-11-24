@@ -44,8 +44,8 @@ class _RootState extends State<Root> {
             horizontal: _paddingAndMagin.w, vertical: _paddingAndMagin.h),
         margin: EdgeInsets.symmetric(
             horizontal: _paddingAndMagin.w, vertical: _paddingAndMagin.h),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(_borderRadius.r)),
+        decoration:
+            BoxDecoration(borderRadius: BorderRadius.circular(_borderRadius.r)),
         child: BottomNavigationBar(
           showUnselectedLabels: true,
           selectedItemColor: AppColors.redDark,
