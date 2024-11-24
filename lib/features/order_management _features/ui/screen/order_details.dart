@@ -42,7 +42,7 @@ class OrderDetails extends StatelessWidget {
                 date: '2024/11/23',
                 itemNumber: 25,
                 paymentInfo: 'لا يوجد',
-                orderStatus: 6,
+                orderStatus: 1,
               ),
               ///////////////////
               ///icon
