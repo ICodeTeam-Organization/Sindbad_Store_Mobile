@@ -26,6 +26,8 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
   final ValueNotifier<double> discountRateNotifier = ValueNotifier<double>(0);
   final ValueNotifier<int> buysCountNotifier = ValueNotifier<int>(0);
   final ValueNotifier<int> freesCountNotifier = ValueNotifier<int>(0);
+  TextEditingController startDateConroller = TextEditingController();
+  TextEditingController endDateConroller = TextEditingController();
   List<Item> selectedItems = [];
   String selectedOption = 'Discount';
   bool isDiscountDefaultValue = true;
@@ -68,6 +70,13 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
     setState(() {
       this.selectedItems = selectedItems;
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    startDateConroller.dispose();
+    endDateConroller.dispose();
   }
 
   @override
@@ -114,9 +123,17 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                   ],
                 ),
                 SizedBox(height: 40.h),
-                HorizontalTitleAndTextField(title: 'بداية العرض '),
+                HorizontalTitleAndTextField(
+                  title: 'بداية العرض ',
+                  info: startDateConroller,
+                  isDate: true,
+                ),
                 SizedBox(height: 40.h),
-                HorizontalTitleAndTextField(title: 'نهاية العرض '),
+                HorizontalTitleAndTextField(
+                  title: 'نهاية العرض ',
+                  info: endDateConroller,
+                  isDate: true,
+                ),
                 SizedBox(height: 40.h),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

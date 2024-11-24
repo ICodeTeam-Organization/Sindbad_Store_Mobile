@@ -19,7 +19,7 @@ class ViewOfferProductDetailsDiscountScreen extends StatefulWidget {
 
 class _ViewOfferProductDetailsDiscountScreenState
     extends State<ViewOfferProductDetailsDiscountScreen> {
-  String? offerTypeTitle;
+  late String offerTypeTitle;
   @override
   void initState() {
     super.initState();
@@ -32,31 +32,30 @@ class _ViewOfferProductDetailsDiscountScreenState
       body: SafeArea(
         child: Container(
           color: AppColors.transparent,
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomAppBar(
-                  tital: widget.offerName,
-                ),
-                SizedBox(
-                  height: 30.h,
-                ),
-                //'المنتجات بعد الخصم'
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    offerTypeTitle!,
-                    style: KTextStyle.textStyle14.copyWith(
-                      color: AppColors.blackLight,
-                    ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomAppBar(
+                tital: widget.offerName,
+              ),
+              SizedBox(
+                height: 30.h,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: Text(
+                  offerTypeTitle!,
+                  style: KTextStyle.textStyle14.copyWith(
+                    color: AppColors.blackLight,
                   ),
                 ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Expanded(
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     itemCount: 10, // Use the length of the list
@@ -76,8 +75,8 @@ class _ViewOfferProductDetailsDiscountScreenState
                     },
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

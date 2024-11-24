@@ -18,7 +18,7 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
   @override
   void initState() {
     super.initState();
-    offerType = 'Bouns';
+    offerType = 'Discount';
   }
 
   @override
@@ -32,6 +32,7 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
             children: [
               CustomAppBar(
                 tital: 'العروض',
+                isBack: false,
               ),
               Padding(
                   padding: const EdgeInsets.all(30.0),

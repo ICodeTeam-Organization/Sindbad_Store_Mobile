@@ -6,9 +6,8 @@ import 'package:sindbad_management_app/core/styles/text_style.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/card_offer_product_details_bouns_widget.dart';
 
 class ViewOfferProductDetailsBounsScreen extends StatefulWidget {
-  final String offerName; // Add this line to accept the nameOffer
+  final String offerName;
 
-  // Modify the constructor to accept nameOffer
   const ViewOfferProductDetailsBounsScreen({
     super.key,
     required this.offerName,
@@ -21,7 +20,8 @@ class ViewOfferProductDetailsBounsScreen extends StatefulWidget {
 
 class _ViewOfferProductDetailsBounsScreenState
     extends State<ViewOfferProductDetailsBounsScreen> {
-  String? offerTypeTitle;
+  late String offerTypeTitle;
+
   @override
   void initState() {
     super.initState();
@@ -34,34 +34,28 @@ class _ViewOfferProductDetailsBounsScreenState
       body: SafeArea(
         child: Container(
           color: AppColors.transparent,
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomAppBar(
-                  tital: widget.offerName,
-                ),
-                SizedBox(
-                  height: 30.h,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    offerTypeTitle!,
-                    style: KTextStyle.textStyle14.copyWith(
-                      color: AppColors.blackLight,
-                    ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomAppBar(
+                tital: widget.offerName,
+              ),
+              SizedBox(height: 30.h),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: Text(
+                  offerTypeTitle,
+                  style: KTextStyle.textStyle14.copyWith(
+                    color: AppColors.blackLight,
                   ),
                 ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Expanded(
+              ),
+              SizedBox(height: 20.h),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: 10, // Use the length of the list
-                    physics: const AlwaysScrollableScrollPhysics(),
+                    itemCount: 10,
                     itemBuilder: (context, index) {
                       return Column(
                         children: [
@@ -77,8 +71,8 @@ class _ViewOfferProductDetailsBounsScreenState
                     },
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
