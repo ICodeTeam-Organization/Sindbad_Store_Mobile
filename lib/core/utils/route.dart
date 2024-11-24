@@ -2,6 +2,8 @@ import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/features/offer_features/view_offer_feature/ui/screens/view_offer_product_details_bouns_screen.dart';
 import 'package:sindbad_management_app/features/offer_features/view_offer_feature/ui/screens/view_offer_product_details_discount_screen.dart';
 import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/screens/new_offer_screen.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/screens/add_product_screen.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/screens/edit_product_screen.dart';
 import 'package:sindbad_management_app/store_app_features/add_product/ui/screen/store_add_product.dart';
 import 'package:sindbad_management_app/store_app_features/excel_file/ui/screen/store_excel_file.dart';
 import 'package:sindbad_management_app/store_app_features/offer_product/ui/screen/store_offer_product.dart';
@@ -35,6 +37,7 @@ class StoreRouters {
 
   String kStoreHome = '/store/home';
   String kStoreAddProduct = '/store/addProduct';
+  String kStoreEditProduct = '/store/editProduct';
   String kStoreOrderProcessing = '/store/orderProcessing';
   String kStoreProducts = '/store/products';
   String kStoreSearchProduct = '/store/searchProduct';
@@ -63,6 +66,19 @@ abstract class AppRouter {
       GoRoute(
         path: AppRouter.storeRouters.kNewOffer,
         builder: (context, state) => const NewOfferScreen(),
+      ),
+      GoRoute(
+        path: AppRouter.storeRouters.kStoreAddProduct,
+        builder: (context, state) => const AddProductScreen(),
+      ),
+      GoRoute(
+        path: AppRouter.storeRouters.kStoreEditProduct,
+        builder: (context, state) {
+           final int productId= state.extra as int;
+          return  EditProductScreen(
+            productId: productId,
+          );
+        },
       ),
       GoRoute(
         path: AppRouter

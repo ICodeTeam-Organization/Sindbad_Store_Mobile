@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:sindbad_management_app/core/utils/route.dart';
 import '../../../../../core/shared_widgets/new_widgets/custom_app_bar.dart';
 import '../../../../../core/shared_widgets/new_widgets/custom_tab_bar_widget.dart';
 import '../../../../../core/styles/Colors.dart';
 import 'fake_data _for_test.dart/test_data_cat.dart';
-import 'widgets/products_listview_widget.dart';
-import 'widgets/sub_category_card_custom.dart';
-import 'widgets/two_button_in_row_costum.dart';
+import '../widgets/products_listview_widget.dart';
+import '../widgets/sub_category_card_custom.dart';
+import '../widgets/two_button_in_row_costum.dart';
 
 class ViewProduct extends StatefulWidget {
   const ViewProduct({super.key});
@@ -99,7 +101,7 @@ class ViewProductState extends State<ViewProduct> {
             // في حال كانت التصنيفات الفرعية يجب عرضها
             if (_showSubCategories) _buildSubCategories(),
             TwoButtonInRow(
-                productCheckedByNames: allProductCheckedByNames, onTap: () {}),
+                productCheckedByNames: allProductCheckedByNames, onTapLeft: () {}),
             SizedBox(height: 15.h),
             Expanded(
               child: ProductsListView(
@@ -113,6 +115,15 @@ class ViewProductState extends State<ViewProduct> {
                     index: index,
                     idProductChange: FakeDataApi.allProductsData[index]['id']
                         .toString()), // تمرير index
+                    onTapDelete: () {
+                      // تنفيذ الحذف
+                    },
+                    onTapEdit: () {
+                      // تنفيذ التعديل
+                      context.push(AppRouter.storeRouters.kStoreEditProduct,
+                          extra: 1 // here pass the product id
+                          );
+                    },
               ),
             ),
           ],
@@ -124,7 +135,7 @@ class ViewProductState extends State<ViewProduct> {
             if (_showSubCategories) _buildSubCategories(),
             TwoButtonInRow(
                 productCheckedByNames: offerProductCheckedByNames,
-                onTap: () {}),
+                onTapLeft: () {}),
             SizedBox(height: 15.h),
             Expanded(
               child: ProductsListView(
@@ -138,6 +149,15 @@ class ViewProductState extends State<ViewProduct> {
                     index: index,
                     idProductChange: FakeDataApi.offerProductsData[index]['id']
                         .toString()), // تمرير index
+                    onTapDelete: () {
+                      // تنفيذ الحذف
+                    },
+                    onTapEdit: () {
+                      // تنفيذ التعديل
+                      context.push(AppRouter.storeRouters.kStoreEditProduct,
+                          extra: 1 // here pass the product id
+                          );
+                    },
               ),
             ),
           ],
@@ -148,7 +168,7 @@ class ViewProductState extends State<ViewProduct> {
             TwoButtonInRow(
                 productCheckedByNames: disableProductCheckedByNames,
                 titleLeft: "إعادة تنشيط",
-                onTap: () {}),
+                onTapLeft: () {}),
             Expanded(
               child: ProductsListView(
                 products: FakeDataApi.disableProductsData,
@@ -162,6 +182,15 @@ class ViewProductState extends State<ViewProduct> {
                     idProductChange: FakeDataApi.disableProductsData[index]
                             ['id']
                         .toString()), // تمرير index
+                    onTapDelete: () {
+                      // تنفيذ الحذف
+                    },
+                    onTapEdit: () {
+                      // تنفيذ التعديل
+                      context.push(AppRouter.storeRouters.kStoreEditProduct,
+                          extra: 1 // here pass the product id
+                          );
+                    },
               ),
             ),
           ],

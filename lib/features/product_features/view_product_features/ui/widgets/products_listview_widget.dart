@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../../core/styles/Colors.dart';
+import '../../../../../core/styles/Colors.dart';
 import 'button_custom.dart';
 import 'image_card_custom.dart';
 import 'text_style_detials.dart';
@@ -10,12 +10,16 @@ class ProductsListView extends StatelessWidget {
   final List<Map<String, dynamic>> products;
   final void Function(bool?, int) onChanged; // أضف index
   final List<bool> checkedStates;
+  final void Function() onTapEdit;
+  final void Function() onTapDelete;
 
   const ProductsListView({
     super.key,
     required this.products,
     required this.onChanged,
-    required this.checkedStates,
+    required this.checkedStates, 
+    required this.onTapEdit, 
+    required this.onTapDelete,
   });
 
   @override
@@ -101,10 +105,10 @@ class ProductsListView extends StatelessWidget {
               Column(
                 children: [
                   CustomButton(
-                      text: 'تعديل', icon: Icons.edit, onPressed: () {}),
+                      text: 'تعديل', icon: Icons.edit, onPressed: onTapEdit),
                   SizedBox(height: 5.h),
                   CustomButton(
-                      text: 'حذف', icon: Icons.delete, onPressed: () {}),
+                      text: 'حذف', icon: Icons.delete, onPressed: onTapDelete),
                 ],
               ),
             ],

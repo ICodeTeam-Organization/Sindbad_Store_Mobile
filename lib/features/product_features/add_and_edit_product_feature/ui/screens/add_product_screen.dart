@@ -5,12 +5,12 @@ import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_ap
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/store_primary_button.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
-import 'package:sindbad_management_app/features/product_features/add_product_feature/widgets/custom_add_image_widget.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/custom_add_image_widget.dart';
 
 // import '../widgets/custom_add_image_widget.dart';
-import '../widgets/custom_dropdown_widget.dart';
-import '../widgets/custom_simple_text_form_field.dart';
-import '../widgets/custom_text_form_widget.dart';
+import '../../widgets/custom_dropdown_widget.dart';
+import '../../widgets/custom_simple_text_form_field.dart';
+import '../../widgets/custom_text_form_widget.dart';
 
 class AddProductScreen extends StatefulWidget {
   const AddProductScreen({super.key});
@@ -118,7 +118,7 @@ final List<TextEditingController> _values = [];
             mainAxisSize: MainAxisSize.min,
             children: [
               CustomAppBar(
-                onPressed: () {},
+                // onPressed: () {},
                 tital: 'إضافة منتج',
               ),
               SizedBox(height: 32.h),

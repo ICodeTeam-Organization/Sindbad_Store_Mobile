@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
-import '../../../../../../core/styles/Colors.dart';
+import 'package:go_router/go_router.dart';
+import 'package:sindbad_management_app/core/utils/route.dart';
+import '../../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
+import '../../../../../core/styles/Colors.dart';
 
 class TwoButtonInRow extends StatelessWidget {
   const TwoButtonInRow({
@@ -9,13 +11,15 @@ class TwoButtonInRow extends StatelessWidget {
     required this.productCheckedByNames,
     this.titleRight = "إضافة منتج",
     this.titleLeft = "إيقاف منتج",
-    required this.onTap,
+    // required this.onTapRight,
+    required this.onTapLeft,
   });
 
   final List<String> productCheckedByNames;
   final String titleRight;
   final String titleLeft;
-  final void Function() onTap;
+  // final void Function() onTapRight;
+  final void Function() onTapLeft;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +36,9 @@ class TwoButtonInRow extends StatelessWidget {
             buttonColor: AppColors.primary,
             height: 55.h,
             width: 150.w,
-            onTap: onTap,
+            onTap: () {
+              context.push(AppRouter.storeRouters.kStoreAddProduct); //////////
+            },
           ),
           StorePrimaryButton(
             title: titleLeft,
@@ -40,7 +46,7 @@ class TwoButtonInRow extends StatelessWidget {
             buttonColor: AppColors.primary,
             height: 55.h,
             width: 150.w,
-            onTap: onTap,
+            onTap: onTapLeft,
           )
         ],
       ),

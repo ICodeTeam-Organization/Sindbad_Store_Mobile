@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../../core/styles/Colors.dart';
+import '../../../../../core/styles/Colors.dart';
 
 class ImageCardCustom extends StatelessWidget {
   const ImageCardCustom({
