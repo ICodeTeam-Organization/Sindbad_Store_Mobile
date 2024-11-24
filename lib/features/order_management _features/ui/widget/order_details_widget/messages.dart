@@ -7,8 +7,14 @@ import '../../../../../core/styles/text_style.dart';
 
 // ignore: must_be_immutable
 class Messages extends StatelessWidget {
-  Messages({super.key, required this.isTrue});
-  bool isTrue;
+  const Messages(
+      {super.key,
+      required this.isTrue,
+      required this.trueMessage,
+      required this.falseMessage});
+  final bool isTrue;
+  final String trueMessage;
+  final String falseMessage;
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -53,13 +59,15 @@ class Messages extends StatelessWidget {
             ),
       content: isTrue
           ? Text(
-              'لقد تمت الأضافة في قائمة التجهيز',
+              trueMessage,
+              // 'لقد تمت الأضافة في قائمة التجهيز',
               textAlign: TextAlign.center,
               style:
                   KTextStyle.textStyle16.copyWith(color: AppColors.greenDark),
             )
           : Text(
-              'هناك خطاء في العملية',
+              falseMessage,
+              // 'هناك خطاء في العملية',
               textAlign: TextAlign.center,
               style: KTextStyle.textStyle16.copyWith(color: AppColors.redDark),
             ),

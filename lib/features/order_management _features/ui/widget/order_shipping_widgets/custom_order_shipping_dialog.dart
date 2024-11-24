@@ -15,13 +15,13 @@ class CustomOrderShippingDialog extends StatelessWidget {
       required this.secondTitle,
       required this.thierdTitle,
       required this.onPressedSure,
-      required this.copy});
+      required this.parcels});
   final String headTitle;
   final String firstTitle;
   final String secondTitle;
   final String thierdTitle;
   final GestureTapCallback onPressedSure;
-  final int copy;
+  final int parcels;
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -34,7 +34,7 @@ class CustomOrderShippingDialog extends StatelessWidget {
         secondTitle: secondTitle,
         thierdTitle: thierdTitle,
         onPressedSure: onPressedSure,
-        copy: copy,
+        parcels: parcels,
       ),
     );
   }

@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
 import '../../../../../core/styles/Colors.dart';
 import '../../../../../core/styles/text_style.dart';
+import '../../function/pdf.dart';
 
 TextEditingController printConroller = TextEditingController();
 
@@ -13,12 +18,17 @@ class CustomOrderPrintDialog extends StatelessWidget {
     required this.headTitle,
     required this.onPressedPrint,
     required this.onPressedShare,
-    required this.copy,
+    required this.parcels,
+    required this.billNumber,
+    required this.storeNumber,
   });
   final String headTitle;
   final GestureTapCallback onPressedPrint;
   final GestureTapCallback onPressedShare;
-  final int copy;
+  final int parcels;
+  final int billNumber;
+  final int storeNumber;
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -27,9 +37,26 @@ class CustomOrderPrintDialog extends StatelessWidget {
       ),
       titlePadding: EdgeInsets.zero,
       content: BuildDialogContent(
-        onPressedPrint: onPressedPrint,
-        onPressedShare: onPressedShare,
-        copy: copy,
+        onPressedPrint: () async {
+          final pdfFile = await Pdf.generateCenteredText(
+              '$billNumber - $storeNumber', parcels);
+          print('printoooo $parcels');
+        },
+        onPressedShare: () async {
+          // الحصول على المسار المؤقت
+          final directory = await getTemporaryDirectory();
+          final path = '${directory.path}/sample.pdf';
+          final file = File(path);
+
+          // كتابة المحتوى إلى الملف
+          await file.writeAsString(share!);
+
+          // مشاركة الملف باستخدام share_plus
+          Share.shareXFiles([XFile(path)], text: 'Great picture');
+
+          // Share.shareFiles([share], text: 'إليك هذا الملف!');
+        },
+        parcels: parcels,
       ),
     );
   }
@@ -37,8 +64,9 @@ class CustomOrderPrintDialog extends StatelessWidget {
 
 // ignore: must_be_immutable
 class BuildInfoRowAdd extends StatefulWidget {
-  BuildInfoRowAdd({super.key, required this.copy});
-  int? copy;
+  BuildInfoRowAdd({super.key, required this.parcels, required this.title});
+  int? parcels;
+  String? title;
 
   @override
   State<BuildInfoRowAdd> createState() => _BuildInfoRowAddState();
@@ -53,7 +81,7 @@ class _BuildInfoRowAddState extends State<BuildInfoRowAdd> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
-            'عدد النسخ',
+            widget.title!,
             style: KTextStyle.textStyle13,
           ),
           SizedBox(
@@ -71,7 +99,9 @@ class _BuildInfoRowAddState extends State<BuildInfoRowAdd> {
                 padding: EdgeInsets.zero,
                 onPressed: () {
                   setState(() {
-                    widget.copy = (widget.copy! + 1);
+                    widget.parcels = (widget.parcels! + 1);
+                    print(widget.parcels);
+                    // count = widget.parcels;
                   });
                 },
                 icon: Icon(Icons.add),
@@ -90,7 +120,7 @@ class _BuildInfoRowAddState extends State<BuildInfoRowAdd> {
                     borderRadius: BorderRadius.circular(16.r)),
                 child: Center(
                   child: Text(
-                    '${widget.copy}',
+                    '${widget.parcels}',
                     style: KTextStyle.textStyle12,
                   ),
                 )),
@@ -110,7 +140,8 @@ class _BuildInfoRowAddState extends State<BuildInfoRowAdd> {
                 padding: EdgeInsets.zero,
                 onPressed: () {
                   setState(() {
-                    widget.copy = (widget.copy! - 1);
+                    widget.parcels = (widget.parcels! - 1);
+                    // count = widget.parcels;
                   });
                 },
                 icon: Icon(Icons.cancel),
@@ -128,11 +159,11 @@ class BuildDialogContent extends StatelessWidget {
     super.key,
     required this.onPressedPrint,
     required this.onPressedShare,
-    required this.copy,
+    required this.parcels,
   });
   final GestureTapCallback onPressedPrint;
   final GestureTapCallback onPressedShare;
-  final int copy;
+  final int parcels;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -144,7 +175,8 @@ class BuildDialogContent extends StatelessWidget {
         child: Column(
           children: [
             BuildInfoRowAdd(
-              copy: copy,
+              parcels: parcels,
+              title: 'عدد النسخ',
             ),
             SizedBox(
               height: 7.h,

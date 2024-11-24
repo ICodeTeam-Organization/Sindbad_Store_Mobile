@@ -5,6 +5,7 @@ import '../../../../../core/shared_widgets/new_widgets/store_primary_button.dart
 import '../order_details_widget/build_image_section.dart';
 import 'build_shipping_info_row.dart';
 import 'custom_order_shipping_dialog.dart';
+import 'drop_down_widget.dart';
 
 // TextEditingController dateShippingConroller = TextEditingController();
 // TextEditingController numberShippingConroller = TextEditingController();
@@ -17,13 +18,13 @@ class BuildShippingDialogContent extends StatelessWidget {
       required this.secondTitle,
       required this.thierdTitle,
       required this.onPressedSure,
-      required this.copy});
+      required this.parcels});
 
   final String firstTitle;
   final String secondTitle;
   final String thierdTitle;
   final GestureTapCallback onPressedSure;
-  final int copy;
+  final int parcels;
 
   @override
   Widget build(BuildContext context) {
@@ -45,13 +46,15 @@ class BuildShippingDialogContent extends StatelessWidget {
               isDate: false,
               controller: numberShippingConroller,
             ),
-            BuildShippingInfoRow(
-              title: thierdTitle,
-              isDate: false,
-              controller: mountShippingConroller,
-            ),
+            DropDownWidget(),
+            // BuildShippingInfoRow(
+            //   title: thierdTitle,
+            //   isDate: false,
+            //   controller: mountShippingConroller,
+            // ),
             BuildInfoRowAdd(
-              copy: copy,
+              parcels: parcels,
+              title: 'عدد الطرود',
             ),
             BuildImageSection(),
             SizedBox(
