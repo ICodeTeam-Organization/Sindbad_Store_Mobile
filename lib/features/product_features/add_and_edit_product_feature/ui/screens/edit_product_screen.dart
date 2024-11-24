@@ -40,7 +40,7 @@ class EditProductScreen extends StatefulWidget {
   // final List<String> subImages ;
   // final Map<String,dynamic> properties ;
 
-  // final List<String> mainCategoryList ; if i will not fetch it from inside the widget 
+  // final List<String> mainCategoryList ; if i will not fetch it from inside the widget
   // final List<String> subCategoryList ;  if i will not fetch it from inside the widget
   // final List<String> brandList ;        if i will not fetch it from inside the widget
   
@@ -181,7 +181,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              //  container Title 
+                              //  container Title
                               Align(
                                 alignment: Alignment.topRight,
                                 child: Padding(
@@ -192,12 +192,15 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                   ),
                                   child: Text(
                                     "معلومات المنتج",
-                                    style: KTextStyle.textStyle16.copyWith(fontWeight: FontWeight.bold),
+                                    style: KTextStyle.textStyle16
+                                        .copyWith(fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ),
                               CustomTextFormWidget(
-                                textController: TextEditingController(text: EditProductScreen.fakeData['productName']),
+                                textController: TextEditingController(
+                                    text: EditProductScreen
+                                        .fakeData['productName']),
                                 text: 'أسم المنتج',
                                 width: 334.0.w,
                                 height: 65.h,
@@ -209,14 +212,18 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     CustomTextFormWidget(
-                                      textController: TextEditingController(text: EditProductScreen.fakeData['price']),
+                                      textController: TextEditingController(
+                                          text: EditProductScreen
+                                              .fakeData['price']),
                                       text: 'السعر',
                                       width: 147.0.w,
                                       height: 65.h,
                                     ),
                                     SizedBox(width: 36.0.w),
                                     CustomTextFormWidget(
-                                      textController: TextEditingController(text: EditProductScreen.fakeData['productNumber']),
+                                      textController: TextEditingController(
+                                          text: EditProductScreen
+                                              .fakeData['productNumber']),
                                       text: 'رقم المنتج',
                                       width: 147.0.w,
                                       height: 65.h,
@@ -226,7 +233,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
                               ),
                               SizedBox(height: 10.0.h),
                               CustomTextFormWidget(
-                                textController: TextEditingController(text: EditProductScreen.fakeData['description']),
+                                textController: TextEditingController(
+                                    text: EditProductScreen
+                                        .fakeData['description']),
                                 text: 'وصف المنتج',
                                 width: 334.0.w,
                                 height: 200.0.h,
@@ -253,7 +262,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                               //  container Title 
+                              //  container Title
                               Align(
                                 alignment: Alignment.topRight,
                                 child: Padding(
@@ -264,7 +273,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                   ),
                                   child: Text(
                                     "أختر صورة المنتح",
-                                    style: KTextStyle.textStyle16.copyWith(fontWeight: FontWeight.bold),
+                                    style: KTextStyle.textStyle16
+                                        .copyWith(fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ),
@@ -275,7 +285,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                 upContainerHeight: 175,
                                 downContainerHeight: 35,
                                 // initialImage: EditProductScreen.fakeData['mainImage'],
-                                initialImageUrl: EditProductScreen.fakeData['mainImage'],
+                                initialImageUrl:
+                                    EditProductScreen.fakeData['mainImage'],
                                 onPressed: () {},
                               ),
                               SizedBox(height: 25.0.h),
@@ -285,18 +296,21 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                   children: [
                                     CustomAddImageWidget(
                                       // initialImage: EditProductScreen.fakeData['subImages'][0],
-                                      initialImageUrl: EditProductScreen.fakeData['subImages'][0],
+                                      initialImageUrl: EditProductScreen
+                                          .fakeData['subImages'][0],
                                       onPressed: () {},
                                     ),
                                     SizedBox(width: 15.0.w),
                                     CustomAddImageWidget(
                                       // initialImage: EditProductScreen.fakeData['subImages'][1],
-                                      initialImageUrl: EditProductScreen.fakeData['subImages'][1],
+                                      initialImageUrl: EditProductScreen
+                                          .fakeData['subImages'][1],
                                       onPressed: () {},
                                     ),
                                     SizedBox(width: 15.0.w),
                                     CustomAddImageWidget(
-                                      initialImageUrl: EditProductScreen.fakeData['subImages'][2],
+                                      initialImageUrl: EditProductScreen
+                                          .fakeData['subImages'][2],
                                       // initialImage: EditProductScreen.fakeData['subImages'][2],
                                       onPressed: () {},
                                     ),
@@ -332,7 +346,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                   ),
                                   child: Text(
                                     " نوع المنتج",
-                                    style: KTextStyle.textStyle16.copyWith(fontWeight: FontWeight.bold),
+                                    style: KTextStyle.textStyle16
+                                        .copyWith(fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ),
@@ -341,21 +356,24 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                 textTitle: 'أختر الفئة',
                                 hintText: "قم بإختيار الفئة المناسبة",
                                 items: EditProductScreen._mainCategoryList,
-                                initialItem: EditProductScreen.fakeData['category'],
+                                initialItem:
+                                    EditProductScreen.fakeData['category'],
                               ),
                               SizedBox(height: 10.h),
                               CustomDropdownWidget(
                                 textTitle: 'أختر قسم الفئة',
                                 hintText: "قم بإختيار قسم الفئة المناسب",
                                 items: EditProductScreen._subCategoryList,
-                                initialItem: EditProductScreen.fakeData['subcategory'],
+                                initialItem:
+                                    EditProductScreen.fakeData['subcategory'],
                               ),
                               SizedBox(height: 10.h),
                               CustomDropdownWidget(
                                 textTitle: 'أختر إسم البراند',
                                 hintText: "قم بإختيار البراند المناسب",
                                 items: EditProductScreen._brandList,
-                                initialItem: EditProductScreen.fakeData['brand'],
+                                initialItem:
+                                    EditProductScreen.fakeData['brand'],
                               ),
                             ],
                           ),
@@ -384,7 +402,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                     ),
                                     child: Text(
                                       " خصائص المنتج",
-                                      style: KTextStyle.textStyle16.copyWith(fontWeight: FontWeight.bold),
+                                      style: KTextStyle.textStyle16.copyWith(
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ),
                                 ),
@@ -392,11 +411,15 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      for (int index = 0; index < _keys.length; index++)
+                                      for (int index = 0;
+                                          index < _keys.length;
+                                          index++)
                                         Padding(
-                                          padding: EdgeInsets.symmetric(vertical: 8.0.h),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 8.0.h),
                                           child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: [
                                               CustomSimpleTextFormField(
                                                 textController: _keys[index],
@@ -408,15 +431,18 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                                 hintText: 'قيمة',
                                               ),
                                               IconButton(
-                                                icon: Icon(Icons.remove_circle, size: 20),
-                                                onPressed: () => _removeField(index),
+                                                icon: Icon(Icons.remove_circle,
+                                                    size: 20),
+                                                onPressed: () =>
+                                                    _removeField(index),
                                               ),
                                             ],
                                           ),
                                         ),
                                       IconButton(
                                         icon: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             Icon(
                                               Icons.add_circle_outline_sharp,

@@ -12,7 +12,7 @@ class NewOfferScreen extends StatefulWidget {
 
 class _NewOfferScreenState extends State<NewOfferScreen> {
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -25,7 +25,7 @@ class _NewOfferScreenState extends State<NewOfferScreen> {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(30.0),
+                  padding: const EdgeInsets.all(24.0),
                   child: SingleChildScrollView(child: NewOfferWidget()),
                 ),
               ),
