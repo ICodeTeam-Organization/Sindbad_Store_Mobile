@@ -1,20 +1,20 @@
 class AllOrderEntity {
   final int idOrder;
-  final String orderNumber;
+  final String orderNum;
   final String orderBill;
-  final String? orderTime;
-  final DateTime? orderDate;
-  final int productMount;
-  final int orderStatus;
-  final int paymentStatus;
+  final String orderTime;
+  final String orderDates;
+  final String productMount;
+  final String orderStatuse;
+  final String payStatus;
 
   AllOrderEntity(
       {required this.idOrder,
-      required this.orderNumber,
+      required this.orderNum,
       required this.orderBill,
       required this.orderTime,
-      required this.orderDate,
+      required this.orderDates,
       required this.productMount,
-      required this.orderStatus,
-      required this.paymentStatus});
+      required this.orderStatuse,
+      required this.payStatus});
 }
