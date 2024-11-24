@@ -27,11 +27,11 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
   final ValueNotifier<int> buysCountNotifier = ValueNotifier<int>(0);
   final ValueNotifier<int> freesCountNotifier = ValueNotifier<int>(0);
   List<Item> selectedItems = [];
-  double discountRate = 15;
   String selectedOption = 'Discount';
   bool isDiscountDefaultValue = true;
 
   // Default values for bonus configuration
+  double discountRate = 15; // Default "Discount Rate" value
   int buysCount = 2; // Default "Buy X" value
   int freesCount = 1; // Default "Get Y" value
 
@@ -53,6 +53,9 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
   void initState() {
     super.initState();
     isDiscountDefaultValue = selectedOption == 'Discount';
+    discountRateNotifier.value = discountRate;
+    buysCountNotifier.value = buysCount;
+    freesCountNotifier.value = freesCount;
   }
 
   // Function to calculate discounted price
@@ -250,7 +253,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                               productImage: selectedItems[index].imageUrl,
                               lastPrice: 4000,
                               newPrice: calculateNewPrice(4000, discountRate),
-                              discountRate: discountRate,
+                              discountRate: discountRateNotifier.value,
                               onTapQuit: () {
                                 setState(() {
                                   selectedItems.removeAt(index);
@@ -261,8 +264,8 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                           : CardProductBounsWidget(
                               productName: selectedItems[index].title,
                               productImage: selectedItems[index].imageUrl,
-                              buysCount: buysCount,
-                              freesCount: freesCount,
+                              buysCount: buysCountNotifier.value,
+                              freesCount: freesCountNotifier.value,
                               onTapQuit: () {
                                 setState(() {
                                   selectedItems.removeAt(index);
