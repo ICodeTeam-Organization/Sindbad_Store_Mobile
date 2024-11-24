@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_app_bar.dart';
@@ -16,7 +15,7 @@ class AddProductScreen extends StatefulWidget {
   const AddProductScreen({super.key});
 
 // this is a Fake List to use with the DropMenu
- static const List<String> _mainCategoryList = [
+  static const List<String> _mainCategoryList = [
     'إلكترونيات',
     'أزياء',
     'المنزل والمطبخ',
@@ -68,9 +67,8 @@ class AddProductScreen extends StatefulWidget {
 }
 
 class _AddProductScreenState extends State<AddProductScreen> {
-
-final List<TextEditingController> _keys = [];
-final List<TextEditingController> _values = [];
+  final List<TextEditingController> _keys = [];
+  final List<TextEditingController> _values = [];
 
 // form key
 // final _formKey = GlobalKey<FormState>();
@@ -118,7 +116,7 @@ final List<TextEditingController> _values = [];
             mainAxisSize: MainAxisSize.min,
             children: [
               CustomAppBar(
-                onPressed: () {},
+                // onPressed: () {},
                 tital: 'إضافة منتج',
               ),
               SizedBox(height: 32.h),
@@ -143,25 +141,23 @@ final List<TextEditingController> _values = [];
                           // ),
                           margin: EdgeInsets.only(
                             bottom: 20.0.h,
-                            ),
+                          ),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              //  container Title 
+                              //  container Title
                               Align(
                                 alignment: Alignment.topRight,
-                                child:
-                                 Padding(
-                                   padding:  EdgeInsets.only(
-                                    bottom: 16.0.h,
-                                    top: 8.h,
-                                    right: 20.0.w
-                                   ),
-                                   child: Text(
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: 16.0.h, top: 8.h, right: 20.0.w),
+                                  child: Text(
                                     "معلومات المنتج",
-                                    style: KTextStyle.textStyle16.copyWith(fontWeight: FontWeight.bold),
-                                                ),
-                                 ),),
+                                    style: KTextStyle.textStyle16
+                                        .copyWith(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
                               CustomTextFormWidget(
                                 textController: TextEditingController(),
                                 text: 'أسم المنتج',
@@ -169,10 +165,10 @@ final List<TextEditingController> _values = [];
                                 height: 65.h,
                               ),
                               SizedBox(
-                                      height: 10.0.h,
-                                    ),
+                                height: 10.0.h,
+                              ),
                               Padding(
-                                padding:  EdgeInsets.only(right: 20.0.w),
+                                padding: EdgeInsets.only(right: 20.0.w),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
@@ -185,7 +181,7 @@ final List<TextEditingController> _values = [];
                                     SizedBox(
                                       width: 36.0.w,
                                     ),
-                                     CustomTextFormWidget(
+                                    CustomTextFormWidget(
                                       textController: TextEditingController(),
                                       text: 'رقم المنتج',
                                       width: 147.0.w,
@@ -195,8 +191,8 @@ final List<TextEditingController> _values = [];
                                 ),
                               ),
                               SizedBox(
-                                      height: 10.0.h,
-                                    ),
+                                height: 10.0.h,
+                              ),
                               CustomTextFormWidget(
                                 textController: TextEditingController(),
                                 text: 'وصف المنتج',
@@ -212,7 +208,7 @@ final List<TextEditingController> _values = [];
                       ),
                       SizedBox(height: 26.h),
                       Card(
-                         elevation: 4.0,
+                        elevation: 4.0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0.r),
                         ),
@@ -225,27 +221,24 @@ final List<TextEditingController> _values = [];
                           // ),
                           margin: EdgeInsets.only(
                             bottom: 20.0.h,
-                        
-                            ),
+                          ),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                            //  container Title 
+                              //  container Title
                               Align(
                                 alignment: Alignment.topRight,
-                                child:
-                                 Padding(
-                                   padding:  EdgeInsets.only(
-                                    bottom: 16.0.h,
-                                    top: 8.h,
-                                    right: 20.0.w
-                                   ),
-                                   child: Text(
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: 16.0.h, top: 8.h, right: 20.0.w),
+                                  child: Text(
                                     "أختر صورة المنتح",
-                                    style: KTextStyle.textStyle16.copyWith(fontWeight: FontWeight.bold),
-                                                ),
-                                 ),),
-                              // Add MAin image 
+                                    style: KTextStyle.textStyle16
+                                        .copyWith(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                              // Add MAin image
                               CustomAddImageWidget(
                                 hasTileButton: true,
                                 containerWidth: 333,
@@ -253,31 +246,34 @@ final List<TextEditingController> _values = [];
                                 upContainerHeight: 175,
                                 downContainerHeight: 35,
                                 onPressed: () {},
-                                ),
-                                SizedBox(
-                                    height: 25.0.h,),
-                                  
-                                  // Add Sub images 
+                              ),
+                              SizedBox(
+                                height: 25.0.h,
+                              ),
+
+                              // Add Sub images
                               Padding(
-                                padding:  EdgeInsets.only(
+                                padding: EdgeInsets.only(
                                   left: 14.w,
                                   // right: 8.w
-                                  ),
+                                ),
                                 child: Row(
                                   children: [
                                     CustomAddImageWidget(
                                       onPressed: () {},
-                                  ),
+                                    ),
                                     SizedBox(
-                                      width: 15.0.w,),
+                                      width: 15.0.w,
+                                    ),
                                     CustomAddImageWidget(
                                       onPressed: () {},
-                                  ),
+                                    ),
                                     SizedBox(
-                                      width: 15.0.w,),
+                                      width: 15.0.w,
+                                    ),
                                     CustomAddImageWidget(
                                       onPressed: () {},
-                                  ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -287,7 +283,7 @@ final List<TextEditingController> _values = [];
                       ),
                       SizedBox(height: 26.h),
                       Card(
-                         elevation: 4.0,
+                        elevation: 4.0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
@@ -297,48 +293,54 @@ final List<TextEditingController> _values = [];
                           // height: 356.0.h,
                           height: 440.0.h,
                           decoration: BoxDecoration(
-                            // border: Border.all(width: 2.0.w, color: Colors.black),
-                          ),
+                              // border: Border.all(width: 2.0.w, color: Colors.black),
+                              ),
                           margin: EdgeInsets.only(bottom: 20.0.h),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                               // container Title 
+                              // container Title
                               Align(
                                 alignment: Alignment.topRight,
                                 child: Padding(
                                   padding: EdgeInsets.only(
-                                    bottom: 14.0.h,
-                                    top: 10.h,
-                                    right: 14.0.w
-                                    ),
+                                      bottom: 14.0.h, top: 10.h, right: 14.0.w),
                                   child: Text(
                                     " نوع المنتج",
-                                    style: KTextStyle.textStyle16.copyWith(fontWeight: FontWeight.bold),
-                                                ),
+                                    style: KTextStyle.textStyle16
+                                        .copyWith(fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                               ),
-                              SizedBox(height: 10.h,),
+                              SizedBox(
+                                height: 10.h,
+                              ),
                               CustomDropdownWidget(
                                 textTitle: 'أختر الفئة',
                                 hintText: "قم بإختيار الفئة المناسبة",
                                 items: AddProductScreen._mainCategoryList,
-                                initialItem:AddProductScreen._mainCategoryList[0] ,
-                                ),
-                              SizedBox(height: 10.h,),
+                                initialItem:
+                                    AddProductScreen._mainCategoryList[0],
+                              ),
+                              SizedBox(
+                                height: 10.h,
+                              ),
                               CustomDropdownWidget(
                                 textTitle: 'أختر قسم الفئة',
                                 hintText: "قم بإختيار قسم الفئة المناسب",
                                 items: AddProductScreen._subCategoryList,
-                                initialItem: AddProductScreen._subCategoryList[0],
-                                ),
-                              SizedBox(height: 10.h,),
+                                initialItem:
+                                    AddProductScreen._subCategoryList[0],
+                              ),
+                              SizedBox(
+                                height: 10.h,
+                              ),
                               CustomDropdownWidget(
                                 textTitle: 'أختر إسم البراند',
                                 hintText: "قم بإختيار البراند المناسب",
                                 items: AddProductScreen._brandList,
                                 initialItem: AddProductScreen._brandList[0],
-                                )
+                              )
                             ],
                           ),
                         ),
@@ -347,112 +349,123 @@ final List<TextEditingController> _values = [];
                       SizedBox(height: 26.h),
                       Flexible(
                         child: Card(
-                           elevation: 4.0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        color: Colors.white,
+                          elevation: 4.0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          color: Colors.white,
                           child: Container(
-                           // width: 363.0.w,
-                           // height: 184.0.h,
-                           decoration: BoxDecoration(
-                            //  border: Border.all(width: 2.0.w, color: Colors.black),
-                           ),
-                           child: Column(
-                             mainAxisSize: MainAxisSize.min,
-                             children: [
-                                // container Title 
-                             Align(
-                               alignment: Alignment.topRight,
-                               child: Padding(
-                                 padding: EdgeInsets.only(
-                                   bottom: 14.0.h,
-                                   top: 10.h,
-                                   right: 14.0.w
-                                   ),
-                                 child: Text(
-                                   " خصائص المنتج",
-                                   style: KTextStyle.textStyle16.copyWith(fontWeight: FontWeight.bold),
-                                               ),
-                               ),
-                             ),
-                               // Flexible(
-                             Flexible(
-                               child: Column(
-                                 mainAxisSize: MainAxisSize.min,
-                                 children: [
-                                   for (int index = 0; index < _keys.length; index++)
-                                     Padding(
-                                       padding: EdgeInsets.symmetric(vertical: 8.0.h),
-                                       child: Row(
-                                         mainAxisAlignment: MainAxisAlignment.center,
-                                         children: [
-                                           CustomSimpleTextFormField(
-                                             textController: _keys[index],
-                                             hintText: 'خاصية',
-                                           ),
-                                           SizedBox(width: 20.w),
-                                           CustomSimpleTextFormField(
-                                             textController: _values[index],
-                                             hintText: 'قيمة',
-                                           ),
-                                           IconButton(
-                                             icon: Icon(Icons.remove_circle, size: 20),
-                                             onPressed: () => _removeField(index),
-                                           ),
-                                         ],
-                                       ),
-                                     ),
-                                   IconButton(
-                                     icon: Row(
-                                       mainAxisAlignment: MainAxisAlignment.center,
-                                       children: [
-                                         Icon(
-                                          Icons.add_circle_outline_sharp,
-                                          size: 20,
-                                          color: AppColors.primary,
+                            // width: 363.0.w,
+                            // height: 184.0.h,
+                            decoration: BoxDecoration(
+                                //  border: Border.all(width: 2.0.w, color: Colors.black),
+                                ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                // container Title
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        bottom: 14.0.h,
+                                        top: 10.h,
+                                        right: 14.0.w),
+                                    child: Text(
+                                      " خصائص المنتج",
+                                      style: KTextStyle.textStyle16.copyWith(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                                // Flexible(
+                                Flexible(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      for (int index = 0;
+                                          index < _keys.length;
+                                          index++)
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 8.0.h),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              CustomSimpleTextFormField(
+                                                textController: _keys[index],
+                                                hintText: 'خاصية',
+                                              ),
+                                              SizedBox(width: 20.w),
+                                              CustomSimpleTextFormField(
+                                                textController: _values[index],
+                                                hintText: 'قيمة',
+                                              ),
+                                              IconButton(
+                                                icon: Icon(Icons.remove_circle,
+                                                    size: 20),
+                                                onPressed: () =>
+                                                    _removeField(index),
+                                              ),
+                                            ],
                                           ),
-                                         Text(" أضف المزيد"),
-                                       ],
-                                     ),
-                                     onPressed: _addField,
-                                   ),
-                                  //  Text("أضف خاصية"),
-                                 ],
-                               ),
-                             ),
-                           ],
-                                                 ),
-                                               ),
+                                        ),
+                                      IconButton(
+                                        icon: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.add_circle_outline_sharp,
+                                              size: 20,
+                                              color: AppColors.primary,
+                                            ),
+                                            Text(" أضف المزيد"),
+                                          ],
+                                        ),
+                                        onPressed: _addField,
+                                      ),
+                                      //  Text("أضف خاصية"),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                   ),
-                 ],
-               ),
-             ),
-           ),
-           SizedBox(height: 10.h,),
-           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-             children: [
-               StorePrimaryButton(
-                title: "تأكيد",
-                width: 251.w,
-                height: 44.h,
-                buttonColor: AppColors.primary,
-               ),
-               SizedBox(width: 8.w,),
-               StorePrimaryButton(
-                title: "إلغاء",
-                width: 104.w,
-                height: 46.h,
-                buttonColor: AppColors.greyIcon,
-               ),
-             ],
-           )
-         ],
-       ),
-     ),
-   ),
- );
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  StorePrimaryButton(
+                    title: "تأكيد",
+                    width: 251.w,
+                    height: 44.h,
+                    buttonColor: AppColors.primary,
+                  ),
+                  SizedBox(
+                    width: 8.w,
+                  ),
+                  StorePrimaryButton(
+                    title: "إلغاء",
+                    width: 104.w,
+                    height: 46.h,
+                    buttonColor: AppColors.greyIcon,
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
