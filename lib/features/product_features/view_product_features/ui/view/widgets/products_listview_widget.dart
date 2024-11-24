@@ -29,7 +29,7 @@ class ProductsListView extends StatelessWidget {
         bool isEven = index % 2 == 0;
 
         return Container(
-          padding: EdgeInsets.only(top: 26.h, bottom: 26.h, left: 7.w),
+          padding: EdgeInsets.only(top: 26.h, bottom: 26.h, left: 10.w),
           decoration: BoxDecoration(
             color: isEven ? AppColors.background : Colors.white,
             borderRadius: BorderRadius.circular(4.r),
@@ -38,14 +38,17 @@ class ProductsListView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                child: Checkbox(
-                  value: checkedStates[index],
-                  onChanged: (val) => onChanged(val, index),
-                  activeColor: AppColors.redDark,
-                  checkColor: AppColors.white,
-                  side: BorderSide(
-                    color: Colors.red,
-                    width: 1.0.w,
+                child: Transform.scale(
+                  scale: 0.8, // هنا يمكنك تعديل القيمة حسب الحجم المطلوب
+                  child: Checkbox(
+                    value: checkedStates[index],
+                    onChanged: (val) => onChanged(val, index),
+                    activeColor: AppColors.redDark,
+                    checkColor: AppColors.white,
+                    side: BorderSide(
+                      color: Colors.red,
+                      width: 1.0.w,
+                    ),
                   ),
                 ),
               ),

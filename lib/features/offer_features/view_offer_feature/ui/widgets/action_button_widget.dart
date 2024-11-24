@@ -22,44 +22,33 @@ class ActionButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        height: height!.h,
-        width: width!.w,
-        decoration: isSolid == true
-            ? BoxDecoration(
-                color: AppColors.primary,
-                borderRadius: BorderRadius.circular(5))
-            : BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(
-                  color: AppColors.primary,
-                )),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              iconPath,
-              //               width: 20.w,
-              //               height: 17.5.h,
-            ),
-            SizedBox(
-              width: 10.w,
-            ),
-            Text(
-              title,
-              style: isSolid == true
-                  ? KTextStyle.textStyle13.copyWith(
-                      color: AppColors.white,
-                    )
-                  : KTextStyle.textStyle12.copyWith(
-                      color: AppColors.greyLight,
-                    ),
-            ),
-          ],
-        ),
+    return Container(
+      height: 30.h,
+      width: 120.w,
+      decoration: isSolid == true ?
+      BoxDecoration(
+        color: AppColors.black,
+        borderRadius: BorderRadius.circular(5)
+      ):
+      BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(5),
+        border: Border.all(color: AppColors.primary,)
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          SvgPicture.asset(
+                        iconPath,
+          //               width: 20.w,
+          //               height: 17.5.h,
+          ),
+          Text(title,
+          style: isSolid == true ?
+          KTextStyle.textStyle11.copyWith(color: AppColors.white,):
+          KTextStyle.textStyle10.copyWith(color: AppColors.greyLight,),
+          ),
+        ],
       ),
     );
   }
