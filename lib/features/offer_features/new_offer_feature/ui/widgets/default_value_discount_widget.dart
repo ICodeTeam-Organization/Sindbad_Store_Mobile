@@ -44,10 +44,15 @@ class _DefaultValueDiscountWidgetState
               if (value.isNotEmpty && double.tryParse(value) != null) {
                 setState(() {
                   widget.onDiscountRateChanged(double.parse(value));
+                  print(value);
+                });
+              } else {
+                setState(() {
+                  widget.onDiscountRateChanged(0);
                 });
               }
             },
-            style: KTextStyle.textStyle9.copyWith(
+            style: KTextStyle.textStyle12.copyWith(
               color: AppColors.blackLight,
             ),
             textAlign: TextAlign.center, // Center-align text horizontally

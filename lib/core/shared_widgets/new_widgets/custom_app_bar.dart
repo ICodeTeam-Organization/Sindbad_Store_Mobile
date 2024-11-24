@@ -28,22 +28,19 @@ class CustomAppBar extends StatelessWidget {
       child: Stack(
         children: [
           isBack == true
-              ? Positioned(
-                  top: 0,
-                  right: 0,
+              ? Align(
+                  alignment: Alignment.centerRight,
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: IconButton(
-                      onPressed:
-                          onBackPressed ?? () => Navigator.of(context).pop(),
-                      iconSize: 24,
-                      icon: SvgPicture.asset(
-                        "assets/back_appbar.svg",
-                        width: 40.w,
-                        height: 40.w,
-                      ),
-                    ),
-                  ),
+                      padding: const EdgeInsets.only(right: 15),
+                      child: InkWell(
+                        onTap:
+                            onBackPressed ?? () => Navigator.of(context).pop(),
+                        child: SvgPicture.asset(
+                          "assets/back_appbar.svg",
+                          width: 40.w,
+                          height: 40.w,
+                        ),
+                      )),
                 )
               : SizedBox(),
           Center(
@@ -55,21 +52,18 @@ class CustomAppBar extends StatelessWidget {
             ),
           ),
           isSearch == true
-              ? Positioned(
-                  top: 0,
-                  left: 0,
+              ? Align(
+                  alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: IconButton(
-                      onPressed: onSearchPressed,
-                      iconSize: 24,
-                      icon: SvgPicture.asset(
-                        "assets/search_appbar.svg",
-                        width: 40.w,
-                        height: 40.w,
-                      ),
-                    ),
-                  ),
+                      padding: const EdgeInsets.only(left: 15),
+                      child: InkWell(
+                        onTap: onSearchPressed,
+                        child: SvgPicture.asset(
+                          "assets/search_appbar.svg",
+                          width: 40.w,
+                          height: 40.w,
+                        ),
+                      )),
                 )
               : SizedBox(),
         ],

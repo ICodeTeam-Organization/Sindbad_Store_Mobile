@@ -11,6 +11,7 @@ import 'package:sindbad_management_app/features/offer_features/new_offer_feature
 import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/default_value_bouns_widget.dart';
 import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/default_value_discount_widget.dart';
 import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/horizontal_title_and_text_field.dart';
+import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/required_text.dart';
 import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/section_title_widget.dart';
 import 'package:sindbad_management_app/features/offer_features/view_offer_feature/ui/widgets/action_button_widget.dart';
 
@@ -26,11 +27,11 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
   final ValueNotifier<int> buysCountNotifier = ValueNotifier<int>(0);
   final ValueNotifier<int> freesCountNotifier = ValueNotifier<int>(0);
   List<Item> selectedItems = [];
-  double discountRate = 15;
   String selectedOption = 'Discount';
   bool isDiscountDefaultValue = true;
 
   // Default values for bonus configuration
+  double discountRate = 15; // Default "Discount Rate" value
   int buysCount = 2; // Default "Buy X" value
   int freesCount = 1; // Default "Get Y" value
 
@@ -52,6 +53,9 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
   void initState() {
     super.initState();
     isDiscountDefaultValue = selectedOption == 'Discount';
+    discountRateNotifier.value = discountRate;
+    buysCountNotifier.value = buysCount;
+    freesCountNotifier.value = freesCount;
   }
 
   // Function to calculate discounted price
@@ -83,22 +87,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text.rich(
-                      TextSpan(
-                        text: 'اسم العرض ',
-                        style: KTextStyle.textStyle13.copyWith(
-                          color: AppColors.greyLight,
-                        ),
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: '*',
-                            style: KTextStyle.textStyle13.copyWith(
-                              color: AppColors.primary,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    RequiredText(title: 'اسم العرض '),
                     SizedBox(height: 10.h),
                     TextFormField(
                       decoration: InputDecoration(
@@ -125,9 +114,9 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                   ],
                 ),
                 SizedBox(height: 40.h),
-                HorizontalTitleAndTextField(title: 'بداية العرض'),
+                HorizontalTitleAndTextField(title: 'بداية العرض '),
                 SizedBox(height: 40.h),
-                HorizontalTitleAndTextField(title: 'نهاية العرض'),
+                HorizontalTitleAndTextField(title: 'نهاية العرض '),
                 SizedBox(height: 40.h),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,7 +124,12 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                     SectionTitleWidget(title: 'نوع الخصم'),
                     SizedBox(height: 10.h),
                     RadioListTile<String>(
-                      title: Text('خصم مبلغ من منتج'),
+                      title: Text(
+                        'خصم مبلغ من منتج',
+                        style: KTextStyle.textStyle13.copyWith(
+                          color: AppColors.greyLight,
+                        ),
+                      ),
                       value: 'Discount',
                       groupValue: selectedOption,
                       onChanged: (value) {
@@ -144,9 +138,16 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                           isDiscountDefaultValue = true;
                         });
                       },
+                      activeColor: AppColors.primary,
+                      visualDensity: VisualDensity(horizontal: 0, vertical: -4),
                     ),
                     RadioListTile<String>(
-                      title: Text('اشتري x واحصل على y'),
+                      title: Text(
+                        'اشتري x واحصل على y',
+                        style: KTextStyle.textStyle13.copyWith(
+                          color: AppColors.greyLight,
+                        ),
+                      ),
                       value: 'Bouns',
                       groupValue: selectedOption,
                       onChanged: (value) {
@@ -155,6 +156,8 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                           isDiscountDefaultValue = false;
                         });
                       },
+                      activeColor: AppColors.primary,
+                      visualDensity: VisualDensity(horizontal: 0, vertical: -4),
                     ),
                   ],
                 ),
@@ -176,6 +179,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                         onBuysCountChanged: (newBuysCount) {
                           setState(() {
                             buysCountNotifier.value = newBuysCount;
+                            print(buysCountNotifier.value);
                           });
                         },
                         onFreesCountChanged: (newFreesCount) {
@@ -249,7 +253,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                               productImage: selectedItems[index].imageUrl,
                               lastPrice: 4000,
                               newPrice: calculateNewPrice(4000, discountRate),
-                              discountRate: discountRate,
+                              discountRate: discountRateNotifier.value,
                               onTapQuit: () {
                                 setState(() {
                                   selectedItems.removeAt(index);
@@ -260,8 +264,8 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                           : CardProductBounsWidget(
                               productName: selectedItems[index].title,
                               productImage: selectedItems[index].imageUrl,
-                              buysCount: buysCount, // Pass current value
-                              freesCount: freesCount, // Pass current value
+                              buysCount: buysCountNotifier.value,
+                              freesCount: freesCountNotifier.value,
                               onTapQuit: () {
                                 setState(() {
                                   selectedItems.removeAt(index);

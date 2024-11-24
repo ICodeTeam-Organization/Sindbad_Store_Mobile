@@ -5,6 +5,7 @@ import 'order_management _features/ui/screen/order_management_screen.dart';
 import 'product_features/view_product_features/ui/view/view_product.dart';
 import 'package:sindbad_management_app/features/offer_features/view_offer_feature/ui/screens/view_offer_screen.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/screen/order_management_screen.dart';
+import 'package:sindbad_management_app/features/product_features/add_product_feature/ui/add_product_screen.dart';
 
 class Root extends StatefulWidget {
   const Root({super.key});
@@ -26,6 +27,9 @@ class _RootState extends State<Root> {
   List<Widget> widgetList = [
     OrderManagementScreen(),
     ViewProduct(),
+    // AddProductScreen(),
+    // EditProductScreen(),
+    // Text('المنتجات'),
     ViewOfferScreen(),
     Text('التقارير'),
   ];
@@ -36,21 +40,13 @@ class _RootState extends State<Root> {
         index: myIndex,
         children: widgetList,
       ),
-      bottomNavigationBar:
-
-          /// [qais] => The bottom navigation bar container.
-          /// Note: Avoid using `Container` beacause it is a heavy widget.
-          /// Consider using `Padding`, `DecoratedBox`, and `SizedBox` instead
-          /// for better performance.
-
-          Container(
+      bottomNavigationBar: Container(
         height: _bottomNavBarHeight.h,
         padding: EdgeInsets.symmetric(
             horizontal: _paddingAndMagin.w, vertical: _paddingAndMagin.h),
         margin: EdgeInsets.symmetric(
             horizontal: _paddingAndMagin.w, vertical: _paddingAndMagin.h),
         decoration: BoxDecoration(
-            // border: Border.all(color: AppColors.black),
             borderRadius: BorderRadius.circular(_borderRadius.r)),
         child: BottomNavigationBar(
           showUnselectedLabels: true,
