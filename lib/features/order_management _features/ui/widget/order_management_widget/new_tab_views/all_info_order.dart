@@ -27,8 +27,6 @@ class AllInfoOrder extends StatelessWidget {
       itemCount: 4,
       itemBuilder: (BuildContext context, int index) {
         final status = myStatuses[index];
-        //but status number by json
-
         return InkWell(
           onTap: () {
             context.push(

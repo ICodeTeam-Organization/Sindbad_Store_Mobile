@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../../core/utils/route.dart';
+import '../../../function/status_helper.dart';
 import '../../order_body.dart';
 
 class PreparingInfoOrder extends StatelessWidget {
@@ -25,6 +26,7 @@ class PreparingInfoOrder extends StatelessWidget {
     return ListView.builder(
       itemCount: 4,
       itemBuilder: (BuildContext context, int index) {
+        final status = myStatuses[index];
         return InkWell(
           onTap: () {
             context.push(
