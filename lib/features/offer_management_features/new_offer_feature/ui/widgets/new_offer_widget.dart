@@ -5,15 +5,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
-import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/card_product_bouns_widget.dart';
-import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/card_product_discount_widget.dart';
-import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/custom_select_item_dialog.dart';
-import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/default_value_bouns_widget.dart';
-import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/default_value_discount_widget.dart';
-import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/horizontal_title_and_text_field.dart';
-import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/required_text.dart';
-import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/section_title_widget.dart';
-import 'package:sindbad_management_app/features/offer_features/view_offer_feature/ui/widgets/action_button_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/widgets/card_product_bouns_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/widgets/card_product_discount_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/widgets/custom_select_item_dialog.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/widgets/default_value_bouns_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/widgets/default_value_discount_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/widgets/horizontal_title_and_text_field.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/widgets/required_text.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/widgets/section_title_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/action_button_widget.dart';
 
 class NewOfferWidget extends StatefulWidget {
   const NewOfferWidget({super.key});
