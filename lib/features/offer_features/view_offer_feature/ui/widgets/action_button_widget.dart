@@ -17,7 +17,7 @@ class ActionButtonWidget extends StatelessWidget {
       width: 120.w,
       decoration: isSolid == true ?
       BoxDecoration(
-        color: AppColors.primary,
+        color: AppColors.black,
         borderRadius: BorderRadius.circular(5)
       ):
       BoxDecoration(
