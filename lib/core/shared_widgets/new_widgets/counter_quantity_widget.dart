@@ -23,24 +23,33 @@ class _CounterQuantityWidgetState extends State<CounterQuantityWidget> {
   @override
   void initState() {
     super.initState();
-    _counter = widget.number; // Initialize the counter with the passed value
+    _counter = widget.number; // Initialize the counter with the initial value
+  }
+
+  @override
+  void didUpdateWidget(CounterQuantityWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Update the counter when the parent passes a new number value
+    if (widget.number != oldWidget.number) {
+      setState(() {
+        _counter = widget.number;
+      });
+    }
   }
 
   void _increment() {
     setState(() {
       _counter++;
+      widget.onChanged(_counter); // Notify parent of the new value
     });
-    widget
-        .onChanged(_counter); // Notify the parent widget of the updated counter
   }
 
   void _decrement() {
     if (_counter > 1) {
       setState(() {
         _counter--;
+        widget.onChanged(_counter); // Notify parent of the new value
       });
-      widget.onChanged(
-          _counter); // Notify the parent widget of the updated counter
     }
   }
 

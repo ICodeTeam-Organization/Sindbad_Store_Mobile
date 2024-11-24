@@ -44,6 +44,11 @@ class _DefaultValueDiscountWidgetState
               if (value.isNotEmpty && double.tryParse(value) != null) {
                 setState(() {
                   widget.onDiscountRateChanged(double.parse(value));
+                  print(value);
+                });
+              } else {
+                setState(() {
+                  widget.onDiscountRateChanged(0);
                 });
               }
             },
