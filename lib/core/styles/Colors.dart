@@ -39,6 +39,9 @@ class AppColors {
   static const greyIcon = Color(0xFF707070);//  
   static const blackDark = Color(0xFF000000);//
   static const blackLight = Color(0xFF444444);//
+
+  /// omar add this for the background of the add image
+  static const primaryOpacity = Color(0x0DFF746B);
   
   
   //0xFF444444
