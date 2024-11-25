@@ -34,9 +34,9 @@ class AllInfoOrder extends StatelessWidget {
       builder: (context, state) {
         if (state is AllOrderSuccess) {
           return ListView.builder(
-            itemCount: 4,
+            itemCount: state.orders.length,
             itemBuilder: (BuildContext context, int i) {
-              final status = myStatuses[i];
+              // final status = myStatuses[i];
               return InkWell(
                 onTap: () {
                   context.push(
@@ -47,7 +47,7 @@ class AllInfoOrder extends StatelessWidget {
                 child: OrderBody(
                   billNumber: state.orders[i].orderBill,
                   orderNumber: state.orders[i].orderNum,
-                  clock: state.orders[i].orderTime,
+                  clock: '0:00',
                   date: state.orders[i].orderDates,
                   itemNumber: state.orders[i].productMount,
                   paymentInfo: state.orders[i].payStatus,

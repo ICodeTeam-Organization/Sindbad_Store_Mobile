@@ -28,6 +28,7 @@ class OrderManagementScreen extends StatelessWidget {
             child: Column(
               children: [
                 CustomAppBar(
+                  isBack: false,
                   tital: 'قائمة الطلبات',
                 ),
                 SizedBox(height: 5),

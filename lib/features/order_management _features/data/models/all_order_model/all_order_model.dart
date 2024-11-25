@@ -18,10 +18,10 @@ class AllOrderModel extends AllOrderEntity {
     this.paymentStatus,
     this.orderDate,
   }) : super(
-            idOrder: id!,
-            orderNum: orderNumber!,
+            idOrder: id ?? 0,
+            orderNum: orderNumber ?? '0',
             orderBill: invoiceNumber ?? 'لا يوجد',
-            orderTime: '4:14',
+            // orderTime: '4:14',
             orderDates: orderDate ?? '0000/0/0',
             productMount: totalProducts ?? '0',
             orderStatuse: orderStatus ?? 'لا توجد حالة',

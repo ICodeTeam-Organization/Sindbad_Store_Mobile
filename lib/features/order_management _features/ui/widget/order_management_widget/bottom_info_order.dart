@@ -33,7 +33,7 @@ class BottomInfoOrder extends StatelessWidget {
             width: 10.w,
           ),
           Text(
-            '$clock - $date التاريخ',
+            '$clock - $date ',
             style: KTextStyle.textStyle12,
           ),
           SizedBox(
