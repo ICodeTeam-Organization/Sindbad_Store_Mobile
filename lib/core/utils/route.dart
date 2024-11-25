@@ -96,8 +96,6 @@ abstract class AppRouter {
           return ViewOfferProductDetailsDiscountScreen(
             offerName: offerName,
           );
-            offerName: offerName,
-          );
         },
       ),
       GoRoute(
@@ -107,8 +105,6 @@ abstract class AppRouter {
           final String offerName = args[0]; // The first parameter in the list
           // final String offerType = args[1]; // The second parameter in the list
           return ViewOfferProductDetailsBounsScreen(
-            offerName: offerName,
-          );
             offerName: offerName,
           );
         },
