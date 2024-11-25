@@ -27,11 +27,9 @@ class _TextForm extends State<TextForm> {
   static const double _padding = 16.0;
   static const double _borderRadius = 15.0;
 
-
   @override
   Widget build(BuildContext context) {
-
-    // [qais] => don`t use the container here 
+    // [qais] => don`t use the container here
     // because it is a heavy widget and you only want a hight and color properties
     // use sizedbox and box decoration instead
 
@@ -56,25 +54,28 @@ class _TextForm extends State<TextForm> {
           ),
           Expanded(
             child: Padding(
-              padding:
-                  EdgeInsets.symmetric(vertical: _padding.h, horizontal: _padding.w),
+              padding: EdgeInsets.symmetric(
+                  vertical: _padding.h, horizontal: _padding.w),
               child: TextFormField(
                 key: _formfield,
                 keyboardType: widget.textInputType,
                 controller: widget.controller,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(_borderRadius.r)),
+                    borderRadius:
+                        BorderRadius.all(Radius.circular(_borderRadius.r)),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide:
                         BorderSide(color: AppColors.greyHint, width: 1.0.w),
-                    borderRadius: BorderRadius.all(Radius.circular(_borderRadius.r)),
+                    borderRadius:
+                        BorderRadius.all(Radius.circular(_borderRadius.r)),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide:
                         BorderSide(color: AppColors.redLight, width: 2.0.w),
-                    borderRadius: BorderRadius.all(Radius.circular(_borderRadius.r)),
+                    borderRadius:
+                        BorderRadius.all(Radius.circular(_borderRadius.r)),
                   ),
                 ),
               ),

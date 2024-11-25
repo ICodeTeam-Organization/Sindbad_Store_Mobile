@@ -13,11 +13,9 @@
 
 // class _PrimaryButtonWidgetState extends State<PrimaryButtonWidget> {
 
-
-
 //   @override
 //   Widget build(BuildContext context) {
-    
+
 //     return Container(
 //       decoration: BoxDecoration(
 //         color: AppColors.primaryButtonColor,

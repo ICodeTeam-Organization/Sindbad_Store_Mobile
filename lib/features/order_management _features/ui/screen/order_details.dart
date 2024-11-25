@@ -327,9 +327,7 @@ class OrderDetails extends StatelessWidget {
   }
 }
 
-
 ///////////////////////////////////////////////////////////////
-
 
 // class CustomIMageButton extends StatelessWidget {
 //   final VoidCallback onTap;
