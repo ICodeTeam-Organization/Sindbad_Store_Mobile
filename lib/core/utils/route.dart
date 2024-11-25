@@ -4,6 +4,9 @@ import 'package:sindbad_management_app/features/offer_features/view_offer_featur
 import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/screens/new_offer_screen.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/screens/add_product_screen.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/screens/edit_product_screen.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/screens/view_offer_product_details_bouns_screen.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/screens/view_offer_product_details_discount_screen.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/screens/new_offer_screen.dart';
 import 'package:sindbad_management_app/store_app_features/add_product/ui/screen/store_add_product.dart';
 import 'package:sindbad_management_app/store_app_features/excel_file/ui/screen/store_excel_file.dart';
 import 'package:sindbad_management_app/store_app_features/offer_product/ui/screen/store_offer_product.dart';
@@ -84,11 +87,15 @@ abstract class AppRouter {
       GoRoute(
         path: AppRouter.storeRouters
             .kOfferProductDetailsDiscount, // Use the parameterized path
+        path: AppRouter.storeRouters
+            .kOfferProductDetailsDiscount, // Use the parameterized path
         builder: (context, state) {
           final List<dynamic> args = state.extra as List<dynamic>;
           final String offerName = args[0]; // The first parameter in the list
           // final String offerType = args[1]; // The second parameter in the list
           return ViewOfferProductDetailsDiscountScreen(
+            offerName: offerName,
+          );
             offerName: offerName,
           );
         },
@@ -100,6 +107,8 @@ abstract class AppRouter {
           final String offerName = args[0]; // The first parameter in the list
           // final String offerType = args[1]; // The second parameter in the list
           return ViewOfferProductDetailsBounsScreen(
+            offerName: offerName,
+          );
             offerName: offerName,
           );
         },
@@ -174,6 +183,7 @@ abstract class AppRouter {
 
 //   // Accountant Routes
 //   static AcontantRouters acontantRouters = AcontantRouters();
+
 
 //   // Accountant Routes
 //   static const kAccountantHome = '/accountant/home';

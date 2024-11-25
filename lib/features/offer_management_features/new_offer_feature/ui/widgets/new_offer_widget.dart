@@ -5,15 +5,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
-import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/card_product_bouns_widget.dart';
-import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/card_product_discount_widget.dart';
-import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/custom_select_item_dialog.dart';
-import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/default_value_bouns_widget.dart';
-import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/default_value_discount_widget.dart';
-import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/horizontal_title_and_text_field.dart';
-import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/required_text.dart';
-import 'package:sindbad_management_app/features/offer_features/new_offer_feature/ui/widgets/section_title_widget.dart';
-import 'package:sindbad_management_app/features/offer_features/view_offer_feature/ui/widgets/action_button_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/widgets/card_product_bouns_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/widgets/card_product_discount_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/widgets/custom_select_item_dialog.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/widgets/default_value_bouns_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/widgets/default_value_discount_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/widgets/horizontal_title_and_text_field.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/widgets/required_text.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/widgets/section_title_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/action_button_widget.dart';
 
 class NewOfferWidget extends StatefulWidget {
   const NewOfferWidget({super.key});
@@ -26,6 +26,8 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
   final ValueNotifier<double> discountRateNotifier = ValueNotifier<double>(0);
   final ValueNotifier<int> buysCountNotifier = ValueNotifier<int>(0);
   final ValueNotifier<int> freesCountNotifier = ValueNotifier<int>(0);
+  TextEditingController startDateConroller = TextEditingController();
+  TextEditingController endDateConroller = TextEditingController();
   List<Item> selectedItems = [];
   String selectedOption = 'Discount';
   bool isDiscountDefaultValue = true;
@@ -68,6 +70,13 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
     setState(() {
       this.selectedItems = selectedItems;
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    startDateConroller.dispose();
+    endDateConroller.dispose();
   }
 
   @override
@@ -114,9 +123,17 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                   ],
                 ),
                 SizedBox(height: 40.h),
-                HorizontalTitleAndTextField(title: 'بداية العرض '),
+                HorizontalTitleAndTextField(
+                  title: 'بداية العرض ',
+                  info: startDateConroller,
+                  isDate: true,
+                ),
                 SizedBox(height: 40.h),
-                HorizontalTitleAndTextField(title: 'نهاية العرض '),
+                HorizontalTitleAndTextField(
+                  title: 'نهاية العرض ',
+                  info: endDateConroller,
+                  isDate: true,
+                ),
                 SizedBox(height: 40.h),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

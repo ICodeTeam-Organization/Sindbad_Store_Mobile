@@ -61,3 +61,47 @@ class OrderDetails extends StatelessWidget {
     );
   }
 }
+
+///////////////////////////////////////////////////////////////
+
+// class CustomIMageButton extends StatelessWidget {
+//   final VoidCallback onTap;
+//   final IconData icon;
+//   final String title;
+
+//   const CustomIMageButton({
+//     super.key,
+//     required this.onTap,
+//     required this.icon,
+//     required this.title,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return InkWell(
+//       onTap: onTap,
+//       child: Container(
+//         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+//         decoration: BoxDecoration(
+//           color: Colors.grey,
+//           borderRadius: BorderRadius.circular(8),
+//         ),
+//         child: Row(
+//           mainAxisSize: MainAxisSize.min,
+//           children: [
+//             Text(
+//               title,
+//               style: KTextStyle.secondaryTitle.copyWith(color: AppColors.white),
+//             ),
+//             const SizedBox(width: 10),
+//             Icon(
+//               icon,
+//               size: 25,
+//               color: AppColors.white,
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

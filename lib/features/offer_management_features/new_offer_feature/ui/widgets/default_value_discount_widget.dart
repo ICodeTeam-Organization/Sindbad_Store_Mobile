@@ -37,14 +37,13 @@ class _DefaultValueDiscountWidgetState
           height: 45.h, // Adjusted height
           width: 150.w, // Adjusted width
           child: TextFormField(
-            initialValue: widget.discountRate.toString(),
+            initialValue: widget.discountRate.toStringAsFixed(0),
             keyboardType: TextInputType.number,
             onChanged: (value) {
               // Ensure value is numeric before updating
               if (value.isNotEmpty && double.tryParse(value) != null) {
                 setState(() {
                   widget.onDiscountRateChanged(double.parse(value));
-                  print(value);
                 });
               } else {
                 setState(() {
