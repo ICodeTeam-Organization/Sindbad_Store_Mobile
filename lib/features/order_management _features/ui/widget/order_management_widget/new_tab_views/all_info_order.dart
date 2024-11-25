@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../../../../core/utils/route.dart';
 import '../../../function/status_helper.dart';
+import '../../../manager/all_order/all_order_cubit.dart';
+import '../../../manager/all_order/all_order_state.dart';
 import '../../order_body.dart';
 
 class AllInfoOrder extends StatelessWidget {
@@ -23,27 +28,62 @@ class AllInfoOrder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: 4,
-      itemBuilder: (BuildContext context, int index) {
-        final status = myStatuses[index];
-        return InkWell(
-          onTap: () {
-            context.push(
-              AppRouter.storeRouters.details,
-              // extra: idOrder,
-            );
-          },
-          child: OrderBody(
-            billNumber: '1111111',
-            orderNumber: '123456789',
-            clock: '4:14',
-            date: '2024/11/23',
-            itemNumber: 25,
-            paymentInfo: 'لا يوجد',
-            orderStatus: status,
-          ),
-        );
+    context.read<AllOrderCubit>().fetchAllOrder(1, 10, 1, '', false);
+
+    return BlocBuilder<AllOrderCubit, AllOrderState>(
+      builder: (context, state) {
+        if (state is AllOrderSuccess) {
+          return ListView.builder(
+            itemCount: 4,
+            itemBuilder: (BuildContext context, int i) {
+              final status = myStatuses[i];
+              return InkWell(
+                onTap: () {
+                  context.push(
+                    AppRouter.storeRouters.details,
+                    // extra: idOrder,
+                  );
+                },
+                child: OrderBody(
+                  billNumber: state.orders[i].orderBill,
+                  orderNumber: state.orders[i].orderNum,
+                  clock: state.orders[i].orderTime,
+                  date: state.orders[i].orderDates,
+                  itemNumber: state.orders[i].productMount,
+                  paymentInfo: state.orders[i].payStatus,
+                  orderStatus: state.orders[i].orderStatuse,
+                ),
+              );
+            },
+          );
+        } else if (state is AllOrderFailuer) {
+          return Text(state.errMessage);
+        } else if (state is AllOrderLoading) {
+          return Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: ListView.builder(
+              padding: EdgeInsets.zero,
+              itemCount: 6,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Container(
+                    color: Colors.white,
+                    height: 130.h,
+                    width: MediaQuery.of(context).size.width,
+                  ),
+                );
+              },
+            ),
+          );
+        } else {
+          return Container(
+            color: Colors.red.shade400,
+            height: 50,
+            width: 300,
+            child: Text('لم يتم الوصول الى المعلومات'),
+          );
+        }
       },
     );
   }

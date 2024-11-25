@@ -21,10 +21,10 @@ class OrderBody extends StatelessWidget {
   final String billNumber;
   final String clock;
   final String date;
-  final int itemNumber;
+  final String itemNumber;
 
   final String paymentInfo;
-  final int orderStatus;
+  final String orderStatus;
 
   @override
   Widget build(BuildContext context) {

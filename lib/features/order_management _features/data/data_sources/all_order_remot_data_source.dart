@@ -54,8 +54,7 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
       String searchKeyword) async {
     String? token = await getToken();
     var data = await apiService.get(
-      endPoint:
-          'Orders/Store/GetAllOrdersByStoreIdWitheFilterstring/1/10/1?IsUrgen=false',
+      endPoint: 'Orders/Store/GetStoreOrdersWitheFilter',
       headers: {
         'Authorization': 'Bearer $token',
       },

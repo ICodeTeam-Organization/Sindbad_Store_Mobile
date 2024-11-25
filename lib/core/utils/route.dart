@@ -14,12 +14,13 @@ import 'package:sindbad_management_app/store_app_features/report/ui/screen/store
 import 'package:sindbad_management_app/store_app_features/search_product/ui/screen/store_search_product.dart';
 import 'package:sindbad_management_app/store_app_features/stop_product/ui/screen/store_stop_prodect.dart';
 import 'package:sindbad_management_app/store_app_features/stopped_product/ui/screen/store_stopped_product.dart';
+import '../../features/auth_features/ui/screen/sign_in_screen.dart';
 import '../../features/order_management _features/ui/screen/order_details.dart';
 import '../../features/root.dart';
 
 class StoreRouters {
   // String signIn = '/';
-  String root = '/';
+  String root = '/root';
   String kOfferProductDetailsDiscount = '/offerProductDetailsDiscount';
   String kOfferProductDetailsBouns = '/offerProductDetailsBouns';
   String kOfferProductDetails = '/offerProductDetails';
@@ -55,12 +56,12 @@ abstract class AppRouter {
   static final router = GoRouter(
     routes: [
       // Store Routes
-      // GoRoute(
-      //   path: AppRouter.storeRouters.signIn,
-      //   builder: (context, state) => const SignInScreen(),
-      // ),
       GoRoute(
         path: AppRouter.storeRouters.signIn,
+        builder: (context, state) => const SignInScreen(),
+      ),
+      GoRoute(
+        path: AppRouter.storeRouters.root,
         builder: (context, state) => const Root(),
       ),
       GoRoute(

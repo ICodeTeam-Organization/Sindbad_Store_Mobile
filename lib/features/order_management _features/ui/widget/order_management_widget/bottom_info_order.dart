@@ -15,7 +15,7 @@ class BottomInfoOrder extends StatelessWidget {
 
   final String clock;
   final String date;
-  final int itemNumber;
+  final String itemNumber;
 
   @override
   Widget build(BuildContext context) {

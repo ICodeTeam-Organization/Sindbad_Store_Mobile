@@ -13,15 +13,15 @@ class StatusHelper {
   ];
 
   // Function to get color based on status
-  static Color getColor(int status) {
+  static Color getColor(String status) {
     switch (status) {
-      case 1:
+      case '1':
         return AppColors.grey;
-      case 2:
+      case '2':
         return AppColors.redOpacity;
-      case 3:
+      case '3':
         return AppColors.greenOpacity;
-      case 4:
+      case '4':
         return AppColors.blueOpacity;
       default:
         return AppColors.white; // Default color if the status is unknown

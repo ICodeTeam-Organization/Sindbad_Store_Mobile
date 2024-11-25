@@ -39,9 +39,9 @@ class BeforeTabViews extends StatelessWidget {
             orderNumber: '123456789',
             clock: '4:14',
             date: '2024/11/23',
-            itemNumber: 25,
+            itemNumber: '25',
             paymentInfo: 'لا يوجد',
-            orderStatus: 5,
+            orderStatus: '5',
           ),
         );
       },
