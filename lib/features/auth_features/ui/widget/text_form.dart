@@ -60,7 +60,14 @@ class _TextForm extends State<TextForm> {
                 key: _formfield,
                 keyboardType: widget.textInputType,
                 controller: widget.controller,
+                textAlign: TextAlign.start,
                 decoration: InputDecoration(
+                  filled: true,
+                  fillColor: AppColors.white,
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 4.h,
+                    horizontal: 10.w,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius:
                         BorderRadius.all(Radius.circular(_borderRadius.r)),
