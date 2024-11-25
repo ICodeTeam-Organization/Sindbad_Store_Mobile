@@ -78,7 +78,7 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
                             discountRate: '10%',
                             offerBouns: 'اشتري x واحصل على y',
                             startOffer: DateTime.utc(2024, 5, 1),
-                            endOffer: DateTime.utc(2024, 11, 25),
+                            endOffer: DateTime.utc(2024, 11, 27),
                             isActive: true,
                             countProducts: '17',
                             offerType: offerType!,

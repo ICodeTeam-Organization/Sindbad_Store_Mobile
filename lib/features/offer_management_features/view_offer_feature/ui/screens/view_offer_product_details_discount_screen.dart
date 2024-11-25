@@ -66,8 +66,8 @@ class _ViewOfferProductDetailsDiscountScreenState
                           CardOfferProductDetailsDiscountWidget(
                             productName: 'MacBook Air',
                             productImage: "assets/image_example.png",
-                            lastPrice: '\$ 4,500',
-                            newPrice: '\$ 4,400',
+                            lastPrice: 4500,
+                            newPrice: 4400,
                           ),
                           Divider(),
                         ],

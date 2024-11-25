@@ -5,6 +5,7 @@ import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/action_button_widget.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/custom_delete_dialog_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/remaining_notice.dart';
 
 class CardOfferWidget extends StatefulWidget {
   final String offerName;
@@ -34,6 +35,8 @@ class CardOfferWidget extends StatefulWidget {
 class _CardOfferWidgetState extends State<CardOfferWidget> {
   DateTime dateNow = DateTime.now();
   int result = 0;
+  String specialCase = '';
+  dynamic remainingDays;
   bool? isRemainingDays;
   String? offerTypeTitle;
   String? isActiveTitleButton;
@@ -46,6 +49,19 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
       isActiveTitleButton = 'ايقاف عرض';
     } else {
       isActiveTitleButton = 'تنشيط عرض';
+    }
+    if (result == 1) {
+      specialCase = '';
+      remainingDays = 'يوم واحد ';
+    } else if (result == 2) {
+      specialCase = '';
+      remainingDays = 'يومين ';
+    } else if (result > 2 && result < 11) {
+      specialCase = ' أيام ';
+      remainingDays = result;
+    } else if (result > 10) {
+      specialCase = ' يوم ';
+      remainingDays = result;
     }
   }
 
@@ -251,27 +267,9 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
                   child: Column(
                     children: [
                       isRemainingDays == true
-                          ? Row(
-                              children: [
-                                Text(
-                                  '( متبقي ',
-                                  style: KTextStyle.textStyle8.copyWith(
-                                    color: AppColors.greyLight,
-                                  ),
-                                ),
-                                Text(
-                                  result.toString(),
-                                  style: KTextStyle.textStyle8.copyWith(
-                                    color: AppColors.primary,
-                                  ),
-                                ),
-                                Text(
-                                  ' أيام على الانتهاء )',
-                                  style: KTextStyle.textStyle8.copyWith(
-                                    color: AppColors.greyLight,
-                                  ),
-                                ),
-                              ],
+                          ? RemainingNotice(
+                              remainingDays: remainingDays,
+                              specialCase: specialCase,
                             )
                           : Text(' (  انتهاء العرض  ) ',
                               style: KTextStyle.textStyle8.copyWith(

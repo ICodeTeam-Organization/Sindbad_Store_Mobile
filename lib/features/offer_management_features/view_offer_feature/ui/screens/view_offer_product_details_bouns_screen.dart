@@ -62,8 +62,8 @@ class _ViewOfferProductDetailsBounsScreenState
                           CardOfferProductDetailsBounsWidget(
                             productName: 'MacBook Air',
                             productImage: "assets/image_example.png",
-                            buysCount: '3',
-                            freesCount: '1',
+                            buysCount: 2,
+                            freesCount: 1,
                           ),
                           Divider(),
                         ],
