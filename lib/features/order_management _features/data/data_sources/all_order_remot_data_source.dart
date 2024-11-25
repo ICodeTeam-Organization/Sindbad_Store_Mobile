@@ -27,8 +27,8 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
       Map<String, dynamic> data, T Function(Map<String, dynamic>) fromJson) {
     List<T> entities = [];
 
-    if (data['data'] is List) {
-      for (var item in data['data']) {
+    if (data['data']['items'] is List) {
+      for (var item in data['data']['items']) {
         entities.add(fromJson(item));
       }
     } else if (data['message'] != null) {
@@ -53,10 +53,17 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
       int pageSize,
       String searchKeyword) async {
     String? token = await getToken();
-    var data = await apiService.get(
+    var data = await apiService.post(
+      data: {
+        'isUrgen': false,
+        'orderDetailStatus': 1,
+        'pageSize': 10,
+        'pageNumber': 1,
+        'search': null,
+      },
       endPoint: 'Orders/Store/GetStoreOrdersWitheFilter',
       headers: {
-        'Authorization': 'Bearer $token',
+        'Authorization': 'BEARER $token',
       },
     );
     List<AllOrderEntity> orders = getAllOrderList(data);

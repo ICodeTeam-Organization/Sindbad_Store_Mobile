@@ -49,7 +49,7 @@ class SubCustomTabBar extends StatelessWidget {
             decoration: BoxDecoration(
                 color: AppColors.white,
                 borderRadius: BorderRadius.circular(25.r)),
-            child: TabBar(
+            child: TabBar( 
               padding: EdgeInsets.zero,
               labelStyle: KTextStyle.textStyle16,
               dividerColor: Colors.transparent,
