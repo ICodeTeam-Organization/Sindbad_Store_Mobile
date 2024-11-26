@@ -25,17 +25,21 @@ class TopOrderDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Container(
-        width: 91.w,
-        height: 91.h,
-        padding: EdgeInsets.all(2),
+        height: 90.h,
+        width: 80.w,
+        padding: const EdgeInsets.all(3),
+        clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
-            border: Border.all(color: AppColors.grey, width: 2),
-            borderRadius: BorderRadius.circular(8.r)),
-        child: Image.asset(
-          imageUrl,
-          width: 90.w,
-          height: 90.h,
-          fit: BoxFit.contain,
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(width: 1.5, color: Colors.grey.shade400)),
+        child: SizedBox(
+          height: double.infinity,
+          width: double.infinity,
+          child: Image.asset(
+            imageUrl,
+            fit: BoxFit.cover,
+          ),
         ),
       ),
       title: Row(
