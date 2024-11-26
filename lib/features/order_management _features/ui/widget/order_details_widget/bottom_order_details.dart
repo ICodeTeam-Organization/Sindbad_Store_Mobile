@@ -14,7 +14,7 @@ class BottomOrderDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BarcodeWidget(
-      height: 70.h,
+      height: 60.h,
       width: MediaQuery.sizeOf(context).width * 0.9,
       data: '$barcodeNumber',
       textPadding: 8,

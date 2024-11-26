@@ -49,7 +49,7 @@ class CustomTabBarWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: DecoratedBox(
               decoration: BoxDecoration(
                   color: AppColors.colorButton,

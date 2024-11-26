@@ -91,8 +91,8 @@ class _BuildInfoRowAddState extends State<BuildInfoRowAdd> {
                 border: Border.all(color: AppColors.grey),
                 borderRadius: BorderRadius.circular(100.r)),
             child: SizedBox(
-              width: 40.w,
-              height: 50.h,
+              width: 35.w,
+              height: 32.h,
               child: IconButton(
                 iconSize: 24,
                 padding: EdgeInsets.zero,
@@ -111,12 +111,12 @@ class _BuildInfoRowAddState extends State<BuildInfoRowAdd> {
             width: 20.w,
           ),
           SizedBox(
-            width: 55.w,
-            height: 60.h,
+            width: 50.w,
+            height: 45.h,
             child: DecoratedBox(
                 decoration: BoxDecoration(
                     border: Border.all(color: AppColors.grey),
-                    borderRadius: BorderRadius.circular(16.r)),
+                    borderRadius: BorderRadius.circular(12.r)),
                 child: Center(
                   child: Text(
                     '${widget.parcels}',
@@ -132,8 +132,8 @@ class _BuildInfoRowAddState extends State<BuildInfoRowAdd> {
                 border: Border.all(color: AppColors.grey),
                 borderRadius: BorderRadius.circular(100.r)),
             child: SizedBox(
-              width: 40.w,
-              height: 50.h,
+              width: 35.w,
+              height: 32.h,
               child: IconButton(
                 iconSize: 24,
                 padding: EdgeInsets.zero,
@@ -184,7 +184,7 @@ class BuildDialogContent extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 StorePrimaryButton(
-                  width: 145.w,
+                  width: 140.w,
                   title: 'طباعة',
                   onTap: onPressedPrint,
                 ),
@@ -194,7 +194,7 @@ class BuildDialogContent extends StatelessWidget {
                 StorePrimaryButton(
                   icon: Icons.picture_as_pdf,
                   buttonColor: AppColors.greyDark,
-                  width: 145.w,
+                  width: 140.w,
                   title: 'مشاركة',
                   onTap: onPressedShare,
                 ),
@@ -214,7 +214,7 @@ class BuildDialogTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(25.r)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(5.r)),
         color: AppColors.primary,
       ),
       child: Row(

@@ -15,9 +15,9 @@ class OrderDetailsBody extends StatelessWidget {
         itemCount: 10,
         itemBuilder: (context, index) {
           return Container(
-            margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 12.0.w),
+            margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.0.w),
             padding: EdgeInsets.all(10),
-            height: 300.h,
+            height: 244.h,
             width: double.infinity,
             decoration: BoxDecoration(
               border: Border.all(color: AppColors.grey),
@@ -36,14 +36,14 @@ class OrderDetailsBody extends StatelessWidget {
                 ),
                 //dispaly amount , price and total
                 MidOrderDetails(
-                  productMount: 5,
-                  productPrice: 20,
+                  productMount: index,
+                  productPrice: index * 2,
                 ),
                 /////////////
                 Divider(),
                 //Display barcode
                 BottomOrderDetails(
-                  barcodeNumber: 123546789,
+                  barcodeNumber: 123546789 + index,
                 ),
               ],
             ),

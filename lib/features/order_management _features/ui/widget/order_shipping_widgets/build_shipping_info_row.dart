@@ -25,11 +25,11 @@ class BuildShippingInfoRow extends StatelessWidget {
         children: [
           Text(
             title,
-            style: KTextStyle.textStyle12,
+            style: KTextStyle.textStyle13.copyWith(fontWeight: FontWeight.w500),
           ),
           Spacer(),
           SizedBox(
-            width: 200.w,
+            width: 190.w,
             height: 48.h,
             child: TextField(
               readOnly: isDate,

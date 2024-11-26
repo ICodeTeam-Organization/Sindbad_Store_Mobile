@@ -21,8 +21,8 @@ class Messages extends StatelessWidget {
       title: isTrue
           ? Center(
               child: SizedBox(
-                width: 70.w,
-                height: 70.h,
+                width: 60.w,
+                height: 50.h,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100.r),
@@ -40,8 +40,8 @@ class Messages extends StatelessWidget {
             )
           : Center(
               child: SizedBox(
-                width: 70.w,
-                height: 70.h,
+                width: 60.w,
+                height: 50.h,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100.r),

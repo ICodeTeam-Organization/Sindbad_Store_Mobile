@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../../../../../core/styles/Colors.dart';
 import '../../../../../core/styles/text_style.dart';
 import 'custom_order_shipping_dialog.dart';
@@ -14,7 +13,7 @@ class BuildShippingDialogTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(25.r)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(5.r)),
         color: AppColors.primary,
       ),
       child: Row(

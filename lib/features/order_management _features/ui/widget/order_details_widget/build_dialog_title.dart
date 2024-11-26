@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
-
 import 'custom_create_bill_dialog.dart';
 
 class BuildDialogTitle extends StatelessWidget {
@@ -14,7 +13,7 @@ class BuildDialogTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(25.r)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(5.r)),
         color: AppColors.primary,
       ),
       child: Row(

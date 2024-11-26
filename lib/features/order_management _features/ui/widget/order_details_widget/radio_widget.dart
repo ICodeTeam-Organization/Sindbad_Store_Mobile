@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../../core/styles/Colors.dart';
 import '../../../../../core/styles/text_style.dart';
 
@@ -28,7 +27,7 @@ class _RadioWidgetState extends State<RadioWidget> {
         children: [
           Text(
             title,
-            style: KTextStyle.textStyle12,
+            style: KTextStyle.textStyle12.copyWith(fontWeight: FontWeight.w500),
           ),
           SizedBox(
             width: 10.w,
@@ -42,7 +41,10 @@ class _RadioWidgetState extends State<RadioWidget> {
                   pay = val;
                 });
               }),
-          Text('نقد'),
+          Text(
+            'نقد',
+            style: KTextStyle.textStyle12,
+          ),
           Radio(
               activeColor: AppColors.redAccentColor,
               value: 'later',
@@ -52,7 +54,10 @@ class _RadioWidgetState extends State<RadioWidget> {
                   pay = val;
                 });
               }),
-          Text('اجل'),
+          Text(
+            'اجل',
+            style: KTextStyle.textStyle12,
+          ),
         ],
       ),
     );

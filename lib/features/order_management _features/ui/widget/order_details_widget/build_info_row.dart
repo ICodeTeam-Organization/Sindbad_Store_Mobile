@@ -21,17 +21,15 @@ class BuildInfoRow extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: 5.h),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
             title,
-            style: KTextStyle.textStyle12,
+            style: KTextStyle.textStyle12.copyWith(fontWeight: FontWeight.w500),
           ),
+          Spacer(),
           SizedBox(
-            width: 10.w,
-          ),
-          SizedBox(
-            width: 220.w,
+            width: 210.w,
             height: 48.h,
             child: TextField(
               readOnly: isDate,
@@ -50,7 +48,8 @@ class BuildInfoRow extends StatelessWidget {
                   ),
                 ),
               ),
-              style: KTextStyle.secondaryTitle.copyWith(color: AppColors.black),
+              style:
+                  KTextStyle.textStyle12.copyWith(fontWeight: FontWeight.w500),
             ),
           ),
         ],

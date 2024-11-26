@@ -32,6 +32,7 @@ class BuildDialogContent extends StatelessWidget {
       color: Colors.transparent,
       child: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             BuildInfoRow(
               title: firstTitle,

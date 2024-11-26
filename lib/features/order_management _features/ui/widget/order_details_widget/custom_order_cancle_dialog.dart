@@ -33,31 +33,26 @@ class BuildInfoRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 5.h),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          SizedBox(
-            width: MediaQuery.sizeOf(context).width * 0.7,
-            height: MediaQuery.sizeOf(context).height * 0.3,
-            child: TextField(
-              maxLines: 10,
-              keyboardType: TextInputType.text,
-              controller: info,
-              decoration: InputDecoration(
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 5.h, horizontal: 10.w),
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: AppColors.backgroundColor,
-                    width: 2.w,
-                  ),
-                ),
+      padding: EdgeInsets.only(bottom: 0.h),
+      child: SizedBox(
+        width: MediaQuery.sizeOf(context).width,
+        height: MediaQuery.sizeOf(context).height * 0.25,
+        child: TextField(
+          maxLines: 10,
+          keyboardType: TextInputType.text,
+          controller: info,
+          decoration: InputDecoration(
+            contentPadding:
+                EdgeInsets.symmetric(vertical: 5.h, horizontal: 10.w),
+            border: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: AppColors.backgroundColor,
+                width: 2.w,
               ),
-              style: KTextStyle.secondaryTitle.copyWith(color: AppColors.black),
             ),
           ),
-        ],
+          style: KTextStyle.secondaryTitle.copyWith(color: AppColors.black),
+        ),
       ),
     );
   }
@@ -71,7 +66,7 @@ class BuildDialogContent extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5.h),
       width: MediaQuery.sizeOf(context).width,
-      height: MediaQuery.sizeOf(context).height * 0.4,
+      height: MediaQuery.sizeOf(context).height * 0.32,
       color: Colors.transparent,
       child: SingleChildScrollView(
         child: Column(
@@ -80,7 +75,7 @@ class BuildDialogContent extends StatelessWidget {
               info: cancelConroller,
             ),
             SizedBox(
-              height: 7.h,
+              height: 5.h,
             ),
             StorePrimaryButton(
               title: 'تاكيد',
@@ -100,7 +95,7 @@ class BuildDialogTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(25.r)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(5.r)),
         color: AppColors.primary,
       ),
       child: Row(
