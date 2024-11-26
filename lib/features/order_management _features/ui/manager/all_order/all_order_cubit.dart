@@ -10,12 +10,8 @@ class AllOrderCubit extends Cubit<AllOrderState> {
         );
   final AllOrderUsecase allOrderUseCase;
   Future<void> fetchAllOrder(
-    int pageNumber,
-    int pageSize,
-    int orderDetailStatus,
-    String srearchKeyword,
-    bool isUrgen,
-  ) async {
+      int pageSize, int orderDetailStatus, String srearchKeyword, bool isUrgen,
+      {int pageNumber = 1}) async {
     emit(
       AllOrderLoading(),
     );

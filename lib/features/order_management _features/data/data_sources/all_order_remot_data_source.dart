@@ -58,7 +58,7 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
         'isUrgen': false,
         'orderDetailStatus': 1,
         'pageSize': 10,
-        'pageNumber': 1,
+        'pageNumber': pageNumber * 10,
         'search': null,
       },
       endPoint: 'Orders/Store/GetStoreOrdersWitheFilter',

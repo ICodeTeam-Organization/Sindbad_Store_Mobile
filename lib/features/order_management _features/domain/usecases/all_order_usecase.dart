@@ -26,7 +26,7 @@ class AllOrderParam {
   final bool isUrgen;
   final int orderDetailStatus;
   final int pageSize;
-  final int pageNumber;
+   int pageNumber = 1;
   final String srearchKeyword;
 
   AllOrderParam(this.pageNumber, this.pageSize, this.orderDetailStatus,
