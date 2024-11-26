@@ -9,7 +9,7 @@ import '../../../manager/all_order/all_order_cubit.dart';
 import '../../../manager/all_order/all_order_state.dart';
 import '../../order_body.dart';
 
-class AllInfoOrder extends StatelessWidget {
+class AllInfoOrder extends StatefulWidget {
   const AllInfoOrder({
     super.key,
     this.orderNumber,
@@ -27,8 +27,38 @@ class AllInfoOrder extends StatelessWidget {
   final String? paymentInfo;
 
   @override
+  State<AllInfoOrder> createState() => _AllInfoOrderState();
+}
+
+class _AllInfoOrderState extends State<AllInfoOrder> {
+  late final ScrollController _scrollController;
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  void _scrollListener() {
+    var currentPostions = _scrollController.position.pixels;
+    var maxScrollLenght = _scrollController.position.maxScrollExtent;
+    if (currentPostions >= 0.7 * maxScrollLenght) {
+      BlocProvider.of<AllOrderCubit>(context)
+          .fetchAllOrder(10, 1, '', false, pageNumber: 1);
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    context.read<AllOrderCubit>().fetchAllOrder(1, 10, 1, '', false);
+    context
+        .read<AllOrderCubit>()
+        .fetchAllOrder(10, 1, '', false, pageNumber: 1);
 
     return BlocBuilder<AllOrderCubit, AllOrderState>(
       builder: (context, state) {
