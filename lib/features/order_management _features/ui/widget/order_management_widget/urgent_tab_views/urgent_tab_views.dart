@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-
 import '../../../../../../core/shared_widgets/new_widgets/sub_custom_tab_bar.dart';
 import '../../../../../../core/styles/text_style.dart';
-import '../new_tab_views/shipping_info_order.dart';
-import '../new_tab_views/all_info_order.dart';
-import '../new_tab_views/no_bill_info_order.dart';
-import '../new_tab_views/no_paid_info_order.dart';
-import '../new_tab_views/preparing_info_order.dart';
+import 'urgent_all_info_order.dart';
+import 'urgent_no_bill_info_order.dart';
+import 'urgent_no_paid_info_order.dart';
+import 'urgent_preparing_info_order.dart';
+import 'urgent_shipping_info_order.dart';
 
 class UrgentTabViews extends StatelessWidget {
   const UrgentTabViews({
@@ -55,15 +54,15 @@ class UrgentTabViews extends StatelessWidget {
       ],
       tabViews: [
         //All TabViews
-        AllInfoOrder(),
+        UrgentAllInfoOrder(),
         //NoBill TabViews
-        NoBillInfoOrder(),
+        UrgentNoBillInfoOrder(),
         //NotPaid TabViews
-        NoPaidInfoOrder(),
+        UrgentNoPaidInfoOrder(),
         //Preparing TabViews
-        PreparingInfoOrder(),
+        UrgentPreparingInfoOrder(),
         //Shipping TabViews
-        ShippingInfoOrder(),
+        UrgentShippingInfoOrder(),
       ],
     );
   }
