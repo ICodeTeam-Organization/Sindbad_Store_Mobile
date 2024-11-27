@@ -3,13 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_shipping_widgets/custom_order_print_dialog.dart';
 import '../../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
 import '../order_details_widget/build_image_section.dart';
-import 'build_shipping_info_row.dart';
+import '../order_details_widget/build_info_row.dart';
+import 'build_info_row_add.dart';
 import 'custom_order_shipping_dialog.dart';
 import 'drop_down_widget.dart';
-
-// TextEditingController dateShippingConroller = TextEditingController();
-// TextEditingController numberShippingConroller = TextEditingController();
-// TextEditingController mountShippingConroller = TextEditingController();
 
 class BuildShippingDialogContent extends StatelessWidget {
   const BuildShippingDialogContent(
@@ -36,22 +33,17 @@ class BuildShippingDialogContent extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            BuildShippingInfoRow(
+            BuildInfoRow(
               title: firstTitle,
               isDate: true,
               controller: dateShippingConroller,
             ),
-            BuildShippingInfoRow(
+            BuildInfoRow(
               title: secondTitle,
               isDate: false,
               controller: numberShippingConroller,
             ),
             DropDownWidget(),
-            // BuildShippingInfoRow(
-            //   title: thierdTitle,
-            //   isDate: false,
-            //   controller: mountShippingConroller,
-            // ),
             BuildInfoRowAdd(
               parcels: parcels,
               title: 'عدد الطرود',
