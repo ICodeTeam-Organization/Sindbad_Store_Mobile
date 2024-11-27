@@ -29,7 +29,7 @@ class BuildInfoRow extends StatelessWidget {
           ),
           Spacer(),
           SizedBox(
-            width: 210.w,
+            width: 200.w,
             height: 48.h,
             child: TextField(
               readOnly: isDate,
