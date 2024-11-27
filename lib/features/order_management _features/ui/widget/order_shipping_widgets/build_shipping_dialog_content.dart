@@ -48,6 +48,9 @@ class BuildShippingDialogContent extends StatelessWidget {
               parcels: parcels,
               title: 'عدد الطرود',
             ),
+            SizedBox(
+              height: 5.h,
+            ),
             BuildImageSection(),
             SizedBox(
               height: 20.h,
