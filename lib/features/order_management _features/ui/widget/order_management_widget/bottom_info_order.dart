@@ -54,7 +54,7 @@ class BottomInfoOrder extends StatelessWidget {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Text(
-                  '$itemNumber',
+                  itemNumber,
                   style: KTextStyle.textStyle12.copyWith(
                     color: AppColors.white,
                   ),
