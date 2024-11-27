@@ -22,12 +22,27 @@ class OrderBody extends StatelessWidget {
   final String clock;
   final String date;
   final String itemNumber;
-
   final String paymentInfo;
   final String orderStatus;
 
   @override
   Widget build(BuildContext context) {
+    Color orderColor;
+
+    switch (paymentInfo) {
+      case 'Refunded':
+        orderColor = Colors.yellow.shade50;
+        break;
+      case 'Paid':
+        orderColor = Colors.green.shade50;
+        break;
+      case 'Unpaid':
+        orderColor = Colors.red.shade50;
+        break;
+      default:
+        orderColor = Colors.blue.shade50;
+    }
+    // final status = myStatuses[i];
     return Container(
       margin: EdgeInsets.all(7),
       decoration: BoxDecoration(
@@ -41,7 +56,7 @@ class OrderBody extends StatelessWidget {
           TopInfoOrder(
             orderNumber: orderNumber,
             billNumber: billNumber,
-            color: StatusHelper.getColor(orderStatus),
+            color: orderColor,
           ),
           SizedBox(
             height: 10.h,
