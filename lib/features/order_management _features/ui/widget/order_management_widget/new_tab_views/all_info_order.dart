@@ -66,7 +66,7 @@ class _AllInfoOrderState extends State<AllInfoOrder> {
           return ListView.builder(
             itemCount: state.orders.length,
             itemBuilder: (BuildContext context, int i) {
-              // final status = myStatuses[i];
+              
               return InkWell(
                 onTap: () {
                   context.push(
@@ -77,7 +77,7 @@ class _AllInfoOrderState extends State<AllInfoOrder> {
                 child: OrderBody(
                   billNumber: state.orders[i].orderBill,
                   orderNumber: state.orders[i].orderNum,
-                  clock: '0:00',
+                  clock: '1:01',
                   date: state.orders[i].orderDates,
                   itemNumber: state.orders[i].productMount,
                   paymentInfo: state.orders[i].payStatus,
