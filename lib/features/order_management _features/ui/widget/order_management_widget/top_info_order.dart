@@ -18,6 +18,7 @@ class TopInfoOrder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 60.h,
+      padding: EdgeInsets.only(top: 7),
       decoration: BoxDecoration(
           color: color, borderRadius: BorderRadius.circular(16.r)),
       child: Row(
@@ -27,7 +28,7 @@ class TopInfoOrder extends StatelessWidget {
             children: [
               Text(
                 'رقم الطلب',
-                style: KTextStyle.textStyle11,
+                style: KTextStyle.textStyle12,
               ),
               Text(
                 orderNumber,
@@ -37,7 +38,7 @@ class TopInfoOrder extends StatelessWidget {
           ),
           Column(
             children: [
-              Text('رقم الفاتورة', style: KTextStyle.textStyle11),
+              Text('رقم الفاتورة', style: KTextStyle.textStyle12),
               Text(
                 billNumber,
                 style: KTextStyle.textStyle14,
