@@ -25,14 +25,6 @@ class OrderDetails extends StatelessWidget {
               ),
               ////////////////////////////
               ///Show Order
-              // TheOrder(
-              //   orderNumber: '111111111',
-              //   billNumber: '123456789',
-              //   clock: '4:15',
-              //   date: '2024/11/21',
-              //   itemNumber: 25,
-              //   paymentInfo: 'لا يوجد',
-              // ),
               OrderBody(
                 billNumber: '1111111',
                 orderNumber: '123456789',
@@ -45,7 +37,7 @@ class OrderDetails extends StatelessWidget {
               ///////////////////
               ///icon
               Center(
-                child: Icon(Icons.swipe_down),
+                child: Icon(Icons.arrow_downward),
               ),
               ////////////////////////////////////////
               ///Order Detaials
@@ -61,47 +53,3 @@ class OrderDetails extends StatelessWidget {
     );
   }
 }
-
-///////////////////////////////////////////////////////////////
-
-// class CustomIMageButton extends StatelessWidget {
-//   final VoidCallback onTap;
-//   final IconData icon;
-//   final String title;
-
-//   const CustomIMageButton({
-//     super.key,
-//     required this.onTap,
-//     required this.icon,
-//     required this.title,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return InkWell(
-//       onTap: onTap,
-//       child: Container(
-//         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-//         decoration: BoxDecoration(
-//           color: Colors.grey,
-//           borderRadius: BorderRadius.circular(8),
-//         ),
-//         child: Row(
-//           mainAxisSize: MainAxisSize.min,
-//           children: [
-//             Text(
-//               title,
-//               style: KTextStyle.secondaryTitle.copyWith(color: AppColors.white),
-//             ),
-//             const SizedBox(width: 10),
-//             Icon(
-//               icon,
-//               size: 25,
-//               color: AppColors.white,
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
