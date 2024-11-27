@@ -68,7 +68,7 @@ class _ImagePickerFunctionState extends State<ImagePickerFunction> {
                   onTap: () => pickImageFromCamera(),
                   icon: Icons.camera_alt,
                   title: "الكاميرا",
-                  width: 80.w,
+                  width: 90.w,
                 ),
                 SizedBox(
                   width: 7.h,
@@ -77,7 +77,7 @@ class _ImagePickerFunctionState extends State<ImagePickerFunction> {
                   onTap: () => pickImageFromGalary(),
                   icon: Icons.image_rounded,
                   title: "المعرض",
-                  width: 80.w,
+                  width: 90.w,
                 ),
               ],
             )
