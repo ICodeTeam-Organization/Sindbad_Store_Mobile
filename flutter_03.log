@@ -1,0 +1,109 @@
+Flutter crash report.
+Please report a bug at https://github.com/flutter/flutter/issues.
+
+## command
+
+flutter run -v
+
+## exception
+
+RPCError: getVM: (-32000) Service connection disposed
+
+```
+#0      new _OutstandingRequest (package:vm_service/src/vm_service.dart:261:34)
+#1      VmService._call.<anonymous closure> (package:vm_service/src/vm_service.dart:1778:25)
+#2      VmService._call (package:vm_service/src/vm_service.dart:1790:8)
+#3      VmService.getVM (package:vm_service/src/vm_service.dart:1245:25)
+#4      FlutterDevice.initLogReader (package:flutter_tools/src/resident_runner.dart:428:55)
+#5      HotRunner.attach (package:flutter_tools/src/run_hot.dart:266:21)
+<asynchronous suspension>
+#6      RunCommand.runCommand (package:flutter_tools/src/commands/run.dart:867:27)
+<asynchronous suspension>
+#7      FlutterCommand.run.<anonymous closure> (package:flutter_tools/src/runner/flutter_command.dart:1408:27)
+<asynchronous suspension>
+#8      AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:153:19)
+<asynchronous suspension>
+#9      CommandRunner.runCommand (package:args/command_runner.dart:212:13)
+<asynchronous suspension>
+#10     FlutterCommandRunner.runCommand.<anonymous closure> (package:flutter_tools/src/runner/flutter_command_runner.dart:420:9)
+<asynchronous suspension>
+#11     AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:153:19)
+<asynchronous suspension>
+#12     FlutterCommandRunner.runCommand (package:flutter_tools/src/runner/flutter_command_runner.dart:364:5)
+<asynchronous suspension>
+#13     run.<anonymous closure>.<anonymous closure> (package:flutter_tools/runner.dart:130:9)
+<asynchronous suspension>
+#14     AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:153:19)
+<asynchronous suspension>
+#15     main (package:flutter_tools/executable.dart:93:3)
+<asynchronous suspension>
+```
+
+## flutter doctor
+
+```
+[32m[✓][39m Flutter (Channel stable, 3.24.5, on Microsoft Windows [Version 10.0.19045.5131], locale en-US)
+    [32m•[39m Flutter version 3.24.5 on channel stable at C:\flutter\flutter
+    [32m•[39m Upstream repository https://github.com/flutter/flutter.git
+    [32m•[39m Framework revision dec2ee5c1f (11 days ago), 2024-11-13 11:13:06 -0800
+    [32m•[39m Engine revision a18df97ca5
+    [32m•[39m Dart version 3.5.4
+    [32m•[39m DevTools version 2.37.3
+
+[32m[✓][39m Windows Version (Installed version of Windows is version 10 or higher)
+
+[31m[☠][39m Android toolchain - develop for Android devices (the doctor check crashed)
+    [31m✗[39m Due to an error, the doctor check did not complete. If the error message below is not helpful, please let us know about this issue at
+      https://github.com/flutter/flutter/issues.
+    [31m✗[39m Exception: Android toolchain - develop for Android devices exceeded maximum allowed duration of 0:04:30.000000
+    [32m•[39m 
+
+[32m[✓][39m Chrome - develop for the web
+    [32m•[39m Chrome at C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+
+[32m[✓][39m Visual Studio - develop Windows apps (Visual Studio Community 2022 17.2.0)
+    [32m•[39m Visual Studio at C:\Program Files\Microsoft Visual Studio\2022\Community
+    [32m•[39m Visual Studio Community 2022 version 17.2.32505.173
+    [32m•[39m Windows 10 SDK version 10.0.19041.0
+
+[33m[!][39m Android Studio (version 3.6)
+    [32m•[39m Android Studio at C:\Program Files\Android\Android Studio
+    [32m•[39m Flutter plugin can be installed from:
+      🔨 https://plugins.jetbrains.com/plugin/9212-flutter
+    [32m•[39m Dart plugin can be installed from:
+      🔨 https://plugins.jetbrains.com/plugin/6351-dart
+    [31m✗[39m Unable to determine bundled Java version.
+    [32m•[39m Try updating or re-installing Android Studio.
+
+[32m[✓][39m Android Studio (version 2022.3)
+    [32m•[39m Android Studio at C:\Program Files\Android\Android Studio1
+    [32m•[39m Flutter plugin can be installed from:
+      🔨 https://plugins.jetbrains.com/plugin/9212-flutter
+    [32m•[39m Dart plugin can be installed from:
+      🔨 https://plugins.jetbrains.com/plugin/6351-dart
+    [32m•[39m Java version OpenJDK Runtime Environment (build 17.0.6+0-b2043.56-10027231)
+
+[32m[✓][39m VS Code (version 1.95.3)
+    [32m•[39m VS Code at C:\Users\TCI By eA\AppData\Local\Programs\Microsoft VS Code
+    [32m•[39m Flutter extension version 3.90.0
+
+[32m[✓][39m Connected device (4 available)
+    [32m•[39m Android SDK built for x86 (mobile) • emulator-5554 • android-x86    • Android 8.0.0 (API 26) (emulator)
+    [32m•[39m Windows (desktop)                  • windows       • windows-x64    • Microsoft Windows [Version 10.0.19045.5131]
+    [32m•[39m Chrome (web)                       • chrome        • web-javascript • Google Chrome 131.0.6778.86
+    [32m•[39m Edge (web)                         • edge          • web-javascript • Microsoft Edge 131.0.2903.51
+
+[33m[!][39m Network resources
+    [31m✗[39m A cryptographic error occurred while checking "https://pub.dev/": Connection terminated during handshake
+      You may be experiencing a man-in-the-middle attack, your network may be compromised, or you may have malware installed on your computer.
+    [31m✗[39m A cryptographic error occurred while checking "https://storage.googleapis.com/": Connection terminated during handshake
+      You may be experiencing a man-in-the-middle attack, your network may be compromised, or you may have malware installed on your computer.
+    [31m✗[39m A cryptographic error occurred while checking "https://maven.google.com/": Connection terminated during handshake
+      You may be experiencing a man-in-the-middle attack, your network may be compromised, or you may have malware installed on your computer.
+    [31m✗[39m A cryptographic error occurred while checking "https://cocoapods.org/": Connection terminated during handshake
+      You may be experiencing a man-in-the-middle attack, your network may be compromised, or you may have malware installed on your computer.
+    [31m✗[39m A cryptographic error occurred while checking "https://github.com/": Connection terminated during handshake
+      You may be experiencing a man-in-the-middle attack, your network may be compromised, or you may have malware installed on your computer.
+
+[33m![39m Doctor found issues in 3 categories.
+```

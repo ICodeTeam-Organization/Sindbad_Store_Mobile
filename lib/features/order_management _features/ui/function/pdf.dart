@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:barcode_widget/barcode_widget.dart';
+import 'package:dartz/dartz.dart' as dartz;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
@@ -7,7 +9,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/widgets.dart';
 import 'package:printing/printing.dart';
 
-String? share;
+String? share; 
 
 class Pdf {
   static Future<File> generateCenteredText(String text, int? parcels) async {
