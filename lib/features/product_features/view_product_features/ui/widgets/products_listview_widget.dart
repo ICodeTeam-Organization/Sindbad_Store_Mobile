@@ -68,22 +68,28 @@ class ProductsListView extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    // SizedBox(
-                    //   child: Transform.scale(
-                    //     scale: 0.8, // هنا يمكنك تعديل القيمة حسب الحجم المطلوب
-                    //     child: Checkbox(
-                    //       value: checkedStates[index],
-                    //       onChanged: (val) => onChanged(val, index),
-                    //       activeColor: AppColors.redDark,
-                    //       checkColor: AppColors.white,
-                    //       side: BorderSide(
-                    //         color: Colors.red,
-                    //         width: 1.0.w,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    ImageCardCustom(), // افترض أن لديك Card مخصص لعرض الصور
+                    SizedBox(
+                      child: Transform.scale(
+                        scale: 0.8, // هنا يمكنك تعديل القيمة حسب الحجم المطلوب
+                        child: Checkbox(
+                          value: state.checkedStates[index],
+                          onChanged: (val) {
+                            context
+                                .read<GetStoreProductsWithFilterCubit>()
+                                .updateCheckboxState(index, val!);
+                          },
+                          activeColor: AppColors.redDark,
+                          checkColor: AppColors.white,
+                          side: BorderSide(
+                            color: Colors.red,
+                            width: 1.0.w,
+                          ),
+                        ),
+                      ),
+                    ),
+                    ImageCardCustom(
+                      imageUrlnetwork: product.productImageUrl!,
+                    ), // افترض أن لديك Card مخصص لعرض الصور
                     SizedBox(width: 10),
                     // Product Details
                     Expanded(
@@ -103,6 +109,7 @@ class ProductsListView extends StatelessWidget {
                           ),
                           SizedBox(height: 4.h),
                           Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               TextStyleTitleDataProductBold(
                                   title: 'رقم المنتج :  '),
@@ -153,7 +160,7 @@ class ProductsListView extends StatelessWidget {
             },
           );
         } else if (state is GetStoreProductsWithFilterFailure) {
-          return Text(state.errMessage);
+          return Center(child: Text(state.errMessage));
         } else {
           return Text("=======BAGAR====");
         }

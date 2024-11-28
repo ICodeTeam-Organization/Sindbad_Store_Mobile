@@ -4,8 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/styles/Colors.dart';
 
 class ImageCardCustom extends StatelessWidget {
+  final String imageUrlnetwork;
   const ImageCardCustom({
     super.key,
+    required this.imageUrlnetwork,
   });
 
   @override
@@ -21,8 +23,8 @@ class ImageCardCustom extends StatelessWidget {
       child: SizedBox(
         height: double.infinity,
         width: double.infinity,
-        child: Image.asset(
-          "assets/2.png",
+        child: Image.network(
+          imageUrlnetwork,
           // width: 70.w,
           // height: 65.h,
           fit: BoxFit.cover,
