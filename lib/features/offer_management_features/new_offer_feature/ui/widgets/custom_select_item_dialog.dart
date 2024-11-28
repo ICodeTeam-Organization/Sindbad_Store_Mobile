@@ -32,6 +32,11 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(25), // Rounded top corners
+        ),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

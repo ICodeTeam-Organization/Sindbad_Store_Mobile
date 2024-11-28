@@ -54,21 +54,23 @@ class _ViewOfferProductDetailsBounsScreenState
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: ListView.builder(
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          CardOfferProductDetailsBounsWidget(
-                            productName: 'MacBook Air',
-                            productImage: "assets/image_example.png",
-                            buysCount: 2,
-                            freesCount: 1,
-                          ),
-                          Divider(),
-                        ],
-                      );
-                    },
+                  child: Container(
+                    color: AppColors.white,
+                    child: ListView.builder(
+                      itemCount: 10,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            CardOfferProductDetailsBounsWidget(
+                              productName: 'MacBook Air',
+                              productImage: "assets/image_example.png",
+                              buysCount: 2,
+                              freesCount: 1,
+                            ),
+                          ],
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
