@@ -114,26 +114,24 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                       itemBuilder: (context, index) {
                         return Column(
                           children: [
-                            ListTile(
+                            CheckboxListTile(
+                              contentPadding: EdgeInsets.zero,
+                              controlAffinity: ListTileControlAffinity.leading,
+                              activeColor: AppColors.primary,
+                              side: BorderSide(color: AppColors.primary),
+                              value:
+                                  selectedItems.contains(filteredItems[index]),
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  if (value == true) {
+                                    selectedItems.add(filteredItems[index]);
+                                  } else {
+                                    selectedItems.remove(filteredItems[index]);
+                                  }
+                                });
+                              },
                               title: Row(
                                 children: [
-                                  Checkbox(
-                                    activeColor: AppColors.primary,
-                                    side: BorderSide(color: AppColors.primary),
-                                    value: selectedItems
-                                        .contains(filteredItems[index]),
-                                    onChanged: (bool? value) {
-                                      setState(() {
-                                        if (value == true) {
-                                          selectedItems
-                                              .add(filteredItems[index]);
-                                        } else {
-                                          selectedItems
-                                              .remove(filteredItems[index]);
-                                        }
-                                      });
-                                    },
-                                  ),
                                   Image.asset(
                                     filteredItems[index].imageUrl,
                                     width: 60.w,
