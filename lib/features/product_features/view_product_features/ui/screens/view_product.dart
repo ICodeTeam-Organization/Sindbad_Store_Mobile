@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sindbad_management_app/core/cubit/counter_quntity_cubit.dart';
+import 'package:sindbad_management_app/core/setup_service_locator.dart';
 import 'package:sindbad_management_app/core/utils/route.dart';
 import '../../../../../core/shared_widgets/new_widgets/custom_app_bar.dart';
 import '../../../../../core/shared_widgets/new_widgets/custom_tab_bar_widget.dart';
 import '../../../../../core/styles/Colors.dart';
+import '../../data/repos/view_product_store_repo_impl.dart';
+import '../../domain/usecases/get_products_by_filter_use_case.dart';
+import '../manager/cubit/cubit/get_store_products_with_filter_cubit.dart';
 import 'fake_data _for_test.dart/test_data_cat.dart';
 import '../widgets/products_listview_widget.dart';
 import '../widgets/sub_category_card_custom.dart';
@@ -59,34 +65,41 @@ class ViewProductState extends State<ViewProduct> {
   @override
   Widget build(BuildContext context) {
     final double heightMobile = MediaQuery.sizeOf(context).height;
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            CustomAppBar(
-              tital: "المنتجات",
-              isBack: false,
-            ),
-            SizedBox(height: 10.h),
-            CustomTabBarWidget(
-              tabs: [
-                Tab(text: "جميع المنتجات"),
-                Tab(text: "منتجات عليها عروض"),
-                Tab(text: "منتجات موقوفة"),
-              ],
-              tabViews: [
-                _buildTabView(0),
-                _buildTabView(1),
-                _buildTabView(2),
-              ],
-              length: 3,
-              indicatorColor: AppColors.primary,
-              indicatorWeight: 0.0.w,
-              labelColor: AppColors.black,
-              unselectedLabelColor: AppColors.black,
-              height: heightMobile * 0.85, // height TabBar and all dowm him
-            ),
-          ],
+
+    return BlocProvider(
+      create: (context) =>
+          GetStoreProductsWithFilterCubit(GetProductsByFilterUseCase(
+        getit.get<ViewProductStoreRepoImpl>(),
+      )),
+      child: Scaffold(
+        body: SafeArea(
+          child: Column(
+            children: [
+              CustomAppBar(
+                tital: "المنتجات",
+                isBack: false,
+              ),
+              SizedBox(height: 10.h),
+              CustomTabBarWidget(
+                tabs: [
+                  Tab(text: "جميع المنتجات"),
+                  Tab(text: "منتجات عليها عروض"),
+                  Tab(text: "منتجات موقوفة"),
+                ],
+                tabViews: [
+                  _buildTabView(0),
+                  _buildTabView(1),
+                  _buildTabView(2),
+                ],
+                length: 3,
+                indicatorColor: AppColors.primary,
+                indicatorWeight: 0.0.w,
+                labelColor: AppColors.black,
+                unselectedLabelColor: AppColors.black,
+                height: heightMobile * 0.85, // height TabBar and all dowm him
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -114,7 +127,8 @@ class ViewProductState extends State<ViewProduct> {
                     nameListCheckedByNames: allProductCheckedByNames,
                     val: val!,
                     index: index,
-                    idProductChange: FakeDataApi.allProductsData[index]['id']
+                    idProductChange: FakeDataApi
+                        .allProductsData[index].productid
                         .toString()), // تمرير index
                 onTapDelete: () {
                   // تنفيذ الحذف
@@ -148,7 +162,8 @@ class ViewProductState extends State<ViewProduct> {
                     nameListCheckedByNames: offerProductCheckedByNames,
                     val: val!,
                     index: index,
-                    idProductChange: FakeDataApi.offerProductsData[index]['id']
+                    idProductChange: FakeDataApi
+                        .offerProductsData[index].productid
                         .toString()), // تمرير index
                 onTapDelete: () {
                   // تنفيذ الحذف
@@ -180,8 +195,8 @@ class ViewProductState extends State<ViewProduct> {
                     nameListCheckedByNames: disableProductCheckedByNames,
                     val: val!,
                     index: index,
-                    idProductChange: FakeDataApi.disableProductsData[index]
-                            ['id']
+                    idProductChange: FakeDataApi
+                        .disableProductsData[index].productid
                         .toString()), // تمرير index
                 onTapDelete: () {
                   // تنفيذ الحذف
@@ -206,12 +221,13 @@ class ViewProductState extends State<ViewProduct> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: FakeDataApi().subCategories.map((category) {
-          int index = FakeDataApi().subCategories.indexOf(category);
+        children: FakeDataApi().subCategories.asMap().entries.map((entry) {
+          // for get index to selected
+          int index = entry.key;
+          String category = entry.value;
           return ChipCustom(
             title: category,
-            isSelected:
-                _selectedSubIndex == index, // لن نعرض حالة التحديد هنا الآن
+            isSelected: _selectedSubIndex == index, // استخدام الفهرس من التكرار
             onTap: () {
               setState(() {
                 _selectedSubIndex = index;
