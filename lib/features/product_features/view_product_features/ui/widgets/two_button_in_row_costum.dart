@@ -8,14 +8,14 @@ import '../../../../../core/styles/Colors.dart';
 class TwoButtonInRow extends StatelessWidget {
   const TwoButtonInRow({
     super.key,
-    required this.productCheckedByNames,
+    // required this.productCheckedByNames,
     this.titleRight = "إضافة منتج",
     this.titleLeft = "إيقاف منتج",
     // required this.onTapRight,
     required this.onTapLeft,
   });
 
-  final List<String> productCheckedByNames;
+  // final List<String> productCheckedByNames;
   final String titleRight;
   final String titleLeft;
   // final void Function() onTapRight;
@@ -30,7 +30,7 @@ class TwoButtonInRow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           StorePrimaryButton(
-            disabled: productCheckedByNames.isNotEmpty ? true : false,
+            disabled: true, //productCheckedByNames.isNotEmpty ? true : false,
             title: titleRight,
             icon: Icons.add_circle_outline_rounded,
             buttonColor: AppColors.primary,

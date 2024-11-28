@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sindbad_management_app/core/cubit/counter_quntity_cubit.dart';
 import 'package:sindbad_management_app/core/setup_service_locator.dart';
 import 'package:sindbad_management_app/core/utils/route.dart';
 import '../../../../../core/shared_widgets/new_widgets/custom_app_bar.dart';
@@ -26,41 +25,6 @@ class ViewProduct extends StatefulWidget {
 class ViewProductState extends State<ViewProduct> {
   int _selectedSubIndex = 0;
   final bool _showSubCategories = true; // للتحكم في ظهور الفئات الفرعية
-
-  List<bool> allProductCheckedStates = [];
-  List<String> allProductCheckedByNames = [];
-  List<bool> offerProductCheckedStates = [];
-  List<String> offerProductCheckedByNames = [];
-  List<bool> disableProductCheckedStates = [];
-  List<String> disableProductCheckedByNames = [];
-
-  // bool disabledButtonAdd = false;
-  void _onChangeCheckBox(
-      {required String listName,
-      required List<bool> nameListCheckedStates,
-      required List<String> nameListCheckedByNames,
-      required bool val,
-      required int index,
-      required String idProductChange}) {
-    setState(() {
-      nameListCheckedStates[index] = val;
-      val
-          ? nameListCheckedByNames.add(idProductChange)
-          : nameListCheckedByNames.remove(idProductChange);
-      debugPrint("$listName : ${nameListCheckedByNames.toString()}");
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    allProductCheckedStates = List<bool>.filled(
-        FakeDataApi.allProductsData.length, false); // تهيئة القائمة هنا
-    offerProductCheckedStates = List<bool>.filled(
-        FakeDataApi.offerProductsData.length, false); // تهيئة القائمة هنا
-    disableProductCheckedStates = List<bool>.filled(
-        FakeDataApi.disableProductsData.length, false); // تهيئة القائمة هنا
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,22 +78,12 @@ class ViewProductState extends State<ViewProduct> {
             // في حال كانت التصنيفات الفرعية يجب عرضها
             if (_showSubCategories) _buildSubCategories(),
             TwoButtonInRow(
-                productCheckedByNames: allProductCheckedByNames,
+                // productCheckedByNames: allProductCheckedByNames,
                 onTapLeft: () {}),
             SizedBox(height: 15.h),
             Expanded(
               child: ProductsListView(
-                products: FakeDataApi.allProductsData,
-                checkedStates: allProductCheckedStates, // تمرير الحالات
-                onChanged: (val, index) => _onChangeCheckBox(
-                    listName: "All Products",
-                    nameListCheckedStates: allProductCheckedStates,
-                    nameListCheckedByNames: allProductCheckedByNames,
-                    val: val!,
-                    index: index,
-                    idProductChange: FakeDataApi
-                        .allProductsData[index].productid
-                        .toString()), // تمرير index
+                storeProductsFilter: tabIndex,
                 onTapDelete: () {
                   // تنفيذ الحذف
                 },
@@ -149,22 +103,12 @@ class ViewProductState extends State<ViewProduct> {
             // في حال كانت التصنيفات الفرعية يجب عرضها
             if (_showSubCategories) _buildSubCategories(),
             TwoButtonInRow(
-                productCheckedByNames: offerProductCheckedByNames,
+                // productCheckedByNames: offerProductCheckedByNames,
                 onTapLeft: () {}),
             SizedBox(height: 15.h),
             Expanded(
               child: ProductsListView(
-                products: FakeDataApi.offerProductsData,
-                checkedStates: offerProductCheckedStates, // تمرير الحالات
-                onChanged: (val, index) => _onChangeCheckBox(
-                    listName: "Offer Products",
-                    nameListCheckedStates: offerProductCheckedStates,
-                    nameListCheckedByNames: offerProductCheckedByNames,
-                    val: val!,
-                    index: index,
-                    idProductChange: FakeDataApi
-                        .offerProductsData[index].productid
-                        .toString()), // تمرير index
+                storeProductsFilter: tabIndex,
                 onTapDelete: () {
                   // تنفيذ الحذف
                 },
@@ -182,22 +126,12 @@ class ViewProductState extends State<ViewProduct> {
         return Column(
           children: [
             TwoButtonInRow(
-                productCheckedByNames: disableProductCheckedByNames,
+                // productCheckedByNames: disableProductCheckedByNames,
                 titleLeft: "إعادة تنشيط",
                 onTapLeft: () {}),
             Expanded(
               child: ProductsListView(
-                products: FakeDataApi.disableProductsData,
-                checkedStates: disableProductCheckedStates, // تمرير الحالات
-                onChanged: (val, index) => _onChangeCheckBox(
-                    listName: "Disable Products",
-                    nameListCheckedStates: disableProductCheckedStates,
-                    nameListCheckedByNames: disableProductCheckedByNames,
-                    val: val!,
-                    index: index,
-                    idProductChange: FakeDataApi
-                        .disableProductsData[index].productid
-                        .toString()), // تمرير index
+                storeProductsFilter: tabIndex,
                 onTapDelete: () {
                   // تنفيذ الحذف
                 },

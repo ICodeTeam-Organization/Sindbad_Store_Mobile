@@ -12,12 +12,17 @@ class ViewProductStoreRepoImpl extends ViewProductRepo {
   final ViewProductRemoteDataSource viewProductRemoteDataSource;
 
   ViewProductStoreRepoImpl({required this.viewProductRemoteDataSource});
+
   @override
   Future<Either<Failure, List<ProductEntity>>> getProductsByFilter(
-      int storeProductsFilter, int pageNumper, int pageSize) async {
+      {required int storeProductsFilter,
+      required int pageNumper,
+      required int pageSize}) async {
     try {
       var data = await viewProductRemoteDataSource.getProductsByFilter(
-          storeProductsFilter, pageNumper, pageSize);
+          storeProductsFilter: storeProductsFilter,
+          pageNumper: pageNumper,
+          pageSize: pageSize);
       return right(data);
     } catch (e) {
       if (e is DioException) {
