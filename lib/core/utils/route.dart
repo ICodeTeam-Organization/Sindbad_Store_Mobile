@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
-import 'package:sindbad_management_app/features/offer_features/view_offer_feature/ui/screens/view_offer_product_details_bouns_screen.dart';
-import 'package:sindbad_management_app/features/offer_features/view_offer_feature/ui/screens/view_offer_product_details_discount_screen.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/screens/view_offer_product_details_bouns_screen.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/screens/view_offer_product_details_discount_screen.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/screens/add_product_screen.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/screens/edit_product_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/screens/new_offer_screen.dart';
