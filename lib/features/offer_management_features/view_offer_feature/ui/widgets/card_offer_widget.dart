@@ -8,24 +8,27 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/remaining_notice.dart';
 
 class CardOfferWidget extends StatefulWidget {
-  final String offerName;
-  final String discountRate;
-  final String offerBouns;
+  final String offerTitle;
+  final String typeName;
+  final bool isActive;
   final DateTime startOffer;
   final DateTime endOffer;
-  final bool isActive;
-  final String countProducts;
-  final String offerType;
+  final int countProducts;
+  final int? numberToBuy;
+  final int? numberToGet;
+  final int? discountRate;
+
   const CardOfferWidget({
     super.key,
-    required this.offerName,
-    required this.discountRate,
-    required this.offerBouns,
+    required this.offerTitle,
+    required this.typeName,
+    required this.isActive,
     required this.startOffer,
     required this.endOffer,
-    required this.isActive,
     required this.countProducts,
-    required this.offerType,
+    this.numberToBuy,
+    this.numberToGet,
+    this.discountRate,
   });
 
   @override
@@ -84,10 +87,11 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
   }
 
   void selectedOffer() {
-    if (widget.offerType == 'Discount') {
-      offerTypeTitle = '${widget.discountRate} من إجمالي الخصم';
-    } else if (widget.offerType == 'Bouns') {
-      offerTypeTitle = widget.offerBouns;
+    if (widget.typeName == 'Percent') {
+      offerTypeTitle = '${widget.discountRate}% من إجمالي الخصم';
+    } else if (widget.typeName == 'Bonus') {
+      offerTypeTitle =
+          ' اشتري ${widget.numberToBuy} واحصل على ${widget.numberToGet}';
     }
   }
 
@@ -117,7 +121,7 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
                             ),
                           ),
                           Text(
-                            widget.offerName,
+                            widget.offerTitle,
                             style: KTextStyle.textStyle14.copyWith(
                               color: AppColors.blackDark,
                             ),

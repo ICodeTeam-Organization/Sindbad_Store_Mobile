@@ -4,7 +4,6 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/models/offer_model.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/offer_details_entity.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/offer_entity.dart';
-import 'package:sindbad_management_app/features/order_management%20_features/data/models/all_order_model/all_order_model.dart';
 
 abstract class ViewOfferRemotDataSource {
   Future<List<OfferEntity>> getOffer(
@@ -58,19 +57,15 @@ class ViewOfferRemotDataSourceImpl extends ViewOfferRemotDataSource {
       data: {
         "pageSize": 10,
         "pageNumber": 1,
-        // "search": "string",
-        // "type": "string",
-        // "offerHeadId": 1,
-        "isOfferHeadId": true
       },
       endPoint: 'Store/GetStoreOfferHeads',
       headers: {
         'Authorization': 'BEARER $token',
       },
     );
-    List<OfferEntity> orders = getOfferList(data);
-    print(orders);
-    return orders;
+    List<OfferEntity> offer = getOfferList(data);
+    print(offer);
+    return offer;
   }
 
   // get OfferDetailsEntity List function-------------------------------------------------

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_app_bar.dart';
-import 'package:sindbad_management_app/core/styles/Colors.dart';
-import 'package:sindbad_management_app/core/utils/route.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/action_button_widget.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/card_offer_widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sindbad_management_app/core/setup_service_locator.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/repos/View_offer_repo_impl.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/usecases/get_offer_use_case.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_cubit/offer_cubit.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/view_offer_body.dart';
 
 class ViewOfferScreen extends StatefulWidget {
   const ViewOfferScreen({super.key});
@@ -24,84 +24,7 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          color: AppColors.transparent,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomAppBar(
-                tital: 'العروض',
-                isBack: false,
-              ),
-              Padding(
-                  padding: const EdgeInsets.all(30.0),
-                  child: ActionButtonWidget(
-                    title: 'إضافة عرض',
-                    iconPath: 'assets/add.svg',
-                    onTap: () {
-                      context.push(
-                        AppRouter.storeRouters.kNewOffer,
-                      );
-                    },
-                  )),
-              Expanded(
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: 5, // Use the length of the list
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            if (offerType == 'Discount') {
-                              context.push(
-                                  AppRouter.storeRouters
-                                      .kOfferProductDetailsDiscount,
-                                  extra: [
-                                    'يوم الجمعة',
-                                  ]);
-                            } else if (offerType == 'Bouns') {
-                              context.push(
-                                  AppRouter
-                                      .storeRouters.kOfferProductDetailsBouns,
-                                  extra: [
-                                    'يوم الجمعة',
-                                  ]);
-                            }
-                            // extra: ['يوم الجمعة',offerType,]
-                            // extra: [offerName,offerType,]
-                            // context.push(
-                            //     AppRouter.storeRouters.kOfferProductDetails,
-                            //     extra: [
-                            //       'يوم الجمعة',
-                            //       'Discount',
-                            //     ]
-                            //     // extra: [offerName,offerType,]
-                            //     ); // Use GoRouter to navigate to the parameterized route
-                          },
-                          child: CardOfferWidget(
-                            offerName: 'يوم الجمعة',
-                            discountRate: '10%',
-                            offerBouns: 'اشتري x واحصل على y',
-                            startOffer: DateTime.utc(2024, 5, 1),
-                            endOffer: DateTime.utc(2024, 11, 27),
-                            isActive: true,
-                            countProducts: '17',
-                            offerType: offerType!,
-                          ),
-                        ),
-                        Divider(),
-                      ],
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+      body: ViewOfferBody(offerType: offerType),
     );
   }
 }

@@ -9,9 +9,7 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 class ViewOfferRepoImpl extends ViewOfferRepo {
   final ViewOfferRemotDataSource viewOfferRemotDataSource;
 
-  ViewOfferRepoImpl(
-    this.viewOfferRemotDataSource,
-  );
+  ViewOfferRepoImpl(this.viewOfferRemotDataSource);
 
   // basic fetch list Entity function
   Future<Either<Failure, List<T>>> fetchData<T>(
@@ -29,10 +27,10 @@ class ViewOfferRepoImpl extends ViewOfferRepo {
   }
 
   @override
-  Future<Either<Failure, List<OfferEntity>>> getOffer({
-    int pageNumber = 1,
-    int pageSize = 10,
-  }) {
+  Future<Either<Failure, List<OfferEntity>>> getOffer(
+    int pageNumber,
+    int pageSize,
+  ) {
     return fetchData(() => viewOfferRemotDataSource.getOffer(
           pageSize,
           pageNumber,
@@ -46,9 +44,6 @@ class ViewOfferRepoImpl extends ViewOfferRepo {
     required int offerHeadId,
   }) {
     return fetchData(() => viewOfferRemotDataSource.getOfferDetails(
-          pageSize,
-          pageNumber,
-          offerHeadId,
-        ));
+        pageSize, pageNumber, offerHeadId));
   }
 }

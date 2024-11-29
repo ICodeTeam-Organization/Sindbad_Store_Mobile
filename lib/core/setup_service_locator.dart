@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/data_source/remote/view_offer_remot_data_source.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/repos/View_offer_repo_impl.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/repo/view_offer_repo.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/data/data_sources/all_order_remot_data_source.dart';
 // import 'package:get_it/get_it.dart';
 // import 'package:test_order_life_cycle/core/api_service.dart';
@@ -47,6 +50,14 @@ void setupServiceLocator() {
   getit.registerSingleton<AllOrderRepoImpl>(
     AllOrderRepoImpl(
       AllOrderRemotDataSourceImpl(
+        getit.get<ApiService>(),
+        getit.get<FlutterSecureStorage>(),
+      ),
+    ),
+  );
+  getit.registerSingleton<ViewOfferRepoImpl>(
+    ViewOfferRepoImpl(
+      ViewOfferRemotDataSourceImpl(
         getit.get<ApiService>(),
         getit.get<FlutterSecureStorage>(),
       ),

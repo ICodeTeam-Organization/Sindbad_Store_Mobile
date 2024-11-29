@@ -33,7 +33,7 @@ class OfferModel extends OfferEntity {
           countProducts: quntityOfProduct ?? 0,
           numberToBuy: amountToBuy ?? 0,
           numberToGet: amountToGet ?? 0,
-          rate: percent ?? 0,
+          discountRate: percent ?? 0,
         );
 
   factory OfferModel.fromJson(Map<String, dynamic> json) => OfferModel(

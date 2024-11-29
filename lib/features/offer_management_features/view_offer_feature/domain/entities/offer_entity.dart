@@ -1,5 +1,6 @@
 class OfferEntity {
   final int offerId;
+
   final String offerTitle;
   final String typeName;
   final bool isActive;
@@ -8,7 +9,7 @@ class OfferEntity {
   final int countProducts;
   final int? numberToBuy;
   final int? numberToGet;
-  final int? rate;
+  final int? discountRate;
 
   OfferEntity({
     required this.offerId,
@@ -20,6 +21,6 @@ class OfferEntity {
     required this.countProducts,
     this.numberToBuy,
     this.numberToGet,
-    this.rate,
+    this.discountRate,
   });
 }
