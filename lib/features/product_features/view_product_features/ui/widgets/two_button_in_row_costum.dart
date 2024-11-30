@@ -30,7 +30,7 @@ class TwoButtonInRow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           StorePrimaryButton(
-            disabled: true, //productCheckedByNames.isNotEmpty ? true : false,
+            disabled: false, //productCheckedByNames.isNotEmpty ? true : false,
             title: titleRight,
             icon: Icons.add_circle_outline_rounded,
             buttonColor: AppColors.primary,

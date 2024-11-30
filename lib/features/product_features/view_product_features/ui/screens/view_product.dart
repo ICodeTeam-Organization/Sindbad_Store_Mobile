@@ -72,7 +72,7 @@ class ViewProductState extends State<ViewProduct> {
   // بناء محتوى التبويب بناءً على التحديد
   Widget _buildTabView(int tabIndex) {
     switch (tabIndex) {
-      case 0: // "منتجات عليها عروض"
+      case 0: // "جميع المنتجات"
         return Column(
           children: [
             // في حال كانت التصنيفات الفرعية يجب عرضها
@@ -97,7 +97,7 @@ class ViewProductState extends State<ViewProduct> {
             ),
           ],
         );
-      case 1: // "جميع المنتجات"
+      case 1: // "منتجات عليها عروض"
         return Column(
           children: [
             // في حال كانت التصنيفات الفرعية يجب عرضها
