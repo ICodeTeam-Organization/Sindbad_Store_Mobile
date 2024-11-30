@@ -2,8 +2,8 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 
 class OfferDetailsModel extends OfferDetailsEntity {
   int? id;
-  int? offerPercentages;
-  int? productPrice;
+  dynamic offerPercentages;
+  dynamic productPrice;
   String? productImageUrl;
   String? productName;
   dynamic finalPrice;
@@ -31,7 +31,7 @@ class OfferDetailsModel extends OfferDetailsEntity {
           productId: id ?? 0,
           productTitle: productName ?? '',
           productImage: productImageUrl ?? '',
-          typeName: offerType ?? '',
+          discountRate: offerPercentages ?? 0,
           oldPrice: productPrice ?? 0,
           newPrice: finalPrice ?? 0,
           numberToBuy: amountYouBuy ?? 0,
@@ -41,8 +41,8 @@ class OfferDetailsModel extends OfferDetailsEntity {
   factory OfferDetailsModel.fromJson(Map<String, dynamic> json) {
     return OfferDetailsModel(
       id: json['id'] as int?,
-      offerPercentages: json['offerPercentages'] as int?,
-      productPrice: json['productPrice'] as int?,
+      offerPercentages: json['offerPercentages'] as dynamic,
+      productPrice: json['productPrice'] as dynamic,
       productImageUrl: json['productImageUrl'] as String?,
       productName: json['productName'] as String?,
       finalPrice: json['finalPrice'] as dynamic,

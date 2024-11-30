@@ -87,9 +87,10 @@ abstract class AppRouter {
         builder: (context, state) {
           final List<dynamic> args = state.extra as List<dynamic>;
           final String offerName = args[0]; // The first parameter in the list
-          // final String offerType = args[1]; // The second parameter in the list
+          final int offerId = args[1]; // The second parameter in the list
           return ViewOfferProductDetailsDiscountScreen(
             offerName: offerName,
+            offerId: offerId,
           );
         },
       ),
@@ -98,9 +99,10 @@ abstract class AppRouter {
         builder: (context, state) {
           final List<dynamic> args = state.extra as List<dynamic>;
           final String offerName = args[0]; // The first parameter in the list
-          // final String offerType = args[1]; // The second parameter in the list
+          final int offerId = args[1]; // The second parameter in the list
           return ViewOfferProductDetailsBounsScreen(
             offerName: offerName,
+            offerId: offerId,
           );
         },
       ),

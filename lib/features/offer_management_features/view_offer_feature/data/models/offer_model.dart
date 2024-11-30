@@ -9,7 +9,7 @@ class OfferModel extends OfferEntity {
   String? offerTypeName;
   dynamic amountToBuy;
   dynamic amountToGet;
-  int? percent;
+  dynamic percent;
   int? quntityOfProduct;
 
   OfferModel({
@@ -49,7 +49,7 @@ class OfferModel extends OfferEntity {
         offerTypeName: json['offerTypeName'] as String?,
         amountToBuy: json['amountToBuy'] as dynamic,
         amountToGet: json['amountToGet'] as dynamic,
-        percent: json['percent'] as int?,
+        percent: json['percent'] as dynamic,
         quntityOfProduct: json['quntityOfProduct'] as int?,
       );
 

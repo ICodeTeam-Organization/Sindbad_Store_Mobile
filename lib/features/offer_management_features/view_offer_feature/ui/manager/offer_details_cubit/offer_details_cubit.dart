@@ -5,32 +5,20 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 
 class OfferDetailsCubit extends Cubit<OfferDetailsState> {
   final GetOfferDetailsUseCase getOfferDetailsUseCase;
-  OfferDetailsCubit(this.getOfferDetailsUseCase)
-      : super(
-          OfferDetailsInitial(),
-        );
-  Future<void> getOfferDetails({
-    int pageSize = 10,
-    int pageNumber = 1,
-    required int offerHeadId,
-  }) async {
-    emit(
-      OfferDetailsLoading(),
-    );
-    var result = await getOfferDetailsUseCase.execute(OfferDetailsParams(
-      pageNumber,
-      pageSize,
-      offerHeadId,
-    ));
+  OfferDetailsCubit(this.getOfferDetailsUseCase) : super(OfferDetailsInitial());
+  Future<void> getOfferDetails(
+    int pageSize,
+    int pageNumber,
+    int offerHeadId,
+  ) async {
+    emit(OfferDetailsLoading());
+    var params = OfferDetailsParams(pageSize, pageNumber, offerHeadId);
+    var result = await getOfferDetailsUseCase.execute(params);
 
     result.fold((failuer) {
-      emit(
-        OfferDetailsFailuer(errMessage: failuer.message),
-      );
+      emit(OfferDetailsFailuer(errMessage: failuer.message));
     }, (offerDetails) {
-      emit(
-        OfferDetailsSuccess(offerDetails: offerDetails),
-      );
+      emit(OfferDetailsSuccess(offerDetails: offerDetails));
     });
   }
 }

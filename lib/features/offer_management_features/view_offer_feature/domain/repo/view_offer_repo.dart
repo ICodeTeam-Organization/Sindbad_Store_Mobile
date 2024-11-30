@@ -8,9 +8,9 @@ abstract class ViewOfferRepo {
     int pageSize,
     int pageNumber,
   );
-  Future<Either<Failure, List<OfferDetailsEntity>>> getOfferDetails({
-    int pageSize = 10,
-    int pageNumber = 1,
-    required int offerHeadId,
-  });
+  Future<Either<Failure, List<OfferDetailsEntity>>> getOfferDetails(
+    int pageSize,
+    int pageNumber,
+    int offerHeadId,
+  );
 }

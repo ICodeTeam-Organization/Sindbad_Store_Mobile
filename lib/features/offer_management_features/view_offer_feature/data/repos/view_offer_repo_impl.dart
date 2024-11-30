@@ -28,21 +28,14 @@ class ViewOfferRepoImpl extends ViewOfferRepo {
 
   @override
   Future<Either<Failure, List<OfferEntity>>> getOffer(
-    int pageNumber,
-    int pageSize,
-  ) {
-    return fetchData(() => viewOfferRemotDataSource.getOffer(
-          pageSize,
-          pageNumber,
-        ));
+      int pageNumber, int pageSize) {
+    return fetchData(
+        () => viewOfferRemotDataSource.getOffer(pageSize, pageNumber));
   }
 
   @override
-  Future<Either<Failure, List<OfferDetailsEntity>>> getOfferDetails({
-    int pageSize = 10,
-    int pageNumber = 1,
-    required int offerHeadId,
-  }) {
+  Future<Either<Failure, List<OfferDetailsEntity>>> getOfferDetails(
+      int pageSize, int pageNumber, int offerHeadId) {
     return fetchData(() => viewOfferRemotDataSource.getOfferDetails(
         pageSize, pageNumber, offerHeadId));
   }

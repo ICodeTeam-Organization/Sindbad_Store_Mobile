@@ -14,16 +14,16 @@ class GetOfferDetailsUseCase
   Future<Either<Failure, List<OfferDetailsEntity>>> execute(
       OfferDetailsParams params) {
     return viewOfferRepo.getOfferDetails(
-      pageSize: params.pageSize,
-      pageNumber: params.pageNumber,
-      offerHeadId: params.offerHeadId,
+      params.pageSize,
+      params.pageNumber,
+      params.offerHeadId,
     );
   }
 }
 
 class OfferDetailsParams {
-  int pageSize = 10;
-  int pageNumber = 1;
+  final int pageSize;
+  final int pageNumber;
   final int offerHeadId;
   OfferDetailsParams(
     this.pageSize,

@@ -9,12 +9,7 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/card_offer_widget.dart';
 
 class ViewOfferBody extends StatefulWidget {
-  final String? offerType;
-
-  const ViewOfferBody({
-    super.key,
-    required this.offerType,
-  });
+  const ViewOfferBody({super.key});
 
   @override
   State<ViewOfferBody> createState() => _ViewOfferBodyState();
@@ -25,7 +20,6 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
   void initState() {
     super.initState();
     BlocProvider.of<OfferCubit>(context).getOffer(10, 1);
-
     context.read<OfferCubit>().getOffer(10, 1);
   }
 
@@ -66,16 +60,24 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                           children: [
                             InkWell(
                               onTap: () {
-                                if (widget.offerType == 'Discount') {
+                                print(
+                                    '${state.offer[i].offerId}--------------------------------------------------');
+                                if (state.offer[i].typeName == 'Percent') {
                                   context.push(
                                       AppRouter.storeRouters
                                           .kOfferProductDetailsDiscount,
-                                      extra: ['يوم الجمعة']);
-                                } else if (widget.offerType == 'Bouns') {
+                                      extra: [
+                                        state.offer[i].offerTitle,
+                                        state.offer[i].offerId,
+                                      ]);
+                                } else if (state.offer[i].typeName == 'Bonus') {
                                   context.push(
                                       AppRouter.storeRouters
                                           .kOfferProductDetailsBouns,
-                                      extra: ['يوم الجمعة']);
+                                      extra: [
+                                        state.offer[i].offerTitle,
+                                        state.offer[i].offerId,
+                                      ]);
                                 }
                               },
                               child: CardOfferWidget(
@@ -103,7 +105,7 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                     ),
                   );
                 } else if (state is OfferFailuer) {
-                  return Text(state.errMessage);
+                  return Center(child: Text(state.errMessage));
                 } else if (state is OfferLoading) {
                   return Center(child: CircularProgressIndicator());
                 } else {

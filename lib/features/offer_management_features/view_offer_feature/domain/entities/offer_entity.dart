@@ -7,9 +7,9 @@ class OfferEntity {
   final DateTime startOffer;
   final DateTime endOffer;
   final int countProducts;
-  final int? numberToBuy;
-  final int? numberToGet;
-  final int? discountRate;
+  final num? numberToBuy;
+  final num? numberToGet;
+  final num? discountRate;
 
   OfferEntity({
     required this.offerId,

@@ -6,25 +6,18 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_cubit/offer_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/view_offer_body.dart';
 
-class ViewOfferScreen extends StatefulWidget {
+class ViewOfferScreen extends StatelessWidget {
   const ViewOfferScreen({super.key});
 
   @override
-  State<ViewOfferScreen> createState() => _ViewOfferScreenState();
-}
-
-class _ViewOfferScreenState extends State<ViewOfferScreen> {
-  String? offerType;
-  @override
-  void initState() {
-    super.initState();
-    offerType = 'Bouns';
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ViewOfferBody(offerType: offerType),
+    return BlocProvider(
+      create: (context) => OfferCubit(GetOfferUseCase(
+        getit<ViewOfferRepoImpl>(),
+      )),
+      child: Scaffold(
+        body: ViewOfferBody(),
+      ),
     );
   }
 }

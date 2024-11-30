@@ -55,14 +55,14 @@ class ViewOfferRemotDataSourceImpl extends ViewOfferRemotDataSource {
     String? token = await getToken();
     var data = await apiService.post(
       data: {
-        "pageSize": 10,
-        "pageNumber": 1,
-        "search": "string",
-        "type": "string",
-        "offerHeadId": 0,
-        "isOfferHeadId": true
+        "pageSize": pageSize,
+        "pageNumber": pageNumber,
+        // "search": "string",
+        // "type": "string",
+        // "offerHeadId": 0,
+        // "isOfferHeadId": true
       },
-      endPoint: 'Store/GetStoreOfferHeads',
+      endPoint: 'Offers/Store/GetStoreOfferHeads',
       headers: {
         'Authorization': 'BEARER $token',
       },
@@ -89,18 +89,18 @@ class ViewOfferRemotDataSourceImpl extends ViewOfferRemotDataSource {
       data: {
         "pageSize": 10,
         "pageNumber": 1,
-        // "search": "string",
-        // "type": "string",
+        "search": "string",
+        "type": "string",
         "offerHeadId": offerHeadId,
-        // "isOfferHeadId": false
+        "isOfferHeadId": false
       },
-      endPoint: 'Store/GetStoreOffers',
+      endPoint: 'Offers/Store/GetStoreOffers',
       headers: {
         'Authorization': 'BEARER $token',
       },
     );
-    List<OfferDetailsEntity> orders = getOfferDetailsList(data);
-    print(orders);
-    return orders;
+    List<OfferDetailsEntity> offerDetails = getOfferDetailsList(data);
+    print(offerDetails);
+    return offerDetails;
   }
 }

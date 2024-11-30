@@ -6,14 +6,14 @@ import 'package:sindbad_management_app/core/styles/text_style.dart';
 class CardOfferProductDetailsBounsWidget extends StatefulWidget {
   final String productName;
   final String productImage;
-  final int buysCount;
-  final int freesCount;
+  final num numberToBuy;
+  final num numberToGet;
   const CardOfferProductDetailsBounsWidget(
       {super.key,
       required this.productName,
       required this.productImage,
-      required this.buysCount,
-      required this.freesCount});
+      required this.numberToBuy,
+      required this.numberToGet});
 
   @override
   State<CardOfferProductDetailsBounsWidget> createState() =>
@@ -41,7 +41,7 @@ class _CardOfferProductDetailsBounsWidgetState
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(children: [
-                    Image.asset(
+                    Image.network(
                       widget.productImage,
                       width: 45.w,
                       height: 45.w,
@@ -64,7 +64,7 @@ class _CardOfferProductDetailsBounsWidgetState
                       ),
                     ),
                     Text(
-                      widget.buysCount.toString(),
+                      widget.numberToBuy.toString(),
                       style: KTextStyle.textStyle12.copyWith(
                         color: AppColors.primary,
                       ),
@@ -76,7 +76,7 @@ class _CardOfferProductDetailsBounsWidgetState
                       ),
                     ),
                     Text(
-                      widget.freesCount.toString(),
+                      widget.numberToGet.toString(),
                       style: KTextStyle.textStyle12.copyWith(
                         color: AppColors.primary,
                       ),

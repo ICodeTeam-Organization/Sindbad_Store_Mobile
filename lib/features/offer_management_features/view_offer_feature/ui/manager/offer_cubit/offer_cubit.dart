@@ -8,8 +8,8 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 part 'offer_state.dart';
 
 class OfferCubit extends Cubit<OfferState> {
-  OfferCubit(this.getOfferUseCase) : super(OfferInitial());
   final GetOfferUseCase getOfferUseCase;
+  OfferCubit(this.getOfferUseCase) : super(OfferInitial());
 
   Future<void> getOffer(
     int pageSize,
