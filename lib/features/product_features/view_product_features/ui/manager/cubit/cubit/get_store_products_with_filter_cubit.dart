@@ -12,6 +12,7 @@ class GetStoreProductsWithFilterCubit
       : super(GetStoreProductsWithFilterInitial());
   final GetProductsByFilterUseCase getProductsByFilterUseCase;
 
+  List<String> updatedProductsSelected = [];
   // الدالة لتحديث حالة الـ Checkbox
   void updateCheckboxState(int index, bool value, String productNumber) {
     if (state is GetStoreProductsWithFilterSuccess) {
@@ -19,7 +20,8 @@ class GetStoreProductsWithFilterCubit
       // إنشاء قائمة جديدة تحتوي على جميع الحالات القديمة مع تحديث الحالة المطلوبة
       final List<bool> updatedCheckedStates =
           List<bool>.from(currentState.checkedStates);
-      final List<String> updatedProductsSelected =
+      // final List<String> updatedProductsSelected =
+      updatedProductsSelected =
           List<String>.from(currentState.productsSelected);
       updatedCheckedStates[index] = value; // تحديث الحالة في الفهرس المحدد
       value
@@ -50,10 +52,11 @@ class GetStoreProductsWithFilterCubit
     },
         // right
         (products) {
-      // تهيئة حالة checkedStates بناءً على عدد المنتجات
+      // تهيئة جميع القوائم
       final List<bool> checkedStates =
           List<bool>.filled(products.length, false);
       final List<String> productsSelected = [];
+      updatedProductsSelected = [];
       emit(GetStoreProductsWithFilterSuccess(
           products, checkedStates, productsSelected));
     });

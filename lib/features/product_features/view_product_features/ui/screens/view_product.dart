@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/core/setup_service_locator.dart';
-import 'package:sindbad_management_app/core/utils/route.dart';
 import '../../../../../core/shared_widgets/new_widgets/custom_app_bar.dart';
 import '../../../../../core/shared_widgets/new_widgets/custom_tab_bar_widget.dart';
 import '../../../../../core/styles/Colors.dart';
@@ -77,22 +75,23 @@ class ViewProductState extends State<ViewProduct> {
           children: [
             // في حال كانت التصنيفات الفرعية يجب عرضها
             if (_showSubCategories) _buildSubCategories(),
-            TwoButtonInRow(
-                // productCheckedByNames: allProductCheckedByNames,
-                onTapLeft: () {}),
+            BlocBuilder<GetStoreProductsWithFilterCubit,
+                GetStoreProductsWithFilterState>(
+              builder: (context, state) {
+                return TwoButtonInRow(
+                  anyProductsSelected: context
+                      .read<GetStoreProductsWithFilterCubit>()
+                      .updatedProductsSelected
+                      .isEmpty,
+                  onTapLeft: () {},
+                );
+              },
+            ),
+
             SizedBox(height: 15.h),
             Expanded(
               child: ProductsListView(
                 storeProductsFilter: tabIndex,
-                onTapDelete: () {
-                  // تنفيذ الحذف
-                },
-                onTapEdit: () {
-                  // تنفيذ التعديل
-                  context.push(AppRouter.storeRouters.kStoreEditProduct,
-                      extra: 1 // here pass the product id
-                      );
-                },
               ),
             ),
           ],
@@ -102,22 +101,23 @@ class ViewProductState extends State<ViewProduct> {
           children: [
             // في حال كانت التصنيفات الفرعية يجب عرضها
             if (_showSubCategories) _buildSubCategories(),
-            TwoButtonInRow(
-                // productCheckedByNames: offerProductCheckedByNames,
-                onTapLeft: () {}),
+            BlocBuilder<GetStoreProductsWithFilterCubit,
+                GetStoreProductsWithFilterState>(
+              builder: (context, state) {
+                return TwoButtonInRow(
+                  anyProductsSelected: context
+                      .read<GetStoreProductsWithFilterCubit>()
+                      .updatedProductsSelected
+                      .isEmpty,
+                  onTapLeft: () {},
+                );
+              },
+            ),
+
             SizedBox(height: 15.h),
             Expanded(
               child: ProductsListView(
                 storeProductsFilter: tabIndex,
-                onTapDelete: () {
-                  // تنفيذ الحذف
-                },
-                onTapEdit: () {
-                  // تنفيذ التعديل
-                  context.push(AppRouter.storeRouters.kStoreEditProduct,
-                      extra: 1 // here pass the product id
-                      );
-                },
               ),
             ),
           ],
@@ -125,22 +125,22 @@ class ViewProductState extends State<ViewProduct> {
       case 2: // "منتجات موقوفة"
         return Column(
           children: [
-            TwoButtonInRow(
-                // productCheckedByNames: disableProductCheckedByNames,
-                titleLeft: "إعادة تنشيط",
-                onTapLeft: () {}),
+            BlocBuilder<GetStoreProductsWithFilterCubit,
+                GetStoreProductsWithFilterState>(
+              builder: (context, state) {
+                return TwoButtonInRow(
+                  titleLeft: "إعادة تنشيط",
+                  anyProductsSelected: context
+                      .read<GetStoreProductsWithFilterCubit>()
+                      .updatedProductsSelected
+                      .isEmpty,
+                  onTapLeft: () {},
+                );
+              },
+            ),
             Expanded(
               child: ProductsListView(
                 storeProductsFilter: tabIndex,
-                onTapDelete: () {
-                  // تنفيذ الحذف
-                },
-                onTapEdit: () {
-                  // تنفيذ التعديل
-                  context.push(AppRouter.storeRouters.kStoreEditProduct,
-                      extra: 1 // here pass the product id
-                      );
-                },
               ),
             ),
           ],

@@ -13,6 +13,7 @@ class TwoButtonInRow extends StatelessWidget {
     this.titleLeft = "إيقاف منتج",
     // required this.onTapRight,
     required this.onTapLeft,
+    required this.anyProductsSelected,
   });
 
   // final List<String> productCheckedByNames;
@@ -20,6 +21,7 @@ class TwoButtonInRow extends StatelessWidget {
   final String titleLeft;
   // final void Function() onTapRight;
   final void Function() onTapLeft;
+  final bool anyProductsSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class TwoButtonInRow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           StorePrimaryButton(
-            disabled: false, //productCheckedByNames.isNotEmpty ? true : false,
+            disabled: !anyProductsSelected,
             title: titleRight,
             icon: Icons.add_circle_outline_rounded,
             buttonColor: AppColors.primary,
@@ -41,6 +43,7 @@ class TwoButtonInRow extends StatelessWidget {
             },
           ),
           StorePrimaryButton(
+            disabled: anyProductsSelected,
             title: titleLeft,
             icon: Icons.delete_outline_rounded,
             buttonColor: AppColors.primary,
