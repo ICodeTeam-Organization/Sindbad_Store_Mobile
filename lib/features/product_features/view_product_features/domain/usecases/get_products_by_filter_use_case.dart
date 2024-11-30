@@ -13,7 +13,10 @@ class GetProductsByFilterUseCase
   Future<Either<Failure, List<ProductEntity>>> execute(
       ProductsByFilterParams params) async {
     return viewProductRepo.getProductsByFilter(
-        params.storeProductsFilter, params.pageNumper, params.pageSize);
+      storeProductsFilter: params.storeProductsFilter,
+      pageNumper: params.pageNumper,
+      pageSize: params.pageSize,
+    );
   }
 }
 
