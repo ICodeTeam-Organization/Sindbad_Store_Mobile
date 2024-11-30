@@ -57,6 +57,10 @@ class ViewOfferRemotDataSourceImpl extends ViewOfferRemotDataSource {
       data: {
         "pageSize": 10,
         "pageNumber": 1,
+        "search": "string",
+        "type": "string",
+        "offerHeadId": 0,
+        "isOfferHeadId": true
       },
       endPoint: 'Store/GetStoreOfferHeads',
       headers: {
