@@ -1,16 +1,20 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
+import '../../../../domain/entities/delete_entity_product.dart';
 import '../../../../domain/entities/product_entity.dart';
+import '../../../../domain/usecases/delete_product_by_id_use_case.dart';
 import '../../../../domain/usecases/get_products_by_filter_use_case.dart';
 
 part 'get_store_products_with_filter_state.dart';
 
 class GetStoreProductsWithFilterCubit
     extends Cubit<GetStoreProductsWithFilterState> {
-  GetStoreProductsWithFilterCubit(this.getProductsByFilterUseCase)
+  GetStoreProductsWithFilterCubit(
+      this.getProductsByFilterUseCase, this.deleteProductByIdUseCase)
       : super(GetStoreProductsWithFilterInitial());
   final GetProductsByFilterUseCase getProductsByFilterUseCase;
+  final DeleteProductByIdUseCase deleteProductByIdUseCase;
 
   List<String> updatedProductsSelected = [];
   // الدالة لتحديث حالة الـ Checkbox
@@ -59,6 +63,26 @@ class GetStoreProductsWithFilterCubit
       updatedProductsSelected = [];
       emit(GetStoreProductsWithFilterSuccess(
           products, checkedStates, productsSelected));
+    });
+  }
+
+  // for delete product
+  Future<void> deleteProductById({required int productId}) async {
+    emit(DeleteStoreProductByIdLoading());
+    var params = DeleteProductByIdPara(productId);
+    var result = await deleteProductByIdUseCase.execute(params);
+
+    result.fold(
+        // left
+        (failure) {
+      emit(DeleteStoreProductByIdFailure(errMessage: failure.message));
+    },
+        // right
+        (responseMessage) {
+      responseMessage.isSuuccess
+          ? emit(DeleteStoreProductByIdSuccess(message: responseMessage))
+          : emit(DeleteStoreProductByIdFailure(
+              errMessage: responseMessage.errorMessage));
     });
   }
 }

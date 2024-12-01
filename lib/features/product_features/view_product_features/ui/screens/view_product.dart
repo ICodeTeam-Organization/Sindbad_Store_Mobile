@@ -6,6 +6,7 @@ import '../../../../../core/shared_widgets/new_widgets/custom_app_bar.dart';
 import '../../../../../core/shared_widgets/new_widgets/custom_tab_bar_widget.dart';
 import '../../../../../core/styles/Colors.dart';
 import '../../data/repos/view_product_store_repo_impl.dart';
+import '../../domain/usecases/delete_product_by_id_use_case.dart';
 import '../../domain/usecases/get_products_by_filter_use_case.dart';
 import '../manager/cubit/cubit/get_store_products_with_filter_cubit.dart';
 import 'fake_data _for_test.dart/test_data_cat.dart';
@@ -29,10 +30,14 @@ class ViewProductState extends State<ViewProduct> {
     final double heightMobile = MediaQuery.sizeOf(context).height;
 
     return BlocProvider(
-      create: (context) =>
-          GetStoreProductsWithFilterCubit(GetProductsByFilterUseCase(
-        getit.get<ViewProductStoreRepoImpl>(),
-      )),
+      create: (context) => GetStoreProductsWithFilterCubit(
+        GetProductsByFilterUseCase(
+          getit.get<ViewProductStoreRepoImpl>(),
+        ),
+        DeleteProductByIdUseCase(
+          getit.get<ViewProductStoreRepoImpl>(),
+        ),
+      ),
       child: Scaffold(
         body: SafeArea(
           child: Column(

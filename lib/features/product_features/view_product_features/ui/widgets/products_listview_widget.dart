@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/custom_delete_dialog_widget.dart';
 import '../../../../../core/styles/Colors.dart';
 import '../../../../../core/utils/route.dart';
 import '../../domain/entities/product_entity.dart';
@@ -117,6 +118,20 @@ class ProductsListView extends StatelessWidget {
                           );
                     }, onTapDelete: () {
                       // تنفيذ الحذف
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return CustomDeleteDialogWidget(
+                            title: 'هل انت متأكد من الحذف ؟',
+                            subtitle: 'رقم المنتج :  ${product.productid}',
+                            onConfirm: () {
+                              // Handle delete action
+                              print('Item deleted');
+                              Navigator.of(context).pop(); // Close dialog
+                            },
+                          );
+                        },
+                      );
                     }),
                   ],
                 ),
