@@ -10,18 +10,28 @@ class AllOrderCubit extends Cubit<AllOrderState> {
         );
   final AllOrderUsecase allOrderUseCase;
   Future<void> fetchAllOrder(
-      int pageSize, int orderDetailStatus, String srearchKeyword, bool isUrgen,
-      {int pageNumber = 1}) async {
+      {required bool isUrgen,
+      required bool canceled,
+      required bool delevred,
+      required bool noInvoice,
+      required bool unpaied,
+      required bool paied,
+      required int pageNumber,
+      required int pageSize,
+      required String srearchKeyword}) async {
     emit(
       AllOrderLoading(),
     );
     var result = await allOrderUseCase.execute(AllOrderParam(
-      pageNumber,
-      pageSize,
-      orderDetailStatus,
-      srearchKeyword,
-      isUrgen,
-    ));
+        isUrgen: isUrgen,
+        canceled: canceled,
+        delevred: delevred,
+        noInvoice: noInvoice,
+        unpaied: unpaied,
+        paied: paied,
+        pageNumber: pageNumber,
+        pageSize: pageSize,
+        srearchKeyword: srearchKeyword));
 
     result.fold((failuer) {
       emit(
