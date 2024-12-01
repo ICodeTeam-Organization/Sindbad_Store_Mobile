@@ -9,14 +9,14 @@ class BottomOrderDetails extends StatelessWidget {
     super.key,
     required this.barcodeNumber,
   });
-  final int barcodeNumber;
+  final String barcodeNumber;
 
   @override
   Widget build(BuildContext context) {
     return BarcodeWidget(
       height: 60.h,
       width: MediaQuery.sizeOf(context).width * 0.9,
-      data: '$barcodeNumber',
+      data: barcodeNumber,
       textPadding: 8,
       style: KTextStyle.textStyle14,
       // data: orderNum.toString(), // Data here
