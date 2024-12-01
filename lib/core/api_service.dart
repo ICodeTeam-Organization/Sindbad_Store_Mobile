@@ -115,6 +115,7 @@ class ApiService {
     required List<File> imageFiles,
     required File pdfFile,
     Map<String, String>? headers,
+    required File file,
   }) async {
     try {
       FormData formData = FormData.fromMap(data);
@@ -154,6 +155,77 @@ class ApiService {
     } catch (error, stacktrace) {
       throw Exception(
           'Failed to make POST request with files, Error: $error , Stacktrace: $stacktrace');
+    }
+  }
+
+  Future<Map<String, dynamic>> postRequestWithFileAndImage({
+    required String endPoint,
+    required Map<String, dynamic> data,
+    required File file,
+    Map<String, String>? headers,
+  }) async {
+    try {
+      FormData formData = FormData();
+
+      // Print the entire data map for debugging
+      print('Data provided: $data');
+
+      // Check if Date is present and valid
+
+      // Add invoice date
+      if (data.containsKey('Date')) {
+        formData.fields.add(MapEntry('Date', data['Date'].toString()));
+      } else {
+        throw Exception('Date is required');
+      }
+      // Add invoice number
+      if (data.containsKey('InvoiceNumber')) {
+        formData.fields
+            .add(MapEntry('InvoiceNumber', data['InvoiceNumber'].toString()));
+      } else {
+        throw Exception('InvoiceNumber is required');
+      }
+      // Add orderDetailsId
+      if (data.containsKey('orderDetailsId')) {
+        formData.fields
+            .add(MapEntry('orderDetailsId', data['orderDetailsId'].toString()));
+      } else {
+        throw Exception('orderDetailsId is required');
+      }
+      // Add invoice Amount and amount
+      if (data.containsKey('InvoiceAmount')) {
+        formData.fields
+            .add(MapEntry('InvoiceAmount', data['InvoiceAmount'].toString()));
+      } else {
+        throw Exception('InvoiceAmount is required');
+      }
+      // Add invoice Type and amount
+      if (data.containsKey('InvoiceType')) {
+        formData.fields
+            .add(MapEntry('InvoiceType', data['InvoiceType'].toString()));
+      } else {
+        throw Exception('InvoiceType is required');
+      }
+
+      // Check the file
+      if (file.existsSync()) {
+        String fileName = file.path.split('/').last;
+        formData.files.add(MapEntry(
+          "InvoiceImage",
+          await MultipartFile.fromFile(file.path, filename: fileName),
+        ));
+      } else {
+        throw Exception('File does not exist');
+      }
+
+      // Make the POST request
+      var response = await _dio.post('$baseUrl$endPoint',
+          data: formData, options: Options(headers: headers));
+      print('Response: ${response.data}');
+      return response.data;
+    } catch (error, stacktrace) {
+      throw Exception(
+          'Failed to make POST request with files, Error: $error, Stacktrace: $stacktrace');
     }
   }
 }
