@@ -17,6 +17,7 @@ class CardOfferWidget extends StatefulWidget {
   final num? numberToBuy;
   final num? numberToGet;
   final num? discountRate;
+  final void Function()? onDeleteTap;
 
   const CardOfferWidget({
     super.key,
@@ -29,6 +30,7 @@ class CardOfferWidget extends StatefulWidget {
     this.numberToBuy,
     this.numberToGet,
     this.discountRate,
+    this.onDeleteTap,
   });
 
   @override
@@ -314,22 +316,7 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
                         title: 'حذف عرض',
                         iconPath: "assets/delete.svg",
                         isSolid: false,
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return CustomDeleteDialogWidget(
-                                title: 'هل انت متأكد من الحذف ؟',
-                                subtitle: 'يوجد بيانات مرتبطة بهذا المدخل',
-                                onConfirm: () {
-                                  // Handle delete action
-                                  print('Item deleted');
-                                  Navigator.of(context).pop(); // Close dialog
-                                },
-                              );
-                            },
-                          );
-                        },
+                        onTap: widget.onDeleteTap,
                       ),
                     ],
                   ),

@@ -4,9 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/utils/route.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/delete_offer_cubit/delete_offer_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_cubit/offer_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/action_button_widget.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/card_offer_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/custom_delete_dialog_widget.dart';
 
 class ViewOfferBody extends StatefulWidget {
   const ViewOfferBody({super.key});
@@ -22,6 +24,7 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
     context.read<OfferCubit>().getOffer(10, 1);
   }
 
+  late int offerHeadId;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -89,12 +92,49 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                                 numberToBuy: state.offer[i].numberToBuy,
                                 numberToGet: state.offer[i].numberToGet,
                                 discountRate: state.offer[i].discountRate,
-                                // offerBouns: 'اشتري x واحصل على y',
-                                // startOffer: DateTime.utc(2024, 5, 1),
-                                // endOffer: DateTime.utc(2024, 11, 27),
-                                // isActive: true,
-                                // countProducts: '17',
-                                // offerType: offerType!,
+                                onDeleteTap: () {
+                                  offerHeadId = state.offer[i].offerId;
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return BlocConsumer<DeleteOfferCubit,
+                                          DeleteOfferState>(
+                                        listener: (context, state) {
+                                          if (state is DeleteOfferFailure) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(
+                                                    content: Text(
+                                              state.errorMessage.toString(),
+                                            )));
+                                            Navigator.pop(context);
+                                          } else if (state
+                                              is DeleteOfferSuccess) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(
+                                                    content: Text(
+                                              state.deleteOffer.toString(),
+                                            )));
+                                            Navigator.pop(context);
+                                          }
+                                        },
+                                        builder: (context, state) {
+                                          return CustomDeleteDialogWidget(
+                                            title: 'هل انت متأكد من الحذف ؟',
+                                            subtitle:
+                                                'يوجد بيانات مرتبطة بهذا المدخل',
+                                            onConfirm: () async {
+                                              await context
+                                                  .read<DeleteOfferCubit>()
+                                                  .deleteOffer(offerHeadId);
+                                              print(
+                                                  'Item deleted $offerHeadId');
+                                            },
+                                          );
+                                        },
+                                      );
+                                    },
+                                  );
+                                },
                               ),
                             ),
                           ],

@@ -1,7 +1,9 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sindbad_management_app/core/api_service.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/models/delete_offer_model.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/models/offer_details_model.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/models/offer_model.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/delete_offer_entity.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/offer_details_entity.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/offer_entity.dart';
 
@@ -13,6 +15,9 @@ abstract class ViewOfferRemotDataSource {
   Future<List<OfferDetailsEntity>> getOfferDetails(
     int pageSize,
     int pageNumber,
+    int offerHeadId,
+  );
+  Future<DeleteOfferEntity> deleteOffer(
     int offerHeadId,
   );
 }
@@ -102,5 +107,24 @@ class ViewOfferRemotDataSourceImpl extends ViewOfferRemotDataSource {
     List<OfferDetailsEntity> offerDetails = getOfferDetailsList(data);
     print(offerDetails);
     return offerDetails;
+  }
+
+  @override
+  Future<DeleteOfferEntity> deleteOffer(
+    int offerHeadId,
+  ) async {
+    String? token = await getToken();
+    var data = await apiService.post(
+        data: {
+          "id": offerHeadId,
+          "isOfferHead": true,
+        },
+        endPoint: "Offers/Store/DeleteOffer",
+        headers: {
+          'Authorization': 'BEARER $token',
+        });
+    DeleteOfferEntity delete = DeleteOfferModel.fromJson(data);
+    print(delete);
+    return delete;
   }
 }
