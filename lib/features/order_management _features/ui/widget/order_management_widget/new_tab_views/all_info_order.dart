@@ -43,8 +43,16 @@ class _AllInfoOrderState extends State<AllInfoOrder> {
     var currentPostions = _scrollController.position.pixels;
     var maxScrollLenght = _scrollController.position.maxScrollExtent;
     if (currentPostions >= 0.7 * maxScrollLenght) {
-      BlocProvider.of<AllOrderCubit>(context)
-          .fetchAllOrder(10, 1, '', false, pageNumber: 1);
+      BlocProvider.of<AllOrderCubit>(context).fetchAllOrder(
+          isUrgen: false,
+          canceled: true,
+          delevred: true,
+          noInvoice: true,
+          unpaied: true,
+          paied: true,
+          pageNumber: 1,
+          pageSize: 10,
+          srearchKeyword: '');
     }
   }
 
@@ -56,33 +64,33 @@ class _AllInfoOrderState extends State<AllInfoOrder> {
 
   @override
   Widget build(BuildContext context) {
-    context
-        .read<AllOrderCubit>()
-        .fetchAllOrder(10, 1, '', false, pageNumber: 1);
+    context.read<AllOrderCubit>().fetchAllOrder(
+        isUrgen: false,
+        canceled: true,
+        delevred: true,
+        noInvoice: true,
+        unpaied: true,
+        paied: true,
+        pageNumber: 1,
+        pageSize: 10,
+        srearchKeyword: '');
 
     return BlocBuilder<AllOrderCubit, AllOrderState>(
       builder: (context, state) {
         if (state is AllOrderSuccess) {
           return ListView.builder(
+            physics: BouncingScrollPhysics(),
             itemCount: state.orders.length,
             itemBuilder: (BuildContext context, int i) {
-              
-              return InkWell(
-                onTap: () {
-                  context.push(
-                    AppRouter.storeRouters.details,
-                    // extra: idOrder,
-                  );
-                },
-                child: OrderBody(
-                  billNumber: state.orders[i].orderBill,
-                  orderNumber: state.orders[i].orderNum,
-                  clock: '1:01',
-                  date: state.orders[i].orderDates,
-                  itemNumber: state.orders[i].productMount,
-                  paymentInfo: state.orders[i].payStatus,
-                  orderStatus: state.orders[i].orderStatuse,
-                ),
+              return OrderBody(
+                billNumber: state.orders[i].orderBill,
+                orderNumber: state.orders[i].orderNum,
+                clock: '1:01',
+                date: state.orders[i].orderDates,
+                itemNumber: state.orders[i].productMount,
+                paymentInfo: state.orders[i].payStatus,
+                orderStatus: state.orders[i].orderStatuse,
+                idOrder: state.orders[i].idOrder,
               );
             },
           );

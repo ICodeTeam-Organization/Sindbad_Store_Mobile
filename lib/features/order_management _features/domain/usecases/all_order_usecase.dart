@@ -15,7 +15,11 @@ class AllOrderUsecase
       AllOrderParam params) async {
     return await allOrderRepo.fetchAllOrder(
         isUrgen: params.isUrgen,
-        orderDetailStatus: params.orderDetailStatus,
+        canceled: params.canceled,
+        delevred: params.delevred,
+        noInvoice: params.noInvoice,
+        unpaied: params.unpaied,
+        paied: params.unpaied,
         pageNumber: params.pageNumber,
         pageSize: params.pageSize,
         srearchKeyword: params.srearchKeyword);
@@ -24,11 +28,23 @@ class AllOrderUsecase
 
 class AllOrderParam {
   final bool isUrgen;
-  final int orderDetailStatus;
+  final bool canceled;
+  final bool delevred;
+  final bool noInvoice;
+  final bool unpaied;
+  final bool paied;
+  final int pageNumber;
   final int pageSize;
-   int pageNumber = 1;
   final String srearchKeyword;
 
-  AllOrderParam(this.pageNumber, this.pageSize, this.orderDetailStatus,
-      this.srearchKeyword, this.isUrgen);
+  AllOrderParam(
+      {required this.isUrgen,
+      required this.canceled,
+      required this.delevred,
+      required this.noInvoice,
+      required this.unpaied,
+      required this.paied,
+      required this.pageNumber,
+      required this.pageSize,
+      required this.srearchKeyword});
 }

@@ -3,8 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/styles/Colors.dart';
 import '../../../../../core/styles/text_style.dart';
 
+String? pay;
+
 class RadioWidget extends StatefulWidget {
-  const RadioWidget({
+  RadioWidget({
     super.key,
   });
 
@@ -15,7 +17,6 @@ class RadioWidget extends StatefulWidget {
 
 class _RadioWidgetState extends State<RadioWidget> {
   final String title;
-  String? pay;
 
   _RadioWidgetState({required this.title});
   @override

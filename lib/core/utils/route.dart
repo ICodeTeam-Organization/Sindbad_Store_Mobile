@@ -117,11 +117,28 @@ abstract class AppRouter {
       //   },
       // ),
       GoRoute(
-        path: AppRouter.storeRouters.details,
-        builder: (context, state) => OrderDetails(),
-      ),
+          path: AppRouter.storeRouters.details,
+          builder: (context, state) {
+            final orderId = state.extra as int;
+            final orderNumber = state.extra as String;
+            final billNumber = state.extra as String;
+            final date = state.extra as String;
+            final colck = state.extra as String;
+            final itemNumber = state.extra as String;
+            final paymentInfo = state.extra as String;
+            final orderStatus = state.extra as String;
+            return OrderDetails(
+              orderId: orderId,
+              orderNumber: orderNumber,
+              billNumber: billNumber.toString(),
+              clock: colck.toString(),
+              date: date.toString(),
+              itemNumber: itemNumber.toString(),
+              paymentInfo: paymentInfo.toString(),
+              orderStatus: orderStatus.toString(),
+            );
+          }),
       ///////////////////////////////////////////////////////
-      //////////////////////////////////////////////////////
       /////////////////////////////////////////////////////
       GoRoute(
         path: AppRouter.storeRouters.kStoreAddProduct,
@@ -174,7 +191,6 @@ abstract class AppRouter {
 
 //   // Accountant Routes
 //   static AcontantRouters acontantRouters = AcontantRouters();
-
 
 //   // Accountant Routes
 //   static const kAccountantHome = '/accountant/home';

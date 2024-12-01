@@ -9,7 +9,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/widgets.dart';
 import 'package:printing/printing.dart';
 
-String? share; 
+String? share;
 
 class Pdf {
   static Future<File> generateCenteredText(String text, int? parcels) async {

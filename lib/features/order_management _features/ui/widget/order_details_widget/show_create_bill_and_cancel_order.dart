@@ -3,14 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
 import '../../../../../core/styles/Colors.dart';
-import '../../manager/cubit/refresh_page_cubit.dart';
+import '../../function/image_picker_function.dart';
+import '../../manager/refresh/refresh_page_cubit.dart';
+import '../../manager/invoice/order_invoice_cubit.dart';
 import 'custom_create_bill_dialog.dart';
 import 'custom_order_cancle_dialog.dart';
 import 'messages.dart';
+import 'order_details_body.dart';
+import 'radio_widget.dart';
 
 class ShowCreateBillAndCancelOrder extends StatelessWidget {
-  const ShowCreateBillAndCancelOrder({super.key});
-
+  ShowCreateBillAndCancelOrder({super.key});
+  num? mount;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -34,19 +38,69 @@ class ShowCreateBillAndCancelOrder extends StatelessWidget {
                       firstTitle: 'تاريخ الفاتورة',
                       secondTitle: 'رقم الفاتورة',
                       thierdTitle: 'قيمة الفاتورة',
-                      onPressedSure: () {
-                        context.read<RefreshPageCubit>().refreshpage();
+                      onPressedSure: () async {
                         Navigator.of(context).pop();
                         showDialog(
                           context: context,
                           builder: (context) {
-                            return Messages(
-                              isTrue: true,
-                              trueMessage: 'لقد تمت الأضافة في قائمة التجهيز',
-                              falseMessage: 'هناك خطاء في العملية',
+                            return BlocBuilder<OrderInvoiceCubit,
+                                OrderInvoiceState>(
+                              builder: (context, state) {
+                                if (state is OrderInvoiceSuccess) {
+                                  return Messages(
+                                    isTrue: state.serverMessage.isSuccess,
+                                    trueMessage:
+                                        'لقد تمت الأضافة في قائمة التجهيز',
+                                    falseMessage: 'هناك خطاء في العملية',
+                                  );
+                                } else if (state is OrderInvoiceFailuer) {
+                                  return Messages(
+                                    isTrue: false,
+                                    trueMessage:
+                                        'لقد تمت الأضافة في قائمة التجهيز',
+                                    falseMessage: 'هناك خطاء في العملية',
+                                  );
+                                } else {
+                                  return Text("يوجد خطا");
+                                }
+                              },
                             );
                           },
                         );
+                        try {
+                          await context
+                              .read<OrderInvoiceCubit>()
+                              .fechOrderInvoice(
+                                  ids ?? [],
+                                  mount = num.parse(mountConroller.text),
+                                  images!,
+                                  numberConroller.text,
+                                  DateTime.now(),
+                                  int.parse(pay ?? '0')
+
+                                  // dateConroller.text
+                                  );
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('تم انشاء فاتورة بنجاح '),
+                            ),
+                          );
+                          Navigator.of(context).pop();
+                          numberConroller.clear();
+                          mountConroller.clear();
+                          mountConroller.clear();
+                          dateConroller.clear();
+                          print(
+                              'amarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr ');
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('هنالك خطا ما  $e'),
+                            ),
+                          );
+                          print('ikjgtiorjijjguiwheiruthwuiertywuorie $images');
+                        }
                       },
                     ),
                   );

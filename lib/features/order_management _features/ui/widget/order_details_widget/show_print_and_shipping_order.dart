@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
-import '../../manager/cubit/refresh_page_cubit.dart';
+import '../../manager/refresh/refresh_page_cubit.dart';
 import '../order_shipping_widgets/custom_order_print_dialog.dart';
 import '../order_shipping_widgets/custom_order_shipping_dialog.dart';
 import 'messages.dart';
