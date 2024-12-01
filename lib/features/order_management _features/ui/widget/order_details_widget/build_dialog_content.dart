@@ -11,12 +11,13 @@ TextEditingController numberConroller = TextEditingController();
 TextEditingController mountConroller = TextEditingController();
 
 class BuildDialogContent extends StatelessWidget {
-  const BuildDialogContent(
-      {super.key,
-      required this.firstTitle,
-      required this.secondTitle,
-      required this.thierdTitle,
-      required this.onPressedSure});
+  const BuildDialogContent({
+    super.key,
+    required this.firstTitle,
+    required this.secondTitle,
+    required this.thierdTitle,
+    required this.onPressedSure,
+  });
 
   final String firstTitle;
   final String secondTitle;

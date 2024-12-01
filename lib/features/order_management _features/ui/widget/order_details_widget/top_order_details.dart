@@ -10,14 +10,18 @@ class TopOrderDetails extends StatelessWidget {
     required this.imageUrl,
     required this.productName,
     required this.productType,
-    required this.productTypeCat,
+    required this.productNameCat1,
+    required this.productNameCat2,
     required this.productTypeCat1,
     required this.productTypeCat2,
+    required this.orderDetailsId,
   });
+  final int orderDetailsId;
   final String imageUrl;
   final String productName;
   final String productType;
-  final String productTypeCat;
+  final String productNameCat1;
+  final String productNameCat2;
   final String productTypeCat1;
   final String productTypeCat2;
 
@@ -73,7 +77,7 @@ class TopOrderDetails extends StatelessWidget {
           Row(
             children: [
               Text(
-                productTypeCat,
+                '$productNameCat1 :',
                 style: KTextStyle.textStyle14
                     .copyWith(fontWeight: FontWeight.w500),
               ),
@@ -85,6 +89,11 @@ class TopOrderDetails extends StatelessWidget {
               Spacer(),
               Text('|'),
               Spacer(),
+              Text(
+                '$productNameCat2 :',
+                style: KTextStyle.textStyle14
+                    .copyWith(fontWeight: FontWeight.w500),
+              ),
               Text(
                 productTypeCat2,
                 style: KTextStyle.textStyle14
