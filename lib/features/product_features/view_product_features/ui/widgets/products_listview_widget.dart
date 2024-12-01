@@ -1,55 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shimmer/shimmer.dart';
-
+import 'package:go_router/go_router.dart';
 import '../../../../../core/styles/Colors.dart';
+import '../../../../../core/utils/route.dart';
 import '../../domain/entities/product_entity.dart';
 import '../manager/cubit/cubit/get_store_products_with_filter_cubit.dart';
-import 'button_custom.dart';
+import 'check_box_custom.dart';
 import 'image_card_custom.dart';
+import 'shimmer_for_products_with_filter.dart';
 import 'text_style_detials.dart';
+import 'two_button_inside_list_view_products.dart';
 
 class ProductsListView extends StatelessWidget {
-  final List<ProductEntity> products;
-  final void Function(bool?, int) onChanged; // أضف index
-  final List<bool> checkedStates;
-  final void Function() onTapEdit;
-  final void Function() onTapDelete;
-
+  final int storeProductsFilter;
   const ProductsListView({
     super.key,
-    required this.products,
-    required this.onChanged,
-    required this.checkedStates,
-    required this.onTapEdit,
-    required this.onTapDelete,
+    required this.storeProductsFilter,
   });
 
   @override
   Widget build(BuildContext context) {
     context
         .read<GetStoreProductsWithFilterCubit>()
-        .getStoreProductsWitheFilter(1, 1, 10);
+        .getStoreProductsWitheFilter(storeProductsFilter, 1, 10);
     return BlocBuilder<GetStoreProductsWithFilterCubit,
         GetStoreProductsWithFilterState>(
       builder: (context, state) {
         if (state is GetStoreProductsWithFilterLoading) {
-          return Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,
-              child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  itemCount: 6,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Container(
-                        color: Colors.white,
-                        height: 130.h,
-                        width: MediaQuery.of(context).size.width,
-                      ),
-                    );
-                  }));
+          return ShimmerForProductsWithFilter();
         } else if (state is GetStoreProductsWithFilterSuccess) {
           return ListView.builder(
             shrinkWrap: true,
@@ -58,7 +37,6 @@ class ProductsListView extends StatelessWidget {
             itemBuilder: (context, index) {
               ProductEntity product = state.products[index];
               bool isEven = index % 2 == 0;
-
               return Container(
                 padding: EdgeInsets.only(top: 26.h, bottom: 26.h, left: 10.w),
                 decoration: BoxDecoration(
@@ -66,26 +44,16 @@ class ProductsListView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4.r),
                 ),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      child: Transform.scale(
-                        scale: 0.8, // هنا يمكنك تعديل القيمة حسب الحجم المطلوب
-                        child: Checkbox(
-                          value: state.checkedStates[index],
-                          onChanged: (val) {
-                            context
-                                .read<GetStoreProductsWithFilterCubit>()
-                                .updateCheckboxState(index, val!);
-                          },
-                          activeColor: AppColors.redDark,
-                          checkColor: AppColors.white,
-                          side: BorderSide(
-                            color: Colors.red,
-                            width: 1.0.w,
-                          ),
-                        ),
-                      ),
+                    CheckBoxCustom(
+                      val: state.checkedStates[index],
+                      onChanged: (val) {
+                        context
+                            .read<GetStoreProductsWithFilterCubit>()
+                            .updateCheckboxState(index, val!,
+                                state.products[index].productNumber!);
+                      },
                     ),
                     ImageCardCustom(
                       imageUrlnetwork: product.productImageUrl!,
@@ -141,19 +109,15 @@ class ProductsListView extends StatelessWidget {
                     ),
                     SizedBox(width: 10.w),
                     // Action Buttons
-                    Column(
-                      children: [
-                        CustomButton(
-                            text: 'تعديل',
-                            icon: Icons.edit,
-                            onPressed: onTapEdit),
-                        SizedBox(height: 5.h),
-                        CustomButton(
-                            text: 'حذف',
-                            icon: Icons.delete,
-                            onPressed: onTapDelete),
-                      ],
-                    ),
+                    TwoButtonInsideListViewProducts(onTapEdit: () {
+                      // state.products //  ===> this pass contains [productid,productName,productNumber,productPrice,productImageUrl]
+                      // تنفيذ التعديل
+                      context.push(AppRouter.storeRouters.kStoreEditProduct,
+                          extra: 1 // here pass the product id
+                          );
+                    }, onTapDelete: () {
+                      // تنفيذ الحذف
+                    }),
                   ],
                 ),
               );
