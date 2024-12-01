@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:sindbad_management_app/features/product_features/view_product_features/domain/entities/delete_entity_product.dart';
 
 import '../../../../../core/api_service.dart';
 import '../../domain/entities/product_entity.dart';
+import '../models/delete_product_model.dart';
 import '../models/product_model/product_model.dart';
 // import '../models/product_model/product_model.dart';
 
@@ -11,6 +13,9 @@ abstract class ViewProductRemoteDataSource {
     required int storeProductsFilter,
     required int pageNumper,
     required int pageSize,
+  });
+  Future<DeleteProductEntity> deleteProductById({
+    required int productId,
   });
 }
 
@@ -71,5 +76,22 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
     print(products[0].productImageUrl);
     print(" ===================== Bagar =============== ");
     return products;
+  }
+
+  // fun Delete product by ID
+  DeleteProductModel? deleteProductModel;
+  @override
+  Future<DeleteProductEntity> deleteProductById(
+      {required int productId}) async {
+    String? token = await getToken();
+    var data = await apiService.delete(
+        endPoint: "Products/DeleteProduct?id=$productId",
+        headers: {"Authorization": "BEARER $token"});
+    DeleteProductEntity responseDeleteProduct =
+        DeleteProductModel.fromJson(data);
+    print(" ===================== Bagar =============== ");
+    print(responseDeleteProduct);
+    print(" ===================== Bagar =============== ");
+    return responseDeleteProduct;
   }
 }
