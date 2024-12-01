@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/data/data_source/remote/new_offer_remot_data_source.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/data/repos/new_offer_repo_impl.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/data_source/remote/view_offer_remot_data_source.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/repos/View_offer_repo_impl.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/repo/view_offer_repo.dart';
@@ -58,6 +60,14 @@ void setupServiceLocator() {
   getit.registerSingleton<ViewOfferRepoImpl>(
     ViewOfferRepoImpl(
       ViewOfferRemotDataSourceImpl(
+        getit.get<ApiService>(),
+        getit.get<FlutterSecureStorage>(),
+      ),
+    ),
+  );
+  getit.registerSingleton<NewOfferRepoImpl>(
+    NewOfferRepoImpl(
+      NewOfferRemotDataSourceImpl(
         getit.get<ApiService>(),
         getit.get<FlutterSecureStorage>(),
       ),

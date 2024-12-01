@@ -31,8 +31,6 @@ class _ViewOfferProductDetailsBounsBodyState
   void initState() {
     super.initState();
     offerTypeTitle = 'المنتجات بعد عمل البونص';
-    BlocProvider.of<OfferDetailsCubit>(context)
-        .getOfferDetails(10, 1, widget.offerId);
     context.read<OfferDetailsCubit>().getOfferDetails(10, 1, widget.offerId);
   }
 
@@ -66,7 +64,10 @@ class _ViewOfferProductDetailsBounsBodyState
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Container(
-                          color: AppColors.white,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: AppColors.greyBorder),
+                            color: AppColors.white,
+                          ),
                           child: ListView.builder(
                             itemCount: state.offerDetails
                                 .length, // Use the length of the list

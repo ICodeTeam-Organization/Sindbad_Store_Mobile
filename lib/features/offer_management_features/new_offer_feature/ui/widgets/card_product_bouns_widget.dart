@@ -89,7 +89,7 @@ class _CardProductBounsWidgetState extends State<CardProductBounsWidget> {
                       children: [
                         Row(
                           children: [
-                            Image.asset(
+                            Image.network(
                               widget.productImage,
                               width: 45.w,
                               height: 45.w,

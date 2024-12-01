@@ -19,7 +19,6 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<OfferCubit>(context).getOffer(10, 1);
     context.read<OfferCubit>().getOffer(10, 1);
   }
 
@@ -98,7 +97,6 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                                 // offerType: offerType!,
                               ),
                             ),
-                            Divider(),
                           ],
                         );
                       },

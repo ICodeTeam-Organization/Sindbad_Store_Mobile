@@ -119,7 +119,7 @@ class _CardProductDiscountWidgetState extends State<CardProductDiscountWidget> {
                     right: 0,
                     child: Row(
                       children: [
-                        Image.asset(
+                        Image.network(
                           widget.productImage,
                           width: 45.w,
                           height: 45.w,

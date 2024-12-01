@@ -31,8 +31,6 @@ class _ViewOfferProductDetailsDiscountBodyState
   void initState() {
     super.initState();
     offerTypeTitle = 'المنتجات بعد الخصم';
-    BlocProvider.of<OfferDetailsCubit>(context)
-        .getOfferDetails(10, 1, widget.offerId);
     context.read<OfferDetailsCubit>().getOfferDetails(10, 1, widget.offerId);
   }
 
@@ -47,9 +45,7 @@ class _ViewOfferProductDetailsDiscountBodyState
             CustomAppBar(
               tital: widget.offerName,
             ),
-            SizedBox(
-              height: 30.h,
-            ),
+            SizedBox(height: 30.h),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Text(
@@ -59,9 +55,7 @@ class _ViewOfferProductDetailsDiscountBodyState
                 ),
               ),
             ),
-            SizedBox(
-              height: 20.h,
-            ),
+            SizedBox(height: 20.h),
             BlocBuilder<OfferDetailsCubit, OfferDetailsState>(
               builder: (context, state) {
                 if (state is OfferDetailsSuccess) {
@@ -69,7 +63,10 @@ class _ViewOfferProductDetailsDiscountBodyState
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Container(
-                        color: AppColors.white,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: AppColors.greyBorder),
+                          color: AppColors.white,
+                        ),
                         child: ListView.builder(
                           scrollDirection: Axis.vertical,
                           itemCount: state.offerDetails

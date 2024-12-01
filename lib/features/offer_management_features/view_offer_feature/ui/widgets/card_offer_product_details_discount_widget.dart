@@ -24,90 +24,86 @@ class _CardOfferProductDetailsDiscountWidgetState
     extends State<CardOfferProductDetailsDiscountWidget> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.greyBorder),
-        color: AppColors.transparent,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 100.h,
-            color: AppColors.white,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(children: [
-                    Image.network(
-                      widget.productImage,
-                      width: 45.w,
-                      height: 45.w,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          height: 100.h,
+          decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: AppColors.greyBorder)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(children: [
+                  Image.network(
+                    widget.productImage,
+                    width: 45.w,
+                    height: 45.w,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    widget.productName,
+                    style: KTextStyle.textStyle14.copyWith(
+                      color: AppColors.blackLight,
                     ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      widget.productName,
-                      style: KTextStyle.textStyle14.copyWith(
-                        color: AppColors.blackLight,
+                  ),
+                ]),
+                Row(children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'قبل الخصم',
+                        style: KTextStyle.textStyle11.copyWith(
+                          color: AppColors.greyLight,
+                        ),
                       ),
-                    ),
-                  ]),
-                  Row(children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'قبل الخصم',
-                          style: KTextStyle.textStyle11.copyWith(
-                            color: AppColors.greyLight,
-                          ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Text(
+                        "\$ ${widget.lastPrice.toStringAsFixed(0)}",
+                        style: KTextStyle.textStyle13.copyWith(
+                          color: AppColors.greyDark,
+                          decoration: TextDecoration.lineThrough,
                         ),
-                        SizedBox(
-                          height: 15,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'بعد الخصم',
+                        style: KTextStyle.textStyle11.copyWith(
+                          color: AppColors.greyLight,
                         ),
-                        Text(
-                          "\$ ${widget.lastPrice.toStringAsFixed(0)}",
-                          style: KTextStyle.textStyle13.copyWith(
-                            color: AppColors.greyDark,
-                            decoration: TextDecoration.lineThrough,
-                          ),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Text(
+                        "\$ ${widget.newPrice.toStringAsFixed(0)}",
+                        style: KTextStyle.textStyle13.copyWith(
+                          color: AppColors.primary,
                         ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'بعد الخصم',
-                          style: KTextStyle.textStyle11.copyWith(
-                            color: AppColors.greyLight,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          "\$ ${widget.newPrice.toStringAsFixed(0)}",
-                          style: KTextStyle.textStyle13.copyWith(
-                            color: AppColors.primary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ]),
-                ],
-              ),
+                      ),
+                    ],
+                  ),
+                ]),
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

@@ -66,7 +66,6 @@ class _AllInfoOrderState extends State<AllInfoOrder> {
           return ListView.builder(
             itemCount: state.orders.length,
             itemBuilder: (BuildContext context, int i) {
-              
               return InkWell(
                 onTap: () {
                   context.push(

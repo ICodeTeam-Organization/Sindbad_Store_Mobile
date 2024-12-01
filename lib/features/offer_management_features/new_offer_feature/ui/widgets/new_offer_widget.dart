@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/domain/entities/offer_products_entity.dart';
 import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/widgets/card_product_bouns_widget.dart';
 import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/widgets/card_product_discount_widget.dart';
 import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/widgets/custom_select_item_dialog.dart';
@@ -28,7 +29,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
   final ValueNotifier<int> freesCountNotifier = ValueNotifier<int>(0);
   TextEditingController startDateConroller = TextEditingController();
   TextEditingController endDateConroller = TextEditingController();
-  List<Item> selectedItems = [];
+  List<OfferProductsEntity> selectedItems = [];
   String selectedOption = 'Discount';
   bool isDiscountDefaultValue = true;
 
@@ -38,18 +39,6 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
   int freesCount = 1; // Default "Get Y" value
 
   // List of all items
-  final List<Item> items = [
-    Item(title: "MacBook Air", imageUrl: "assets/image_example.png"),
-    Item(title: "Item 2", imageUrl: "assets/image_example.png"),
-    Item(title: "Item 3", imageUrl: "assets/image_example.png"),
-    Item(title: "Item 4", imageUrl: "assets/image_example.png"),
-    Item(title: "Item 5", imageUrl: "assets/image_example.png"),
-    Item(title: "Item 6", imageUrl: "assets/image_example.png"),
-    Item(title: "Item 7", imageUrl: "assets/image_example.png"),
-    Item(title: "Item 8", imageUrl: "assets/image_example.png"),
-    Item(title: "Item 9", imageUrl: "assets/image_example.png"),
-    Item(title: "Item 10", imageUrl: "assets/image_example.png"),
-  ];
 
   @override
   void initState() {
@@ -66,7 +55,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
   }
 
   // Function to handle selection confirmation
-  void onItemsSelected(List<Item> selectedItems) {
+  void onItemsSelected(List<OfferProductsEntity> selectedItems) {
     setState(() {
       this.selectedItems = selectedItems;
     });
@@ -241,10 +230,9 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                   width: 333,
                   height: 50,
                   onTap: () async {
-                    final result = await showDialog<List<Item>>(
+                    final result = await showDialog<List<OfferProductsEntity>>(
                       context: context,
                       builder: (context) => CustomSelectItemDialog(
-                        items: items,
                         selectedItems: selectedItems,
                         onConfirm: onItemsSelected,
                       ),
@@ -266,8 +254,8 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                     itemBuilder: (context, index) {
                       return isDiscountDefaultValue
                           ? CardProductDiscountWidget(
-                              productName: selectedItems[index].title,
-                              productImage: selectedItems[index].imageUrl,
+                              productName: selectedItems[index].productTitle,
+                              productImage: selectedItems[index].productImage,
                               lastPrice: 4000,
                               newPrice: calculateNewPrice(4000, discountRate),
                               discountRate: discountRateNotifier.value,
@@ -279,8 +267,8 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                               discountRateNotifier: discountRateNotifier,
                             )
                           : CardProductBounsWidget(
-                              productName: selectedItems[index].title,
-                              productImage: selectedItems[index].imageUrl,
+                              productName: selectedItems[index].productTitle,
+                              productImage: selectedItems[index].productImage,
                               buysCount: buysCountNotifier.value,
                               freesCount: freesCountNotifier.value,
                               onTapQuit: () {
