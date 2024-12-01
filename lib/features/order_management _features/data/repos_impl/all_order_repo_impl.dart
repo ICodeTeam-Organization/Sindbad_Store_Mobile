@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/order_detalis_entity.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/order_invoice_entity.dart';
 
 import '../../../../core/errors/failure.dart';
 import '../../domain/entities/all_order_entity.dart';
@@ -28,14 +32,81 @@ class AllOrderRepoImpl extends AllOrderRepo {
     }
   }
 
+//////////////////////////////////
+  ///All Order
   @override
   Future<Either<Failure, List<AllOrderEntity>>> fetchAllOrder(
       {required bool isUrgen,
-       int pageNumber = 1,
+      required bool canceled,
+      required bool delevred,
+      required bool noInvoice,
+      required bool unpaied,
+      required bool paied,
+      required int pageNumber,
       required int pageSize,
-      required int orderDetailStatus,
       required String srearchKeyword}) {
     return fetchData(() => allOrderRemotDataSource.fetchAllOrder(
-        isUrgen, orderDetailStatus, pageSize, pageNumber, srearchKeyword));
+        isUrgen,
+        canceled,
+        delevred,
+        noInvoice,
+        unpaied,
+        paied,
+        pageNumber,
+        pageSize,
+        srearchKeyword));
+  }
+
+  //////////////////////////////////
+  ///Order Details
+  @override
+  Future<Either<Failure, List<OrderDetailsEntity>>> fetchOrderDetails({
+    required int orderId,
+    required String orderNumber,
+    required String billNumber,
+    required String clock,
+    required String date,
+    required String itemNumber,
+    required String paymentInfo,
+    required String orderStatus,
+  }) {
+    return fetchData(() => allOrderRemotDataSource.fetchOrderDetails(
+          orderId,
+          orderNumber,
+          billNumber,
+          clock,
+          date,
+          itemNumber,
+          paymentInfo,
+          orderStatus,
+        ));
+  }
+
+  Future<Either<Failure, T>> fetchDataOrder<T>(
+      Future<T> Function() postDataFunction) async {
+    try {
+      var dataPosted = await postDataFunction();
+      return right(dataPosted);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      } else {
+        return left(ServerFailure(e.toString()));
+      }
+    }
+  }
+
+///////////////////////////////
+  ///Create Invoice
+  @override
+  Future<Either<Failure, OrderInvoiceEntity>> fetchOrderInvoice(
+      {required List<int> ids,
+      required String invoiceNumber,
+      required num invoiceAmount,
+      required int invoiceType,
+      required File invoiceImage,
+      required DateTime invoiceDate}) {
+    return fetchDataOrder(() => allOrderRemotDataSource.fetchOrderInvoice(ids,
+        invoiceAmount, invoiceImage, invoiceNumber, invoiceDate, invoiceType));
   }
 }
