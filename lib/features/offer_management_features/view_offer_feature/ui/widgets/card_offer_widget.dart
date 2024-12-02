@@ -8,6 +8,7 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/remaining_notice.dart';
 
 class CardOfferWidget extends StatefulWidget {
+  final int? offerId;
   final String offerTitle;
   final String typeName;
   final bool isActive;
@@ -18,9 +19,11 @@ class CardOfferWidget extends StatefulWidget {
   final num? numberToGet;
   final num? discountRate;
   final void Function()? onDeleteTap;
+  final void Function()? onChangeStatusTap;
 
   const CardOfferWidget({
     super.key,
+    required this.offerId,
     required this.offerTitle,
     required this.typeName,
     required this.isActive,
@@ -31,6 +34,7 @@ class CardOfferWidget extends StatefulWidget {
     this.numberToGet,
     this.discountRate,
     this.onDeleteTap,
+    this.onChangeStatusTap,
   });
 
   @override
@@ -45,6 +49,7 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
   bool? isRemainingDays;
   String? offerTypeTitle;
   String? isActiveTitleButton;
+
   @override
   void initState() {
     super.initState();
@@ -297,17 +302,13 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
                               title: isActiveTitleButton!,
                               iconPath: "assets/stop.svg",
                               isSolid: false,
-                              onTap: () {
-                                setState(() {});
-                              },
+                              onTap: widget.onChangeStatusTap,
                             )
                           : ActionButtonWidget(
                               title: isActiveTitleButton!,
-                              iconPath: "assets/stop.svg",
+                              iconPath: "assets/active.svg",
                               isSolid: false,
-                              onTap: () {
-                                setState(() {});
-                              },
+                              onTap: widget.onChangeStatusTap,
                             ),
                       SizedBox(
                         height: 5.h,

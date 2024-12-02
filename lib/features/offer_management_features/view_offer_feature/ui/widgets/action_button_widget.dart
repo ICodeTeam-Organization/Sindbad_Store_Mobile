@@ -42,8 +42,8 @@ class ActionButtonWidget extends StatelessWidget {
           children: [
             SvgPicture.asset(
               iconPath,
-              //               width: 20.w,
-              //               height: 17.5.h,
+              width: 25.w,
+              height: 25.h,
             ),
             SizedBox(
               width: 10.w,

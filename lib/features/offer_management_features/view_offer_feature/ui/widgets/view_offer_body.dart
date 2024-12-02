@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/utils/route.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/change_status_offer_cubit/change_status_offer_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/delete_offer_cubit/delete_offer_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_cubit/offer_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/action_button_widget.dart';
@@ -83,6 +84,7 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                                 }
                               },
                               child: CardOfferWidget(
+                                offerId: state.offer[i].offerId,
                                 offerTitle: state.offer[i].offerTitle,
                                 typeName: state.offer[i].typeName,
                                 isActive: state.offer[i].isActive,
@@ -128,6 +130,62 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                                                   .deleteOffer(offerHeadId);
                                               print(
                                                   'Item deleted $offerHeadId');
+                                              context
+                                                  .read<OfferCubit>()
+                                                  .getOffer(10, 1);
+                                            },
+                                          );
+                                        },
+                                      );
+                                    },
+                                  );
+                                },
+                                onChangeStatusTap: () {
+                                  offerHeadId = state.offer[i].offerId;
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return BlocConsumer<
+                                          ChangeStatusOfferCubit,
+                                          ChangeStatusOfferState>(
+                                        listener: (context, state) {
+                                          if (state
+                                              is ChangeStatusOfferFailure) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(
+                                                    content: Text(
+                                              state.errorMessage.toString(),
+                                            )));
+                                            Navigator.pop(context);
+                                          } else if (state
+                                              is ChangeStatusOfferSuccess) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(
+                                                    content: Text(
+                                              state.changeStatusOffer
+                                                  .toString(),
+                                            )));
+                                            Navigator.pop(context);
+                                          }
+                                        },
+                                        builder: (context, state) {
+                                          return CustomDeleteDialogWidget(
+                                            isDelete: false,
+                                            confirmText:
+                                                'نعم , قم بتغيير الحالة',
+                                            title:
+                                                'هل انت متأكد من تغيير حالة العرض ؟',
+                                            subtitle: '',
+                                            iconPath:
+                                                "assets/change_status.svg",
+                                            onConfirm: () async {
+                                              await context
+                                                  .read<
+                                                      ChangeStatusOfferCubit>()
+                                                  .changeStatusOffer(
+                                                      offerHeadId);
+                                              print(
+                                                  'Item Actived $offerHeadId');
                                             },
                                           );
                                         },

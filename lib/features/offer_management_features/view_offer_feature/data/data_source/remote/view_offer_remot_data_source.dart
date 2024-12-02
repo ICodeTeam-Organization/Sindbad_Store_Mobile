@@ -1,8 +1,10 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sindbad_management_app/core/api_service.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/models/change_status_offer_model.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/models/delete_offer_model.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/models/offer_details_model.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/models/offer_model.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/change_status_offer_entity.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/delete_offer_entity.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/offer_details_entity.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/offer_entity.dart';
@@ -18,6 +20,9 @@ abstract class ViewOfferRemotDataSource {
     int offerHeadId,
   );
   Future<DeleteOfferEntity> deleteOffer(
+    int offerHeadId,
+  );
+  Future<ChangeStatusOfferEntity> changeStatusOffer(
     int offerHeadId,
   );
 }
@@ -124,6 +129,25 @@ class ViewOfferRemotDataSourceImpl extends ViewOfferRemotDataSource {
           'Authorization': 'BEARER $token',
         });
     DeleteOfferEntity delete = DeleteOfferModel.fromJson(data);
+    print(delete);
+    return delete;
+  }
+
+  @override
+  Future<ChangeStatusOfferEntity> changeStatusOffer(
+    int offerHeadId,
+  ) async {
+    String? token = await getToken();
+    var data = await apiService.post(
+        data: {
+          "id": offerHeadId,
+          "justActiveAndDis": true,
+        },
+        endPoint: "Offers/Store/EditOffer",
+        headers: {
+          'Authorization': 'BEARER $token',
+        });
+    ChangeStatusOfferEntity delete = ChangeStatusOfferModel.fromJson(data);
     print(delete);
     return delete;
   }
