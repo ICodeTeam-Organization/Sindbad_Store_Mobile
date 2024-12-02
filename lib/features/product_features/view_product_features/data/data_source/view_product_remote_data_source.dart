@@ -90,7 +90,9 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
     DeleteProductEntity responseDeleteProduct =
         DeleteProductModel.fromJson(data);
     print(" ===================== Bagar =============== ");
-    print(responseDeleteProduct);
+    print(
+        "========== Success =>  ${responseDeleteProduct.isSuuccess.toString()}");
+    print("========== Message =>  ${responseDeleteProduct.message}");
     print(" ===================== Bagar =============== ");
     return responseDeleteProduct;
   }

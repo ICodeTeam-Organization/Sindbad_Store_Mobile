@@ -21,15 +21,17 @@ class ImageCardCustom extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           border: Border.all(width: 1.5.r, color: AppColors.greyDark)),
       child: SizedBox(
-        height: double.infinity,
-        width: double.infinity,
-        child: Image.network(
-          imageUrlnetwork,
-          // width: 70.w,
-          // height: 65.h,
-          fit: BoxFit.cover,
-        ),
-      ),
+          height: double.infinity,
+          width: double.infinity,
+          child: FadeInImage.assetNetwork(
+              placeholder: "assets/image_loading.png", image: imageUrlnetwork)
+          // Image.network(
+          //   imageUrlnetwork,
+          //   // width: 70.w,
+          //   // height: 65.h,
+          //   fit: BoxFit.cover,
+          // ),
+          ),
     );
   }
 }
