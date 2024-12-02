@@ -79,10 +79,7 @@ class GetStoreProductsWithFilterCubit
     },
         // right
         (responseMessage) {
-      responseMessage.isSuuccess
-          ? emit(DeleteStoreProductByIdSuccess(message: responseMessage))
-          : emit(DeleteStoreProductByIdFailure(
-              errMessage: responseMessage.errorMessage));
+      emit(DeleteStoreProductByIdSuccess(message: responseMessage));
     });
   }
 }

@@ -48,6 +48,9 @@ class ViewProductStoreRepoImpl extends ViewProductRepo {
       } else {
         return left(ServerFailure(e.toString()));
       }
+    } finally {
+      // to control errMessage when response 404 becouse we can
+      return left(ServerFailure("المنتج غير موجود."));
     }
   }
 }

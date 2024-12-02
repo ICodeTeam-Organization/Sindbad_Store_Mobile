@@ -25,10 +25,45 @@ class ProductsListView extends StatelessWidget {
     context
         .read<GetStoreProductsWithFilterCubit>()
         .getStoreProductsWitheFilter(storeProductsFilter, 1, 10);
-    return BlocBuilder<GetStoreProductsWithFilterCubit,
+    return BlocConsumer<GetStoreProductsWithFilterCubit,
         GetStoreProductsWithFilterState>(
+      listener: (context, state) {
+        print(
+            "====================  Current state: $state  ============================"); // تتبع الحالة الحالية
+        if (state is DeleteStoreProductByIdSuccess) {
+          // عرض رسالة نجاح
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.message.message)),
+          );
+
+          // تحديث قائمة المنتجات بعد الحذف
+          context
+              .read<GetStoreProductsWithFilterCubit>()
+              .getStoreProductsWitheFilter(
+                storeProductsFilter,
+                1, // الصفحة الأولى
+                10, // الحجم
+              );
+        }
+
+        if (state is DeleteStoreProductByIdFailure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.errMessage)),
+          );
+          // تحديث قائمة المنتجات بعد فشل الحذف
+          context
+              .read<GetStoreProductsWithFilterCubit>()
+              .getStoreProductsWitheFilter(
+                storeProductsFilter,
+                1, // الصفحة الأولى
+                10, // الحجم
+              );
+          print({state.errMessage});
+        }
+      },
       builder: (context, state) {
-        if (state is GetStoreProductsWithFilterLoading) {
+        if (state is GetStoreProductsWithFilterLoading ||
+            state is DeleteStoreProductByIdLoading) {
           return ShimmerForProductsWithFilter();
         } else if (state is GetStoreProductsWithFilterSuccess) {
           return ListView.builder(
@@ -110,29 +145,38 @@ class ProductsListView extends StatelessWidget {
                     ),
                     SizedBox(width: 10.w),
                     // Action Buttons
-                    TwoButtonInsideListViewProducts(onTapEdit: () {
-                      // state.products //  ===> this pass contains [productid,productName,productNumber,productPrice,productImageUrl]
-                      // تنفيذ التعديل
-                      context.push(AppRouter.storeRouters.kStoreEditProduct,
-                          extra: 1 // here pass the product id
-                          );
-                    }, onTapDelete: () {
-                      // تنفيذ الحذف
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return CustomDeleteDialogWidget(
-                            title: 'هل انت متأكد من الحذف ؟',
-                            subtitle: 'رقم المنتج :  ${product.productid}',
-                            onConfirm: () {
-                              // Handle delete action
-                              print('Item deleted');
-                              Navigator.of(context).pop(); // Close dialog
-                            },
-                          );
-                        },
-                      );
-                    }),
+                    TwoButtonInsideListViewProducts(
+                      onTapEdit: () {
+                        // state.products //  ===> this pass contains [productid,productName,productNumber,productPrice,productImageUrl]
+                        // تنفيذ التعديل
+                        context.push(AppRouter.storeRouters.kStoreEditProduct,
+                            extra: 1 // here pass the product id
+                            );
+                      },
+                      onTapDelete: () {
+                        showDialog(
+                          context: context, // تمرير السياق الصحيح
+                          builder: (BuildContext dialogContext) {
+                            return CustomDeleteDialogWidget(
+                              title: 'هل انت متأكد من الحذف ؟',
+                              subtitle: 'رقم المنتج :  ${product.productid}',
+                              onConfirm: () {
+                                // استخدام السياق الأب للوصول إلى cubit
+                                context
+                                    .read<GetStoreProductsWithFilterCubit>()
+                                    .deleteProductById(
+                                        productId: product.productid!);
+                                print(
+                                    "productid =========>  ${product.productid.toString()}");
+
+                                // إغلاق مربع الحوار
+                                Navigator.of(dialogContext).pop();
+                              },
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ],
                 ),
               );
@@ -141,7 +185,7 @@ class ProductsListView extends StatelessWidget {
         } else if (state is GetStoreProductsWithFilterFailure) {
           return Center(child: Text(state.errMessage));
         } else {
-          return Text("=======BAGAR====");
+          return Center(child: Text("هناك خطأ ما..."));
         }
       },
     );
