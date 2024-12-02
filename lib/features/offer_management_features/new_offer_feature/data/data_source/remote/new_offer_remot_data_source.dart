@@ -53,8 +53,8 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
     var data = await apiService.post(
       data: {
         "storeProductsFilter": 1,
-        "pageSize": 10,
-        "pageNumber": 1,
+        "pageSize": 20,
+        "pageNumber": 7,
       },
       endPoint: 'Products/Store/GetStoreProductsWitheFilter',
       headers: {

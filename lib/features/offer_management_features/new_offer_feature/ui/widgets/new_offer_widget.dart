@@ -24,11 +24,12 @@ class NewOfferWidget extends StatefulWidget {
 }
 
 class _NewOfferWidgetState extends State<NewOfferWidget> {
+  TextEditingController startDateConroller = TextEditingController();
+  TextEditingController endDateConroller = TextEditingController();
+
   final ValueNotifier<double> discountRateNotifier = ValueNotifier<double>(0);
   final ValueNotifier<int> buysCountNotifier = ValueNotifier<int>(0);
   final ValueNotifier<int> freesCountNotifier = ValueNotifier<int>(0);
-  TextEditingController startDateConroller = TextEditingController();
-  TextEditingController endDateConroller = TextEditingController();
   List<OfferProductsEntity> selectedItems = [];
   String selectedOption = 'Discount';
   bool isDiscountDefaultValue = true;
@@ -254,7 +255,8 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                     itemBuilder: (context, index) {
                       return isDiscountDefaultValue
                           ? CardProductDiscountWidget(
-                              productName: selectedItems[index].productTitle,
+                              productName:
+                                  '${selectedItems[index].productTitle} ${selectedItems[index].productId}',
                               productImage: selectedItems[index].productImage,
                               lastPrice: 4000,
                               newPrice: calculateNewPrice(4000, discountRate),
@@ -308,7 +310,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                     ),
                     InkWell(
                       onTap: () {
-                        Navigator.pop(context);
+                        print(startDateConroller.text);
                       },
                       child: Container(
                         alignment: Alignment.center,

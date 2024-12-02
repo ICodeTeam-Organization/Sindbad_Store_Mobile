@@ -21,36 +21,77 @@ class CustomSelectItemDialog extends StatefulWidget {
 }
 
 class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
-  late List<OfferProductsEntity> selectedItems; // Local list to track selection
-  late TextEditingController
-      searchController; // Controller for search text field
-  List<OfferProductsEntity> filteredItems = []; // List to hold filtered items
+  late List<OfferProductsEntity> selectedItems; // List of selected items
+  late TextEditingController searchController; // Controller for search field
+  bool isSetState = true;
 
   @override
   void initState() {
     super.initState();
-    if (widget.selectedItems == []) {
-      context.read<OfferProductsCubit>().getOfferProducts(10, 1);
-    } else {
-      selectedItems =
-          List.from(widget.selectedItems); // Copy pre-selected items
+
+    // Initialize selected items from passed widget data
+    selectedItems = List.from(widget.selectedItems);
+
+    // Fetch products only if state is being initialized for the first time
+    if (isSetState) {
+      context.read<OfferProductsCubit>().getOfferProducts(20, 7);
+      isSetState = false;
     }
-    searchController = TextEditingController(); // Initialize search controller
+
+    // Initialize search controller
+    searchController = TextEditingController();
     searchController.addListener(() {
-      filterItems();
+      filterItems(); // Update UI on search query change
     });
-    print("Items passed to the selectedItems: ${widget.selectedItems}");
   }
 
   void filterItems() {
+    // This method can filter the displayed list in your builder if needed.
+    // As the filtering logic is already applied in the builder, this may remain empty.
     setState(() {});
   }
 
   @override
   void dispose() {
-    searchController.dispose(); // Dispose of the controller when done
+    // Dispose the search controller to free resources
+    searchController.dispose();
     super.dispose();
   }
+
+  // late List<OfferProductsEntity> selectedItems = [];
+  // late TextEditingController
+  //     searchController; // Controller for search text field
+  // List<OfferProductsEntity> filteredItems = []; // List to hold filtered items
+  // bool isSetState = true;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   if (isSetState == true) {
+  //     context.read<OfferProductsCubit>().getOfferProducts(10, 1);
+  //     isSetState = false;
+  //   } else {
+  //     selectedItems =
+  //         List.from(widget.selectedItems); // Copy pre-selected items
+  //     isSetState = false;
+  //   }
+  //   searchController = TextEditingController(); // Initialize search controller
+  //   searchController.addListener(() {
+  //     filterItems();
+  //   });
+  //   print("Items passed to the selectedItems: ${widget.selectedItems}");
+  //   print("Items passed to the selectedItems: ${isSetState}");
+  // }
+
+  // void filterItems() {
+  //   setState(() {});
+  // }
+
+  // @override
+  // void dispose() {
+  //   searchController.dispose(); // Dispose of the controller when done
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -133,8 +174,16 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                       if (state is OfferProductsSuccess) {
                         // Apply search filter on the complete list of products
                         final allProducts = state.offerProducts;
+                        final mergedList = [
+                          ...selectedItems, // Include selected items first
+                          ...allProducts.where((item) => !selectedItems.any(
+                              (selectedItem) =>
+                                  selectedItem.productId ==
+                                  item.productId)), // Include non-selected items
+                        ];
+
                         final query = searchController.text.toLowerCase();
-                        final itemsToShow = allProducts.where((item) {
+                        final itemsToShow = mergedList.where((item) {
                           return item.productTitle
                                   .toLowerCase()
                                   .contains(query) ||
@@ -161,8 +210,12 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                                       setState(() {
                                         if (value == true) {
                                           selectedItems.add(product);
+                                          print(
+                                              state.offerProducts[i].productId);
                                         } else {
                                           selectedItems.remove(product);
+                                          print(
+                                              state.offerProducts[i].productId);
                                         }
                                       });
                                     },
@@ -175,13 +228,22 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                                           fit: BoxFit.cover,
                                         ),
                                         SizedBox(width: 15.w),
-                                        Text(
-                                          product.productTitle,
-                                          style:
-                                              KTextStyle.textStyle16.copyWith(
-                                            color: AppColors.blackDark,
+                                        SizedBox(
+                                          width: 170.w,
+                                          child: Table(
+                                            children: [
+                                              TableRow(children: [
+                                                Text(
+                                                  product.productTitle,
+                                                  style: KTextStyle.textStyle16
+                                                      .copyWith(
+                                                    color: AppColors.blackDark,
+                                                  ),
+                                                ),
+                                              ])
+                                            ],
                                           ),
-                                        ),
+                                        )
                                       ],
                                     ),
                                   ),
