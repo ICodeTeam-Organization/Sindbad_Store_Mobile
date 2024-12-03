@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_body.dart';
 import '../../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
 import '../../../../../core/styles/Colors.dart';
 import '../../function/image_picker_function.dart';
 import '../../manager/refresh/refresh_page_cubit.dart';
 import '../../manager/invoice/order_invoice_cubit.dart';
+import 'build_dialog_content.dart';
 import 'custom_create_bill_dialog.dart';
 import 'custom_order_cancle_dialog.dart';
 import 'messages.dart';
-import 'order_details_body.dart';
 import 'radio_widget.dart';
 
+// ignore: must_be_immutable
 class ShowCreateBillAndCancelOrder extends StatelessWidget {
   ShowCreateBillAndCancelOrder({super.key});
-  num? mount;
+  int? mount;
+  int pays = 0;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -39,8 +42,38 @@ class ShowCreateBillAndCancelOrder extends StatelessWidget {
                       secondTitle: 'رقم الفاتورة',
                       thierdTitle: 'قيمة الفاتورة',
                       onPressedSure: () async {
+                        // Navigator.of(context).pop();
+
+                        try {
+                          await context
+                              .read<OrderInvoiceCubit>()
+                              .fechOrderInvoice(
+                                orderId: idOrders!,
+                                invoiceAmount: mount =
+                                    int.parse(mountConroller.text),
+                                invoiceImage: images!,
+                                invoiceNumber: numberConroller.text,
+                                invoiceDate: DateTime.now(),
+                                invoiceType: pays = int.parse(pay ?? '0'),
+
+                                // dateConroller.text
+                              );
+                          numberConroller.clear();
+                          mountConroller.clear();
+                          mountConroller.clear();
+                          dateConroller.clear();
+                        } catch (e) {
+                          // ignore: use_build_context_synchronously
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('هنالك خطا ما  $e'),
+                            ),
+                          );
+                        }
+                        // ignore: use_build_context_synchronously
                         Navigator.of(context).pop();
                         showDialog(
+                          // ignore: use_build_context_synchronously
                           context: context,
                           builder: (context) {
                             return BlocBuilder<OrderInvoiceCubit,
@@ -67,40 +100,6 @@ class ShowCreateBillAndCancelOrder extends StatelessWidget {
                             );
                           },
                         );
-                        try {
-                          await context
-                              .read<OrderInvoiceCubit>()
-                              .fechOrderInvoice(
-                                  ids ?? [],
-                                  mount = num.parse(mountConroller.text),
-                                  images!,
-                                  numberConroller.text,
-                                  DateTime.now(),
-                                  int.parse(pay ?? '0')
-
-                                  // dateConroller.text
-                                  );
-
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('تم انشاء فاتورة بنجاح '),
-                            ),
-                          );
-                          Navigator.of(context).pop();
-                          numberConroller.clear();
-                          mountConroller.clear();
-                          mountConroller.clear();
-                          dateConroller.clear();
-                          print(
-                              'amarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr ');
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('هنالك خطا ما  $e'),
-                            ),
-                          );
-                          print('ikjgtiorjijjguiwheiruthwuiertywuorie $images');
-                        }
                       },
                     ),
                   );
