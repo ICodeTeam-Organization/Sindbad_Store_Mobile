@@ -18,14 +18,14 @@
 //     this.paymentStatus,
 //     this.orderDate,
 //   }) : super(
-            // idOrder: id ?? 0,
-            // orderNum: orderNumber ?? '0',
-            // orderBill: invoiceNumber ?? 'لا يوجد',
-            // // orderTime: '4:14',
-            // orderDates: orderDate ?? '0000/0/0',
-            // productMount: totalProducts ?? '0',
-            // orderStatuse: orderStatus ?? 'لا توجد حالة',
-            // payStatus: paymentStatus ?? 'لا توجد');
+// idOrder: id ?? 0,
+// orderNum: orderNumber ?? '0',
+// orderBill: invoiceNumber ?? 'لا يوجد',
+// // orderTime: '4:14',
+// orderDates: orderDate ?? '0000/0/0',
+// productMount: totalProducts ?? '0',
+// orderStatuse: orderStatus ?? 'لا توجد حالة',
+// payStatus: paymentStatus ?? 'لا توجد');
 
 //   factory AllOrderModel.fromJson(Map<String, dynamic> json) => AllOrderModel(
 //         id: json['id'] as int?,
