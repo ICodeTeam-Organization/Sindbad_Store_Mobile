@@ -120,16 +120,16 @@ abstract class AppRouter {
           path: AppRouter.storeRouters.details,
           builder: (context, state) {
             final orderId = state.extra as int;
-            final orderNumber = state.extra as String;
-            final billNumber = state.extra as String;
-            final date = state.extra as String;
-            final colck = state.extra as String;
-            final itemNumber = state.extra as String;
-            final paymentInfo = state.extra as String;
-            final orderStatus = state.extra as String;
+            final orderNumber = state.extra;
+            final billNumber = state.extra;
+            final date = state.extra;
+            final colck = state.extra;
+            final itemNumber = state.extra;
+            final paymentInfo = state.extra;
+            final orderStatus = state.extra;
             return OrderDetails(
               orderId: orderId,
-              orderNumber: orderNumber,
+              orderNumber: orderNumber.toString(),
               billNumber: billNumber.toString(),
               clock: colck.toString(),
               date: date.toString(),
