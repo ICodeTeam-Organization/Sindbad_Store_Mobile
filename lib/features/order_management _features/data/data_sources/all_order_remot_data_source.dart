@@ -8,8 +8,8 @@ import 'package:sindbad_management_app/features/order_management%20_features/dom
 import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_shipping_widgets/build_info_row_add.dart';
 import '../../../../core/api_service.dart';
 import '../../domain/entities/all_order_entity.dart';
-import '../models/all_order_model/all_orders_model/all_orders_model.dart';
-import '../models/order_shipping_model.dart';
+import '../models/all_order_model/all_orders_model.dart';
+import '../models/shipping/order_shipping_model.dart';
 import '../models/orders_details_model/orders_details_model.dart';
 
 abstract class AllOrderRemotDataSource {

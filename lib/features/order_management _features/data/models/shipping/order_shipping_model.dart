@@ -1,4 +1,4 @@
-import '../../domain/entities/order_shipping_entity.dart';
+import '../../../domain/entities/order_shipping_entity.dart';
 
 class OrderShippingModel extends OrderShippingEntity {
   bool? success;
