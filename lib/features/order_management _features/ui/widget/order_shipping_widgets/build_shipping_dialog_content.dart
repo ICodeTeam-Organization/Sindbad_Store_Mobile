@@ -2,26 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_shipping_widgets/custom_order_print_dialog.dart';
 import '../../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
+import '../order_details_widget/build_dialog_content.dart';
 import '../order_details_widget/build_image_section.dart';
 import '../order_details_widget/build_info_row.dart';
 import 'build_info_row_add.dart';
 import 'custom_order_shipping_dialog.dart';
 import 'drop_down_widget.dart';
 
+// TextEditingController dateShippingConroller = TextEditingController();
+TextEditingController numberShippingConroller = TextEditingController();
+TextEditingController mountShippingConroller = TextEditingController();
+
 class BuildShippingDialogContent extends StatelessWidget {
-  const BuildShippingDialogContent(
-      {super.key,
-      required this.firstTitle,
-      required this.secondTitle,
-      required this.thierdTitle,
-      required this.onPressedSure,
-      required this.parcels});
+  const BuildShippingDialogContent({
+    super.key,
+    required this.firstTitle,
+    required this.secondTitle,
+    required this.thierdTitle,
+    required this.onPressedSure,
+  });
 
   final String firstTitle;
   final String secondTitle;
   final String thierdTitle;
   final GestureTapCallback onPressedSure;
-  final int parcels;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +40,7 @@ class BuildShippingDialogContent extends StatelessWidget {
             BuildInfoRow(
               title: firstTitle,
               isDate: true,
-              controller: dateShippingConroller,
+              controller: dateConroller,
             ),
             BuildInfoRow(
               title: secondTitle,
@@ -45,7 +49,6 @@ class BuildShippingDialogContent extends StatelessWidget {
             ),
             DropDownWidget(),
             BuildInfoRowAdd(
-              parcels: parcels,
               title: 'عدد الطرود',
             ),
             SizedBox(
