@@ -6,6 +6,7 @@ import '../../../../core/styles/Colors.dart';
 import '../../../../core/styles/text_style.dart';
 import '../widget/order_management_widget/bottom_info_order.dart';
 import '../widget/order_management_widget/top_info_order.dart';
+import 'order_body.dart';
 
 // int? idOrderD;
 // String? orderNumberD;
@@ -16,7 +17,7 @@ import '../widget/order_management_widget/top_info_order.dart';
 // String? paymentInfoD;
 // String? orderStatusD;
 
-class OrderBodyD extends StatefulWidget {
+class OrderBodyD extends StatelessWidget {
   const OrderBodyD({
     super.key,
     required this.idOrder,
@@ -37,30 +38,14 @@ class OrderBodyD extends StatefulWidget {
   final String infoPayment;
   final String statusOrder;
 
-  @override
-  State<OrderBodyD> createState() => _OrderBodyDState();
-}
-
-class _OrderBodyDState extends State<OrderBodyD> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<OrderDetailsCubit>().fetchOrderDetails(
-        widget.idOrder,
-        widget.numberOrder,
-        widget.numberBill,
-        widget.clock,
-        widget.date,
-        widget.numberItem,
-        widget.infoPayment,
-        widget.statusOrder);
-  }
-
+  // @override
   @override
   Widget build(BuildContext context) {
+    context.read<OrderDetailsCubit>().fetchOrderDetails(idOrder, numberOrder,
+        numberBill, clock, date, numberItem, infoPayment, statusOrder);
     Color orderColor;
 
-    switch (widget.infoPayment) {
+    switch (infoPayment) {
       case 'Refunded':
         orderColor = Colors.yellow.shade50;
         break;
@@ -87,23 +72,23 @@ class _OrderBodyDState extends State<OrderBodyD> {
           child: Column(
             children: [
               TopInfoOrder(
-                orderNumber: widget.numberOrder,
-                billNumber: widget.numberBill,
-                color: orderColor,
+                orderNumber: orderNumbers ?? '',
+                billNumber: billNumbers ?? '',
+                color: orderColors!,
               ),
               SizedBox(
                 height: 10.h,
               ),
               BottomInfoOrder(
-                  clock: widget.clock,
-                  date: widget.date,
-                  itemNumber: widget.numberItem),
+                  clock: clocks ?? '',
+                  date: dates ?? '',
+                  itemNumber: itemNumbers ?? ''),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: Row(
                   children: [
                     Text('بيانات السداد : ', style: KTextStyle.textStyle12),
-                    Text(widget.infoPayment, style: KTextStyle.textStyle12)
+                    Text(paymentInfos ?? '', style: KTextStyle.textStyle12)
                   ],
                 ),
               ),
