@@ -45,8 +45,8 @@ class _AllInfoOrderState extends State<AllInfoOrder> {
     if (currentPostions >= 0.7 * maxScrollLenght) {
       BlocProvider.of<AllOrderCubit>(context).fetchAllOrder(
           isUrgen: false,
-          canceled: true,
-          delevred: true,
+          canceled: false,
+          delevred: false,
           noInvoice: true,
           unpaied: true,
           paied: true,
@@ -66,8 +66,8 @@ class _AllInfoOrderState extends State<AllInfoOrder> {
   Widget build(BuildContext context) {
     context.read<AllOrderCubit>().fetchAllOrder(
         isUrgen: false,
-        canceled: true,
-        delevred: true,
+        canceled: false,
+        delevred: false,
         noInvoice: true,
         unpaied: true,
         paied: true,
