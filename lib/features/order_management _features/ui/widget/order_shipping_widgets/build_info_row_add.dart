@@ -5,10 +5,12 @@ import 'package:sindbad_management_app/core/styles/text_style.dart';
 
 import '../../../../../core/styles/Colors.dart';
 
+int? parcels = 1;
+
 // ignore: must_be_immutable
 class BuildInfoRowAdd extends StatefulWidget {
-  BuildInfoRowAdd({super.key, required this.parcels, required this.title});
-  int? parcels;
+  BuildInfoRowAdd({super.key, required this.title});
+
   String? title;
 
   @override
@@ -42,7 +44,7 @@ class _BuildInfoRowAddState extends State<BuildInfoRowAdd> {
                 padding: EdgeInsets.zero,
                 onPressed: () {
                   setState(() {
-                    widget.parcels = (widget.parcels! + 1);
+                    parcels = (parcels! + 1);
                     // count = widget.parcels;
                   });
                 },
@@ -62,7 +64,7 @@ class _BuildInfoRowAddState extends State<BuildInfoRowAdd> {
                     borderRadius: BorderRadius.circular(12.r)),
                 child: Center(
                   child: Text(
-                    '${widget.parcels}',
+                    '$parcels',
                     style: KTextStyle.textStyle12,
                   ),
                 )),
@@ -82,7 +84,7 @@ class _BuildInfoRowAddState extends State<BuildInfoRowAdd> {
                 padding: EdgeInsets.zero,
                 onPressed: () {
                   setState(() {
-                    widget.parcels = (widget.parcels! - 1);
+                    parcels = (parcels! - 1);
                     // count = widget.parcels;
                   });
                 },
