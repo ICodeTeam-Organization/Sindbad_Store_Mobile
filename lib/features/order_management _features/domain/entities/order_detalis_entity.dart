@@ -2,8 +2,10 @@ class OrderDetailsEntity {
   final int idProduct;
   final String nameProduct;
   final String nameCategory;
-  final String nameAttribute;
-  final String valueAttribute;
+  final String nameAttribute1;
+  final String nameAttribute2;
+  final String valueAttribute1;
+  final String valueAttribute2;
   final double priceProduct;
   final int quantityProduct;
   final double total;
@@ -14,8 +16,10 @@ class OrderDetailsEntity {
       {required this.idProduct,
       required this.nameProduct,
       required this.nameCategory,
-      required this.nameAttribute,
-      required this.valueAttribute,
+      required this.nameAttribute1,
+      required this.nameAttribute2,
+      required this.valueAttribute1,
+      required this.valueAttribute2,
       required this.priceProduct,
       required this.quantityProduct,
       required this.total,

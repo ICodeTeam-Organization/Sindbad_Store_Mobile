@@ -186,11 +186,10 @@ class ApiService {
         throw Exception('InvoiceNumber is required');
       }
       // Add orderDetailsId
-      if (data.containsKey('orderDetailsId')) {
-        formData.fields
-            .add(MapEntry('orderDetailsId', data['orderDetailsId'].toString()));
+      if (data.containsKey('orderId')) {
+        formData.fields.add(MapEntry('orderId', data['orderId'].toString()));
       } else {
-        throw Exception('orderDetailsId is required');
+        throw Exception('orderId is required');
       }
       // Add invoice Amount and amount
       if (data.containsKey('InvoiceAmount')) {
@@ -205,6 +204,18 @@ class ApiService {
             .add(MapEntry('InvoiceType', data['InvoiceType'].toString()));
       } else {
         throw Exception('InvoiceType is required');
+      }
+      if (data.containsKey('CompanyName')) {
+        formData.fields
+            .add(MapEntry('CompanyName', data['CompanyName'].toString()));
+      } else {
+        throw Exception('CompanyName is required');
+      }
+      if (data.containsKey('ParcelNumber')) {
+        formData.fields
+            .add(MapEntry('ParcelNumber', data['ParcelNumber'].toString()));
+      } else {
+        throw Exception('ParcelNumber is required');
       }
 
       // Check the file

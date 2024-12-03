@@ -5,7 +5,7 @@ class Data {
   dynamic invoiceNumber;
   int? invoiceAmount;
   File? invoiceImageUrl;
-  DateTime? date;
+  String? date;
 
   Data({
     this.id,
@@ -20,7 +20,7 @@ class Data {
         invoiceNumber: json['invoiceNumber'] as dynamic,
         invoiceAmount: json['invoiceAmount'] as int?,
         invoiceImageUrl: json['invoiceImageUrl'] as File?,
-        date: json['date'] as DateTime?,
+        date: json['date'] as String?,
       );
 
   Map<String, dynamic> toJson() => {

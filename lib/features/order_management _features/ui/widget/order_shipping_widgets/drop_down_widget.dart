@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
 
+String? companyName;
 const List<String> _list = [
   'الافضل',
   'البراق',
@@ -25,17 +26,19 @@ class DropDownWidget extends StatelessWidget {
         SizedBox(
           height: 5.h,
         ),
-        Text(
-          'اسم الشركة الناقلة',
-          style: KTextStyle.textStyle12.copyWith(fontWeight: FontWeight.w500),
-        ),
+        // Text(
+        //   'اسم الشركة الناقلة',
+        //   style: KTextStyle.textStyle12.copyWith(fontWeight: FontWeight.w600),
+        // ),
         CustomDropdown(
           closedHeaderPadding: EdgeInsets.all(5),
           // controller: dropDownController ,
           items: _list,
-          initialItem: _list[0],
+          hintText: "اسم الشركة الناقلة",
+          // initialItem: _list[0],
           onChanged: (value) {
-            log('changing value to: $value');
+            companyName = value;
+            log('changing value to: $companyName');
           },
           decoration: CustomDropdownDecoration(
               closedFillColor: Colors.transparent,

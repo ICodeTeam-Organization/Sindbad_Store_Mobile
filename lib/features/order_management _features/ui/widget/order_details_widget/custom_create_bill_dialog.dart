@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'build_dialog_content.dart';
 import 'build_dialog_title.dart';
 
-TextEditingController dateConroller = TextEditingController();
-TextEditingController numberConroller = TextEditingController();
-TextEditingController mountConroller = TextEditingController();
+// TextEditingController dateConroller = TextEditingController();
+// TextEditingController numberConroller = TextEditingController();
+// TextEditingController mountConroller = TextEditingController();
 
 class CustomCreateBillDialog extends StatelessWidget {
   const CustomCreateBillDialog(

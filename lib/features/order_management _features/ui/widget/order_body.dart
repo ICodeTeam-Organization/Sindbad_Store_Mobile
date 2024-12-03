@@ -16,6 +16,7 @@ String? dates;
 String? itemNumbers;
 String? paymentInfos;
 String? orderStatuss;
+Color? orderColors;
 
 class OrderBody extends StatelessWidget {
   const OrderBody({
@@ -66,6 +67,7 @@ class OrderBody extends StatelessWidget {
         itemNumbers = itemNumber;
         paymentInfos = paymentInfo;
         orderStatuss = orderStatus;
+        orderColors = orderColor;
         context.push(AppRouter.storeRouters.details, extra: idOrder);
       },
       child: Container(

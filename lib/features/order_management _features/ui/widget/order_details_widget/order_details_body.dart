@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/order_details/order_details_cubit.dart';
 import '../../../../../core/styles/Colors.dart';
 import 'bottom_order_details.dart';
 import 'mid_order_details.dart';
 import 'top_order_details.dart';
-
-List<int>? ids;
 
 class OrderDetailsBody extends StatefulWidget {
   const OrderDetailsBody({
@@ -60,8 +59,6 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
           return ListView.builder(
             itemCount: state.orderDetails.length,
             itemBuilder: (context, i) {
-              ids?.add(state.orderDetails[i].idProduct);
-
               return Container(
                 margin:
                     EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.0.w),
@@ -80,10 +77,10 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                       imageUrl: state.orderDetails[i].imageUrl,
                       productName: state.orderDetails[i].nameProduct,
                       productType: state.orderDetails[i].nameCategory,
-                      productNameCat1: state.orderDetails[i].nameAttribute,
-                      productTypeCat1: state.orderDetails[i].valueAttribute,
-                      productNameCat2: state.orderDetails[i].nameAttribute,
-                      productTypeCat2: state.orderDetails[i].valueAttribute,
+                      productNameCat1: state.orderDetails[i].nameAttribute1,
+                      productTypeCat1: state.orderDetails[i].valueAttribute1,
+                      productNameCat2: state.orderDetails[i].nameAttribute2,
+                      productTypeCat2: state.orderDetails[i].valueAttribute2,
                     ),
                     //dispaly amount , price and total
                     MidOrderDetails(
@@ -103,8 +100,26 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
           );
         } else if (state is OrderDetailsFailure) {
           return Text(state.errMessage);
+        } else if (state is OrderDetailsLoading) {
+          return Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: ListView.builder(
+              padding: EdgeInsets.zero,
+              itemCount: 6,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Container(
+                    color: Colors.white,
+                    height: 130.h,
+                    width: MediaQuery.of(context).size.width,
+                  ),
+                );
+              },
+            ),
+          );
         } else {
-          return Text("Loading");
+          return Text("هنالك خطا ما ");
         }
       }),
     );

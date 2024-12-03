@@ -45,50 +45,57 @@ class OrderDetails extends StatelessWidget {
             getit<AllOrderRepoImpl>(),
           ),
         ),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              children: [
-                CustomAppBar(
-                  tital: 'الطلب',
+        child: BlocBuilder<RefreshPageCubit, RefreshPageState>(
+          builder: (context, state) {
+            return SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  children: [
+                    CustomAppBar(
+                      tital: 'الطلب',
+                    ),
+                    ////////////////////////////
+                    ///Show Order
+                    OrderBodyD(
+                      idOrder: orderId,
+                      numberBill: billNumber,
+                      numberOrder: orderNumber,
+                      clock: '4:14',
+                      date: date,
+                      numberItem: itemNumber,
+                      infoPayment: paymentInfo,
+                      statusOrder: orderStatus,
+                    ),
+                    ///////////////////
+                    ///icon
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Center(
+                      child: Image.asset("assets/down.png"),
+                    ),
+                    ////////////////////////////////////////
+                    ///Order Detaials
+                    OrderDetailsBody(
+                      idOrder: orderId,
+                      numberBill: billNumber,
+                      numberOrder: orderNumber,
+                      clock: '4:14',
+                      date: date,
+                      numberItem: itemNumber,
+                      infoPayment: paymentInfo,
+                      statusOrder: orderStatus,
+                    ),
+                    ///////////////////////////////////////
+                    ///Show Button
+                    if (isbillDone == false) ShowCreateBillAndCancelOrder(),
+                    if (isbillDone == true) ShowPrintAndShippingOrder(),
+                  ],
                 ),
-                ////////////////////////////
-                ///Show Order
-                OrderBodyD(
-                  idOrder: orderId,
-                  numberBill: billNumber,
-                  numberOrder: orderNumber,
-                  clock: '4:14',
-                  date: date,
-                  numberItem: itemNumber,
-                  infoPayment: paymentInfo,
-                  statusOrder: orderStatus,
-                ),
-                ///////////////////
-                ///icon
-                Center(
-                  child: Icon(Icons.arrow_downward),
-                ),
-                ////////////////////////////////////////
-                ///Order Detaials
-                OrderDetailsBody(
-                  idOrder: orderId,
-                  numberBill: billNumber,
-                  numberOrder: orderNumber,
-                  clock: '4:14',
-                  date: date,
-                  numberItem: itemNumber,
-                  infoPayment: paymentInfo,
-                  statusOrder: orderStatus,
-                ),
-                ///////////////////////////////////////
-                ///Show Button
-                if (isbillDone == false) ShowCreateBillAndCancelOrder(),
-                if (isbillDone == true) ShowPrintAndShippingOrder(),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         ),
       ),
     );

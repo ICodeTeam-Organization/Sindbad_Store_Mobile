@@ -1,4 +1,4 @@
-import 'package:sindbad_management_app/features/order_management%20_features/data/models/all_order_model/invoice/data.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/data/models/invoice/data.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/order_invoice_entity.dart';
 
 class OrderInvoiceModel extends OrderInvoiceEntity {
@@ -10,7 +10,7 @@ class OrderInvoiceModel extends OrderInvoiceEntity {
       : super(
             isSuccess: success ?? false,
             serverMessage: message ?? "",
-            invoiceDate: data!.date!,
+            invoiceDate: data?.date ?? '',
             invoiceNumbers: data?.invoiceNumber ?? "",
             invoiceAmounts: data?.invoiceAmount ?? 0,
             invoiceImages: data?.invoiceImageUrl,
