@@ -84,7 +84,6 @@ class BuildDialogContent extends StatelessWidget {
         child: Column(
           children: [
             BuildInfoRowAdd(
-              parcels: parcels,
               title: 'عدد النسخ',
             ),
             SizedBox(
