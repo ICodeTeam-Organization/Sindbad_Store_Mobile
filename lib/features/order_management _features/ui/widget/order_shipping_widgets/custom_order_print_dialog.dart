@@ -19,14 +19,12 @@ class CustomOrderPrintDialog extends StatelessWidget {
     required this.headTitle,
     required this.onPressedPrint,
     required this.onPressedShare,
-    required this.parcels,
     required this.billNumber,
     required this.storeNumber,
   });
   final String headTitle;
   final GestureTapCallback onPressedPrint;
   final GestureTapCallback onPressedShare;
-  final int parcels;
   final int billNumber;
   final int storeNumber;
 
@@ -41,7 +39,6 @@ class CustomOrderPrintDialog extends StatelessWidget {
         onPressedPrint: () async {
           final pdfFile = await Pdf.generateCenteredText(
               '$billNumber - $storeNumber', parcels);
-          print('printoooo $parcels');
         },
         onPressedShare: () async {
           // الحصول على المسار المؤقت
@@ -57,7 +54,6 @@ class CustomOrderPrintDialog extends StatelessWidget {
 
           // Share.shareFiles([share], text: 'إليك هذا الملف!');
         },
-        parcels: parcels,
       ),
     );
   }
@@ -68,11 +64,9 @@ class BuildDialogContent extends StatelessWidget {
     super.key,
     required this.onPressedPrint,
     required this.onPressedShare,
-    required this.parcels,
   });
   final GestureTapCallback onPressedPrint;
   final GestureTapCallback onPressedShare;
-  final int parcels;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -140,6 +134,7 @@ class BuildDialogTitle extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).pop();
               printConroller.clear();
+              parcels = 1;
             },
             icon: SvgPicture.asset(
               "assets/cancle.svg",
