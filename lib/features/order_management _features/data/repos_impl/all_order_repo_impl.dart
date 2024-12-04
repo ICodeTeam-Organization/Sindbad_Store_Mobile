@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/order_cancel_entity.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/order_detalis_entity.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/order_invoice_entity.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/order_shipping_entity.dart';
@@ -119,7 +120,7 @@ class AllOrderRepoImpl extends AllOrderRepo {
   @override
   Future<Either<Failure, OrderShippingEntity>> fetchOrderShipping(
       {required int orderId,
-      required String invoiceDate,
+      required DateTime invoiceDate,
       required int shippingNumber,
       required String shippingCompany,
       required File shippingImages,
@@ -131,5 +132,14 @@ class AllOrderRepoImpl extends AllOrderRepo {
         shippingCompany,
         shippingImages,
         numberParcels));
+  }
+
+  @override
+  Future<Either<Failure, OrderCancelEntity>> fetchOrderCancel(
+      {required int orderId,
+      required bool orderCancel,
+      required String reasonCancel}) {
+    return fetchDataOrder(() => allOrderRemotDataSource.fetchOrderCancel(
+        orderId, orderCancel, reasonCancel));
   }
 }

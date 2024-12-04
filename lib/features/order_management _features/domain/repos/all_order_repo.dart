@@ -5,6 +5,7 @@ import 'package:sindbad_management_app/features/order_management%20_features/dom
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/order_shipping_entity.dart';
 import '../../../../core/errors/failure.dart';
 import '../entities/all_order_entity.dart';
+import '../entities/order_cancel_entity.dart';
 import '../entities/order_invoice_entity.dart';
 
 abstract class AllOrderRepo {
@@ -44,9 +45,14 @@ abstract class AllOrderRepo {
       required DateTime invoiceDate});
   Future<Either<Failure, OrderShippingEntity>> fetchOrderShipping(
       {required int orderId,
-      required String invoiceDate,
+      required DateTime invoiceDate,
       required int shippingNumber,
       required String shippingCompany,
       required File shippingImages,
       required int numberParcels});
+  Future<Either<Failure, OrderCancelEntity>> fetchOrderCancel({
+    required int orderId,
+    required bool orderCancel,
+    required String reasonCancel,
+  });
 }

@@ -25,7 +25,7 @@ class OrderShippingUsecase
 
 class OrderShippingParam {
   final int orderId;
-  final String invoiceDate;
+  final DateTime invoiceDate;
   final int shippingNumber;
   final String shippingCompany;
   final File shippingImages;

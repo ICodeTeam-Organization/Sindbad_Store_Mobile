@@ -5,10 +5,11 @@ import 'package:sindbad_management_app/features/order_management%20_features/dat
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/order_detalis_entity.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/order_invoice_entity.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/order_shipping_entity.dart';
-import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_shipping_widgets/build_info_row_add.dart';
 import '../../../../core/api_service.dart';
 import '../../domain/entities/all_order_entity.dart';
+import '../../domain/entities/order_cancel_entity.dart';
 import '../models/all_order_model/all_orders_model.dart';
+import '../models/cancel/order_cancel_model.dart';
 import '../models/shipping/order_shipping_model.dart';
 import '../models/orders_details_model/orders_details_model.dart';
 
@@ -50,11 +51,18 @@ abstract class AllOrderRemotDataSource {
   ///Order Shipping
   Future<OrderShippingEntity> fetchOrderShipping(
       int orderId,
-      String invoiceDate,
+      DateTime invoiceDate,
       int shippingNumber,
       String shippingCompany,
       File shippingImages,
       int numberParcels);
+  /////////////////////
+  ///Order Cancrl
+  Future<OrderCancelEntity> fetchOrderCancel(
+    int orderId,
+    bool orderCancel,
+    String reasonCancel,
+  );
 }
 
 class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
@@ -202,7 +210,7 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
   @override
   Future<OrderShippingEntity> fetchOrderShipping(
       int orderId,
-      String invoiceDate,
+      DateTime invoiceDate,
       int shippingNumber,
       String shippingCompany,
       File shippingImages,
@@ -227,5 +235,22 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
     OrderShippingEntity shipping = OrderShippingModel.fromJson(data);
     print(shipping);
     return shipping;
+  }
+
+  @override
+  Future<OrderCancelEntity> fetchOrderCancel(
+      int orderId, bool orderCancel, String reasonCancel) async {
+    String? token = await getToken();
+    var data = await apiService
+        .post(endPoint: 'Orders/Store/RejectedTheOrder', headers: {
+      'Authorization': 'Bearer $token',
+    }, data: {
+      'orderId': orderId,
+      'cancelOrder': orderCancel,
+      'cancelReason': reasonCancel,
+    });
+    OrderCancelEntity cancel = OrderCancelModel.fromJson(data);
+    print(cancel);
+    return cancel;
   }
 }
