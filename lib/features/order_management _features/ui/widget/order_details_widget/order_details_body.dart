@@ -86,6 +86,7 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                     MidOrderDetails(
                       productMount: state.orderDetails[i].quantityProduct,
                       productPrice: state.orderDetails[i].priceProduct,
+                      total: state.orderDetails[i].total,
                     ),
                     /////////////
                     Divider(),
