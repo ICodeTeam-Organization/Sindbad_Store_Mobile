@@ -36,25 +36,48 @@ class CustomOrderPrintDialog extends StatelessWidget {
       ),
       titlePadding: EdgeInsets.zero,
       content: BuildDialogContent(
-        onPressedPrint: () async {
-          final pdfFile = await Pdf.generateCenteredText(
-              '$billNumber - $storeNumber', parcels);
-        },
-        onPressedShare: () async {
-          // الحصول على المسار المؤقت
-          final directory = await getTemporaryDirectory();
-          final path = '${directory.path}/sample.pdf';
-          final file = File(path);
+          // onPressedPrint: () async {
+          //   final pdfFile = await Pdf.generateCenteredText(
+          //       '$billNumber - $storeNumber', parcels);
+          // },
+          // onPressedShare: () async {
+          //   // الحصول على المسار المؤقت
+          //   final directory = await getTemporaryDirectory();
+          //   final path = '${directory.path}/sample.pdf';
+          //   final file = File(path);
 
-          // كتابة المحتوى إلى الملف
-          await file.writeAsString(share!);
+          //   // كتابة المحتوى إلى الملف
+          //   await file.writeAsString(share!);
 
-          // مشاركة الملف باستخدام share_plus
-          Share.shareXFiles([XFile(path)], text: 'Great picture');
+          //   // مشاركة الملف باستخدام share_plus
+          //   Share.shareXFiles([XFile(path)], text: 'Great picture');
 
-          // Share.shareFiles([share], text: 'إليك هذا الملف!');
-        },
-      ),
+          //   // Share.shareFiles([share], text: 'إليك هذا الملف!');
+          // },
+          onPressedPrint: () async {
+        final pdfFile = await Pdf.generateCenteredText(
+            '$billNumber - $storeNumber', parcels);
+      }, onPressedShare: () async {
+        // الحصول على المسار المؤقت
+        final directory = await getTemporaryDirectory();
+        final path = '${directory.path}/sample.pdf';
+        final file = File(path);
+
+        // كتابة المحتوى إلى الملف والتحقق من متغير share
+        if (share == null) {
+          print('Share content is null');
+          return;
+        }
+
+        await file.writeAsString(share!);
+        print('File written to $path');
+
+        // مشاركة الملف باستخدام share_plus
+        Share.shareXFiles([XFile(path)], text: 'Great picture');
+
+        // تأكيد مشاركة الملف
+        print('File shared from $path');
+      }),
     );
   }
 }
