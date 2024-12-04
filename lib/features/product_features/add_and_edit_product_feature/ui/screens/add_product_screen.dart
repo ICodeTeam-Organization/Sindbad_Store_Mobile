@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/store_primary_button.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_product_to_store_cubit.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/custom_add_image_widget.dart';
 
 // import '../widgets/custom_add_image_widget.dart';
@@ -159,7 +161,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 ),
                               ),
                               CustomTextFormWidget(
-                                textController: TextEditingController(),
+                                textController: context
+                                    .read<AddProductToStoreCubit>()
+                                    .nameProductController, // ================================
                                 text: 'أسم المنتج',
                                 width: 334.0.w,
                                 height: 65.h,
@@ -173,7 +177,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     CustomTextFormWidget(
-                                      textController: TextEditingController(),
+                                      textController: context
+                                          .read<AddProductToStoreCubit>()
+                                          .priceProductController, // ================================
                                       text: 'السعر',
                                       width: 147.0.w,
                                       height: 65.h,
@@ -182,7 +188,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                       width: 36.0.w,
                                     ),
                                     CustomTextFormWidget(
-                                      textController: TextEditingController(),
+                                      textController: context
+                                          .read<AddProductToStoreCubit>()
+                                          .numberProductController, // ================================
                                       text: 'رقم المنتج',
                                       width: 147.0.w,
                                       height: 65.h,
@@ -194,7 +202,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 height: 10.0.h,
                               ),
                               CustomTextFormWidget(
-                                textController: TextEditingController(),
+                                textController: context
+                                    .read<AddProductToStoreCubit>()
+                                    .descriptionProductController, // ================================
                                 text: 'وصف المنتج',
                                 // labelText: 'أدخل وصف المنتج',
                                 width: 334.0.w,
@@ -240,11 +250,18 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               ),
                               // Add MAin image
                               CustomAddImageWidget(
-                                hasTileButton: true,
-                                containerWidth: 333,
-                                mainContainerHeight: 210,
-                                upContainerHeight: 175,
-                                downContainerHeight: 35,
+                                imagePartNumber: 1,
+                                image: context
+                                    .read<AddProductToStoreCubit>()
+                                    .mainImageProduct,
+                                onTapPickImage: () => context
+                                    .read<AddProductToStoreCubit>()
+                                    .pickImageFromGallery(numPartImage: 1),
+                                isForMainImage: true,
+                                containerWidth: 333.w,
+                                mainContainerHeight: 210.h,
+                                upContainerHeight: 175.h,
+                                downContainerHeight: 35.h,
                                 onPressed: () {},
                               ),
                               SizedBox(
@@ -260,18 +277,42 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 child: Row(
                                   children: [
                                     CustomAddImageWidget(
+                                      imagePartNumber: 2,
+                                      image: context
+                                          .read<AddProductToStoreCubit>()
+                                          .subOneImageProduct,
+                                      onTapPickImage: () => context
+                                          .read<AddProductToStoreCubit>()
+                                          .pickImageFromGallery(
+                                              numPartImage: 2),
                                       onPressed: () {},
                                     ),
                                     SizedBox(
                                       width: 15.0.w,
                                     ),
                                     CustomAddImageWidget(
+                                      imagePartNumber: 3,
+                                      image: context
+                                          .read<AddProductToStoreCubit>()
+                                          .subTwoImageProduct,
+                                      onTapPickImage: () => context
+                                          .read<AddProductToStoreCubit>()
+                                          .pickImageFromGallery(
+                                              numPartImage: 3),
                                       onPressed: () {},
                                     ),
                                     SizedBox(
                                       width: 15.0.w,
                                     ),
                                     CustomAddImageWidget(
+                                      imagePartNumber: 4,
+                                      image: context
+                                          .read<AddProductToStoreCubit>()
+                                          .subThreeImageProduct,
+                                      onTapPickImage: () => context
+                                          .read<AddProductToStoreCubit>()
+                                          .pickImageFromGallery(
+                                              numPartImage: 4),
                                       onPressed: () {},
                                     ),
                                   ],

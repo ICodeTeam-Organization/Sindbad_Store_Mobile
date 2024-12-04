@@ -12,6 +12,7 @@ import 'package:sindbad_management_app/features/order_management%20_features/ui/
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/refresh/refresh_page_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/invoice/order_invoice_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/screen/order_details.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_product_to_store_cubit.dart';
 
 import 'core/setup_service_locator.dart';
 import 'core/simple_bloc_observer.dart';
@@ -45,6 +46,7 @@ class SindbadManagementApp extends StatelessWidget {
             create: (context) => OrderDetailsCubit(OrderDetailsUsecase(
                   getit.get<AllOrderRepoImpl>(),
                 ))),
+        BlocProvider(create: (context) => AddProductToStoreCubit()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(428, 1000),
