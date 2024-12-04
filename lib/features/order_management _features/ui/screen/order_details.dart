@@ -71,15 +71,15 @@ class OrderDetails extends StatelessWidget {
                   ),
                   //Order Detaials
                   OrderDetailsBody(
-                    idOrder: orderId,
-                    numberBill: billNumber,
-                    numberOrder: orderNumber,
-                    clock: clock,
-                    date: date,
-                    numberItem: itemNumber,
-                    infoPayment: paymentInfo,
-                    statusOrder: orderStatus,
-                  ),
+                      // idOrder: orderId,
+                      // numberBill: billNumber,
+                      // numberOrder: orderNumber,
+                      // clock: clock,
+                      // date: date,
+                      // numberItem: itemNumber,
+                      // infoPayment: paymentInfo,
+                      // statusOrder: orderStatus,
+                      ),
                   //Show Button
                   BlocBuilder<RefreshPageCubit, RefreshPageState>(
                     buildWhen: (previous, current) =>

@@ -11,23 +11,23 @@ import 'top_order_details.dart';
 class OrderDetailsBody extends StatefulWidget {
   const OrderDetailsBody({
     super.key,
-    required this.idOrder,
-    required this.numberOrder,
-    required this.numberBill,
-    required this.clock,
-    required this.date,
-    required this.numberItem,
-    required this.infoPayment,
-    required this.statusOrder,
+    // required this.idOrder,
+    // required this.numberOrder,
+    // required this.numberBill,
+    // required this.clock,
+    // required this.date,
+    // required this.numberItem,
+    // required this.infoPayment,
+    // required this.statusOrder,
   });
-  final int idOrder;
-  final String numberOrder;
-  final String numberBill;
-  final String clock;
-  final String date;
-  final String numberItem;
-  final String infoPayment;
-  final String statusOrder;
+  // final int idOrder;
+  // final String numberOrder;
+  // final String numberBill;
+  // final String clock;
+  // final String date;
+  // final String numberItem;
+  // final String infoPayment;
+  // final String statusOrder;
 
   @override
   State<OrderDetailsBody> createState() => _OrderDetailsBodyState();
@@ -36,19 +36,19 @@ class OrderDetailsBody extends StatefulWidget {
 List<int>? orderDetailsID;
 
 class _OrderDetailsBodyState extends State<OrderDetailsBody> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<OrderDetailsCubit>().fetchOrderDetails(
-        widget.idOrder,
-        widget.numberOrder,
-        widget.numberBill,
-        widget.clock,
-        widget.date,
-        widget.numberItem,
-        widget.infoPayment,
-        widget.statusOrder);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   context.read<OrderDetailsCubit>().fetchOrderDetails(
+  //       widget.idOrder,
+  //       widget.numberOrder,
+  //       widget.numberBill,
+  //       widget.clock,
+  //       widget.date,
+  //       widget.numberItem,
+  //       widget.infoPayment,
+  //       widget.statusOrder);
+  // }
 
   @override
   Widget build(BuildContext context) {
