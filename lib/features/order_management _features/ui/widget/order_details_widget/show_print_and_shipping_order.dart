@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/function/image_picker_function.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/shipping/shipping_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_body.dart';
@@ -18,9 +19,33 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
   const ShowPrintAndShippingOrder({
     super.key,
   });
+  DateTime? convertToDateTime(String inputDate) {
+    try {
+      // Parse the input date string
+      DateTime parsedDate = DateFormat('yyyy/MM/dd').parse(inputDate);
+
+      // Add the desired time component
+      DateTime dateWithTime = DateTime(
+        parsedDate.year,
+        parsedDate.month,
+        parsedDate.day,
+        03, // Hour
+        00, // Minute
+        00, // Second
+        000, // Milliseconds
+      );
+
+      // Return the DateTime in UTC
+      return dateWithTime.toUtc();
+    } catch (e) {
+      // Return null if the input is invalid
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     int shippingNumber;
     return BlocBuilder<RefreshPageCubit, RefreshPageState>(
       builder: (context, state) {
@@ -44,63 +69,86 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                         thierdTitle: 'الشركة الناقلة',
                         onPressedSure: () async {
                           try {
+                            DateTime? dateFormat =
+                                convertToDateTime(dateConroller.text);
                             await context
                                 .read<ShippingCubit>()
                                 .fetchOrderShipping(
                                     orderId: idOrders!,
-                                    invoiceDate: dateConroller.text,
+                                    invoiceDate: dateFormat ?? DateTime.now(),
                                     shippingNumber: shippingNumber =
                                         int.parse(numberShippingConroller.text),
                                     shippingCompany: companyName ?? '',
                                     shippingImages: images!,
                                     numberParcels: parcels!);
+                            print(
+                                '$dateFormat DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDaAAAAAAAAAAAAAAAAAAAAATTTTTTTTTTTTTTTTeEEEEEEEEEEE');
+                            // ignore: use_build_context_synchronously
+                            Navigator.of(context).pop();
+                            showDialog(
+                              // ignore: use_build_context_synchronously
+                              context: context,
+                              builder: (context) {
+                                return BlocBuilder<ShippingCubit,
+                                    ShippingState>(
+                                  builder: (context, state) {
+                                    if (state is ShippingSuccess) {
+                                      return Messages(
+                                        isTrue: state.serverMessage.isSuccess,
+                                        trueMessage: 'لقد تم الشحن بنجاح',
+                                        falseMessage: 'هناك خطاء في العملية',
+                                      );
+                                    } else if (state is ShippingFailure) {
+                                      return Messages(
+                                        isTrue: false,
+                                        trueMessage: 'لقد تم الشحن بنجاح',
+                                        falseMessage: 'هناك خطاء في العملية',
+                                      );
+                                    } else {
+                                      return Text("يوجد خطا");
+                                    }
+                                  },
+                                );
+                              },
+                            );
                             dateConroller.clear();
                             numberShippingConroller.clear();
-                            // Navigator.of(context).pop();
-                            // showDialog(
-                            //   context: context,
-                            //   builder: (context) {
-                            //     return Messages(
-                            //       isTrue: true,
-                            //       trueMessage: 'لقد تم الشحن بنجاح',
-                            //       falseMessage: 'هناك خطاء في العملية',
-                            //     );
-                            //   },
-                            // );
                           } catch (e) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('هنالك خطا ما  $e'),
-                              ),
+                            // ignore: use_build_context_synchronously
+                            // ScaffoldMessenger.of(context).showSnackBar(
+                            //   SnackBar(
+                            //     content: Text('هنالك خطا ما  $e'),
+                            //   ),
+                            // );
+                            // ignore: use_build_context_synchronously
+                            // Navigator.of(context).pop();
+                            showDialog(
+                              // ignore: use_build_context_synchronously
+                              context: context,
+                              builder: (context) {
+                                return BlocBuilder<ShippingCubit,
+                                    ShippingState>(
+                                  builder: (context, state) {
+                                    if (state is ShippingSuccess) {
+                                      return Messages(
+                                        isTrue: false,
+                                        trueMessage: '',
+                                        falseMessage: 'هناك خطاء في العملية',
+                                      );
+                                    } else if (state is ShippingFailure) {
+                                      return Messages(
+                                        isTrue: false,
+                                        trueMessage: '',
+                                        falseMessage: 'هناك خطاء في العملية',
+                                      );
+                                    } else {
+                                      return Text("يوجد خطا");
+                                    }
+                                  },
+                                );
+                              },
                             );
                           }
-                          Navigator.of(context).pop();
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return BlocBuilder<ShippingCubit, ShippingState>(
-                                builder: (context, state) {
-                                  if (state is ShippingSuccess) {
-                                    return Messages(
-                                      isTrue: state.serverMessage.isSuccess,
-                                      trueMessage:
-                                          'لقد تمت الأضافة في قائمة التجهيز',
-                                      falseMessage: 'هناك خطاء في العملية',
-                                    );
-                                  } else if (state is ShippingFailure) {
-                                    return Messages(
-                                      isTrue: false,
-                                      trueMessage:
-                                          'لقد تمت الأضافة في قائمة التجهيز',
-                                      falseMessage: 'هناك خطاء في العملية',
-                                    );
-                                  } else {
-                                    return Text("يوجد خطا");
-                                  }
-                                },
-                              );
-                            },
-                          );
                         },
                       );
                     },
@@ -134,8 +182,6 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                           );
                         },
                         onPressedShare: () {},
-                        //عدد النسخ
-                        parcels: 3,
                         // طباعة باركود عبر رقم الفاتورة و رقم المحل
                         billNumber: 1111111111,
                         storeNumber: 25,
