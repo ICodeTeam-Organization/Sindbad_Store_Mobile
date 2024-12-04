@@ -29,7 +29,7 @@ class _ImagePickerFunctionState extends State<ImagePickerFunction> {
           children: [
             DecoratedBox(
               decoration: BoxDecoration(
-                color: AppColors.redOpacity,
+                color: Color(0x1AFF746B),
                 borderRadius: BorderRadius.circular(16.r),
               ),
               child: DottedBorder(
