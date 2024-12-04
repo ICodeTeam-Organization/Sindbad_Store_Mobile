@@ -1,12 +1,24 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sindbad_management_app/core/api_service.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/data/models/add_offer_model/add_offer_dto.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/data/models/add_offer_model/add_offer_model.dart';
 import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/data/models/offer_products_model.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/domain/entities/add_offer_entity.dart';
 import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/domain/entities/offer_products_entity.dart';
 
 abstract class NewOfferRemotDataSource {
   Future<List<OfferProductsEntity>> getOfferProducts(
     int pageSize,
     int pageNumber,
+  );
+  Future<AddOfferEntity> addOffer(
+    String offerTitle,
+    DateTime startOffer,
+    DateTime endOffer,
+    int countProducts,
+    int typeName,
+    List<Map<String, dynamic>>? listProduct,
+    // List<AddOfferDto>? listProduct,
   );
 }
 
@@ -64,5 +76,36 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
     List<OfferProductsEntity> offerProducts = getOfferProductsList(data);
     print(offerProducts);
     return offerProducts;
+  }
+
+  @override
+  Future<AddOfferEntity> addOffer(
+    String offerTitle,
+    DateTime startOffer,
+    DateTime endOffer,
+    int countProducts,
+    int typeName,
+    // List<AddOfferDto>? listProduct,
+    List<Map<String, dynamic>>? listProduct,
+  ) async {
+    String? token = await getToken();
+    var data = await apiService.post(
+        data: {
+          "name": offerTitle, //
+          "description": "string",
+          "startDate": startOffer,
+          "endDate": endOffer,
+          "isActive": true,
+          "numberOfOrders": countProducts, //
+          "offerHeadType": typeName, //
+          "addOfferDtos": []
+        },
+        endPoint: "Offers/Store/AddOffer",
+        headers: {
+          'Authorization': 'BEARER $token',
+        });
+    AddOfferEntity add = AddOfferModel.fromJson(data);
+    print(add);
+    return add;
   }
 }

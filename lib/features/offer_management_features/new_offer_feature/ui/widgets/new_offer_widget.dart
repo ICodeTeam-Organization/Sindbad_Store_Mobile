@@ -1,11 +1,15 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/data/models/add_offer_model/add_offer_dto.dart';
 import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/domain/entities/offer_products_entity.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/manager/add_offer_cubit/add_offer_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/widgets/card_product_bouns_widget.dart';
 import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/widgets/card_product_discount_widget.dart';
 import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/widgets/custom_select_item_dialog.dart';
@@ -24,35 +28,184 @@ class NewOfferWidget extends StatefulWidget {
 }
 
 class _NewOfferWidgetState extends State<NewOfferWidget> {
-  TextEditingController startDateConroller = TextEditingController();
-  TextEditingController endDateConroller = TextEditingController();
+  TextEditingController nameOfferConroller = TextEditingController();
+  TextEditingController startOfferConroller = TextEditingController();
+  TextEditingController endOfferConroller = TextEditingController();
+  int offerType = 1;
+  final ValueNotifier<int> discountRateNotifier = ValueNotifier<int>(10);
+  final ValueNotifier<int> numberToBuyNotifier = ValueNotifier<int>(2);
+  final ValueNotifier<int> numberToGetNotifier = ValueNotifier<int>(1);
 
-  final ValueNotifier<double> discountRateNotifier = ValueNotifier<double>(0);
-  final ValueNotifier<int> buysCountNotifier = ValueNotifier<int>(0);
-  final ValueNotifier<int> freesCountNotifier = ValueNotifier<int>(0);
   List<OfferProductsEntity> selectedItems = [];
-  String selectedOption = 'Discount';
+  String selectedOption = 'Percent';
   bool isDiscountDefaultValue = true;
 
   // Default values for bonus configuration
-  double discountRate = 15; // Default "Discount Rate" value
-  int buysCount = 2; // Default "Buy X" value
-  int freesCount = 1; // Default "Get Y" value
+  int discountRate = 10; // Default "Percent Rate" value
+  int numberToBuy = 2; // Default "Buy X" value
+  int numberToGet = 1; // Default "Get Y" value
 
-  // List of all items
+  // List<AddOfferDto> listProduct = [];
+  List<Map<String, dynamic>> listProduct = [
+    // {
+    //   "id": 195,
+    //   "type": 1,
+    //   "percentage": 10,
+    //   "finalPrice": 90,
+    //   "amountToBuy": null,
+    //   "amountToGet": null,
+    //   "startDate": "2024-12-01",
+    //   "endDate": "2024-12-31",
+    //   "productId": "001"
+    // },
+    // {
+    //   "id": 199,
+    //   "type": 2,
+    //   "percentage": null,
+    //   "finalPrice": null,
+    //   "amountToBuy": 2,
+    //   "amountToGet": 1,
+    //   "startDate": "2024-12-01",
+    //   "endDate": "2024-12-31",
+    //   "productId": "002"
+    // }
+  ];
 
   @override
   void initState() {
     super.initState();
-    isDiscountDefaultValue = selectedOption == 'Discount';
+    isDiscountDefaultValue = selectedOption == 'Percent';
     discountRateNotifier.value = discountRate;
-    buysCountNotifier.value = buysCount;
-    freesCountNotifier.value = freesCount;
+    numberToBuyNotifier.value = numberToBuy;
+    numberToGetNotifier.value = numberToGet;
   }
 
+  DateTime? convertToDateTime(String inputDate) {
+    try {
+      // Parse the input date string
+      DateTime parsedDate = DateFormat('yyyy/MM/dd').parse(inputDate);
+
+      // Add the desired time component
+      DateTime dateWithTime = DateTime(
+        parsedDate.year,
+        parsedDate.month,
+        parsedDate.day,
+        03, // Hour
+        00, // Minute
+        00, // Second
+        000, // Milliseconds
+      );
+
+      // Return the DateTime in UTC
+      return dateWithTime.toUtc();
+    } catch (e) {
+      // Return null if the input is invalid
+      return null;
+    }
+  }
+
+  void populateListProduct() {
+    listProduct.clear(); // Clear the list to avoid duplicates on re-population
+
+    // Parse and format the start and end offer dates
+    DateTime? startOfferFormat = convertToDateTime(startOfferConroller.text);
+    DateTime? endOfferFormat = convertToDateTime(endOfferConroller.text);
+
+    // Helper function to format DateTime
+    String? formatDateTime(DateTime? dateTime) {
+      if (dateTime == null) return null;
+      return DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+          .format(dateTime.toUtc());
+    }
+
+    if (startOfferFormat != null && endOfferFormat != null) {
+      print(
+          '${formatDateTime(startOfferFormat)}***************************'); // Output: 2024-12-03T09:55:12.120Z
+      print(formatDateTime(endOfferFormat)); // Output: 2024-12-03T09:55:12.120Z
+    } else {
+      print("Invalid date format");
+      return; // Exit if dates are invalid
+    }
+
+    for (var item in selectedItems) {
+      final int newPrice =
+          calculateNewPrice(item.productIPrice!, discountRateNotifier.value)
+              .toInt();
+
+      // Create a map to hold the offer details for each product
+      Map<String, dynamic> offerMap = {
+        "id": item.productId,
+        "productId": item.productId, // Product ID
+        "type": offerType, // Offer type (either 1 or 2)
+        "startDate": formatDateTime(startOfferFormat), // Formatted start date
+        "endDate": formatDateTime(endOfferFormat), // Formatted end date
+      };
+
+      if (offerType == 1) {
+        // For discount offers
+        offerMap["percentage"] =
+            discountRateNotifier.value; // Discount percentage
+        offerMap["finalPrice"] = newPrice; // Discounted price
+        offerMap["amountToBuy"] = null; // Not applicable
+        offerMap["amountToGet"] = null; // Not applicable
+      } else if (offerType == 2) {
+        // For "buy X, get Y" offers
+        offerMap["percentage"] = null; // Not applicable
+        offerMap["finalPrice"] = null; // Not applicable
+        offerMap["amountToBuy"] = numberToBuyNotifier.value; // Amount to buy
+        offerMap["amountToGet"] = numberToGetNotifier.value; // Amount to get
+      }
+
+      // Add the map to the list
+      listProduct.add(offerMap);
+    }
+  }
+
+  // void populateListProduct() {
+  //   listProduct.clear(); // Clear the list to avoid duplicates on re-population
+  //   for (var item in selectedItems) {
+  //     // Calculate the new price for the item
+  //     final int newPrice =
+  //         calculateNewPrice(item.productIPrice!, discountRateNotifier.value)
+  //             .toInt();
+
+  //     if (offerType == 1) {
+  //       // If offerType is 1, set percentage, finalPrice, and leave amountToBuy and amountToGet as null
+  //       listProduct.add(
+  //         AddOfferDto(
+  //           id: item.productId,
+  //           type: offerType,
+  //           startDate: startOfferConroller.text, // Parse date
+  //           endDate: endOfferConroller.text, // Parse date
+  //           productId: item.productId,
+  //           percentage: discountRateNotifier.value,
+  //           finalPrice: newPrice,
+  //           amountToBuy: null, // Null for amountToBuy
+  //           amountToGet: null, // Null for amountToGet
+  //         ),
+  //       );
+  //     } else if (offerType == 2) {
+  //       // If offerType is 2, set amountToBuy and amountToGet, leave percentage and finalPrice as null
+  //       listProduct.add(
+  //         AddOfferDto(
+  //           id: item.productId,
+  //           type: offerType,
+  //           startDate: startOfferConroller.text, // Parse date
+  //           endDate: endOfferConroller.text, // Parse date
+  //           productId: item.productId,
+  //           percentage: null, // Null for percentage
+  //           finalPrice: null, // Null for finalPrice
+  //           amountToBuy: numberToBuyNotifier.value,
+  //           amountToGet: numberToGetNotifier.value,
+  //         ),
+  //       );
+  //     }
+  //   }
+  // }
+
   // Function to calculate discounted price
-  double calculateNewPrice(double lastPrice, double discountRate) {
-    return lastPrice - (lastPrice * discountRate / 100);
+  num calculateNewPrice(num oldPrice, int discountRate) {
+    return oldPrice - (oldPrice * discountRate / 100);
   }
 
   // Function to handle selection confirmation
@@ -65,8 +218,8 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
   @override
   void dispose() {
     super.dispose();
-    startDateConroller.dispose();
-    endDateConroller.dispose();
+    startOfferConroller.dispose();
+    endOfferConroller.dispose();
   }
 
   @override
@@ -89,6 +242,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                     RequiredText(title: 'اسم العرض '),
                     SizedBox(height: 10.h),
                     TextFormField(
+                      controller: nameOfferConroller,
                       decoration: InputDecoration(
                         hintText: 'أكتب اسم العرض...',
                         hintStyle: KTextStyle.textStyle12.copyWith(
@@ -115,13 +269,13 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                 SizedBox(height: 40.h),
                 HorizontalTitleAndTextField(
                   title: 'بداية العرض ',
-                  info: startDateConroller,
+                  info: startOfferConroller,
                   isDate: true,
                 ),
                 SizedBox(height: 40.h),
                 HorizontalTitleAndTextField(
                   title: 'نهاية العرض ',
-                  info: endDateConroller,
+                  info: endOfferConroller,
                   isDate: true,
                 ),
                 SizedBox(height: 40.h),
@@ -137,12 +291,13 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                           color: AppColors.greyLight,
                         ),
                       ),
-                      value: 'Discount',
+                      value: 'Percent',
                       groupValue: selectedOption,
                       onChanged: (value) {
                         setState(() {
                           selectedOption = value!;
                           isDiscountDefaultValue = true;
+                          offerType = 1;
                         });
                       },
                       activeColor: AppColors.primary,
@@ -155,12 +310,13 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                           color: AppColors.greyLight,
                         ),
                       ),
-                      value: 'Bouns',
+                      value: 'Bonus',
                       groupValue: selectedOption,
                       onChanged: (value) {
                         setState(() {
                           selectedOption = value!;
                           isDiscountDefaultValue = false;
+                          offerType = 2;
                         });
                       },
                       activeColor: AppColors.primary,
@@ -181,17 +337,17 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                         },
                       )
                     : DefaultValueBounsWidget(
-                        buysCount: buysCount,
-                        freesCount: freesCount,
-                        onBuysCountChanged: (newBuysCount) {
+                        numberToBuy: numberToBuy,
+                        numberToGet: numberToGet,
+                        onNumberToBuyChanged: (newBuysCount) {
                           setState(() {
-                            buysCountNotifier.value = newBuysCount;
-                            print(buysCountNotifier.value);
+                            numberToBuyNotifier.value = newBuysCount;
+                            print(numberToBuyNotifier.value);
                           });
                         },
-                        onFreesCountChanged: (newFreesCount) {
+                        onNumberToGetChanged: (newNumberToGet) {
                           setState(() {
-                            freesCountNotifier.value = newFreesCount;
+                            numberToGetNotifier.value = newNumberToGet;
                           });
                         },
                       ),
@@ -255,11 +411,13 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                     itemBuilder: (context, index) {
                       return isDiscountDefaultValue
                           ? CardProductDiscountWidget(
-                              productName:
-                                  '${selectedItems[index].productTitle} ${selectedItems[index].productId}',
+                              productName: selectedItems[index].productTitle +
+                                  selectedItems[index].productId.toString(),
                               productImage: selectedItems[index].productImage,
-                              lastPrice: 4000,
-                              newPrice: calculateNewPrice(4000, discountRate),
+                              oldPrice: selectedItems[index].productIPrice!,
+                              newPrice: calculateNewPrice(
+                                  selectedItems[index].productIPrice!,
+                                  discountRate),
                               discountRate: discountRateNotifier.value,
                               onTapQuit: () {
                                 setState(() {
@@ -271,15 +429,15 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                           : CardProductBounsWidget(
                               productName: selectedItems[index].productTitle,
                               productImage: selectedItems[index].productImage,
-                              buysCount: buysCountNotifier.value,
-                              freesCount: freesCountNotifier.value,
+                              numberToBuy: numberToBuyNotifier.value,
+                              numberToGet: numberToGetNotifier.value,
                               onTapQuit: () {
                                 setState(() {
                                   selectedItems.removeAt(index);
                                 });
                               },
-                              buysCountNotifier: buysCountNotifier,
-                              freesCountNotifier: freesCountNotifier,
+                              numberToBuyNotifier: numberToBuyNotifier,
+                              numberToGetNotifier: numberToGetNotifier,
                             );
                     },
                   ),
@@ -308,25 +466,88 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                         ),
                       ),
                     ),
-                    InkWell(
-                      onTap: () {
-                        print(startDateConroller.text);
+                    BlocConsumer<AddOfferCubit, AddOfferState>(
+                      listener: (context, state) {
+                        if (state is AddOfferFailure) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text(state.errorMessage.toString())),
+                          );
+                        } else if (state is AddOfferSuccess) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(state.addOffer.toString())),
+                          );
+                          // Navigator.pop(context);
+                        }
                       },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 40.h,
-                        width: 195.w,
-                        decoration: BoxDecoration(
-                          color: AppColors.primary,
-                          borderRadius: BorderRadius.circular(5.r),
-                        ),
-                        child: Text(
-                          'تاكيد',
-                          style: KTextStyle.textStyle16.copyWith(
-                            color: AppColors.white,
+                      builder: (context, state) {
+                        return InkWell(
+                          onTap: () async {
+                            if (nameOfferConroller.text == '' ||
+                                startOfferConroller.text == '' ||
+                                endOfferConroller.text == '') {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      'من فضلك قم بتعبئة جميع الحقول المطلوبة.'),
+                                ),
+                              );
+                              if (selectedItems.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content:
+                                        Text('من فضلك قم بختيار منتجات العرض.'),
+                                  ),
+                                );
+                              }
+                              return;
+                            } else {
+                              for (var offerMap in listProduct) {
+                                print(offerMap);
+                              }
+                              // Call the function after all checks have passed
+                              DateTime? startOfferFormat =
+                                  convertToDateTime(startOfferConroller.text);
+                              DateTime? endOfferFormat =
+                                  convertToDateTime(endOfferConroller.text);
+                              if (startOfferFormat != null &&
+                                  endOfferFormat != null) {
+                                print(startOfferFormat
+                                    .toIso8601String()); // Output: 2024-12-03T09:55:12.120Z
+                                print(endOfferFormat
+                                    .toIso8601String()); // Output: 2024-12-03T09:55:12.120Z
+                              } else {
+                                print("Invalid date format");
+                              }
+
+                              populateListProduct();
+                              await context.read<AddOfferCubit>().addOffer(
+                                    nameOfferConroller.text,
+                                    startOfferFormat!,
+                                    endOfferFormat!,
+                                    selectedItems.length,
+                                    offerType,
+                                    listProduct,
+                                  );
+                            }
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 40.h,
+                            width: 195.w,
+                            decoration: BoxDecoration(
+                              color: AppColors.primary,
+                              borderRadius: BorderRadius.circular(5.r),
+                            ),
+                            child: Text(
+                              'تاكيد',
+                              style: KTextStyle.textStyle16.copyWith(
+                                color: AppColors.white,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     ),
                   ],
                 ),
