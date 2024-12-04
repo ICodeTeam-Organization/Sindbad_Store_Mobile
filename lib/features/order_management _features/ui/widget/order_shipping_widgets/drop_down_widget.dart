@@ -21,29 +21,26 @@ class DropDownWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          height: 5.h,
-        ),
         Text(
           'اسم الشركة الناقلة',
           style: KTextStyle.textStyle12.copyWith(fontWeight: FontWeight.w600),
         ),
+        SizedBox(
+          height: 5.h,
+        ),
         CustomDropdown(
-          closedHeaderPadding: EdgeInsets.all(5),
-          // controller: dropDownController ,
+          closedHeaderPadding: EdgeInsets.all(7),
           items: _list,
-          hintText: " ",
+          hintText: "",
           // initialItem: _list[0],
           onChanged: (value) {
             companyName = value;
             // log('changing value to: $companyName');
           },
           decoration: CustomDropdownDecoration(
+              closedBorderRadius: BorderRadius.circular(5),
               closedFillColor: Colors.transparent,
               closedBorder: Border.all(color: AppColors.grey)),
-        ),
-        SizedBox(
-          height: 5.h,
         ),
       ],
     );
