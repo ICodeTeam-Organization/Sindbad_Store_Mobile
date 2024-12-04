@@ -23,7 +23,7 @@ class BuildImageSection extends StatelessWidget {
               children: [
                 Text(
                   "صورة الفاتورة",
-                  style: KTextStyle.textStyle14,
+                  style: KTextStyle.textStyle16,
                 ),
               ],
             ),

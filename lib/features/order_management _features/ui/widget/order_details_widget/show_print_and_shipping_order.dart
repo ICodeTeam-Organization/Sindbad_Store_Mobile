@@ -57,7 +57,7 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
               StorePrimaryButton(
                 width: 160.w,
                 title: 'شحن الطلب',
-                icon: Icons.fire_truck,
+                icon: Icons.local_shipping_outlined,
                 onTap: () {
                   showDialog(
                     context: context,
@@ -156,7 +156,7 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                 },
               ),
               StorePrimaryButton(
-                icon: Icons.edit_document,
+                icon: Icons.receipt_long_outlined,
                 width: 160.w,
                 title: 'طباعة العنوان',
                 // buttonColor: AppColors.redOpacity,
@@ -183,8 +183,8 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                         },
                         onPressedShare: () {},
                         // طباعة باركود عبر رقم الفاتورة و رقم المحل
-                        billNumber: 1111111111,
-                        storeNumber: 25,
+                        billNumber: int.parse(billNumbers ?? '0'),
+                        storeNumber: 777777778,
                       );
                     },
                   );

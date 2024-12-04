@@ -1,6 +1,7 @@
 // ignore: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
 
 import '../../../../../core/styles/Colors.dart';
@@ -48,7 +49,7 @@ class _BuildInfoRowAddState extends State<BuildInfoRowAdd> {
                     // count = widget.parcels;
                   });
                 },
-                icon: Icon(Icons.add),
+                icon: SvgPicture.asset('assets/plus.svg'),
               ),
             ),
           ),
@@ -88,7 +89,7 @@ class _BuildInfoRowAddState extends State<BuildInfoRowAdd> {
                     // count = widget.parcels;
                   });
                 },
-                icon: Icon(Icons.cancel),
+                icon: SvgPicture.asset('assets/minus.svg'),
               ),
             ),
           ),
