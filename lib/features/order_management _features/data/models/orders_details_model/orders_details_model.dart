@@ -1,5 +1,4 @@
 import '../../../domain/entities/order_detalis_entity.dart';
-import 'product_attribute.dart';
 
 class OrdersDetailsModel extends OrderDetailsEntity {
   int? id;

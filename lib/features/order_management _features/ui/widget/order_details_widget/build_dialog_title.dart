@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
 import 'build_dialog_content.dart';
-import 'custom_create_bill_dialog.dart';
 
 class BuildDialogTitle extends StatelessWidget {
   const BuildDialogTitle({super.key, required this.headTitle});

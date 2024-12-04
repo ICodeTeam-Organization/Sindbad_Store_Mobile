@@ -40,8 +40,6 @@ class _RadioWidgetState extends State<RadioWidget> {
               onChanged: (val) {
                 setState(() {
                   pay = val;
-                  print(
-                      'qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq $pay qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq');
                 });
               }),
           Text(
@@ -55,8 +53,6 @@ class _RadioWidgetState extends State<RadioWidget> {
               onChanged: (val) {
                 setState(() {
                   pay = val;
-                  print(
-                      'qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq $pay qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq');
                 });
               }),
           Text(
