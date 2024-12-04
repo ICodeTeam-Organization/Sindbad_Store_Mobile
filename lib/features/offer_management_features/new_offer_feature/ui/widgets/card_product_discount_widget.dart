@@ -6,16 +6,16 @@ import 'package:sindbad_management_app/core/styles/text_style.dart';
 class CardProductDiscountWidget extends StatefulWidget {
   final String productName;
   final String productImage;
-  final double lastPrice;
-  final double newPrice;
-  final double discountRate;
+  final num oldPrice;
+  final num newPrice;
+  final num discountRate;
   final void Function()? onTapQuit;
-  final ValueNotifier<double> discountRateNotifier;
+  final ValueNotifier<int> discountRateNotifier;
   const CardProductDiscountWidget({
     super.key,
     required this.productName,
     required this.productImage,
-    required this.lastPrice,
+    required this.oldPrice,
     required this.newPrice,
     required this.discountRate,
     this.onTapQuit,
@@ -59,14 +59,14 @@ class _CardProductDiscountWidgetState extends State<CardProductDiscountWidget> {
   /// Update New Price Based on Discount Rate
   void _updateNewPrice(double discountRate) {
     double newPrice =
-        widget.lastPrice - (widget.lastPrice * (discountRate / 100));
+        widget.oldPrice - (widget.oldPrice * (discountRate / 100));
     newPriceController.text = newPrice.toStringAsFixed(0);
   }
 
   /// Update Discount Rate Based on New Price
-  void _updateDiscountRate(double newPrice) {
+  void _updateDiscountRate(num newPrice) {
     double discountRate =
-        ((widget.lastPrice - newPrice) / widget.lastPrice) * 100;
+        ((widget.oldPrice - newPrice) / widget.oldPrice) * 100;
     discountRateController.text = discountRate.toStringAsFixed(0);
   }
 
@@ -80,7 +80,7 @@ class _CardProductDiscountWidgetState extends State<CardProductDiscountWidget> {
 
   /// Handle New Price Changes
   void _onNewPriceChanged(String value) {
-    double newPrice = double.tryParse(value) ?? widget.lastPrice;
+    num newPrice = num.tryParse(value) ?? widget.oldPrice;
     setState(() {
       _updateDiscountRate(newPrice);
     });
@@ -119,7 +119,7 @@ class _CardProductDiscountWidgetState extends State<CardProductDiscountWidget> {
                     right: 0,
                     child: Row(
                       children: [
-                        Image.asset(
+                        Image.network(
                           widget.productImage,
                           width: 45.w,
                           height: 45.w,
@@ -220,7 +220,7 @@ class _CardProductDiscountWidgetState extends State<CardProductDiscountWidget> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    widget.lastPrice.toStringAsFixed(0),
+                                    widget.oldPrice.toStringAsFixed(0),
                                     style: KTextStyle.textStyle10.copyWith(
                                       color: AppColors.blackLight,
                                     ),

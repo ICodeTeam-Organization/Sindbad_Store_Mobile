@@ -8,21 +8,21 @@ import 'package:sindbad_management_app/features/offer_management_features/new_of
 class CardProductBounsWidget extends StatefulWidget {
   final String productName;
   final String productImage;
-  final int buysCount;
-  final int freesCount;
+  final int numberToBuy;
+  final int numberToGet;
   final void Function()? onTapQuit;
-  final ValueNotifier<int> buysCountNotifier;
-  final ValueNotifier<int> freesCountNotifier;
+  final ValueNotifier<int> numberToBuyNotifier;
+  final ValueNotifier<int> numberToGetNotifier;
 
   const CardProductBounsWidget({
     super.key,
     required this.productName,
     required this.productImage,
-    required this.buysCount,
-    required this.freesCount,
+    required this.numberToBuy,
+    required this.numberToGet,
     this.onTapQuit,
-    required this.buysCountNotifier,
-    required this.freesCountNotifier,
+    required this.numberToBuyNotifier,
+    required this.numberToGetNotifier,
   });
 
   @override
@@ -30,27 +30,27 @@ class CardProductBounsWidget extends StatefulWidget {
 }
 
 class _CardProductBounsWidgetState extends State<CardProductBounsWidget> {
-  late int buysCountController;
-  late int freesCountController;
+  late int numberToBuyController;
+  late int numberToGetController;
 
   @override
   void initState() {
     super.initState();
 
     // Initialize TextEditingControllers with the current values
-    buysCountController = widget.buysCount;
-    freesCountController = widget.freesCount;
+    numberToBuyController = widget.numberToBuy;
+    numberToGetController = widget.numberToGet;
 
     // Add listeners to update controllers and trigger UI rebuild
-    widget.buysCountNotifier.addListener(() {
+    widget.numberToBuyNotifier.addListener(() {
       setState(() {
-        buysCountController = widget.buysCountNotifier.value;
+        numberToBuyController = widget.numberToBuyNotifier.value;
       });
     });
 
-    widget.freesCountNotifier.addListener(() {
+    widget.numberToGetNotifier.addListener(() {
       setState(() {
-        freesCountController = widget.freesCountNotifier.value;
+        numberToGetController = widget.numberToGetNotifier.value;
       });
     });
   }
@@ -89,7 +89,7 @@ class _CardProductBounsWidgetState extends State<CardProductBounsWidget> {
                       children: [
                         Row(
                           children: [
-                            Image.asset(
+                            Image.network(
                               widget.productImage,
                               width: 45.w,
                               height: 45.w,
@@ -111,13 +111,13 @@ class _CardProductBounsWidgetState extends State<CardProductBounsWidget> {
                     left: 0,
                     right: 0,
                     child: DefaultValueBounsWidget(
-                      buysCount: widget.buysCount,
-                      freesCount: widget.freesCount,
-                      onBuysCountChanged: (newBuysCount) {
-                        widget.buysCountNotifier.value = newBuysCount;
+                      numberToBuy: widget.numberToBuy,
+                      numberToGet: widget.numberToGet,
+                      onNumberToBuyChanged: (newBuysCount) {
+                        widget.numberToBuyNotifier.value = newBuysCount;
                       },
-                      onFreesCountChanged: (newFreesCount) {
-                        widget.freesCountNotifier.value = newFreesCount;
+                      onNumberToGetChanged: (newFreesCount) {
+                        widget.numberToGetNotifier.value = newFreesCount;
                       },
                     ),
                   ),

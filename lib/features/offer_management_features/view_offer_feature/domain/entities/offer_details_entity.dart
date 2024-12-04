@@ -1,21 +1,21 @@
 class OfferDetailsEntity {
-  final int offerId;
   final int productId;
-  final String productName;
+  final String productTitle;
   final String productImage;
-  final int? lastPrice;
-  final int? newPrice;
-  final int? buysCount;
-  final int? freesCount;
+  final num? discountRate;
+  final num? oldPrice;
+  final num? newPrice;
+  final num? numberToBuy;
+  final num? numberToGet;
 
   OfferDetailsEntity({
-    required this.offerId,
     required this.productId,
-    required this.productName,
+    required this.productTitle,
     required this.productImage,
-    this.lastPrice,
-    this.newPrice,
-    this.buysCount,
-    this.freesCount,
+    required this.discountRate,
+    required this.oldPrice,
+    required this.newPrice,
+    required this.numberToBuy,
+    required this.numberToGet,
   });
 }

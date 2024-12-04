@@ -13,12 +13,21 @@ class GetOfferDetailsUseCase
   @override
   Future<Either<Failure, List<OfferDetailsEntity>>> execute(
       OfferDetailsParams params) {
-    return viewOfferRepo.getOfferDetails(params.offerId);
+    return viewOfferRepo.getOfferDetails(
+      params.pageSize,
+      params.pageNumber,
+      params.offerHeadId,
+    );
   }
 }
 
 class OfferDetailsParams {
-  final int offerId;
-
-  OfferDetailsParams(this.offerId);
+  final int pageSize;
+  final int pageNumber;
+  final int offerHeadId;
+  OfferDetailsParams(
+    this.pageSize,
+    this.pageNumber,
+    this.offerHeadId,
+  );
 }

@@ -1,80 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_app_bar.dart';
-import 'package:sindbad_management_app/core/styles/Colors.dart';
-import 'package:sindbad_management_app/core/styles/text_style.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/card_offer_product_details_bouns_widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sindbad_management_app/core/setup_service_locator.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/repos/view_offer_repo_impl.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/usecases/get_offer_details_use_case.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_details_cubit/offer_details_cubit.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/view_offer_product_details_bouns_body.dart';
 
-class ViewOfferProductDetailsBounsScreen extends StatefulWidget {
+class ViewOfferProductDetailsBounsScreen extends StatelessWidget {
   final String offerName;
+  final int offerId; // Add this line to accept the nameOffer
 
   const ViewOfferProductDetailsBounsScreen({
     super.key,
     required this.offerName,
+    required this.offerId,
   });
-
-  @override
-  State<ViewOfferProductDetailsBounsScreen> createState() =>
-      _ViewOfferProductDetailsBounsScreenState();
-}
-
-class _ViewOfferProductDetailsBounsScreenState
-    extends State<ViewOfferProductDetailsBounsScreen> {
-  late String offerTypeTitle;
-
-  @override
-  void initState() {
-    super.initState();
-    offerTypeTitle = 'المنتجات بعد عمل البونص';
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          color: AppColors.transparent,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomAppBar(
-                tital: widget.offerName,
-              ),
-              SizedBox(height: 30.h),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Text(
-                  offerTypeTitle,
-                  style: KTextStyle.textStyle14.copyWith(
-                    color: AppColors.blackLight,
-                  ),
-                ),
-              ),
-              SizedBox(height: 20.h),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: ListView.builder(
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          CardOfferProductDetailsBounsWidget(
-                            productName: 'MacBook Air',
-                            productImage: "assets/image_example.png",
-                            buysCount: 2,
-                            freesCount: 1,
-                          ),
-                          Divider(),
-                        ],
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+      body: ViewOfferProductDetailsBounsBody(
+        offerName: offerName,
+        offerId: offerId,
       ),
     );
   }
