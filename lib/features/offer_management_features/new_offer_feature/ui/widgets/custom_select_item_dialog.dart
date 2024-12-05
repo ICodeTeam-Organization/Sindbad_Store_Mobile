@@ -226,6 +226,28 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                                           width: 60.w,
                                           height: 60.h,
                                           fit: BoxFit.cover,
+                                          loadingBuilder: (BuildContext context,
+                                              Widget child,
+                                              ImageChunkEvent?
+                                                  loadingProgress) {
+                                            if (loadingProgress == null) {
+                                              return child;
+                                            }
+                                            return Image.asset(
+                                              'assets/default_image.png',
+                                              width: 60.w,
+                                              height: 60.h,
+                                              fit: BoxFit.cover,
+                                            );
+                                          },
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            return Image.asset(
+                                                width: 60.w,
+                                                height: 60.h,
+                                                fit: BoxFit.cover,
+                                                'assets/default_image.png'); // Local fallback
+                                          },
                                         ),
                                         SizedBox(width: 15.w),
                                         SizedBox(

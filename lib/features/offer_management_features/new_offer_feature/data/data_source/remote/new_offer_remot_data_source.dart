@@ -64,11 +64,10 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
     String? token = await getToken();
     var data = await apiService.post(
       data: {
-        "storeProductsFilter": 1,
-        "pageSize": 20,
-        "pageNumber": 7,
+        "pageSize": 10,
+        "pageNumber": 1,
       },
-      endPoint: 'Products/Store/GetStoreProductsWitheFilter',
+      endPoint: 'Products/GetProductsWitheFilter?returnDtoName=1',
       headers: {
         'Authorization': 'BEARER $token',
       },
@@ -93,12 +92,12 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
         data: {
           "name": offerTitle, //
           "description": "string",
-          "startDate": startOffer,
-          "endDate": endOffer,
+          "startDate": startOffer.toIso8601String(),
+          "endDate": endOffer.toIso8601String(),
           "isActive": true,
-          "numberOfOrders": countProducts, //
-          "offerHeadType": typeName, //
-          "addOfferDtos": []
+          "numberOfOrders": countProducts,
+          "offerHeadType": typeName,
+          "addOfferDtos": listProduct
         },
         endPoint: "Offers/Store/AddOffer",
         headers: {

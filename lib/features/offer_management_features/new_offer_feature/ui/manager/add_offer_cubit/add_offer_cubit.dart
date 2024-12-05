@@ -37,8 +37,8 @@ class AddOfferCubit extends Cubit<AddOfferState> {
         (failure) => emit(AddOfferFailure(failure.message)),
         // right
         (add) {
-      if (add.serverMessage == "") {
-        emit(AddOfferFailure('أسم العرض مطلوب'));
+      if (add.serverMessage == "The addOfferHeadDto field is required.") {
+        emit(AddOfferFailure('احد الحقول المطلوبة فارغة'));
         // } else if (add.serverMessage == "Store ID not found in token") {
         //   emit(AddOfferFailure("Store ID not found in token..."));
       } else {

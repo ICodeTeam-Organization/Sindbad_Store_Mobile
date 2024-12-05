@@ -42,14 +42,42 @@ class _CardOfferProductDetailsDiscountWidgetState
                     widget.productImage,
                     width: 45.w,
                     height: 45.w,
+                    loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child;
+                      }
+                      return Image.asset(
+                        'assets/default_image.png',
+                        width: 45.w,
+                        height: 45.w,
+                      );
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.asset(
+                          width: 45.w,
+                          height: 45.w,
+                          'assets/default_image.png'); // Local fallback
+                    },
                   ),
                   SizedBox(
                     width: 10,
                   ),
-                  Text(
-                    widget.productName,
-                    style: KTextStyle.textStyle14.copyWith(
-                      color: AppColors.blackLight,
+                  SizedBox(
+                    width: 150.w,
+                    child: Table(
+                      children: [
+                        TableRow(
+                          children: [
+                            Text(
+                              widget.productName,
+                              style: KTextStyle.textStyle14.copyWith(
+                                color: AppColors.blackLight,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ]),
