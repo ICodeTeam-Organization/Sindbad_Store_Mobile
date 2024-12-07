@@ -98,7 +98,7 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                                   offerHeadId = state.offer[i].offerId;
                                   showDialog(
                                     context: context,
-                                    builder: (BuildContext context) {
+                                    builder: (BuildContext contextDialog) {
                                       return BlocConsumer<DeleteOfferCubit,
                                           DeleteOfferState>(
                                         listener: (context, state) {
@@ -130,9 +130,10 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                                                   .deleteOffer(offerHeadId);
                                               print(
                                                   'Item deleted $offerHeadId');
-                                              context
+                                              await context
                                                   .read<OfferCubit>()
                                                   .getOffer(10, 1);
+                                              setState(() {});
                                             },
                                           );
                                         },
@@ -143,8 +144,9 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                                 onChangeStatusTap: () {
                                   offerHeadId = state.offer[i].offerId;
                                   showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
+                                    context:
+                                        context, // Ensure this context has access to the provider
+                                    builder: (BuildContext dialogContext) {
                                       return BlocConsumer<
                                           ChangeStatusOfferCubit,
                                           ChangeStatusOfferState>(
@@ -152,20 +154,23 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                                           if (state
                                               is ChangeStatusOfferFailure) {
                                             ScaffoldMessenger.of(context)
-                                                .showSnackBar(SnackBar(
-                                                    content: Text(
-                                              state.errorMessage.toString(),
-                                            )));
-                                            Navigator.pop(context);
+                                                .showSnackBar(
+                                              SnackBar(
+                                                  content:
+                                                      Text(state.errorMessage)),
+                                            );
+                                            Navigator.pop(
+                                                dialogContext); // Close the dialog
                                           } else if (state
                                               is ChangeStatusOfferSuccess) {
                                             ScaffoldMessenger.of(context)
-                                                .showSnackBar(SnackBar(
-                                                    content: Text(
-                                              state.changeStatusOffer
-                                                  .toString(),
-                                            )));
-                                            Navigator.pop(context);
+                                                .showSnackBar(
+                                              SnackBar(
+                                                  content: Text(
+                                                      state.changeStatusOffer)),
+                                            );
+                                            Navigator.pop(
+                                                dialogContext); // Close the dialog
                                           }
                                         },
                                         builder: (context, state) {
@@ -186,6 +191,9 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                                                       offerHeadId);
                                               print(
                                                   'Item Actived $offerHeadId');
+                                              await context
+                                                  .read<OfferCubit>()
+                                                  .getOffer(10, 1);
                                             },
                                           );
                                         },

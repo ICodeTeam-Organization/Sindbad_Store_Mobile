@@ -6,11 +6,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sindbad_management_app/core/utils/route.dart';
 import 'package:sindbad_management_app/features/auth_features/data/repos_impl/sign_in_repo_impl.dart';
 import 'package:sindbad_management_app/features/auth_features/domain/usecases/sign_in_usecase.dart';
-import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/data/repos/new_offer_repo_impl.dart';
-import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/domain/usecases/add_offer_use_case.dart';
-import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/domain/usecases/get_offer_products_use_case.dart';
-import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/manager/add_offer_cubit/add_offer_cubit.dart';
-import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/manager/offer_products_cubit/offer_products_cubit.dart';
+import 'package:sindbad_management_app/features/offer_management_features/newdate_offer_feature/data/repos/new_offer_repo_impl.dart';
+import 'package:sindbad_management_app/features/offer_management_features/newdate_offer_feature/domain/usecases/add_offer_use_case.dart';
+import 'package:sindbad_management_app/features/offer_management_features/newdate_offer_feature/domain/usecases/get_offer_products_use_case.dart';
+import 'package:sindbad_management_app/features/offer_management_features/newdate_offer_feature/ui/manager/add_offer_cubit/add_offer_cubit.dart';
+import 'package:sindbad_management_app/features/offer_management_features/newdate_offer_feature/ui/manager/offer_products_cubit/offer_products_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/repos/View_offer_repo_impl.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/usecases/change_status_offer_use_case.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/usecases/delete_offer_use_case.dart';
@@ -50,6 +50,11 @@ class SindbadManagementApp extends StatelessWidget {
             create: (context) => OfferProductsCubit(GetOfferProductsUseCase(
                   getit<NewOfferRepoImpl>(),
                 ))),
+        BlocProvider(
+          create: (context) => OfferCubit(GetOfferUseCase(
+            getit<ViewOfferRepoImpl>(),
+          )),
+        ),
         BlocProvider(
           create: (context) => DeleteOfferCubit(DeleteOfferUseCase(
             getit<ViewOfferRepoImpl>(),
