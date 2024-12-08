@@ -130,6 +130,7 @@ class _PreparingInfoOrderState extends State<PreparingInfoOrder> {
       builder: (context, state) {
         if (state is AllOrderSuccess) {
           return ListView.builder(
+            physics: BouncingScrollPhysics(),
             itemCount: state.orders.length,
             itemBuilder: (BuildContext context, int i) {
               // final status = myStatuses[i];
