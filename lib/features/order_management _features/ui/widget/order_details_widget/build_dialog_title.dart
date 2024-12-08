@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
+import '../order_shipping_widgets/build_info_row_add.dart';
+import '../order_shipping_widgets/build_shipping_dialog_content.dart';
 import 'build_dialog_content.dart';
 
 class BuildDialogTitle extends StatelessWidget {
@@ -32,6 +34,10 @@ class BuildDialogTitle extends StatelessWidget {
               dateConroller.clear();
               numberConroller.clear();
               mountConroller.clear();
+              numberShippingConroller.clear();
+              mountShippingConroller.clear();
+              anotherCompanyConroller.clear();
+              parcels = 1;
             },
             icon: SvgPicture.asset(
               "assets/cancle.svg",
