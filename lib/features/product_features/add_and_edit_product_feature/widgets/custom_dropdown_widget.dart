@@ -8,21 +8,21 @@ class CustomDropdownWidget extends StatelessWidget {
   final List<String> items;
   final String hintText;
   final String textTitle;
-  final String? initialItem; // Add initial item
+  final String? initialItem;
 
   const CustomDropdownWidget({
     super.key,
     required this.textTitle,
     required this.items,
     required this.hintText,
-    this.initialItem, // Add initial item
+    this.initialItem,
   });
 
   @override
   Widget build(BuildContext context) {
-    // Ensure initialItem is in the items list
-    final String initialDropdownItem =
-        items.contains(initialItem) ? initialItem! : items[1];
+    final String? initialDropdownItem = (items.isNotEmpty && items.contains(initialItem))
+        ? initialItem
+        : null;
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
@@ -38,8 +38,7 @@ class CustomDropdownWidget extends StatelessWidget {
                 ),
                 TextSpan(
                   text: textTitle,
-                  style: KTextStyle.textStyle16
-                      .copyWith(color: AppColors.greyDark),
+                  style: KTextStyle.textStyle16.copyWith(color: AppColors.greyDark),
                 ),
               ],
             ),
@@ -52,8 +51,7 @@ class CustomDropdownWidget extends StatelessWidget {
               child: CustomDropdown(
                 hintText: hintText,
                 items: items,
-                // initialItem: initialItem ?? items[0], // Set initial item
-                initialItem: initialDropdownItem, // Set initial item
+                initialItem: initialDropdownItem,
                 decoration: CustomDropdownDecoration(
                   closedBorder: Border.all(color: AppColors.grey),
                   expandedBorder: Border.all(color: AppColors.grey),
