@@ -76,8 +76,38 @@ abstract class AppRouter {
         path: AppRouter.storeRouters.kStoreEditProduct,
         builder: (context, state) {
           final int productId = state.extra as int;
+          ////
+          // final String productName = state.extra as String;
+          // final String price = state.extra as String;
+          // final String productNumber = state.extra as String;
+          // final String description = state.extra as String;
+          // final List<String> mainCategoryList = state.extra as List<String>;
+          // final String selectedCategory = state.extra as String;
+          // final List<String> subCategoryList = state.extra as List<String>;
+          // final String selectedSubCategory = state.extra as String;
+          // final List<String> brandList = state.extra as List<String>;
+          // final String selectedBrand = state.extra as String;
+          // final String mainImage = state.extra as String;
+          // final List<String> subImages = state.extra as List<String>;
+          // final Map<String, dynamic> properties = state.extra as Map<String, dynamic>;
+          ////
           return EditProductScreen(
             productId: productId,
+            //////////
+            // productName: productName,
+            // price: price,
+            // productNumber: productNumber,
+            // description: description,
+            // mainCategoryList: mainCategoryList,
+            // selectedCategory: selectedCategory,
+            // subCategoryList: subCategoryList,
+            // selectedSubCategory: selectedSubCategory,
+            // brandList: brandList,
+            // selectedBrand: selectedBrand,
+            // mainImage: mainImage,
+            // subImages: subImages,
+            // properties: properties,
+            ////////
           );
         },
       ),
