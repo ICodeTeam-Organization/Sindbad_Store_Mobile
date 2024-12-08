@@ -1,13 +1,10 @@
 import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/order_shipping_entity.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/usecases/order_shipping_usecase.dart';
-
 import '../../../../../core/errors/failure.dart';
-
 part 'shipping_state.dart';
 
 class ShippingCubit extends Cubit<ShippingState> {
