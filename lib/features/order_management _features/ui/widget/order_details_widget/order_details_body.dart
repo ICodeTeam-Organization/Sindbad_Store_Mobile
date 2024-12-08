@@ -11,23 +11,7 @@ import 'top_order_details.dart';
 class OrderDetailsBody extends StatefulWidget {
   const OrderDetailsBody({
     super.key,
-    // required this.idOrder,
-    // required this.numberOrder,
-    // required this.numberBill,
-    // required this.clock,
-    // required this.date,
-    // required this.numberItem,
-    // required this.infoPayment,
-    // required this.statusOrder,
   });
-  // final int idOrder;
-  // final String numberOrder;
-  // final String numberBill;
-  // final String clock;
-  // final String date;
-  // final String numberItem;
-  // final String infoPayment;
-  // final String statusOrder;
 
   @override
   State<OrderDetailsBody> createState() => _OrderDetailsBodyState();
@@ -36,20 +20,6 @@ class OrderDetailsBody extends StatefulWidget {
 List<int>? orderDetailsID;
 
 class _OrderDetailsBodyState extends State<OrderDetailsBody> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   context.read<OrderDetailsCubit>().fetchOrderDetails(
-  //       widget.idOrder,
-  //       widget.numberOrder,
-  //       widget.numberBill,
-  //       widget.clock,
-  //       widget.date,
-  //       widget.numberItem,
-  //       widget.infoPayment,
-  //       widget.statusOrder);
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -57,6 +27,7 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
           builder: (context, state) {
         if (state is OrderDetailsSuccess) {
           return ListView.builder(
+            physics: BouncingScrollPhysics(),
             itemCount: state.orderDetails.length,
             itemBuilder: (context, i) {
               return Container(
@@ -77,10 +48,30 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                       imageUrl: state.orderDetails[i].imageUrl,
                       productName: state.orderDetails[i].nameProduct,
                       productType: state.orderDetails[i].nameCategory,
-                      productNameCat1: state.orderDetails[i].nameAttribute1,
-                      productTypeCat1: state.orderDetails[i].valueAttribute1,
-                      productNameCat2: state.orderDetails[i].nameAttribute2,
-                      productTypeCat2: state.orderDetails[i].valueAttribute2,
+                      productNameCat1:
+                          state.orderDetails[i]!.productAttri.length > i
+                              ? state.orderDetails[i]!.productAttri![i]
+                                      .attributeName ??
+                                  ""
+                              : "",
+                      productTypeCat1:
+                          state.orderDetails[i]!.productAttri.length > i
+                              ? state.orderDetails[i]!.productAttri![i]
+                                      .attributeValue ??
+                                  ""
+                              : "",
+                      productNameCat2:
+                          state.orderDetails[i]!.productAttri.length > i
+                              ? state.orderDetails[i]!.productAttri![i + 1]
+                                      .attributeName ??
+                                  ""
+                              : "",
+                      productTypeCat2:
+                          state.orderDetails[i]!.productAttri.length > i
+                              ? state.orderDetails[i]!.productAttri![i + 1]
+                                      .attributeValue ??
+                                  ""
+                              : "",
                     ),
                     //dispaly amount , price and total
                     MidOrderDetails(

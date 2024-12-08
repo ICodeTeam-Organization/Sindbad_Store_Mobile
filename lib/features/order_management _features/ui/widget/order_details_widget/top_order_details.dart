@@ -75,7 +75,7 @@ class TopOrderDetails extends StatelessWidget {
           Row(
             children: [
               Text(
-                '$productNameCat1 :',
+                '$productNameCat1  ',
                 style: KTextStyle.textStyle14
                     .copyWith(fontWeight: FontWeight.w500),
               ),
@@ -85,10 +85,10 @@ class TopOrderDetails extends StatelessWidget {
                     .copyWith(fontWeight: FontWeight.w500),
               ),
               Spacer(),
-              Text('|'),
+              if (productNameCat2 != '' || productTypeCat2 != '') Text('|'),
               Spacer(),
               Text(
-                '$productNameCat2 :',
+                '$productNameCat2  ',
                 style: KTextStyle.textStyle14
                     .copyWith(fontWeight: FontWeight.w500),
               ),

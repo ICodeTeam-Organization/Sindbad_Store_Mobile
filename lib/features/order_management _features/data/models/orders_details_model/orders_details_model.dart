@@ -1,3 +1,5 @@
+import 'package:sindbad_management_app/features/order_management%20_features/data/models/orders_details_model/product_attribute.dart';
+
 import '../../../domain/entities/order_detalis_entity.dart';
 
 class OrdersDetailsModel extends OrderDetailsEntity {
@@ -5,7 +7,7 @@ class OrdersDetailsModel extends OrderDetailsEntity {
   int? productId;
   String? productName;
   String? categoryName;
-  // List<ProductAttribute>? productAttributes;
+  List<ProductAttribute>? productAttributes;
   double? productPrice;
   int? productQuantity;
   double? totalPrice;
@@ -17,7 +19,7 @@ class OrdersDetailsModel extends OrderDetailsEntity {
     this.productId,
     this.productName,
     this.categoryName,
-    // this.productAttributes,
+    this.productAttributes,
     this.productPrice,
     this.productQuantity,
     this.totalPrice,
@@ -27,14 +29,7 @@ class OrdersDetailsModel extends OrderDetailsEntity {
             idProduct: id!,
             nameProduct: productName ?? '',
             nameCategory: categoryName ?? '',
-            nameAttribute1: '',
-            //  productAttributes?[0].attributeName ?? '',
-            nameAttribute2: '',
-            //  productAttributes?[0].attributeName ?? '',
-            valueAttribute1: '',
-            //  productAttributes?[0].attributeValue ?? '',
-            valueAttribute2: '',
-            //  productAttributes?[0].attributeValue ?? '',
+            productAttri: productAttributes ?? [],
             priceProduct: productPrice ?? 0,
             quantityProduct: productQuantity ?? 0,
             total: totalPrice ?? 0,
@@ -47,9 +42,9 @@ class OrdersDetailsModel extends OrderDetailsEntity {
       productId: json['productId'] as int?,
       productName: json['productName'] as String?,
       categoryName: json['categoryName'] as String?,
-      // productAttributes: (json['productAttributes'] as List<dynamic>?)
-      //     ?.map((e) => ProductAttribute.fromJson(e as Map<String, dynamic>))
-      //     .toList(),
+      productAttributes: (json['productAttributes'] as List<dynamic>?)
+          ?.map((e) => ProductAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
       productPrice: json['productPrice'] as double?,
       productQuantity: json['productQuantity'] as int?,
       totalPrice: json['totalPrice'] as double?,
@@ -63,7 +58,7 @@ class OrdersDetailsModel extends OrderDetailsEntity {
         'productId': productId,
         'productName': productName,
         'categoryName': categoryName,
-        // 'productAttributes': productAttributes?.map((e) => e.toJson()).toList(),
+        'productAttributes': productAttributes?.map((e) => e.toJson()).toList(),
         'productPrice': productPrice,
         'productQuantity': productQuantity,
         'totalPrice': totalPrice,

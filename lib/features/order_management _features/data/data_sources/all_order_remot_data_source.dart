@@ -93,7 +93,8 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
     return entities;
   }
 
-  // get MyOrder List function
+  /////////////////////
+  // عرض جميع الطلبات
   List<AllOrderEntity> getAllOrderList(Map<String, dynamic> data) {
     return getListItemsFromData(data, (item) => AllOrdersModel.fromJson(item));
   }
@@ -134,7 +135,6 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
 
   //////////////////////////////////////////////////////////////
   ///ارسال الفاتورة
-  List<int> nums = [5];
   @override
   Future<OrderInvoiceEntity> fetchOrderInvoice(
     int orderId,
@@ -145,17 +145,6 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
     int invoiceType,
   ) async {
     String? token = await getToken();
-    // FormData formData = FormData();
-    // formData = FormData.fromMap(
-    //   {
-    //     'InvoiceAmount': 5.5,
-    //     'InvoiceNumber': '5',
-    //     'Date': DateTime.now().toString(),
-    //     'orderDetailsId': nums.map((e) => e.toString()).toList(),
-    //     'InvoiceType': 1,
-    //   },
-    // );
-
     var data = await apiService.postRequestWithFileAndImage(
         endPoint:
             'OrderDetailsInvoices/CreateOrderDetailsInvoice?orderId=$orderId&InvoiceNumber=$invoiceNumber&InvoiceAmount=$invoiceAmount&Date=$invoiceDate&InvoiceType=$invoiceType',
@@ -178,7 +167,7 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
   }
 
   //////////////////////////////////////////////
-  //Order Details List function
+  //عرض تفاصيل الطلب
   List<OrderDetailsEntity> fetchOrderDetailsList(Map<String, dynamic> data) {
     return getListItemsFromData(
         data, (item) => OrdersDetailsModel.fromJson(item));
@@ -196,7 +185,6 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
       String orderStatus) async {
     String? token = await getToken();
     var data = await apiService.post(
-      // data: {"orderId": orderId},
       data: {},
       endPoint: 'OrderDetails/Store/GetStoreOrderDetails/$orderId',
       headers: {
@@ -207,6 +195,8 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
     return orderDetails;
   }
 
+  /////////////////////
+  //شحن الطلب
   @override
   Future<OrderShippingEntity> fetchOrderShipping(
       int orderId,

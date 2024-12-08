@@ -1,11 +1,10 @@
+import 'package:sindbad_management_app/features/order_management%20_features/data/models/orders_details_model/product_attribute.dart';
+
 class OrderDetailsEntity {
   final int idProduct;
   final String nameProduct;
+  final List<ProductAttribute> productAttri;
   final String nameCategory;
-  final String nameAttribute1;
-  final String nameAttribute2;
-  final String valueAttribute1;
-  final String valueAttribute2;
   final double priceProduct;
   final int quantityProduct;
   final double total;
@@ -15,11 +14,8 @@ class OrderDetailsEntity {
   OrderDetailsEntity(
       {required this.idProduct,
       required this.nameProduct,
+      required this.productAttri,
       required this.nameCategory,
-      required this.nameAttribute1,
-      required this.nameAttribute2,
-      required this.valueAttribute1,
-      required this.valueAttribute2,
       required this.priceProduct,
       required this.quantityProduct,
       required this.total,

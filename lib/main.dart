@@ -37,6 +37,7 @@ import 'core/simple_bloc_observer.dart';
 import 'features/auth_features/ui/manager/cubit/sign_in_cubit.dart';
 import 'features/order_management _features/domain/usecases/order_details_usecase.dart';
 import 'features/order_management _features/domain/usecases/order_shipping_usecase.dart';
+import 'features/order_management _features/ui/manager/button_disable/button_disable_cubit.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -88,6 +89,7 @@ class SindbadManagementApp extends StatelessWidget {
                   getit.get<AllOrderRepoImpl>(),
                 ))),
         BlocProvider(create: (context) => RefreshPageCubit()),
+        BlocProvider(create: (context) => ButtonDisableCubit()),
         BlocProvider(
             create: (context) => OrderInvoiceCubit(OrderInvoiceUsecase(
                   allOrderRepo: getit.get<AllOrderRepoImpl>(),

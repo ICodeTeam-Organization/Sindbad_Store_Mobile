@@ -19,7 +19,7 @@ class AllOrderUsecase
         delevred: params.delevred,
         noInvoice: params.noInvoice,
         unpaied: params.unpaied,
-        paied: params.unpaied,
+        paied: params.paied,
         pageNumber: params.pageNumber,
         pageSize: params.pageSize,
         srearchKeyword: params.srearchKeyword);
