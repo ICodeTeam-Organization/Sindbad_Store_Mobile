@@ -24,7 +24,13 @@ class ImageCardCustom extends StatelessWidget {
           height: double.infinity,
           width: double.infinity,
           child: FadeInImage.assetNetwork(
-              placeholder: "assets/image_loading.png", image: imageUrlnetwork)
+              placeholder: "assets/image_loading.png", 
+              image: imageUrlnetwork,
+              // in case the Image URL is Wrong 
+              imageErrorBuilder: (context, error, stackTrace) {
+               return Image.asset("assets/image_loading.png");
+              },
+              )
           // Image.network(
           //   imageUrlnetwork,
           //   // width: 70.w,
