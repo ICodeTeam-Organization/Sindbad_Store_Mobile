@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/domain/entities/offer_products_entity.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/manager/offer_products_cubit/offer_products_cubit.dart';
+import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/manager/offer_products_cubit/offer_products_state.dart';
 
 class CustomSelectItemDialog extends StatefulWidget {
-  final List<Item> items;
-  final List<Item> selectedItems; // Receive pre-selected items
-  final Function(List<Item>) onConfirm;
+  final List<OfferProductsEntity> selectedItems; // Receive pre-selected items
+  final Function(List<OfferProductsEntity>) onConfirm;
 
   CustomSelectItemDialog({
-    required this.items,
     required this.selectedItems, // Initialize with pre-selected items
     required this.onConfirm,
   });
@@ -19,19 +21,86 @@ class CustomSelectItemDialog extends StatefulWidget {
 }
 
 class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
-  late List<Item> selectedItems; // Local list to track selection
-  late List<Item> filteredItems; // List for filtered items based on search
+  late List<OfferProductsEntity> selectedItems; // List of selected items
+  late TextEditingController searchController; // Controller for search field
+  bool isSetState = true;
 
   @override
   void initState() {
     super.initState();
-    selectedItems = List.from(widget.selectedItems); // Copy pre-selected items
-    filteredItems = widget.items; // Initialize filtered list
+
+    // Initialize selected items from passed widget data
+    selectedItems = List.from(widget.selectedItems);
+
+    // Fetch products only if state is being initialized for the first time
+    if (isSetState) {
+      context.read<OfferProductsCubit>().getOfferProducts(20, 7);
+      isSetState = false;
+    }
+
+    // Initialize search controller
+    searchController = TextEditingController();
+    searchController.addListener(() {
+      filterItems(); // Update UI on search query change
+    });
   }
+
+  void filterItems() {
+    // This method can filter the displayed list in your builder if needed.
+    // As the filtering logic is already applied in the builder, this may remain empty.
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    // Dispose the search controller to free resources
+    searchController.dispose();
+    super.dispose();
+  }
+
+  // late List<OfferProductsEntity> selectedItems = [];
+  // late TextEditingController
+  //     searchController; // Controller for search text field
+  // List<OfferProductsEntity> filteredItems = []; // List to hold filtered items
+  // bool isSetState = true;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   if (isSetState == true) {
+  //     context.read<OfferProductsCubit>().getOfferProducts(10, 1);
+  //     isSetState = false;
+  //   } else {
+  //     selectedItems =
+  //         List.from(widget.selectedItems); // Copy pre-selected items
+  //     isSetState = false;
+  //   }
+  //   searchController = TextEditingController(); // Initialize search controller
+  //   searchController.addListener(() {
+  //     filterItems();
+  //   });
+  //   print("Items passed to the selectedItems: ${widget.selectedItems}");
+  //   print("Items passed to the selectedItems: ${isSetState}");
+  // }
+
+  // void filterItems() {
+  //   setState(() {});
+  // }
+
+  // @override
+  // void dispose() {
+  //   searchController.dispose(); // Dispose of the controller when done
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(25), // Rounded top corners
+        ),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -73,6 +142,7 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                 children: [
                   // Search Bar
                   TextField(
+                    controller: searchController,
                     decoration: InputDecoration(
                       hintText: 'بحث عن رقم المنتج او اسمه',
                       hintStyle: KTextStyle.textStyle14.copyWith(
@@ -94,65 +164,110 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                         borderRadius: BorderRadius.circular(10.r),
                       ),
                     ),
-                    onChanged: (query) {
-                      setState(() {
-                        filteredItems = widget.items
-                            .where((item) => item.title
-                                .toLowerCase()
-                                .contains(query.toLowerCase()))
-                            .toList();
-                      });
-                    },
                   ),
                   SizedBox(
                     height: 10.h,
                   ),
                   // Item List
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: filteredItems.length,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            CheckboxListTile(
-                              contentPadding: EdgeInsets.zero,
-                              controlAffinity: ListTileControlAffinity.leading,
-                              activeColor: AppColors.primary,
-                              side: BorderSide(color: AppColors.primary),
-                              value:
-                                  selectedItems.contains(filteredItems[index]),
-                              onChanged: (bool? value) {
-                                setState(() {
-                                  if (value == true) {
-                                    selectedItems.add(filteredItems[index]);
-                                  } else {
-                                    selectedItems.remove(filteredItems[index]);
-                                  }
-                                });
-                              },
-                              title: Row(
+                  BlocBuilder<OfferProductsCubit, OfferProductsState>(
+                    builder: (context, state) {
+                      if (state is OfferProductsSuccess) {
+                        // Apply search filter on the complete list of products
+                        final allProducts = state.offerProducts;
+                        final mergedList = [
+                          ...selectedItems, // Include selected items first
+                          ...allProducts.where((item) => !selectedItems.any(
+                              (selectedItem) =>
+                                  selectedItem.productId ==
+                                  item.productId)), // Include non-selected items
+                        ];
+
+                        final query = searchController.text.toLowerCase();
+                        final itemsToShow = mergedList.where((item) {
+                          return item.productTitle
+                                  .toLowerCase()
+                                  .contains(query) ||
+                              item.productId
+                                  .toString()
+                                  .contains(query); // Search by title or ID
+                        }).toList();
+
+                        return Expanded(
+                          child: ListView.builder(
+                            itemCount: itemsToShow.length,
+                            itemBuilder: (context, i) {
+                              final product = itemsToShow[i];
+                              return Column(
                                 children: [
-                                  Image.asset(
-                                    filteredItems[index].imageUrl,
-                                    width: 60.w,
-                                    height: 60.h,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  SizedBox(width: 15.w),
-                                  Text(
-                                    filteredItems[index].title,
-                                    style: KTextStyle.textStyle16.copyWith(
-                                      color: AppColors.blackDark,
+                                  CheckboxListTile(
+                                    contentPadding: EdgeInsets.zero,
+                                    controlAffinity:
+                                        ListTileControlAffinity.leading,
+                                    activeColor: AppColors.primary,
+                                    side: BorderSide(color: AppColors.primary),
+                                    value: selectedItems.contains(product),
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        if (value == true) {
+                                          selectedItems.add(product);
+                                          print(
+                                              state.offerProducts[i].productId);
+                                        } else {
+                                          selectedItems.remove(product);
+                                          print(
+                                              state.offerProducts[i].productId);
+                                        }
+                                      });
+                                    },
+                                    title: Row(
+                                      children: [
+                                        Image.network(
+                                          product.productImage,
+                                          width: 60.w,
+                                          height: 60.h,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        SizedBox(width: 15.w),
+                                        SizedBox(
+                                          width: 170.w,
+                                          child: Table(
+                                            children: [
+                                              TableRow(children: [
+                                                Text(
+                                                  product.productTitle,
+                                                  style: KTextStyle.textStyle16
+                                                      .copyWith(
+                                                    color: AppColors.blackDark,
+                                                  ),
+                                                ),
+                                              ])
+                                            ],
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ),
+                                  Divider(),
                                 ],
-                              ),
-                            ),
-                            Divider(),
-                          ],
+                              );
+                            },
+                          ),
                         );
-                      },
-                    ),
+                      } else if (state is OfferProductsFailuer) {
+                        return Center(child: Text(state.errMessage));
+                      } else if (state is OfferProductsLoading) {
+                        return Center(child: CircularProgressIndicator());
+                      } else {
+                        return Center(
+                          child: Container(
+                            color: Colors.red.shade400,
+                            height: 50,
+                            width: 300,
+                            child: Text('لم يتم الوصول الى المعلومات'),
+                          ),
+                        );
+                      }
+                    },
                   ),
                   SizedBox(
                     height: 20.h,
@@ -213,11 +328,4 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
       ),
     );
   }
-}
-
-class Item {
-  final String title;
-  final String imageUrl;
-
-  Item({required this.title, required this.imageUrl});
 }

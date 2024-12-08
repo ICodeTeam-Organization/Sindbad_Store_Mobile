@@ -7,13 +7,20 @@ import 'package:sindbad_management_app/core/styles/text_style.dart';
 class CustomDeleteDialogWidget extends StatelessWidget {
   final String title;
   final String subtitle;
+  final String? confirmText;
+  final String? cancelText;
   final VoidCallback onConfirm;
-
+  final bool? isDelete;
+  final String? iconPath;
   const CustomDeleteDialogWidget({
     super.key,
     required this.title,
     required this.subtitle,
     required this.onConfirm,
+    this.iconPath,
+    this.isDelete = true,
+    this.confirmText,
+    this.cancelText,
   });
 
   @override
@@ -41,15 +48,25 @@ class CustomDeleteDialogWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   // Icon delete_dialog
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundColor: AppColors.redOpacity,
-                    child: SvgPicture.asset(
-                      "assets/delete.svg",
-                      width: 25.w,
-                      height: 25.h,
-                    ),
-                  ),
+                  isDelete == true
+                      ? CircleAvatar(
+                          radius: 25,
+                          backgroundColor: AppColors.redOpacity,
+                          child: SvgPicture.asset(
+                            "assets/delete.svg",
+                            width: 25.w,
+                            height: 25.h,
+                          ),
+                        )
+                      : CircleAvatar(
+                          radius: 25,
+                          backgroundColor: AppColors.greenOpacity,
+                          child: SvgPicture.asset(
+                            iconPath!,
+                            width: 25.w,
+                            height: 25.h,
+                          ),
+                        ),
                   const SizedBox(height: 16),
                   // Title
                   Text(
@@ -75,17 +92,30 @@ class CustomDeleteDialogWidget extends StatelessWidget {
                       // Confirm Button
                       InkWell(
                           onTap: onConfirm,
-                          child: Container(
-                              alignment: Alignment.center,
-                              height: 40.h,
-                              width: 130.w,
-                              decoration: BoxDecoration(
-                                  color: AppColors.redOpacity,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Text('نعم , متابعة الحذف',
-                                  style: KTextStyle.textStyle13.copyWith(
-                                    color: AppColors.redDark,
-                                  )))),
+                          child: isDelete == true
+                              ? Container(
+                                  alignment: Alignment.center,
+                                  height: 40.h,
+                                  width: 130.w,
+                                  decoration: BoxDecoration(
+                                      color: AppColors.redOpacity,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Text('نعم , متابعة الحذف',
+                                      style: KTextStyle.textStyle13.copyWith(
+                                        color: AppColors.redDark,
+                                      )))
+                              : Container(
+                                  alignment: Alignment.center,
+                                  height: 40.h,
+                                  width: 130.w,
+                                  decoration: BoxDecoration(
+                                      color: AppColors.greenOpacity,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Text(
+                                      confirmText ?? 'نعم , متابعة الحذف',
+                                      style: KTextStyle.textStyle13.copyWith(
+                                        color: Colors.green,
+                                      )))),
                       // Cancel Button
                       InkWell(
                           onTap: () => Navigator.of(context).pop(),
@@ -96,7 +126,7 @@ class CustomDeleteDialogWidget extends StatelessWidget {
                               decoration: BoxDecoration(
                                   color: AppColors.blueOpacity,
                                   borderRadius: BorderRadius.circular(10)),
-                              child: Text('لا , إلغاء العملية',
+                              child: Text(cancelText ?? 'لا , إلغاء العملية',
                                   style: KTextStyle.textStyle13.copyWith(
                                     color: AppColors.blueDark,
                                   )))),

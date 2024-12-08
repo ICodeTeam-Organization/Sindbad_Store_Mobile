@@ -76,8 +76,38 @@ abstract class AppRouter {
         path: AppRouter.storeRouters.kStoreEditProduct,
         builder: (context, state) {
           final int productId = state.extra as int;
+          ////
+          // final String productName = state.extra as String;
+          // final String price = state.extra as String;
+          // final String productNumber = state.extra as String;
+          // final String description = state.extra as String;
+          // final List<String> mainCategoryList = state.extra as List<String>;
+          // final String selectedCategory = state.extra as String;
+          // final List<String> subCategoryList = state.extra as List<String>;
+          // final String selectedSubCategory = state.extra as String;
+          // final List<String> brandList = state.extra as List<String>;
+          // final String selectedBrand = state.extra as String;
+          // final String mainImage = state.extra as String;
+          // final List<String> subImages = state.extra as List<String>;
+          // final Map<String, dynamic> properties = state.extra as Map<String, dynamic>;
+          ////
           return EditProductScreen(
             productId: productId,
+            //////////
+            // productName: productName,
+            // price: price,
+            // productNumber: productNumber,
+            // description: description,
+            // mainCategoryList: mainCategoryList,
+            // selectedCategory: selectedCategory,
+            // subCategoryList: subCategoryList,
+            // selectedSubCategory: selectedSubCategory,
+            // brandList: brandList,
+            // selectedBrand: selectedBrand,
+            // mainImage: mainImage,
+            // subImages: subImages,
+            // properties: properties,
+            ////////
           );
         },
       ),
@@ -87,9 +117,10 @@ abstract class AppRouter {
         builder: (context, state) {
           final List<dynamic> args = state.extra as List<dynamic>;
           final String offerName = args[0]; // The first parameter in the list
-          // final String offerType = args[1]; // The second parameter in the list
+          final int offerId = args[1]; // The second parameter in the list
           return ViewOfferProductDetailsDiscountScreen(
             offerName: offerName,
+            offerId: offerId,
           );
         },
       ),
@@ -98,9 +129,10 @@ abstract class AppRouter {
         builder: (context, state) {
           final List<dynamic> args = state.extra as List<dynamic>;
           final String offerName = args[0]; // The first parameter in the list
-          // final String offerType = args[1]; // The second parameter in the list
+          final int offerId = args[1]; // The second parameter in the list
           return ViewOfferProductDetailsBounsScreen(
             offerName: offerName,
+            offerId: offerId,
           );
         },
       ),
@@ -120,16 +152,16 @@ abstract class AppRouter {
           path: AppRouter.storeRouters.details,
           builder: (context, state) {
             final orderId = state.extra as int;
-            final orderNumber = state.extra as String;
-            final billNumber = state.extra as String;
-            final date = state.extra as String;
-            final colck = state.extra as String;
-            final itemNumber = state.extra as String;
-            final paymentInfo = state.extra as String;
-            final orderStatus = state.extra as String;
+            final orderNumber = state.extra;
+            final billNumber = state.extra;
+            final date = state.extra;
+            final colck = state.extra;
+            final itemNumber = state.extra;
+            final paymentInfo = state.extra;
+            final orderStatus = state.extra;
             return OrderDetails(
               orderId: orderId,
-              orderNumber: orderNumber,
+              orderNumber: orderNumber.toString(),
               billNumber: billNumber.toString(),
               clock: colck.toString(),
               date: date.toString(),

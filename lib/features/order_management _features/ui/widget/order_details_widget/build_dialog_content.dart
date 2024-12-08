@@ -40,10 +40,16 @@ class BuildDialogContent extends StatelessWidget {
               isDate: true,
               controller: dateConroller,
             ),
+            SizedBox(
+              height: 15.h,
+            ),
             BuildInfoRow(
               title: secondTitle,
               isDate: false,
               controller: numberConroller,
+            ),
+            SizedBox(
+              height: 15.h,
             ),
             BuildInfoRow(
               title: thierdTitle,
@@ -52,6 +58,9 @@ class BuildDialogContent extends StatelessWidget {
             ),
             /////////////////////////////////
             ///show radio
+            SizedBox(
+              height: 15.h,
+            ),
             RadioWidget(),
             BuildImageSection(),
             SizedBox(

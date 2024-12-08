@@ -31,8 +31,8 @@ class AppColors {
   static const redOpacity = Color(0x26FF0000); //
   static const blueDark = Color(0xFF00498B); //
   static const blueOpacity = Color(0x2600498B); //
-  static const greenDark = Color(0xff00EC9C);
-  static const greenOpacity = Color(0x1A00EC9C); //
+  static const greenDark = Color(0xff2E9E2C);
+  static const greenOpacity = Color(0x262E9E2C); //
   static const greyDark = Color(0xFF686767); //
   static const greyLight = Color(0xff979797); //
   static const greyBorder = Color(0xFFDDDDDD); //

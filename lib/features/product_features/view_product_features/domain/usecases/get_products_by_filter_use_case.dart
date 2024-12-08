@@ -16,6 +16,10 @@ class GetProductsByFilterUseCase
       storeProductsFilter: params.storeProductsFilter,
       pageNumper: params.pageNumper,
       pageSize: params.pageSize,
+      //
+      hasOffer: params.hasOffer,
+      isDeleted: params.hasOffer
+      //
     );
   }
 }
@@ -24,10 +28,18 @@ class ProductsByFilterParams {
   final int storeProductsFilter;
   final int pageNumper;
   final int pageSize;
+  //
+  final bool hasOffer;
+  final bool isDeleted;
+  //
 
   ProductsByFilterParams(
     this.storeProductsFilter,
     this.pageNumper,
     this.pageSize,
+    //
+    this.hasOffer,
+    this.isDeleted
+    //
   );
 }

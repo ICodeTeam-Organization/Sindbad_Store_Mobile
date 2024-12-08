@@ -7,17 +7,17 @@ import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
 
 class DefaultValueBounsWidget extends StatelessWidget {
-  final int buysCount;
-  final int freesCount;
-  final ValueChanged<int> onBuysCountChanged;
-  final ValueChanged<int> onFreesCountChanged;
+  final int numberToBuy;
+  final int numberToGet;
+  final ValueChanged<int> onNumberToBuyChanged;
+  final ValueChanged<int> onNumberToGetChanged;
 
   const DefaultValueBounsWidget({
     Key? key,
-    required this.buysCount,
-    required this.freesCount,
-    required this.onBuysCountChanged,
-    required this.onFreesCountChanged,
+    required this.numberToBuy,
+    required this.numberToGet,
+    required this.onNumberToBuyChanged,
+    required this.onNumberToGetChanged,
   }) : super(key: key);
 
   @override
@@ -35,8 +35,8 @@ class DefaultValueBounsWidget extends StatelessWidget {
               ),
             ),
             CounterQuantityWidget(
-              number: buysCount,
-              onChanged: onBuysCountChanged, // Notify parent
+              number: numberToBuy,
+              onChanged: onNumberToBuyChanged, // Notify parent
             ),
           ],
         ),
@@ -51,8 +51,8 @@ class DefaultValueBounsWidget extends StatelessWidget {
               ),
             ),
             CounterQuantityWidget(
-              number: freesCount,
-              onChanged: onFreesCountChanged, // Notify parent
+              number: numberToGet,
+              onChanged: onNumberToGetChanged, // Notify parent
             ),
           ],
         ),

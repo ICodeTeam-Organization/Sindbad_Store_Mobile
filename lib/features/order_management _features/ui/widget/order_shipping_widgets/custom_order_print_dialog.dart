@@ -19,14 +19,12 @@ class CustomOrderPrintDialog extends StatelessWidget {
     required this.headTitle,
     required this.onPressedPrint,
     required this.onPressedShare,
-    required this.parcels,
     required this.billNumber,
     required this.storeNumber,
   });
   final String headTitle;
   final GestureTapCallback onPressedPrint;
   final GestureTapCallback onPressedShare;
-  final int parcels;
   final int billNumber;
   final int storeNumber;
 
@@ -38,27 +36,48 @@ class CustomOrderPrintDialog extends StatelessWidget {
       ),
       titlePadding: EdgeInsets.zero,
       content: BuildDialogContent(
-        onPressedPrint: () async {
-          final pdfFile = await Pdf.generateCenteredText(
-              '$billNumber - $storeNumber', parcels);
-          print('printoooo $parcels');
-        },
-        onPressedShare: () async {
-          // الحصول على المسار المؤقت
-          final directory = await getTemporaryDirectory();
-          final path = '${directory.path}/sample.pdf';
-          final file = File(path);
+          // onPressedPrint: () async {
+          //   final pdfFile = await Pdf.generateCenteredText(
+          //       '$billNumber - $storeNumber', parcels);
+          // },
+          // onPressedShare: () async {
+          //   // الحصول على المسار المؤقت
+          //   final directory = await getTemporaryDirectory();
+          //   final path = '${directory.path}/sample.pdf';
+          //   final file = File(path);
 
-          // كتابة المحتوى إلى الملف
-          await file.writeAsString(share!);
+          //   // كتابة المحتوى إلى الملف
+          //   await file.writeAsString(share!);
 
-          // مشاركة الملف باستخدام share_plus
-          Share.shareXFiles([XFile(path)], text: 'Great picture');
+          //   // مشاركة الملف باستخدام share_plus
+          //   Share.shareXFiles([XFile(path)], text: 'Great picture');
 
-          // Share.shareFiles([share], text: 'إليك هذا الملف!');
-        },
-        parcels: parcels,
-      ),
+          //   // Share.shareFiles([share], text: 'إليك هذا الملف!');
+          // },
+          onPressedPrint: () async {
+        final pdfFile = await Pdf.generateCenteredText(
+            '$billNumber - $storeNumber', parcels);
+      }, onPressedShare: () async {
+        // الحصول على المسار المؤقت
+        final directory = await getTemporaryDirectory();
+        final path = '${directory.path}/sample.pdf';
+        final file = File(path);
+
+        // كتابة المحتوى إلى الملف والتحقق من متغير share
+        if (share == null) {
+          print('Share content is null');
+          return;
+        }
+
+        await file.writeAsString(share!);
+        print('File written to $path');
+
+        // مشاركة الملف باستخدام share_plus
+        Share.shareXFiles([XFile(path)], text: 'Great picture');
+
+        // تأكيد مشاركة الملف
+        print('File shared from $path');
+      }),
     );
   }
 }
@@ -68,11 +87,9 @@ class BuildDialogContent extends StatelessWidget {
     super.key,
     required this.onPressedPrint,
     required this.onPressedShare,
-    required this.parcels,
   });
   final GestureTapCallback onPressedPrint;
   final GestureTapCallback onPressedShare;
-  final int parcels;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -84,7 +101,6 @@ class BuildDialogContent extends StatelessWidget {
         child: Column(
           children: [
             BuildInfoRowAdd(
-              parcels: parcels,
               title: 'عدد النسخ',
             ),
             SizedBox(
@@ -141,6 +157,7 @@ class BuildDialogTitle extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).pop();
               printConroller.clear();
+              parcels = 1;
             },
             icon: SvgPicture.asset(
               "assets/cancle.svg",

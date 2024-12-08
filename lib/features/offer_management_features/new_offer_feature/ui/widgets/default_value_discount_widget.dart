@@ -4,8 +4,8 @@ import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
 
 class DefaultValueDiscountWidget extends StatefulWidget {
-  final double discountRate;
-  final ValueChanged<double> onDiscountRateChanged;
+  final int discountRate;
+  final ValueChanged<int> onDiscountRateChanged;
   const DefaultValueDiscountWidget({
     super.key,
     required this.discountRate,
@@ -43,7 +43,7 @@ class _DefaultValueDiscountWidgetState
               // Ensure value is numeric before updating
               if (value.isNotEmpty && double.tryParse(value) != null) {
                 setState(() {
-                  widget.onDiscountRateChanged(double.parse(value));
+                  widget.onDiscountRateChanged(int.parse(value));
                 });
               } else {
                 setState(() {

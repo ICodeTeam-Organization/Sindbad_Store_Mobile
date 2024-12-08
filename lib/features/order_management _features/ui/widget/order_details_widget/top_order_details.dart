@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../../core/styles/Colors.dart';
 import '../../../../../core/styles/text_style.dart';
 
 class TopOrderDetails extends StatelessWidget {
@@ -40,7 +38,7 @@ class TopOrderDetails extends StatelessWidget {
         child: SizedBox(
           height: double.infinity,
           width: double.infinity,
-          child: Image.asset(
+          child: Image.network(
             imageUrl,
             fit: BoxFit.cover,
           ),

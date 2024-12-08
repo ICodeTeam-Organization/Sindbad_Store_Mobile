@@ -18,12 +18,22 @@ class ViewProductStoreRepoImpl extends ViewProductRepo {
   Future<Either<Failure, List<ProductEntity>>> getProductsByFilter(
       {required int storeProductsFilter,
       required int pageNumper,
-      required int pageSize}) async {
+      required int pageSize,
+      //
+      required bool hasOffer,
+      required bool isDeleted,
+      //
+      }) async {
     try {
       var data = await viewProductRemoteDataSource.getProductsByFilter(
           storeProductsFilter: storeProductsFilter,
           pageNumper: pageNumper,
-          pageSize: pageSize);
+          pageSize: pageSize,
+          //
+          hasOffer: hasOffer,
+          isDeleted: isDeleted
+          //
+          );
       return right(data);
     } catch (e) {
       if (e is DioException) {

@@ -28,7 +28,7 @@ class RemainingNotice extends StatelessWidget {
           ),
         ),
         Text(
-          '$specialCaseعلى الانتهاء',
+          '$specialCaseعلى الانتهاء )',
           style: KTextStyle.textStyle8.copyWith(
             color: AppColors.greyLight,
           ),

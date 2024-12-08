@@ -6,7 +6,7 @@ import '../../../../../core/styles/text_style.dart';
 String? pay;
 
 class RadioWidget extends StatefulWidget {
-  RadioWidget({
+  const RadioWidget({
     super.key,
   });
 
@@ -35,7 +35,7 @@ class _RadioWidgetState extends State<RadioWidget> {
           ),
           Radio(
               activeColor: AppColors.redAccentColor,
-              value: 'cash',
+              value: '1',
               groupValue: pay,
               onChanged: (val) {
                 setState(() {
@@ -48,7 +48,7 @@ class _RadioWidgetState extends State<RadioWidget> {
           ),
           Radio(
               activeColor: AppColors.redAccentColor,
-              value: 'later',
+              value: '2',
               groupValue: pay,
               onChanged: (val) {
                 setState(() {

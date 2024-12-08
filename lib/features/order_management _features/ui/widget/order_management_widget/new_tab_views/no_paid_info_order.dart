@@ -82,29 +82,29 @@ class NoPaidInfoOrder extends StatefulWidget {
 
 class _NoPaidInfoOrderState extends State<NoPaidInfoOrder> {
   late final ScrollController _scrollController;
-  @override
-  void initState() {
-    super.initState();
-    _scrollController = ScrollController();
-    _scrollController.addListener(_scrollListener);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _scrollController = ScrollController();
+  //   _scrollController.addListener(_scrollListener);
+  // }
 
-  void _scrollListener() {
-    var currentPostions = _scrollController.position.pixels;
-    var maxScrollLenght = _scrollController.position.maxScrollExtent;
-    if (currentPostions >= 0.7 * maxScrollLenght) {
-      BlocProvider.of<AllOrderCubit>(context).fetchAllOrder(
-          isUrgen: false,
-          canceled: false,
-          delevred: false,
-          noInvoice: false,
-          unpaied: true,
-          paied: false,
-          pageNumber: 1,
-          pageSize: 10,
-          srearchKeyword: '');
-    }
-  }
+  // void _scrollListener() {
+  //   var currentPostions = _scrollController.position.pixels;
+  //   var maxScrollLenght = _scrollController.position.maxScrollExtent;
+  //   if (currentPostions >= 0.7 * maxScrollLenght) {
+  //     BlocProvider.of<AllOrderCubit>(context).fetchAllOrder(
+  //         isUrgen: false,
+  //         canceled: false,
+  //         delevred: false,
+  //         noInvoice: false,
+  //         unpaied: true,
+  //         paied: false,
+  //         pageNumber: 1,
+  //         pageSize: 10,
+  //         srearchKeyword: '');
+  //   }
+  // }
 
   @override
   void dispose() {

@@ -8,6 +8,10 @@ abstract class ViewProductRepo {
     required int storeProductsFilter,
     required int pageNumper,
     required int pageSize,
+    //
+    required bool hasOffer,
+    required bool isDeleted,
+    //
   });
 
   Future<Either<Failure, DeleteProductEntity>> deleteProductById({

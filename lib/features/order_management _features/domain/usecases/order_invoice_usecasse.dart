@@ -16,7 +16,7 @@ class OrderInvoiceUsecase
   Future<Either<Failure, OrderInvoiceEntity>> execute(
       OrderInvoiceParam params) async {
     return await allOrderRepo.fetchOrderInvoice(
-      ids: params.ids,
+      orderId: params.orderId,
       invoiceNumber: params.invoiceNumbers,
       invoiceAmount: params.invoiceAmounts,
       invoiceImage: params.invoiceImages,
@@ -27,7 +27,7 @@ class OrderInvoiceUsecase
 }
 
 class OrderInvoiceParam {
-  final List<int> ids;
+  final int orderId;
   final String invoiceNumbers;
   final num invoiceAmounts;
   final File invoiceImages;
@@ -35,7 +35,7 @@ class OrderInvoiceParam {
   final int invoiceType;
 
   OrderInvoiceParam({
-    required this.ids,
+    required this.orderId,
     required this.invoiceNumbers,
     required this.invoiceAmounts,
     required this.invoiceImages,

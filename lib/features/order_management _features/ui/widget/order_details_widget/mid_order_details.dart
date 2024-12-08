@@ -9,10 +9,11 @@ class MidOrderDetails extends StatelessWidget {
     super.key,
     required this.productMount,
     required this.productPrice,
+    required this.total,
   });
   final int productMount;
   final double productPrice;
-  // final double total;
+  final double total;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -43,7 +44,7 @@ class MidOrderDetails extends StatelessWidget {
           child: Row(
             children: [
               Text(
-                '${productMount * productPrice}',
+                '$total',
                 style:
                     KTextStyle.textStyle16.copyWith(color: AppColors.primary),
               ),
