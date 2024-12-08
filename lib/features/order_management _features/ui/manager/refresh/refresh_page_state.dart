@@ -1,10 +1,27 @@
-part of 'refresh_page_cubit.dart';
+// // bill_state.dart
+// abstract class BillState {}
 
-@immutable
-sealed class RefreshPageState {}
+// class BillInitial extends BillState {
+//   final bool isBillDone;
 
-final class RefreshPageInitial extends RefreshPageState {}
+//   BillInitial({this.isBillDone = false});
+// }
 
-final class ChangeVisibiltyButtonsState extends RefreshPageState {
-  ChangeVisibiltyButtonsState();
+// class BillUpdated extends BillState {
+//   final bool isBillDone;
+
+//   BillUpdated(this.isBillDone);
+// }
+abstract class RefreshPageState {}
+
+class RefreshInitial extends RefreshPageState {
+  final Map<int, bool> ordersStatus;
+
+  RefreshInitial({this.ordersStatus = const {}}); // Default empty map
+}
+
+class RefreshUpdated extends RefreshPageState {
+  final Map<int, bool> ordersStatus;
+
+  RefreshUpdated(this.ordersStatus);
 }

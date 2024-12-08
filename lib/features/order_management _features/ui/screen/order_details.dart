@@ -1,7 +1,7 @@
 // import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_body.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/refresh/refresh_page_state.dart';
 import '../../../../core/setup_service_locator.dart';
 import '../../../../core/shared_widgets/new_widgets/custom_app_bar.dart';
 import '../../data/repos_impl/all_order_repo_impl.dart';
@@ -35,7 +35,7 @@ class OrderDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isbillDone = RefreshPageCubit.get(context).isbillDone;
+    // bool isbillDone = RefreshPageCubit.get(context).isbillDone;
     return Scaffold(
       body: BlocProvider(
           create: (context) => OrderDetailsCubit(
@@ -70,36 +70,33 @@ class OrderDetails extends StatelessWidget {
                     child: Image.asset("assets/down.png"),
                   ),
                   //Order Detaials
-                  OrderDetailsBody(
-                      // idOrder: orderId,
-                      // numberBill: billNumber,
-                      // numberOrder: orderNumber,
-                      // clock: clock,
-                      // date: date,
-                      // numberItem: itemNumber,
-                      // infoPayment: paymentInfo,
-                      // statusOrder: orderStatus,
-                      ),
+                  OrderDetailsBody(),
                   //Show Button
                   BlocBuilder<RefreshPageCubit, RefreshPageState>(
-                    buildWhen: (previous, current) =>
-                        current is ChangeVisibiltyButtonsState,
-                    builder: (context, state) => Column(
-                      children: [
-                        if (billNumbers == 'لا يوجد')
-                          Visibility(
-                            visible: !isbillDone,
-                            child: ShowCreateBillAndCancelOrder(),
-                          ),
-                        Visibility(
-                          visible: isbillDone,
-                          child: ShowPrintAndShippingOrder(),
-                        ),
-                      ],
-                    ),
+                    builder: (context, state) {
+                      // Default orders status map
+                      Map<int, bool> ordersStatus = {};
+
+                      if (state is RefreshUpdated) {
+                        ordersStatus = state.ordersStatus;
+                      }
+                      // Assuming `orderId` is available for each order in your list
+                      final isBillDone = ordersStatus[orderId] ?? false;
+                      return Column(
+                        children: [
+                          if (!isBillDone)
+                            ShowCreateBillAndCancelOrder(
+                              onCreateInvoice: () {
+                                context
+                                    .read<RefreshPageCubit>()
+                                    .toggleBillStatus(orderId);
+                              },
+                            ),
+                          if (isBillDone) ShowPrintAndShippingOrder(),
+                        ],
+                      );
+                    },
                   )
-                  // if (isbillDone == false) ShowCreateBillAndCancelOrder(),
-                  // if (isbillDone == true) ShowPrintAndShippingOrder(),
                 ],
               ),
             ),
