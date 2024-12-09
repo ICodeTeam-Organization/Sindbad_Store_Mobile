@@ -94,11 +94,84 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                                 numberToBuy: state.offer[i].numberToBuy,
                                 numberToGet: state.offer[i].numberToGet,
                                 discountRate: state.offer[i].discountRate,
+
+                                ///
+                                onUpdateTap: () {
+                                  context.push(
+                                      AppRouter.storeRouters.kUpdateOffer,
+                                      extra: [
+                                        state.offer[i].offerId,
+                                      ]);
+                                },
+
+                                ///
+                                onChangeStatusTap: () {
+                                  offerHeadId = state.offer[i].offerId;
+                                  showDialog(
+                                    context:
+                                        context, // Ensure this context has access to the provider
+                                    builder: (BuildContext dialogContext) {
+                                      return BlocConsumer<
+                                          ChangeStatusOfferCubit,
+                                          ChangeStatusOfferState>(
+                                        listener: (context, state) {
+                                          if (state
+                                              is ChangeStatusOfferFailure) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                  content:
+                                                      Text(state.errorMessage)),
+                                            );
+                                            Navigator.pop(
+                                                dialogContext); // Close the dialog
+                                          } else if (state
+                                              is ChangeStatusOfferSuccess) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                  content: Text(
+                                                      state.changeStatusOffer)),
+                                            );
+                                            Navigator.pop(
+                                                dialogContext); // Close the dialog
+                                          }
+                                        },
+                                        builder: (context, state) {
+                                          return CustomDeleteDialogWidget(
+                                            isDelete: false,
+                                            confirmText:
+                                                'نعم , قم بتغيير الحالة',
+                                            title:
+                                                'هل انت متأكد من تغيير حالة العرض ؟',
+                                            subtitle: '',
+                                            iconPath:
+                                                "assets/change_status.svg",
+                                            onConfirm: () async {
+                                              await context
+                                                  .read<
+                                                      ChangeStatusOfferCubit>()
+                                                  .changeStatusOffer(
+                                                      offerHeadId);
+                                              print(
+                                                  'Item Actived $offerHeadId');
+                                              await context
+                                                  .read<OfferCubit>()
+                                                  .getOffer(10, 1);
+                                            },
+                                          );
+                                        },
+                                      );
+                                    },
+                                  );
+                                },
+
+                                ///
                                 onDeleteTap: () {
                                   offerHeadId = state.offer[i].offerId;
                                   showDialog(
                                     context: context,
-                                    builder: (BuildContext context) {
+                                    builder: (BuildContext contextDialog) {
                                       return BlocConsumer<DeleteOfferCubit,
                                           DeleteOfferState>(
                                         listener: (context, state) {
@@ -130,62 +203,10 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                                                   .deleteOffer(offerHeadId);
                                               print(
                                                   'Item deleted $offerHeadId');
-                                              context
+                                              await context
                                                   .read<OfferCubit>()
                                                   .getOffer(10, 1);
-                                            },
-                                          );
-                                        },
-                                      );
-                                    },
-                                  );
-                                },
-                                onChangeStatusTap: () {
-                                  offerHeadId = state.offer[i].offerId;
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return BlocConsumer<
-                                          ChangeStatusOfferCubit,
-                                          ChangeStatusOfferState>(
-                                        listener: (context, state) {
-                                          if (state
-                                              is ChangeStatusOfferFailure) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(SnackBar(
-                                                    content: Text(
-                                              state.errorMessage.toString(),
-                                            )));
-                                            Navigator.pop(context);
-                                          } else if (state
-                                              is ChangeStatusOfferSuccess) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(SnackBar(
-                                                    content: Text(
-                                              state.changeStatusOffer
-                                                  .toString(),
-                                            )));
-                                            Navigator.pop(context);
-                                          }
-                                        },
-                                        builder: (context, state) {
-                                          return CustomDeleteDialogWidget(
-                                            isDelete: false,
-                                            confirmText:
-                                                'نعم , قم بتغيير الحالة',
-                                            title:
-                                                'هل انت متأكد من تغيير حالة العرض ؟',
-                                            subtitle: '',
-                                            iconPath:
-                                                "assets/change_status.svg",
-                                            onConfirm: () async {
-                                              await context
-                                                  .read<
-                                                      ChangeStatusOfferCubit>()
-                                                  .changeStatusOffer(
-                                                      offerHeadId);
-                                              print(
-                                                  'Item Actived $offerHeadId');
+                                              setState(() {});
                                             },
                                           );
                                         },

@@ -20,6 +20,7 @@ class CardOfferWidget extends StatefulWidget {
   final num? discountRate;
   final void Function()? onDeleteTap;
   final void Function()? onChangeStatusTap;
+  final void Function()? onUpdateTap;
 
   const CardOfferWidget({
     super.key,
@@ -35,6 +36,7 @@ class CardOfferWidget extends StatefulWidget {
     this.discountRate,
     this.onDeleteTap,
     this.onChangeStatusTap,
+    this.onUpdateTap,
   });
 
   @override
@@ -293,6 +295,7 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
                         title: 'تعديل عرض',
                         iconPath: "assets/update.svg",
                         isSolid: false,
+                        onTap: widget.onUpdateTap,
                       ),
                       SizedBox(
                         height: 5.h,

@@ -15,11 +15,15 @@ import 'package:sindbad_management_app/features/order_management%20_features/ui/
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/invoice/order_invoice_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/shipping/shipping_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/screen/order_details.dart';
-import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/data/repos/new_offer_repo_impl.dart';
-import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/domain/usecases/add_offer_use_case.dart';
-import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/domain/usecases/get_offer_products_use_case.dart';
-import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/manager/add_offer_cubit/add_offer_cubit.dart';
-import 'package:sindbad_management_app/features/offer_management_features/new_offer_feature/ui/manager/offer_products_cubit/offer_products_cubit.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/data/repos/new_offer_repo_impl.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/usecases/add_offer_use_case.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/usecases/get_offer_data_use_case.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/usecases/get_offer_products_use_case.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/usecases/update_offer_use_case.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/add_offer_cubit/add_offer_cubit.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/offer_data_cubit/offer_data_cubit.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/offer_products_cubit/offer_products_cubit.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/update_offer_cubit/update_offer_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/repos/View_offer_repo_impl.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/usecases/change_status_offer_use_case.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/usecases/delete_offer_use_case.dart';
@@ -62,6 +66,11 @@ class SindbadManagementApp extends StatelessWidget {
                   getit<NewOfferRepoImpl>(),
                 ))),
         BlocProvider(
+          create: (context) => OfferCubit(GetOfferUseCase(
+            getit<ViewOfferRepoImpl>(),
+          )),
+        ),
+        BlocProvider(
           create: (context) => DeleteOfferCubit(DeleteOfferUseCase(
             getit<ViewOfferRepoImpl>(),
           )),
@@ -74,6 +83,16 @@ class SindbadManagementApp extends StatelessWidget {
         BlocProvider(
           create: (context) => StatusOfferCubit(),
           child: ViewOfferBody(),
+        ),
+        BlocProvider(
+          create: (context) => UpdateOfferCubit(UpdateOfferUseCase(
+            getit<NewOfferRepoImpl>(),
+          )),
+        ),
+        BlocProvider(
+          create: (context) => OfferDataCubit(GetOfferDataUseCase(
+            getit<NewOfferRepoImpl>(),
+          )),
         ),
         BlocProvider(
           create: (context) => AddOfferCubit(AddOfferUseCase(
