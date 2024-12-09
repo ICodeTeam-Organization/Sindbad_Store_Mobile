@@ -14,17 +14,17 @@ class GetOfferProductsUseCase
   Future<Either<Failure, List<OfferProductsEntity>>> execute(
       OfferProductsParams params) {
     return newOfferRepo.getOfferProducts(
-      params.pageSize,
-      params.pageNumber,
+
+      params.pageNumber
     );
   }
 }
 
 class OfferProductsParams {
-  final int pageSize;
+
   final int pageNumber;
   OfferProductsParams(
-    this.pageSize,
+
     this.pageNumber,
   );
 }

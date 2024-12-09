@@ -62,9 +62,9 @@ class NewOfferRepoImpl extends NewOfferRepo {
 
   @override
   Future<Either<Failure, List<OfferProductsEntity>>> getOfferProducts(
-      int pageSize, int pageNumber) {
+      int pageNumber) {
     return fetchData(
-        () => newOfferRemotDataSource.getOfferProducts(pageSize, pageNumber));
+        () => newOfferRemotDataSource.getOfferProducts(pageNumber));
   }
 
   @override

@@ -8,7 +8,6 @@ import 'package:sindbad_management_app/features/offer_management_features/modify
 
 abstract class NewOfferRepo {
   Future<Either<Failure, List<OfferProductsEntity>>> getOfferProducts(
-    int pageSize,
     int pageNumber,
   );
   Future<Either<Failure, AddOfferEntity>> addOffer(

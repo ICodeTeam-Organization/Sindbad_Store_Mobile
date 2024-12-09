@@ -34,7 +34,7 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
 
     // Fetch products only if state is being initialized for the first time
     if (isSetState) {
-      context.read<OfferProductsCubit>().getOfferProducts(20, 7);
+      context.read<OfferProductsCubit>().getOfferProducts(1);
       isSetState = false;
     }
 

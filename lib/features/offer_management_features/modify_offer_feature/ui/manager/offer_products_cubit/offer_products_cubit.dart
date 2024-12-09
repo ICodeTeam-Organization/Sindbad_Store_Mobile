@@ -6,9 +6,9 @@ class OfferProductsCubit extends Cubit<OfferProductsState> {
   final GetOfferProductsUseCase getOfferProductsUseCase;
   OfferProductsCubit(this.getOfferProductsUseCase)
       : super(OfferProductsInitial());
-  Future<void> getOfferProducts(int pageSize, int pageNumber) async {
+  Future<void> getOfferProducts(int pageNumber) async {
     emit(OfferProductsLoading());
-    var params = OfferProductsParams(pageSize, pageNumber);
+    var params = OfferProductsParams(pageNumber);
     var result = await getOfferProductsUseCase.execute(params);
 
     result.fold((failuer) {
