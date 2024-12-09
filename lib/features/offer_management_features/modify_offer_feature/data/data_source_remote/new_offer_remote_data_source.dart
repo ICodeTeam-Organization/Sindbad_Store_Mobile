@@ -13,7 +13,6 @@ import 'package:sindbad_management_app/features/offer_management_features/modify
 
 abstract class NewOfferRemotDataSource {
   Future<List<OfferProductsEntity>> getOfferProducts(
-    int pageSize,
     int pageNumber,
   );
   Future<AddOfferEntity> addOffer(
@@ -31,7 +30,7 @@ abstract class NewOfferRemotDataSource {
     DateTime endOffer,
     int countProducts,
     int typeName,
-    List<OfferHeadOffer>? listProduct,
+    List<Map<String, dynamic>>? listProduct,
     // List<AddOfferDto>? listProduct,
   );
   Future<OfferDataEntity> getOfferData(
@@ -93,13 +92,12 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
   @override
   Future<List<OfferProductsEntity>> getOfferProducts(
     int pageNumber,
-    int pageSize,
   ) async {
     String? token = await getToken();
     var data = await apiService.post(
       data: {
-        "pageSize": 1000,
-        "pageNumber": 1,
+        "pageSize": 10,
+        "pageNumber": pageNumber,
       },
       endPoint: 'Products/GetProductsWitheFilter?returnDtoName=1',
       headers: {
@@ -148,7 +146,7 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
     DateTime endOffer,
     int countProducts,
     int typeName,
-    List<OfferHeadOffer>? listProduct,
+    List<Map<String, dynamic>>? listProduct,
   ) async {
     String? token = await getToken();
     var data = await apiService.post(
@@ -161,6 +159,7 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
           "numberOfOrders": countProducts,
           "offerHeadType": typeName,
           "offerHeadOffers": listProduct,
+          "justActiveAndDis": true,
         },
         endPoint: "Offers/Store/EditOffer",
         headers: {

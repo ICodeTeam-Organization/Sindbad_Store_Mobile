@@ -40,12 +40,11 @@ class _UpdateOfferBodyState extends State<UpdateOfferBody> {
                     offerHead.productId ?? 0, // Provide default values if null
                 productTitle: offerHead.name ?? 'No Title',
                 productImage: offerHead.mainImageUrl ?? '',
-                discountRate: offerHead.percentage
-                    ?.toDouble(), // Convert to `num` if needed
+                discountRate: state.offerData.discountRate!.toInt(),
                 oldPrice: offerHead.priceBeforeDiscount ?? 0,
                 newPrice: offerHead.finalPrice ?? 0,
-                numberToBuy: offerHead.amountToBuy ?? 0,
-                numberToGet: offerHead.amountToGet ?? 0,
+                numberToBuy: state.offerData.numberToBuy!.toInt(),
+                numberToGet: state.offerData.numberToGet!.toInt(),
               );
             }).toList();
           }

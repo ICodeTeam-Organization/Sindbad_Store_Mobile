@@ -32,7 +32,7 @@ class UpdateOfferParams {
   final int countProducts;
   final int typeName;
   // final List<UpdateOfferDto>? listProduct;
-  final List<OfferHeadOffer>? listProduct;
+  final List<Map<String, dynamic>>? listProduct;
 
   UpdateOfferParams(
     this.offerTitle,

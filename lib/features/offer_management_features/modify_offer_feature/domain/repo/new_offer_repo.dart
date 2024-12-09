@@ -25,7 +25,7 @@ abstract class NewOfferRepo {
     DateTime endOffer,
     int countProducts,
     int typeName,
-    List<OfferHeadOffer>? listProduct,
+    List<Map<String, dynamic>>? listProduct,
   );
   Future<Either<Failure, OfferDataEntity>> getOfferData(
     int offerHeadId,

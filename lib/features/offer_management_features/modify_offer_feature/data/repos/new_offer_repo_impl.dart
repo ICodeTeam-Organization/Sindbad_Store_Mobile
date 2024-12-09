@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/data/data_source/remote/new_offer_remot_data_source.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/data/data_source_remote/new_offer_remote_data_source.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/data/models/offer_data_model/offer_head_offer.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/entities/add_offer_entity.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/entities/offer_data_entity.dart';
@@ -100,7 +100,7 @@ class NewOfferRepoImpl extends NewOfferRepo {
     DateTime endOffer,
     int countProducts,
     int typeName,
-    List<OfferHeadOffer>? listProduct,
+    List<Map<String, dynamic>>? listProduct,
   ) async {
     return postOneData(() => newOfferRemotDataSource.updateOffer(
           offerTitle,

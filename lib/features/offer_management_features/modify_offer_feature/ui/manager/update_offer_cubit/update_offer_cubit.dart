@@ -16,7 +16,7 @@ class UpdateOfferCubit extends Cubit<UpdateOfferState> {
     int countProducts,
     int typeName,
     // List<UpdateOfferDto>? listProduct,
-    List<OfferHeadOffer>? listProduct,
+    List<Map<String, dynamic>>? listProduct,
   ) async {
     emit(UpdateOfferLoading());
 
@@ -43,3 +43,4 @@ class UpdateOfferCubit extends Cubit<UpdateOfferState> {
     });
   }
 }
+//OfferHead not found or you do not have permission to edit it

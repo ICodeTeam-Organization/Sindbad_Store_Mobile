@@ -52,14 +52,14 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
   TextEditingController offerTitleConroller = TextEditingController();
   TextEditingController startOfferConroller = TextEditingController();
   TextEditingController endOfferConroller = TextEditingController();
-  int offerType = 1;
+  int? offerType;
   final ValueNotifier<int> discountRateNotifier = ValueNotifier<int>(10);
   final ValueNotifier<int> numberToBuyNotifier = ValueNotifier<int>(2);
   final ValueNotifier<int> numberToGetNotifier = ValueNotifier<int>(1);
 
   List<OfferProductsEntity> selectedItems = [];
-  String selectedOption = 'Percent';
-  bool isDiscountDefaultValue = true;
+  String? selectedOption;
+  bool? isDiscountDefaultValue;
 
   // Default values for bonus configuration
   int discountRate = 10; // Default "Percent Rate" value
@@ -67,16 +67,22 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
   int numberToGet = 1; // Default "Get Y" value
 
   // List<UpdateOfferDto> listProduct = [];
-  List<OfferHeadOffer> listProduct = [];
+  List<Map<String, dynamic>> listProduct = [];
 
   @override
   void initState() {
     super.initState();
-    isDiscountDefaultValue = selectedOption == 'Percent';
+    // isDiscountDefaultValue = selectedOption == 'Percent';
     discountRateNotifier.value = discountRate;
     numberToBuyNotifier.value = numberToBuy;
     numberToGetNotifier.value = numberToGet;
-
+    if (offerType == 1) {
+     selectedOption = 'Percent' ;
+     isDiscountDefaultValue = true;
+    } else {
+      selectedOption = 'Bonus';
+      isDiscountDefaultValue = false;
+    }
     offerTitleConroller.text = widget.offerTitle;
     startOfferConroller.text = convertFromApi(widget.startOffer);
     endOfferConroller.text = convertFromApi(widget.endOffer);
@@ -180,7 +186,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
       }
 
       // Update the map to the list
-      listProduct.add(offerMap as OfferHeadOffer);
+      listProduct.add(offerMap);
     }
   }
 
@@ -343,7 +349,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                 SizedBox(height: 40.h),
                 SectionTitleWidget(title: 'القيمة الأفتراضية'),
                 SizedBox(height: 20.h),
-                isDiscountDefaultValue
+                isDiscountDefaultValue!
                     ? DefaultValueDiscountWidget(
                         discountRate: discountRate,
                         onDiscountRateChanged: (newRate) {
@@ -425,7 +431,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                   child: ListView.builder(
                     itemCount: selectedItems.length,
                     itemBuilder: (context, index) {
-                      return isDiscountDefaultValue
+                      return isDiscountDefaultValue!
                           ? CardProductDiscountWidget(
                               productName: selectedItems[index].productTitle,
                               productImage: selectedItems[index].productImage,
@@ -546,9 +552,16 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                               }
                               return;
                             } else {
-                              for (var offerMap in listProduct) {
-                                print(offerMap);
-                              }
+                              print('///////////////////////////////////////');
+          for (var offerMap in listProduct) {
+            print(offerMap);
+          }
+                              print(offerTitleConroller.text);
+                              print(startOfferFormat);
+                              print(endOfferFormat);
+                              print(offerType);
+                              print(selectedItems.length);
+                              print('///////////////////////////////////////');
                               // Call the function after all checks have passed
                               populateListProduct();
                               await context
@@ -558,7 +571,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                                     startOfferFormat!,
                                     endOfferFormat!,
                                     selectedItems.length,
-                                    offerType,
+                                    offerType!,
                                     listProduct,
                                   );
                             }

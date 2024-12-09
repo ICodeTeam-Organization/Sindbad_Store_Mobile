@@ -45,30 +45,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
   int numberToGet = 1; // Default "Get Y" value
 
   // List<AddOfferDto> listProduct = [];
-  List<Map<String, dynamic>> listProduct = [
-    // {
-    //   "id": 195,
-    //   "type": 1,
-    //   "percentage": 10,
-    //   "finalPrice": 90,
-    //   "amountToBuy": null,
-    //   "amountToGet": null,
-    //   "startDate": "2024-12-01",
-    //   "endDate": "2024-12-31",
-    //   "productId": "001"
-    // },
-    // {
-    //   "id": 199,
-    //   "type": 2,
-    //   "percentage": null,
-    //   "finalPrice": null,
-    //   "amountToBuy": 2,
-    //   "amountToGet": 1,
-    //   "startDate": "2024-12-01",
-    //   "endDate": "2024-12-31",
-    //   "productId": "002"
-    // }
-  ];
+  List<Map<String, dynamic>> listProduct = [];
 
   @override
   void initState() {

@@ -33,7 +33,7 @@ class _CardOfferProductDetailsDiscountWidgetState
             border: Border(bottom: BorderSide(color: AppColors.greyBorder)),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            padding: const EdgeInsets.symmetric(horizontal: 25.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -61,10 +61,10 @@ class _CardOfferProductDetailsDiscountWidgetState
                     },
                   ),
                   SizedBox(
-                    width: 10,
+                    width: 5.w,
                   ),
                   SizedBox(
-                    width: 150.w,
+                    width: 140.w,
                     child: Table(
                       children: [
                         TableRow(
