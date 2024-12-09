@@ -94,53 +94,17 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                                 numberToBuy: state.offer[i].numberToBuy,
                                 numberToGet: state.offer[i].numberToGet,
                                 discountRate: state.offer[i].discountRate,
-                                onDeleteTap: () {
-                                  offerHeadId = state.offer[i].offerId;
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext contextDialog) {
-                                      return BlocConsumer<DeleteOfferCubit,
-                                          DeleteOfferState>(
-                                        listener: (context, state) {
-                                          if (state is DeleteOfferFailure) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(SnackBar(
-                                                    content: Text(
-                                              state.errorMessage.toString(),
-                                            )));
-                                            Navigator.pop(context);
-                                          } else if (state
-                                              is DeleteOfferSuccess) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(SnackBar(
-                                                    content: Text(
-                                              state.deleteOffer.toString(),
-                                            )));
-                                            Navigator.pop(context);
-                                          }
-                                        },
-                                        builder: (context, state) {
-                                          return CustomDeleteDialogWidget(
-                                            title: 'هل انت متأكد من الحذف ؟',
-                                            subtitle:
-                                                'يوجد بيانات مرتبطة بهذا المدخل',
-                                            onConfirm: () async {
-                                              await context
-                                                  .read<DeleteOfferCubit>()
-                                                  .deleteOffer(offerHeadId);
-                                              print(
-                                                  'Item deleted $offerHeadId');
-                                              await context
-                                                  .read<OfferCubit>()
-                                                  .getOffer(10, 1);
-                                              setState(() {});
-                                            },
-                                          );
-                                        },
-                                      );
-                                    },
-                                  );
+
+                                ///
+                                onUpdateTap: () {
+                                  context.push(
+                                      AppRouter.storeRouters.kUpdateOffer,
+                                      extra: [
+                                        state.offer[i].offerId,
+                                      ]);
                                 },
+
+                                ///
                                 onChangeStatusTap: () {
                                   offerHeadId = state.offer[i].offerId;
                                   showDialog(
@@ -194,6 +158,55 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                                               await context
                                                   .read<OfferCubit>()
                                                   .getOffer(10, 1);
+                                            },
+                                          );
+                                        },
+                                      );
+                                    },
+                                  );
+                                },
+
+                                ///
+                                onDeleteTap: () {
+                                  offerHeadId = state.offer[i].offerId;
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext contextDialog) {
+                                      return BlocConsumer<DeleteOfferCubit,
+                                          DeleteOfferState>(
+                                        listener: (context, state) {
+                                          if (state is DeleteOfferFailure) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(
+                                                    content: Text(
+                                              state.errorMessage.toString(),
+                                            )));
+                                            Navigator.pop(context);
+                                          } else if (state
+                                              is DeleteOfferSuccess) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(
+                                                    content: Text(
+                                              state.deleteOffer.toString(),
+                                            )));
+                                            Navigator.pop(context);
+                                          }
+                                        },
+                                        builder: (context, state) {
+                                          return CustomDeleteDialogWidget(
+                                            title: 'هل انت متأكد من الحذف ؟',
+                                            subtitle:
+                                                'يوجد بيانات مرتبطة بهذا المدخل',
+                                            onConfirm: () async {
+                                              await context
+                                                  .read<DeleteOfferCubit>()
+                                                  .deleteOffer(offerHeadId);
+                                              print(
+                                                  'Item deleted $offerHeadId');
+                                              await context
+                                                  .read<OfferCubit>()
+                                                  .getOffer(10, 1);
+                                              setState(() {});
                                             },
                                           );
                                         },

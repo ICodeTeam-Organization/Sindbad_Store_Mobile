@@ -1,9 +1,10 @@
 import 'package:go_router/go_router.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/update_offer_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/screens/view_offer_product_details_bouns_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/screens/view_offer_product_details_discount_screen.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/screens/add_product_screen.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/screens/edit_product_screen.dart';
-import 'package:sindbad_management_app/features/offer_management_features/newdate_offer_feature/ui/screens/new_offer_screen.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/new_offer_screen.dart';
 import 'package:sindbad_management_app/store_app_features/add_product/ui/screen/store_add_product.dart';
 import 'package:sindbad_management_app/store_app_features/excel_file/ui/screen/store_excel_file.dart';
 import 'package:sindbad_management_app/store_app_features/offer_product/ui/screen/store_offer_product.dart';
@@ -25,7 +26,7 @@ class StoreRouters {
   String kOfferProductDetailsBouns = '/offerProductDetailsBouns';
   String kOfferProductDetails = '/offerProductDetails';
   String kNewOffer = '/newOffer';
-  //NewOfferScreen
+  String kUpdateOffer = '/updateOffer';
 
   String signIn = '/';
   // String root = '/root';
@@ -68,6 +69,17 @@ abstract class AppRouter {
         path: AppRouter.storeRouters.kNewOffer,
         builder: (context, state) => const NewOfferScreen(),
       ),
+      GoRoute(
+        path: AppRouter.storeRouters.kUpdateOffer,
+        builder: (context, state) {
+          final List<dynamic> args = state.extra as List<dynamic>;
+          final int offerHeadId = args[0]; // The second parameter in the list
+          return UpdateOfferScreen(
+            offerHeadId: offerHeadId,
+          );
+        },
+      ),
+
       GoRoute(
         path: AppRouter.storeRouters.kStoreAddProduct,
         builder: (context, state) => const AddProductScreen(),
