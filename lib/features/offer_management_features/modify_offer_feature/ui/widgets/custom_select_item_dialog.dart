@@ -23,7 +23,10 @@ class CustomSelectItemDialog extends StatefulWidget {
 class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
   late List<OfferProductsEntity> selectedItems; // List of selected items
   late TextEditingController searchController; // Controller for search field
-  bool isSetState = true;
+  List<OfferProductsEntity> pagination = [];
+  bool isLoading = false;
+  late final ScrollController scrollController;
+  int page = 1;
 
   @override
   void initState() {
@@ -33,10 +36,8 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
     selectedItems = List.from(widget.selectedItems);
 
     // Fetch products only if state is being initialized for the first time
-    if (isSetState) {
-      context.read<OfferProductsCubit>().getOfferProducts(1);
-      isSetState = false;
-    }
+    //     scrollController = ScrollController();
+    // scrollController.addListener(_listener);
 
     // Initialize search controller
     searchController = TextEditingController();
@@ -44,6 +45,16 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
       filterItems(); // Update UI on search query change
     });
   }
+  // void _listener() async {
+  //   if (scrollController.position.pixels >=
+  //       0.7 * scrollController.position.maxScrollExtent) {
+  //     if (!isLoading) {
+  //       isLoading = true;
+  //       await context.read<OfferProductsCubit>().getOfferProducts(++page*10);
+  //       isLoading = false;
+  //     }
+  //   }
+  // }
 
   void filterItems() {
     // This method can filter the displayed list in your builder if needed.
@@ -53,45 +64,11 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
 
   @override
   void dispose() {
-    // Dispose the search controller to free resources
+    scrollController.dispose();
     searchController.dispose();
     super.dispose();
   }
 
-  // late List<OfferProductsEntity> selectedItems = [];
-  // late TextEditingController
-  //     searchController; // Controller for search text field
-  // List<OfferProductsEntity> filteredItems = []; // List to hold filtered items
-  // bool isSetState = true;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   if (isSetState == true) {
-  //     context.read<OfferProductsCubit>().getOfferProducts(10, 1);
-  //     isSetState = false;
-  //   } else {
-  //     selectedItems =
-  //         List.from(widget.selectedItems); // Copy pre-selected items
-  //     isSetState = false;
-  //   }
-  //   searchController = TextEditingController(); // Initialize search controller
-  //   searchController.addListener(() {
-  //     filterItems();
-  //   });
-  //   print("Items passed to the selectedItems: ${widget.selectedItems}");
-  //   print("Items passed to the selectedItems: ${isSetState}");
-  // }
-
-  // void filterItems() {
-  //   setState(() {});
-  // }
-
-  // @override
-  // void dispose() {
-  //   searchController.dispose(); // Dispose of the controller when done
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -276,7 +253,7 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                           ),
                         );
                       } else if (state is OfferProductsFailuer) {
-                        return Center(child: Text(state.errMessage));
+                        return Center(child: Text(state.errorMessage));
                       } else if (state is OfferProductsLoading) {
                         return Center(child: CircularProgressIndicator());
                       } else {

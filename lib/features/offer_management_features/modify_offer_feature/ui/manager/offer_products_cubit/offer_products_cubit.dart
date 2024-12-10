@@ -7,12 +7,20 @@ class OfferProductsCubit extends Cubit<OfferProductsState> {
   OfferProductsCubit(this.getOfferProductsUseCase)
       : super(OfferProductsInitial());
   Future<void> getOfferProducts(int pageNumber) async {
-    emit(OfferProductsLoading());
+    if (pageNumber == 1) {
+      emit(OfferProductsLoading());
+    } else {
+      emit(OfferProductsPaginationLoading());
+    }
     var params = OfferProductsParams(pageNumber);
     var result = await getOfferProductsUseCase.execute(params);
 
     result.fold((failuer) {
-      emit(OfferProductsFailuer(errMessage: failuer.message));
+      if (pageNumber == 1) {
+        emit(OfferProductsFailuer(failuer.message));
+      } else {
+        emit(OfferProductsPaginationFailure(failuer.message));
+      }
     }, (offerProducts) {
       emit(OfferProductsSuccess(offerProducts: offerProducts));
     });

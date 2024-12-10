@@ -9,9 +9,17 @@ final class OfferProductsInitial extends OfferProductsState {}
 final class OfferProductsLoading extends OfferProductsState {}
 
 final class OfferProductsFailuer extends OfferProductsState {
-  final String errMessage;
+  final String errorMessage;
 
-  OfferProductsFailuer({required this.errMessage});
+  OfferProductsFailuer(this.errorMessage);
+}
+
+final class OfferProductsPaginationLoading extends OfferProductsState {}
+
+final class OfferProductsPaginationFailure extends OfferProductsState {
+  final String errorMessage;
+
+  OfferProductsPaginationFailure(this.errorMessage);
 }
 
 final class OfferProductsSuccess extends OfferProductsState {

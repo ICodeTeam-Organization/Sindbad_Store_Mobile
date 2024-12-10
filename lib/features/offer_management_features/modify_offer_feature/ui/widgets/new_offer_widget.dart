@@ -17,6 +17,7 @@ import 'package:sindbad_management_app/features/offer_management_features/modify
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/horizontal_title_and_text_field.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/required_text.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/section_title_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_cubit/offer_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/action_button_widget.dart';
 
 class NewOfferWidget extends StatefulWidget {
@@ -450,7 +451,9 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text(state.addOffer.toString())),
                           );
-                          // Navigator.pop(context);
+                          Navigator.pop(context);
+                          context.read<OfferCubit>().getOffer(10, 1);
+
                         }
                       },
                       builder: (context, state) {
