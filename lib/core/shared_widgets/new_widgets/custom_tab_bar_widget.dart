@@ -55,7 +55,7 @@ class CustomTabBarWidget extends StatelessWidget {
                   color: AppColors.colorButton,
                   borderRadius: BorderRadius.circular(25)),
               child: SizedBox(
-                height: 65.h,
+                height: 60.h,
                 child: TabBar(
                   labelStyle: KTextStyle.textStyle16
                       .copyWith(fontWeight: FontWeight.bold),
