@@ -2,17 +2,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+part 'add_image_to_product_add_state.dart';
 
-part 'add_product_to_store_state.dart';
-
-class AddProductToStoreCubit extends Cubit<AddProductToStoreState> {
-  AddProductToStoreCubit() : super(AddProductToStoreInitial());
-
-  // all controller for [ info product ] ==> add product page
-  TextEditingController nameProductController = TextEditingController();
-  TextEditingController numberProductController = TextEditingController();
-  TextEditingController priceProductController = TextEditingController();
-  TextEditingController descriptionProductController = TextEditingController();
+class AddImageToProductAddCubit extends Cubit<AddImageToProductAddState> {
+  AddImageToProductAddCubit() : super(AddImageToProductAddInitial());
 
   // all File for [ product Images ] ==> add product page
   File? mainImageProduct;
@@ -30,19 +23,19 @@ class AddProductToStoreCubit extends Cubit<AddProductToStoreState> {
       switch (numPartImage) {
         case 1:
           mainImageProduct = pickedImage;
-          emit(AddImageProductToStoreSuccess());
+          emit(AddImageToProductAddSuccess());
           break;
         case 2:
           subOneImageProduct = pickedImage;
-          emit(AddImageProductToStoreSuccess());
+          emit(AddImageToProductAddSuccess());
           break;
         case 3:
           subTwoImageProduct = pickedImage;
-          emit(AddImageProductToStoreSuccess());
+          emit(AddImageToProductAddSuccess());
           break;
         case 4:
           subThreeImageProduct = pickedImage;
-          emit(AddImageProductToStoreSuccess());
+          emit(AddImageToProductAddSuccess());
           break;
       }
     }
@@ -68,16 +61,16 @@ class AddProductToStoreCubit extends Cubit<AddProductToStoreState> {
     switch (numBox) {
       case 1:
         mainImageProduct = null;
-        emit(AddImageProductToStoreSuccess());
+        emit(AddImageToProductAddSuccess());
       case 2:
         subOneImageProduct = null;
-        emit(AddImageProductToStoreSuccess());
+        emit(AddImageToProductAddSuccess());
       case 3:
         subTwoImageProduct = null;
-        emit(AddImageProductToStoreSuccess());
+        emit(AddImageToProductAddSuccess());
       case 4:
         subThreeImageProduct = null;
-        emit(AddImageProductToStoreSuccess());
+        emit(AddImageToProductAddSuccess());
     }
   }
 }

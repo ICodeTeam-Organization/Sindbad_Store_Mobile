@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_product_to_store_cubit.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_images/cubit/add_image_to_product_add_cubit.dart';
 import 'after_selected_image_widget.dart';
 import 'button_design_add_image_main_product_widget.dart';
 import 'design_for_title_under_image_widget.dart';
 import 'design_for_unselected_image_widget.dart';
 import 'image_for_sub_images_widget.dart';
 
-class CustomAddImageWidget extends StatefulWidget {
+class CustomAddImageWidget extends StatelessWidget {
   final double containerWidth;
   final double mainContainerHeight;
   final double upContainerHeight;
@@ -41,56 +41,50 @@ class CustomAddImageWidget extends StatefulWidget {
       this.image // Add initial image URL
       });
 
-  @override
-  State<CustomAddImageWidget> createState() => _CustomAddImageWidgetState();
-}
-
-class _CustomAddImageWidgetState extends State<CustomAddImageWidget> {
   File? selectedImage;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: widget.containerWidth.w,
-      height: widget.mainContainerHeight.h,
-      child: BlocBuilder<AddProductToStoreCubit, AddProductToStoreState>(
+      width: containerWidth.w,
+      height: mainContainerHeight.h,
+      child: BlocBuilder<AddImageToProductAddCubit, AddImageToProductAddState>(
         builder: (context, state) {
-          if (state is AddImageProductToStoreSuccess) {
+          if (state is AddImageToProductAddSuccess) {
             return Column(
               children: [
                 SizedBox(
-                  width: widget.containerWidth.w,
-                  height: widget.upContainerHeight.h,
+                  width: containerWidth.w,
+                  height: upContainerHeight.h,
                   child: DottedBorder(
                     color: AppColors.primary,
                     strokeWidth: 1.w,
                     dashPattern: [16, 3],
                     child: Container(
-                      width: widget.containerWidth.w,
-                      height: widget.upContainerHeight.h,
+                      width: containerWidth.w,
+                      height: upContainerHeight.h,
                       decoration: BoxDecoration(
                         color: AppColors.primaryOpacity,
                         borderRadius: BorderRadius.circular(10.0.r),
                       ),
                       child: Center(
                         child: GestureDetector(
-                            onTap: widget.onTapPickImage,
+                            onTap: onTapPickImage,
                             child: context
-                                        .read<AddProductToStoreCubit>()
+                                        .read<AddImageToProductAddCubit>()
                                         .imageByNumBox(
-                                            numBox: widget.imagePartNumber!) !=
+                                            numBox: imagePartNumber!) !=
                                     null
                                 ? AfterSelectedImage(
-                                    boxNumber: widget.imagePartNumber!,
+                                    boxNumber: imagePartNumber!,
                                     imageFile: context
-                                        .read<AddProductToStoreCubit>()
+                                        .read<AddImageToProductAddCubit>()
                                         .imageByNumBox(
-                                            numBox: widget.imagePartNumber!)!,
-                                    containerWidth: widget.containerWidth.w,
-                                    upContainerHeight:
-                                        widget.upContainerHeight.h,
+                                            numBox: imagePartNumber!)!,
+                                    containerWidth: containerWidth.w,
+                                    upContainerHeight: upContainerHeight.h,
                                   )
-                                : widget.isForMainImage
+                                : isForMainImage
                                     ? ButtonDesignAddImageMainProduct()
                                     : ImageForSubImages()),
                       ),
@@ -98,20 +92,20 @@ class _CustomAddImageWidgetState extends State<CustomAddImageWidget> {
                   ),
                 ),
                 DesignForTitleUnderImage(
-                    title: widget.titleText,
-                    width: widget.containerWidth.w,
-                    height: widget.downContainerHeight.h),
+                    title: titleText,
+                    width: containerWidth.w,
+                    height: downContainerHeight.h),
               ],
             );
           }
           // في حال اول مره فتح الصفحة - لم يختار أي صورة بعد
           return DesignForUnselectedImage(
-            isForMainImage: widget.isForMainImage,
-            titleText: widget.titleText,
-            containerWidth: widget.containerWidth.w,
-            upContainerHeight: widget.upContainerHeight.h,
-            downContainerHeight: widget.downContainerHeight.h,
-            onTapPickImage: widget.onTapPickImage,
+            isForMainImage: isForMainImage,
+            titleText: titleText,
+            containerWidth: containerWidth.w,
+            upContainerHeight: upContainerHeight.h,
+            downContainerHeight: downContainerHeight.h,
+            onTapPickImage: onTapPickImage,
           );
         },
       ),

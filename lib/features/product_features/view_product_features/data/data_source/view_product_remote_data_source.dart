@@ -65,48 +65,43 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
   //   // print(products);
   //   return products;
   // }
-  Future<List<ProductEntity>> getProductsByFilter(
-      {required int storeProductsFilter,
-      required int pageNumper,
-      required int pageSize,
-      //
-      required bool hasOffer,
-      required bool isDeleted,
-      //
-      }) async {
+  Future<List<ProductEntity>> getProductsByFilter({
+    required int storeProductsFilter,
+    required int pageNumper,
+    required int pageSize,
+    //
+    required bool hasOffer,
+    required bool isDeleted,
+    //
+  }) async {
     String? token = await getToken();
-    var data = await apiService
-        .post(endPoint: "Products/GetProductsWitheFilter?returnDtoName=1", 
-        data:
-        storeProductsFilter == 0 ? {
-            "pageNumber": pageNumper,
-            "pageSize": pageSize
-        } 
-        : 
-        {
-  "hasOffer": hasOffer,
-  "isDeleted": isDeleted,
-  "categoryId": 0,
-  // "storeId": "string",
-  // "productName": "string",
-  // "minPrice": 0,
-  // "maxPrice": 0,
-  "pageNumber": pageNumper,
-  "pageSize": pageSize
-}
-    //     data: {
-    //   // "storeProductsFilter": storeProductsFilter,
-    //   "pageNumber": pageNumper,
-    //   "pageSize": pageSize,
-    //   "offerId": null,
-    //   "hasOffer": null,
-    //   "categoryId": null,
-    //   "storeId": null,
-    //   "productName": null
-    // }
-    , headers: {
-      "Authorization": "BEARER $token"
-    });
+    var data = await apiService.post(
+        endPoint: "Products/GetProductsWitheFilter?returnDtoName=1",
+        data: storeProductsFilter == 0
+            ? {"pageNumber": pageNumper, "pageSize": pageSize}
+            : {
+                "hasOffer": hasOffer,
+                "isDeleted": isDeleted,
+                "categoryId": 0,
+                // "storeId": "string",
+                // "productName": "string",
+                // "minPrice": 0,
+                // "maxPrice": 0,
+                "pageNumber": pageNumper,
+                "pageSize": pageSize
+              }
+        //     data: {
+        //   // "storeProductsFilter": storeProductsFilter,
+        //   "pageNumber": pageNumper,
+        //   "pageSize": pageSize,
+        //   "offerId": null,
+        //   "hasOffer": null,
+        //   "categoryId": null,
+        //   "storeId": null,
+        //   "productName": null
+        // }
+        ,
+        headers: {"Authorization": "BEARER $token"});
     List<ProductEntity> products = getAllProductsByfilter(data);
     print(" ===================== Bagar =============== ");
     print(products[0].productImageUrl);
@@ -125,7 +120,8 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
         headers: {"Authorization": "BEARER $token"});
     DeleteProductEntity responseDeleteProduct =
         DeleteProductModel.fromJson(data);
-    print(" ===================== Bagar =============== ");
+    print(
+        " ===================== Bagar Message Delete Product =============== ");
     print(
         "========== Success =>  ${responseDeleteProduct.isSuuccess.toString()}");
     print("========== Message =>  ${responseDeleteProduct.message}");

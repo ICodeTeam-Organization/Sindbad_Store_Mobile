@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../ui/manger/cubit/add_product_to_store_cubit.dart';
+import '../ui/manger/cubit/add_images/cubit/add_image_to_product_add_cubit.dart';
 
 class AfterSelectedImage extends StatelessWidget {
   const AfterSelectedImage({
@@ -61,7 +61,7 @@ class AfterSelectedImage extends StatelessWidget {
           right: upContainerHeight > 82 ? 8.0 : 1,
           child: GestureDetector(
             onTap: () => context
-                .read<AddProductToStoreCubit>()
+                .read<AddImageToProductAddCubit>()
                 .deleteImageByNumBox(numBox: boxNumber),
             child: Container(
               color: upContainerHeight > 82 ? Colors.black54 : null,

@@ -1,3 +1,6 @@
+import 'dart:collection';
+
+import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,7 +8,9 @@ import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_ap
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/store_primary_button.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_product_to_store_cubit.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_images/cubit/add_image_to_product_add_cubit.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/custom_add_image_widget.dart';
 
 // import '../widgets/custom_add_image_widget.dart';
@@ -72,11 +77,78 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final List<TextEditingController> _keys = [];
   final List<TextEditingController> _values = [];
 
+  // List<String> getNamesCategory() {
+  //   // استخراج أسماء الفئات الرئيسية
+  //   List<String> namesCategory = context
+  //       .read<AddProductToStoreCubit>()
+  //       .categoriesWithDetails
+  //       .values
+  //       .map((category) {
+  //     return category
+  //         .keys.first; // نحصل على اسم الفئة الرئيسية (مثل Electronics)
+  //   }).toList();
+  //   return namesCategory;
+  // }
+
+  final Map<int, Map<String, List<Map<String, dynamic>>>> categories = {
+    1: {
+      'Electronics': [
+        {'id': 1, 'name': 'Mobile Phones'},
+        {'id': 2, 'name': 'Laptops'},
+        {'id': 3, 'name': 'Cameras'},
+        {'id': 4, 'name': 'Televisions'},
+        {'id': 5, 'name': 'Headphones'}
+      ]
+    },
+    2: {
+      'Home Appliances': [
+        {'id': 6, 'name': 'Refrigerators'},
+        {'id': 7, 'name': 'Washing Machines'},
+        // {'id': 8, 'name': 'Microwaves'},
+        // {'id': 9, 'name': 'Air Conditioners'},
+        // {'id': 10, 'name': 'Vacuum Cleaners'}
+      ]
+    }
+  }; // أضف باقي الفئات هنا }
+
+  final Map<int, List<Map<String, dynamic>>> brands = {
+    // id 'Electronics'
+    1: [
+      {"id": 1, "name": "O.K."},
+      {"id": 2, "name": "Adidas"}
+    ],
+    // id 'Home Appliances'
+    2: [
+      {"id": 1, "name": "O.K."},
+      {"id": 2, "name": "Adidas"}
+    ],
+  };
+
+  String? selectedCategory;
+  List<Map<String, dynamic>>? subCategories;
+  String? selectedSubCategory;
+  List<Map<String, dynamic>>? categoryBrands;
+  String? selectedBrand;
+
+  // late SingleSelectController<String?> categoryController;
+  // late SingleSelectController<String?> subCategoryController;
+  // late SingleSelectController<String?> brandController;
 // form key
 // final _formKey = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    super.initState();
+    // categoryController = SingleSelectController<String?>(null);
+    // subCategoryController = SingleSelectController<String?>(null);
+    // brandController = SingleSelectController<String?>(null);
+  }
+
+  @override
   void dispose() {
+    // categoryController.dispose();
+    // subCategoryController.dispose();
+    // brandController.dispose();
     for (var controller in _keys) {
       controller.dispose();
     }
@@ -111,6 +183,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //
+    // context.read<AddProductToStoreCubit>().fetchCategories();
+    //
     return MaterialApp(
       home: Scaffold(
         body: SingleChildScrollView(
@@ -128,6 +203,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      //  ================= for text filed =========
                       Card(
                         elevation: 4.0,
                         shape: RoundedRectangleBorder(
@@ -217,6 +293,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         ),
                       ),
                       SizedBox(height: 26.h),
+                      //  ================= for Add Images =========
                       Card(
                         elevation: 4.0,
                         shape: RoundedRectangleBorder(
@@ -252,10 +329,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               CustomAddImageWidget(
                                 imagePartNumber: 1,
                                 image: context
-                                    .read<AddProductToStoreCubit>()
+                                    .read<AddImageToProductAddCubit>()
                                     .mainImageProduct,
                                 onTapPickImage: () => context
-                                    .read<AddProductToStoreCubit>()
+                                    .read<AddImageToProductAddCubit>()
                                     .pickImageFromGallery(numPartImage: 1),
                                 isForMainImage: true,
                                 containerWidth: 333.w,
@@ -279,10 +356,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                     CustomAddImageWidget(
                                       imagePartNumber: 2,
                                       image: context
-                                          .read<AddProductToStoreCubit>()
+                                          .read<AddImageToProductAddCubit>()
                                           .subOneImageProduct,
                                       onTapPickImage: () => context
-                                          .read<AddProductToStoreCubit>()
+                                          .read<AddImageToProductAddCubit>()
                                           .pickImageFromGallery(
                                               numPartImage: 2),
                                       onPressed: () {},
@@ -293,10 +370,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                     CustomAddImageWidget(
                                       imagePartNumber: 3,
                                       image: context
-                                          .read<AddProductToStoreCubit>()
+                                          .read<AddImageToProductAddCubit>()
                                           .subTwoImageProduct,
                                       onTapPickImage: () => context
-                                          .read<AddProductToStoreCubit>()
+                                          .read<AddImageToProductAddCubit>()
                                           .pickImageFromGallery(
                                               numPartImage: 3),
                                       onPressed: () {},
@@ -307,10 +384,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                     CustomAddImageWidget(
                                       imagePartNumber: 4,
                                       image: context
-                                          .read<AddProductToStoreCubit>()
+                                          .read<AddImageToProductAddCubit>()
                                           .subThreeImageProduct,
                                       onTapPickImage: () => context
-                                          .read<AddProductToStoreCubit>()
+                                          .read<AddImageToProductAddCubit>()
                                           .pickImageFromGallery(
                                               numPartImage: 4),
                                       onPressed: () {},
@@ -323,6 +400,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         ),
                       ),
                       SizedBox(height: 26.h),
+                      //  ================= for drop down =========
                       Card(
                         elevation: 4.0,
                         shape: RoundedRectangleBorder(
@@ -356,32 +434,244 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               SizedBox(
                                 height: 10.h,
                               ),
-                              CustomDropdownWidget(
-                                textTitle: 'أختر الفئة',
-                                hintText: "قم بإختيار الفئة المناسبة",
-                                items: AddProductScreen._mainCategoryList,
-                                initialItem:
-                                    AddProductScreen._mainCategoryList[0],
+                              BlocBuilder<GetCategoryNamesCubit,
+                                  GetCategoryNamesState>(
+                                builder: (context, state) {
+                                  if (state is GetCategoryNamesInitial) {
+                                    // عند فتح الصفحة قبل تنفيذ دالة الجلب لابد أن تعطية شكل إفتراضي
+                                    return Column(
+                                      children: [
+                                        CustomDropdownWidget(
+                                          enabled: false,
+                                          textTitle: 'أختر الفئة',
+                                          hintText:
+                                              "تأكد من إتصالك بالإنترنت, أعد المحاولة",
+                                          items: [],
+                                          onChanged: (value) => null,
+                                        ),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        CustomDropdownWidget(
+                                          enabled: false,
+                                          textTitle: 'أختر قسم الفئة',
+                                          hintText:
+                                              "تأكد من إتصالك بالإنترنت, أعد المحاولة",
+                                          items: [],
+                                          onChanged: (value) => null,
+                                        ),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                      ],
+                                    );
+                                  }
+                                  if (state is GetCategoryNamesLoading) {
+                                    print(
+                                        "جارررررررررررررررررررررررري التحميييييييييييييييل");
+                                    return Column(
+                                      children: [
+                                        CustomDropdownWidget(
+                                          enabled: false,
+                                          textTitle: 'أختر الفئة',
+                                          hintText: "جاري التحميل...",
+                                          items: [],
+                                          onChanged: (value) => null,
+                                        ),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        CustomDropdownWidget(
+                                          enabled: false,
+                                          textTitle: 'أختر قسم الفئة',
+                                          hintText: "جاري التحميل...",
+                                          items: [],
+                                          onChanged: (value) => null,
+                                        ),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        CustomDropdownWidget(
+                                          enabled: false,
+                                          textTitle: 'أختر إسم البراند',
+                                          hintText: "جاري التحميل...",
+                                          items: [],
+                                          onChanged: (value) => null,
+                                        ),
+                                      ],
+                                    );
+                                  }
+                                  if (state is GetCategoryNamesSuccess ||
+                                      state
+                                          is GetCategoryNamesMainCategoryUpdated) {
+                                    final cubit =
+                                        context.read<GetCategoryNamesCubit>();
+                                    // for Main category Names
+                                    final List<String>
+                                        categoryAndSubCategoryNames = cubit
+                                            .categoryAndSubCategoryNames.entries
+                                            .map((entry) =>
+                                                entry.value.keys.first)
+                                            .toList();
+                                    // for Sub category Names
+                                    final List<
+                                        String> subCategoriesNames = cubit
+                                                .selectedMainCategoryId !=
+                                            null
+                                        ? cubit
+                                            .getSubCategoriesByMainCategoryId(
+                                              mainCategoryId:
+                                                  cubit.selectedMainCategoryId!,
+                                            )
+                                            .map((subCategory) =>
+                                                subCategory['name'] as String)
+                                            .toList()
+                                        : [];
+                                    return Column(
+                                      children: [
+                                        CustomDropdownWidget(
+                                          enabled: true,
+                                          textTitle: 'أختر الفئة',
+                                          hintText: "قم بإختيار الفئة المناسبة",
+                                          initialItem: null,
+                                          items: categoryAndSubCategoryNames
+                                                  .isNotEmpty
+                                              ? categoryAndSubCategoryNames
+                                              : [],
+                                          onChanged: (value) {
+                                            cubit.updateSelectedMainCategory(
+                                                value!);
+                                            cubit.vv();
+                                          },
+                                        ),
+                                        SizedBox(height: 10),
+                                        CustomDropdownWidget(
+                                          enabled:
+                                              cubit.selectedMainCategoryId !=
+                                                  null,
+                                          textTitle: 'أختر قسم الفئة',
+                                          hintText:
+                                              "قم بإختيار قسم الفئة المناسب",
+                                          initialItem:
+                                              cubit.selectedMainCategoryId !=
+                                                      null
+                                                  ? subCategoriesNames.first
+                                                  : null,
+                                          items: cubit.selectedMainCategoryId !=
+                                                  null
+                                              ? subCategoriesNames.isNotEmpty
+                                                  ? subCategoriesNames
+                                                  : []
+                                              : [],
+                                          onChanged: (value) {
+                                            cubit.updateSelectedSubCategory(
+                                                value!);
+                                            cubit.vv();
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  }
+
+                                  if (state is GetCategoryNamesFailure) {
+                                    print(
+                                        "فششششششششششششششل التحميييييييييييييييل");
+                                    return Column(
+                                      children: [
+                                        CustomDropdownWidget(
+                                          enabled: false,
+                                          textTitle: 'أختر الفئة',
+                                          hintText: "فشل التحميل, أعد المحاولة",
+                                          items: [],
+                                          onChanged: (value) => null,
+                                        ),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        CustomDropdownWidget(
+                                          enabled: false,
+                                          textTitle: 'أختر قسم الفئة',
+                                          hintText: "فشل التحميل, أعد المحاولة",
+                                          items: [],
+                                          onChanged: (value) => null,
+                                        ),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        CustomDropdownWidget(
+                                          enabled: false,
+                                          textTitle: 'أختر إسم البراند',
+                                          hintText: "حدث خطأ, أعد المحاولة",
+                                          items: [],
+                                          onChanged: (value) => null,
+                                        ),
+                                      ],
+                                    );
+                                  }
+                                  // عند حدوث خطأ غير معروف
+                                  return Column(
+                                    children: [
+                                      CustomDropdownWidget(
+                                        enabled: false,
+                                        textTitle: 'أختر الفئة',
+                                        hintText: "حدث خطأ, أعد المحاولة",
+                                        items: [],
+                                        onChanged: (value) => null,
+                                      ),
+                                      SizedBox(
+                                        height: 10.h,
+                                      ),
+                                      CustomDropdownWidget(
+                                        enabled: false,
+                                        textTitle: 'أختر قسم الفئة',
+                                        hintText: "حدث خطأ, أعد المحاولة",
+                                        items: [],
+                                        onChanged: (value) => null,
+                                      ),
+                                      SizedBox(
+                                        height: 10.h,
+                                      ),
+                                      CustomDropdownWidget(
+                                        enabled: false,
+                                        textTitle: 'أختر إسم البراند',
+                                        hintText: "حدث خطأ, أعد المحاولة",
+                                        items: [],
+                                        onChanged: (value) => null,
+                                      ),
+                                    ],
+                                  );
+                                },
                               ),
-                              SizedBox(
-                                height: 10.h,
-                              ),
-                              CustomDropdownWidget(
-                                textTitle: 'أختر قسم الفئة',
-                                hintText: "قم بإختيار قسم الفئة المناسب",
-                                items: AddProductScreen._subCategoryList,
-                                initialItem:
-                                    AddProductScreen._subCategoryList[0],
-                              ),
-                              SizedBox(
-                                height: 10.h,
-                              ),
-                              CustomDropdownWidget(
-                                textTitle: 'أختر إسم البراند',
-                                hintText: "قم بإختيار البراند المناسب",
-                                items: AddProductScreen._brandList,
-                                initialItem: AddProductScreen._brandList[0],
-                              )
+                              // SizedBox(
+                              //   height: 10.h,
+                              // ),
+                              // CustomDropdownWidget(
+                              //   enabled: categoryBrands != null &&
+                              //           categoryBrands!.isNotEmpty
+                              //       ? true
+                              //       : false,
+                              //   // controller: categoryBrands != null &&
+                              //   //         categoryBrands!.isNotEmpty
+                              //   //     ? brandController
+                              //   //     : null,
+                              //   textTitle: 'أختر إسم البراند',
+                              //   hintText: "قم بإختيار البراند المناسب",
+                              //   // items: AddProductScreen._brandList,
+                              //   // استخراج أسماء الفئات الرئيسية
+                              //   items: categoryBrands != null &&
+                              //           categoryBrands!.isNotEmpty
+                              //       ? categoryBrands!.map((brand) {
+                              //           return brand['name'] as String;
+                              //         }).toList()
+                              //       : [],
+                              //   onChanged: (value) {
+                              //     setState(() {
+                              //       selectedBrand = value;
+                              //       print('اختير البراند: $selectedBrand');
+                              //     });
+                              //   },
+                              //   // initialItem: AddProductScreen._brandList[0],
+                              // )
                             ],
                           ),
                         ),
@@ -487,6 +777,18 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   StorePrimaryButton(
+                    onTap: () {
+                      // ================ for test ============
+                      // context.read<AddProductToStoreCubit>().fetchCategories();
+                      print(context
+                          .read<GetCategoryNamesCubit>()
+                          .categoryAndSubCategoryNames);
+                      print(context
+                          .read<GetCategoryNamesCubit>()
+                          .categoryAndSubCategoryNames
+                          .isEmpty);
+                      context.read<GetCategoryNamesCubit>().fetchCategories();
+                    },
                     title: "تأكيد",
                     width: 251.w,
                     height: 44.h,
@@ -496,6 +798,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     width: 8.w,
                   ),
                   StorePrimaryButton(
+                    onTap: () {
+                      context.read<GetCategoryNamesCubit>().vv();
+                    },
                     title: "إلغاء",
                     width: 104.w,
                     height: 46.h,
