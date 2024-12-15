@@ -8,11 +8,11 @@
 // 	int? pageSize;
 
 // 	Data({
-// 		this.items, 
-// 		this.totalCount, 
-// 		this.totalPages, 
-// 		this.currentPage, 
-// 		this.pageSize, 
+// 		this.items,
+// 		this.totalCount,
+// 		this.totalPages,
+// 		this.currentPage,
+// 		this.pageSize,
 // 	});
 
 // 	factory Data.fromJson(Map<String, dynamic> json) => Data(

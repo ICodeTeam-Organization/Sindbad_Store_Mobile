@@ -11,6 +11,15 @@ class AddProductToStoreCubit extends Cubit<AddProductToStoreState> {
   TextEditingController priceProductController = TextEditingController();
   TextEditingController descriptionProductController = TextEditingController();
 
+  int? selectedMainCategoryId;
+  int? selectedSubCategoryId;
+  void test() {
+    print("=======================  test  =====================");
+    print("تم اختيار الفئة الرئيسية: ID = $selectedMainCategoryId");
+    print("تم اختيار الفئة الفرعية: ID = $selectedSubCategoryId");
+    print("=======================  test  =====================");
+  }
+
   // // all File for [ product Images ] ==> add product page
   // File? mainImageProduct;
   // File? subOneImageProduct;

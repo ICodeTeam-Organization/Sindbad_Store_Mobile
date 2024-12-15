@@ -16,7 +16,6 @@ final class AddProductToStoreFailure extends AddProductToStoreState {}
 // // final class AddImageProductToStoreInitial extends AddProductToStoreState {}
 // final class AddImageProductToStoreSuccess extends AddProductToStoreState {}
 
-
 // // for drop down
 // final class GetCategoryNamesLoading extends AddProductToStoreState {}
 

@@ -7,10 +7,10 @@
 // 	List<SubCategory>? subCategories;
 
 // 	Item({
-// 		this.id, 
-// 		this.categoryName, 
-// 		this.categoryImageUrl, 
-// 		this.subCategories, 
+// 		this.id,
+// 		this.categoryName,
+// 		this.categoryImageUrl,
+// 		this.subCategories,
 // 	});
 
 // 	factory Item.fromJson(Map<String, dynamic> json) => Item(

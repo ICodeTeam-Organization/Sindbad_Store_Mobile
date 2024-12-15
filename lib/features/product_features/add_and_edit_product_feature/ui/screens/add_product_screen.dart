@@ -14,6 +14,7 @@ import 'package:sindbad_management_app/features/product_features/add_and_edit_pr
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/custom_add_image_widget.dart';
 
 // import '../widgets/custom_add_image_widget.dart';
+import '../../domain/entities/main_category_entity.dart';
 import '../../widgets/custom_dropdown_widget.dart';
 import '../../widgets/custom_simple_text_form_field.dart';
 import '../../widgets/custom_text_form_widget.dart';
@@ -130,25 +131,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
   List<Map<String, dynamic>>? categoryBrands;
   String? selectedBrand;
 
-  // late SingleSelectController<String?> categoryController;
-  // late SingleSelectController<String?> subCategoryController;
-  // late SingleSelectController<String?> brandController;
-// form key
-// final _formKey = GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    super.initState();
-    // categoryController = SingleSelectController<String?>(null);
-    // subCategoryController = SingleSelectController<String?>(null);
-    // brandController = SingleSelectController<String?>(null);
-  }
-
   @override
   void dispose() {
-    // categoryController.dispose();
-    // subCategoryController.dispose();
-    // brandController.dispose();
     for (var controller in _keys) {
       controller.dispose();
     }
@@ -172,20 +156,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
     });
   }
 
-// void _submit(){
-//   final isValid = _formKey.currentState!.validate();
-//   if(!isValid){
-//     return;
-//   }
-//   // what happen is it vaslid (meaning the fields is ok)
-//   //// write here the code for that ////
-// }
-
   @override
   Widget build(BuildContext context) {
-    //
-    // context.read<AddProductToStoreCubit>().fetchCategories();
-    //
     return MaterialApp(
       home: Scaffold(
         body: SingleChildScrollView(
@@ -501,72 +473,98 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                       ],
                                     );
                                   }
-                                  if (state is GetCategoryNamesSuccess ||
-                                      state
-                                          is GetCategoryNamesMainCategoryUpdated) {
+                                  if (state is GetCategoryNamesSuccess) {
                                     final cubit =
                                         context.read<GetCategoryNamesCubit>();
-                                    // for Main category Names
-                                    final List<String>
-                                        categoryAndSubCategoryNames = cubit
-                                            .categoryAndSubCategoryNames.entries
-                                            .map((entry) =>
-                                                entry.value.keys.first)
-                                            .toList();
-                                    // for Sub category Names
-                                    final List<
-                                        String> subCategoriesNames = cubit
-                                                .selectedMainCategoryId !=
-                                            null
-                                        ? cubit
-                                            .getSubCategoriesByMainCategoryId(
-                                              mainCategoryId:
-                                                  cubit.selectedMainCategoryId!,
-                                            )
-                                            .map((subCategory) =>
-                                                subCategory['name'] as String)
-                                            .toList()
-                                        : [];
+
+                                    final List<MainCategoryEntity>
+                                        mainAndSubCategories =
+                                        state.categoryAndSubCategoryNames;
+
                                     return Column(
                                       children: [
+                                        // =================  Main Category ================
                                         CustomDropdownWidget(
                                           enabled: true,
                                           textTitle: 'أختر الفئة',
                                           hintText: "قم بإختيار الفئة المناسبة",
                                           initialItem: null,
-                                          items: categoryAndSubCategoryNames
-                                                  .isNotEmpty
-                                              ? categoryAndSubCategoryNames
+                                          items: mainAndSubCategories.isNotEmpty
+                                              ? mainAndSubCategories
+                                                  .map((category) =>
+                                                      category.mainCategoryName)
+                                                  .toList()
                                               : [],
                                           onChanged: (value) {
-                                            cubit.updateSelectedMainCategory(
-                                                value!);
-                                            cubit.vv();
+                                            int selectedIndex =
+                                                mainAndSubCategories
+                                                    .indexWhere((category) =>
+                                                        category
+                                                            .mainCategoryName ==
+                                                        value);
+                                            if (selectedIndex != -1) {
+                                              final selectedMainCategoryId =
+                                                  mainAndSubCategories[
+                                                          selectedIndex]
+                                                      .mainCategoryId;
+
+                                              // تحديث فئات الفئة الفرعية
+                                              cubit.updateSubCategories(
+                                                  selectedMainCategoryId);
+
+                                              // حفظ ID الفئة الرئيسية في الكيوبيت
+                                              final AddProductToStoreCubit
+                                                  addProductCubit =
+                                                  context.read<
+                                                      AddProductToStoreCubit>();
+                                              addProductCubit
+                                                      .selectedMainCategoryId =
+                                                  mainAndSubCategories[
+                                                          selectedIndex]
+                                                      .mainCategoryId;
+                                            }
                                           },
                                         ),
                                         SizedBox(height: 10),
+
+                                        // =================  Sub Category ================
                                         CustomDropdownWidget(
-                                          enabled:
-                                              cubit.selectedMainCategoryId !=
-                                                  null,
-                                          textTitle: 'أختر قسم الفئة',
-                                          hintText:
-                                              "قم بإختيار قسم الفئة المناسب",
-                                          initialItem:
-                                              cubit.selectedMainCategoryId !=
-                                                      null
-                                                  ? subCategoriesNames.first
-                                                  : null,
-                                          items: cubit.selectedMainCategoryId !=
-                                                  null
-                                              ? subCategoriesNames.isNotEmpty
-                                                  ? subCategoriesNames
-                                                  : []
+                                          enabled: true,
+                                          textTitle: 'أختر القسم',
+                                          hintText: "قم بإختيار القسم المناسب",
+                                          initialItem: null,
+                                          items: cubit.selectedSubCategories
+                                                  .isNotEmpty
+                                              ? cubit.selectedSubCategories
+                                                  .map((subCategory) =>
+                                                      subCategory
+                                                          .subCategoryNameEntity)
+                                                  .toList()
                                               : [],
                                           onChanged: (value) {
-                                            cubit.updateSelectedSubCategory(
-                                                value!);
-                                            cubit.vv();
+                                            // البحث عن الفئة الفرعية المختارة باستخدام الاسم
+                                            int selectedIndex = cubit
+                                                .selectedSubCategories
+                                                .indexWhere(
+                                              (subCategory) =>
+                                                  subCategory
+                                                      .subCategoryNameEntity ==
+                                                  value,
+                                            );
+
+                                            if (selectedIndex != -1) {
+                                              context
+                                                      .read<
+                                                          AddProductToStoreCubit>()
+                                                      .selectedSubCategoryId =
+                                                  cubit
+                                                      .selectedSubCategories[
+                                                          selectedIndex]
+                                                      .subCategoryId;
+                                              // طباعة ID الفئة الفرعية المختارة
+                                              debugPrint(
+                                                  'ID الفئة الفرعية المختارة: ${cubit.selectedSubCategories[selectedIndex].subCategoryId}');
+                                            }
                                           },
                                         ),
                                       ],
@@ -576,6 +574,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                   if (state is GetCategoryNamesFailure) {
                                     print(
                                         "فششششششششششششششل التحميييييييييييييييل");
+                                    print(state.errMessage);
+
                                     return Column(
                                       children: [
                                         CustomDropdownWidget(
@@ -779,15 +779,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   StorePrimaryButton(
                     onTap: () {
                       // ================ for test ============
-                      // context.read<AddProductToStoreCubit>().fetchCategories();
-                      print(context
+                      context
                           .read<GetCategoryNamesCubit>()
-                          .categoryAndSubCategoryNames);
-                      print(context
-                          .read<GetCategoryNamesCubit>()
-                          .categoryAndSubCategoryNames
-                          .isEmpty);
-                      context.read<GetCategoryNamesCubit>().fetchCategories();
+                          .getMainAndSubCategory(
+                              filterType: 2, pageNumper: 1, pageSize: 10);
                     },
                     title: "تأكيد",
                     width: 251.w,
@@ -799,7 +794,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   ),
                   StorePrimaryButton(
                     onTap: () {
-                      context.read<GetCategoryNamesCubit>().vv();
+                      context.read<AddProductToStoreCubit>().test();
                     },
                     title: "إلغاء",
                     width: 104.w,
