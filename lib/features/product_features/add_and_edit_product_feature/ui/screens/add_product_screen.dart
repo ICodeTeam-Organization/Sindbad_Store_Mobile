@@ -1,6 +1,3 @@
-import 'dart:collection';
-
-import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,12 +5,13 @@ import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_ap
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/store_primary_button.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_attribute_product.dart/add_attribute_product_dart_cubit.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_images/cubit/add_image_to_product_add_cubit.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/brands_by_main_category_id/cubit/get_brands_by_category_id_cubit.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/custom_add_image_widget.dart';
-
-// import '../widgets/custom_add_image_widget.dart';
+import '../../domain/entities/brand_entity.dart';
 import '../../domain/entities/main_category_entity.dart';
 import '../../widgets/custom_dropdown_widget.dart';
 import '../../widgets/custom_simple_text_form_field.dart';
@@ -435,6 +433,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                         SizedBox(
                                           height: 10.h,
                                         ),
+                                        CustomDropdownWidget(
+                                          enabled: false,
+                                          textTitle: 'أختر اسم البراند',
+                                          hintText:
+                                              "تأكد من إتصالك بالإنترنت, أعد المحاولة",
+                                          items: [],
+                                          onChanged: (value) => null,
+                                        )
                                       ],
                                     );
                                   }
@@ -474,7 +480,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                     );
                                   }
                                   if (state is GetCategoryNamesSuccess) {
-                                    final cubit =
+                                    // shortuct to access [AddProductToStoreCubit]
+                                    final AddProductToStoreCubit
+                                        cubitAddProduct =
+                                        context.read<AddProductToStoreCubit>();
+                                    // shortuct to access [GetCategoryNamesCubit]
+                                    final GetCategoryNamesCubit
+                                        cubitCategories =
                                         context.read<GetCategoryNamesCubit>();
 
                                     final List<MainCategoryEntity>
@@ -503,25 +515,35 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                                             .mainCategoryName ==
                                                         value);
                                             if (selectedIndex != -1) {
-                                              final selectedMainCategoryId =
+                                              final int selectedMainCategoryId =
                                                   mainAndSubCategories[
                                                           selectedIndex]
                                                       .mainCategoryId;
 
                                               // تحديث فئات الفئة الفرعية
-                                              cubit.updateSubCategories(
-                                                  selectedMainCategoryId);
+                                              cubitCategories
+                                                  .updateSubCategories(
+                                                      selectedMainCategoryId);
+                                              //
+                                              context
+                                                  .read<
+                                                      GetBrandsByCategoryIdCubit>()
+                                                  .getBrandsByMainCategoryId(
+                                                      mainCategoryId:
+                                                          selectedMainCategoryId);
 
-                                              // حفظ ID الفئة الرئيسية في الكيوبيت
-                                              final AddProductToStoreCubit
-                                                  addProductCubit =
-                                                  context.read<
-                                                      AddProductToStoreCubit>();
-                                              addProductCubit
+                                              cubitAddProduct
                                                       .selectedMainCategoryId =
                                                   mainAndSubCategories[
                                                           selectedIndex]
                                                       .mainCategoryId;
+
+                                              cubitAddProduct
+                                                  .selectedSubCategoryId = null;
+                                              cubitAddProduct.selectedBrandId =
+                                                  null;
+                                              //
+                                              cubitAddProduct.test();
                                             }
                                           },
                                         ),
@@ -529,13 +551,19 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
                                         // =================  Sub Category ================
                                         CustomDropdownWidget(
-                                          enabled: true,
+                                          enabled: cubitAddProduct
+                                                      .selectedMainCategoryId ==
+                                                  null
+                                              ? false
+                                              : true,
                                           textTitle: 'أختر القسم',
                                           hintText: "قم بإختيار القسم المناسب",
                                           initialItem: null,
-                                          items: cubit.selectedSubCategories
+                                          items: cubitCategories
+                                                  .selectedSubCategories
                                                   .isNotEmpty
-                                              ? cubit.selectedSubCategories
+                                              ? cubitCategories
+                                                  .selectedSubCategories
                                                   .map((subCategory) =>
                                                       subCategory
                                                           .subCategoryNameEntity)
@@ -543,7 +571,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                               : [],
                                           onChanged: (value) {
                                             // البحث عن الفئة الفرعية المختارة باستخدام الاسم
-                                            int selectedIndex = cubit
+                                            int selectedIndex = cubitCategories
                                                 .selectedSubCategories
                                                 .indexWhere(
                                               (subCategory) =>
@@ -553,20 +581,116 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                             );
 
                                             if (selectedIndex != -1) {
-                                              context
-                                                      .read<
-                                                          AddProductToStoreCubit>()
+                                              cubitAddProduct
                                                       .selectedSubCategoryId =
-                                                  cubit
+                                                  cubitCategories
                                                       .selectedSubCategories[
                                                           selectedIndex]
                                                       .subCategoryId;
                                               // طباعة ID الفئة الفرعية المختارة
                                               debugPrint(
-                                                  'ID الفئة الفرعية المختارة: ${cubit.selectedSubCategories[selectedIndex].subCategoryId}');
+                                                  'ID الفئة الفرعية المختارة: ${cubitCategories.selectedSubCategories[selectedIndex].subCategoryId}');
+                                              cubitAddProduct.test();
                                             }
                                           },
                                         ),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        BlocBuilder<GetBrandsByCategoryIdCubit,
+                                            GetBrandsByCategoryIdState>(
+                                          builder: (context, state) {
+                                            if (state
+                                                is GetBrandsByCategoryIdInitial) {
+                                              return CustomDropdownWidget(
+                                                enabled: false,
+                                                textTitle: 'أختر قسم الفئة',
+                                                hintText:
+                                                    "تأكد من إتصالك بالإنترنت, أعد المحاولة",
+                                                items: [],
+                                                onChanged: (value) => null,
+                                              );
+                                            }
+                                            if (state
+                                                is GetBrandsByCategoryIdLoading) {
+                                              return CustomDropdownWidget(
+                                                enabled: false,
+                                                textTitle: 'أختر اسم البراند',
+                                                hintText: "جاري التحميل...",
+                                                items: [],
+                                                onChanged: (value) => null,
+                                              );
+                                            }
+                                            if (state
+                                                is GetBrandsByCategoryIdSuccess) {
+                                              final List<BrandEntity> brands =
+                                                  state.brands;
+                                              return CustomDropdownWidget(
+                                                enabled: true,
+                                                textTitle: 'أختر اسم البراند',
+                                                hintText:
+                                                    "قم بإختيار البراند المناسب",
+                                                items: brands.isNotEmpty
+                                                    ? brands
+                                                        .map((category) =>
+                                                            category
+                                                                .brandNameEntity)
+                                                        .toList()
+                                                    : [],
+                                                onChanged: (value) {
+                                                  int selectedIndex = brands
+                                                      .indexWhere((brand) =>
+                                                          brand
+                                                              .brandNameEntity ==
+                                                          value);
+                                                  if (selectedIndex != -1) {
+                                                    final int selectedBrandId =
+                                                        brands[selectedIndex]
+                                                            .brandId;
+                                                    //
+                                                    cubitAddProduct
+                                                            .selectedBrandId =
+                                                        selectedBrandId;
+                                                    cubitAddProduct.test();
+                                                  }
+                                                },
+                                              );
+                                            }
+                                            if (state
+                                                is GetBrandsByCategoryIdFailure) {}
+                                            return CustomDropdownWidget(
+                                              enabled: categoryBrands != null &&
+                                                      categoryBrands!.isNotEmpty
+                                                  ? true
+                                                  : false,
+                                              // controller: categoryBrands != null &&
+                                              //         categoryBrands!.isNotEmpty
+                                              //     ? brandController
+                                              //     : null,
+                                              textTitle: 'أختر إسم البراند',
+                                              hintText:
+                                                  "قم بإختيار البراند المناسب",
+                                              // items: AddProductScreen._brandList,
+                                              // استخراج أسماء الفئات الرئيسية
+                                              items: categoryBrands != null &&
+                                                      categoryBrands!.isNotEmpty
+                                                  ? categoryBrands!
+                                                      .map((brand) {
+                                                      return brand['name']
+                                                          as String;
+                                                    }).toList()
+                                                  : [],
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  selectedBrand = value;
+                                                  print(
+                                                      'اختير البراند: $selectedBrand');
+                                                });
+                                              },
+                                              // initialItem: AddProductScreen._brandList[0],
+                                            );
+                                          },
+                                        )
                                       ],
                                     );
                                   }
@@ -714,34 +838,98 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      for (int index = 0;
-                                          index < _keys.length;
-                                          index++)
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 8.0.h),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              CustomSimpleTextFormField(
-                                                textController: _keys[index],
-                                                hintText: 'خاصية',
-                                              ),
-                                              SizedBox(width: 20.w),
-                                              CustomSimpleTextFormField(
-                                                textController: _values[index],
-                                                hintText: 'قيمة',
-                                              ),
-                                              IconButton(
-                                                icon: Icon(Icons.remove_circle,
-                                                    size: 20),
-                                                onPressed: () =>
-                                                    _removeField(index),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                      BlocBuilder<AddAttributeProductDartCubit,
+                                              AddAttributeProductDartState>(
+                                          builder: (context, state) {
+                                        if (state
+                                            is AddAttributeProductDartInitial) {
+                                          return Center(
+                                              child: Text("in Initial"));
+                                        }
+                                        if (state
+                                            is AddAttributeProductDartLoading) {
+                                          return CircularProgressIndicator();
+                                        }
+
+                                        if (state
+                                            is AddAttributeProductDartSuccess) {
+                                          final AddAttributeProductDartCubit
+                                              cubitAttribute = context.read<
+                                                  AddAttributeProductDartCubit>();
+
+                                          return Column(
+                                            children: List.generate(
+                                                state.keys.length, (index) {
+                                              return Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 8.0.h),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    CustomSimpleTextFormField(
+                                                      textController:
+                                                          cubitAttribute
+                                                              .keys[index],
+                                                      hintText: 'خاصية',
+                                                    ),
+                                                    SizedBox(width: 20.w),
+                                                    CustomSimpleTextFormField(
+                                                      textController:
+                                                          cubitAttribute
+                                                              .values[index],
+                                                      hintText: 'قيمة',
+                                                    ),
+                                                    IconButton(
+                                                      icon: Icon(
+                                                          Icons.remove_circle,
+                                                          size: 20),
+                                                      onPressed: () {
+                                                        cubitAttribute
+                                                            .removeField(index);
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            }),
+                                          );
+                                        }
+
+                                        return SizedBox();
+                                      })
+                                      // for (int index = 0;
+                                      //     index < _keys.length;
+                                      //     index++)
+                                      //   Padding(
+                                      //     padding: EdgeInsets.symmetric(
+                                      //         vertical: 8.0.h),
+                                      //     child: Row(
+                                      //       mainAxisAlignment:
+                                      //           MainAxisAlignment.center,
+                                      //       children: [
+                                      //         CustomSimpleTextFormField(
+                                      //           textController: _keys[index],
+                                      //           hintText: 'خاصية',
+                                      //         ),
+                                      //         SizedBox(width: 20.w),
+                                      //         CustomSimpleTextFormField(
+                                      //           textController: _values[index],
+                                      //           hintText: 'قيمة',
+                                      //         ),
+                                      //         IconButton(
+                                      //           icon: Icon(Icons.remove_circle,
+                                      //               size: 20),
+                                      //           onPressed: () {
+                                      //             // print(
+                                      //             // '==========  ${_values[index].text}  ======================');
+                                      //             _removeField(index);
+                                      //           },
+                                      //         ),
+                                      //       ],
+                                      //     ),
+                                      //   ),
+                                      ,
                                       IconButton(
                                         icon: Row(
                                           mainAxisAlignment:
@@ -755,7 +943,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                             Text(" أضف المزيد"),
                                           ],
                                         ),
-                                        onPressed: _addField,
+                                        onPressed: () {
+                                          context
+                                              .read<
+                                                  AddAttributeProductDartCubit>()
+                                              .addField();
+                                        },
                                       ),
                                       //  Text("أضف خاصية"),
                                     ],

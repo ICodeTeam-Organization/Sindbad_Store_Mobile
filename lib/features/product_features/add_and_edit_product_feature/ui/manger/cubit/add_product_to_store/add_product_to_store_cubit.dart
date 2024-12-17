@@ -13,10 +13,12 @@ class AddProductToStoreCubit extends Cubit<AddProductToStoreState> {
 
   int? selectedMainCategoryId;
   int? selectedSubCategoryId;
+  int? selectedBrandId;
   void test() {
     print("=======================  test  =====================");
     print("تم اختيار الفئة الرئيسية: ID = $selectedMainCategoryId");
     print("تم اختيار الفئة الفرعية: ID = $selectedSubCategoryId");
+    print("تم اختيار البراند: ID = $selectedBrandId");
     print("=======================  test  =====================");
   }
 
