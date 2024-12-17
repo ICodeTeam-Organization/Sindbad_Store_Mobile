@@ -9,7 +9,6 @@ class AddAttributeProductDartCubit extends Cubit<AddAttributeProductDartState> {
   final List<TextEditingController> values = [];
 
   void addField() {
-    emit(AddAttributeProductDartLoading());
     keys.add(TextEditingController());
     values.add(TextEditingController());
     testAdd();
@@ -17,7 +16,6 @@ class AddAttributeProductDartCubit extends Cubit<AddAttributeProductDartState> {
   }
 
   void removeField(int index) {
-    emit(AddAttributeProductDartLoading());
     test(index); // for test
     keys.removeAt(index);
     values.removeAt(index);

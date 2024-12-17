@@ -493,6 +493,15 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                         mainAndSubCategories =
                                         state.categoryAndSubCategoryNames;
 
+                                    cubitAddProduct.selectedSubCategoryId =
+                                        cubitCategories.selectedSubCategories
+                                                .isNotEmpty
+                                            ? cubitCategories
+                                                .selectedSubCategories
+                                                .first
+                                                .subCategoryId
+                                            : null;
+
                                     return Column(
                                       children: [
                                         // =================  Main Category ================
@@ -557,8 +566,15 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                               ? false
                                               : true,
                                           textTitle: 'أختر القسم',
-                                          hintText: "قم بإختيار القسم المناسب",
-                                          initialItem: null,
+                                          hintText: "إختر الفئة الأساسية أولا",
+                                          initialItem: cubitCategories
+                                                  .selectedSubCategories
+                                                  .isNotEmpty
+                                              ? cubitCategories
+                                                  .selectedSubCategories
+                                                  .first
+                                                  .subCategoryNameEntity
+                                              : null,
                                           items: cubitCategories
                                                   .selectedSubCategories
                                                   .isNotEmpty
@@ -592,6 +608,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                                   'ID الفئة الفرعية المختارة: ${cubitCategories.selectedSubCategories[selectedIndex].subCategoryId}');
                                               cubitAddProduct.test();
                                             }
+                                            //
                                           },
                                         ),
                                         SizedBox(
@@ -604,9 +621,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                                 is GetBrandsByCategoryIdInitial) {
                                               return CustomDropdownWidget(
                                                 enabled: false,
-                                                textTitle: 'أختر قسم الفئة',
+                                                textTitle: 'أختر اسم البراند',
                                                 hintText:
-                                                    "تأكد من إتصالك بالإنترنت, أعد المحاولة",
+                                                    "إختر الفئة الأساسية أولا",
                                                 items: [],
                                                 onChanged: (value) => null,
                                               );
@@ -625,11 +642,21 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                                 is GetBrandsByCategoryIdSuccess) {
                                               final List<BrandEntity> brands =
                                                   state.brands;
+
+                                              // set [selectedBrandId] auto first id duo [initialItem]
+                                              cubitAddProduct.selectedBrandId =
+                                                  brands.isNotEmpty
+                                                      ? brands.first.brandId
+                                                      : null;
                                               return CustomDropdownWidget(
                                                 enabled: true,
                                                 textTitle: 'أختر اسم البراند',
                                                 hintText:
                                                     "قم بإختيار البراند المناسب",
+                                                initialItem: brands.isNotEmpty
+                                                    ? brands
+                                                        .first.brandNameEntity
+                                                    : null, // تعيين أول عنصر إذا كانت القائمة غير فارغة
                                                 items: brands.isNotEmpty
                                                     ? brands
                                                         .map((category) =>
@@ -842,16 +869,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                               AddAttributeProductDartState>(
                                           builder: (context, state) {
                                         if (state
-                                            is AddAttributeProductDartInitial) {
-                                          return Center(
-                                              child: Text("in Initial"));
-                                        }
-                                        if (state
-                                            is AddAttributeProductDartLoading) {
-                                          return CircularProgressIndicator();
-                                        }
-
-                                        if (state
                                             is AddAttributeProductDartSuccess) {
                                           final AddAttributeProductDartCubit
                                               cubitAttribute = context.read<
@@ -896,7 +913,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                           );
                                         }
 
-                                        return SizedBox();
+                                        return SizedBox(); //  working [if in Initial state or else]
                                       })
                                       // for (int index = 0;
                                       //     index < _keys.length;

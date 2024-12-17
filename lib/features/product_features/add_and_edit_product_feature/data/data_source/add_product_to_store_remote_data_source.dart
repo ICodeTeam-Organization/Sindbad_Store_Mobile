@@ -61,9 +61,6 @@ class AddProductToStoreRemoteDataSourceImpl
     }
 
     List<BrandEntity> brands = changeToDartModel(data['data'] as List<dynamic>);
-    print("================ in data source =====================");
-    print(brands);
-    print("================ in data source =====================");
     return brands;
   }
 }

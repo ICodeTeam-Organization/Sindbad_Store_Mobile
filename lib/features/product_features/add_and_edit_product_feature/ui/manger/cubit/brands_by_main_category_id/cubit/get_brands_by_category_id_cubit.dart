@@ -24,14 +24,10 @@ class GetBrandsByCategoryIdCubit extends Cubit<GetBrandsByCategoryIdState> {
     result.fold(
         // left
         (failure) {
-      print("========  in left brand cubit ===========");
-      print("========  ${failure.message} ===========");
-      print("========  in left brand cubit ===========");
       emit(GetBrandsByCategoryIdFailure()); // ======== emit ==========
     },
         // right
         (brands) {
-      print("==============  in right brand cubit ===============");
       emit(GetBrandsByCategoryIdSuccess(
           brands: brands)); // ======== emit ==========
     });
