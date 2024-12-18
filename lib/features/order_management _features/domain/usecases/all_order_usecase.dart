@@ -22,7 +22,7 @@ class AllOrderUsecase
         paied: params.paied,
         pageNumber: params.pageNumber,
         pageSize: params.pageSize,
-        srearchKeyword: params.srearchKeyword);
+        searchKeyword: params.srearchKeyword);
   }
 }
 

@@ -20,7 +20,7 @@ abstract class AllOrderRepo {
       required bool paied,
       required int pageNumber,
       required int pageSize,
-      required String srearchKeyword});
+      required String searchKeyword});
   /////////////////////////////
   ///Order Deatalis
   Future<Either<Failure, List<OrderDetailsEntity>>> fetchOrderDetails({

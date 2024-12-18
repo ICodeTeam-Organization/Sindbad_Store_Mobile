@@ -46,7 +46,7 @@ class AllOrderRepoImpl extends AllOrderRepo {
       required bool paied,
       required int pageNumber,
       required int pageSize,
-      required String srearchKeyword}) {
+      required String searchKeyword}) {
     return fetchData(() => allOrderRemotDataSource.fetchAllOrder(
         isUrgen,
         canceled,
@@ -56,7 +56,7 @@ class AllOrderRepoImpl extends AllOrderRepo {
         paied,
         pageNumber,
         pageSize,
-        srearchKeyword));
+        searchKeyword));
   }
 
   //////////////////////////////////
