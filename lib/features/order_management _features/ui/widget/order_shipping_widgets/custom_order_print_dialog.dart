@@ -14,14 +14,10 @@ class CustomOrderPrintDialog extends StatelessWidget {
     required this.headTitle,
     required this.onPressedPrint,
     required this.onPressedShare,
-    required this.billNumber,
-    required this.storeNumber,
   });
   final String headTitle;
   final GestureTapCallback onPressedPrint;
   final GestureTapCallback onPressedShare;
-  final int billNumber;
-  final int storeNumber;
 
   @override
   Widget build(BuildContext context) {
