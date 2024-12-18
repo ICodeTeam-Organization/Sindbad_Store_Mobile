@@ -208,7 +208,7 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
     String? token = await getToken();
     var data = await apiService.postRequestWithFileAndImage(
         endPoint:
-            'ShippingInformations/CreateShippingInformation2?orderId=$orderId&Date=$invoiceDate&InvoiceNumber=$shippingNumber&CompanyName=$shippingCompany&ParcelNumber=$numberParcels',
+            'ShippingInformations/CreateShippingInformation?orderId=$orderId&Date=$invoiceDate&InvoiceNumber=$shippingNumber&CompanyName=$shippingCompany&ParcelNumber=$numberParcels',
         headers: {
           'Authorization': 'Bearer $token',
         },
@@ -221,6 +221,9 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
           'ParcelNumber': numberParcels,
           'InvoiceType': '',
           'InvoiceAmount': '',
+          'ShopName': '',
+          'ShopNumber': '',
+          'ShopLocation': '',
         });
     OrderShippingEntity shipping = OrderShippingModel.fromJson(data);
     print(shipping);

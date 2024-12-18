@@ -173,11 +173,15 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                           return CustomOrderPrintDialog(
                             headTitle: '  طباعة عنوان الطلب',
                             onPressedPrint: () async {
+                              final now = DateTime.now();
+                              final randomFileName =
+                                  '${now.year}-${now.month}-${now.day}_${now.hour}-${now.minute}-${now.second}-${now.millisecond}';
                               final pdfDocument =
                                   await Pdf.generateCenteredText(
-                                      '25 - 777777778', parcels!);
+                                      '$orderNumbers - 777777778', parcels!);
                               final file = await Pdf.saveDocument(
-                                  name: 'icode.pdf', pdf: pdfDocument);
+                                  name: 'invoice_$randomFileName.pdf',
+                                  pdf: pdfDocument);
                               await Pdf.openFile(file);
                               Navigator.of(context).pop();
                               showDialog(
@@ -198,12 +202,16 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                                   .enableButtonForOrder(idOrders.toString());
                             },
                             onPressedShare: () async {
+                              final now = DateTime.now();
+                              final randomFileName =
+                                  '${now.year}-${now.month}-${now.day}_${now.hour}-${now.minute}-${now.second}-${now.millisecond}';
                               // Ensure pdfDocument is properly initialized and not null
                               final pdfDocument =
                                   await Pdf.generateCenteredText(
-                                      '25 - 777777778', parcels!);
+                                      '$orderNumbers - 777777778', parcels!);
                               final file = await Pdf.saveDocument(
-                                  name: 'icode.pdf', pdf: pdfDocument);
+                                  name: 'invoice_$randomFileName.pdf',
+                                  pdf: pdfDocument);
 
                               // Now share the file
                               if (file != null) {
@@ -218,10 +226,6 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                                   .read<ButtonDisableCubit>()
                                   .enableButtonForOrder(idOrders.toString());
                             },
-                            // طباعة باركود عبر رقم الفاتورة و رقم المحل
-                            billNumber: 44,
-                            // int.parse(billNumbers ?? '0'),
-                            storeNumber: 777777778,
                           );
                         },
                       );
