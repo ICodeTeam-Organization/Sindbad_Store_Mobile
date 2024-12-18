@@ -89,7 +89,7 @@ class GetCategoryNamesSuccessWidget extends StatelessWidget {
               // طباعة ID الفئة الفرعية المختارة
               debugPrint(
                   'ID الفئة الفرعية المختارة: ${cubitCategories.selectedSubCategories[selectedIndex].subCategoryId}');
-              cubitAddProduct.test();
+              cubitAddProduct.testDropDown();
             }
             //
           },
@@ -116,7 +116,7 @@ class GetCategoryNamesSuccessWidget extends StatelessWidget {
               cubitAddProduct.selectedBrandId =
                   brands.isNotEmpty ? brands.first.brandId : null;
               // for test
-              cubitAddProduct.test();
+              cubitAddProduct.testDropDown();
               return CustomDropdownWidget(
                 enabled: true,
                 textTitle: 'أختر اسم البراند',
@@ -137,7 +137,7 @@ class GetCategoryNamesSuccessWidget extends StatelessWidget {
                     //
                     cubitAddProduct.selectedBrandId = selectedBrandId;
                     // for test
-                    cubitAddProduct.test();
+                    cubitAddProduct.testDropDown();
                   }
                 },
               );
