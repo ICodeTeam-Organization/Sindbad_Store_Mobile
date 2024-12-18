@@ -19,8 +19,8 @@ class TwoButtonInDownAddproduct extends StatelessWidget {
         StorePrimaryButton(
           onTap: () {
             // ================ for test ============
-            context.read<GetCategoryNamesCubit>().getMainAndSubCategory(
-                filterType: 2, pageNumper: 1, pageSize: 10);
+            // context.read<GetCategoryNamesCubit>().getMainAndSubCategory(
+            //     filterType: 2, pageNumper: 1, pageSize: 10);
           },
           title: "تأكيد",
           width: 251.w,

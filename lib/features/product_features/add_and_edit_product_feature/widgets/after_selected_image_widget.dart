@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../ui/manger/cubit/add_images/cubit/add_image_to_product_add_cubit.dart';
+import '../ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
 
 class AfterSelectedImage extends StatelessWidget {
   const AfterSelectedImage({
@@ -60,9 +61,33 @@ class AfterSelectedImage extends StatelessWidget {
           top: upContainerHeight > 82 ? 8.0 : 2.0,
           right: upContainerHeight > 82 ? 8.0 : 1,
           child: GestureDetector(
-            onTap: () => context
-                .read<AddImageToProductAddCubit>()
-                .deleteImageByNumBox(numBox: boxNumber),
+            onTap: () {
+              context
+                  .read<AddImageToProductAddCubit>()
+                  .deleteImageByNumBox(numBox: boxNumber);
+
+              // for delete image from AddProductToStoreCubit
+              final AddProductToStoreCubit cubitAddProduct =
+                  context.read<AddProductToStoreCubit>();
+              switch (boxNumber) {
+                case 1:
+                  cubitAddProduct.mainImageProduct = null;
+                  print(
+                      " ==============  done delete image path main  =============");
+                case 2:
+                  cubitAddProduct.subOneImageProduct = null;
+                  print(
+                      " ==============  done delete image path sub 1  =============");
+                case 3:
+                  cubitAddProduct.subTwoImageProduct = null;
+                  print(
+                      " ==============  done delete image path sub 2  =============");
+                case 4:
+                  cubitAddProduct.subThreeImageProduct = null;
+                  print(
+                      " ==============  done delete image path sub 3  =============");
+              }
+            },
             child: Container(
               color: upContainerHeight > 82 ? Colors.black54 : null,
               padding: EdgeInsets.all(4.0),

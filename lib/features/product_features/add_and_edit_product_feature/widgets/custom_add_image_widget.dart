@@ -11,6 +11,7 @@ import 'design_for_title_under_image_widget.dart';
 import 'design_for_unselected_image_widget.dart';
 import 'image_for_sub_images_widget.dart';
 
+// ignore: must_be_immutable
 class CustomAddImageWidget extends StatelessWidget {
   final double containerWidth;
   final double mainContainerHeight;
@@ -51,6 +52,9 @@ class CustomAddImageWidget extends StatelessWidget {
       child: BlocBuilder<AddImageToProductAddCubit, AddImageToProductAddState>(
         builder: (context, state) {
           if (state is AddImageToProductAddSuccess) {
+            final AddImageToProductAddCubit cubitAddImage =
+                context.read<AddImageToProductAddCubit>();
+
             return Column(
               children: [
                 SizedBox(
@@ -70,17 +74,13 @@ class CustomAddImageWidget extends StatelessWidget {
                       child: Center(
                         child: GestureDetector(
                             onTap: onTapPickImage,
-                            child: context
-                                        .read<AddImageToProductAddCubit>()
-                                        .imageByNumBox(
-                                            numBox: imagePartNumber!) !=
+                            child: cubitAddImage.imageByNumBox(
+                                        numBox: imagePartNumber!) !=
                                     null
                                 ? AfterSelectedImage(
                                     boxNumber: imagePartNumber!,
-                                    imageFile: context
-                                        .read<AddImageToProductAddCubit>()
-                                        .imageByNumBox(
-                                            numBox: imagePartNumber!)!,
+                                    imageFile: cubitAddImage.imageByNumBox(
+                                        numBox: imagePartNumber!)!,
                                     containerWidth: containerWidth.w,
                                     upContainerHeight: upContainerHeight.h,
                                   )

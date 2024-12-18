@@ -18,6 +18,11 @@ class CustomCardToAllDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ==================== call fun fetch Main And Sub Category  ==============
+    context
+        .read<GetCategoryNamesCubit>()
+        .getMainAndSubCategory(filterType: 2, pageNumper: 1, pageSize: 10);
+
     return Card(
       elevation: 4.0,
       shape: RoundedRectangleBorder(

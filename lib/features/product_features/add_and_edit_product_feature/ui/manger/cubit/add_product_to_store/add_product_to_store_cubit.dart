@@ -23,10 +23,10 @@ class AddProductToStoreCubit extends Cubit<AddProductToStoreState> {
   }
 
   // // all File for [ product Images ] ==> add product page
-  // File? mainImageProduct;
-  // File? subOneImageProduct;
-  // File? subTwoImageProduct;
-  // File? subThreeImageProduct;
+  String? mainImageProduct;
+  String? subOneImageProduct;
+  String? subTwoImageProduct;
+  String? subThreeImageProduct;
 
   // // for drop down category
 

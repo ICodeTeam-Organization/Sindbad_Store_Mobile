@@ -37,8 +37,8 @@ class AddProductScreen extends StatelessWidget {
                       SizedBox(height: 26.h),
                       //  ================= for drop down =========
                       CustomCardToAllDropDown(),
-                      // Flexible(
                       SizedBox(height: 26.h),
+                      //  ================= for Attributes Fileds =========
                       CustomCardToAllAttributesFileds(),
                     ],
                   ),
