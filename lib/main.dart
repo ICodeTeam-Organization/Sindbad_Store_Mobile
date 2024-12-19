@@ -25,6 +25,15 @@ import 'package:sindbad_management_app/features/offer_management_features/modify
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/offer_data_cubit/offer_data_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/offer_products_cubit/offer_products_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/update_offer_cubit/update_offer_cubit.dart';
+// import 'package:sindbad_management_app/features/order_management%20_features/data/repos_impl/all_order_repo_impl.dart';
+// import 'package:sindbad_management_app/features/order_management%20_features/domain/usecases/order_cancel_usecase.dart';
+// import 'package:sindbad_management_app/features/order_management%20_features/domain/usecases/order_invoice_usecasse.dart';
+// import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/cancel/cancel_cubit.dart';
+// import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/order_details/order_details_cubit.dart';
+// import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/refresh/refresh_page_cubit.dart';
+// import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/invoice/order_invoice_cubit.dart';
+// import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/shipping/shipping_cubit.dart';
+// import 'package:sindbad_management_app/features/order_management%20_features/ui/screen/order_details.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/repos/View_offer_repo_impl.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/usecases/change_status_offer_use_case.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/usecases/delete_offer_use_case.dart';
@@ -36,6 +45,9 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_cubit/offer_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_details_cubit/offer_details_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/view_offer_body.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/data/repos/add_product_store_repo_impl.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/repos/add_product_store_repo.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/usecases/get_main_and_sub_category_use_case.dart';
 
 import 'core/setup_service_locator.dart';
 import 'core/simple_bloc_observer.dart';
@@ -44,6 +56,14 @@ import 'features/order_management _features/domain/usecases/order_details_usecas
 import 'features/order_management _features/domain/usecases/order_shipping_usecase.dart';
 import 'features/order_management _features/ui/manager/all_order/all_order_cubit.dart';
 import 'features/order_management _features/ui/manager/button_disable/button_disable_cubit.dart';
+// import 'features/order_management _features/domain/usecases/order_details_usecase.dart';
+// import 'features/order_management _features/domain/usecases/order_shipping_usecase.dart';
+import 'features/product_features/add_and_edit_product_feature/domain/usecases/get_brands_by_main_category_id_use_case.dart';
+import 'features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_attribute_product.dart/add_attribute_product_dart_cubit.dart';
+import 'features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_images/cubit/add_image_to_product_add_cubit.dart';
+import 'features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
+import 'features/product_features/add_and_edit_product_feature/ui/manger/cubit/brands_by_main_category_id/cubit/get_brands_by_category_id_cubit.dart';
+import 'features/product_features/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -105,6 +125,27 @@ class SindbadManagementApp extends StatelessWidget {
             create: (context) => SignInCubit(SignInUseCase(
                   getit.get<SignInRepoImpl>(),
                 ))),
+        // BlocProvider(
+        //     create: (context) => OrderDetailsCubit(OrderDetailsUsecase(
+        //           getit.get<AllOrderRepoImpl>(),
+        //         ))),
+        // BlocProvider(create: (context) => RefreshPageCubit()),
+        // BlocProvider(
+        //     create: (context) => OrderInvoiceCubit(OrderInvoiceUsecase(
+        //           allOrderRepo: getit.get<AllOrderRepoImpl>(),
+        //         ))),
+        // BlocProvider(
+        //     create: (context) => ShippingCubit(OrderShippingUsecase(
+        //           allOrderRepo: getit.get<AllOrderRepoImpl>(),
+        //         ))),
+        // BlocProvider(
+        //     create: (context) => CancelCubit(OrderCancelUsecase(
+        //           allOrderRepo: getit.get<AllOrderRepoImpl>(),
+        //         ))),
+
+        //for add product
+        BlocProvider(create: (context) => AddProductToStoreCubit()),
+        BlocProvider(create: (context) => AddImageToProductAddCubit()),
         BlocProvider(
             create: (context) => AllOrderCubit(AllOrderUsecase(
                   getit.get<AllOrderRepoImpl>(),
@@ -120,13 +161,17 @@ class SindbadManagementApp extends StatelessWidget {
                   allOrderRepo: getit.get<AllOrderRepoImpl>(),
                 ))),
         BlocProvider(
-            create: (context) => ShippingCubit(OrderShippingUsecase(
-                  allOrderRepo: getit.get<AllOrderRepoImpl>(),
+            create: (context) =>
+                GetCategoryNamesCubit(GetMainAndSubCategoryUseCase(
+                  getit.get<AddProductStoreRepoImpl>(),
                 ))),
         BlocProvider(
-            create: (context) => CancelCubit(OrderCancelUsecase(
-                  allOrderRepo: getit.get<AllOrderRepoImpl>(),
+            create: (context) =>
+                GetBrandsByCategoryIdCubit(GetBrandsByMainCategoryIdUseCase(
+                  getit.get<AddProductStoreRepoImpl>(),
                 ))),
+        BlocProvider(create: (context) => AddAttributeProductDartCubit()),
+        //
       ],
       child: ScreenUtilInit(
         designSize: const Size(428, 1000),

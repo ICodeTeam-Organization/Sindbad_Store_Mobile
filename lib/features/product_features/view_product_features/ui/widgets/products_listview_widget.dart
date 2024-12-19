@@ -27,23 +27,24 @@ class ProductsListView extends StatelessWidget {
     //     .getStoreProductsWitheFilter(storeProductsFilter, 1, 10);
 
     // جميغ المنتجات
-   if (storeProductsFilter == 0) {
+    if (storeProductsFilter == 0) {
       context
-        .read<GetStoreProductsWithFilterCubit>()
-        .getStoreProductsWitheFilter(storeProductsFilter, 1, 10 ,false ,false);
-   }
-   //  المنتجات التي عليها عروض
-   else if(storeProductsFilter ==1){
-     context
-        .read<GetStoreProductsWithFilterCubit>()
-        .getStoreProductsWitheFilter(storeProductsFilter, 1, 10 ,true ,false);
-   }
-   //  المنتجات الموقوفة  
-   else if(storeProductsFilter ==2){
-     context
-        .read<GetStoreProductsWithFilterCubit>()
-        .getStoreProductsWitheFilter(storeProductsFilter, 1, 10 ,false ,true);
-   }
+          .read<GetStoreProductsWithFilterCubit>()
+          .getStoreProductsWitheFilter(
+              storeProductsFilter, 1, 10, false, false);
+    }
+    //  المنتجات التي عليها عروض
+    else if (storeProductsFilter == 1) {
+      context
+          .read<GetStoreProductsWithFilterCubit>()
+          .getStoreProductsWitheFilter(storeProductsFilter, 1, 10, true, false);
+    }
+    //  المنتجات الموقوفة
+    else if (storeProductsFilter == 2) {
+      context
+          .read<GetStoreProductsWithFilterCubit>()
+          .getStoreProductsWitheFilter(storeProductsFilter, 1, 10, false, true);
+    }
     return BlocConsumer<GetStoreProductsWithFilterCubit,
         GetStoreProductsWithFilterState>(
       listener: (context, state) {
@@ -56,24 +57,27 @@ class ProductsListView extends StatelessWidget {
           );
 
           // تحديث قائمة المنتجات بعد الحذف
-            // جميغ المنتجات
-   if (storeProductsFilter == 0) {
-      context
-        .read<GetStoreProductsWithFilterCubit>()
-        .getStoreProductsWitheFilter(storeProductsFilter, 1, 10 ,false ,false);
-   }
-   //  المنتجات التي عليها عروض
-   else if(storeProductsFilter ==1){
-     context
-        .read<GetStoreProductsWithFilterCubit>()
-        .getStoreProductsWitheFilter(storeProductsFilter, 1, 10 ,true ,false);
-   }
-   //  المنتجات الموقوفة  
-   else if(storeProductsFilter ==2){
-     context
-        .read<GetStoreProductsWithFilterCubit>()
-        .getStoreProductsWitheFilter(storeProductsFilter, 1, 10 ,false ,true);
-   }
+          // جميغ المنتجات
+          if (storeProductsFilter == 0) {
+            context
+                .read<GetStoreProductsWithFilterCubit>()
+                .getStoreProductsWitheFilter(
+                    storeProductsFilter, 1, 10, false, false);
+          }
+          //  المنتجات التي عليها عروض
+          else if (storeProductsFilter == 1) {
+            context
+                .read<GetStoreProductsWithFilterCubit>()
+                .getStoreProductsWitheFilter(
+                    storeProductsFilter, 1, 10, true, false);
+          }
+          //  المنتجات الموقوفة
+          else if (storeProductsFilter == 2) {
+            context
+                .read<GetStoreProductsWithFilterCubit>()
+                .getStoreProductsWitheFilter(
+                    storeProductsFilter, 1, 10, false, true);
+          }
           // context
           //     .read<GetStoreProductsWithFilterCubit>()
           //     .getStoreProductsWitheFilter(
@@ -88,24 +92,27 @@ class ProductsListView extends StatelessWidget {
             SnackBar(content: Text(state.errMessage)),
           );
           // تحديث قائمة المنتجات بعد فشل الحذف
-            // جميغ المنتجات
-   if (storeProductsFilter == 0) {
-      context
-        .read<GetStoreProductsWithFilterCubit>()
-        .getStoreProductsWitheFilter(storeProductsFilter, 1, 10 ,false ,false);
-   }
-   //  المنتجات التي عليها عروض
-   else if(storeProductsFilter ==1){
-     context
-        .read<GetStoreProductsWithFilterCubit>()
-        .getStoreProductsWitheFilter(storeProductsFilter, 1, 10 ,true ,false);
-   }
-   //  المنتجات الموقوفة  
-   else if(storeProductsFilter ==2){
-     context
-        .read<GetStoreProductsWithFilterCubit>()
-        .getStoreProductsWitheFilter(storeProductsFilter, 1, 10 ,false ,true);
-   }
+          // جميغ المنتجات
+          if (storeProductsFilter == 0) {
+            context
+                .read<GetStoreProductsWithFilterCubit>()
+                .getStoreProductsWitheFilter(
+                    storeProductsFilter, 1, 10, false, false);
+          }
+          //  المنتجات التي عليها عروض
+          else if (storeProductsFilter == 1) {
+            context
+                .read<GetStoreProductsWithFilterCubit>()
+                .getStoreProductsWitheFilter(
+                    storeProductsFilter, 1, 10, true, false);
+          }
+          //  المنتجات الموقوفة
+          else if (storeProductsFilter == 2) {
+            context
+                .read<GetStoreProductsWithFilterCubit>()
+                .getStoreProductsWitheFilter(
+                    storeProductsFilter, 1, 10, false, true);
+          }
           // context
           //     .read<GetStoreProductsWithFilterCubit>()
           //     .getStoreProductsWitheFilter(

@@ -8,21 +8,27 @@ class CustomDropdownWidget extends StatelessWidget {
   final List<String> items;
   final String hintText;
   final String textTitle;
+  final bool enabled;
   final String? initialItem;
+  // final SingleSelectController<String?>? controller;
+  final dynamic Function(String?) onChanged;
 
   const CustomDropdownWidget({
     super.key,
     required this.textTitle,
+    // this.controller,
     required this.items,
     required this.hintText,
+    required this.onChanged,
+    this.enabled = true,
     this.initialItem,
+    // this.initialItem,
   });
 
   @override
   Widget build(BuildContext context) {
-    final String? initialDropdownItem = (items.isNotEmpty && items.contains(initialItem))
-        ? initialItem
-        : null;
+    // final String? initialDropdownItem =
+    //     (items.isNotEmpty && items.contains(initialItem)) ? initialItem : null;
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
@@ -38,7 +44,8 @@ class CustomDropdownWidget extends StatelessWidget {
                 ),
                 TextSpan(
                   text: textTitle,
-                  style: KTextStyle.textStyle16.copyWith(color: AppColors.greyDark),
+                  style: KTextStyle.textStyle16
+                      .copyWith(color: AppColors.greyDark),
                 ),
               ],
             ),
@@ -48,17 +55,17 @@ class CustomDropdownWidget extends StatelessWidget {
             width: 335.w,
             child: Directionality(
               textDirection: TextDirection.rtl,
-              child: CustomDropdown(
+              child: CustomDropdown<String>(
+                enabled: enabled,
+                // controller: controller,
                 hintText: hintText,
                 items: items,
-                initialItem: initialDropdownItem,
+                initialItem: initialItem,
                 decoration: CustomDropdownDecoration(
                   closedBorder: Border.all(color: AppColors.grey),
                   expandedBorder: Border.all(color: AppColors.grey),
                 ),
-                onChanged: (value) {
-                  print('changing value to: $value');
-                },
+                onChanged: onChanged,
               ),
             ),
           ),
