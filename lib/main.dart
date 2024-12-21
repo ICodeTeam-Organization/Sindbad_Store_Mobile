@@ -40,6 +40,7 @@ import 'core/simple_bloc_observer.dart';
 import 'features/auth_features/ui/manager/cubit/sign_in_cubit.dart';
 // import 'features/order_management _features/domain/usecases/order_details_usecase.dart';
 // import 'features/order_management _features/domain/usecases/order_shipping_usecase.dart';
+import 'features/product_features/add_and_edit_product_feature/domain/usecases/add_product_to_store_use_case.dart';
 import 'features/product_features/add_and_edit_product_feature/domain/usecases/get_brands_by_main_category_id_use_case.dart';
 import 'features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_attribute_product.dart/add_attribute_product_dart_cubit.dart';
 import 'features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_images/cubit/add_image_to_product_add_cubit.dart';
@@ -111,7 +112,11 @@ class SindbadManagementApp extends StatelessWidget {
         //         ))),
 
         //for add product
-        BlocProvider(create: (context) => AddProductToStoreCubit()),
+        BlocProvider(
+            create: (context) =>
+                AddProductToStoreCubit(AddProductToStoreUseCase(
+                  addProductStoreRepo: getit.get<AddProductStoreRepoImpl>(),
+                ))),
         BlocProvider(create: (context) => AddImageToProductAddCubit()),
         BlocProvider(
             create: (context) =>

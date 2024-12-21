@@ -8,9 +8,17 @@ final class AddProductToStoreInitial extends AddProductToStoreState {}
 
 final class AddProductToStoreLoading extends AddProductToStoreState {}
 
-final class AddProductToStoreSuccess extends AddProductToStoreState {}
+final class AddProductToStoreSuccess extends AddProductToStoreState {
+  final AddProductEntity message;
 
-final class AddProductToStoreFailure extends AddProductToStoreState {}
+  AddProductToStoreSuccess({required this.message});
+}
+
+final class AddProductToStoreFailure extends AddProductToStoreState {
+  final String errMessage;
+
+  AddProductToStoreFailure({required this.errMessage});
+}
 
 // // for Add Image
 // // final class AddImageProductToStoreInitial extends AddProductToStoreState {}

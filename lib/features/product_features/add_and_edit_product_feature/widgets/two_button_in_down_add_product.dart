@@ -5,7 +5,6 @@ import 'package:sindbad_management_app/core/shared_widgets/new_widgets/store_pri
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_attribute_product.dart/add_attribute_product_dart_cubit.dart';
 import '../../../../core/styles/Colors.dart';
 import '../ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
-import '../ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
 
 class TwoButtonInDownAddproduct extends StatelessWidget {
   const TwoButtonInDownAddproduct({
@@ -26,6 +25,7 @@ class TwoButtonInDownAddproduct extends StatelessWidget {
             // ================ for test ============
             // context.read<GetCategoryNamesCubit>().getMainAndSubCategory(
             //     filterType: 2, pageNumper: 1, pageSize: 10);
+            cubitAddProduct.AddProductToStore();
           },
           title: "تأكيد",
           width: 251.w,

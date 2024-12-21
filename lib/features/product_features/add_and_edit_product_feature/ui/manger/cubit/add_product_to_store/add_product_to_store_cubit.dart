@@ -1,9 +1,17 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entity.dart';
+
+import '../../../../../../../core/errors/failure.dart';
+import '../../../../domain/usecases/add_product_to_store_use_case.dart';
 part 'add_product_to_store_state.dart';
 
 class AddProductToStoreCubit extends Cubit<AddProductToStoreState> {
-  AddProductToStoreCubit() : super(AddProductToStoreInitial());
+  AddProductToStoreCubit(this.addProductToStoreUseCase)
+      : super(AddProductToStoreInitial());
+
+  final AddProductToStoreUseCase addProductToStoreUseCase;
 
   // all controller for [ info product ] ==> add product page
   TextEditingController nameProductController = TextEditingController();
@@ -33,7 +41,7 @@ class AddProductToStoreCubit extends Cubit<AddProductToStoreState> {
   List<TextEditingController> keys = [];
   List<TextEditingController> values = [];
 
-  // for test Post Request
+  // for test Post Requeste
   void testPostRequest() {
     print("=======================  testPostRequest  =====================");
     print("nameProduct =>                  ${nameProductController.text}");
@@ -49,9 +57,63 @@ class AddProductToStoreCubit extends Cubit<AddProductToStoreState> {
     print("SubCategoryId =>                $selectedSubCategoryId");
     print("BrandId =>                      $selectedBrandId");
     for (int i = 0; i < keys.length; i++) {
-      print("key $i+1 =>                      ${keys[i].text}");
-      print("value $i+1 =>                    ${values[i].text}");
+      print("key ${i + 1} =>                        ${keys[i].text}");
+      print("value ${i + 1} =>                      ${values[i].text}");
     }
+    print([
+      for (int i = 0; i < keys.length; i++)
+        {"attributeName": keys[i].text, "attributeValue": values[i].text}
+    ]);
     print("=======================  testPostRequest  =====================");
+  }
+
+  void AddProductToStore() async {
+    emit(AddProductToStoreLoading()); // ======== emit ==========
+    print("===========  جاررررررررررررري التحميييييل  =========");
+    AddProductToStoreParams params = AddProductToStoreParams(
+      name: nameProductController.text,
+      price: num.parse(priceProductController.text),
+      description: descriptionProductController.text,
+      mainImageUrl: mainImageProduct ?? 'exampleMainImageUrl.png',
+      number: numberProductController.text,
+      storeId: null,
+      offerId: null,
+      brandId: selectedBrandId,
+      mainCategoryId: selectedMainCategoryId!,
+      images: [
+        if (subOneImageProduct != null)
+          {"imageUrl": "exampleSub1/$subOneImageProduct"},
+        if (subTwoImageProduct != null)
+          {"imageUrl": "exampleSub2/$subTwoImageProduct"},
+        if (subThreeImageProduct != null)
+          {"imageUrl": "exampleSub3/$subThreeImageProduct"},
+      ],
+      subCategoryIds: [selectedSubCategoryId!],
+      newAttributes: [
+        for (int i = 0; i < keys.length; i++)
+          {"attributeName": keys[i].text, "attributeValue": values[i].text}
+      ],
+    );
+    Either<Failure, AddProductEntity> result =
+        await addProductToStoreUseCase.execute(params);
+
+    result.fold(
+        // left
+        (failure) {
+      print("===========  فشششششششششل التحميييييل  =========");
+      print("===========  ${failure.message} =========");
+      print("===========  فشششششششششل التحميييييل  =========");
+      emit(AddProductToStoreFailure(
+          errMessage: failure.message)); // ======== emit ==========
+    },
+        // right
+        (message) {
+      print("===========  تمت الإضافة بنجاح =========");
+      print("=========== success =>  ${message.success} =========");
+      print("=========== message =>  ${message.message} =========");
+      print("===========  تمت الإضافة بنجاح =========");
+      emit(AddProductToStoreSuccess(
+          message: message)); // ======== emit ==========
+    });
   }
 }

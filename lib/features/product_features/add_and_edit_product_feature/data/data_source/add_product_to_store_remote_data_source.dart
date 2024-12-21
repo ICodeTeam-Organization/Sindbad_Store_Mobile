@@ -1,10 +1,30 @@
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sindbad_management_app/core/api_service.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/data/models/add_product_model.dart';
+import '../../domain/entities/add_product_entity.dart';
 import '../../domain/entities/brand_entity.dart';
 import '../../domain/entities/main_category_entity.dart';
 import '../models/brand_model/datum.dart';
 import '../models/main_and_sub_category_model/item.dart';
 
 abstract class AddProductToStoreRemoteDataSource {
+  Future<AddProductEntity> addProductToStore({
+    required String name,
+    required num price,
+    required String description,
+    required String mainImageUrl,
+    required String number,
+    // i don't know what data tybe and value
+    required int? storeId,
+    required int? offerId,
+    required int? brandId,
+    //
+    required int mainCategoryId,
+    required List<Map<String, String>> images,
+    required List<int> subCategoryIds,
+    required List<Map<String, String>> newAttributes,
+  });
+
   Future<List<MainCategoryEntity>> getMainAndSubCategory({
     required int filterType,
     required int pageNumper,
@@ -18,8 +38,49 @@ abstract class AddProductToStoreRemoteDataSource {
 class AddProductToStoreRemoteDataSourceImpl
     extends AddProductToStoreRemoteDataSource {
   final ApiService apiService;
+  final FlutterSecureStorage secureStorage;
 
-  AddProductToStoreRemoteDataSourceImpl(this.apiService);
+  AddProductToStoreRemoteDataSourceImpl(this.apiService, this.secureStorage);
+
+  Future<String?> getToken() async {
+    return await secureStorage.read(key: 'token');
+  }
+
+  @override
+  Future<AddProductEntity> addProductToStore(
+      {required String name,
+      required num price,
+      required String description,
+      required String mainImageUrl,
+      required String number,
+      required int? storeId,
+      required int? offerId,
+      required int? brandId,
+      required int mainCategoryId,
+      required List<Map<String, String>> images,
+      required List<int> subCategoryIds,
+      required List<Map<String, String>> newAttributes}) async {
+    String? token = await getToken();
+    final data = await apiService.post(endPoint: "Products/AddProduct", data: {
+      "name": name,
+      "price": price,
+      "description": description,
+      "mainImageUrl": mainImageUrl,
+      "number": number,
+      "storeId": storeId,
+      "offerId": offerId,
+      "brandId": brandId,
+      "mainCategoryId": mainCategoryId,
+      "images": images,
+      "subCategoryIds": subCategoryIds,
+      "newAttributes": newAttributes
+    }, headers: {
+      'Authorization': 'Bearer $token',
+    });
+    AddProductEntity body = AddProductModel.fromJson(data);
+
+    return body;
+  }
 
   // =========================  for get MainAndSubCategory  ===========================
   @override
