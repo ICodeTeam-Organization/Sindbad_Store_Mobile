@@ -13,6 +13,8 @@ class CustomCardToAllAttributesFileds extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AddAttributeProductDartCubit cubitAttribute =
+        context.read<AddAttributeProductDartCubit>();
     return Card(
       elevation: 4.0,
       shape: RoundedRectangleBorder(
@@ -49,9 +51,6 @@ class CustomCardToAllAttributesFileds extends StatelessWidget {
                   BlocBuilder<AddAttributeProductDartCubit,
                       AddAttributeProductDartState>(builder: (context, state) {
                     if (state is AddAttributeProductDartSuccess) {
-                      final AddAttributeProductDartCubit cubitAttribute =
-                          context.read<AddAttributeProductDartCubit>();
-
                       return Column(
                         children: List.generate(state.keys.length, (index) {
                           return Padding(
@@ -96,7 +95,7 @@ class CustomCardToAllAttributesFileds extends StatelessWidget {
                       ],
                     ),
                     onPressed: () {
-                      context.read<AddAttributeProductDartCubit>().addField();
+                      cubitAttribute.addField();
                     },
                   ),
                   //  Text("أضف خاصية"),

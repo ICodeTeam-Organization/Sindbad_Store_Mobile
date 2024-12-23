@@ -23,8 +23,6 @@ class TwoButtonInDownAddproduct extends StatelessWidget {
         StorePrimaryButton(
           onTap: () {
             // ================ for test ============
-            // context.read<GetCategoryNamesCubit>().getMainAndSubCategory(
-            //     filterType: 2, pageNumper: 1, pageSize: 10);
             cubitAddProduct.keys =
                 cubitAddAttribute.keys; // == important befor test
             cubitAddProduct.values =

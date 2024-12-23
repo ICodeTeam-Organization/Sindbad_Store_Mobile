@@ -13,6 +13,8 @@ class CustomCardToAllTextFileds extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AddProductToStoreCubit cubitAddProduct =
+        context.read<AddProductToStoreCubit>();
     return Card(
       elevation: 4.0,
       shape: RoundedRectangleBorder(
@@ -42,8 +44,7 @@ class CustomCardToAllTextFileds extends StatelessWidget {
               ),
             ),
             CustomTextFormWidget(
-              textController: context
-                  .read<AddProductToStoreCubit>()
+              textController: cubitAddProduct
                   .nameProductController, // ================================
               text: 'أسم المنتج',
               width: 334.0.w,
@@ -58,8 +59,7 @@ class CustomCardToAllTextFileds extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   CustomTextFormWidget(
-                    textController: context
-                        .read<AddProductToStoreCubit>()
+                    textController: cubitAddProduct
                         .priceProductController, // ================================
                     text: 'السعر',
                     width: 147.0.w,
@@ -69,8 +69,7 @@ class CustomCardToAllTextFileds extends StatelessWidget {
                     width: 36.0.w,
                   ),
                   CustomTextFormWidget(
-                    textController: context
-                        .read<AddProductToStoreCubit>()
+                    textController: cubitAddProduct
                         .numberProductController, // ================================
                     text: 'رقم المنتج',
                     width: 147.0.w,
@@ -83,8 +82,7 @@ class CustomCardToAllTextFileds extends StatelessWidget {
               height: 10.0.h,
             ),
             CustomTextFormWidget(
-              textController: context
-                  .read<AddProductToStoreCubit>()
+              textController: cubitAddProduct
                   .descriptionProductController, // ================================
               text: 'وصف المنتج',
               // labelText: 'أدخل وصف المنتج',
