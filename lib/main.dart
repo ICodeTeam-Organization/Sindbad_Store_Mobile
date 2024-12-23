@@ -31,22 +31,11 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_cubit/offer_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_details_cubit/offer_details_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/view_offer_body.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/data/repos/add_product_store_repo_impl.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/repos/add_product_store_repo.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/usecases/get_main_and_sub_category_use_case.dart';
-
 import 'core/setup_service_locator.dart';
 import 'core/simple_bloc_observer.dart';
 import 'features/auth_features/ui/manager/cubit/sign_in_cubit.dart';
 // import 'features/order_management _features/domain/usecases/order_details_usecase.dart';
 // import 'features/order_management _features/domain/usecases/order_shipping_usecase.dart';
-import 'features/product_features/add_and_edit_product_feature/domain/usecases/add_product_to_store_use_case.dart';
-import 'features/product_features/add_and_edit_product_feature/domain/usecases/get_brands_by_main_category_id_use_case.dart';
-import 'features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_attribute_product.dart/add_attribute_product_dart_cubit.dart';
-import 'features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_images/cubit/add_image_to_product_add_cubit.dart';
-import 'features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
-import 'features/product_features/add_and_edit_product_feature/ui/manger/cubit/brands_by_main_category_id/cubit/get_brands_by_category_id_cubit.dart';
-import 'features/product_features/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -111,25 +100,25 @@ class SindbadManagementApp extends StatelessWidget {
         //           allOrderRepo: getit.get<AllOrderRepoImpl>(),
         //         ))),
 
-        //for add product
-        BlocProvider(
-            create: (context) =>
-                AddProductToStoreCubit(AddProductToStoreUseCase(
-                  addProductStoreRepo: getit.get<AddProductStoreRepoImpl>(),
-                ))),
-        BlocProvider(create: (context) => AddImageToProductAddCubit()),
-        BlocProvider(
-            create: (context) =>
-                GetCategoryNamesCubit(GetMainAndSubCategoryUseCase(
-                  getit.get<AddProductStoreRepoImpl>(),
-                ))),
-        BlocProvider(
-            create: (context) =>
-                GetBrandsByCategoryIdCubit(GetBrandsByMainCategoryIdUseCase(
-                  getit.get<AddProductStoreRepoImpl>(),
-                ))),
-        BlocProvider(create: (context) => AddAttributeProductDartCubit()),
-        //
+        // //for add product
+        // BlocProvider(
+        //     create: (context) =>
+        //         AddProductToStoreCubit(AddProductToStoreUseCase(
+        //           addProductStoreRepo: getit.get<AddProductStoreRepoImpl>(),
+        //         ))),
+        // BlocProvider(create: (context) => AddImageToProductAddCubit()),
+        // BlocProvider(
+        //     create: (context) =>
+        //         GetCategoryNamesCubit(GetMainAndSubCategoryUseCase(
+        //           getit.get<AddProductStoreRepoImpl>(),
+        //         ))),
+        // BlocProvider(
+        //     create: (context) =>
+        //         GetBrandsByCategoryIdCubit(GetBrandsByMainCategoryIdUseCase(
+        //           getit.get<AddProductStoreRepoImpl>(),
+        //         ))),
+        // BlocProvider(create: (context) => AddAttributeProductDartCubit()),
+        // //
       ],
       child: ScreenUtilInit(
         designSize: const Size(428, 1000),
