@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
@@ -37,13 +38,13 @@ class AddProductStoreRepoImpl extends AddProductStoreRepo {
       {required String name,
       required num price,
       required String description,
-      required String mainImageUrl,
+      required File mainImageFile,
       required String number,
       required int? storeId,
       required int? offerId,
       required int? brandId,
       required int mainCategoryId,
-      required List<Map<String, String>> images,
+      required List<File> images,
       required List<int> subCategoryIds,
       required List<Map<String, String>> newAttributes}) async {
     return postOneData(
@@ -51,7 +52,7 @@ class AddProductStoreRepoImpl extends AddProductStoreRepo {
               name: name,
               price: price,
               description: description,
-              mainImageUrl: mainImageUrl,
+              mainImageFile: mainImageFile,
               number: number,
               storeId: storeId,
               offerId: offerId,

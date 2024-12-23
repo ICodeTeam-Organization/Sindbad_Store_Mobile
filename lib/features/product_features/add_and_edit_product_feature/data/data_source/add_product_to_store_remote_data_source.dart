@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sindbad_management_app/core/api_service.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/data/models/add_product_model.dart';
@@ -12,7 +14,7 @@ abstract class AddProductToStoreRemoteDataSource {
     required String name,
     required num price,
     required String description,
-    required String mainImageUrl,
+    required File mainImageFile,
     required String number,
     // i don't know what data tybe and value
     required int? storeId,
@@ -20,7 +22,7 @@ abstract class AddProductToStoreRemoteDataSource {
     required int? brandId,
     //
     required int mainCategoryId,
-    required List<Map<String, String>> images,
+    required List<File> images,
     required List<int> subCategoryIds,
     required List<Map<String, String>> newAttributes,
   });
@@ -51,32 +53,40 @@ class AddProductToStoreRemoteDataSourceImpl
       {required String name,
       required num price,
       required String description,
-      required String mainImageUrl,
+      required File mainImageFile,
       required String number,
       required int? storeId,
       required int? offerId,
       required int? brandId,
       required int mainCategoryId,
-      required List<Map<String, String>> images,
+      required List<File> images,
       required List<int> subCategoryIds,
       required List<Map<String, String>> newAttributes}) async {
     String? token = await getToken();
-    final data = await apiService.post(endPoint: "Products/AddProduct", data: {
-      "name": name,
-      "price": price,
-      "description": description,
-      "mainImageUrl": mainImageUrl,
-      "number": number,
-      "storeId": storeId,
-      "offerId": offerId,
-      "brandId": brandId,
-      "mainCategoryId": mainCategoryId,
-      "images": images,
-      "subCategoryIds": subCategoryIds,
+    final Map<String, dynamic> dataBody = {
+      "Name": name,
+      "Price": price,
+      "Description": description,
+      // "MainImageUrl": mainImageFile,   // down.. in with files
+      "Number": number,
+      "StoreId": storeId,
+      "OfferId": offerId,
+      "BrandId": brandId,
+      "MainCategoryId": mainCategoryId,
+      // "Images": images,                // down.. in with files
+      "SubCategoryIds": subCategoryIds,
       "newAttributes": newAttributes
-    }, headers: {
-      'Authorization': 'Bearer $token',
-    });
+    };
+    final data = await apiService.postRequestWithFiles(
+      endPoint: "Products/AddProduct",
+      data: dataBody,
+      pdfFile: mainImageFile, // ====> this not working <====== //
+      file: mainImageFile,
+      imageFiles: images,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
     AddProductEntity body = AddProductModel.fromJson(data);
 
     return body;

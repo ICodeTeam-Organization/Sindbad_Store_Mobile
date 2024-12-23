@@ -71,21 +71,21 @@ class AfterSelectedImage extends StatelessWidget {
                   context.read<AddProductToStoreCubit>();
               switch (boxNumber) {
                 case 1:
-                  cubitAddProduct.mainImageProduct = null;
+                  cubitAddProduct.mainImageProductFile = null;
                   print(
-                      " ==============  done delete image path main  =============");
+                      " ==============  done delete image main  =============");
                 case 2:
-                  cubitAddProduct.subOneImageProduct = null;
+                  cubitAddProduct.subOneImageProductFile = null;
                   print(
-                      " ==============  done delete image path sub 1  =============");
+                      " ==============  done delete image sub 1  =============");
                 case 3:
-                  cubitAddProduct.subTwoImageProduct = null;
+                  cubitAddProduct.subTwoImageProductFile = null;
                   print(
-                      " ==============  done delete image path sub 2  =============");
+                      " ==============  done delete image sub 2  =============");
                 case 4:
-                  cubitAddProduct.subThreeImageProduct = null;
+                  cubitAddProduct.subThreeImageProductFile = null;
                   print(
-                      " ==============  done delete image path sub 3  =============");
+                      " ==============  done delete image sub 3  =============");
               }
             },
             child: Container(

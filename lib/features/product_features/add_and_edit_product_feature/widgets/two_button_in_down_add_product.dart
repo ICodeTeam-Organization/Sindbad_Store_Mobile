@@ -25,7 +25,11 @@ class TwoButtonInDownAddproduct extends StatelessWidget {
             // ================ for test ============
             // context.read<GetCategoryNamesCubit>().getMainAndSubCategory(
             //     filterType: 2, pageNumper: 1, pageSize: 10);
-            cubitAddProduct.AddProductToStore();
+            cubitAddProduct.keys =
+                cubitAddAttribute.keys; // == important befor test
+            cubitAddProduct.values =
+                cubitAddAttribute.values; // == important befor test
+            cubitAddProduct.addProductToStore();
           },
           title: "تأكيد",
           width: 251.w,
@@ -37,11 +41,11 @@ class TwoButtonInDownAddproduct extends StatelessWidget {
         ),
         StorePrimaryButton(
           onTap: () {
-            // for test
+            // for Add Product [post]
             cubitAddProduct.keys =
-                cubitAddAttribute.keys; // == important befor test
+                cubitAddAttribute.keys; // == important befor add
             cubitAddProduct.values =
-                cubitAddAttribute.values; // == important befor test
+                cubitAddAttribute.values; // == important befor add
             //
             cubitAddProduct.testPostRequest();
           },

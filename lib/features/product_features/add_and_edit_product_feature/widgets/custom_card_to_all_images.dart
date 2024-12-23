@@ -52,8 +52,8 @@ class CustomCardToAllImages extends StatelessWidget {
               image: cubitAddImage.mainImageProduct,
               onTapPickImage: () async {
                 await cubitAddImage.pickImageFromGallery(numPartImage: 1);
-                cubitAddProduct.mainImageProduct =
-                    cubitAddImage.getIamgePath(numBox: 1);
+                cubitAddProduct.mainImageProductFile =
+                    cubitAddImage.getIamgeFile(numBox: 1);
                 print("image path main = ${cubitAddProduct.mainImageProduct}");
               },
               isForMainImage: true,
@@ -80,8 +80,8 @@ class CustomCardToAllImages extends StatelessWidget {
                     image: cubitAddImage.subOneImageProduct,
                     onTapPickImage: () async {
                       await cubitAddImage.pickImageFromGallery(numPartImage: 2);
-                      cubitAddProduct.subOneImageProduct =
-                          cubitAddImage.getIamgePath(numBox: 2);
+                      cubitAddProduct.subOneImageProductFile =
+                          cubitAddImage.getIamgeFile(numBox: 2);
                       print(
                           "image path sub 1 = ${cubitAddProduct.subOneImageProduct}");
                     },
@@ -95,8 +95,8 @@ class CustomCardToAllImages extends StatelessWidget {
                     image: cubitAddImage.subTwoImageProduct,
                     onTapPickImage: () async {
                       await cubitAddImage.pickImageFromGallery(numPartImage: 3);
-                      cubitAddProduct.subTwoImageProduct =
-                          cubitAddImage.getIamgePath(numBox: 3);
+                      cubitAddProduct.subTwoImageProductFile =
+                          cubitAddImage.getIamgeFile(numBox: 3);
                       print(
                           "image path sub 2 = ${cubitAddProduct.subTwoImageProduct}");
                     },
@@ -110,8 +110,8 @@ class CustomCardToAllImages extends StatelessWidget {
                     image: cubitAddImage.subThreeImageProduct,
                     onTapPickImage: () async {
                       await cubitAddImage.pickImageFromGallery(numPartImage: 4);
-                      cubitAddProduct.subThreeImageProduct =
-                          cubitAddImage.getIamgePath(numBox: 4);
+                      cubitAddProduct.subThreeImageProductFile =
+                          cubitAddImage.getIamgeFile(numBox: 4);
                       print(
                           "image path sub 3 = ${cubitAddProduct.subThreeImageProduct}");
                     },

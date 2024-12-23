@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/repos/add_product_store_repo.dart';
@@ -16,7 +17,7 @@ class AddProductToStoreUseCase
       name: params.name,
       price: params.price,
       description: params.description,
-      mainImageUrl: params.mainImageUrl,
+      mainImageFile: params.mainImageFile,
       number: params.number,
       storeId: params.storeId,
       offerId: params.offerId,
@@ -33,7 +34,7 @@ class AddProductToStoreParams {
   final String name;
   final num price;
   final String description;
-  final String mainImageUrl;
+  final File mainImageFile;
   final String number;
   // i don't know what data tybe and value
   final int? storeId;
@@ -41,14 +42,14 @@ class AddProductToStoreParams {
   final int? brandId;
   //
   final int mainCategoryId;
-  final List<Map<String, String>> images;
+  final List<File> images;
   final List<int> subCategoryIds;
   final List<Map<String, String>> newAttributes;
   AddProductToStoreParams({
     required this.name,
     required this.price,
     required this.description,
-    required this.mainImageUrl,
+    required this.mainImageFile,
     required this.number,
     //
     required this.storeId,

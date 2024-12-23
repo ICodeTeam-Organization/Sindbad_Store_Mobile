@@ -1,8 +1,10 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entity.dart';
-
+import 'package:path/path.dart' as path;
 import '../../../../../../../core/errors/failure.dart';
 import '../../../../domain/usecases/add_product_to_store_use_case.dart';
 part 'add_product_to_store_state.dart';
@@ -24,6 +26,11 @@ class AddProductToStoreCubit extends Cubit<AddProductToStoreState> {
   String? subOneImageProduct;
   String? subTwoImageProduct;
   String? subThreeImageProduct;
+  // all File for [ product Images ] ==> add product page
+  File? mainImageProductFile;
+  File? subOneImageProductFile;
+  File? subTwoImageProductFile;
+  File? subThreeImageProductFile;
 
   // all num for [ Type product ] ==> add product page
   int? selectedMainCategoryId;
@@ -49,10 +56,14 @@ class AddProductToStoreCubit extends Cubit<AddProductToStoreState> {
     print("priceProduct =>                 ${priceProductController.text}");
     print(
         "descriptionProduct =>           ${descriptionProductController.text}");
-    print("mainImageProduct =>             $mainImageProduct");
-    print("subOneImageProduct =>           $subOneImageProduct");
-    print("subTwoImageProduct =>           $subTwoImageProduct");
-    print("subThreeImageProduct =>         $subThreeImageProduct");
+    print(
+        "mainImageProduct =>             ${path.basename(mainImageProductFile?.path ?? 'لايوجد')}");
+    print(
+        "subOneImageProduct =>           ${path.basename(subOneImageProductFile?.path ?? 'لايوجد')}");
+    print(
+        "subTwoImageProduct =>           ${path.basename(subTwoImageProductFile?.path ?? 'لايوجد')}");
+    print(
+        "subThreeImageProduct =>         ${path.basename(subThreeImageProductFile?.path ?? 'لايوجد')}");
     print("MainCategoryId =>               $selectedMainCategoryId");
     print("SubCategoryId =>                $selectedSubCategoryId");
     print("BrandId =>                      $selectedBrandId");
@@ -67,26 +78,23 @@ class AddProductToStoreCubit extends Cubit<AddProductToStoreState> {
     print("=======================  testPostRequest  =====================");
   }
 
-  void AddProductToStore() async {
+  void addProductToStore() async {
     emit(AddProductToStoreLoading()); // ======== emit ==========
     print("===========  جاررررررررررررري التحميييييل  =========");
     AddProductToStoreParams params = AddProductToStoreParams(
       name: nameProductController.text,
       price: num.parse(priceProductController.text),
       description: descriptionProductController.text,
-      mainImageUrl: mainImageProduct ?? 'exampleMainImageUrl.png',
+      mainImageFile: mainImageProductFile!,
       number: numberProductController.text,
       storeId: null,
       offerId: null,
       brandId: selectedBrandId,
       mainCategoryId: selectedMainCategoryId!,
       images: [
-        if (subOneImageProduct != null)
-          {"imageUrl": "exampleSub1/$subOneImageProduct"},
-        if (subTwoImageProduct != null)
-          {"imageUrl": "exampleSub2/$subTwoImageProduct"},
-        if (subThreeImageProduct != null)
-          {"imageUrl": "exampleSub3/$subThreeImageProduct"},
+        if (subOneImageProductFile != null) subOneImageProductFile!,
+        if (subTwoImageProductFile != null) subTwoImageProductFile!,
+        if (subThreeImageProductFile != null) subThreeImageProductFile!,
       ],
       subCategoryIds: [selectedSubCategoryId!],
       newAttributes: [
