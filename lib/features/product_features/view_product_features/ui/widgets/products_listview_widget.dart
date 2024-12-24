@@ -6,7 +6,7 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 import '../../../../../core/styles/Colors.dart';
 import '../../../../../core/utils/route.dart';
 import '../../domain/entities/product_entity.dart';
-import '../manager/cubit/cubit/get_store_products_with_filter_cubit.dart';
+import '../manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
 import 'check_box_custom.dart';
 import 'image_card_custom.dart';
 import 'shimmer_for_products_with_filter.dart';

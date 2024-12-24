@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sindbad_management_app/core/setup_service_locator.dart';
 import '../../../../../core/shared_widgets/new_widgets/custom_app_bar.dart';
 import '../../../../../core/shared_widgets/new_widgets/custom_tab_bar_widget.dart';
 import '../../../../../core/styles/Colors.dart';
-import '../../data/repos/view_product_store_repo_impl.dart';
-import '../../domain/usecases/delete_product_by_id_use_case.dart';
-import '../../domain/usecases/get_products_by_filter_use_case.dart';
-import '../manager/cubit/cubit/get_store_products_with_filter_cubit.dart';
+import '../manager/get_main_category_for_view/get_main_category_for_view_cubit.dart';
+import '../manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
 import 'fake_data _for_test.dart/test_data_cat.dart';
 import '../widgets/products_listview_widget.dart';
 import '../widgets/sub_category_card_custom.dart';
 import '../widgets/two_button_in_row_costum.dart';
 
-class ViewProduct extends StatefulWidget {
-  const ViewProduct({super.key});
+class ListMainCategoryForTabView extends StatefulWidget {
+  const ListMainCategoryForTabView({super.key});
 
   @override
-  ViewProductState createState() => ViewProductState();
+  ListMainCategoryForTabViewState createState() =>
+      ListMainCategoryForTabViewState();
 }
 
-class ViewProductState extends State<ViewProduct> {
+class ListMainCategoryForTabViewState
+    extends State<ListMainCategoryForTabView> {
   int _selectedSubIndex = 0;
   final bool _showSubCategories = true; // للتحكم في ظهور الفئات الفرعية
 
@@ -29,44 +28,34 @@ class ViewProductState extends State<ViewProduct> {
   Widget build(BuildContext context) {
     final double heightMobile = MediaQuery.sizeOf(context).height;
 
-    return BlocProvider(
-      create: (context) => GetStoreProductsWithFilterCubit(
-        GetProductsByFilterUseCase(
-          getit.get<ViewProductStoreRepoImpl>(),
-        ),
-        DeleteProductByIdUseCase(
-          getit.get<ViewProductStoreRepoImpl>(),
-        ),
-      ),
-      child: Scaffold(
-        body: SafeArea(
-          child: Column(
-            children: [
-              CustomAppBar(
-                tital: "المنتجات",
-                isBack: false,
-              ),
-              SizedBox(height: 10.h),
-              CustomTabBarWidget(
-                tabs: [
-                  Tab(text: "جميع المنتجات"),
-                  Tab(text: "منتجات عليها عروض"),
-                  Tab(text: "منتجات موقوفة"),
-                ],
-                tabViews: [
-                  _buildTabView(0),
-                  _buildTabView(1),
-                  _buildTabView(2),
-                ],
-                length: 3,
-                indicatorColor: AppColors.primary,
-                indicatorWeight: 0.0.w,
-                labelColor: AppColors.black,
-                unselectedLabelColor: AppColors.black,
-                height: heightMobile * 0.85, // height TabBar and all dowm him
-              ),
-            ],
-          ),
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            CustomAppBar(
+              tital: "المنتجات",
+              isBack: false,
+            ),
+            SizedBox(height: 10.h),
+            CustomTabBarWidget(
+              tabs: [
+                Tab(text: "جميع المنتجات"),
+                Tab(text: "منتجات عليها عروض"),
+                Tab(text: "منتجات موقوفة"),
+              ],
+              tabViews: [
+                _buildTabView(0),
+                _buildTabView(1),
+                _buildTabView(2),
+              ],
+              length: 3,
+              indicatorColor: AppColors.primary,
+              indicatorWeight: 0.0.w,
+              labelColor: AppColors.black,
+              unselectedLabelColor: AppColors.black,
+              height: heightMobile * 0.85, // height TabBar and all dowm him
+            ),
+          ],
         ),
       ),
     );
@@ -76,10 +65,11 @@ class ViewProductState extends State<ViewProduct> {
   Widget _buildTabView(int tabIndex) {
     switch (tabIndex) {
       case 0: // "جميع المنتجات"
+
         return Column(
           children: [
             // في حال كانت التصنيفات الفرعية يجب عرضها
-            if (_showSubCategories) _buildSubCategories(),
+            ListMainCategoryForView(selectedSubIndex: 0),
             BlocBuilder<GetStoreProductsWithFilterCubit,
                 GetStoreProductsWithFilterState>(
               builder: (context, state) {
@@ -105,7 +95,7 @@ class ViewProductState extends State<ViewProduct> {
         return Column(
           children: [
             // في حال كانت التصنيفات الفرعية يجب عرضها
-            if (_showSubCategories) _buildSubCategories(),
+            ListMainCategoryForView(selectedSubIndex: 1),
             BlocBuilder<GetStoreProductsWithFilterCubit,
                 GetStoreProductsWithFilterState>(
               builder: (context, state) {
@@ -154,28 +144,42 @@ class ViewProductState extends State<ViewProduct> {
         return Container();
     }
   }
+}
 
-  // بناء قائمة التصنيفات الفرعية (Sub Categories)
-  Widget _buildSubCategories() {
+//  =====  بناء قائمة التصنيفات الفرعية (Sub Categories)  ========
+class ListMainCategoryForView extends StatelessWidget {
+  final int selectedSubIndex;
+  const ListMainCategoryForView({super.key, required this.selectedSubIndex});
+
+  @override
+  Widget build(BuildContext context) {
+    context.read<GetMainCategoryForViewCubit>().getMainCategoryForView(
+        pageNumper: 1, pageSize: 10); // for get Main category
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      child: Row(
-        children: FakeDataApi().subCategories.asMap().entries.map((entry) {
-          // for get index to selected
-          int index = entry.key;
-          String category = entry.value;
-          return ChipCustom(
-            title: category,
-            isSelected: _selectedSubIndex == index, // استخدام الفهرس من التكرار
-            onTap: () {
-              setState(() {
-                _selectedSubIndex = index;
-              });
-              // تحديث التفاعل عند الضغط على الفئات
-              debugPrint("Selected Category: $category");
-            },
+      child:
+          BlocBuilder<GetMainCategoryForViewCubit, GetMainCategoryForViewState>(
+        builder: (context, state) {
+          return Row(
+            children: FakeDataApi().subCategories.asMap().entries.map((entry) {
+              // for get index to selected
+              int index = entry.key;
+              String category = entry.value;
+              return ChipCustom(
+                title: category,
+                isSelected:
+                    selectedSubIndex == index, // استخدام الفهرس من التكرار
+                onTap: () {
+                  // setState(() {
+                  //   _selectedSubIndex = index;
+                  // });
+                  // تحديث التفاعل عند الضغط على الفئات
+                  debugPrint("Selected Category: $category");
+                },
+              );
+            }).toList(),
           );
-        }).toList(),
+        },
       ),
     );
   }

@@ -210,42 +210,42 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                   ),
                                 ),
                               ),
-                              CustomAddImageWidget(
-                                hasTileButton: true,
-                                containerWidth: 333,
-                                mainContainerHeight: 210,
-                                upContainerHeight: 175,
-                                downContainerHeight: 35,
-                                initialImageUrl: widget.mainImage,
-                                onPressed: () {},
-                              ),
-                              SizedBox(height: 25.0.h),
-                              Padding(
-                                padding: EdgeInsets.only(left: 14.w),
-                                child: Row(
-                                  children: [
-                                    if (widget.subImages.isNotEmpty)
-                                      CustomAddImageWidget(
-                                        initialImageUrl: widget.subImages[0],
-                                        onPressed: () {},
-                                      ),
-                                    if (widget.subImages.length > 1)
-                                      SizedBox(width: 15.0.w),
-                                    if (widget.subImages.length > 1)
-                                      CustomAddImageWidget(
-                                        initialImageUrl: widget.subImages[1],
-                                        onPressed: () {},
-                                      ),
-                                    if (widget.subImages.length > 2)
-                                      SizedBox(width: 15.0.w),
-                                    if (widget.subImages.length > 2)
-                                      CustomAddImageWidget(
-                                        initialImageUrl: widget.subImages[2],
-                                        onPressed: () {},
-                                      ),
-                                  ],
-                                ),
-                              ),
+                              // CustomAddImageWidget(
+                              //   hasTileButton: true,
+                              //   containerWidth: 333,
+                              //   mainContainerHeight: 210,
+                              //   upContainerHeight: 175,
+                              //   downContainerHeight: 35,
+                              //   initialImageUrl: widget.mainImage,
+                              //   onPressed: () {},
+                              // ),
+                              // SizedBox(height: 25.0.h),
+                              // Padding(
+                              //   padding: EdgeInsets.only(left: 14.w),
+                              //   child: Row(
+                              //     children: [
+                              //       if (widget.subImages.isNotEmpty)
+                              //         CustomAddImageWidget(
+                              //           initialImageUrl: widget.subImages[0],
+                              //           onPressed: () {},
+                              //         ),
+                              //       if (widget.subImages.length > 1)
+                              //         SizedBox(width: 15.0.w),
+                              //       if (widget.subImages.length > 1)
+                              //         CustomAddImageWidget(
+                              //           initialImageUrl: widget.subImages[1],
+                              //           onPressed: () {},
+                              //         ),
+                              //       if (widget.subImages.length > 2)
+                              //         SizedBox(width: 15.0.w),
+                              //       if (widget.subImages.length > 2)
+                              //         CustomAddImageWidget(
+                              //           initialImageUrl: widget.subImages[2],
+                              //           onPressed: () {},
+                              //         ),
+                              //     ],
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),
@@ -281,26 +281,26 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                 ),
                               ),
                               SizedBox(height: 10.h),
-                              CustomDropdownWidget(
-                                textTitle: 'أختر الفئة',
-                                hintText: "قم بإختيار الفئة المناسبة",
-                                items: widget.mainCategoryList,
-                                initialItem: widget.selectedCategory,
-                              ),
-                              SizedBox(height: 10.h),
-                              CustomDropdownWidget(
-                                textTitle: 'أختر قسم الفئة',
-                                hintText: "قم بإختيار قسم الفئة المناسب",
-                                items: widget.subCategoryList,
-                                initialItem: widget.selectedSubCategory,
-                              ),
-                              SizedBox(height: 10.h),
-                              CustomDropdownWidget(
-                                textTitle: 'أختر إسم البراند',
-                                hintText: "قم بإختيار البراند المناسب",
-                                items: widget.brandList,
-                                initialItem: widget.selectedBrand,
-                              ),
+                              // CustomDropdownWidget(
+                              //   textTitle: 'أختر الفئة',
+                              //   hintText: "قم بإختيار الفئة المناسبة",
+                              //   items: widget.mainCategoryList,
+                              //   initialItem: widget.selectedCategory,
+                              // ),
+                              // SizedBox(height: 10.h),
+                              // CustomDropdownWidget(
+                              //   textTitle: 'أختر قسم الفئة',
+                              //   hintText: "قم بإختيار قسم الفئة المناسب",
+                              //   items: widget.subCategoryList,
+                              //   initialItem: widget.selectedSubCategory,
+                              // ),
+                              // SizedBox(height: 10.h),
+                              // CustomDropdownWidget(
+                              //   textTitle: 'أختر إسم البراند',
+                              //   hintText: "قم بإختيار البراند المناسب",
+                              //   items: widget.brandList,
+                              //   initialItem: widget.selectedBrand,
+                              // ),
                             ],
                           ),
                         ),
