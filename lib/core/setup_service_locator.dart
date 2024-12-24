@@ -75,6 +75,7 @@ void setupServiceLocator() {
   getit.registerSingleton<AddProductStoreRepoImpl>(AddProductStoreRepoImpl(
       addProductToStoreRemoteDataSource: AddProductToStoreRemoteDataSourceImpl(
     getit.get<ApiService>(),
+    getit.get<FlutterSecureStorage>(),
   )));
   getit.registerSingleton<ViewOfferRepoImpl>(
     ViewOfferRepoImpl(
