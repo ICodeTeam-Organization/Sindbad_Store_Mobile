@@ -22,7 +22,9 @@ class AllOrderUsecase
         paied: params.paied,
         pageNumber: params.pageNumber,
         pageSize: params.pageSize,
-        searchKeyword: params.srearchKeyword);
+        storeId: params.storeId
+        // searchKeyword: params.srearchKeyword
+        );
   }
 }
 
@@ -35,16 +37,19 @@ class AllOrderParam {
   final bool paied;
   final int pageNumber;
   final int pageSize;
-  final String srearchKeyword;
+  final String storeId;
+  // final String srearchKeyword;
 
-  AllOrderParam(
-      {required this.isUrgen,
-      required this.canceled,
-      required this.delevred,
-      required this.noInvoice,
-      required this.unpaied,
-      required this.paied,
-      required this.pageNumber,
-      required this.pageSize,
-      required this.srearchKeyword});
+  AllOrderParam({
+    required this.isUrgen,
+    required this.canceled,
+    required this.delevred,
+    required this.noInvoice,
+    required this.unpaied,
+    required this.paied,
+    required this.pageNumber,
+    required this.pageSize,
+    required this.storeId,
+    // required this.srearchKeyword,
+  });
 }

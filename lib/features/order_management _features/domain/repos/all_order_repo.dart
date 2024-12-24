@@ -11,16 +11,18 @@ import '../entities/order_invoice_entity.dart';
 abstract class AllOrderRepo {
   ///////////////////////////
   ///All orders
-  Future<Either<Failure, List<AllOrderEntity>>> fetchAllOrder(
-      {required bool isUrgen,
-      required bool canceled,
-      required bool delevred,
-      required bool noInvoice,
-      required bool unpaied,
-      required bool paied,
-      required int pageNumber,
-      required int pageSize,
-      required String searchKeyword});
+  Future<Either<Failure, List<AllOrderEntity>>> fetchAllOrder({
+    required bool isUrgen,
+    required bool canceled,
+    required bool delevred,
+    required bool noInvoice,
+    required bool unpaied,
+    required bool paied,
+    required int pageNumber,
+    required int pageSize,
+    required String storeId,
+    // required String searchKeyword
+  });
   /////////////////////////////
   ///Order Deatalis
   Future<Either<Failure, List<OrderDetailsEntity>>> fetchOrderDetails({

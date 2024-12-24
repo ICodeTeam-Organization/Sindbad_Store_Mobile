@@ -62,15 +62,17 @@ class _NoPaidInfoOrderState extends State<NoPaidInfoOrder> {
   @override
   Widget build(BuildContext context) {
     context.read<AllOrderCubit>().fetchAllOrder(
-        isUrgen: false,
-        canceled: false,
-        delevred: false,
-        noInvoice: false,
-        unpaied: true,
-        paied: false,
-        pageNumber: 1,
-        pageSize: 10,
-        srearchKeyword: '');
+          isUrgen: false,
+          canceled: false,
+          delevred: false,
+          noInvoice: false,
+          unpaied: true,
+          paied: false,
+          pageNumber: 1,
+          pageSize: 10,
+          storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966',
+          // srearchKeyword: ''
+        );
 
     return BlocBuilder<AllOrderCubit, AllOrderState>(
       builder: (context, state) {

@@ -17,15 +17,17 @@ abstract class AllOrderRemotDataSource {
   ///////////////////////////
   ///All Order
   Future<List<AllOrderEntity>> fetchAllOrder(
-      bool isUrgen,
-      bool canceled,
-      bool delevred,
-      bool noInvoice,
-      bool unpaied,
-      bool paied,
-      int pageNumber,
-      int pageSize,
-      String srearchKeyword);
+    bool isUrgen,
+    bool canceled,
+    bool delevred,
+    bool noInvoice,
+    bool unpaied,
+    bool paied,
+    int pageNumber,
+    int pageSize,
+    String storeId,
+    // String srearchKeyword,
+  );
   /////////////////////////////////
   ///Order Deatails
   Future<List<OrderDetailsEntity>> fetchOrderDetails(
@@ -101,15 +103,17 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
 
   @override
   Future<List<AllOrderEntity>> fetchAllOrder(
-      bool isUrgen,
-      bool canceled,
-      bool delevred,
-      bool noInvoice,
-      bool unpaied,
-      bool paied,
-      int pageNumber,
-      int pageSize,
-      String srearchKeyword) async {
+    bool isUrgen,
+    bool canceled,
+    bool delevred,
+    bool noInvoice,
+    bool unpaied,
+    bool paied,
+    int pageNumber,
+    int pageSize,
+    String storeId,
+    // String srearchKeyword,
+  ) async {
     String? token = await getToken();
     var data = await apiService.post(
       data: {
@@ -121,9 +125,10 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
         'paied': paied,
         'pageSize': pageSize,
         'pageNumber': pageNumber,
-        'search': srearchKeyword,
+        'storeId': storeId
+        // 'search': srearchKeyword,
       },
-      endPoint: 'Orders/Store/GetStoreOrdersnew',
+      endPoint: 'Orders/Store/GetStoreOrders',
       headers: {
         'Authorization': 'Bearer $token',
       },

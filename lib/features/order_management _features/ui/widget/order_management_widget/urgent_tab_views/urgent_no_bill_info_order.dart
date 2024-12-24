@@ -41,15 +41,17 @@ class _UrgentNoBillInfoOrderState extends State<UrgentNoBillInfoOrder> {
     var maxScrollLenght = _scrollController.position.maxScrollExtent;
     if (currentPostions >= 0.7 * maxScrollLenght) {
       BlocProvider.of<AllOrderCubit>(context).fetchAllOrder(
-          isUrgen: true,
-          canceled: false,
-          delevred: false,
-          noInvoice: true,
-          unpaied: false,
-          paied: false,
-          pageNumber: 1,
-          pageSize: 10,
-          srearchKeyword: '');
+        isUrgen: true,
+        canceled: false,
+        delevred: false,
+        noInvoice: true,
+        unpaied: false,
+        paied: false,
+        pageNumber: 1,
+        pageSize: 10,
+        storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966',
+        // srearchKeyword: ''
+      );
     }
   }
 
@@ -62,15 +64,17 @@ class _UrgentNoBillInfoOrderState extends State<UrgentNoBillInfoOrder> {
   @override
   Widget build(BuildContext context) {
     context.read<AllOrderCubit>().fetchAllOrder(
-        isUrgen: true,
-        canceled: false,
-        delevred: false,
-        noInvoice: true,
-        unpaied: false,
-        paied: false,
-        pageNumber: 1,
-        pageSize: 10,
-        srearchKeyword: '');
+          isUrgen: true,
+          canceled: false,
+          delevred: false,
+          noInvoice: true,
+          unpaied: false,
+          paied: false,
+          pageNumber: 1,
+          pageSize: 10,
+          storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966',
+          // srearchKeyword: ''
+        );
 
     return BlocBuilder<AllOrderCubit, AllOrderState>(
       builder: (context, state) {

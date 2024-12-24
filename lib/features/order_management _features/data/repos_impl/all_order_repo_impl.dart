@@ -37,26 +37,30 @@ class AllOrderRepoImpl extends AllOrderRepo {
 //////////////////////////////////
   ///All Order
   @override
-  Future<Either<Failure, List<AllOrderEntity>>> fetchAllOrder(
-      {required bool isUrgen,
-      required bool canceled,
-      required bool delevred,
-      required bool noInvoice,
-      required bool unpaied,
-      required bool paied,
-      required int pageNumber,
-      required int pageSize,
-      required String searchKeyword}) {
+  Future<Either<Failure, List<AllOrderEntity>>> fetchAllOrder({
+    required bool isUrgen,
+    required bool canceled,
+    required bool delevred,
+    required bool noInvoice,
+    required bool unpaied,
+    required bool paied,
+    required int pageNumber,
+    required int pageSize,
+    required String storeId,
+    // required String searchKeyword,
+  }) {
     return fetchData(() => allOrderRemotDataSource.fetchAllOrder(
-        isUrgen,
-        canceled,
-        delevred,
-        noInvoice,
-        unpaied,
-        paied,
-        pageNumber,
-        pageSize,
-        searchKeyword));
+          isUrgen,
+          canceled,
+          delevred,
+          noInvoice,
+          unpaied,
+          paied,
+          pageNumber,
+          pageSize,
+          storeId,
+          // searchKeyword,
+        ));
   }
 
   //////////////////////////////////

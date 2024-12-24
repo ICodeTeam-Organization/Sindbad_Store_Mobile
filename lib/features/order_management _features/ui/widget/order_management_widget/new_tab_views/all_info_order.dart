@@ -44,12 +44,14 @@ class _AllInfoOrderState extends State<AllInfoOrder> {
           isUrgen: false,
           canceled: false,
           delevred: false,
-          noInvoice: true,
-          unpaied: true,
-          paied: true,
+          noInvoice: false,
+          unpaied: false,
+          paied: false,
           pageNumber: 1,
           pageSize: 10,
-          srearchKeyword: '');
+          storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
+          // srearchKeyword: ''
+          );
     }
   }
 
@@ -65,12 +67,14 @@ class _AllInfoOrderState extends State<AllInfoOrder> {
         isUrgen: false,
         canceled: false,
         delevred: false,
-        noInvoice: true,
-        unpaied: true,
-        paied: true,
+        noInvoice: false,
+        unpaied: false,
+        paied: false,
         pageNumber: 1,
         pageSize: 10,
-        srearchKeyword: '');
+        storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
+        // srearchKeyword: ''
+        );
 
     return BlocBuilder<AllOrderCubit, AllOrderState>(
       builder: (context, state) {
