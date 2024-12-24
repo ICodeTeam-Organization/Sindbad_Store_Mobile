@@ -15,15 +15,15 @@ class ViewProductStoreRepoImpl extends ViewProductRepo {
   ViewProductStoreRepoImpl({required this.viewProductRemoteDataSource});
 
   @override
-  Future<Either<Failure, List<ProductEntity>>> getProductsByFilter(
-      {required int storeProductsFilter,
-      required int pageNumper,
-      required int pageSize,
-      //
-      required bool hasOffer,
-      required bool isDeleted,
-      //
-      }) async {
+  Future<Either<Failure, List<ProductEntity>>> getProductsByFilter({
+    required int storeProductsFilter,
+    required int pageNumper,
+    required int pageSize,
+    //
+    required bool hasOffer,
+    required bool isDeleted,
+    //
+  }) async {
     try {
       var data = await viewProductRemoteDataSource.getProductsByFilter(
           storeProductsFilter: storeProductsFilter,

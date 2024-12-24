@@ -137,12 +137,12 @@ class ApiService {
       //   formData.fields.add(const MapEntry("images", ""));
       // }
 
-      // Add the PDF file to the form data
-      // String pdfFileName = pdfFile.path.split('/').last;
-      // formData.files.add(MapEntry(
-      //   "FilePDF",
-      //   await MultipartFile.fromFile(pdfFile.path, filename: pdfFileName),
-      // ));
+      // Add the  file to the form data
+      String fileName = file.path.split('/').last;
+      formData.files.add(MapEntry(
+        "MainImage",
+        await MultipartFile.fromFile(file.path, filename: fileName),
+      ));
       // // Add an empty value for "FilePDF" if no PDF file is provided
       // if (pdfFile.path.isEmpty || pdfFile == null) {
       //   formData.fields.add(const MapEntry("FilePDF", ""));

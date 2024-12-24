@@ -1,0 +1,58 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sindbad_management_app/core/shared_widgets/new_widgets/store_primary_button.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_attribute_product.dart/add_attribute_product_dart_cubit.dart';
+import '../../../../core/styles/Colors.dart';
+import '../ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
+
+class TwoButtonInDownAddproduct extends StatelessWidget {
+  const TwoButtonInDownAddproduct({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final AddProductToStoreCubit cubitAddProduct =
+        context.read<AddProductToStoreCubit>();
+    final AddAttributeProductDartCubit cubitAddAttribute =
+        context.read<AddAttributeProductDartCubit>();
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        StorePrimaryButton(
+          onTap: () {
+            // ================ for test ============
+            cubitAddProduct.keys =
+                cubitAddAttribute.keys; // == important befor test
+            cubitAddProduct.values =
+                cubitAddAttribute.values; // == important befor test
+            cubitAddProduct.addProductToStore();
+          },
+          title: "تأكيد",
+          width: 251.w,
+          height: 44.h,
+          buttonColor: AppColors.primary,
+        ),
+        SizedBox(
+          width: 8.w,
+        ),
+        StorePrimaryButton(
+          onTap: () {
+            // for Add Product [post]
+            cubitAddProduct.keys =
+                cubitAddAttribute.keys; // == important befor add
+            cubitAddProduct.values =
+                cubitAddAttribute.values; // == important befor add
+            //
+            cubitAddProduct.testPostRequest();
+          },
+          title: "إلغاء",
+          width: 104.w,
+          height: 46.h,
+          buttonColor: AppColors.greyIcon,
+        ),
+      ],
+    );
+  }
+}
