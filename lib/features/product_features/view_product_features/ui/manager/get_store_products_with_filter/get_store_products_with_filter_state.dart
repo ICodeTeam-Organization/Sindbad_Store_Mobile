@@ -1,6 +1,5 @@
 part of 'get_store_products_with_filter_cubit.dart';
 
-@immutable
 sealed class GetStoreProductsWithFilterState {}
 
 // GetStoreProductsWithFilter

@@ -1,9 +1,17 @@
 import 'package:dartz/dartz.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
 import '../entities/delete_entity_product.dart';
+import '../entities/main_category_for_view_entity.dart';
 import '../entities/product_entity.dart';
 
 abstract class ViewProductRepo {
+  // for get MainCategory
+  Future<Either<Failure, List<MainCategoryForViewEntity>>>
+      getMainCategoryForView({
+    required int pageNumper,
+    required int pageSize,
+  });
+
   Future<Either<Failure, List<ProductEntity>>> getProductsByFilter({
     required int storeProductsFilter,
     required int pageNumper,

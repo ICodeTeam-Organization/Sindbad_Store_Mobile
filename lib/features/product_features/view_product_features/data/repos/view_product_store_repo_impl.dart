@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 
 import 'package:sindbad_management_app/core/errors/failure.dart';
 import 'package:sindbad_management_app/features/product_features/view_product_features/domain/entities/delete_entity_product.dart';
+import 'package:sindbad_management_app/features/product_features/view_product_features/domain/entities/main_category_for_view_entity.dart';
 
 import 'package:sindbad_management_app/features/product_features/view_product_features/domain/entities/product_entity.dart';
 
@@ -13,6 +14,26 @@ class ViewProductStoreRepoImpl extends ViewProductRepo {
   final ViewProductRemoteDataSource viewProductRemoteDataSource;
 
   ViewProductStoreRepoImpl({required this.viewProductRemoteDataSource});
+
+  // ===================  for Main Category For View  ====================
+  @override
+  Future<Either<Failure, List<MainCategoryForViewEntity>>>
+      getMainCategoryForView(
+          {required int pageNumper, required int pageSize}) async {
+    try {
+      var data = await viewProductRemoteDataSource.getMainCategoryForView(
+        pageNumper: pageNumper,
+        pageSize: pageSize,
+      );
+      return right(data);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      } else {
+        return left(ServerFailure(e.toString()));
+      }
+    }
+  }
 
   @override
   Future<Either<Failure, List<ProductEntity>>> getProductsByFilter({

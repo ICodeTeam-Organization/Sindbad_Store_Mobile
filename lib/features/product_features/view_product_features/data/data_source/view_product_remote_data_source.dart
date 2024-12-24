@@ -3,12 +3,20 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sindbad_management_app/features/product_features/view_product_features/domain/entities/delete_entity_product.dart';
 
 import '../../../../../core/api_service.dart';
+import '../../domain/entities/main_category_for_view_entity.dart';
 import '../../domain/entities/product_entity.dart';
 import '../models/delete_product_model.dart';
+import '../models/main_category_for_view_model/item.dart';
 import '../models/product_model/product_model.dart';
 // import '../models/product_model/product_model.dart';
 
 abstract class ViewProductRemoteDataSource {
+  // for get MainCategory
+  Future<List<MainCategoryForViewEntity>> getMainCategoryForView({
+    required int pageNumper,
+    required int pageSize,
+  });
+
   Future<List<ProductEntity>> getProductsByFilter({
     required int storeProductsFilter,
     required int pageNumper,
@@ -31,6 +39,27 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
 
   Future<String?> getToken() async {
     return await flutterSecureStorage.read(key: 'token');
+  }
+
+  // =====================  for Main Category For View  ======================
+  @override
+  Future<List<MainCategoryForViewEntity>> getMainCategoryForView(
+      {required int pageNumper, required int pageSize}) async {
+    final Map<String, dynamic> data = await apiService.get(
+        endPoint:
+            "Categories/GetCategories?searchType=1&isBrief=true&pageNumber=$pageNumper&pageSize=$pageSize");
+
+    // fun for change Data from JSON to DartModel
+    List<MainCategoryForViewEntity> changeToDartModel(List<dynamic> data) {
+      List<MainCategoryForViewEntity> mainCategoryForViewEntity = data
+          .map((item) => Item.fromJson(item as Map<String, dynamic>))
+          .toList();
+      return mainCategoryForViewEntity;
+    }
+
+    List<MainCategoryForViewEntity> mainCategoryForView =
+        changeToDartModel(data['data']['items'] as List<dynamic>);
+    return mainCategoryForView;
   }
 
   // Generic function to convert data to a list of items entities
