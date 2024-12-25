@@ -17,11 +17,11 @@ class Pdf {
           build: (pw.Context context) {
             return pw.Center(
               child: pw.BarcodeWidget(
-                height: 70.h,
+                height: 200.h,
                 width: 200.w,
                 data: text,
                 textPadding: 8,
-                barcode: Barcode.code128(),
+                barcode: Barcode.qrCode(),
               ),
             );
           },
