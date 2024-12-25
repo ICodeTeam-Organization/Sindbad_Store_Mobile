@@ -40,21 +40,15 @@ class ViewProductStoreRepoImpl extends ViewProductRepo {
     required int storeProductsFilter,
     required int pageNumper,
     required int pageSize,
-    //
-    required bool hasOffer,
-    required bool isDeleted,
-    //
+    required int? categoryId,
   }) async {
     try {
       var data = await viewProductRemoteDataSource.getProductsByFilter(
-          storeProductsFilter: storeProductsFilter,
-          pageNumper: pageNumper,
-          pageSize: pageSize,
-          //
-          hasOffer: hasOffer,
-          isDeleted: isDeleted
-          //
-          );
+        storeProductsFilter: storeProductsFilter,
+        pageNumper: pageNumper,
+        pageSize: pageSize,
+        categoryId: categoryId,
+      );
       return right(data);
     } catch (e) {
       if (e is DioException) {

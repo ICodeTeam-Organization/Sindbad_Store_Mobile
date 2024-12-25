@@ -6,19 +6,17 @@ import '../../../../../core/shared_widgets/new_widgets/custom_app_bar.dart';
 import '../../../../../core/shared_widgets/new_widgets/custom_tab_bar_widget.dart';
 import '../../../../../core/styles/Colors.dart';
 import '../manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
-import '../widgets/products_listview_widget.dart';
-import '../widgets/two_button_in_row_costum.dart';
+import 'products_listview_widget.dart';
+import 'two_button_in_row_costum.dart';
 
-class ListMainCategoryForTabView extends StatefulWidget {
-  const ListMainCategoryForTabView({super.key});
+class BodyViewProductScreen extends StatefulWidget {
+  const BodyViewProductScreen({super.key});
 
   @override
-  ListMainCategoryForTabViewState createState() =>
-      ListMainCategoryForTabViewState();
+  BodyViewProductScreenState createState() => BodyViewProductScreenState();
 }
 
-class ListMainCategoryForTabViewState
-    extends State<ListMainCategoryForTabView> {
+class BodyViewProductScreenState extends State<BodyViewProductScreen> {
   @override
   Widget build(BuildContext context) {
     final double heightMobile = MediaQuery.sizeOf(context).height;
@@ -64,7 +62,9 @@ class ListMainCategoryForTabViewState
         return Column(
           children: [
             // في حال كانت التصنيفات الفرعية يجب عرضها
-            ListMainCategoryForView(selectedSubIndex: 0),
+            ListMainCategoryForView(
+              storeProductsFilter: tabIndex,
+            ),
             BlocBuilder<GetStoreProductsWithFilterCubit,
                 GetStoreProductsWithFilterState>(
               builder: (context, state) {
@@ -90,7 +90,9 @@ class ListMainCategoryForTabViewState
         return Column(
           children: [
             // في حال كانت التصنيفات الفرعية يجب عرضها
-            ListMainCategoryForView(selectedSubIndex: 1),
+            ListMainCategoryForView(
+              storeProductsFilter: tabIndex,
+            ),
             BlocBuilder<GetStoreProductsWithFilterCubit,
                 GetStoreProductsWithFilterState>(
               builder: (context, state) {

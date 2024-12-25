@@ -8,7 +8,7 @@ import '../../domain/usecases/get_main_category_for_view_use_case.dart';
 import '../../domain/usecases/get_products_by_filter_use_case.dart';
 import '../manager/get_main_category_for_view/get_main_category_for_view_cubit.dart';
 import '../manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
-import 'view_product.dart';
+import '../widgets/body_view_product.dart';
 
 class ViewProductScreen extends StatelessWidget {
   const ViewProductScreen({
@@ -34,6 +34,6 @@ class ViewProductScreen extends StatelessWidget {
           getit.get<ViewProductStoreRepoImpl>(),
         )),
       ),
-    ], child: ListMainCategoryForTabView());
+    ], child: BodyViewProductScreen());
   }
 }

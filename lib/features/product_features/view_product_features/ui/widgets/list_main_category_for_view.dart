@@ -8,8 +8,8 @@ import 'shimmer_for_main_category_for_view.dart';
 //  =====  بناء قائمة التصنيفات الفرعية (Sub Categories)  ========
 
 class ListMainCategoryForView extends StatefulWidget {
-  final int selectedSubIndex;
-  const ListMainCategoryForView({super.key, required this.selectedSubIndex});
+  final int storeProductsFilter;
+  const ListMainCategoryForView({super.key, required this.storeProductsFilter});
 
   @override
   State<ListMainCategoryForView> createState() =>
@@ -39,7 +39,9 @@ class _ListMainCategoryForViewState extends State<ListMainCategoryForView> {
           allCategory.addAll(mainCategoryForViewEntity); // marege
 
           return CustomGetMainCategoryForViewSuccessWidget(
-              allCategory: allCategory);
+            allCategory: allCategory,
+            storeProductsFilter: widget.storeProductsFilter,
+          );
         } else if (state is GetMainCategoryForViewFailure) {
           return Center(child: Text(state.errMessage));
         } else if (state is GetMainCategoryForViewLoading) {

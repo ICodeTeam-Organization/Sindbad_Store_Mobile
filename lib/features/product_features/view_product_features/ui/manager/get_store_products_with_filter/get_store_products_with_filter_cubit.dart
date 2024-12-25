@@ -39,26 +39,15 @@ class GetStoreProductsWithFilterCubit
   }
 
   // for get products
-  Future<void> getStoreProductsWitheFilter(
-    int storeProductsFilter,
-    int pageNumper,
-    int pageSize,
-    //
-    bool hasOffer,
-    bool isDeleted,
-
-    ///
-  ) async {
+  Future<void> getStoreProductsWitheFilter({
+    required int storeProductsFilter,
+    required int pageNumper,
+    required int pageSize,
+    int? categoryId,
+  }) async {
     emit(GetStoreProductsWithFilterLoading());
     var params = ProductsByFilterParams(
-        storeProductsFilter,
-        pageNumper,
-        pageSize,
-        //
-        hasOffer,
-        isDeleted
-        //
-        );
+        storeProductsFilter, pageNumper, pageSize, categoryId);
 
     var result = await getProductsByFilterUseCase.execute(params);
 
