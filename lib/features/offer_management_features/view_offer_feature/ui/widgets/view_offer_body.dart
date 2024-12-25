@@ -133,6 +133,10 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                                                   content: Text(
                                                       state.changeStatusOffer)),
                                             );
+                                            context
+                                                .read<OfferCubit>()
+                                                .getOffer(10, 1);
+
                                             Navigator.pop(
                                                 dialogContext); // Close the dialog
                                           }
@@ -189,6 +193,10 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                                                     content: Text(
                                               state.deleteOffer.toString(),
                                             )));
+                                            context
+                                                .read<OfferCubit>()
+                                                .getOffer(10, 1);
+
                                             Navigator.pop(context);
                                           }
                                         },

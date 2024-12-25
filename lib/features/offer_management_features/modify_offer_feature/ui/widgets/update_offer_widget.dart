@@ -49,41 +49,35 @@ class UpdateOfferWidget extends StatefulWidget {
 }
 
 class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
-  TextEditingController offerTitleConroller = TextEditingController();
-  TextEditingController startOfferConroller = TextEditingController();
-  TextEditingController endOfferConroller = TextEditingController();
-  int offerType = 1;
-  final ValueNotifier<int> discountRateNotifier = ValueNotifier<int>(10);
-  final ValueNotifier<int> numberToBuyNotifier = ValueNotifier<int>(2);
-  final ValueNotifier<int> numberToGetNotifier = ValueNotifier<int>(1);
+  late final TextEditingController offerTitleConroller;
+  late final TextEditingController startOfferConroller;
+  late final TextEditingController endOfferConroller;
+  late final ValueNotifier<int> discountRateNotifier;
+  late final ValueNotifier<int> numberToBuyNotifier;
+  late final ValueNotifier<int> numberToGetNotifier;
 
-  List<OfferProductsEntity> selectedItems = [];
-  String selectedOption = 'Percent';
-  bool isDiscountDefaultValue = true;
-
-  // Default values for bonus configuration
-  int discountRate = 10; // Default "Percent Rate" value
-  int numberToBuy = 2; // Default "Buy X" value
-  int numberToGet = 1; // Default "Get Y" value
-
-  // List<UpdateOfferDto> listProduct = [];
+  late final List<OfferProductsEntity> selectedItems;
+  late final String selectedOption;
+  late final bool isDiscountDefaultValue;
+  late final int offerType;
   List<OfferHeadOffer> listProduct = [];
 
   @override
   void initState() {
     super.initState();
-    isDiscountDefaultValue = selectedOption == 'Percent';
-    discountRateNotifier.value = discountRate;
-    numberToBuyNotifier.value = numberToBuy;
-    numberToGetNotifier.value = numberToGet;
+    // Initialize values using widget data
+    offerTitleConroller = TextEditingController(text: widget.offerTitle);
+    startOfferConroller =
+        TextEditingController(text: convertFromApi(widget.startOffer));
+    endOfferConroller =
+        TextEditingController(text: convertFromApi(widget.endOffer));
 
-    offerTitleConroller.text = widget.offerTitle;
-    startOfferConroller.text = convertFromApi(widget.startOffer);
-    endOfferConroller.text = convertFromApi(widget.endOffer);
-    offerType = widget.offerType;
-    discountRateNotifier.value = widget.discountRate;
-    numberToBuyNotifier.value = widget.numberToBuy;
-    numberToGetNotifier.value = widget.numberToGet;
+    discountRateNotifier = ValueNotifier<int>(widget.discountRate);
+    numberToBuyNotifier = ValueNotifier<int>(widget.numberToBuy);
+    numberToGetNotifier = ValueNotifier<int>(widget.numberToGet);
+    selectedOption = widget.offerType == 1 ? 'Percent' : 'Bonus';
+    isDiscountDefaultValue = widget.offerType == 1;
+
     selectedItems = List<OfferProductsEntity>.from(widget.listProducts);
   }
 
@@ -123,6 +117,67 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
     }
   }
 
+  // void populateListProduct() {
+  //   listProduct.clear(); // Clear the list to avoid duplicates on re-population
+
+  //   // Parse and format the start and end offer dates
+  //   DateTime? startOfferFormat = convertToDateTime(startOfferConroller.text);
+  //   DateTime? endOfferFormat = convertToDateTime(endOfferConroller.text);
+
+  //   // Helper function to format DateTime
+  //   String? formatDateTime(DateTime? dateTime) {
+  //     if (dateTime == null) return null;
+  //     return DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+  //         .format(dateTime.toUtc());
+  //   }
+
+  //   if (startOfferFormat != null && endOfferFormat != null) {
+  //     print(
+  //         '${formatDateTime(startOfferFormat)}***************************'); // Output: 2024-12-03T09:55:12.120Z
+  //     print(formatDateTime(endOfferFormat)); // Output: 2024-12-03T09:55:12.120Z
+  //   } else {
+  //     print("Invalid date format");
+  //     return; // Exit if dates are invalid
+  //   }
+
+  //   for (var item in selectedItems) {
+  //     final int newPrice =
+  //         calculateNewPrice(item.oldPrice!, discountRateNotifier.value).toInt();
+
+  //     // Create a map to hold the offer details for each product
+  //     Map<String, dynamic> offerMap = {
+  //       "id": item.productId,
+  //       "productId": item.productId, // Product ID
+  //       "type": offerType, // Offer type (either 1 or 2)
+  //       "startDate": formatDateTime(startOfferFormat), // Formatted start date
+  //       "endDate": formatDateTime(endOfferFormat), // Formatted end date
+  //       "name": item.productTitle.toString(), // Offer type (either 1 or 2)
+  //       "mainImageUrl":
+  //           item.productImage.toString(), // Offer type (either 1 or 2)
+  //       "priceBeforeDiscount":
+  //           item.oldPrice?.toInt(), // Offer type (either 1 or 2)
+  //     };
+
+  //     if (offerType == 1) {
+  //       // For discount offers
+  //       offerMap["percentage"] =
+  //           discountRateNotifier.value; // Discount percentage
+  //       offerMap["finalPrice"] = newPrice; // Discounted price
+  //       offerMap["amountToBuy"] = null; // Not applicable
+  //       offerMap["amountToGet"] = null; // Not applicable
+  //     } else if (offerType == 2) {
+  //       // For "buy X, get Y" offers
+  //       offerMap["percentage"] = null; // Not applicable
+  //       offerMap["finalPrice"] = null; // Not applicable
+  //       offerMap["amountToBuy"] = numberToBuyNotifier.value; // Amount to buy
+  //       offerMap["amountToGet"] = numberToGetNotifier.value; // Amount to get
+  //     }
+
+  //     // Update the map to the list
+  //     listProduct.add(offerMap as OfferHeadOffer);
+  //   }
+  // }
+
   void populateListProduct() {
     listProduct.clear(); // Clear the list to avoid duplicates on re-population
 
@@ -138,9 +193,8 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
     }
 
     if (startOfferFormat != null && endOfferFormat != null) {
-      print(
-          '${formatDateTime(startOfferFormat)}***************************'); // Output: 2024-12-03T09:55:12.120Z
-      print(formatDateTime(endOfferFormat)); // Output: 2024-12-03T09:55:12.120Z
+      print('${formatDateTime(startOfferFormat)}***************************');
+      print(formatDateTime(endOfferFormat));
     } else {
       print("Invalid date format");
       return; // Exit if dates are invalid
@@ -150,81 +204,25 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
       final int newPrice =
           calculateNewPrice(item.oldPrice!, discountRateNotifier.value).toInt();
 
-      // Create a map to hold the offer details for each product
-      Map<String, dynamic> offerMap = {
-        "id": item.productId,
-        "productId": item.productId, // Product ID
-        "type": offerType, // Offer type (either 1 or 2)
-        "startDate": formatDateTime(startOfferFormat), // Formatted start date
-        "endDate": formatDateTime(endOfferFormat), // Formatted end date
-        "name": item.productTitle.toString(), // Offer type (either 1 or 2)
-        "mainImageUrl":
-            item.productImage.toString(), // Offer type (either 1 or 2)
-        "priceBeforeDiscount":
-            item.oldPrice?.toInt(), // Offer type (either 1 or 2)
-      };
+      OfferHeadOffer offer = OfferHeadOffer(
+        id: item.productId,
+        productId: item.productId,
+        type: offerType,
+        startDate: startOfferFormat,
+        endDate: endOfferFormat,
+        name: item.productTitle.toString(),
+        mainImageUrl: item.productImage.toString(),
+        priceBeforeDiscount: item.oldPrice?.toInt() ?? 0,
+        percentage: offerType == 1 ? discountRateNotifier.value : null,
+        finalPrice: offerType == 1 ? newPrice : null,
+        amountToBuy: offerType == 2 ? numberToBuyNotifier.value : null,
+        amountToGet: offerType == 2 ? numberToGetNotifier.value : null,
+      );
 
-      if (offerType == 1) {
-        // For discount offers
-        offerMap["percentage"] =
-            discountRateNotifier.value; // Discount percentage
-        offerMap["finalPrice"] = newPrice; // Discounted price
-        offerMap["amountToBuy"] = null; // Not applicable
-        offerMap["amountToGet"] = null; // Not applicable
-      } else if (offerType == 2) {
-        // For "buy X, get Y" offers
-        offerMap["percentage"] = null; // Not applicable
-        offerMap["finalPrice"] = null; // Not applicable
-        offerMap["amountToBuy"] = numberToBuyNotifier.value; // Amount to buy
-        offerMap["amountToGet"] = numberToGetNotifier.value; // Amount to get
-      }
-
-      // Update the map to the list
-      listProduct.add(offerMap as OfferHeadOffer);
+      // Add the offer object to the list
+      listProduct.add(offer);
     }
   }
-
-  // void populateListProduct() {
-  //   listProduct.clear(); // Clear the list to avoid duplicates on re-population
-  //   for (var item in selectedItems) {
-  //     // Calculate the new price for the item
-  //     final int newPrice =
-  //         calculateNewPrice(item.productIPrice!, discountRateNotifier.value)
-  //             .toInt();
-
-  //     if (offerType == 1) {
-  //       // If offerType is 1, set percentage, finalPrice, and leave amountToBuy and amountToGet as null
-  //       listProduct.add(
-  //         UpdateOfferDto(
-  //           id: item.productId,
-  //           type: offerType,
-  //           startDate: startOfferConroller.text, // Parse date
-  //           endDate: endOfferConroller.text, // Parse date
-  //           productId: item.productId,
-  //           percentage: discountRateNotifier.value,
-  //           finalPrice: newPrice,
-  //           amountToBuy: null, // Null for amountToBuy
-  //           amountToGet: null, // Null for amountToGet
-  //         ),
-  //       );
-  //     } else if (offerType == 2) {
-  //       // If offerType is 2, set amountToBuy and amountToGet, leave percentage and finalPrice as null
-  //       listProduct.add(
-  //         UpdateOfferDto(
-  //           id: item.productId,
-  //           type: offerType,
-  //           startDate: startOfferConroller.text, // Parse date
-  //           endDate: endOfferConroller.text, // Parse date
-  //           productId: item.productId,
-  //           percentage: null, // Null for percentage
-  //           finalPrice: null, // Null for finalPrice
-  //           amountToBuy: numberToBuyNotifier.value,
-  //           amountToGet: numberToGetNotifier.value,
-  //         ),
-  //       );
-  //     }
-  //   }
-  // }
 
   // Function to calculate discounted price
   num calculateNewPrice(num oldPrice, int discountRate) {
@@ -313,7 +311,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                         setState(() {
                           selectedOption = value!;
                           isDiscountDefaultValue = true;
-                          offerType = 1;
+                          offerType = 1; // Update offerType
                         });
                       },
                       activeColor: AppColors.primary,
@@ -332,7 +330,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                         setState(() {
                           selectedOption = value!;
                           isDiscountDefaultValue = false;
-                          offerType = 2;
+                          offerType = 2; // Update offerType
                         });
                       },
                       activeColor: AppColors.primary,
@@ -345,7 +343,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                 SizedBox(height: 20.h),
                 isDiscountDefaultValue
                     ? DefaultValueDiscountWidget(
-                        discountRate: discountRate,
+                        discountRate: discountRateNotifier.value,
                         onDiscountRateChanged: (newRate) {
                           setState(() {
                             discountRateNotifier.value = newRate;
@@ -353,8 +351,8 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                         },
                       )
                     : DefaultValueBounsWidget(
-                        numberToBuy: numberToBuy,
-                        numberToGet: numberToGet,
+                        numberToBuy: numberToBuyNotifier.value,
+                        numberToGet: numberToGetNotifier.value,
                         onNumberToBuyChanged: (newBuysCount) {
                           setState(() {
                             numberToBuyNotifier.value = newBuysCount;
@@ -431,7 +429,8 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                               productImage: selectedItems[index].productImage,
                               oldPrice: selectedItems[index].oldPrice!,
                               newPrice: calculateNewPrice(
-                                  selectedItems[index].oldPrice!, discountRate),
+                                  selectedItems[index].oldPrice!,
+                                  discountRateNotifier.value),
                               discountRate: discountRateNotifier.value,
                               onTapQuit: () {
                                 setState(() {

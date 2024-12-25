@@ -98,6 +98,8 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
     String? token = await getToken();
     var data = await apiService.post(
       data: {
+        "hasNoOffer": true,
+        "hasOffer": false,
         "pageSize": 1000,
         "pageNumber": 1,
       },
