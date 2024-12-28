@@ -1,7 +1,7 @@
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/all_order_entity.dart';
 
 class AllOrdersModel extends AllOrderEntity {
-  int? id;
+  int? orderId;
   String? orderNumber;
   String? invoiceNumber;
   String? totalProducts;
@@ -10,7 +10,7 @@ class AllOrdersModel extends AllOrderEntity {
   String? orderDate;
 
   AllOrdersModel({
-    this.id,
+    this.orderId,
     this.orderNumber,
     this.invoiceNumber,
     this.totalProducts,
@@ -18,7 +18,7 @@ class AllOrdersModel extends AllOrderEntity {
     this.paymentStatus,
     this.orderDate,
   }) : super(
-            idOrder: id ?? 0,
+            idOrder: orderId!,
             orderNum: orderNumber ?? '0',
             orderBill: invoiceNumber ?? 'لا يوجد',
             // orderTime: '4:14',
@@ -29,7 +29,7 @@ class AllOrdersModel extends AllOrderEntity {
 
   factory AllOrdersModel.fromJson(Map<String, dynamic> json) {
     return AllOrdersModel(
-      id: json['id'] as int?,
+      orderId: json['orderId'] as int?,
       orderNumber: json['orderNumber'] as String?,
       invoiceNumber: json['invoiceNumber'] as String?,
       totalProducts: json['totalProducts'] as String?,
@@ -40,7 +40,7 @@ class AllOrdersModel extends AllOrderEntity {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
+        'orderId': orderId,
         'orderNumber': orderNumber,
         'invoiceNumber': invoiceNumber,
         'totalProducts': totalProducts,
