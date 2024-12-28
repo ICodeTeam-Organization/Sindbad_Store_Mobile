@@ -92,16 +92,16 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
 
   @override
   Future<List<OfferProductsEntity>> getOfferProducts(
-    int pageNumber,
     int pageSize,
+    int pageNumber,
   ) async {
     String? token = await getToken();
     var data = await apiService.post(
       data: {
         "hasNoOffer": true,
         "hasOffer": false,
-        "pageSize": 1000,
-        "pageNumber": 1,
+        "pageSize": 100,
+        "pageNumber": pageNumber,
       },
       endPoint: 'Products/GetProductsWitheFilter?returnDtoName=1',
       headers: {

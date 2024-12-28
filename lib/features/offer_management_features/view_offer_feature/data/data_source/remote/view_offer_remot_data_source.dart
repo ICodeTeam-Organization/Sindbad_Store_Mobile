@@ -65,7 +65,7 @@ class ViewOfferRemotDataSourceImpl extends ViewOfferRemotDataSource {
     String? token = await getToken();
     var data = await apiService.post(
       data: {
-        "pageSize": pageSize,
+        "pageSize": 100,
         "pageNumber": pageNumber,
         // "search": "string",
         // "type": "string",
@@ -90,15 +90,15 @@ class ViewOfferRemotDataSourceImpl extends ViewOfferRemotDataSource {
 
   @override
   Future<List<OfferDetailsEntity>> getOfferDetails(
-    int pageNumber,
     int pageSize,
+    int pageNumber,
     int offerHeadId,
   ) async {
     String? token = await getToken();
     var data = await apiService.post(
       data: {
-        "pageSize": 10,
-        "pageNumber": 1,
+        "pageSize": 100,
+        "pageNumber": pageNumber,
         "search": "string",
         "type": "string",
         "offerHeadId": offerHeadId,
