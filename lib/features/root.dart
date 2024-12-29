@@ -23,8 +23,8 @@ class _RootState extends State<Root> {
   static const double _borderRadius = 50.0;
 
   List<Widget> widgetList = [
-    // OrderManagementScreen(),
-    Center(child: Text("===============")),
+    OrderManagementScreen(),
+    // Center(child: Text("===============")),
     ViewProductScreen(),
     // AddProductScreen(),
     // EditProductScreen(),
