@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
-import 'order_management _features/ui/screen/order_management_screen.dart';
-import 'product_features/view_product_features/ui/screens/view_product.dart';
+// import 'order_management _features/ui/screen/order_management_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/screens/view_offer_screen.dart';
+import 'product_features/view_product_features/ui/screens/view_product_screen.dart';
 
 class Root extends StatefulWidget {
   const Root({super.key});
@@ -23,8 +23,9 @@ class _RootState extends State<Root> {
   static const double _borderRadius = 50.0;
 
   List<Widget> widgetList = [
-    OrderManagementScreen(),
-    ViewProduct(),
+    // OrderManagementScreen(),
+    Center(child: Text("===============")),
+    ViewProductScreen(),
     // AddProductScreen(),
     // EditProductScreen(),
     // Text('المنتجات'),

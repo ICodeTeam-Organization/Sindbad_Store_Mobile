@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/custom_delete_dialog_widget.dart';
+import '../../../../../core/setup_service_locator.dart';
 import '../../../../../core/styles/Colors.dart';
 import '../../../../../core/utils/route.dart';
+import '../../data/repos/view_product_store_repo_impl.dart';
 import '../../domain/entities/product_entity.dart';
-import '../manager/cubit/cubit/get_store_products_with_filter_cubit.dart';
+import '../../domain/usecases/delete_product_by_id_use_case.dart';
+import '../manager/delete_product_by_id_from_store/delete_product_by_id_from_store_cubit.dart';
+import '../manager/disable_products/cubit/disable_products_by_ids_cubit.dart';
+import '../manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
 import 'check_box_custom.dart';
+import 'custom_show_dialog_for_view_widget.dart';
 import 'image_card_custom.dart';
 import 'shimmer_for_products_with_filter.dart';
 import 'text_style_detials.dart';
@@ -22,229 +27,153 @@ class ProductsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // context
-    //     .read<GetStoreProductsWithFilterCubit>()
-    //     .getStoreProductsWitheFilter(storeProductsFilter, 1, 10);
+    final cubitGetStoreProducts =
+        context.read<GetStoreProductsWithFilterCubit>();
+    // final cubitDisableProducts =
+    //     context.read<DisableProductsByIdsCubit>();
+    BlocListener<
+        DisableProductsByIdsCubit, // الاستماع لتغيراتها
+        DisableProductsByIdsState>(
+      listener: (context, state) {},
+      child: Container(),
+    );
+    // جميغ المنتجات  =  0
+    //  المنتجات التي عليها عروض  =  1
+    //  المنتجات الموقوفة  =  2
+    cubitGetStoreProducts.getStoreProductsWitheFilter(
+        storeProductsFilter: storeProductsFilter, pageNumper: 1, pageSize: 100);
 
-    // جميغ المنتجات
-    if (storeProductsFilter == 0) {
-      context
-          .read<GetStoreProductsWithFilterCubit>()
-          .getStoreProductsWitheFilter(
-              storeProductsFilter, 1, 10, false, false);
-    }
-    //  المنتجات التي عليها عروض
-    else if (storeProductsFilter == 1) {
-      context
-          .read<GetStoreProductsWithFilterCubit>()
-          .getStoreProductsWitheFilter(storeProductsFilter, 1, 10, true, false);
-    }
-    //  المنتجات الموقوفة
-    else if (storeProductsFilter == 2) {
-      context
-          .read<GetStoreProductsWithFilterCubit>()
-          .getStoreProductsWitheFilter(storeProductsFilter, 1, 10, false, true);
-    }
     return BlocConsumer<GetStoreProductsWithFilterCubit,
         GetStoreProductsWithFilterState>(
-      listener: (context, state) {
-        print(
-            "====================  Current state: $state  ============================"); // تتبع الحالة الحالية
-        if (state is DeleteStoreProductByIdSuccess) {
-          // عرض رسالة نجاح
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message.message)),
-          );
-
-          // تحديث قائمة المنتجات بعد الحذف
-          // جميغ المنتجات
-          if (storeProductsFilter == 0) {
-            context
-                .read<GetStoreProductsWithFilterCubit>()
-                .getStoreProductsWitheFilter(
-                    storeProductsFilter, 1, 10, false, false);
-          }
-          //  المنتجات التي عليها عروض
-          else if (storeProductsFilter == 1) {
-            context
-                .read<GetStoreProductsWithFilterCubit>()
-                .getStoreProductsWitheFilter(
-                    storeProductsFilter, 1, 10, true, false);
-          }
-          //  المنتجات الموقوفة
-          else if (storeProductsFilter == 2) {
-            context
-                .read<GetStoreProductsWithFilterCubit>()
-                .getStoreProductsWitheFilter(
-                    storeProductsFilter, 1, 10, false, true);
-          }
-          // context
-          //     .read<GetStoreProductsWithFilterCubit>()
-          //     .getStoreProductsWitheFilter(
-          //       storeProductsFilter,
-          //       1, // الصفحة الأولى
-          //       10, // الحجم
-          //     );
-        }
-
-        if (state is DeleteStoreProductByIdFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.errMessage)),
-          );
-          // تحديث قائمة المنتجات بعد فشل الحذف
-          // جميغ المنتجات
-          if (storeProductsFilter == 0) {
-            context
-                .read<GetStoreProductsWithFilterCubit>()
-                .getStoreProductsWitheFilter(
-                    storeProductsFilter, 1, 10, false, false);
-          }
-          //  المنتجات التي عليها عروض
-          else if (storeProductsFilter == 1) {
-            context
-                .read<GetStoreProductsWithFilterCubit>()
-                .getStoreProductsWitheFilter(
-                    storeProductsFilter, 1, 10, true, false);
-          }
-          //  المنتجات الموقوفة
-          else if (storeProductsFilter == 2) {
-            context
-                .read<GetStoreProductsWithFilterCubit>()
-                .getStoreProductsWitheFilter(
-                    storeProductsFilter, 1, 10, false, true);
-          }
-          // context
-          //     .read<GetStoreProductsWithFilterCubit>()
-          //     .getStoreProductsWitheFilter(
-          //       storeProductsFilter,
-          //       1, // الصفحة الأولى
-          //       10, // الحجم
-
-          //     );
-          print({state.errMessage});
-        }
-      },
+      listener: (context, state) {},
       builder: (context, state) {
-        if (state is GetStoreProductsWithFilterLoading ||
-            state is DeleteStoreProductByIdLoading) {
+        if (state is GetStoreProductsWithFilterLoading) {
           return ShimmerForProductsWithFilter();
         } else if (state is GetStoreProductsWithFilterSuccess) {
-          return ListView.builder(
-            shrinkWrap: true,
-            physics: BouncingScrollPhysics(),
-            itemCount: state.products.length,
-            itemBuilder: (context, index) {
-              ProductEntity product = state.products[index];
-              bool isEven = index % 2 == 0;
-              return Container(
-                padding: EdgeInsets.only(top: 26.h, bottom: 26.h, left: 10.w),
-                decoration: BoxDecoration(
-                  color: isEven ? AppColors.background : Colors.white,
-                  borderRadius: BorderRadius.circular(4.r),
-                ),
-                child: Row(
-                  // crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CheckBoxCustom(
-                      val: state.checkedStates[index],
-                      onChanged: (val) {
-                        context
-                            .read<GetStoreProductsWithFilterCubit>()
-                            .updateCheckboxState(index, val!,
-                                state.products[index].productNumber!);
-                      },
-                    ),
-                    ImageCardCustom(
-                      imageUrlnetwork: product.productImageUrl!,
-                    ), // افترض أن لديك Card مخصص لعرض الصور
-                    SizedBox(width: 10),
-                    // Product Details
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+          final List<ProductEntity> products = state.products;
+
+          return products.isEmpty
+              ? Center(child: Text("لا يوجد منتجات"))
+              : ListView.builder(
+                  shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: products.length,
+                  itemBuilder: (context, index) {
+                    ProductEntity product = products[index];
+                    bool isEven = index % 2 == 0;
+                    return Container(
+                      padding:
+                          EdgeInsets.only(top: 26.h, bottom: 26.h, left: 10.w),
+                      decoration: BoxDecoration(
+                        color: isEven ? AppColors.background : Colors.white,
+                        borderRadius: BorderRadius.circular(4.r),
+                      ),
+                      child: Row(
+                        // crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextStyleTitleDataProductBold(
-                                  title: 'اسم المنتج :  '),
-                              Expanded(
-                                child: TextStyleDataProductGreyDark(
-                                    dataProduct: product.productName!),
-                              ),
-                            ],
+                          CheckBoxCustom(
+                            val: state.checkedStates[index],
+                            onChanged: (val) {
+                              cubitGetStoreProducts.updateCheckboxState(
+                                  index, val!, product.productid!);
+                            },
                           ),
-                          SizedBox(height: 4.h),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextStyleTitleDataProductBold(
-                                  title: 'رقم المنتج :  '),
-                              Expanded(
-                                child: TextStyleDataProductGreyDark(
-                                    dataProduct:
-                                        product.productNumber.toString()),
-                              ),
-                            ],
+                          ImageCardCustom(
+                            imageUrlnetwork: product.productImageUrl!,
+                          ), // افترض أن لديك Card مخصص لعرض الصور
+                          SizedBox(width: 10),
+                          // Product Details
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TextStyleTitleDataProductBold(
+                                        title: 'اسم المنتج :  '),
+                                    Expanded(
+                                      child: TextStyleDataProductGreyDark(
+                                          dataProduct: product.productName!),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 4.h),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TextStyleTitleDataProductBold(
+                                        title: 'رقم المنتج :  '),
+                                    Expanded(
+                                      child: TextStyleDataProductGreyDark(
+                                          dataProduct:
+                                              product.productNumber.toString()),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 4.h),
+                                Row(
+                                  children: [
+                                    Text('السعر :  ',
+                                        style: TextStyle(
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.bold)),
+                                    Text(
+                                      '\$${product.productPrice.toString()}',
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontSize: 12.sp, color: Colors.red),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                          SizedBox(height: 4.h),
-                          Row(
-                            children: [
-                              Text('السعر :  ',
-                                  style: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.bold)),
-                              Text(
-                                '\$${product.productPrice.toString()}',
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    fontSize: 12.sp, color: Colors.red),
-                              ),
-                            ],
+                          SizedBox(width: 10.w),
+                          // Action Buttons
+                          TwoButtonInsideListViewProducts(
+                            onTapEdit: () {
+                              // state.products //  ===> this pass contains [productid,productName,productNumber,productPrice,productImageUrl]
+                              // تنفيذ التعديل
+                              context.push(
+                                  AppRouter.storeRouters.kStoreEditProduct,
+                                  extra: 1 // here pass the product id
+                                  );
+                            },
+                            onTapDelete: () {
+                              showDeleteDialog(
+                                contextPerant: context,
+                                productId: product.productid!,
+                                storeProductsFilter: storeProductsFilter,
+                              );
+                              // showDialog(
+                              //   context: context, // تمرير السياق الصحيح
+                              //   builder: (BuildContext dialogContext) {
+                              //     return CustomShowDialogForViewWidget(
+                              //       title: 'هل انت متأكد من الحذف ؟',
+                              //       subtitle:
+                              //           'رقم المنتج :  ${product.productid}',
+                              //       onConfirm: () {
+                              //         // استخدام السياق الأب للوصول إلى cubit
+                              //         // cubitGetStoreProducts.deleteProductById(
+                              //         //     productId: product.productid!);
+                              //         print(
+                              //             "productid =========>  ${product.productid.toString()}");
+
+                              //         // إغلاق مربع الحوار
+                              //         Navigator.of(dialogContext).pop();
+                              //       },
+                              //     );
+                              //   },
+                              // );
+                            },
                           ),
                         ],
                       ),
-                    ),
-                    SizedBox(width: 10.w),
-                    // Action Buttons
-                    TwoButtonInsideListViewProducts(
-                      onTapEdit: () {
-                        // state.products //  ===> this pass contains [productid,productName,productNumber,productPrice,productImageUrl]
-                        // تنفيذ التعديل
-                        context.push(AppRouter.storeRouters.kStoreEditProduct,
-                            extra: 1 // here pass the product id
-                            );
-                      },
-                      onTapDelete: () {
-                        showDialog(
-                          context: context, // تمرير السياق الصحيح
-                          builder: (BuildContext dialogContext) {
-                            return CustomDeleteDialogWidget(
-                              title: 'هل انت متأكد من الحذف ؟',
-                              subtitle: 'رقم المنتج :  ${product.productid}',
-                              onConfirm: () {
-                                // استخدام السياق الأب للوصول إلى cubit
-                                context
-                                    .read<GetStoreProductsWithFilterCubit>()
-                                    .deleteProductById(
-                                        productId: product.productid!);
-                                print(
-                                    "productid =========>  ${product.productid.toString()}");
-
-                                // إغلاق مربع الحوار
-                                Navigator.of(dialogContext).pop();
-                              },
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
+                    );
+                  },
+                );
         } else if (state is GetStoreProductsWithFilterFailure) {
           return Center(child: Text(state.errMessage));
         } else {
@@ -253,4 +182,53 @@ class ProductsListView extends StatelessWidget {
       },
     );
   }
+}
+
+void showDeleteDialog(
+    {required BuildContext contextPerant,
+    required int productId,
+    required int storeProductsFilter}) {
+  showDialog(
+    context: contextPerant,
+    builder: (BuildContext dialogContext) {
+      return BlocProvider(
+          create: (contextPerant) => DeleteProductByIdFromStoreCubit(
+                DeleteProductByIdUseCase(
+                  getit.get<ViewProductStoreRepoImpl>(),
+                ),
+              ),
+          child: BlocConsumer<DeleteProductByIdFromStoreCubit,
+              DeleteProductByIdFromStoreState>(listener: (context, state) {
+            if (state is DeleteProductByIdFromStoreSuccess) {
+              Navigator.of(context).pop(); // Close dialog
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('تم حذف  المنتج بنجاح!')),
+              );
+              contextPerant
+                  .read<GetStoreProductsWithFilterCubit>()
+                  .getStoreProductsWitheFilter(
+                    storeProductsFilter: storeProductsFilter,
+                    pageNumper: 1,
+                    pageSize: 100,
+                  );
+            } else if (state is DeleteProductByIdFromStoreFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.errMessage)),
+              );
+            }
+          }, builder: (context, state) {
+            final cubitDeleteProductById =
+                context.read<DeleteProductByIdFromStoreCubit>();
+            return CustomShowDialogForViewWidget(
+              title: 'حذف المنتج',
+              subtitle: 'هل تريد بالتأكيد حذف هذا المنتج؟',
+              isLoading: state is DeleteProductByIdFromStoreLoading,
+              onConfirm: () => cubitDeleteProductById.deleteProductById(
+                  productId: productId),
+              confirmText: 'نعم',
+              cancelText: 'لا',
+            );
+          }));
+    },
+  );
 }

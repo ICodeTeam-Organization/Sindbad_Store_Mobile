@@ -1,0 +1,51 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../domain/entities/main_category_for_view_entity.dart';
+import '../manager/get_main_category_for_view/get_main_category_for_view_cubit.dart';
+import 'custom_get_main_category_for_view_success_widget.dart';
+import 'shimmer_for_main_category_for_view.dart';
+
+//  =====  بناء قائمة التصنيفات الفرعية (Sub Categories)  ========
+
+class ListMainCategoryForView extends StatelessWidget {
+  final int storeProductsFilter;
+  const ListMainCategoryForView({super.key, required this.storeProductsFilter});
+
+  @override
+  Widget build(BuildContext context) {
+    context.read<GetMainCategoryForViewCubit>().getMainCategoryForView(
+        pageNumper: 1, pageSize: 100); // for get Main category
+    return BlocBuilder<GetMainCategoryForViewCubit,
+        GetMainCategoryForViewState>(
+      builder: (context, state) {
+        if (state is GetMainCategoryForViewSuccess) {
+          final mainCategoryForViewEntity =
+              state.mainCategoryForViewEntity; // list for category
+          final List<MainCategoryForViewEntity> allCategory = [
+            MainCategoryForViewEntity(
+                mainCategoryId: 0000, mainCategoryName: "الكل")
+          ]; // list for category with "الكل"
+          allCategory.addAll(mainCategoryForViewEntity); // marege
+
+          return CustomGetMainCategoryForViewSuccessWidget(
+            allCategory: allCategory,
+            storeProductsFilter: storeProductsFilter,
+          );
+        } else if (state is GetMainCategoryForViewFailure) {
+          return Center(child: Text(state.errMessage));
+        } else if (state is GetMainCategoryForViewLoading) {
+          return ShimmerForMainCategoryForView();
+        } else {
+          return Center(
+            child: Container(
+              color: Colors.red.shade400,
+              height: 50,
+              width: 300,
+              child: const Text('لم يتم الوصول الى المعلومات'),
+            ),
+          );
+        }
+      },
+    );
+  }
+}

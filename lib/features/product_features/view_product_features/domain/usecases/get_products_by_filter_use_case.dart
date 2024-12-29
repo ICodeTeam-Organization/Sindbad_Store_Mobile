@@ -13,14 +13,11 @@ class GetProductsByFilterUseCase
   Future<Either<Failure, List<ProductEntity>>> execute(
       ProductsByFilterParams params) async {
     return viewProductRepo.getProductsByFilter(
-        storeProductsFilter: params.storeProductsFilter,
-        pageNumper: params.pageNumper,
-        pageSize: params.pageSize,
-        //
-        hasOffer: params.hasOffer,
-        isDeleted: params.hasOffer
-        //
-        );
+      storeProductsFilter: params.storeProductsFilter,
+      pageNumper: params.pageNumper,
+      pageSize: params.pageSize,
+      categoryId: params.categoryId,
+    );
   }
 }
 
@@ -28,18 +25,12 @@ class ProductsByFilterParams {
   final int storeProductsFilter;
   final int pageNumper;
   final int pageSize;
-  //
-  final bool hasOffer;
-  final bool isDeleted;
-  //
+  final int? categoryId;
 
   ProductsByFilterParams(
-      this.storeProductsFilter,
-      this.pageNumper,
-      this.pageSize,
-      //
-      this.hasOffer,
-      this.isDeleted
-      //
-      );
+    this.storeProductsFilter,
+    this.pageNumper,
+    this.pageSize,
+    this.categoryId,
+  );
 }
