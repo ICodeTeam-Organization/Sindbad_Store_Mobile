@@ -1,35 +1,32 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../domain/entities/delete_entity_product.dart';
+// import '../../../domain/entities/delete_entity_product.dart';
 import '../../../domain/entities/product_entity.dart';
-import '../../../domain/usecases/delete_product_by_id_use_case.dart';
+// import '../../../domain/usecases/delete_product_by_id_use_case.dart';
 import '../../../domain/usecases/get_products_by_filter_use_case.dart';
 
 part 'get_store_products_with_filter_state.dart';
 
 class GetStoreProductsWithFilterCubit
     extends Cubit<GetStoreProductsWithFilterState> {
-  GetStoreProductsWithFilterCubit(
-      this.getProductsByFilterUseCase, this.deleteProductByIdUseCase)
+  GetStoreProductsWithFilterCubit(this.getProductsByFilterUseCase)
       : super(GetStoreProductsWithFilterInitial());
   final GetProductsByFilterUseCase getProductsByFilterUseCase;
-  final DeleteProductByIdUseCase deleteProductByIdUseCase;
 
-  List<String> updatedProductsSelected = [];
+  List<int> updatedProductsSelected = [];
   // الدالة لتحديث حالة الـ Checkbox
-  void updateCheckboxState(int index, bool value, String productNumber) {
+  void updateCheckboxState(int index, bool value, int productId) {
     if (state is GetStoreProductsWithFilterSuccess) {
       final currentState = state as GetStoreProductsWithFilterSuccess;
       // إنشاء قائمة جديدة تحتوي على جميع الحالات القديمة مع تحديث الحالة المطلوبة
       final List<bool> updatedCheckedStates =
           List<bool>.from(currentState.checkedStates);
       // final List<String> updatedProductsSelected =
-      updatedProductsSelected =
-          List<String>.from(currentState.productsSelected);
+      updatedProductsSelected = List<int>.from(currentState.productsSelected);
       updatedCheckedStates[index] = value; // تحديث الحالة في الفهرس المحدد
       value
-          ? updatedProductsSelected.add(productNumber)
+          ? updatedProductsSelected.add(productId)
           : updatedProductsSelected
-              .remove(productNumber); // تحديث الحالة في  العنصر المختار
+              .remove(productId); // تحديث الحالة في  العنصر المختار
       print(updatedProductsSelected);
 
       // إعادة إصدار الـ state الجديد مع الحالة المحدثة
@@ -61,27 +58,10 @@ class GetStoreProductsWithFilterCubit
       // تهيئة جميع القوائم
       final List<bool> checkedStates =
           List<bool>.filled(products.length, false);
-      final List<String> productsSelected = [];
+      final List<int> productsSelected = [];
       updatedProductsSelected = [];
       emit(GetStoreProductsWithFilterSuccess(
           products, checkedStates, productsSelected));
-    });
-  }
-
-  // for delete product
-  Future<void> deleteProductById({required int productId}) async {
-    emit(DeleteStoreProductByIdLoading());
-    var params = DeleteProductByIdPara(productId);
-    var result = await deleteProductByIdUseCase.execute(params);
-
-    result.fold(
-        // left
-        (failure) {
-      emit(DeleteStoreProductByIdFailure(errMessage: failure.message));
-    },
-        // right
-        (responseMessage) {
-      emit(DeleteStoreProductByIdSuccess(message: responseMessage));
     });
   }
 }

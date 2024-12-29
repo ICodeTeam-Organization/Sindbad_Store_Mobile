@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
+import 'package:sindbad_management_app/features/product_features/view_product_features/domain/entities/disable_products_entity.dart';
 import '../entities/delete_entity_product.dart';
 import '../entities/main_category_for_view_entity.dart';
 import '../entities/product_entity.dart';
@@ -22,4 +23,8 @@ abstract class ViewProductRepo {
   Future<Either<Failure, DeleteProductEntity>> deleteProductById({
     required int productId,
   });
+
+  // for disable Products By [Ids]
+  Future<Either<Failure, DisableProductsEntity>> disableProductsByIds(
+      {required List<int> ids});
 }

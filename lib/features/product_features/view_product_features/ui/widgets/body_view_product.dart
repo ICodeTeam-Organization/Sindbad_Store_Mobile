@@ -5,7 +5,9 @@ import 'package:sindbad_management_app/features/product_features/view_product_fe
 import '../../../../../core/shared_widgets/new_widgets/custom_app_bar.dart';
 import '../../../../../core/shared_widgets/new_widgets/custom_tab_bar_widget.dart';
 import '../../../../../core/styles/Colors.dart';
+import '../manager/disable_products/cubit/disable_products_by_ids_cubit.dart';
 import '../manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
+import 'custom_show_dialog_for_view_widget.dart';
 import 'products_listview_widget.dart';
 import 'two_button_in_row_costum.dart';
 
@@ -17,6 +19,23 @@ class BodyViewProductScreen extends StatefulWidget {
 }
 
 class BodyViewProductScreenState extends State<BodyViewProductScreen> {
+  late GetStoreProductsWithFilterCubit cubitGetStoreProducts;
+  late DisableProductsByIdsCubit cubitDisableProducts;
+  initCubitGetStoreProducts() {
+    cubitGetStoreProducts = context.read<GetStoreProductsWithFilterCubit>();
+  }
+
+  initCubitDisableProducts() {
+    cubitDisableProducts = context.read<DisableProductsByIdsCubit>();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initCubitGetStoreProducts();
+    initCubitDisableProducts();
+  }
+
   @override
   Widget build(BuildContext context) {
     final double heightMobile = MediaQuery.sizeOf(context).height;
@@ -37,9 +56,9 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
                 Tab(text: "منتجات موقوفة"),
               ],
               tabViews: [
-                _buildTabView(0),
-                _buildTabView(1),
-                _buildTabView(2),
+                _buildTabView(0, context),
+                _buildTabView(1, context),
+                _buildTabView(2, context),
               ],
               length: 3,
               indicatorColor: AppColors.primary,
@@ -55,7 +74,7 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
   }
 
   // بناء محتوى التبويب بناءً على التحديد
-  Widget _buildTabView(int tabIndex) {
+  Widget _buildTabView(int tabIndex, BuildContext context) {
     switch (tabIndex) {
       case 0: // "جميع المنتجات"
 
@@ -69,11 +88,55 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
                 GetStoreProductsWithFilterState>(
               builder: (context, state) {
                 return TwoButtonInRow(
-                  anyProductsSelected: context
-                      .read<GetStoreProductsWithFilterCubit>()
-                      .updatedProductsSelected
-                      .isEmpty,
-                  onTapLeft: () {},
+                  anyProductsSelected:
+                      cubitGetStoreProducts.updatedProductsSelected.isEmpty,
+                  onTapLeft: () {
+                    showDialog(
+                      context: context, // تمرير السياق الصحيح
+                      builder: (BuildContext context) {
+                        final List<int> selectedProducts =
+                            cubitGetStoreProducts.updatedProductsSelected;
+                        return CustomShowDialogForViewWidget(
+                          title: 'هل انت متأكد من إيقاف المنتجات؟',
+                          subtitle:
+                              'عدد المنتجات التي تريد إيقافها :  ${selectedProducts.length}',
+                          confirmText: "إيقاف",
+                          cancelText: "إلغاء",
+                          onConfirm: () {
+                            cubitDisableProducts.disableProductsByIds(
+                                ids: selectedProducts); // استدعاء داله الحذف
+                            BlocListener<
+                                DisableProductsByIdsCubit, // الاستماع لتغيراتها
+                                DisableProductsByIdsState>(
+                              listener: (context, state) {
+                                if (state is DisableProductsByIdsSuccess) {
+                                  cubitGetStoreProducts
+                                      .getStoreProductsWitheFilter(
+                                          storeProductsFilter: tabIndex,
+                                          pageNumper: 1,
+                                          pageSize: 100);
+                                  // إغلاق مربع الحوار
+                                  Navigator.of(context).pop();
+                                }
+                                if (state is DisableProductsByIdsFailure) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text(state.errMessage)),
+                                  );
+                                }
+                                if (state is DisableProductsByIdsLoading) {}
+                              },
+                              child: Container(),
+                            );
+                            // cubitDisableProducts.disableProductsByIds(
+                            //     ids: selectedProducts);
+
+                            // إغلاق مربع الحوار
+                            // Navigator.of(dialogContext).pop();
+                          },
+                        );
+                      },
+                    );
+                  },
                 );
               },
             ),
@@ -97,11 +160,12 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
                 GetStoreProductsWithFilterState>(
               builder: (context, state) {
                 return TwoButtonInRow(
-                  anyProductsSelected: context
-                      .read<GetStoreProductsWithFilterCubit>()
-                      .updatedProductsSelected
-                      .isEmpty,
-                  onTapLeft: () {},
+                  anyProductsSelected:
+                      cubitGetStoreProducts.updatedProductsSelected.isEmpty,
+                  onTapLeft: () {
+                    // cubitDisableProducts.disableProductsByIds(
+                    //     ids: cubitGetStoreProducts.updatedProductsSelected);
+                  },
                 );
               },
             ),
@@ -122,10 +186,8 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
               builder: (context, state) {
                 return TwoButtonInRow(
                   titleLeft: "إعادة تنشيط",
-                  anyProductsSelected: context
-                      .read<GetStoreProductsWithFilterCubit>()
-                      .updatedProductsSelected
-                      .isEmpty,
+                  anyProductsSelected:
+                      cubitGetStoreProducts.updatedProductsSelected.isEmpty,
                   onTapLeft: () {},
                 );
               },

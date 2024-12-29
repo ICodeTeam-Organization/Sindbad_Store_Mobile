@@ -3,9 +3,11 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sindbad_management_app/features/product_features/view_product_features/domain/entities/delete_entity_product.dart';
 
 import '../../../../../core/api_service.dart';
+import '../../domain/entities/disable_products_entity.dart';
 import '../../domain/entities/main_category_for_view_entity.dart';
 import '../../domain/entities/product_entity.dart';
 import '../models/delete_product_model.dart';
+import '../models/disable_products_model/disable_products_model.dart';
 import '../models/main_category_for_view_model/item.dart';
 import '../models/product_model/product_model.dart';
 // import '../models/product_model/product_model.dart';
@@ -26,6 +28,9 @@ abstract class ViewProductRemoteDataSource {
   Future<DeleteProductEntity> deleteProductById({
     required int productId,
   });
+
+  // for disable Products By [Ids]
+  Future<DisableProductsEntity> disableProductsByIds({required List<int> ids});
 }
 
 class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
@@ -136,8 +141,9 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
       {required int productId}) async {
     String? token = await getToken();
     var data = await apiService.delete(
-        endPoint: "Products/DeleteProduct?id=$productId",
-        headers: {"Authorization": "BEARER $token"});
+      endPoint: "Products/DeleteProduct?id=$productId",
+      headers: {"Authorization": "BEARER $token"},
+    );
     DeleteProductEntity responseDeleteProduct =
         DeleteProductModel.fromJson(data);
     print(
@@ -147,5 +153,25 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
     print("========== Message =>  ${responseDeleteProduct.message}");
     print(" ===================== Bagar =============== ");
     return responseDeleteProduct;
+  }
+
+  @override
+  Future<DisableProductsEntity> disableProductsByIds(
+      {required List<int> ids}) async {
+    String? token = await getToken();
+    var response = await apiService.patchForDisableProductsOnly(
+      endPoint: "Products/DisableProducts",
+      data: ids,
+      headers: {"Authorization": "BEARER $token"},
+    );
+    DisableProductsEntity responseDisableProducts =
+        DisableProductsModel.fromJson(response);
+    print(
+        " ===================== Bagar Message Disable Product =============== ");
+    print(
+        "========== Success =>  ${responseDisableProducts.success.toString()}");
+    print("========== Message =>  ${responseDisableProducts.message}");
+    print(" ===================== Bagar =============== ");
+    return responseDisableProducts;
   }
 }

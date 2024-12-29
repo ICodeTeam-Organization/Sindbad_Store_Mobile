@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 
 import 'package:sindbad_management_app/core/errors/failure.dart';
 import 'package:sindbad_management_app/features/product_features/view_product_features/domain/entities/delete_entity_product.dart';
+import 'package:sindbad_management_app/features/product_features/view_product_features/domain/entities/disable_products_entity.dart';
 import 'package:sindbad_management_app/features/product_features/view_product_features/domain/entities/main_category_for_view_entity.dart';
 
 import 'package:sindbad_management_app/features/product_features/view_product_features/domain/entities/product_entity.dart';
@@ -73,9 +74,27 @@ class ViewProductStoreRepoImpl extends ViewProductRepo {
       } else {
         return left(ServerFailure(e.toString()));
       }
-    } finally {
-      // to control errMessage when response 404 becouse we can
-      return left(ServerFailure("المنتج غير موجود."));
+    }
+    // finally {
+    //   // to control errMessage when response 404 becouse we can
+    //   return left(ServerFailure("المنتج غير موجود."));
+    // }
+  }
+
+  // ===================  for Disable Products  ====================
+  @override
+  Future<Either<Failure, DisableProductsEntity>> disableProductsByIds(
+      {required List<int> ids}) async {
+    try {
+      var response =
+          await viewProductRemoteDataSource.disableProductsByIds(ids: ids);
+      return right(response);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      } else {
+        return left(ServerFailure(e.toString()));
+      }
     }
   }
 }

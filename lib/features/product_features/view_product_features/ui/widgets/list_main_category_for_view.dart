@@ -7,25 +7,14 @@ import 'shimmer_for_main_category_for_view.dart';
 
 //  =====  بناء قائمة التصنيفات الفرعية (Sub Categories)  ========
 
-class ListMainCategoryForView extends StatefulWidget {
+class ListMainCategoryForView extends StatelessWidget {
   final int storeProductsFilter;
   const ListMainCategoryForView({super.key, required this.storeProductsFilter});
 
   @override
-  State<ListMainCategoryForView> createState() =>
-      _ListMainCategoryForViewState();
-}
-
-class _ListMainCategoryForViewState extends State<ListMainCategoryForView> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<GetMainCategoryForViewCubit>().getMainCategoryForView(
-        pageNumper: 1, pageSize: 10); // for get Main category
-  }
-
-  @override
   Widget build(BuildContext context) {
+    context.read<GetMainCategoryForViewCubit>().getMainCategoryForView(
+        pageNumper: 1, pageSize: 100); // for get Main category
     return BlocBuilder<GetMainCategoryForViewCubit,
         GetMainCategoryForViewState>(
       builder: (context, state) {
@@ -40,7 +29,7 @@ class _ListMainCategoryForViewState extends State<ListMainCategoryForView> {
 
           return CustomGetMainCategoryForViewSuccessWidget(
             allCategory: allCategory,
-            storeProductsFilter: widget.storeProductsFilter,
+            storeProductsFilter: storeProductsFilter,
           );
         } else if (state is GetMainCategoryForViewFailure) {
           return Center(child: Text(state.errMessage));

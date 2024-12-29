@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -81,6 +82,32 @@ class ApiService {
     try {
       var response = await _dio.patch('$baseUrl$endPoint',
           data: data, options: Options(headers: headers));
+
+      return response.data;
+    } catch (error, stacktrace) {
+      // Handle any error that occurs during the request
+      // print('Error: $error');
+      // print('Stacktrace: $stacktrace');
+      throw Exception(
+          'Failed to make PATCH request , Error: $error , Stacktrace: $stacktrace ');
+    }
+  }
+
+  // patch for using disable products (abdullah) method
+  Future<Map<String, dynamic>> patchForDisableProductsOnly(
+      {required String endPoint,
+      required List<int> data,
+      Map<String, String>? headers}) async {
+    try {
+      var response = await _dio.patch('$baseUrl$endPoint',
+          // data: data,
+          data: jsonEncode(data),
+          options: Options(
+              // headers: headers
+              headers: {
+                ...?headers,
+                'Content-Type': 'application/json',
+              }));
 
       return response.data;
     } catch (error, stacktrace) {

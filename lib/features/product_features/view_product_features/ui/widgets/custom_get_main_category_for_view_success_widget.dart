@@ -49,7 +49,7 @@ class _CustomGetMainCategoryForViewSuccessWidgetState
                     storeProductsFilter: widget.storeProductsFilter,
                     categoryId: i == 0 ? null : category.mainCategoryId,
                     pageNumper: 1,
-                    pageSize: 10);
+                    pageSize: 100);
                 //
                 debugPrint("Selected Category: ${category.mainCategoryName}");
                 _selectedSubIndex = i;
