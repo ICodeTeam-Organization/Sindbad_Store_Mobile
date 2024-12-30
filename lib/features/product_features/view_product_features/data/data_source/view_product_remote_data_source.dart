@@ -3,9 +3,11 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sindbad_management_app/features/product_features/view_product_features/domain/entities/delete_entity_product.dart';
 
 import '../../../../../core/api_service.dart';
+import '../../domain/entities/activate_products_entity.dart';
 import '../../domain/entities/disable_products_entity.dart';
 import '../../domain/entities/main_category_for_view_entity.dart';
 import '../../domain/entities/product_entity.dart';
+import '../models/activate_products_model/activate_products_model.dart';
 import '../models/delete_product_model.dart';
 import '../models/disable_products_model/disable_products_model.dart';
 import '../models/main_category_for_view_model/item.dart';
@@ -31,6 +33,10 @@ abstract class ViewProductRemoteDataSource {
 
   // for disable Products By [Ids]
   Future<DisableProductsEntity> disableProductsByIds({required List<int> ids});
+
+  // for ActivateProducts By [Ids]
+  Future<ActivateProductsEntity> activateProductsByIds(
+      {required List<int> ids});
 }
 
 class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
@@ -135,7 +141,6 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
   }
 
   // fun Delete product by ID
-  DeleteProductModel? deleteProductModel;
   @override
   Future<DeleteProductEntity> deleteProductById(
       {required int productId}) async {
@@ -159,7 +164,7 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
   Future<DisableProductsEntity> disableProductsByIds(
       {required List<int> ids}) async {
     String? token = await getToken();
-    var response = await apiService.patchForDisableProductsOnly(
+    var response = await apiService.patchForDisableOrActivateProductsOnly(
       endPoint: "Products/DisableProducts",
       data: ids,
       headers: {"Authorization": "BEARER $token"},
@@ -173,5 +178,26 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
     print("========== Message =>  ${responseDisableProducts.message}");
     print(" ===================== Bagar =============== ");
     return responseDisableProducts;
+  }
+
+  // for ActivateProducts By [Ids]
+  @override
+  Future<ActivateProductsEntity> activateProductsByIds(
+      {required List<int> ids}) async {
+    String? token = await getToken();
+    var response = await apiService.patchForDisableOrActivateProductsOnly(
+      endPoint: "Products/ActivateProducts",
+      data: ids,
+      headers: {"Authorization": "BEARER $token"},
+    );
+    ActivateProductsEntity responseActivateProducts =
+        ActivateProductsModel.fromJson(response);
+    print(
+        " ===================== Bagar Message Activate Product =============== ");
+    print(
+        "========== Success =>  ${responseActivateProducts.success.toString()}");
+    print("========== Message =>  ${responseActivateProducts.message}");
+    print(" ===================== Bagar =============== ");
+    return responseActivateProducts;
   }
 }

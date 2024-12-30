@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../../core/setup_service_locator.dart';
 import '../../../../../core/styles/Colors.dart';
 import '../../../../../core/utils/route.dart';
-import '../../data/repos/view_product_store_repo_impl.dart';
 import '../../domain/entities/product_entity.dart';
-import '../../domain/usecases/delete_product_by_id_use_case.dart';
 import '../manager/delete_product_by_id_from_store/delete_product_by_id_from_store_cubit.dart';
-import '../manager/disable_products/cubit/disable_products_by_ids_cubit.dart';
 import '../manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
 import 'check_box_custom.dart';
 import 'custom_show_dialog_for_view_widget.dart';
@@ -212,47 +208,3 @@ void showDeleteDialog({
     },
   );
 }
-
-
-// void showDeleteDialog(
-//     {required BuildContext contextPerant,
-//     required int productId,
-//     required int storeProductsFilter}) {
-//   showDialog(
-//     context: contextPerant,
-//     builder: (BuildContext contextPerant) {
-//       return BlocConsumer<DeleteProductByIdFromStoreCubit,
-//           DeleteProductByIdFromStoreState>(listener: (context, state) {
-//         if (state is DeleteProductByIdFromStoreSuccess) {
-//           ScaffoldMessenger.of(context).showSnackBar(
-//             SnackBar(content: Text('تم حذف  المنتج بنجاح!')),
-//           );
-//           Navigator.of(context, rootNavigator: true).pop(); // Close dialog
-//           contextPerant
-//               .read<GetStoreProductsWithFilterCubit>()
-//               .getStoreProductsWitheFilter(
-//                 storeProductsFilter: storeProductsFilter,
-//                 pageNumper: 1,
-//                 pageSize: 100,
-//               );
-//         } else if (state is DeleteProductByIdFromStoreFailure) {
-//           ScaffoldMessenger.of(context).showSnackBar(
-//             SnackBar(content: Text(state.errMessage)),
-//           );
-//         }
-//       }, builder: (context, state) {
-//         final cubitDeleteProductById =
-//             contextPerant.read<DeleteProductByIdFromStoreCubit>();
-//         return CustomShowDialogForViewWidget(
-//           title: 'حذف المنتج',
-//           subtitle: 'هل تريد بالتأكيد حذف هذا المنتج؟',
-//           isLoading: state is DeleteProductByIdFromStoreLoading,
-//           onConfirm: () =>
-//               cubitDeleteProductById.deleteProductById(productId: productId),
-//           confirmText: 'نعم',
-//           cancelText: 'لا',
-//         );
-//       });
-//     },
-//   );
-// }
