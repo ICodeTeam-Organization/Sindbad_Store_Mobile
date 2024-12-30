@@ -5,7 +5,7 @@ import 'package:sindbad_management_app/features/product_features/view_product_fe
 import '../../../../../core/shared_widgets/new_widgets/custom_app_bar.dart';
 import '../../../../../core/shared_widgets/new_widgets/custom_tab_bar_widget.dart';
 import '../../../../../core/styles/Colors.dart';
-import '../manager/disable_products/cubit/disable_products_by_ids_cubit.dart';
+import '../manager/disable_products/disable_products_by_ids_cubit.dart';
 import '../manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
 import 'custom_show_dialog_for_view_widget.dart';
 import 'products_listview_widget.dart';
