@@ -4,8 +4,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sindbad_management_app/core/utils/route.dart';
-import 'package:sindbad_management_app/features/auth_features/data/repos_impl/sign_in_repo_impl.dart';
-import 'package:sindbad_management_app/features/auth_features/domain/usecases/sign_in_usecase.dart';
+import 'package:sindbad_management_app/features/auth_feature/data/repo/auth_repo_impl.dart';
+import 'package:sindbad_management_app/features/auth_feature/domain/usecase/sign_in_use_case.dart';
+import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/data/repos_impl/all_order_repo_impl.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/usecases/all_order_usecase.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/usecases/order_cancel_usecase.dart';
@@ -47,7 +48,6 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/view_offer_body.dart';
 import 'core/setup_service_locator.dart';
 import 'core/simple_bloc_observer.dart';
-import 'features/auth_features/ui/manager/cubit/sign_in_cubit.dart';
 import 'features/order_management _features/domain/usecases/order_details_usecase.dart';
 import 'features/order_management _features/domain/usecases/order_shipping_usecase.dart';
 import 'features/order_management _features/ui/manager/all_order/all_order_cubit.dart';
@@ -112,8 +112,8 @@ class SindbadManagementApp extends StatelessWidget {
           )),
         ),
         BlocProvider(
-            create: (context) => SignInCubit(SignInUseCase(
-                  getit.get<SignInRepoImpl>(),
+            create: (context) => SignInCubitCubit(SignInUseCase(
+                  getit.get<AuthRepoImpl>(),
                 ))),
         BlocProvider(
             create: (context) => AllOrderCubit(AllOrderUsecase(

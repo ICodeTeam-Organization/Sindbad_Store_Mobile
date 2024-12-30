@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:sindbad_management_app/features/auth_feature/data/data_source/auth_remote_data_source.dart';
+import 'package:sindbad_management_app/features/auth_feature/data/repo/auth_repo_impl.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/data/repos/add_product_store_repo_impl.dart';
 // import 'package:sindbad_management_app/features/order_management%20_features/data/data_sources/all_order_remot_data_source.dart';
 // import 'package:sindbad_management_app/features/order_management%20_features/data/repos_impl/all_order_repo_impl.dart';
@@ -33,8 +35,6 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 
 // import 'package:test_order_life_cycle/features/delivery/Receive_Parcels/data/data_source/remote/receive_parcels_remote_data_source.dart';
 
-import '../features/auth_features/data/data_sources/sign_in_remot_data_source.dart';
-import '../features/auth_features/data/repos_impl/sign_in_repo_impl.dart';
 import '../features/order_management _features/data/repos_impl/all_order_repo_impl.dart';
 import '../features/order_management _features/data/data_sources/all_order_remot_data_source.dart';
 import '../features/order_management _features/data/repos_impl/all_order_repo_impl.dart';
@@ -50,14 +50,11 @@ void setupServiceLocator() {
   getit.registerSingleton<FlutterSecureStorage>(
     const FlutterSecureStorage(),
   );
-  getit.registerSingleton<SignInRepoImpl>(
-    SignInRepoImpl(
-      signInRemotDataSource: SignInRemoteDataSourceImpl(
-        getit.get<ApiService>(),
-        getit.get<FlutterSecureStorage>(),
-      ),
-    ),
-  );
+  getit.registerSingleton<AuthRepoImpl>(AuthRepoImpl(
+      authRemoteDataSource: AuthRemoteDataSourceImpl(
+    getit.get<ApiService>(),
+    getit.get<FlutterSecureStorage>(),
+  )));
   getit.registerSingleton<AllOrderRepoImpl>(AllOrderRepoImpl(
     AllOrderRemotDataSourceImpl(
       getit.get<ApiService>(),

@@ -1,15 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:sindbad_management_app/features/auth_features/domain/repos/sign_in_repo.dart';
+import 'package:sindbad_management_app/core/errors/failure.dart';
+import 'package:sindbad_management_app/features/auth_feature/data/data_source/auth_remote_data_source.dart';
+import 'package:sindbad_management_app/features/auth_feature/domain/entity/sign_in_entity.dart';
+import 'package:sindbad_management_app/features/auth_feature/domain/repo/auth_repo.dart';
 
-import '../../../../core/errors/failure.dart';
-import '../../domain/entities/sign_in_entity.dart';
-import '../data_sources/sign_in_remot_data_source.dart';
+class AuthRepoImpl extends AuthRepo {
+  final AuthRemoteDataSource authRemoteDataSource;
 
-class SignInRepoImpl extends SignInRepo {
-  final SignInRemotDataSource signInRemotDataSource;
-
-  SignInRepoImpl({required this.signInRemotDataSource});
+  AuthRepoImpl({required this.authRemoteDataSource});
 
 // Generic PostData function
   Future<Either<Failure, T>> postData<T>(
@@ -29,6 +28,6 @@ class SignInRepoImpl extends SignInRepo {
   @override
   Future<Either<Failure, SignInEntity>> signIn(
       String phoneNumber, String password) async {
-    return postData(() => signInRemotDataSource.signIn(phoneNumber, password));
+    return postData(() => authRemoteDataSource.signIn(phoneNumber, password));
   }
 }

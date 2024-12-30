@@ -4,7 +4,7 @@ class SignInEntity {
 
   final String dataMessage;
   final bool isAuthenticated;
-  final List<String> userRoles;
+  final List<dynamic> userRoles;
 
   final String token;
   final String fullName;

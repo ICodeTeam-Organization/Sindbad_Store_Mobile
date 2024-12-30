@@ -1,12 +1,11 @@
 import 'package:dartz/dartz.dart';
-
-import '../../../../core/errors/failure.dart';
-import '../../../../core/use_cases/param_use_case.dart';
-import '../entities/sign_in_entity.dart';
-import '../repos/sign_in_repo.dart';
+import 'package:sindbad_management_app/core/errors/failure.dart';
+import 'package:sindbad_management_app/core/use_cases/param_use_case.dart';
+import 'package:sindbad_management_app/features/auth_feature/domain/entity/sign_in_entity.dart';
+import 'package:sindbad_management_app/features/auth_feature/domain/repo/auth_repo.dart';
 
 class SignInUseCase extends UseCaseWithParam<SignInEntity, SignInParams> {
-  final SignInRepo authRepo;
+  final AuthRepo authRepo;
 
   SignInUseCase(this.authRepo);
 

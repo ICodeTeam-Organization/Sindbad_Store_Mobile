@@ -1,16 +1,16 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../../../../core/api_service.dart';
-import '../../domain/entities/sign_in_entity.dart';
-import '../models/sign_in_model/sign_in_model.dart';
+import 'package:sindbad_management_app/core/api_service.dart';
+import 'package:sindbad_management_app/features/auth_feature/data/model/sign_in_model/sign_in_model.dart';
+import 'package:sindbad_management_app/features/auth_feature/domain/entity/sign_in_entity.dart';
 
-abstract class SignInRemotDataSource {
-  Future<SignInEntity> signIn(String email, String password);
+abstract class AuthRemoteDataSource {
+  Future<SignInEntity> signIn(String phoneNumber, String password);
 }
 
-class SignInRemoteDataSourceImpl implements SignInRemotDataSource {
+class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final ApiService apiService;
   final FlutterSecureStorage secureStorage;
-  SignInRemoteDataSourceImpl(this.apiService, this.secureStorage);
+  AuthRemoteDataSourceImpl(this.apiService, this.secureStorage);
 
   // get Token Function
   Future<String?> getToken() async {
