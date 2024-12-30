@@ -87,56 +87,53 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
             BlocBuilder<GetStoreProductsWithFilterCubit,
                 GetStoreProductsWithFilterState>(
               builder: (context, state) {
-                return TwoButtonInRow(
-                  anyProductsSelected:
-                      cubitGetStoreProducts.updatedProductsSelected.isEmpty,
-                  onTapLeft: () {
-                    showDialog(
-                      context: context, // تمرير السياق الصحيح
-                      builder: (BuildContext context) {
-                        final List<int> selectedProducts =
-                            cubitGetStoreProducts.updatedProductsSelected;
-                        return CustomShowDialogForViewWidget(
-                          title: 'هل انت متأكد من إيقاف المنتجات؟',
-                          subtitle:
-                              'عدد المنتجات التي تريد إيقافها :  ${selectedProducts.length}',
-                          confirmText: "إيقاف",
-                          cancelText: "إلغاء",
-                          onConfirm: () {
-                            cubitDisableProducts.disableProductsByIds(
-                                ids: selectedProducts); // استدعاء داله الحذف
-                            BlocListener<
-                                DisableProductsByIdsCubit, // الاستماع لتغيراتها
-                                DisableProductsByIdsState>(
-                              listener: (context, state) {
-                                if (state is DisableProductsByIdsSuccess) {
-                                  cubitGetStoreProducts
-                                      .getStoreProductsWitheFilter(
-                                          storeProductsFilter: tabIndex,
-                                          pageNumper: 1,
-                                          pageSize: 100);
-                                  // إغلاق مربع الحوار
-                                  Navigator.of(context).pop();
-                                }
-                                if (state is DisableProductsByIdsFailure) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(state.errMessage)),
-                                  );
-                                }
-                                if (state is DisableProductsByIdsLoading) {}
-                              },
-                              child: Container(),
-                            );
-                            // cubitDisableProducts.disableProductsByIds(
-                            //     ids: selectedProducts);
-
-                            // إغلاق مربع الحوار
-                            // Navigator.of(dialogContext).pop();
-                          },
-                        );
-                      },
-                    );
+                return BlocListener<DisableProductsByIdsCubit,
+                    DisableProductsByIdsState>(
+                  listener: (context, state) {
+                    if (state is DisableProductsByIdsSuccess) {
+                      cubitGetStoreProducts.getStoreProductsWitheFilter(
+                        storeProductsFilter: tabIndex,
+                        pageNumper: 1,
+                        pageSize: 100,
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(state.message.message)));
+                      // إغلاق مربع الحوار
+                      Navigator.of(context, rootNavigator: true)
+                          .pop(); // استخدم rootNavigator
+                    }
+                    if (state is DisableProductsByIdsFailure) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(state.errMessage)),
+                      );
+                    }
+                    // يمكنك أيضًا التعامل مع حالة التحميل هنا إذا لزم الأمر
                   },
+                  child: TwoButtonInRow(
+                    anyProductsSelected:
+                        cubitGetStoreProducts.updatedProductsSelected.isEmpty,
+                    onTapLeft: () {
+                      showDialog(
+                        context: context, // تمرير السياق الصحيح
+                        builder: (BuildContext contextDialog) {
+                          final List<int> selectedProducts =
+                              cubitGetStoreProducts.updatedProductsSelected;
+                          return CustomShowDialogForViewWidget(
+                            isLoading: null,
+                            title: 'هل انت متأكد من إيقاف المنتجات؟',
+                            subtitle:
+                                'عدد المنتجات التي تريد إيقافها : ${selectedProducts.length}',
+                            confirmText: "إيقاف",
+                            cancelText: "إلغاء",
+                            onConfirm: () {
+                              cubitDisableProducts.disableProductsByIds(
+                                  ids: selectedProducts);
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
                 );
               },
             ),
