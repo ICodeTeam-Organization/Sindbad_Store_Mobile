@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../../core/setup_service_locator.dart';
 import '../../../../../core/styles/Colors.dart';
 import '../../../../../core/utils/route.dart';
-import '../../data/repos/view_product_store_repo_impl.dart';
 import '../../domain/entities/product_entity.dart';
-import '../../domain/usecases/delete_product_by_id_use_case.dart';
 import '../manager/delete_product_by_id_from_store/delete_product_by_id_from_store_cubit.dart';
-import '../manager/disable_products/cubit/disable_products_by_ids_cubit.dart';
 import '../manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
 import 'check_box_custom.dart';
 import 'custom_show_dialog_for_view_widget.dart';
@@ -31,12 +27,7 @@ class ProductsListView extends StatelessWidget {
         context.read<GetStoreProductsWithFilterCubit>();
     // final cubitDisableProducts =
     //     context.read<DisableProductsByIdsCubit>();
-    BlocListener<
-        DisableProductsByIdsCubit, // الاستماع لتغيراتها
-        DisableProductsByIdsState>(
-      listener: (context, state) {},
-      child: Container(),
-    );
+
     // جميغ المنتجات  =  0
     //  المنتجات التي عليها عروض  =  1
     //  المنتجات الموقوفة  =  2
@@ -146,27 +137,9 @@ class ProductsListView extends StatelessWidget {
                                 contextPerant: context,
                                 productId: product.productid!,
                                 storeProductsFilter: storeProductsFilter,
+                                deleteProductCubit: context.read<
+                                    DeleteProductByIdFromStoreCubit>(), // Pass the cubit
                               );
-                              // showDialog(
-                              //   context: context, // تمرير السياق الصحيح
-                              //   builder: (BuildContext dialogContext) {
-                              //     return CustomShowDialogForViewWidget(
-                              //       title: 'هل انت متأكد من الحذف ؟',
-                              //       subtitle:
-                              //           'رقم المنتج :  ${product.productid}',
-                              //       onConfirm: () {
-                              //         // استخدام السياق الأب للوصول إلى cubit
-                              //         // cubitGetStoreProducts.deleteProductById(
-                              //         //     productId: product.productid!);
-                              //         print(
-                              //             "productid =========>  ${product.productid.toString()}");
-
-                              //         // إغلاق مربع الحوار
-                              //         Navigator.of(dialogContext).pop();
-                              //       },
-                              //     );
-                              //   },
-                              // );
                             },
                           ),
                         ],
@@ -184,26 +157,27 @@ class ProductsListView extends StatelessWidget {
   }
 }
 
-void showDeleteDialog(
-    {required BuildContext contextPerant,
-    required int productId,
-    required int storeProductsFilter}) {
+void showDeleteDialog({
+  required BuildContext contextPerant,
+  required int productId,
+  required int storeProductsFilter,
+  required DeleteProductByIdFromStoreCubit
+      deleteProductCubit, // Add this parameter
+}) {
   showDialog(
     context: contextPerant,
     builder: (BuildContext dialogContext) {
-      return BlocProvider(
-          create: (contextPerant) => DeleteProductByIdFromStoreCubit(
-                DeleteProductByIdUseCase(
-                  getit.get<ViewProductStoreRepoImpl>(),
-                ),
-              ),
-          child: BlocConsumer<DeleteProductByIdFromStoreCubit,
-              DeleteProductByIdFromStoreState>(listener: (context, state) {
+      return BlocProvider.value(
+        value: deleteProductCubit, // Provide the cubit explicitly
+        child: BlocConsumer<DeleteProductByIdFromStoreCubit,
+            DeleteProductByIdFromStoreState>(
+          listener: (dialogContext, state) {
             if (state is DeleteProductByIdFromStoreSuccess) {
-              Navigator.of(context).pop(); // Close dialog
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('تم حذف  المنتج بنجاح!')),
+              ScaffoldMessenger.of(dialogContext).showSnackBar(
+                SnackBar(content: Text('تم حذف المنتج بنجاح!')),
               );
+              Navigator.of(dialogContext, rootNavigator: true)
+                  .pop(); // Close dialog
               contextPerant
                   .read<GetStoreProductsWithFilterCubit>()
                   .getStoreProductsWitheFilter(
@@ -212,23 +186,25 @@ void showDeleteDialog(
                     pageSize: 100,
                   );
             } else if (state is DeleteProductByIdFromStoreFailure) {
-              ScaffoldMessenger.of(context).showSnackBar(
+              ScaffoldMessenger.of(dialogContext).showSnackBar(
                 SnackBar(content: Text(state.errMessage)),
               );
             }
-          }, builder: (context, state) {
-            final cubitDeleteProductById =
-                context.read<DeleteProductByIdFromStoreCubit>();
+          },
+          builder: (dialogContext, state) {
             return CustomShowDialogForViewWidget(
               title: 'حذف المنتج',
               subtitle: 'هل تريد بالتأكيد حذف هذا المنتج؟',
               isLoading: state is DeleteProductByIdFromStoreLoading,
-              onConfirm: () => cubitDeleteProductById.deleteProductById(
-                  productId: productId),
+              onConfirm: () => dialogContext
+                  .read<DeleteProductByIdFromStoreCubit>()
+                  .deleteProductById(productId: productId),
               confirmText: 'نعم',
               cancelText: 'لا',
             );
-          }));
+          },
+        ),
+      );
     },
   );
 }

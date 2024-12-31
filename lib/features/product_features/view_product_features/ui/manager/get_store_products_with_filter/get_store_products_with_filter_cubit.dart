@@ -1,7 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import '../../../domain/entities/delete_entity_product.dart';
 import '../../../domain/entities/product_entity.dart';
-// import '../../../domain/usecases/delete_product_by_id_use_case.dart';
 import '../../../domain/usecases/get_products_by_filter_use_case.dart';
 
 part 'get_store_products_with_filter_state.dart';
@@ -27,11 +25,15 @@ class GetStoreProductsWithFilterCubit
           ? updatedProductsSelected.add(productId)
           : updatedProductsSelected
               .remove(productId); // تحديث الحالة في  العنصر المختار
-      print(updatedProductsSelected);
+      print(
+          '==== After checkbox update: $updatedProductsSelected'); // Debugging
 
       // إعادة إصدار الـ state الجديد مع الحالة المحدثة
-      emit(GetStoreProductsWithFilterSuccess(currentState.products,
-          updatedCheckedStates, updatedProductsSelected));
+      emit(GetStoreProductsWithFilterSuccess(
+        currentState.products,
+        updatedCheckedStates,
+        updatedProductsSelected,
+      ));
     }
   }
 

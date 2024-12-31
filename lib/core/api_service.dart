@@ -93,8 +93,8 @@ class ApiService {
     }
   }
 
-  // patch for using disable products (abdullah) method
-  Future<Map<String, dynamic>> patchForDisableProductsOnly(
+  // patch for using disable or activate products (abdullah) method
+  Future<Map<String, dynamic>> patchForDisableOrActivateProductsOnly(
       {required String endPoint,
       required List<int> data,
       Map<String, String>? headers}) async {
