@@ -20,6 +20,7 @@
 // }
 class AllOrderEntity {
   final int idOrder;
+  final int idPackage;
   final String orderNum;
   final String orderBill;
   final String productMount;
@@ -29,6 +30,7 @@ class AllOrderEntity {
 
   AllOrderEntity({
     required this.idOrder,
+    required this.idPackage,
     required this.orderNum,
     required this.orderBill,
     required this.productMount,

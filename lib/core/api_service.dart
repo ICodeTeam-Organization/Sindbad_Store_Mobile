@@ -213,10 +213,11 @@ class ApiService {
         throw Exception('InvoiceNumber is required');
       }
       // Add orderDetailsId
-      if (data.containsKey('orderId')) {
-        formData.fields.add(MapEntry('orderId', data['orderId'].toString()));
+      if (data.containsKey('packageId')) {
+        formData.fields
+            .add(MapEntry('packageId', data['packageId'].toString()));
       } else {
-        throw Exception('orderId is required');
+        throw Exception('packageId is required');
       }
       // Add invoice Amount and amount
       if (data.containsKey('InvoiceAmount')) {

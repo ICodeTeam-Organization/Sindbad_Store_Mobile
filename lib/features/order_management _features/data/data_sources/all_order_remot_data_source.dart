@@ -31,18 +31,19 @@ abstract class AllOrderRemotDataSource {
   /////////////////////////////////
   ///Order Deatails
   Future<List<OrderDetailsEntity>> fetchOrderDetails(
-      int orderId,
-      String orderNumber,
-      String billNumber,
-      String clock,
-      String date,
-      String itemNumber,
-      String paymentInfo,
-      String orderStatus);
+    int packageId,
+    // String orderNumber,
+    // String billNumber,
+    // String clock,
+    // String date,
+    // String itemNumber,
+    // String paymentInfo,
+    // String orderStatus
+  );
   ///////////////////////////////
   ///Order Invoice
   Future<OrderInvoiceEntity> fetchOrderInvoice(
-    int orderId,
+    int packageId,
     num invoiceAmount,
     File invoiceImage,
     String invoiceNumber,
@@ -84,6 +85,23 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
 
     if (data['data']['items'] is List) {
       for (var item in data['data']['items']) {
+        entities.add(fromJson(item));
+      }
+    } else if (data['message'] != null) {
+      // If data['data'] is not a list, add the message to the list
+      entities.add(fromJson(data));
+    }
+    print('this the list added in data source $entities');
+
+    return entities;
+  }
+
+  List<T> getListFromData<T>(
+      Map<String, dynamic> data, T Function(Map<String, dynamic>) fromJson) {
+    List<T> entities = [];
+
+    if (data['data'] is List) {
+      for (var item in data['data']) {
         entities.add(fromJson(item));
       }
     } else if (data['message'] != null) {
@@ -142,7 +160,7 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
   ///ارسال الفاتورة
   @override
   Future<OrderInvoiceEntity> fetchOrderInvoice(
-    int orderId,
+    int packageId,
     num invoiceAmount,
     File invoiceImage,
     String invoiceNumber,
@@ -152,7 +170,8 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
     String? token = await getToken();
     var data = await apiService.postRequestWithFileAndImage(
         endPoint:
-            'OrderDetailsInvoices/CreateOrderDetailsInvoice?orderId=$orderId&InvoiceNumber=$invoiceNumber&InvoiceAmount=$invoiceAmount&Date=$invoiceDate&InvoiceType=$invoiceType',
+            // 'OrderDetailsInvoices/CreateOrderDetailsInvoice?orderId=$orderId&InvoiceNumber=$invoiceNumber&InvoiceAmount=$invoiceAmount&Date=$invoiceDate&InvoiceType=$invoiceType',
+            'OrderDetailsInvoices/CreateOrderDetailsInvoice?packageId=$packageId&InvoiceNumber=$invoiceNumber&InvoiceAmount=$invoiceAmount&Date=$invoiceDate&InvoiceType=$invoiceDate',
         headers: {
           'Authorization': 'Bearer $token',
         },
@@ -161,7 +180,7 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
           'InvoiceAmount': invoiceAmount,
           'InvoiceNumber': invoiceNumber,
           'Date': invoiceDate,
-          'orderId': orderId,
+          'packageId': packageId,
           'InvoiceType': invoiceType,
           'CompanyName': '',
           'ParcelNumber': '',
@@ -174,24 +193,24 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
   //////////////////////////////////////////////
   //عرض تفاصيل الطلب
   List<OrderDetailsEntity> fetchOrderDetailsList(Map<String, dynamic> data) {
-    return getListItemsFromData(
-        data, (item) => OrdersDetailsModel.fromJson(item));
+    return getListFromData(data, (item) => OrdersDetailsModel.fromJson(item));
   }
 
   @override
   Future<List<OrderDetailsEntity>> fetchOrderDetails(
-      int orderId,
-      String orderNumber,
-      String billNumber,
-      String clock,
-      String date,
-      String itemNumber,
-      String paymentInfo,
-      String orderStatus) async {
+    int packageId,
+    // String orderNumber,
+    // String billNumber,
+    // String clock,
+    // String date,
+    // String itemNumber,
+    // String paymentInfo,
+    // String orderStatus
+  ) async {
     String? token = await getToken();
     var data = await apiService.post(
       data: {},
-      endPoint: 'OrderDetails/Store/GetStoreOrderDetails/$orderId',
+      endPoint: 'OrderDetails/Store/GetOrderDetails/$packageId',
       headers: {
         'Authorization': 'Bearer $token',
       },
@@ -204,7 +223,7 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
   //شحن الطلب
   @override
   Future<OrderShippingEntity> fetchOrderShipping(
-      int orderId,
+      int packageId,
       DateTime invoiceDate,
       int shippingNumber,
       String shippingCompany,
@@ -213,13 +232,14 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
     String? token = await getToken();
     var data = await apiService.postRequestWithFileAndImage(
         endPoint:
-            'ShippingInformations/CreateShippingInformation?orderId=$orderId&Date=$invoiceDate&InvoiceNumber=$shippingNumber&CompanyName=$shippingCompany&ParcelNumber=$numberParcels',
+            // 'ShippingInformations/CreateShippingInformation?orderId=$orderId&Date=$invoiceDate&InvoiceNumber=$shippingNumber&CompanyName=$shippingCompany&ParcelNumber=$numberParcels',
+            'ShippingInformations/CreateShippingInformation?PackageId=$packageId&Date=$invoiceDate&InvoiceNumber=$shippingNumber&CompanyName=$shippingCompany&ParcelNumber=$numberParcels',
         headers: {
           'Authorization': 'Bearer $token',
         },
         file: shippingImages,
         data: {
-          'orderId': orderId,
+          'packageId': packageId,
           'Date': invoiceDate,
           'InvoiceNumber': shippingNumber,
           'CompanyName': shippingCompany,

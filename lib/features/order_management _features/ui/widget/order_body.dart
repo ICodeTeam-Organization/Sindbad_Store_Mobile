@@ -8,6 +8,7 @@ import 'order_management_widget/bottom_info_order.dart';
 import 'order_management_widget/top_info_order.dart';
 
 int? idOrders;
+int? idPackages;
 String? orderNumbers;
 String? billNumbers;
 String? clocks;
@@ -28,8 +29,10 @@ class OrderBody extends StatelessWidget {
     required this.itemNumber,
     required this.paymentInfo,
     required this.orderStatus,
+    required this.idPackage,
   });
   final int idOrder;
+  final int idPackage;
   final String orderNumber;
   final String billNumber;
   final String clock;
@@ -59,6 +62,8 @@ class OrderBody extends StatelessWidget {
     return InkWell(
       onTap: () {
         idOrders = idOrder;
+        idPackages = idPackage;
+        print("$idPackage ########################## $idPackages");
         orderNumbers = orderNumber;
         billNumbers = billNumber;
         clocks = clock;
@@ -67,7 +72,7 @@ class OrderBody extends StatelessWidget {
         paymentInfos = paymentInfo;
         orderStatuss = orderStatus;
         orderColors = orderColor;
-        context.push(AppRouter.storeRouters.details, extra: idOrder);
+        context.push(AppRouter.storeRouters.details, extra: idPackage);
       },
       child: Container(
         margin: EdgeInsets.all(7),

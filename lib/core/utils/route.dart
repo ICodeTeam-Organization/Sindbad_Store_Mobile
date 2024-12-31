@@ -164,6 +164,7 @@ abstract class AppRouter {
           path: AppRouter.storeRouters.details,
           builder: (context, state) {
             final orderId = state.extra as int;
+            final packageId = state.extra as int;
             final orderNumber = state.extra;
             final billNumber = state.extra;
             final date = state.extra;
@@ -173,6 +174,7 @@ abstract class AppRouter {
             final orderStatus = state.extra;
             return OrderDetails(
               orderId: orderId,
+              packageId: packageId,
               orderNumber: orderNumber.toString(),
               billNumber: billNumber.toString(),
               clock: colck.toString(),

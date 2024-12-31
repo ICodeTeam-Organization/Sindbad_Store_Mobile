@@ -67,24 +67,24 @@ class AllOrderRepoImpl extends AllOrderRepo {
   ///Order Details
   @override
   Future<Either<Failure, List<OrderDetailsEntity>>> fetchOrderDetails({
-    required int orderId,
-    required String orderNumber,
-    required String billNumber,
-    required String clock,
-    required String date,
-    required String itemNumber,
-    required String paymentInfo,
-    required String orderStatus,
+    required int packageId,
+    // required String orderNumber,
+    // required String billNumber,
+    // required String clock,
+    // required String date,
+    // required String itemNumber,
+    // required String paymentInfo,
+    // required String orderStatus,
   }) {
     return fetchData(() => allOrderRemotDataSource.fetchOrderDetails(
-          orderId,
-          orderNumber,
-          billNumber,
-          clock,
-          date,
-          itemNumber,
-          paymentInfo,
-          orderStatus,
+          packageId,
+          // orderNumber,
+          // billNumber,
+          // clock,
+          // date,
+          // itemNumber,
+          // paymentInfo,
+          // orderStatus,
         ));
   }
 
@@ -106,14 +106,14 @@ class AllOrderRepoImpl extends AllOrderRepo {
   ///Create Invoice
   @override
   Future<Either<Failure, OrderInvoiceEntity>> fetchOrderInvoice(
-      {required int orderId,
+      {required int packageId,
       required String invoiceNumber,
       required num invoiceAmount,
       required int invoiceType,
       required File invoiceImage,
       required DateTime invoiceDate}) {
     return fetchDataOrder(() => allOrderRemotDataSource.fetchOrderInvoice(
-        orderId,
+        packageId,
         invoiceAmount,
         invoiceImage,
         invoiceNumber,
@@ -123,14 +123,14 @@ class AllOrderRepoImpl extends AllOrderRepo {
 
   @override
   Future<Either<Failure, OrderShippingEntity>> fetchOrderShipping(
-      {required int orderId,
+      {required int packageId,
       required DateTime invoiceDate,
       required int shippingNumber,
       required String shippingCompany,
       required File shippingImages,
       required int numberParcels}) {
     return fetchDataOrder(() => allOrderRemotDataSource.fetchOrderShipping(
-        orderId,
+        packageId,
         invoiceDate,
         shippingNumber,
         shippingCompany,

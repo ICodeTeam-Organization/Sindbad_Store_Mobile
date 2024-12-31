@@ -68,7 +68,7 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                                 await context
                                     .read<ShippingCubit>()
                                     .fetchOrderShipping(
-                                        orderId: idOrders!,
+                                        packageId: idPackages!,
                                         invoiceDate:
                                             dateFormat ?? DateTime.now(),
                                         shippingNumber: shippingNumber =
@@ -196,7 +196,7 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                                   '${now.year}-${now.month}-${now.day}_${now.hour}-${now.minute}-${now.second}-${now.millisecond}';
                               final pdfDocument =
                                   await Pdf.generateCenteredText(
-                                      '$orderNumbers - 777777778', parcels!);
+                                      '$idPackages', parcels!);
                               final file = await Pdf.saveDocument(
                                   name: 'invoice_$randomFileName.pdf',
                                   pdf: pdfDocument);
@@ -226,7 +226,7 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                               // Ensure pdfDocument is properly initialized and not null
                               final pdfDocument =
                                   await Pdf.generateCenteredText(
-                                      '$orderNumbers - 777777778', parcels!);
+                                      '$idPackages', parcels!);
                               final file = await Pdf.saveDocument(
                                   name: 'invoice_$randomFileName.pdf',
                                   pdf: pdfDocument);

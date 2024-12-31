@@ -73,7 +73,7 @@ class ShowCreateBillAndCancelOrder extends StatelessWidget {
                         await context
                             .read<OrderInvoiceCubit>()
                             .fechOrderInvoice(
-                              orderId: idOrders!,
+                              packageId: idPackages!,
                               invoiceAmount: mount =
                                   int.parse(mountConroller.text),
                               invoiceImage: images!,

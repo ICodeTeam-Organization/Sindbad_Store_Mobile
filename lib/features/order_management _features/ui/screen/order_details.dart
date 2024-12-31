@@ -23,8 +23,10 @@ class OrderDetails extends StatelessWidget {
       required this.date,
       required this.itemNumber,
       required this.paymentInfo,
-      required this.orderStatus});
+      required this.orderStatus,
+      required this.packageId});
   final int orderId;
+  final int packageId;
   final String orderNumber;
   final String billNumber;
   final String clock;
@@ -53,6 +55,7 @@ class OrderDetails extends StatelessWidget {
                   ),
                   //Show Order
                   OrderBodyD(
+                    idPackage: packageId,
                     idOrder: orderId,
                     numberBill: billNumber,
                     numberOrder: orderNumber,

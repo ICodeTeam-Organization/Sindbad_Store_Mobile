@@ -26,27 +26,27 @@ abstract class AllOrderRepo {
   /////////////////////////////
   ///Order Deatalis
   Future<Either<Failure, List<OrderDetailsEntity>>> fetchOrderDetails({
-    required int orderId,
-    required String orderNumber,
-    required String billNumber,
-    required String clock,
-    required String date,
-    required String itemNumber,
-    required String paymentInfo,
-    required String orderStatus,
+    required int packageId,
+    // required String orderNumber,
+    // required String billNumber,
+    // required String clock,
+    // required String date,
+    // required String itemNumber,
+    // required String paymentInfo,
+    // required String orderStatus,
   });
 
   /////////////////////////////////
   ///Order Invoice
   Future<Either<Failure, OrderInvoiceEntity>> fetchOrderInvoice(
-      {required int orderId,
+      {required int packageId,
       required String invoiceNumber,
       required num invoiceAmount,
       required int invoiceType,
       required File invoiceImage,
       required DateTime invoiceDate});
   Future<Either<Failure, OrderShippingEntity>> fetchOrderShipping(
-      {required int orderId,
+      {required int packageId,
       required DateTime invoiceDate,
       required int shippingNumber,
       required String shippingCompany,

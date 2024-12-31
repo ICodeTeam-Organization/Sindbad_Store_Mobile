@@ -85,15 +85,15 @@ class _UrgentNoPaidInfoOrderState extends State<UrgentNoPaidInfoOrder> {
             itemBuilder: (BuildContext context, int i) {
               // final status = myStatuses[i];
               return OrderBody(
-                idOrder: state.orders[i].idOrder,
-                billNumber: state.orders[i].orderBill,
-                orderNumber: state.orders[i].orderNum,
-                clock: '8:08',
-                date: state.orders[i].orderDates,
-                itemNumber: state.orders[i].productMount,
-                paymentInfo: state.orders[i].payStatus,
-                orderStatus: state.orders[i].orderStatuse,
-              );
+                  idOrder: state.orders[i].idOrder,
+                  billNumber: state.orders[i].orderBill,
+                  orderNumber: state.orders[i].orderNum,
+                  clock: '8:08',
+                  date: state.orders[i].orderDates,
+                  itemNumber: state.orders[i].productMount,
+                  paymentInfo: state.orders[i].payStatus,
+                  orderStatus: state.orders[i].orderStatuse,
+                  idPackage: state.orders[i].idPackage);
             },
           );
         } else if (state is AllOrderFailuer) {

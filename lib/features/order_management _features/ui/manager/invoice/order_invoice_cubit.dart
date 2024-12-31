@@ -15,7 +15,7 @@ class OrderInvoiceCubit extends Cubit<OrderInvoiceState> {
   final OrderInvoiceUsecase orderInvoiceUsecasse;
 
   Future<void> fechOrderInvoice(
-      {required int orderId,
+      {required int packageId,
       required num invoiceAmount,
       required File invoiceImage,
       required String invoiceNumber,
@@ -24,7 +24,7 @@ class OrderInvoiceCubit extends Cubit<OrderInvoiceState> {
     emit(OrderInvoiceLoading());
     try {
       var params = OrderInvoiceParam(
-        orderId: orderId,
+        packageId: packageId,
         invoiceAmounts: invoiceAmount,
         invoiceNumbers: invoiceNumber,
         invoiceImages: invoiceImage,

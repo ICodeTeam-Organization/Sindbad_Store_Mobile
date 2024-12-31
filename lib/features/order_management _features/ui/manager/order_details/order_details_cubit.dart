@@ -9,28 +9,29 @@ class OrderDetailsCubit extends Cubit<OrderDetailsState> {
   OrderDetailsCubit(this.orderDetailsUsecase) : super(OrderDetailsInitial());
   final OrderDetailsUsecase orderDetailsUsecase;
   Future<void> fetchOrderDetails(
-    int orderId,
-    String orderNumber,
-    String billNumber,
-    String clock,
-    String date,
-    String itemNumber,
-    String paymentInfo,
-    String orderStatus,
+    int packageId,
+    // String orderNumber,
+    // String billNumber,
+    // String clock,
+    // String date,
+    // String itemNumber,
+    // String paymentInfo,
+    // String orderStatus,
   ) async {
     emit(
       OrderDetailsLoading(),
     );
     var result = await orderDetailsUsecase.execute(
       OrderDetailsParam(
-          orderId: orderId,
-          orderNumber: orderNumber,
-          billNumber: billNumber,
-          clock: clock,
-          date: date,
-          itemNumber: itemNumber,
-          paymentInfo: paymentInfo,
-          orderStatus: orderStatus),
+        packageId: packageId,
+        // orderNumber: orderNumber,
+        // billNumber: billNumber,
+        // clock: clock,
+        // date: date,
+        // itemNumber: itemNumber,
+        // paymentInfo: paymentInfo,
+        // orderStatus: orderStatus
+      ),
     );
 
     result.fold((failuer) {

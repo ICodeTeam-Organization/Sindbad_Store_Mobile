@@ -15,35 +15,36 @@ class OrderDetailsUsecase
   Future<Either<Failure, List<OrderDetailsEntity>>> execute(
       OrderDetailsParam params) async {
     return await allOrderRepo.fetchOrderDetails(
-      orderId: params.orderId,
-      orderNumber: params.orderNumber,
-      billNumber: params.billNumber,
-      clock: params.clock,
-      date: params.date,
-      itemNumber: params.itemNumber,
-      paymentInfo: params.paymentInfo,
-      orderStatus: params.orderStatus,
+      packageId: params.packageId,
+      // orderNumber: params.orderNumber,
+      // billNumber: params.billNumber,
+      // clock: params.clock,
+      // date: params.date,
+      // itemNumber: params.itemNumber,
+      // paymentInfo: params.paymentInfo,
+      // orderStatus: params.orderStatus,
     );
   }
 }
 
 class OrderDetailsParam {
-  final int orderId;
-  final String orderNumber;
-  final String billNumber;
-  final String clock;
-  final String date;
-  final String itemNumber;
-  final String paymentInfo;
-  final String orderStatus;
+  final int packageId;
+  // final String orderNumber;
+  // final String billNumber;
+  // final String clock;
+  // final String date;
+  // final String itemNumber;
+  // final String paymentInfo;
+  // final String orderStatus;
 
-  OrderDetailsParam(
-      {required this.orderId,
-      required this.orderNumber,
-      required this.billNumber,
-      required this.clock,
-      required this.date,
-      required this.itemNumber,
-      required this.paymentInfo,
-      required this.orderStatus});
+  OrderDetailsParam({
+    required this.packageId,
+    // required this.orderNumber,
+    // required this.billNumber,
+    // required this.clock,
+    // required this.date,
+    // required this.itemNumber,
+    // required this.paymentInfo,
+    // required this.orderStatus
+  });
 }

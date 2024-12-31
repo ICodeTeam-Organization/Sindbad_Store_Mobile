@@ -21,6 +21,7 @@ class OrderBodyD extends StatelessWidget {
   const OrderBodyD({
     super.key,
     required this.idOrder,
+    required this.idPackage,
     required this.numberOrder,
     required this.numberBill,
     required this.clock,
@@ -30,6 +31,7 @@ class OrderBodyD extends StatelessWidget {
     required this.statusOrder,
   });
   final int idOrder;
+  final int idPackage;
   final String numberOrder;
   final String numberBill;
   final String clock;
@@ -41,8 +43,10 @@ class OrderBodyD extends StatelessWidget {
   // @override
   @override
   Widget build(BuildContext context) {
-    context.read<OrderDetailsCubit>().fetchOrderDetails(idOrder, numberOrder,
-        numberBill, clock, date, numberItem, infoPayment, statusOrder);
+    context.read<OrderDetailsCubit>().fetchOrderDetails(idPackage
+        // , numberOrder,
+        //     numberBill, clock, date, numberItem, infoPayment, statusOrder
+        );
     Color orderColor;
 
     switch (infoPayment) {

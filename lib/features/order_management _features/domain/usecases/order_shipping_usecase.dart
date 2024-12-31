@@ -14,7 +14,7 @@ class OrderShippingUsecase
   Future<Either<Failure, OrderShippingEntity>> execute(
       OrderShippingParam params) async {
     return await allOrderRepo.fetchOrderShipping(
-        orderId: params.orderId,
+        packageId: params.packageId,
         invoiceDate: params.invoiceDate,
         shippingNumber: params.shippingNumber,
         shippingCompany: params.shippingCompany,
@@ -24,7 +24,7 @@ class OrderShippingUsecase
 }
 
 class OrderShippingParam {
-  final int orderId;
+  final int packageId;
   final DateTime invoiceDate;
   final int shippingNumber;
   final String shippingCompany;
@@ -32,7 +32,7 @@ class OrderShippingParam {
   final int numberParcels;
 
   OrderShippingParam(
-      {required this.orderId,
+      {required this.packageId,
       required this.invoiceDate,
       required this.shippingNumber,
       required this.shippingCompany,

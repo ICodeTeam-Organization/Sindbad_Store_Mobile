@@ -11,7 +11,7 @@ class ShippingCubit extends Cubit<ShippingState> {
   ShippingCubit(this.orderShippingUsecase) : super(ShippingInitial());
   final OrderShippingUsecase orderShippingUsecase;
   Future<void> fetchOrderShipping({
-    required int orderId,
+    required int packageId,
     required DateTime invoiceDate,
     required int shippingNumber,
     required String shippingCompany,
@@ -21,7 +21,7 @@ class ShippingCubit extends Cubit<ShippingState> {
     emit(ShippingLoading());
     try {
       var params = OrderShippingParam(
-          orderId: orderId,
+          packageId: packageId,
           invoiceDate: invoiceDate,
           shippingNumber: shippingNumber,
           shippingCompany: shippingCompany,

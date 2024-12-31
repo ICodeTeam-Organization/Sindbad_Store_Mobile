@@ -2,6 +2,7 @@ import 'package:sindbad_management_app/features/order_management%20_features/dom
 
 class AllOrdersModel extends AllOrderEntity {
   int? orderId;
+  int? packageId;
   String? orderNumber;
   String? invoiceNumber;
   String? totalProducts;
@@ -11,6 +12,7 @@ class AllOrdersModel extends AllOrderEntity {
 
   AllOrdersModel({
     this.orderId,
+    this.packageId,
     this.orderNumber,
     this.invoiceNumber,
     this.totalProducts,
@@ -19,6 +21,7 @@ class AllOrdersModel extends AllOrderEntity {
     this.orderDate,
   }) : super(
             idOrder: orderId!,
+            idPackage: packageId!,
             orderNum: orderNumber ?? '0',
             orderBill: invoiceNumber ?? 'لا يوجد',
             // orderTime: '4:14',
@@ -30,6 +33,7 @@ class AllOrdersModel extends AllOrderEntity {
   factory AllOrdersModel.fromJson(Map<String, dynamic> json) {
     return AllOrdersModel(
       orderId: json['orderId'] as int?,
+      packageId: json['packageId'] as int?,
       orderNumber: json['orderNumber'] as String?,
       invoiceNumber: json['invoiceNumber'] as String?,
       totalProducts: json['totalProducts'] as String?,
@@ -41,6 +45,7 @@ class AllOrdersModel extends AllOrderEntity {
 
   Map<String, dynamic> toJson() => {
         'orderId': orderId,
+        'packageId': packageId,
         'orderNumber': orderNumber,
         'invoiceNumber': invoiceNumber,
         'totalProducts': totalProducts,

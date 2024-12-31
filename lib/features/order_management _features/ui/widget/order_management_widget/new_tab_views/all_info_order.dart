@@ -92,6 +92,7 @@ class _AllInfoOrderState extends State<AllInfoOrder> {
                 paymentInfo: state.orders[i].payStatus,
                 orderStatus: state.orders[i].orderStatuse,
                 idOrder: state.orders[i].idOrder,
+                idPackage: state.orders[i].idPackage,
               );
             },
           );
