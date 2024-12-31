@@ -21,7 +21,6 @@ class UpdateOfferBody extends StatefulWidget {
 class _UpdateOfferBodyState extends State<UpdateOfferBody> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     context.read<OfferDataCubit>().getOfferData(widget.offerHeadId);
   }

@@ -474,7 +474,8 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text(state.addOffer.toString())),
                           );
-                          context.read<OfferCubit>().getOffer(10, 1);
+                          Navigator.pop(context);
+                          context.read<OfferCubit>().getOffer(100, 1);
                         }
                       },
                       builder: (context, state) {
@@ -484,15 +485,38 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                                 convertToDateTime(startOfferConroller.text);
                             DateTime? endOfferFormat =
                                 convertToDateTime(endOfferConroller.text);
+
                             if (startOfferFormat != null &&
                                 endOfferFormat != null) {
                               print(startOfferFormat
                                   .toIso8601String()); // Output: 2024-12-03T09:55:12.120Z
                               print(endOfferFormat
                                   .toIso8601String()); // Output: 2024-12-03T09:55:12.120Z
+
+                              final differenceInDays = endOfferFormat
+                                  .difference(startOfferFormat)
+                                  .inDays;
+                              print(differenceInDays);
+                              if (differenceInDays <= 0) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        'تاريخ انتهاء العرض يجب أن يكون بعد تاريخ بدء العرض.'),
+                                  ),
+                                );
+                                return;
+                              }
                             } else {
                               print("Invalid date format");
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      'صيغة التاريخ غير صحيحة. من فضلك تحقق من التواريخ.'),
+                                ),
+                              );
+                              return;
                             }
+
                             if (nameOfferConroller.text == '' ||
                                 startOfferConroller.text == '' ||
                                 endOfferConroller.text == '') {
@@ -502,45 +526,34 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                                       'من فضلك قم بتعبئة جميع الحقول المطلوبة.'),
                                 ),
                               );
-                              if (selectedItems.isEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content:
-                                        Text('من فضلك قم بختيار منتجات العرض.'),
-                                  ),
-                                );
-                              } else if (endOfferFormat != null &&
-                                  startOfferFormat != null) {
-                                final differenceInDays = startOfferFormat
-                                    .difference(endOfferFormat)
-                                    .inDays;
-
-                                if (differenceInDays >= 0) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        'لا يمكن .. فتاريخ انتهاء العرض قبل تاريخ بدء العرض.',
-                                      ),
-                                    ),
-                                  );
-                                }
-                              }
                               return;
-                            } else {
-                              for (var offerMap in listProduct) {
-                                print(offerMap);
-                              }
-                              // Call the function after all checks have passed
-                              populateListProduct();
-                              await context.read<AddOfferCubit>().addOffer(
-                                    nameOfferConroller.text,
-                                    startOfferFormat!,
-                                    endOfferFormat!,
-                                    selectedItems.length,
-                                    offerType,
-                                    listProduct,
-                                  );
                             }
+
+                            if (selectedItems.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content:
+                                      Text('من فضلك قم بختيار منتجات العرض.'),
+                                ),
+                              );
+                              return;
+                            }
+
+// If all validations pass
+                            for (var offerMap in listProduct) {
+                              print(offerMap);
+                            }
+
+// Call the function after all checks have passed
+                            populateListProduct();
+                            await context.read<AddOfferCubit>().addOffer(
+                                  nameOfferConroller.text,
+                                  startOfferFormat,
+                                  endOfferFormat,
+                                  selectedItems.length,
+                                  offerType,
+                                  listProduct,
+                                );
                           },
                           child: Container(
                             alignment: Alignment.center,

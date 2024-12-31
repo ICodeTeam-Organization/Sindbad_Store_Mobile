@@ -77,7 +77,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
     numberToGetNotifier = ValueNotifier<int>(widget.numberToGet);
     selectedOption = widget.offerType == 1 ? 'Percent' : 'Bonus';
     isDiscountDefaultValue = widget.offerType == 1;
-
+    offerType = widget.offerType;
     selectedItems = List<OfferProductsEntity>.from(widget.listProducts);
   }
 
@@ -116,67 +116,6 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
       return null;
     }
   }
-
-  // void populateListProduct() {
-  //   listProduct.clear(); // Clear the list to avoid duplicates on re-population
-
-  //   // Parse and format the start and end offer dates
-  //   DateTime? startOfferFormat = convertToDateTime(startOfferConroller.text);
-  //   DateTime? endOfferFormat = convertToDateTime(endOfferConroller.text);
-
-  //   // Helper function to format DateTime
-  //   String? formatDateTime(DateTime? dateTime) {
-  //     if (dateTime == null) return null;
-  //     return DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-  //         .format(dateTime.toUtc());
-  //   }
-
-  //   if (startOfferFormat != null && endOfferFormat != null) {
-  //     print(
-  //         '${formatDateTime(startOfferFormat)}***************************'); // Output: 2024-12-03T09:55:12.120Z
-  //     print(formatDateTime(endOfferFormat)); // Output: 2024-12-03T09:55:12.120Z
-  //   } else {
-  //     print("Invalid date format");
-  //     return; // Exit if dates are invalid
-  //   }
-
-  //   for (var item in selectedItems) {
-  //     final int newPrice =
-  //         calculateNewPrice(item.oldPrice!, discountRateNotifier.value).toInt();
-
-  //     // Create a map to hold the offer details for each product
-  //     Map<String, dynamic> offerMap = {
-  //       "id": item.productId,
-  //       "productId": item.productId, // Product ID
-  //       "type": offerType, // Offer type (either 1 or 2)
-  //       "startDate": formatDateTime(startOfferFormat), // Formatted start date
-  //       "endDate": formatDateTime(endOfferFormat), // Formatted end date
-  //       "name": item.productTitle.toString(), // Offer type (either 1 or 2)
-  //       "mainImageUrl":
-  //           item.productImage.toString(), // Offer type (either 1 or 2)
-  //       "priceBeforeDiscount":
-  //           item.oldPrice?.toInt(), // Offer type (either 1 or 2)
-  //     };
-
-  //     if (offerType == 1) {
-  //       // For discount offers
-  //       offerMap["percentage"] =
-  //           discountRateNotifier.value; // Discount percentage
-  //       offerMap["finalPrice"] = newPrice; // Discounted price
-  //       offerMap["amountToBuy"] = null; // Not applicable
-  //       offerMap["amountToGet"] = null; // Not applicable
-  //     } else if (offerType == 2) {
-  //       // For "buy X, get Y" offers
-  //       offerMap["percentage"] = null; // Not applicable
-  //       offerMap["finalPrice"] = null; // Not applicable
-  //       offerMap["amountToBuy"] = numberToBuyNotifier.value; // Amount to buy
-  //       offerMap["amountToGet"] = numberToGetNotifier.value; // Amount to get
-  //     }
-
-  //     // Update the map to the list
-  //     listProduct.add(offerMap as OfferHeadOffer);
-  //   }
-  // }
 
   void populateListProduct() {
     listProduct.clear(); // Clear the list to avoid duplicates on re-population
