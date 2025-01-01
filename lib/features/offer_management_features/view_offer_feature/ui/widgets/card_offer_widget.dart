@@ -117,7 +117,8 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(25.0),
+                  padding:
+                      const EdgeInsets.only(top: 25, bottom: 25, right: 25),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -129,10 +130,22 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
                               color: AppColors.greyDark,
                             ),
                           ),
-                          Text(
-                            widget.offerTitle,
-                            style: KTextStyle.textStyle14.copyWith(
-                              color: AppColors.blackDark,
+                          SizedBox(
+                            // color: Colors.red,
+                            width: 140.w,
+                            child: Table(
+                              children: [
+                                TableRow(
+                                  children: [
+                                    Text(
+                                      widget.offerTitle,
+                                      style: KTextStyle.textStyle14.copyWith(
+                                        color: AppColors.blackDark,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
                         ],
