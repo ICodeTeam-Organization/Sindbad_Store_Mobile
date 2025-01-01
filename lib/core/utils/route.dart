@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/update_offer_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/screens/view_offer_product_details_bouns_screen.dart';
@@ -16,7 +17,7 @@ import 'package:sindbad_management_app/store_app_features/search_product/ui/scre
 import 'package:sindbad_management_app/store_app_features/stop_product/ui/screen/store_stop_prodect.dart';
 import 'package:sindbad_management_app/store_app_features/stopped_product/ui/screen/store_stopped_product.dart';
 import '../../features/auth_features/ui/screen/sign_in_screen.dart';
-import '../../features/order_management _features/ui/screen/order_details.dart';
+// import '../../features/order_management _features/ui/screen/order_details.dart';
 import '../../features/root.dart';
 
 class StoreRouters {
@@ -82,7 +83,11 @@ abstract class AppRouter {
 
       GoRoute(
         path: AppRouter.storeRouters.kStoreAddProduct,
-        builder: (context, state) => const AddProductScreen(),
+        builder: (context, state) {
+          final onSuccessCallback = state.extra as VoidCallback?;
+          return AddProductScreen(onSuccessCallback: onSuccessCallback);
+          // return const AddProductScreen();
+        },
       ),
       GoRoute(
         path: AppRouter.storeRouters.kStoreEditProduct,
@@ -160,28 +165,28 @@ abstract class AppRouter {
       //         offerName: offerName, offerType: offerType);
       //   },
       // ),
-      GoRoute(
-          path: AppRouter.storeRouters.details,
-          builder: (context, state) {
-            final orderId = state.extra as int;
-            final orderNumber = state.extra;
-            final billNumber = state.extra;
-            final date = state.extra;
-            final colck = state.extra;
-            final itemNumber = state.extra;
-            final paymentInfo = state.extra;
-            final orderStatus = state.extra;
-            return OrderDetails(
-              orderId: orderId,
-              orderNumber: orderNumber.toString(),
-              billNumber: billNumber.toString(),
-              clock: colck.toString(),
-              date: date.toString(),
-              itemNumber: itemNumber.toString(),
-              paymentInfo: paymentInfo.toString(),
-              orderStatus: orderStatus.toString(),
-            );
-          }),
+      // GoRoute(
+      //     path: AppRouter.storeRouters.details,
+      //     builder: (context, state) {
+      //       final orderId = state.extra as int;
+      //       final orderNumber = state.extra;
+      //       final billNumber = state.extra;
+      //       final date = state.extra;
+      //       final colck = state.extra;
+      //       final itemNumber = state.extra;
+      //       final paymentInfo = state.extra;
+      //       final orderStatus = state.extra;
+      //       return OrderDetails(
+      //         orderId: orderId,
+      //         orderNumber: orderNumber.toString(),
+      //         billNumber: billNumber.toString(),
+      //         clock: colck.toString(),
+      //         date: date.toString(),
+      //         itemNumber: itemNumber.toString(),
+      //         paymentInfo: paymentInfo.toString(),
+      //         orderStatus: orderStatus.toString(),
+      //       );
+      //     }),
       ///////////////////////////////////////////////////////
       /////////////////////////////////////////////////////
       GoRoute(

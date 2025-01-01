@@ -19,7 +19,9 @@ import '../manger/cubit/brands_by_main_category_id/cubit/get_brands_by_category_
 import '../manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
 
 class AddProductScreen extends StatelessWidget {
-  const AddProductScreen({super.key});
+  final VoidCallback? onSuccessCallback;
+
+  const AddProductScreen({super.key, this.onSuccessCallback});
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +85,9 @@ class AddProductScreen extends StatelessWidget {
                   height: 10.h,
                 ),
                 // for tow Button in down
-                TwoButtonInDownAddproduct()
+                TwoButtonInDownAddproduct(
+                  onSuccessCallback: onSuccessCallback,
+                )
               ],
             ),
           ),

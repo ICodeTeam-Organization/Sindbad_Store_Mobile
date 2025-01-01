@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/core/utils/route.dart';
+import 'package:sindbad_management_app/features/product_features/view_product_features/ui/manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
 import '../../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
 import '../../../../../core/styles/Colors.dart';
 
@@ -39,7 +41,19 @@ class TwoButtonInRow extends StatelessWidget {
             height: 55.h,
             width: 150.w,
             onTap: () {
-              context.push(AppRouter.storeRouters.kStoreAddProduct); //////////
+              // context.push(AppRouter.storeRouters.kStoreAddProduct); //////////
+              context.push(
+                AppRouter.storeRouters.kStoreAddProduct,
+                extra: () {
+                  context
+                      .read<GetStoreProductsWithFilterCubit>()
+                      .getStoreProductsWitheFilter(
+                        storeProductsFilter: 0,
+                        pageNumper: 1,
+                        pageSize: 100,
+                      );
+                },
+              );
             },
           ),
           StorePrimaryButton(
