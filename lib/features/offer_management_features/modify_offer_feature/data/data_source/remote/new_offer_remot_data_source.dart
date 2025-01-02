@@ -32,6 +32,7 @@ abstract class NewOfferRemotDataSource {
     int countProducts,
     int typeName,
     List<OfferHeadOffer>? listProduct,
+    int offerHeadId,
     // List<AddOfferDto>? listProduct,
   );
   Future<OfferDataEntity> getOfferData(
@@ -151,6 +152,7 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
     int countProducts,
     int typeName,
     List<OfferHeadOffer>? listProduct,
+    int offerHeadId,
   ) async {
     String? token = await getToken();
     var data = await apiService.post(
@@ -163,6 +165,8 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
           "numberOfOrders": countProducts,
           "offerHeadType": typeName,
           "offerHeadOffers": listProduct,
+          "justActiveAndDis": false,
+          "id": offerHeadId
         },
         endPoint: "Offers/Store/EditOffer",
         headers: {

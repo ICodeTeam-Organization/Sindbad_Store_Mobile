@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/new_offer_widget.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/update_offer_body.dart';
 
 class UpdateOfferScreen extends StatefulWidget {

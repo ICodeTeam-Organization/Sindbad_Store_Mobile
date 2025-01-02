@@ -19,6 +19,7 @@ import 'package:sindbad_management_app/features/offer_management_features/modify
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/horizontal_title_and_text_field.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/required_text.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/section_title_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_cubit/offer_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/action_button_widget.dart';
 
 class UpdateOfferWidget extends StatefulWidget {
@@ -31,6 +32,7 @@ class UpdateOfferWidget extends StatefulWidget {
   final int numberToGet;
   // final List<OfferHeadOffer> listProduct;
   final List<OfferProductsEntity> listProducts;
+  final int offerHeadId;
 
   const UpdateOfferWidget({
     super.key,
@@ -42,6 +44,7 @@ class UpdateOfferWidget extends StatefulWidget {
     required this.numberToBuy,
     required this.numberToGet,
     required this.listProducts,
+    required this.offerHeadId,
   });
 
   @override
@@ -56,16 +59,15 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
   late final ValueNotifier<int> numberToBuyNotifier;
   late final ValueNotifier<int> numberToGetNotifier;
 
-  late final List<OfferProductsEntity> selectedItems;
-  late final String selectedOption;
-  late final bool isDiscountDefaultValue;
-  late final int offerType;
+  List<OfferProductsEntity>? selectedItems;
+  String? selectedOption; // Nullable variable for safe reassignment
+  bool isDiscountDefaultValue = true; // Default state
+  int offerType = 1; // Default offer type
   List<OfferHeadOffer> listProduct = [];
 
   @override
   void initState() {
     super.initState();
-    // Initialize values using widget data
     offerTitleConroller = TextEditingController(text: widget.offerTitle);
     startOfferConroller =
         TextEditingController(text: convertFromApi(widget.startOffer));
@@ -139,7 +141,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
       return; // Exit if dates are invalid
     }
 
-    for (var item in selectedItems) {
+    for (var item in selectedItems!) {
       final int newPrice =
           calculateNewPrice(item.oldPrice!, discountRateNotifier.value).toInt();
 
@@ -248,7 +250,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                       groupValue: selectedOption,
                       onChanged: (value) {
                         setState(() {
-                          selectedOption = value!;
+                          selectedOption = value;
                           isDiscountDefaultValue = true;
                           offerType = 1; // Update offerType
                         });
@@ -267,7 +269,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                       groupValue: selectedOption,
                       onChanged: (value) {
                         setState(() {
-                          selectedOption = value!;
+                          selectedOption = value;
                           isDiscountDefaultValue = false;
                           offerType = 2; // Update offerType
                         });
@@ -343,7 +345,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                     final result = await showDialog<List<OfferProductsEntity>>(
                       context: context,
                       builder: (context) => CustomSelectItemDialog(
-                        selectedItems: selectedItems,
+                        selectedItems: selectedItems!,
                         onConfirm: onItemsSelected,
                       ),
                     );
@@ -360,32 +362,33 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                   width: double.maxFinite,
                   height: 500.h,
                   child: ListView.builder(
-                    itemCount: selectedItems.length,
+                    itemCount: selectedItems!.length,
                     itemBuilder: (context, index) {
                       return isDiscountDefaultValue
                           ? CardProductDiscountWidget(
-                              productName: selectedItems[index].productTitle,
-                              productImage: selectedItems[index].productImage,
-                              oldPrice: selectedItems[index].oldPrice!,
+                              productName: selectedItems![index].productTitle,
+                              productImage: selectedItems![index].productImage,
+                              oldPrice: selectedItems![index].oldPrice!,
                               newPrice: calculateNewPrice(
-                                  selectedItems[index].oldPrice!,
+                                  selectedItems![index].oldPrice!,
                                   discountRateNotifier.value),
                               discountRate: discountRateNotifier.value,
                               onTapQuit: () {
                                 setState(() {
-                                  selectedItems.removeAt(index);
+                                  selectedItems!.removeAt(index);
+                                  listProduct.removeAt(index);
                                 });
                               },
                               discountRateNotifier: discountRateNotifier,
                             )
                           : CardProductBounsWidget(
-                              productName: selectedItems[index].productTitle,
-                              productImage: selectedItems[index].productImage,
+                              productName: selectedItems![index].productTitle,
+                              productImage: selectedItems![index].productImage,
                               numberToBuy: numberToBuyNotifier.value,
                               numberToGet: numberToGetNotifier.value,
                               onTapQuit: () {
                                 setState(() {
-                                  selectedItems.removeAt(index);
+                                  selectedItems!.removeAt(index);
                                   listProduct.removeAt(index);
                                 });
                               },
@@ -431,7 +434,8 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                             SnackBar(
                                 content: Text(state.updateOffer.toString())),
                           );
-                          // Navigator.pop(context);
+                          Navigator.pop(context);
+                          context.read<OfferCubit>().getOffer(100, 1);
                         }
                       },
                       builder: (context, state) {
@@ -447,9 +451,31 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                                   .toIso8601String()); // Output: 2024-12-03T09:55:12.120Z
                               print(endOfferFormat
                                   .toIso8601String()); // Output: 2024-12-03T09:55:12.120Z
+
+                              final differenceInDays = endOfferFormat
+                                  .difference(startOfferFormat)
+                                  .inDays;
+                              print(differenceInDays);
+                              if (differenceInDays <= 0) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        'تاريخ انتهاء العرض يجب أن يكون بعد تاريخ بدء العرض.'),
+                                  ),
+                                );
+                                return;
+                              }
                             } else {
                               print("Invalid date format");
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      'صيغة التاريخ غير صحيحة. من فضلك تحقق من التواريخ.'),
+                                ),
+                              );
+                              return;
                             }
+
                             if (offerTitleConroller.text == '' ||
                                 startOfferConroller.text == '' ||
                                 endOfferConroller.text == '') {
@@ -459,47 +485,70 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                                       'من فضلك قم بتعبئة جميع الحقول المطلوبة.'),
                                 ),
                               );
-                              if (selectedItems.isEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content:
-                                        Text('من فضلك قم بختيار منتجات العرض.'),
-                                  ),
-                                );
-                              } else if (endOfferFormat != null &&
-                                  startOfferFormat != null) {
-                                final differenceInDays = startOfferFormat
-                                    .difference(endOfferFormat)
-                                    .inDays;
-
-                                if (differenceInDays >= 0) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        'لا يمكن .. فتاريخ انتهاء العرض قبل تاريخ بدء العرض.',
-                                      ),
-                                    ),
-                                  );
-                                }
-                              }
                               return;
-                            } else {
-                              for (var offerMap in listProduct) {
-                                print(offerMap);
-                              }
-                              // Call the function after all checks have passed
-                              populateListProduct();
-                              await context
-                                  .read<UpdateOfferCubit>()
-                                  .updateOffer(
-                                    offerTitleConroller.text,
-                                    startOfferFormat!,
-                                    endOfferFormat!,
-                                    selectedItems.length,
-                                    offerType,
-                                    listProduct,
-                                  );
                             }
+
+                            if (selectedItems!.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content:
+                                      Text('من فضلك قم بختيار منتجات العرض.'),
+                                ),
+                              );
+                              return;
+                            }
+
+                            listProduct = selectedItems!.map((item) {
+                              return OfferHeadOffer(
+                                productId: item.productId,
+                                name: item.productTitle,
+                                mainImageUrl: item.productImage,
+                                type: offerType,
+                                percentage: item.discountRate,
+                                priceBeforeDiscount: item.oldPrice,
+                                finalPrice: item.newPrice,
+                                amountToBuy: item.numberToBuy,
+                                amountToGet: item.numberToGet,
+                                startDate: startOfferFormat,
+                                endDate: endOfferFormat,
+                              );
+                            }).toList();
+                            print('offerTitle: ${offerTitleConroller.text}');
+                            print('startOffer: ${startOfferFormat}');
+                            print('endOffer: ${endOfferFormat}');
+                            print('offerType: ${offerType}');
+                            print(
+                                'discountRate: ${discountRateNotifier.value}');
+                            print('numberToBuy: ${numberToBuyNotifier.value}');
+                            print('numberToGet: ${numberToGetNotifier.value}');
+                            listProduct.forEach((offer) {
+                              print('''
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+OfferHeadOffer:
+productId: ${offer.productId},
+name: ${offer.name},
+mainImageUrl: ${offer.mainImageUrl},
+type: ${offer.type},
+percentage: ${offer.percentage},
+priceBeforeDiscount: ${offer.priceBeforeDiscount},
+finalPrice: ${offer.finalPrice},
+amountToBuy: ${offer.amountToBuy},
+amountToGet: ${offer.amountToGet},
+startDate: ${offer.startDate},
+endDate: ${offer.endDate},
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+                            ''');
+                            });
+                            populateListProduct();
+                            await context.read<UpdateOfferCubit>().updateOffer(
+                                  offerTitleConroller.text,
+                                  startOfferFormat,
+                                  endOfferFormat,
+                                  selectedItems!.length,
+                                  offerType,
+                                  listProduct,
+                                  widget.offerHeadId,
+                                );
                           },
                           child: Container(
                             alignment: Alignment.center,

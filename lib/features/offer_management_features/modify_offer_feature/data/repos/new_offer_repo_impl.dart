@@ -101,6 +101,7 @@ class NewOfferRepoImpl extends NewOfferRepo {
     int countProducts,
     int typeName,
     List<OfferHeadOffer>? listProduct,
+    int offerHeadId,
   ) async {
     return postOneData(() => newOfferRemotDataSource.updateOffer(
           offerTitle,
@@ -109,6 +110,7 @@ class NewOfferRepoImpl extends NewOfferRepo {
           countProducts,
           typeName,
           listProduct,
+          offerHeadId,
         ));
   }
 }

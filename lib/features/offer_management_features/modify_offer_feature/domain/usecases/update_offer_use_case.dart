@@ -21,6 +21,7 @@ class UpdateOfferUseCase
       params.countProducts,
       params.typeName,
       params.listProduct,
+      params.offerHeadId,
     );
   }
 }
@@ -33,6 +34,7 @@ class UpdateOfferParams {
   final int typeName;
   // final List<UpdateOfferDto>? listProduct;
   final List<OfferHeadOffer>? listProduct;
+  final int offerHeadId;
 
   UpdateOfferParams(
     this.offerTitle,
@@ -41,5 +43,6 @@ class UpdateOfferParams {
     this.countProducts,
     this.typeName,
     this.listProduct,
+    this.offerHeadId,
   );
 }

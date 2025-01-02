@@ -28,7 +28,7 @@ class NewOfferWidget extends StatefulWidget {
 }
 
 class _NewOfferWidgetState extends State<NewOfferWidget> {
-  TextEditingController nameOfferConroller = TextEditingController();
+  TextEditingController offerTitleConroller = TextEditingController();
   TextEditingController startOfferConroller = TextEditingController();
   TextEditingController endOfferConroller = TextEditingController();
   int offerType = 1;
@@ -239,7 +239,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                     RequiredText(title: 'اسم العرض '),
                     SizedBox(height: 10.h),
                     TextFormField(
-                      controller: nameOfferConroller,
+                      controller: offerTitleConroller,
                       decoration: InputDecoration(
                         hintText: 'أكتب اسم العرض...',
                         hintStyle: KTextStyle.textStyle12.copyWith(
@@ -485,7 +485,6 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                                 convertToDateTime(startOfferConroller.text);
                             DateTime? endOfferFormat =
                                 convertToDateTime(endOfferConroller.text);
-
                             if (startOfferFormat != null &&
                                 endOfferFormat != null) {
                               print(startOfferFormat
@@ -517,7 +516,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                               return;
                             }
 
-                            if (nameOfferConroller.text == '' ||
+                            if (offerTitleConroller.text == '' ||
                                 startOfferConroller.text == '' ||
                                 endOfferConroller.text == '') {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -539,15 +538,19 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                               return;
                             }
 
-// If all validations pass
-                            for (var offerMap in listProduct) {
-                              print(offerMap);
-                            }
+                            print('offerTitle: ${offerTitleConroller.text}');
+                            print('startOffer: ${startOfferFormat}');
+                            print('endOffer: ${endOfferFormat}');
+                            print('offerType: ${offerType}');
+                            print(
+                                'discountRate: ${discountRateNotifier.value}');
+                            print('numberToBuy: ${numberToBuyNotifier.value}');
+                            print('numberToGet: ${numberToGetNotifier.value}');
 
 // Call the function after all checks have passed
                             populateListProduct();
                             await context.read<AddOfferCubit>().addOffer(
-                                  nameOfferConroller.text,
+                                  offerTitleConroller.text,
                                   startOfferFormat,
                                   endOfferFormat,
                                   selectedItems.length,

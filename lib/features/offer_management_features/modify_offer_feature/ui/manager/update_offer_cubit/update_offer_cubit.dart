@@ -17,6 +17,7 @@ class UpdateOfferCubit extends Cubit<UpdateOfferState> {
     int typeName,
     // List<UpdateOfferDto>? listProduct,
     List<OfferHeadOffer>? listProduct,
+    int offerHeadId,
   ) async {
     emit(UpdateOfferLoading());
 
@@ -27,6 +28,7 @@ class UpdateOfferCubit extends Cubit<UpdateOfferState> {
       countProducts,
       typeName,
       listProduct,
+      offerHeadId,
     );
     final result = await updateOfferUseCase.execute(params);
 

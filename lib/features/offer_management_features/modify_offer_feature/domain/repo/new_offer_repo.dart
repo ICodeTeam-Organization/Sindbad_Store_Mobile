@@ -26,6 +26,7 @@ abstract class NewOfferRepo {
     int countProducts,
     int typeName,
     List<OfferHeadOffer>? listProduct,
+    int offerHeadId,
   );
   Future<Either<Failure, OfferDataEntity>> getOfferData(
     int offerHeadId,

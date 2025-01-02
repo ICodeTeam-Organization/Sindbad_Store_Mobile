@@ -12,6 +12,7 @@ import 'package:sindbad_management_app/features/offer_management_features/modify
 
 class UpdateOfferBody extends StatefulWidget {
   final int offerHeadId;
+
   const UpdateOfferBody({super.key, required this.offerHeadId});
 
   @override
@@ -30,17 +31,15 @@ class _UpdateOfferBodyState extends State<UpdateOfferBody> {
     return BlocBuilder<OfferDataCubit, OfferDataState>(
       builder: (context, state) {
         if (state is OfferDataSuccess) {
-          ////
+          // Convert OfferHeadOffer list to OfferProductsEntity list
           List<OfferProductsEntity> convertToOfferProductsEntity(
               List<OfferHeadOffer> offerHeadList) {
             return offerHeadList.map((offerHead) {
               return OfferProductsEntity(
-                productId:
-                    offerHead.productId ?? 0, // Provide default values if null
-                productTitle: offerHead.name ?? 'No Title',
+                productId: offerHead.productId ?? 0,
+                productTitle: offerHead.name ?? 'Unnamed Product',
                 productImage: offerHead.mainImageUrl ?? '',
-                discountRate: offerHead.percentage
-                    ?.toDouble(), // Convert to `num` if needed
+                discountRate: offerHead.percentage?.toDouble() ?? 0.0,
                 oldPrice: offerHead.priceBeforeDiscount ?? 0,
                 newPrice: offerHead.finalPrice ?? 0,
                 numberToBuy: offerHead.amountToBuy ?? 0,
@@ -49,33 +48,40 @@ class _UpdateOfferBodyState extends State<UpdateOfferBody> {
             }).toList();
           }
 
-          ///
-          String work = ' @@@';
+          // Debugging: Print the data of each product
           for (var offerMap in state.offerData.listProduct) {
-            print(jsonEncode(offerMap.toJson()) + work);
+            print(jsonEncode(offerMap.toJson()));
           }
+
+          // Pass data to the UpdateOfferWidget
           return UpdateOfferWidget(
+            offerHeadId: widget.offerHeadId,
             offerTitle: state.offerData.offerTitle,
             startOffer: state.offerData.startOffer,
             endOffer: state.offerData.endOffer,
             offerType: state.offerData.offerType,
-            discountRate: state.offerData.discountRate!.toInt(),
-            numberToBuy: state.offerData.numberToBuy!.toInt(),
-            numberToGet: state.offerData.numberToGet!.toInt(),
-            listProducts:
-                convertToOfferProductsEntity(state.offerData.listProduct),
+            discountRate: state.offerData.discountRate?.toInt() ?? 0,
+            numberToBuy: state.offerData.numberToBuy?.toInt() ?? 0,
+            numberToGet: state.offerData.numberToGet?.toInt() ?? 0,
+            listProducts: convertToOfferProductsEntity(
+              state.offerData.listProduct,
+            ),
           );
         } else if (state is OfferDataFailuer) {
+          // Handle failure state
           return Center(child: Text(state.errMessage));
         } else if (state is OfferDataLoading) {
-          return Center(child: CircularProgressIndicator());
+          // Show loading indicator while data is being fetched
+          return const Center(child: CircularProgressIndicator());
         } else {
+          // Default fallback for unknown states
           return Center(
             child: Container(
               color: Colors.red.shade400,
               height: 50,
               width: 300,
-              child: Text('لم يتم الوصول الى المعلومات'),
+              alignment: Alignment.center,
+              child: const Text('Failed to load offer data.'),
             ),
           );
         }
