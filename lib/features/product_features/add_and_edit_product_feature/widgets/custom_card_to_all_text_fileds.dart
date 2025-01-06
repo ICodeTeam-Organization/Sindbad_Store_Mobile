@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sindbad_management_app/core/styles/Colors.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/section_title_widget.dart';
 
 import '../../../../core/styles/text_style.dart';
 import '../ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
@@ -15,78 +17,54 @@ class CustomCardToAllTextFileds extends StatelessWidget {
   Widget build(BuildContext context) {
     final AddProductToStoreCubit cubitAddProduct =
         context.read<AddProductToStoreCubit>();
-    return Card(
-      elevation: 4.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0.r),
-      ),
-      color: Colors.white,
-      child: Container(
-        width: 363.0.w,
-        height: 434.0.h,
-        margin: EdgeInsets.only(
-          bottom: 20.0.h,
-        ),
+    return Container(
+      width: double.maxFinite,
+      decoration: BoxDecoration(
+          color: AppColors.white,
+          border: Border.all(color: AppColors.greyBorder),
+          borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //  container Title
-            Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding:
-                    EdgeInsets.only(bottom: 16.0.h, top: 8.h, right: 20.0.w),
-                child: Text(
-                  "معلومات المنتج",
-                  style: KTextStyle.textStyle16
-                      .copyWith(fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
+            SectionTitleWidget(title: 'معلومات المنتج'),
+            SizedBox(height: 20.h),
             CustomTextFormWidget(
               textController: cubitAddProduct
                   .nameProductController, // ================================
               text: 'أسم المنتج',
-              width: 334.0.w,
               height: 65.h,
+              width: 400.0.w,
             ),
-            SizedBox(
-              height: 10.0.h,
+            SizedBox(height: 20.0.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomTextFormWidget(
+                  textController: cubitAddProduct
+                      .priceProductController, // ================================
+                  text: 'السعر',
+                  width: 150.0.w,
+                  height: 65.h,
+                ),
+                CustomTextFormWidget(
+                  textController: cubitAddProduct
+                      .numberProductController, // ================================
+                  text: 'رقم المنتج',
+                  width: 150.0.w,
+                  height: 65.h,
+                ),
+              ],
             ),
-            Padding(
-              padding: EdgeInsets.only(right: 20.0.w),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  CustomTextFormWidget(
-                    textController: cubitAddProduct
-                        .priceProductController, // ================================
-                    text: 'السعر',
-                    width: 147.0.w,
-                    height: 65.h,
-                  ),
-                  SizedBox(
-                    width: 36.0.w,
-                  ),
-                  CustomTextFormWidget(
-                    textController: cubitAddProduct
-                        .numberProductController, // ================================
-                    text: 'رقم المنتج',
-                    width: 147.0.w,
-                    height: 65.h,
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 10.0.h,
-            ),
+            SizedBox(height: 20.h),
             CustomTextFormWidget(
               textController: cubitAddProduct
                   .descriptionProductController, // ================================
               text: 'وصف المنتج',
               // labelText: 'أدخل وصف المنتج',
-              width: 334.0.w,
+              width: 400.0.w,
               height: 200.0.h,
               // initialValue: '',
               maxLines: 5, // Allow multiple lines

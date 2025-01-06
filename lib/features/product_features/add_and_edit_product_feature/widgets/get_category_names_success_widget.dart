@@ -94,9 +94,7 @@ class GetCategoryNamesSuccessWidget extends StatelessWidget {
             //
           },
         ),
-        SizedBox(
-          height: 10.h,
-        ),
+        SizedBox(height: 10),
         // ===========================  for Brand  =======================
         BlocBuilder<GetBrandsByCategoryIdCubit, GetBrandsByCategoryIdState>(
           builder: (context, state) {

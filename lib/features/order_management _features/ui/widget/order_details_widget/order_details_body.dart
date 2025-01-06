@@ -34,7 +34,7 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                 margin:
                     EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.0.w),
                 padding: EdgeInsets.all(10),
-                height: 244.h,
+                // height: 244.h,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   border: Border.all(color: AppColors.grey),
@@ -82,8 +82,11 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                     /////////////
                     Divider(),
                     //Display barcode
-                    BottomOrderDetails(
-                      barcodeNumber: state.orderDetails[i].numberProduct,
+                    SizedBox(
+                      height: 75.h,
+                      child: BottomOrderDetails(
+                        barcodeNumber: state.orderDetails[i].numberProduct,
+                      ),
                     ),
                   ],
                 ),

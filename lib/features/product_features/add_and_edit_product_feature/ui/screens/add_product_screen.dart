@@ -23,9 +23,9 @@ class AddProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: SingleChildScrollView(
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
           // =========  initilize BlocProvider for Add Product Screen ==========
           child: MultiBlocProvider(
             providers: [
@@ -54,10 +54,10 @@ class AddProductScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 CustomAppBar(
-                  // onPressed: () {},
+                  isSearch: false,
                   tital: 'إضافة منتج',
                 ),
-                SizedBox(height: 32.h),
+                SizedBox(height: 40.h),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24.0.w),
                   child: Center(
@@ -79,11 +79,10 @@ class AddProductScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 10.h,
-                ),
+                SizedBox(height: 20.h),
                 // for tow Button in down
-                TwoButtonInDownAddproduct()
+                TwoButtonInDownAddproduct(),
+                SizedBox(height: 20.h),
               ],
             ),
           ),

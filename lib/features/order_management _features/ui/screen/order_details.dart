@@ -52,6 +52,7 @@ class OrderDetails extends StatelessWidget {
                 children: [
                   CustomAppBar(
                     tital: 'الطلب',
+                    isSearch: false,
                   ),
                   //Show Order
                   OrderBodyD(

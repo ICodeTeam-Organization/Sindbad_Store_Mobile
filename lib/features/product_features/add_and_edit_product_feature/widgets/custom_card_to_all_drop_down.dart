@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sindbad_management_app/core/styles/Colors.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/section_title_widget.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/get_category_names_else_widget.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/get_category_names_failure_widget.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/get_category_names_initial_widget.dart';
@@ -23,39 +25,20 @@ class CustomCardToAllDropDown extends StatelessWidget {
         .read<GetCategoryNamesCubit>()
         .getMainAndSubCategory(filterType: 2, pageNumper: 1, pageSize: 10);
 
-    return Card(
-      elevation: 4.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      color: Colors.white,
-      child: Container(
-        width: 363.0.w,
-        // height: 356.0.h,
-        height: 440.0.h,
-        decoration: BoxDecoration(
-            // border: Border.all(width: 2.0.w, color: Colors.black),
-            ),
-        margin: EdgeInsets.only(bottom: 20.0.h),
+    return Container(
+      width: double.maxFinite,
+      decoration: BoxDecoration(
+          color: AppColors.white,
+          border: Border.all(color: AppColors.greyBorder),
+          borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // container Title
-            Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding:
-                    EdgeInsets.only(bottom: 14.0.h, top: 10.h, right: 14.0.w),
-                child: Text(
-                  " نوع المنتج",
-                  style: KTextStyle.textStyle16
-                      .copyWith(fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
+            SectionTitleWidget(title: 'نوع المنتج'),
+            SizedBox(height: 20.h),
             BlocBuilder<GetCategoryNamesCubit, GetCategoryNamesState>(
               builder: (context, state) {
                 if (state is GetCategoryNamesInitial) {

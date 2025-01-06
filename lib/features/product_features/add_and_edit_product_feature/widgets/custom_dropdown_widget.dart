@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/required_text.dart';
 
 class CustomDropdownWidget extends StatelessWidget {
   final List<String> items;
@@ -30,47 +31,32 @@ class CustomDropdownWidget extends StatelessWidget {
     // final String? initialDropdownItem =
     //     (items.isNotEmpty && items.contains(initialItem)) ? initialItem : null;
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          RichText(
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: '* ',
-                  style: KTextStyle.textStyle14.copyWith(color: Colors.red),
-                ),
-                TextSpan(
-                  text: textTitle,
-                  style: KTextStyle.textStyle16
-                      .copyWith(color: AppColors.greyDark),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 5.0.h),
-          SizedBox(
-            width: 335.w,
-            child: Directionality(
-              textDirection: TextDirection.rtl,
-              child: CustomDropdown<String>(
-                enabled: enabled,
-                // controller: controller,
-                hintText: hintText,
-                items: items,
-                initialItem: initialItem,
-                decoration: CustomDropdownDecoration(
-                  closedBorder: Border.all(color: AppColors.grey),
-                  expandedBorder: Border.all(color: AppColors.grey),
-                ),
-                onChanged: onChanged,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(right: 15),
+          child: RequiredText(title: textTitle),
+        ),
+        SizedBox(
+          width: 400.w,
+          child: Directionality(
+            textDirection: TextDirection.rtl,
+            child: CustomDropdown<String>(
+              enabled: enabled,
+              // controller: controller,
+              hintText: hintText,
+              items: items,
+              initialItem: initialItem,
+              decoration: CustomDropdownDecoration(
+                closedBorder: Border.all(color: AppColors.grey),
+                expandedBorder: Border.all(color: AppColors.grey),
               ),
+              onChanged: onChanged,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

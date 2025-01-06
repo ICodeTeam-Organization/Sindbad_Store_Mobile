@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/required_text.dart';
 
 class CustomTextFormWidget extends StatelessWidget {
   final TextEditingController textController;
@@ -24,32 +25,32 @@ class CustomTextFormWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: '* ',
-                style: KTextStyle.textStyle16.copyWith(color: Colors.red),
-              ),
-              TextSpan(
-                text: text,
-                style: KTextStyle.textStyle16
-                    .copyWith(color: AppColors.blackLight),
-              ),
-            ],
-          ),
-        ),
+        RequiredText(title: text),
+        SizedBox(height: 10.0.h),
         SizedBox(
           width: width.w,
           height: height.h,
           child: TextFormField(
             decoration: InputDecoration(
-              labelText: labelText,
-              border: OutlineInputBorder(
-                borderSide:
-                    BorderSide(color: AppColors.primaryBackground, width: 1.w),
+              hintText: 'أكتب هنا...',
+              hintStyle: KTextStyle.textStyle12.copyWith(
+                color: AppColors.greyLight,
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: AppColors.greyBorder,
+                  width: 1.0,
+                ),
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: AppColors.primary,
+                  width: 1.0,
+                ),
+                borderRadius: BorderRadius.circular(5.0),
               ),
             ),
             controller: textController,

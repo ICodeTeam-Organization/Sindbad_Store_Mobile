@@ -65,7 +65,7 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
               indicatorWeight: 0.0.w,
               labelColor: AppColors.black,
               unselectedLabelColor: AppColors.black,
-              height: heightMobile * 0.85, // height TabBar and all dowm him
+              height: heightMobile * 0.80, // height TabBar and all dowm him
             ),
           ],
         ),
