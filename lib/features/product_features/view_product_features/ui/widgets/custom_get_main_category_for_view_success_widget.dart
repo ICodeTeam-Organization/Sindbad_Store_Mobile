@@ -33,7 +33,7 @@ class _CustomGetMainCategoryForViewSuccessWidgetState
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 50.h,
+      height:  53.h,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: widget.allCategory.length, // Use the length of the list
