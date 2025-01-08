@@ -139,10 +139,8 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
             ),
 
             SizedBox(height: 15.h),
-            Expanded(
-              child: ProductsListView(
-                storeProductsFilter: tabIndex,
-              ),
+            ProductsListView(
+              storeProductsFilter: tabIndex,
             ),
           ],
         );
