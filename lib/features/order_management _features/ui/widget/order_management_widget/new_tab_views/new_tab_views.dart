@@ -5,7 +5,6 @@ import 'shipping_info_order.dart';
 import 'all_info_order.dart';
 import 'no_bill_info_order.dart';
 import 'no_paid_info_order.dart';
-import 'preparing_info_order.dart';
 
 class NewTabViews extends StatelessWidget {
   const NewTabViews({
@@ -15,7 +14,7 @@ class NewTabViews extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SubCustomTabBar(
-      length: 5,
+      length: 4,
       tabs: [
         Tab(
           child: Text(
@@ -31,7 +30,7 @@ class NewTabViews extends StatelessWidget {
                 width: 110,
                 child: Text(
                   'بدون فاتورة',
-                  style: KTextStyle.textStyle11
+                  style: KTextStyle.textStyle14
                       .copyWith(fontWeight: FontWeight.w500),
                 ),
               ),
@@ -41,12 +40,6 @@ class NewTabViews extends StatelessWidget {
         Tab(
           child: Text(
             'لم تسدد',
-            style: KTextStyle.textStyle14.copyWith(fontWeight: FontWeight.w500),
-          ),
-        ),
-        Tab(
-          child: Text(
-            'للتجهيز',
             style: KTextStyle.textStyle14.copyWith(fontWeight: FontWeight.w500),
           ),
         ),
@@ -64,8 +57,6 @@ class NewTabViews extends StatelessWidget {
         NoBillInfoOrder(),
         //NotPaid TabViews
         NoPaidInfoOrder(),
-        //Preparing TabViews
-        PreparingInfoOrder(),
         //Shipping TabViews
         ShippingInfoOrder(),
       ],
