@@ -42,46 +42,49 @@ class SubCustomTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: length,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          DecoratedBox(
-            decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(25.r)),
-            child: TabBar(
-              padding: EdgeInsets.zero,
-              labelStyle: KTextStyle.textStyle16,
-              dividerColor: Colors.transparent,
-              indicatorColor: indicatorColor,
-              indicatorWeight: indicatorWeight.w,
-              labelColor: labelColor,
-              unselectedLabelColor: unselectedLabelColor,
-              tabs: tabs,
-              indicator: BoxDecoration(
-                border: Border.all(color: AppColors.primary, width: 1.5.w),
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(_borderRadius.r),
-              ),
-              indicatorSize: TabBarIndicatorSize.tab,
-              indicatorPadding: EdgeInsets.symmetric(
-                  horizontal: _indicatorPadding.h,
-                  vertical: _indicatorPadding.w),
-            ),
-          ),
-          SizedBox(
-            height: _sizedBoxHeight.h,
-          ),
-          Flexible(
-            fit: FlexFit.loose,
-            child: SizedBox(
-              height: height.h,
-              child: TabBarView(
-                children: tabViews,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10.w),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            DecoratedBox(
+              decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(25.r)),
+              child: TabBar(
+                padding: EdgeInsets.zero,
+                labelStyle: KTextStyle.textStyle16,
+                dividerColor: Colors.transparent,
+                indicatorColor: indicatorColor,
+                indicatorWeight: indicatorWeight.w,
+                labelColor: labelColor,
+                unselectedLabelColor: unselectedLabelColor,
+                tabs: tabs,
+                indicator: BoxDecoration(
+                  border: Border.all(color: AppColors.primary, width: 1.5.w),
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(_borderRadius.r),
+                ),
+                indicatorSize: TabBarIndicatorSize.tab,
+                indicatorPadding: EdgeInsets.symmetric(
+                    horizontal: _indicatorPadding.h,
+                    vertical: _indicatorPadding.w),
               ),
             ),
-          ),
-        ],
+            SizedBox(
+              height: _sizedBoxHeight.h,
+            ),
+            Flexible(
+              fit: FlexFit.loose,
+              child: SizedBox(
+                height: height.h,
+                child: TabBarView(
+                  children: tabViews,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
