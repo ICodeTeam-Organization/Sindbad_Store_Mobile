@@ -26,11 +26,11 @@ class CustomShowDialogForViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(
             color: AppColors.white, borderRadius: BorderRadius.circular(25.r)),
-        height: 320.h,
-        width: 390.w,
+        // height: 320.h,
+        // width: 390.w,
         child: Stack(
           children: [
             Padding(
