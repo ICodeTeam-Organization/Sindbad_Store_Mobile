@@ -8,12 +8,10 @@ import '../../../../../core/styles/text_style.dart';
 class BottomInfoOrder extends StatelessWidget {
   const BottomInfoOrder({
     super.key,
-    required this.clock,
     required this.date,
     required this.itemNumber,
   });
 
-  final String clock;
   final String date;
   final String itemNumber;
 
@@ -33,7 +31,7 @@ class BottomInfoOrder extends StatelessWidget {
             width: 10.w,
           ),
           Text(
-            '$clock - $date ',
+            date,
             style: KTextStyle.textStyle12,
           ),
           SizedBox(

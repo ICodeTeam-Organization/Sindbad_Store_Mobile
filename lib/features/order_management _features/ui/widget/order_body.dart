@@ -57,13 +57,13 @@ class OrderBody extends StatelessWidget {
         break;
       default:
         orderColor = Colors.blue.shade50;
+      // orderColor = Color(0xffCEECF0);
     }
     // final status = myStatuses[i];
     return InkWell(
       onTap: () {
         idOrders = idOrder;
         idPackages = idPackage;
-        print("$idPackage ########################## $idPackages");
         orderNumbers = orderNumber;
         billNumbers = billNumber;
         clocks = clock;
@@ -92,7 +92,7 @@ class OrderBody extends StatelessWidget {
             SizedBox(
               height: 10.h,
             ),
-            BottomInfoOrder(clock: clock, date: date, itemNumber: itemNumber),
+            BottomInfoOrder(date: date, itemNumber: itemNumber),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Row(
