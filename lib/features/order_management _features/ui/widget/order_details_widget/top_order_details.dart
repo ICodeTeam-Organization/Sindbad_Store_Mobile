@@ -41,6 +41,8 @@ class TopOrderDetails extends StatelessWidget {
           child: Image.network(
             imageUrl,
             fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) =>
+                Image.asset('assets/default_image.png'),
           ),
         ),
       ),
