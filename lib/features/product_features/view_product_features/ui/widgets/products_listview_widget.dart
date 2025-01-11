@@ -47,7 +47,8 @@ class ProductsListView extends StatelessWidget {
               ? Center(child: Text("لا يوجد منتجات"))
               : ListView.builder(
                   shrinkWrap: true,
-                  physics: const BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics()),
                   itemCount: products.length,
                   itemBuilder: (context, index) {
                     ProductEntity product = products[index];

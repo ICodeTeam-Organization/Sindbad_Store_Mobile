@@ -38,8 +38,6 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final double heightMobile = MediaQuery.sizeOf(context).height;
-
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -49,23 +47,24 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
               isBack: false,
             ),
             SizedBox(height: 10.h),
-            CustomTabBarWidget(
-              tabs: [
-                Tab(text: "جميع المنتجات"),
-                Tab(text: "منتجات عليها عروض"),
-                Tab(text: "منتجات موقوفة"),
-              ],
-              tabViews: [
-                _buildTabView(0, context),
-                _buildTabView(1, context),
-                _buildTabView(2, context),
-              ],
-              length: 3,
-              indicatorColor: AppColors.primary,
-              indicatorWeight: 0.0.w,
-              labelColor: AppColors.black,
-              unselectedLabelColor: AppColors.black,
-              height: heightMobile * 0.80, // height TabBar and all dowm him
+            Expanded(
+              child: CustomTabBarWidget(
+                tabs: [
+                  Tab(text: "جميع المنتجات"),
+                  Tab(text: "منتجات عليها عروض"),
+                  Tab(text: "منتجات موقوفة"),
+                ],
+                tabViews: [
+                  _buildTabView(0, context),
+                  _buildTabView(1, context),
+                  _buildTabView(2, context),
+                ],
+                length: 3,
+                indicatorColor: AppColors.primary,
+                indicatorWeight: 0.0.w,
+                labelColor: AppColors.black,
+                unselectedLabelColor: AppColors.black,
+              ),
             ),
           ],
         ),
@@ -139,8 +138,10 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
             ),
 
             SizedBox(height: 15.h),
-            ProductsListView(
-              storeProductsFilter: tabIndex,
+            Expanded(
+              child: ProductsListView(
+                storeProductsFilter: tabIndex,
+              ),
             ),
           ],
         );
