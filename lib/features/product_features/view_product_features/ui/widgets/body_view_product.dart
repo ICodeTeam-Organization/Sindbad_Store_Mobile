@@ -114,11 +114,11 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
                     onTapLeft: () {
                       showDialog(
                         context: context, // تمرير السياق الصحيح
-                        builder: (BuildContext contextDialog) {
+                        builder: (BuildContext context) {
                           final List<int> selectedProducts =
                               cubitGetStoreProducts.updatedProductsSelected;
                           return CustomShowDialogForViewWidget(
-                            isLoading: null,
+                            isLoading: false,
                             title: 'هل انت متأكد من إيقاف المنتجات؟',
                             subtitle:
                                 'عدد المنتجات التي تريد إيقافها : ${selectedProducts.length}',
@@ -159,8 +159,25 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
                   anyProductsSelected:
                       cubitGetStoreProducts.updatedProductsSelected.isEmpty,
                   onTapLeft: () {
-                    // cubitDisableProducts.disableProductsByIds(
-                    //     ids: cubitGetStoreProducts.updatedProductsSelected);
+                    showDialog(
+                      context: context, // تمرير السياق الصحيح
+                      builder: (BuildContext context) {
+                        final List<int> selectedProducts =
+                            cubitGetStoreProducts.updatedProductsSelected;
+                        return CustomShowDialogForViewWidget(
+                          isLoading: false,
+                          title: 'هل انت متأكد من إيقاف المنتجات؟',
+                          subtitle:
+                              'عدد المنتجات التي تريد إيقافها : ${selectedProducts.length}',
+                          confirmText: "إيقاف",
+                          cancelText: "إلغاء",
+                          onConfirm: () {
+                            cubitDisableProducts.disableProductsByIds(
+                                ids: selectedProducts);
+                          },
+                        );
+                      },
+                    );
                   },
                 );
               },
@@ -184,7 +201,26 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
                   titleLeft: "إعادة تنشيط",
                   anyProductsSelected:
                       cubitGetStoreProducts.updatedProductsSelected.isEmpty,
-                  onTapLeft: () {},
+                  onTapLeft: () {
+                    showDialog(
+                      context: context, // تمرير السياق الصحيح
+                      builder: (BuildContext context) {
+                        final List<int> selectedProducts =
+                            cubitGetStoreProducts.updatedProductsSelected;
+                        return CustomShowDialogForViewWidget(
+                          isLoading: false,
+                          title: 'هل انت متأكد من إعادة تنشيط المنتجات؟',
+                          subtitle:
+                              'عدد المنتجات التي تريد إعادة تنشيطها : ${selectedProducts.length}',
+                          confirmText: "إعادة تنشيط",
+                          cancelText: "إلغاء",
+                          onConfirm: () {
+                            // هنا يتم وضع كود إعادة تنشيط عدة منتجات
+                          },
+                        );
+                      },
+                    );
+                  },
                 );
               },
             ),

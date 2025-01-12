@@ -22,8 +22,9 @@ class CustomButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
+        alignment: Alignment.center,
         width: 90.w,
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.0.h),
+        padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 8.0.h),
         decoration: BoxDecoration(
           border: Border.all(
             color: AppColors.primary, // لون الحدود
@@ -39,13 +40,13 @@ class CustomButton extends StatelessWidget {
             Icon(
               icon,
               color: Colors.red, // لون الأيقونة
-              size: 16, // حجم الأيقونة
+              size: 16.w, // حجم الأيقونة
             ),
-            const SizedBox(width: 6), // مسافة بين النص والأيقونة
+            SizedBox(width: 6.w), // مسافة بين النص والأيقونة
             Text(
               text,
-              style: const TextStyle(
-                fontSize: 10,
+              style: TextStyle(
+                fontSize: 10.sp,
                 color: AppColors.greyDark,
                 fontWeight: FontWeight.bold,
               ),
