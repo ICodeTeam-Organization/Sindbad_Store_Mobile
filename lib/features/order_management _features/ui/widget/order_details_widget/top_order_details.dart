@@ -63,14 +63,19 @@ class TopOrderDetails extends StatelessWidget {
           Row(
             children: [
               Text(
-                'نوع المنتج :  ',
+                'نوع المنتج : ',
                 style: KTextStyle.textStyle14
                     .copyWith(fontWeight: FontWeight.w500),
               ),
-              Text(
-                productType,
-                style: KTextStyle.textStyle14
-                    .copyWith(fontWeight: FontWeight.w500),
+              SizedBox(
+                width: MediaQuery.sizeOf(context).width * 0.28,
+                height: 20,
+                child: Text(
+                  productType,
+                  overflow: TextOverflow.ellipsis,
+                  style: KTextStyle.textStyle14
+                      .copyWith(fontWeight: FontWeight.w500),
+                ),
               ),
             ],
           ),
