@@ -18,14 +18,15 @@ class MidOrderDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text('العدد : '),
+        Text('العدد: '),
         Text(
           '$productMount',
           style: KTextStyle.textStyle16.copyWith(color: AppColors.primary),
         ),
-        SizedBox(
-          width: 50.w,
-        ),
+        Spacer(),
+        // SizedBox(
+        //   width: 20.w,
+        // ),
         Text('السعر : '),
         Text(
           '$productPrice',
