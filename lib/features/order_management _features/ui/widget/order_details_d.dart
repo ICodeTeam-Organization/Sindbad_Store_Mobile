@@ -70,7 +70,7 @@ class OrderBodyD extends StatelessWidget {
             borderRadius: BorderRadius.circular(16.r),
           ),
           height: 160.h,
-          width: 380.w,
+          width: MediaQuery.sizeOf(context).width,
           child: Column(
             children: [
               TopInfoOrder(
