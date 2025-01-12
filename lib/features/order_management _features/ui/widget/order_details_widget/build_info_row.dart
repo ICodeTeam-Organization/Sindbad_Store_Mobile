@@ -23,33 +23,39 @@ class BuildInfoRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: KTextStyle.textStyle12.copyWith(fontWeight: FontWeight.w500),
-          ),
-          Spacer(),
           SizedBox(
-            width: 200.w,
-            height: 48.h,
-            child: TextField(
-              readOnly: isDate,
-              keyboardType: TextInputType.number,
-              controller: controller,
-              decoration: InputDecoration(
-                prefixIcon: isDate
-                    ? ShowDatePicker() // أيقونة التاريخ
-                    : null,
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 5.h, horizontal: 10.w),
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: AppColors.grey,
-                    width: 1.w,
-                  ),
-                ),
-              ),
+            width: 90.w,
+            child: Text(
+              title,
               style:
                   KTextStyle.textStyle12.copyWith(fontWeight: FontWeight.w500),
+            ),
+          ),
+          // Spacer(),
+          Expanded(
+            child: SizedBox(
+              // width: 200.w,
+              height: 48.h,
+              child: TextField(
+                readOnly: isDate,
+                keyboardType: TextInputType.number,
+                controller: controller,
+                decoration: InputDecoration(
+                  prefixIcon: isDate
+                      ? ShowDatePicker() // أيقونة التاريخ
+                      : null,
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 5.h, horizontal: 10.w),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: AppColors.grey,
+                      width: 1.w,
+                    ),
+                  ),
+                ),
+                style: KTextStyle.textStyle12
+                    .copyWith(fontWeight: FontWeight.w500),
+              ),
             ),
           ),
         ],

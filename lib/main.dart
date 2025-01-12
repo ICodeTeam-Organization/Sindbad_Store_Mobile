@@ -199,7 +199,7 @@ class SindbadManagementApp extends StatelessWidget {
             ),
             useMaterial3: false,
             scaffoldBackgroundColor:
-                const Color(0xFFF9F9F9), // Set default background color
+                const Color(0xfffffbfb), // Set default background color
           ),
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
