@@ -17,7 +17,10 @@ class ChipCustom extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+        padding: EdgeInsets.symmetric(
+          horizontal: 14.w,
+          // vertical: 12.h,
+        ),
         margin: EdgeInsets.symmetric(horizontal: 2.5.w),
         decoration: BoxDecoration(
           border: Border.all(
