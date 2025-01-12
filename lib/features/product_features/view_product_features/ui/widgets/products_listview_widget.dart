@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../../core/styles/Colors.dart';
 import '../../../../../core/utils/route.dart';
 import '../../domain/entities/product_entity.dart';
+import '../manager/activate_products/activate_products_by_ids_cubit.dart';
 import '../manager/delete_product_by_id_from_store/delete_product_by_id_from_store_cubit.dart';
 import '../manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
 import 'check_box_custom.dart';
@@ -47,7 +48,8 @@ class ProductsListView extends StatelessWidget {
               ? Center(child: Text("لا يوجد منتجات"))
               : ListView.builder(
                   shrinkWrap: true,
-                  physics: const BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics()),
                   itemCount: products.length,
                   itemBuilder: (context, index) {
                     ProductEntity product = products[index];
@@ -132,14 +134,26 @@ class ProductsListView extends StatelessWidget {
                                   extra: 1 // here pass the product id
                                   );
                             },
-                            onTapDelete: () {
-                              showDeleteDialog(
-                                contextPerant: context,
-                                productId: product.productid!,
-                                storeProductsFilter: storeProductsFilter,
-                                deleteProductCubit: context.read<
-                                    DeleteProductByIdFromStoreCubit>(), // Pass the cubit
-                              );
+                            reactivate: storeProductsFilter != 2
+                                ? null
+                                : true, // if storeProductsFilter == 2 => for reactivate product
+                            onTapDeleteOrReactivate: () {
+                              storeProductsFilter !=
+                                      2 // if storeProductsFilter == 2 => for reactivate product
+                                  ? showDeleteProductDialog(
+                                      contextPerant: context,
+                                      productId: product.productid!,
+                                      storeProductsFilter: storeProductsFilter,
+                                      deleteProductCubit: context.read<
+                                          DeleteProductByIdFromStoreCubit>(), // Pass the cubit
+                                    )
+                                  : showActivateProductDialog(
+                                      contextPerant: context,
+                                      productId: product.productid!,
+                                      storeProductsFilter: storeProductsFilter,
+                                      activateProductsCubit: context
+                                          .read<ActivateProductsByIdsCubit>(),
+                                    );
                             },
                           ),
                         ],
@@ -157,7 +171,7 @@ class ProductsListView extends StatelessWidget {
   }
 }
 
-void showDeleteDialog({
+void showDeleteProductDialog({
   required BuildContext contextPerant,
   required int productId,
   required int storeProductsFilter,
@@ -199,8 +213,60 @@ void showDeleteDialog({
               onConfirm: () => dialogContext
                   .read<DeleteProductByIdFromStoreCubit>()
                   .deleteProductById(productId: productId),
-              confirmText: 'نعم',
-              cancelText: 'لا',
+              confirmText: 'حذف',
+              cancelText: 'إلغاء',
+            );
+          },
+        ),
+      );
+    },
+  );
+}
+
+void showActivateProductDialog({
+  required BuildContext contextPerant,
+  required int productId,
+  required int storeProductsFilter,
+  required ActivateProductsByIdsCubit
+      activateProductsCubit, // Add this parameter
+}) {
+  showDialog(
+    context: contextPerant,
+    builder: (BuildContext dialogContext) {
+      return BlocProvider.value(
+        value: activateProductsCubit, // Provide the cubit explicitly
+        child: BlocConsumer<ActivateProductsByIdsCubit,
+            ActivateProductsByIdsState>(
+          listener: (dialogContext, state) {
+            if (state is ActivateProductsByIdsSuccess) {
+              ScaffoldMessenger.of(dialogContext).showSnackBar(
+                SnackBar(content: Text('تم إعادة تنشيط المنتج بنجاح!')),
+              );
+              Navigator.of(dialogContext, rootNavigator: true)
+                  .pop(); // Close dialog
+              contextPerant
+                  .read<GetStoreProductsWithFilterCubit>()
+                  .getStoreProductsWitheFilter(
+                    storeProductsFilter: storeProductsFilter,
+                    pageNumper: 1,
+                    pageSize: 100,
+                  );
+            } else if (state is ActivateProductsByIdsFailure) {
+              ScaffoldMessenger.of(dialogContext).showSnackBar(
+                SnackBar(content: Text(state.errMessage)),
+              );
+            }
+          },
+          builder: (dialogContext, state) {
+            return CustomShowDialogForViewWidget(
+              title: 'إعادة تنشيط المنتج',
+              subtitle: 'هل تريد بالتأكيد إعادة تنشيط هذا المنتج؟',
+              isLoading: state is DeleteProductByIdFromStoreLoading,
+              onConfirm: () => dialogContext
+                  .read<DeleteProductByIdFromStoreCubit>()
+                  .deleteProductById(productId: productId),
+              confirmText: 'إعادة تنشيط',
+              cancelText: 'إلغاء',
             );
           },
         ),

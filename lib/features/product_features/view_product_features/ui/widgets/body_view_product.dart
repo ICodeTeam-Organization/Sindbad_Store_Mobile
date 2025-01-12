@@ -38,8 +38,6 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final double heightMobile = MediaQuery.sizeOf(context).height;
-
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -49,23 +47,24 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
               isBack: false,
             ),
             SizedBox(height: 10.h),
-            CustomTabBarWidget(
-              tabs: [
-                Tab(text: "جميع المنتجات"),
-                Tab(text: "منتجات عليها عروض"),
-                Tab(text: "منتجات موقوفة"),
-              ],
-              tabViews: [
-                _buildTabView(0, context),
-                _buildTabView(1, context),
-                _buildTabView(2, context),
-              ],
-              length: 3,
-              indicatorColor: AppColors.primary,
-              indicatorWeight: 0.0.w,
-              labelColor: AppColors.black,
-              unselectedLabelColor: AppColors.black,
-              height: heightMobile * 0.80, // height TabBar and all dowm him
+            Expanded(
+              child: CustomTabBarWidget(
+                tabs: [
+                  Tab(text: "جميع المنتجات"),
+                  Tab(text: "منتجات عليها عروض"),
+                  Tab(text: "منتجات موقوفة"),
+                ],
+                tabViews: [
+                  _buildTabView(0, context),
+                  _buildTabView(1, context),
+                  _buildTabView(2, context),
+                ],
+                length: 3,
+                indicatorColor: AppColors.primary,
+                indicatorWeight: 0.0.w,
+                labelColor: AppColors.black,
+                unselectedLabelColor: AppColors.black,
+              ),
             ),
           ],
         ),
@@ -115,11 +114,11 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
                     onTapLeft: () {
                       showDialog(
                         context: context, // تمرير السياق الصحيح
-                        builder: (BuildContext contextDialog) {
+                        builder: (BuildContext context) {
                           final List<int> selectedProducts =
                               cubitGetStoreProducts.updatedProductsSelected;
                           return CustomShowDialogForViewWidget(
-                            isLoading: null,
+                            isLoading: false,
                             title: 'هل انت متأكد من إيقاف المنتجات؟',
                             subtitle:
                                 'عدد المنتجات التي تريد إيقافها : ${selectedProducts.length}',
@@ -160,8 +159,25 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
                   anyProductsSelected:
                       cubitGetStoreProducts.updatedProductsSelected.isEmpty,
                   onTapLeft: () {
-                    // cubitDisableProducts.disableProductsByIds(
-                    //     ids: cubitGetStoreProducts.updatedProductsSelected);
+                    showDialog(
+                      context: context, // تمرير السياق الصحيح
+                      builder: (BuildContext context) {
+                        final List<int> selectedProducts =
+                            cubitGetStoreProducts.updatedProductsSelected;
+                        return CustomShowDialogForViewWidget(
+                          isLoading: false,
+                          title: 'هل انت متأكد من إيقاف المنتجات؟',
+                          subtitle:
+                              'عدد المنتجات التي تريد إيقافها : ${selectedProducts.length}',
+                          confirmText: "إيقاف",
+                          cancelText: "إلغاء",
+                          onConfirm: () {
+                            cubitDisableProducts.disableProductsByIds(
+                                ids: selectedProducts);
+                          },
+                        );
+                      },
+                    );
                   },
                 );
               },
@@ -185,7 +201,26 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
                   titleLeft: "إعادة تنشيط",
                   anyProductsSelected:
                       cubitGetStoreProducts.updatedProductsSelected.isEmpty,
-                  onTapLeft: () {},
+                  onTapLeft: () {
+                    showDialog(
+                      context: context, // تمرير السياق الصحيح
+                      builder: (BuildContext context) {
+                        final List<int> selectedProducts =
+                            cubitGetStoreProducts.updatedProductsSelected;
+                        return CustomShowDialogForViewWidget(
+                          isLoading: false,
+                          title: 'هل انت متأكد من إعادة تنشيط المنتجات؟',
+                          subtitle:
+                              'عدد المنتجات التي تريد إعادة تنشيطها : ${selectedProducts.length}',
+                          confirmText: "إعادة تنشيط",
+                          cancelText: "إلغاء",
+                          onConfirm: () {
+                            // هنا يتم وضع كود إعادة تنشيط عدة منتجات
+                          },
+                        );
+                      },
+                    );
+                  },
                 );
               },
             ),

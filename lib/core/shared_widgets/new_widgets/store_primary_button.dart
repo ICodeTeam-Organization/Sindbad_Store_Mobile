@@ -9,7 +9,8 @@ class StorePrimaryButton extends StatelessWidget {
   StorePrimaryButton(
       {super.key,
       this.onTap,
-      this.disabled = false,
+      this.isLoading = false,
+      this.disabled,
       this.height = 44,
       this.title = '',
       this.width = 370,
@@ -17,6 +18,7 @@ class StorePrimaryButton extends StatelessWidget {
       this.textColor = AppColors.white,
       this.buttonColor = AppColors.primary});
 
+  bool? isLoading;
   bool? disabled;
   double? width;
   double? height;
@@ -37,7 +39,7 @@ class StorePrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: disabled! ? null : onTap,
+      onTap: disabled == true || isLoading == true ? null : onTap,
 
       /// [qais] => Don't use the {Container} here because it is a heavy widget.
       /// Instead, use the Alignment widget to align stuff and use the SizedBox
@@ -49,7 +51,7 @@ class StorePrimaryButton extends StatelessWidget {
         width: width,
         height: height,
         decoration: BoxDecoration(
-          color: disabled! ? AppColors.greyHint : buttonColor,
+          color: disabled == true ? AppColors.greyHint : buttonColor,
           borderRadius: BorderRadiusDirectional.circular(_borderRadius.r),
         ),
         child: Row(
@@ -61,8 +63,17 @@ class StorePrimaryButton extends StatelessWidget {
                 color: AppColors.white,
                 size: _iconSize.w,
               ),
-            Text(title ?? '',
-                style: KTextStyle.textStyle14.copyWith(color: textColor)),
+            isLoading == true
+                ? SizedBox(
+                    height: 25.h, // ضمان التناسق بين العرض والطول.
+                    width: 25.h,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.white,
+                    ),
+                  )
+                : Text(title ?? '',
+                    style: KTextStyle.textStyle14.copyWith(color: textColor)),
           ],
         ),
       ),

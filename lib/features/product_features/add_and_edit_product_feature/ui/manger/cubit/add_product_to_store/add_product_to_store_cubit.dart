@@ -94,7 +94,7 @@ class AddProductToStoreCubit extends Cubit<AddProductToStoreState> {
       images: [
         if (subOneImageProductFile != null) subOneImageProductFile!,
         if (subTwoImageProductFile != null) subTwoImageProductFile!,
-        if (subThreeImageProductFile != null) subThreeImageProductFile!,
+        if (subThreeImageProductFile != null) subThreeImageProductFile!, 
       ],
       subCategoryIds: [selectedSubCategoryId!],
       newAttributes: [
@@ -102,6 +102,7 @@ class AddProductToStoreCubit extends Cubit<AddProductToStoreState> {
           {"attributeName": keys[i].text, "attributeValue": values[i].text}
       ],
     );
+    print("============================  in cubit  ==========================");
     Either<Failure, AddProductEntity> result =
         await addProductToStoreUseCase.execute(params);
 
