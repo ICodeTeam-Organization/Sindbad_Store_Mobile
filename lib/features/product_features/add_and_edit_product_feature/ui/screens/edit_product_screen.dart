@@ -4,8 +4,8 @@ import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_ap
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/store_primary_button.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
-import '../../widgets/custom_simple_text_form_field.dart';
-import '../../widgets/custom_text_form_widget.dart';
+import '../widgets/custom_simple_text_form_field.dart';
+import '../widgets/custom_text_form_widget.dart';
 
 class EditProductScreen extends StatefulWidget {
   final int productId;

@@ -6,8 +6,8 @@ import 'package:sindbad_management_app/features/product_features/add_and_edit_pr
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/brands_by_main_category_id/cubit/get_brands_by_category_id_cubit.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/custom_dropdown_widget.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/custom_dropdown_widget_for_state_cubit.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/custom_dropdown_widget.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/custom_dropdown_widget_for_state_cubit.dart';
 
 class GetCategoryNamesSuccessWidget extends StatelessWidget {
   const GetCategoryNamesSuccessWidget({

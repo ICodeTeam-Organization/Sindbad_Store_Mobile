@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/store_primary_button.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_attribute_product.dart/add_attribute_product_dart_cubit.dart';
-import '../../../../core/styles/Colors.dart';
-import '../ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
+import '../../../../../core/styles/Colors.dart';
+import '../manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/core/utils/route.dart';
 
@@ -24,7 +24,7 @@ class TwoButtonInDownAddproduct extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-                    // ============  Done button  ================
+        // ============  Done button  ================
         BlocConsumer<AddProductToStoreCubit, AddProductToStoreState>(
           listener: (context, state) {
             if (state is AddProductToStoreSuccess) {
@@ -69,14 +69,13 @@ class TwoButtonInDownAddproduct extends StatelessWidget {
               buttonColor: AppColors.primary,
             );
           },
-
         ),
         SizedBox(
           width: 8.w,
         ),
-                // ============  Cancel button  ================
+        // ============  Cancel button  ================
         StorePrimaryButton(
-                    // onTap: () => Navigator.of(context).pop(),
+          // onTap: () => Navigator.of(context).pop(),
           onTap: () {
             context.go(AppRouter.storeRouters.root);
             // cubitRefrechViewProduct.getStoreProductsWitheFilter(

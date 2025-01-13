@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/section_title_widget.dart';
-import '../../../../core/styles/Colors.dart';
-import '../../../../core/styles/text_style.dart';
-import '../ui/manger/cubit/add_attribute_product.dart/add_attribute_product_dart_cubit.dart';
+import '../../../../../core/styles/Colors.dart';
+import '../../../../../core/styles/text_style.dart';
+import '../manger/cubit/add_attribute_product.dart/add_attribute_product_dart_cubit.dart';
 import 'custom_simple_text_form_field.dart';
 
 class CustomCardToAllAttributesFileds extends StatelessWidget {

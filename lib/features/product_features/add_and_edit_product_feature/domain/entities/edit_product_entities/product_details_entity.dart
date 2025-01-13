@@ -6,10 +6,11 @@ class ProductDetailsEntity {
   final String nameProduct;
   final String descriptionProduct;
   final String numberProduct;
+  final num priceProduct;
   final String mainImageUrlProduct;
   final List<ProductImagesEntity> imagesProduct;
   final int mainCategoryIdProduct;
-  final int subCategoryIdProduct;
+  final List<int> subCategoryIdProduct;
   final int? brandIdProduct;
   final List<ProductAttributeEntity> attributesWithValuesProduct;
 
@@ -18,6 +19,7 @@ class ProductDetailsEntity {
     required this.nameProduct,
     required this.descriptionProduct,
     required this.numberProduct,
+    required this.priceProduct,
     required this.mainImageUrlProduct,
     required this.imagesProduct,
     required this.mainCategoryIdProduct,

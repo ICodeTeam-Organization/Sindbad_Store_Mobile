@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sindbad_management_app/features/product_features/view_product_features/domain/usecases/disable_products_by_ids_use_case.dart';
 import '../../../../../core/setup_service_locator.dart';
+import '../../../add_and_edit_product_feature/data/repos/add_product_store_repo_impl.dart';
+import '../../../add_and_edit_product_feature/domain/usecases/get_product_details_to_store_use_case.dart';
+import '../../../add_and_edit_product_feature/ui/manger/cubit/ProductDetails/product_details_cubit.dart';
 import '../../data/repos/view_product_store_repo_impl.dart';
 import '../../domain/usecases/delete_product_by_id_use_case.dart';
 import '../../domain/usecases/get_main_category_for_view_use_case.dart';
@@ -46,6 +49,11 @@ class ViewProductScreen extends StatelessWidget {
           ),
         ),
       ),
+      BlocProvider(
+          create: (context) =>
+              ProductDetailsCubit(GetProductDetailsToStoreUseCase(
+                getit.get<AddAndEditProductStoreRepoImpl>(),
+              ))),
     ], child: BodyViewProductScreen());
   }
 }

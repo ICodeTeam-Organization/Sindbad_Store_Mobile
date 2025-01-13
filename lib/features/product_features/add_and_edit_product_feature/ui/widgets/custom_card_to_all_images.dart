@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/section_title_widget.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
-import '../../../../core/styles/text_style.dart';
-import '../ui/manger/cubit/add_images/cubit/add_image_to_product_add_cubit.dart';
+import '../../../../../core/styles/text_style.dart';
+import '../manger/cubit/add_images/cubit/add_image_to_product_add_cubit.dart';
 import 'custom_add_image_widget.dart';
 
 class CustomCardToAllImages extends StatelessWidget {

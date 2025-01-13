@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/custom_dropdown_widget.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/custom_dropdown_widget.dart';
 
 class CustomDropdownWidgetForStateCubit extends StatelessWidget {
   final String textTitle;

@@ -3,15 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/section_title_widget.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/get_category_names_else_widget.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/get_category_names_failure_widget.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/get_category_names_initial_widget.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/get_category_names_loading_widget.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/get_category_names_success_widget.dart';
-import '../../../../core/styles/text_style.dart';
-import '../domain/entities/add_product_entities/main_category_entity.dart';
-import '../ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
-import '../ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/get_category_names_else_widget.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/get_category_names_failure_widget.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/get_category_names_initial_widget.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/get_category_names_loading_widget.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/get_category_names_success_widget.dart';
+import '../../../../../core/styles/text_style.dart';
+import '../../domain/entities/add_product_entities/main_category_entity.dart';
+import '../manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
+import '../manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
 
 class CustomCardToAllDropDown extends StatelessWidget {
   const CustomCardToAllDropDown({

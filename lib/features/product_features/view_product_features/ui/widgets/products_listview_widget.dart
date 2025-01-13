@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/styles/Colors.dart';
+import '../../../../../core/styles/text_style.dart';
 import '../../../../../core/utils/route.dart';
+import '../../../add_and_edit_product_feature/ui/manger/cubit/ProductDetails/product_details_cubit.dart';
 import '../../domain/entities/product_entity.dart';
 import '../manager/activate_products/activate_products_by_ids_cubit.dart';
 import '../manager/delete_product_by_id_from_store/delete_product_by_id_from_store_cubit.dart';
@@ -129,10 +131,18 @@ class ProductsListView extends StatelessWidget {
                             onTapEdit: () {
                               // state.products //  ===> this pass contains [productid,productName,productNumber,productPrice,productImageUrl]
                               // تنفيذ التعديل
-                              context.push(
-                                  AppRouter.storeRouters.kStoreEditProduct,
-                                  extra: 1 // here pass the product id
-                                  );
+                              // context.push(
+                              //     AppRouter.storeRouters.kStoreEditProduct,
+                              //     extra: 1 // here pass the product id
+                              //     );
+                              context
+                                  .read<ProductDetailsCubit>()
+                                  .getProductDetails(productId: 355);
+                              showGetProductDetailsDialog(
+                                contextParent: context,
+                                productDetailsCubit:
+                                    context.read<ProductDetailsCubit>(),
+                              );
                             },
                             reactivate: storeProductsFilter != 2
                                 ? null
@@ -274,3 +284,145 @@ void showActivateProductDialog({
     },
   );
 }
+
+void showGetProductDetailsDialog({
+  required BuildContext contextParent,
+  required ProductDetailsCubit productDetailsCubit,
+}) {
+  showDialog(
+    context: contextParent,
+    builder: (BuildContext dialogContext) {
+      return BlocProvider.value(
+        value: productDetailsCubit,
+        child: BlocConsumer<ProductDetailsCubit, ProductDetailsState>(
+          listener: (dialogContext, state) {
+            if (state is ProductDetailsSuccess) {
+              Navigator.of(dialogContext, rootNavigator: true).pop();
+              contextParent.push(
+                AppRouter.storeRouters.kStoreEditProduct,
+                extra: 355, // Pass the product ID here
+              );
+              debugPrint("ProductDetailsSuccess");
+            } else if (state is ProductDetailsFailure) {
+              Navigator.of(dialogContext, rootNavigator: true).pop();
+              debugPrint("ProductDetailsFailure");
+              debugPrint(state.errMessage);
+              ScaffoldMessenger.of(dialogContext).showSnackBar(
+                SnackBar(content: Text(state.errMessage)),
+              );
+            }
+          },
+          builder: (dialogContext, state) {
+            return Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0), // Padding for content
+                child: Column(
+                  mainAxisSize: MainAxisSize
+                      .min, // Ensures the dialog sizes based on content
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 80.0,
+                      height: 80.0,
+                      child: CircularProgressIndicator(
+                        color: AppColors.primary,
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    Text(
+                      "جاري جلب بيانات المنتج...",
+                      style: KTextStyle.textStyle18,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      );
+    },
+  );
+}
+
+// void showGetProductDetailsDialog({
+//   required BuildContext contextParent,
+//   // required int productId,
+//   required ProductDetailsCubit productDetailsCubit, // Add this parameter
+// }) {
+//   showDialog(
+//     context: contextParent,
+//     builder: (BuildContext dialogContext) {
+//       return BlocProvider.value(
+//         value: productDetailsCubit, // Provide the cubit explicitly
+//         child: BlocConsumer<ProductDetailsCubit, ProductDetailsState>(
+//           listener: (dialogContext, state) {
+//             if (state is ProductDetailsSuccess) {
+//               Navigator.of(dialogContext, rootNavigator: true)
+//                   .pop(); // Close dialog
+//               contextParent.push(AppRouter.storeRouters.kStoreEditProduct,
+//                   extra: 355 // here pass the product id
+//                   );
+//               debugPrint(
+//                   "=================  ProductDetailsSuccess  ==================");
+//               debugPrint(state.productDetailsEntity.nameProduct);
+//               debugPrint(
+//                   "=================  ProductDetailsSuccess  ==================");
+//               // ScaffoldMessenger.of(dialogContext).showSnackBar(
+//               //   SnackBar(content: Text('تم إعادة تنشيط المنتج بنجاح!')),
+//               // );
+//               // Navigator.of(dialogContext, rootNavigator: true)
+//               //     .pop(); // Close dialog
+//               // contextPerant
+//               //     .read<GetStoreProductsWithFilterCubit>()
+//               //     .getStoreProductsWitheFilter(
+//               //       storeProductsFilter: storeProductsFilter,
+//               //       pageNumper: 1,
+//               //       pageSize: 100,
+//               //     );
+//             } else if (state is ProductDetailsFailure) {
+//               Navigator.of(dialogContext, rootNavigator: true).pop();
+//               debugPrint(
+//                   "=================  ProductDetailsFailure  ==================");
+//               debugPrint(state.errMessage);
+//               debugPrint(
+//                   "=================  ProductDetailsFailure  ==================");
+//               ScaffoldMessenger.of(dialogContext).showSnackBar(
+//                 SnackBar(content: Text(state.errMessage)),
+//               );
+//             }
+//           },
+//           builder: (dialogContext, state) {
+//             return DecoratedBox(
+//               decoration: BoxDecoration(
+//                 color: Colors.white,
+//                 borderRadius: BorderRadius.circular(12),
+//               ),
+//               child: Padding(
+//                 padding: const EdgeInsets.all(15),
+//                 child: Column(
+//                   crossAxisAlignment: CrossAxisAlignment.center,
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   mainAxisSize: MainAxisSize.min,
+//                   children: [
+//                     CircularProgressIndicator(
+//                       color: AppColors.primary,
+//                     ),
+//                     SizedBox(height: 15),
+//                     Text(
+//                       "جاري جلب بيانات المنتج...",
+//                       style: KTextStyle.textStyle20,
+//                     )
+//                   ],
+//                 ),
+//               ),
+//             );
+//           },
+//         ),
+//       );
+//     },
+//   );
+// }

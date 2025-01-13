@@ -9,7 +9,7 @@ import '../../domain/entities/add_product_entities/main_category_entity.dart';
 import '../../domain/entities/edit_product_entities/product_details_entity.dart';
 import '../models/brand_model/datum.dart';
 import '../models/main_and_sub_category_model/item.dart';
-import '../models/product_details_model/product_detials_model.dart';
+import '../models/product_details_model/product_details_model.dart';
 
 abstract class AddAndEditProductToStoreRemoteDataSource {
   Future<AddProductEntity> addProductToStore({
@@ -149,7 +149,7 @@ class AddProductToStoreRemoteDataSourceImpl
 
     // change Data from JSON to DartModel
     ProductDetailsEntity productDetailsEntity =
-        ProductDetailsModel.fromJson(data);
+        ProductDetailsModel.fromJson(data["data"]);
     return productDetailsEntity;
   }
 }
