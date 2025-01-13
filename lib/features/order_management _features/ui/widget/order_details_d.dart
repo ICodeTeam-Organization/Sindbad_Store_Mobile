@@ -24,7 +24,6 @@ class OrderBodyD extends StatelessWidget {
     required this.idPackage,
     required this.numberOrder,
     required this.numberBill,
-    required this.clock,
     required this.date,
     required this.numberItem,
     required this.infoPayment,
@@ -34,7 +33,6 @@ class OrderBodyD extends StatelessWidget {
   final int idPackage;
   final String numberOrder;
   final String numberBill;
-  final String clock;
   final String date;
   final String numberItem;
   final String infoPayment;
@@ -72,7 +70,7 @@ class OrderBodyD extends StatelessWidget {
             borderRadius: BorderRadius.circular(16.r),
           ),
           height: 160.h,
-          width: 380.w,
+          width: MediaQuery.sizeOf(context).width,
           child: Column(
             children: [
               TopInfoOrder(
@@ -83,10 +81,7 @@ class OrderBodyD extends StatelessWidget {
               SizedBox(
                 height: 10.h,
               ),
-              BottomInfoOrder(
-                  clock: clocks ?? '',
-                  date: dates ?? '',
-                  itemNumber: itemNumbers ?? ''),
+              BottomInfoOrder(date: dates ?? '', itemNumber: itemNumbers ?? ''),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: Row(

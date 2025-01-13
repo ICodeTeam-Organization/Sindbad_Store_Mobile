@@ -3,8 +3,8 @@ import '../../../domain/entities/activate_products_entity.dart';
 import '../../../domain/usecases/activate_products_by_ids_use_case.dart';
 part 'activate_products_by_ids_state.dart';
 
-class DisableProductsByIdsCubit extends Cubit<ActivateProductsByIdsState> {
-  DisableProductsByIdsCubit(this.activateProductsByIdsUseCase)
+class ActivateProductsByIdsCubit extends Cubit<ActivateProductsByIdsState> {
+  ActivateProductsByIdsCubit(this.activateProductsByIdsUseCase)
       : super(ActivateProductsByIdsInitial());
 
   final ActivateProductsByIdsUseCase activateProductsByIdsUseCase;

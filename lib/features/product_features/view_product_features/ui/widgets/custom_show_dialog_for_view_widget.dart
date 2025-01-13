@@ -26,11 +26,11 @@ class CustomShowDialogForViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(
             color: AppColors.white, borderRadius: BorderRadius.circular(25.r)),
-        height: 320.h,
-        width: 390.w,
+        // height: 320.h,
+        // width: 390.w,
         child: Stack(
           children: [
             Padding(
@@ -63,7 +63,7 @@ class CustomShowDialogForViewWidget extends StatelessWidget {
                   // Title
                   Text(
                     title,
-                    style: KTextStyle.textStyle20.copyWith(
+                    style: KTextStyle.textStyle18.copyWith(
                       color: AppColors.blackDark,
                     ),
                   ),
@@ -79,45 +79,53 @@ class CustomShowDialogForViewWidget extends StatelessWidget {
                   // Action Buttons
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisSize: MainAxisSize.max,
                     children: [
-                      // Confirm Button
-                      InkWell(
-                          onTap: isLoading == true ? null : onConfirm,
-                          child: Container(
-                              alignment: Alignment.center,
-                              height: 40.h,
-                              width: 130.w,
-                              decoration: BoxDecoration(
-                                  color: AppColors.redOpacity,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: isLoading == true
-                                  ? SizedBox(
-                                      height: 25
-                                          .h, // ضمان التناسق بين العرض والطول.
-                                      width: 25.h,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        color: Colors.white,
-                                      ),
-                                    )
-                                  : Text(confirmText ?? 'نعم , متابعة الحذف',
-                                      style: KTextStyle.textStyle13.copyWith(
-                                        color: AppColors.redDark,
-                                      )))),
-                      // Cancel Button
-                      InkWell(
-                          onTap: () => Navigator.of(context).pop(),
-                          child: Container(
-                              alignment: Alignment.center,
-                              height: 40.h,
-                              width: 130.w,
-                              decoration: BoxDecoration(
-                                  color: AppColors.blueOpacity,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Text(cancelText ?? 'لا , إلغاء العملية',
-                                  style: KTextStyle.textStyle13.copyWith(
-                                    color: AppColors.blueDark,
-                                  )))),
+                      // =======================  Confirm Button
+                      Expanded(
+                        flex: 8,
+                        child: InkWell(
+                            onTap: isLoading == true ? null : onConfirm,
+                            child: Container(
+                                alignment: Alignment.center,
+                                height: 40.h,
+                                // width: 130.w,
+                                decoration: BoxDecoration(
+                                    color: AppColors.redOpacity,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: isLoading == true
+                                    ? SizedBox(
+                                        height: 25
+                                            .h, // ضمان التناسق بين العرض والطول.
+                                        width: 25.h,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : Text(confirmText ?? 'نعم , متابعة الحذف',
+                                        style: KTextStyle.textStyle13.copyWith(
+                                          color: AppColors.redDark,
+                                        )))),
+                      ),
+                      Spacer(flex: 1),
+                      // ========================  Cancel Button
+                      Expanded(
+                        flex: 8,
+                        child: InkWell(
+                            onTap: () => Navigator.of(context).pop(),
+                            child: Container(
+                                alignment: Alignment.center,
+                                height: 40.h,
+                                // width: 130.w,
+                                decoration: BoxDecoration(
+                                    color: AppColors.blueOpacity,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Text(cancelText ?? 'لا , إلغاء العملية',
+                                    style: KTextStyle.textStyle13.copyWith(
+                                      color: AppColors.blueDark,
+                                    )))),
+                      ),
                     ],
                   ),
                 ],

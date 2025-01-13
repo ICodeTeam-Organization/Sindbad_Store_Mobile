@@ -4,7 +4,6 @@ import '../../../../../../core/styles/text_style.dart';
 import 'urgent_all_info_order.dart';
 import 'urgent_no_bill_info_order.dart';
 import 'urgent_no_paid_info_order.dart';
-import 'urgent_preparing_info_order.dart';
 import 'urgent_shipping_info_order.dart';
 
 class UrgentTabViews extends StatelessWidget {
@@ -15,7 +14,7 @@ class UrgentTabViews extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SubCustomTabBar(
-      length: 5,
+      length: 4,
       tabs: [
         Tab(
           child: Text('الكل',
@@ -28,9 +27,11 @@ class UrgentTabViews extends StatelessWidget {
             children: [
               Positioned(
                 width: 110,
-                child: Text('بدون فاتورة',
-                    style: KTextStyle.textStyle11
-                        .copyWith(fontWeight: FontWeight.w500)),
+                child: Text(
+                  'بدون فاتورة',
+                  style: KTextStyle.textStyle14
+                      .copyWith(fontWeight: FontWeight.w500),
+                ),
               ),
             ],
           ),
@@ -40,11 +41,6 @@ class UrgentTabViews extends StatelessWidget {
             'لم تسدد',
             style: KTextStyle.textStyle14.copyWith(fontWeight: FontWeight.w500),
           ),
-        ),
-        Tab(
-          child: Text('للتجهيز',
-              style:
-                  KTextStyle.textStyle14.copyWith(fontWeight: FontWeight.w500)),
         ),
         Tab(
           child: Text('للشحن',
@@ -59,8 +55,6 @@ class UrgentTabViews extends StatelessWidget {
         UrgentNoBillInfoOrder(),
         //NotPaid TabViews
         UrgentNoPaidInfoOrder(),
-        //Preparing TabViews
-        UrgentPreparingInfoOrder(),
         //Shipping TabViews
         UrgentShippingInfoOrder(),
       ],

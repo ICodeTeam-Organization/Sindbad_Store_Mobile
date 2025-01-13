@@ -7,11 +7,13 @@ class TwoButtonInsideListViewProducts extends StatelessWidget {
   const TwoButtonInsideListViewProducts({
     super.key,
     required this.onTapEdit,
-    required this.onTapDelete,
+    required this.onTapDeleteOrReactivate,
+    this.reactivate,
   });
 
   final void Function() onTapEdit;
-  final void Function() onTapDelete;
+  final void Function() onTapDeleteOrReactivate;
+  final bool? reactivate;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,10 @@ class TwoButtonInsideListViewProducts extends StatelessWidget {
       children: [
         CustomButton(text: 'تعديل', icon: Icons.edit, onPressed: onTapEdit),
         SizedBox(height: 5.h),
-        CustomButton(text: 'حذف', icon: Icons.delete, onPressed: onTapDelete),
+        CustomButton(
+            text: reactivate == true ? 'إعادة تنشيط' : 'حذف',
+            icon: reactivate == true ? Icons.refresh : Icons.delete,
+            onPressed: onTapDeleteOrReactivate),
       ],
     );
   }

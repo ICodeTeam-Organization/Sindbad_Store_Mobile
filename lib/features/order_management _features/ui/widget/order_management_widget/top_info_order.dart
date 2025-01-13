@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sindbad_management_app/core/styles/Colors.dart';
 import '../../../../../core/styles/text_style.dart';
 
 class TopInfoOrder extends StatelessWidget {
@@ -20,7 +21,11 @@ class TopInfoOrder extends StatelessWidget {
       height: 60.h,
       padding: EdgeInsets.only(top: 7),
       decoration: BoxDecoration(
-          color: color, borderRadius: BorderRadius.circular(16.r)),
+          border: Border(
+            bottom: BorderSide(color: AppColors.greyHint, width: 0.3),
+          ),
+          color: color,
+          borderRadius: BorderRadius.circular(16.r)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [

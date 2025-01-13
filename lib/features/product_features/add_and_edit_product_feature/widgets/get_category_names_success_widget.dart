@@ -108,32 +108,43 @@ class GetCategoryNamesSuccessWidget extends StatelessWidget {
                   textTitle: 'أختر اسم البراند', hintText: "جاري التحميل...");
             }
             if (state is GetBrandsByCategoryIdSuccess) {
+              final List<BrandEntity> brandsWithNoFound = [BrandEntity(brandId: 000, brandNameEntity: "لا يوجد")];
               final List<BrandEntity> brands = state.brands;
+              brandsWithNoFound.addAll(brands);
 
               // set [selectedBrandId] auto first id duo [initialItem]
-              cubitAddProduct.selectedBrandId =
-                  brands.isNotEmpty ? brands.first.brandId : null;
+              // cubitAddProduct.selectedBrandId =
+              //     brands.isNotEmpty ? brands.first.brandId : null;
               // for test
               cubitAddProduct.testDropDown();
               return CustomDropdownWidget(
                 enabled: true,
                 textTitle: 'أختر اسم البراند',
                 hintText: "قم بإختيار البراند المناسب",
-                initialItem: brands.isNotEmpty
-                    ? brands.first.brandNameEntity
-                    : null, // تعيين أول عنصر إذا كانت القائمة غير فارغة
-                items: brands.isNotEmpty
-                    ? brands
+                initialItem: null,
+                // brands.isNotEmpty
+                //     ? brands.first.brandNameEntity
+                //     : null, // تعيين أول عنصر إذا كانت القائمة غير فارغة
+                items: brandsWithNoFound
                         .map((category) => category.brandNameEntity)
-                        .toList()
-                    : [],
+                        .toList(),
+                // brands.isNotEmpty
+                //     ? brands
+                //         .map((category) => category.brandNameEntity)
+                //         .toList()
+                //     : [],
                 onChanged: (value) {
-                  int selectedIndex = brands
-                      .indexWhere((brand) => brand.brandNameEntity == value);
-                  if (selectedIndex != -1) {
-                    final int selectedBrandId = brands[selectedIndex].brandId;
+                  int selectedIndex = brandsWithNoFound
+                      .indexWhere((brandsWithNoFound) => brandsWithNoFound.brandNameEntity == value);
+                      print("====================  $selectedIndex  =======================");
+                  if (selectedIndex >0 ) {
+                    final int selectedBrandId = brandsWithNoFound[selectedIndex].brandId;
                     //
                     cubitAddProduct.selectedBrandId = selectedBrandId;
+                    // for test
+                    cubitAddProduct.testDropDown();
+                  }else{
+                                        cubitAddProduct.selectedBrandId = null;
                     // for test
                     cubitAddProduct.testDropDown();
                   }

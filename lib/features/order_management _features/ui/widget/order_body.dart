@@ -44,26 +44,21 @@ class OrderBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color orderColor;
-
-    switch (paymentInfo) {
-      case 'Refunded':
-        orderColor = Colors.yellow.shade50;
-        break;
-      case 'Paid':
-        orderColor = Colors.green.shade50;
-        break;
-      case 'Unpaid':
-        orderColor = Colors.red.shade50;
-        break;
-      default:
-        orderColor = Colors.blue.shade50;
+    if (paymentInfo == 'لايوجد' && billNumber == 'لايوجد') {
+      orderColor = Color(0xffE8E8E8);
+    } else if (paymentInfo == 'لا شي') {
+      orderColor = Color(0xCCFFF2F5);
+    } else if (paymentInfo == 'اجل') {
+      orderColor = Color(0xffCEECF0);
+    } else if (paymentInfo == 'كاش') {
+      orderColor = Color(0xffCDE8F6);
+    } else {
+      orderColor = Colors.white;
     }
-    // final status = myStatuses[i];
     return InkWell(
       onTap: () {
         idOrders = idOrder;
         idPackages = idPackage;
-        print("$idPackage ########################## $idPackages");
         orderNumbers = orderNumber;
         billNumbers = billNumber;
         clocks = clock;
@@ -92,9 +87,9 @@ class OrderBody extends StatelessWidget {
             SizedBox(
               height: 10.h,
             ),
-            BottomInfoOrder(clock: clock, date: date, itemNumber: itemNumber),
+            BottomInfoOrder(date: date, itemNumber: itemNumber),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              padding: EdgeInsets.only(right: 35.w),
               child: Row(
                 children: [
                   Text('بيانات السداد : ', style: KTextStyle.textStyle12),

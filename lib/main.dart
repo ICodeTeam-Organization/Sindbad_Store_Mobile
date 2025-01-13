@@ -1,3 +1,5 @@
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -59,7 +61,13 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   setupServiceLocator();
   Bloc.observer = SimpleBlocObserver();
-  runApp(const SindbadManagementApp());
+  runApp(
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => SindbadManagementApp(), // Wrap your app
+    ),
+    // const SindbadManagementApp()
+  );
 }
 
 class SindbadManagementApp extends StatelessWidget {
@@ -180,6 +188,10 @@ class SindbadManagementApp extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, child) => MaterialApp.router(
+          // for using with the device preview //
+          // locale: DevicePreview.locale(context),
+          builder: DevicePreview.appBuilder,
+          ///////////////////////////////////////
           routerConfig: AppRouter.router,
           theme: ThemeData(
             textTheme: GoogleFonts.cairoTextTheme(
@@ -187,7 +199,7 @@ class SindbadManagementApp extends StatelessWidget {
             ),
             useMaterial3: false,
             scaffoldBackgroundColor:
-                const Color(0xFFF9F9F9), // Set default background color
+                const Color(0xfffffbfb), // Set default background color
           ),
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,

@@ -8,12 +8,10 @@ import '../../../../../core/styles/text_style.dart';
 class BottomInfoOrder extends StatelessWidget {
   const BottomInfoOrder({
     super.key,
-    required this.clock,
     required this.date,
     required this.itemNumber,
   });
 
-  final String clock;
   final String date;
   final String itemNumber;
 
@@ -22,47 +20,64 @@ class BottomInfoOrder extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SvgPicture.asset(
-            "assets/alarm.svg",
-            width: 30.w,
-            height: 30.h,
+          Padding(
+            padding: const EdgeInsets.only(right: 15),
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  "assets/alarm.svg",
+                  width: 30.w,
+                  height: 30.h,
+                ),
+                SizedBox(
+                  width: 10.w,
+                ),
+                Text(
+                  date,
+                  style: KTextStyle.textStyle12,
+                ),
+              ],
+            ),
           ),
-          SizedBox(
-            width: 10.w,
-          ),
-          Text(
-            '$clock - $date ',
-            style: KTextStyle.textStyle12,
-          ),
-          SizedBox(
-            width: 65.w,
-          ),
-          SizedBox(
-            width: 40.w,
-            height: 40.h,
-            child: Stack(children: [
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: SvgPicture.asset(
-                  "assets/Bag.svg",
+          // SizedBox(
+          //   width: 65.w,
+          // ),
+          // Spacer(),
+          Padding(
+            padding: (MediaQuery.sizeOf(context).width) >= 480
+                ? const EdgeInsets.only(left: 35)
+                : const EdgeInsets.only(left: 15),
+            child: Row(
+              children: [
+                SizedBox(
                   width: 40.w,
                   height: 40.h,
+                  child: Stack(children: [
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: SvgPicture.asset(
+                        "assets/Bag.svg",
+                        width: 40.w,
+                        height: 40.h,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Text(
+                        itemNumber,
+                        style: KTextStyle.textStyle12.copyWith(
+                          color: AppColors.white,
+                        ),
+                      ),
+                    ),
+                  ]),
                 ),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Text(
-                  itemNumber,
-                  style: KTextStyle.textStyle12.copyWith(
-                    color: AppColors.white,
-                  ),
-                ),
-              ),
-            ]),
-          ),
-          Text('عدد الاصناف', style: KTextStyle.textStyle12),
+                Text('عدد الاصناف', style: KTextStyle.textStyle12),
+              ],
+            ),
+          )
         ],
       ),
     );

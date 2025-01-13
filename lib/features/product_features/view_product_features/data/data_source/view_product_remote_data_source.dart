@@ -122,7 +122,7 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
         break;
       case 2: // for products isDeleted
         requestData = {
-          "isDeleted": true,
+          "isDisable": true,
           "categoryId":
               categoryId, // if categoryId = null  will return all products offers
           "pageNumber": pageNumper,

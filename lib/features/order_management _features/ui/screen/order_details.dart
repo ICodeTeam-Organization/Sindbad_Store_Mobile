@@ -8,6 +8,7 @@ import '../../data/repos_impl/all_order_repo_impl.dart';
 import '../../domain/usecases/order_details_usecase.dart';
 import '../manager/order_details/order_details_cubit.dart';
 import '../manager/refresh/refresh_page_cubit.dart';
+import '../widget/order_body.dart';
 import '../widget/order_details_d.dart';
 import '../widget/order_details_widget/order_details_body.dart';
 import '../widget/order_details_widget/show_create_bill_and_cancel_order.dart';
@@ -60,7 +61,6 @@ class OrderDetails extends StatelessWidget {
                     idOrder: orderId,
                     numberBill: billNumber,
                     numberOrder: orderNumber,
-                    clock: '4:14',
                     date: date,
                     numberItem: itemNumber,
                     infoPayment: paymentInfo,
@@ -76,31 +76,37 @@ class OrderDetails extends StatelessWidget {
                   //Order Detaials
                   OrderDetailsBody(),
                   //Show Button
-                  BlocBuilder<RefreshPageCubit, RefreshPageState>(
-                    builder: (context, state) {
-                      // Default orders status map
-                      Map<int, bool> ordersStatus = {};
+                  if (paymentInfos != 'لا شي')
+                    BlocBuilder<RefreshPageCubit, RefreshPageState>(
+                      builder: (context, state) {
+                        // Default orders status map
+                        Map<int, bool> ordersStatus = {};
 
-                      if (state is RefreshUpdated) {
-                        ordersStatus = state.ordersStatus;
-                      }
-                      // Assuming `orderId` is available for each order in your list
-                      final isBillDone = ordersStatus[orderId] ?? false;
-                      return Column(
-                        children: [
-                          if (!isBillDone)
-                            ShowCreateBillAndCancelOrder(
-                              onCreateInvoice: () {
-                                context
-                                    .read<RefreshPageCubit>()
-                                    .toggleBillStatus(orderId);
-                              },
-                            ),
-                          if (isBillDone) ShowPrintAndShippingOrder(),
-                        ],
-                      );
-                    },
-                  )
+                        if (state is RefreshUpdated) {
+                          ordersStatus = state.ordersStatus;
+                        }
+                        // Assuming `orderId` is available for each order in your list
+                        final isBillDone = ordersStatus[orderId] ?? false;
+                        return Column(
+                          children: [
+                            if ((!isBillDone && billNumbers == 'لايوجد') ||
+                                (billNumbers == 'لايوجد') ||
+                                (!isBillDone &&
+                                    int.tryParse(billNumbers!) == null))
+                              ShowCreateBillAndCancelOrder(
+                                onCreateInvoice: () {
+                                  context
+                                      .read<RefreshPageCubit>()
+                                      .toggleBillStatus(orderId);
+                                },
+                              ),
+                            if ((isBillDone && billNumbers != 'لايوجد') ||
+                                (billNumbers != 'لايوجد'))
+                              ShowPrintAndShippingOrder(),
+                          ],
+                        );
+                      },
+                    )
                 ],
               ),
             ),
