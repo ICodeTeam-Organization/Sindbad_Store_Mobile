@@ -39,19 +39,18 @@ class CustomCardToAllAttributesFileds extends StatelessWidget {
                         return Padding(
                           padding: EdgeInsets.symmetric(vertical: 5.0.h),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               CustomSimpleTextFormField(
                                 textController: cubitAttribute.keys[index],
                                 hintText: 'خاصية',
                               ),
-                              SizedBox(width: 20.w),
                               CustomSimpleTextFormField(
                                 textController: cubitAttribute.values[index],
                                 hintText: 'قيمة',
                               ),
                               IconButton(
-                                icon: Icon(Icons.remove_circle, size: 20),
+                                icon: Icon(Icons.remove_circle, size: 20.sp),
                                 onPressed: () {
                                   cubitAttribute.removeField(index);
                                 },

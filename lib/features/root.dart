@@ -22,7 +22,7 @@ class _RootState extends State<Root> {
 
   // Constants for repeated values
   static const double _bottomNavBarHeight = 105.0;
-  static const double _paddingAndMagin = 10.0;
+  static const double _paddingAndMagin = 20.0;
   static const double _borderRadius = 50.0;
 
   List<Widget> widgetList = [
@@ -38,106 +38,103 @@ class _RootState extends State<Root> {
         index: myIndex,
         children: widgetList,
       ),
-      bottomNavigationBar: Container(
-        height: _bottomNavBarHeight.h,
+      bottomNavigationBar: Padding(
         padding: EdgeInsets.symmetric(
             horizontal: _paddingAndMagin.w, vertical: _paddingAndMagin.h),
-        margin: EdgeInsets.symmetric(
-            horizontal: _paddingAndMagin.w, vertical: _paddingAndMagin.h),
-        decoration:
-            BoxDecoration(borderRadius: BorderRadius.circular(_borderRadius.r)),
-        child: BottomNavigationBar(
-          backgroundColor: AppColors.white,
-          landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
-          type: BottomNavigationBarType.fixed,
-          showUnselectedLabels: true,
-          selectedLabelStyle: KTextStyle.textStyle12,
-          unselectedLabelStyle: KTextStyle.textStyle12,
-          // selectedIconTheme: const IconThemeData(
-          //   color: AppColors.primary, // Set selected icon color
-          // ),
-          // unselectedIconTheme: const IconThemeData(
-          //   color: AppColors.greyDark, // Set selected icon color
-          // ),
-          selectedItemColor: AppColors.primary,
-          unselectedItemColor: AppColors.greyDark,
-          onTap: (index) {
-            setState(() {
-              myIndex = index;
-            });
-          },
-          currentIndex: myIndex,
-          items: [
-            BottomNavigationBarItem(
-              backgroundColor: AppColors.white,
-              icon: Container(
-                padding: EdgeInsets.all(3),
-                height: 40.h,
-                width: 40.w,
-                decoration: BoxDecoration(
-                  color: myIndex == 0 ? AppColors.primary : AppColors.white,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(5),
+        child: Container(
+          // height: double.minPositive.h,
+          decoration: BoxDecoration(
+              color: AppColors.transparent,
+              borderRadius: BorderRadius.circular(_borderRadius.r)),
+          child: BottomNavigationBar(
+            backgroundColor: AppColors.white,
+            landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
+            type: BottomNavigationBarType.fixed,
+            showUnselectedLabels: true,
+            selectedLabelStyle: KTextStyle.textStyle12,
+            unselectedLabelStyle: KTextStyle.textStyle12,
+            // selectedIconTheme: const IconThemeData(
+            //   color: AppColors.primary, // Set selected icon color
+            // ),
+            // unselectedIconTheme: const IconThemeData(
+            //   color: AppColors.greyDark, // Set selected icon color
+            // ),
+            selectedItemColor: AppColors.primary,
+            unselectedItemColor: AppColors.greyDark,
+            onTap: (index) {
+              setState(() {
+                myIndex = index;
+              });
+            },
+            currentIndex: myIndex,
+            items: [
+              BottomNavigationBarItem(
+                backgroundColor: AppColors.white,
+                icon: Container(
+                  padding: EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                    color: myIndex == 0 ? AppColors.primary : AppColors.white,
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(5.r),
+                    ),
                   ),
+                  child: SvgPicture.asset('assets/logo_orders.svg',
+                      color:
+                          myIndex == 0 ? AppColors.white : AppColors.primary),
                 ),
-                child: SvgPicture.asset('assets/logo_orders.svg',
-                    color: myIndex == 0 ? AppColors.white : AppColors.primary),
+                label: 'الطلبات',
               ),
-              label: 'الطلبات',
-            ),
-            BottomNavigationBarItem(
-              backgroundColor: AppColors.white,
-              icon: Container(
-                padding: EdgeInsets.all(3),
-                height: 40.h,
-                width: 40.w,
-                decoration: BoxDecoration(
-                  color: myIndex == 1 ? AppColors.primary : AppColors.white,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(5),
+              BottomNavigationBarItem(
+                backgroundColor: AppColors.white,
+                icon: Container(
+                  padding: EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                    color: myIndex == 1 ? AppColors.primary : AppColors.white,
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(5.r),
+                    ),
                   ),
+                  child: SvgPicture.asset('assets/logo_products.svg',
+                      color:
+                          myIndex == 1 ? AppColors.white : AppColors.primary),
                 ),
-                child: SvgPicture.asset('assets/logo_products.svg',
-                    color: myIndex == 1 ? AppColors.white : AppColors.primary),
+                label: 'المنتجات',
               ),
-              label: 'المنتجات',
-            ),
-            BottomNavigationBarItem(
-              backgroundColor: AppColors.white,
-              icon: Container(
-                padding: EdgeInsets.all(3),
-                height: 40.h,
-                width: 40.w,
-                decoration: BoxDecoration(
-                  color: myIndex == 2 ? AppColors.primary : AppColors.white,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(5),
+              BottomNavigationBarItem(
+                backgroundColor: AppColors.white,
+                icon: Container(
+                  padding: EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                    color: myIndex == 2 ? AppColors.primary : AppColors.white,
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(5.r),
+                    ),
+                    // borderRadius: BorderRadius.circular(5),
                   ),
-                  // borderRadius: BorderRadius.circular(5),
+                  child: SvgPicture.asset('assets/logo_offers.svg',
+                      color:
+                          myIndex == 2 ? AppColors.white : AppColors.primary),
                 ),
-                child: SvgPicture.asset('assets/logo_offers.svg',
-                    color: myIndex == 2 ? AppColors.white : AppColors.primary),
+                label: 'العروض',
               ),
-              label: 'العروض',
-            ),
-            BottomNavigationBarItem(
-              backgroundColor: AppColors.white,
-              icon: Container(
-                padding: EdgeInsets.all(3),
-                height: 40.h,
-                width: 40.w,
-                decoration: BoxDecoration(
-                  color: myIndex == 3 ? AppColors.primary : AppColors.white,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(5),
+              BottomNavigationBarItem(
+                backgroundColor: AppColors.white,
+                icon: Container(
+                  padding: EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                    color: myIndex == 3 ? AppColors.primary : AppColors.white,
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(5.r),
+                    ),
                   ),
+                  child: SvgPicture.asset('assets/logo_reports.svg',
+                      color:
+                          myIndex == 3 ? AppColors.white : AppColors.primary),
                 ),
-                child: SvgPicture.asset('assets/logo_reports.svg',
-                    color: myIndex == 3 ? AppColors.white : AppColors.primary),
+                label: 'التقارير',
               ),
-              label: 'التقارير',
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

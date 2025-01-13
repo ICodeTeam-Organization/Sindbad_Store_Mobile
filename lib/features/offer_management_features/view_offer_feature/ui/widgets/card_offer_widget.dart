@@ -118,7 +118,7 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
               children: [
                 Padding(
                   padding:
-                      const EdgeInsets.only(top: 25, bottom: 25, right: 25),
+                      EdgeInsets.only(top: 20.h, bottom: 20.h, right: 20.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -132,7 +132,7 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
                           ),
                           SizedBox(
                             // color: Colors.red,
-                            width: 140.w,
+                            width: 130.w,
                             child: Table(
                               children: [
                                 TableRow(
@@ -213,13 +213,13 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
                                 width: 20.w,
                                 decoration: BoxDecoration(
                                     color: AppColors.primaryBackground,
-                                    borderRadius: BorderRadius.circular(100),
+                                    borderRadius: BorderRadius.circular(100.r),
                                     border: Border.all(
                                         color: AppColors.white, width: 2.w)),
                                 child: Text(widget.countProducts.toString(),
                                     style: TextStyle(
                                         color: AppColors.primary,
-                                        fontSize: 9,
+                                        fontSize: 9.sp,
                                         fontWeight: FontWeight.bold)),
                               ),
                             ]),
@@ -238,7 +238,7 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
                           ),
                           widget.isActive == true
                               ? Container(
-                                  width: 75,
+                                  width: 75.w,
                                   decoration: BoxDecoration(
                                       color: AppColors.greenOpacity,
                                       borderRadius: BorderRadius.circular(100)),
@@ -261,7 +261,7 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
                                   ),
                                 )
                               : Container(
-                                  width: 75,
+                                  width: 75.w,
                                   decoration: BoxDecoration(
                                       color: AppColors.redOpacity,
                                       borderRadius: BorderRadius.circular(100)),

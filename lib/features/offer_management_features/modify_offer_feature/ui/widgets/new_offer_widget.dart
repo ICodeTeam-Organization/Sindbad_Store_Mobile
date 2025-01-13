@@ -381,7 +381,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                 ActionButtonWidget(
                   title: 'تصفح المنتجات',
                   iconPath: 'assets/add.svg',
-                  width: 333,
+                  width: double.infinity,
                   height: 50,
                   onTap: () async {
                     final result = await showDialog<List<OfferProductsEntity>>(

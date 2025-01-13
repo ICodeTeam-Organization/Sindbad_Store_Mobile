@@ -71,7 +71,7 @@ class CustomDeleteDialogWidget extends StatelessWidget {
                   // Title
                   Text(
                     title,
-                    style: KTextStyle.textStyle20.copyWith(
+                    style: KTextStyle.textStyle18.copyWith(
                       color: AppColors.blackDark,
                     ),
                   ),

@@ -98,7 +98,7 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
-          top: Radius.circular(25), // Rounded top corners
+          top: Radius.circular(25.r), // Rounded top corners
         ),
       ),
       child: Column(
@@ -108,7 +108,7 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
           Container(
             decoration: BoxDecoration(
               color: AppColors.primary,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(25.r)),
             ),
             height: 75.h,
             child: Padding(
@@ -127,7 +127,7 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                     child: Icon(
                       Icons.close,
                       color: AppColors.white,
-                      size: 30,
+                      size: 30.sp,
                     ),
                   ),
                 ],
@@ -152,14 +152,14 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           color: AppColors.greyBorder,
-                          width: 1.0,
+                          width: 1.0.w,
                         ),
                         borderRadius: BorderRadius.circular(20.r),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           color: AppColors.primary,
-                          width: 1.0,
+                          width: 1.0.w,
                         ),
                         borderRadius: BorderRadius.circular(10.r),
                       ),
@@ -230,8 +230,8 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                                             children: [
                                               Image.network(
                                                 product.productImage,
-                                                width: 60.w,
-                                                height: 60.h,
+                                                width: 50.w,
+                                                height: 50.h,
                                                 fit: BoxFit.cover,
                                                 loadingBuilder:
                                                     (BuildContext context,
@@ -243,16 +243,16 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                                                   }
                                                   return Image.asset(
                                                     'assets/default_image.png',
-                                                    width: 60.w,
-                                                    height: 60.h,
+                                                    width: 50.w,
+                                                    height: 50.h,
                                                     fit: BoxFit.cover,
                                                   );
                                                 },
                                                 errorBuilder: (context, error,
                                                     stackTrace) {
                                                   return Image.asset(
-                                                      width: 60.w,
-                                                      height: 60.h,
+                                                      width: 50.w,
+                                                      height: 50.h,
                                                       fit: BoxFit.cover,
                                                       'assets/default_image.png'); // Local fallback
                                                 },
@@ -299,8 +299,8 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                         return Center(
                           child: Container(
                             color: Colors.red.shade400,
-                            height: 50,
-                            width: 300,
+                            height: 50.h,
+                            width: 300.w,
                             child: Text('لم يتم الوصول الى المعلومات'),
                           ),
                         );
@@ -321,7 +321,7 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                         child: Container(
                           alignment: Alignment.center,
                           height: 40.h,
-                          width: 100.w,
+                          width: 90.w,
                           decoration: BoxDecoration(
                             color: AppColors.greyLight,
                             borderRadius: BorderRadius.circular(5.r),
@@ -343,7 +343,7 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                         child: Container(
                           alignment: Alignment.center,
                           height: 40.h,
-                          width: 195.w,
+                          width: 180.w,
                           decoration: BoxDecoration(
                             color: AppColors.primary,
                             borderRadius: BorderRadius.circular(5.r),
