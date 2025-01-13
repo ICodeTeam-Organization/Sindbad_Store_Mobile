@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../core/shared_widgets/new_widgets/date_text_field.dart';
 import '../../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
 import 'build_image_section.dart';
 import 'build_info_row.dart';
@@ -35,9 +36,8 @@ class BuildDialogContent extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            BuildInfoRow(
+            DateTextField(
               title: firstTitle,
-              isDate: true,
               controller: dateConroller,
             ),
             SizedBox(
@@ -45,7 +45,6 @@ class BuildDialogContent extends StatelessWidget {
             ),
             BuildInfoRow(
               title: secondTitle,
-              isDate: false,
               controller: numberConroller,
             ),
             SizedBox(
@@ -53,7 +52,6 @@ class BuildDialogContent extends StatelessWidget {
             ),
             BuildInfoRow(
               title: thierdTitle,
-              isDate: false,
               controller: mountConroller,
             ),
             /////////////////////////////////
