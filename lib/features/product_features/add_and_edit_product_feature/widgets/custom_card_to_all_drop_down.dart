@@ -9,7 +9,7 @@ import 'package:sindbad_management_app/features/product_features/add_and_edit_pr
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/get_category_names_loading_widget.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/get_category_names_success_widget.dart';
 import '../../../../core/styles/text_style.dart';
-import '../domain/entities/main_category_entity.dart';
+import '../domain/entities/add_product_entities/main_category_entity.dart';
 import '../ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
 import '../ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
 

@@ -1,4 +1,4 @@
-import '../../../domain/entities/brand_entity.dart';
+import '../../../domain/entities/add_product_entities/brand_entity.dart';
 
 class Datum extends BrandEntity {
   // datum لأن فيه كلاس ثاني بنفس اسم داتا

@@ -1,4 +1,4 @@
-import '../../../domain/entities/main_category_entity.dart';
+import '../../../domain/entities/add_product_entities/main_category_entity.dart';
 import 'sub_category.dart';
 
 class Item extends MainCategoryEntity {

@@ -19,7 +19,7 @@ import '../manger/cubit/brands_by_main_category_id/cubit/get_brands_by_category_
 import '../manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
 
 class AddProductScreen extends StatelessWidget {
-    final VoidCallback? onSuccessCallback;
+  final VoidCallback? onSuccessCallback;
   const AddProductScreen({super.key, this.onSuccessCallback});
 
   @override
@@ -35,18 +35,18 @@ class AddProductScreen extends StatelessWidget {
                   create: (context) =>
                       AddProductToStoreCubit(AddProductToStoreUseCase(
                         addProductStoreRepo:
-                            getit.get<AddProductStoreRepoImpl>(),
+                            getit.get<AddAndEditProductStoreRepoImpl>(),
                       ))),
               BlocProvider(create: (context) => AddImageToProductAddCubit()),
               BlocProvider(
                   create: (context) =>
                       GetCategoryNamesCubit(GetMainAndSubCategoryUseCase(
-                        getit.get<AddProductStoreRepoImpl>(),
+                        getit.get<AddAndEditProductStoreRepoImpl>(),
                       ))),
               BlocProvider(
                   create: (context) => GetBrandsByCategoryIdCubit(
                           GetBrandsByMainCategoryIdUseCase(
-                        getit.get<AddProductStoreRepoImpl>(),
+                        getit.get<AddAndEditProductStoreRepoImpl>(),
                       ))),
               BlocProvider(create: (context) => AddAttributeProductDartCubit()),
               //

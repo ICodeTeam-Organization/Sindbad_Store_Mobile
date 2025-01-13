@@ -4,44 +4,15 @@ import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_ap
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/store_primary_button.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/custom_add_image_widget.dart';
-
-import '../../widgets/custom_dropdown_widget.dart';
 import '../../widgets/custom_simple_text_form_field.dart';
 import '../../widgets/custom_text_form_widget.dart';
 
 class EditProductScreen extends StatefulWidget {
   final int productId;
-  final String productName;
-  final String price;
-  final String productNumber;
-  final String description;
-  final List<String> mainCategoryList;
-  final String selectedCategory;
-  final List<String> subCategoryList;
-  final String selectedSubCategory;
-  final List<String> brandList;
-  final String selectedBrand;
-  final String mainImage;
-  final List<String> subImages;
-  final Map<String, dynamic> properties;
 
   const EditProductScreen({
     super.key,
     required this.productId,
-    this.productName = '',
-    this.price = '',
-    this.productNumber = '',
-    this.description = '',
-    this.mainCategoryList = const [],
-    this.selectedCategory = '',
-    this.subCategoryList = const [],
-    this.selectedSubCategory = '',
-    this.brandList = const [],
-    this.selectedBrand = '',
-    this.mainImage = '',
-    this.subImages = const [],
-    this.properties = const {},
   });
 
   @override
@@ -49,43 +20,43 @@ class EditProductScreen extends StatefulWidget {
 }
 
 class _EditProductScreenState extends State<EditProductScreen> {
-  final List<TextEditingController> _keys = [];
-  final List<TextEditingController> _values = [];
+  // final List<TextEditingController> _keys = [];
+  // final List<TextEditingController> _values = [];
 
   @override
   void initState() {
     super.initState();
     // Initialize controllers with fake data
-    widget.properties.forEach((key, value) {
-      _keys.add(TextEditingController(text: key));
-      _values.add(TextEditingController(text: value));
-    });
+    // widget.properties.forEach((key, value) {
+    //   _keys.add(TextEditingController(text: key));
+    //   _values.add(TextEditingController(text: value));
+    // });
   }
 
   @override
   void dispose() {
-    for (var controller in _keys) {
-      controller.dispose();
-    }
-    for (var controller in _values) {
-      controller.dispose();
-    }
+    // for (var controller in _keys) {
+    //   controller.dispose();
+    // }
+    // for (var controller in _values) {
+    //   controller.dispose();
+    // }
     super.dispose();
   }
 
-  void _addField() {
-    setState(() {
-      _keys.add(TextEditingController());
-      _values.add(TextEditingController());
-    });
-  }
+  // void _addField() {
+  //   setState(() {
+  //     _keys.add(TextEditingController());
+  //     _values.add(TextEditingController());
+  //   });
+  // }
 
-  void _removeField(int index) {
-    setState(() {
-      _keys.removeAt(index);
-      _values.removeAt(index);
-    });
-  }
+  // void _removeField(int index) {
+  //   setState(() {
+  //     _keys.removeAt(index);
+  //     _values.removeAt(index);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -120,61 +91,61 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                    bottom: 16.0.h,
-                                    top: 8.h,
-                                    right: 20.0.w,
-                                  ),
-                                  child: Text(
-                                    "معلومات المنتج",
-                                    style: KTextStyle.textStyle16
-                                        .copyWith(fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
-                              CustomTextFormWidget(
-                                textController: TextEditingController(
-                                    text: widget.productName),
-                                text: 'أسم المنتج',
-                                width: 334.0.w,
-                                height: 65.h,
-                              ),
-                              SizedBox(height: 10.0.h),
-                              Padding(
-                                padding: EdgeInsets.only(right: 20.0.w),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    CustomTextFormWidget(
-                                      textController: TextEditingController(
-                                          text: widget.price),
-                                      text: 'السعر',
-                                      width: 147.0.w,
-                                      height: 65.h,
-                                    ),
-                                    SizedBox(width: 36.0.w),
-                                    CustomTextFormWidget(
-                                      textController: TextEditingController(
-                                          text: widget.productNumber),
-                                      text: 'رقم المنتج',
-                                      width: 147.0.w,
-                                      height: 65.h,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 10.0.h),
-                              CustomTextFormWidget(
-                                textController: TextEditingController(
-                                    text: widget.description),
-                                text: 'وصف المنتج',
-                                width: 334.0.w,
-                                height: 200.0.h,
-                                maxLines: 5,
-                              ),
+                              // Align(
+                              //   alignment: Alignment.topRight,
+                              //   child: Padding(
+                              //     padding: EdgeInsets.only(
+                              //       bottom: 16.0.h,
+                              //       top: 8.h,
+                              //       right: 20.0.w,
+                              //     ),
+                              //     child: Text(
+                              //       "معلومات المنتج",
+                              //       style: KTextStyle.textStyle16
+                              //           .copyWith(fontWeight: FontWeight.bold),
+                              //     ),
+                              //   ),
+                              // ),
+                              // CustomTextFormWidget(
+                              //   textController: TextEditingController(
+                              //       text: widget.productName),
+                              //   text: 'أسم المنتج',
+                              //   width: 334.0.w,
+                              //   height: 65.h,
+                              // ),
+                              // SizedBox(height: 10.0.h),
+                              // Padding(
+                              //   padding: EdgeInsets.only(right: 20.0.w),
+                              //   child: Row(
+                              //     mainAxisAlignment: MainAxisAlignment.end,
+                              //     children: [
+                              //       CustomTextFormWidget(
+                              //         textController: TextEditingController(
+                              //             text: widget.price),
+                              //         text: 'السعر',
+                              //         width: 147.0.w,
+                              //         height: 65.h,
+                              //       ),
+                              //       SizedBox(width: 36.0.w),
+                              //       CustomTextFormWidget(
+                              //         textController: TextEditingController(
+                              //             text: widget.productNumber),
+                              //         text: 'رقم المنتج',
+                              //         width: 147.0.w,
+                              //         height: 65.h,
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+                              // SizedBox(height: 10.0.h),
+                              // CustomTextFormWidget(
+                              //   textController: TextEditingController(
+                              //       text: widget.description),
+                              //   text: 'وصف المنتج',
+                              //   width: 334.0.w,
+                              //   height: 200.0.h,
+                              //   maxLines: 5,
+                              // ),
                             ],
                           ),
                         ),
@@ -364,49 +335,49 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      for (int index = 0;
-                                          index < _keys.length;
-                                          index++)
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 8.0.h),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              CustomSimpleTextFormField(
-                                                textController: _keys[index],
-                                                hintText: 'خاصية',
-                                              ),
-                                              SizedBox(width: 20.w),
-                                              CustomSimpleTextFormField(
-                                                textController: _values[index],
-                                                hintText: 'قيمة',
-                                              ),
-                                              IconButton(
-                                                icon: Icon(Icons.remove_circle,
-                                                    size: 20),
-                                                onPressed: () =>
-                                                    _removeField(index),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      IconButton(
-                                        icon: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.add_circle_outline_sharp,
-                                              size: 20,
-                                              color: AppColors.primary,
-                                            ),
-                                            Text(" أضف المزيد"),
-                                          ],
-                                        ),
-                                        onPressed: _addField,
-                                      ),
+                                      // for (int index = 0;
+                                      //     index < _keys.length;
+                                      //     index++)
+                                      //   Padding(
+                                      //     padding: EdgeInsets.symmetric(
+                                      //         vertical: 8.0.h),
+                                      //     child: Row(
+                                      //       mainAxisAlignment:
+                                      //           MainAxisAlignment.center,
+                                      //       children: [
+                                      //         CustomSimpleTextFormField(
+                                      //           textController: _keys[index],
+                                      //           hintText: 'خاصية',
+                                      //         ),
+                                      //         SizedBox(width: 20.w),
+                                      //         CustomSimpleTextFormField(
+                                      //           textController: _values[index],
+                                      //           hintText: 'قيمة',
+                                      //         ),
+                                      //         IconButton(
+                                      //           icon: Icon(Icons.remove_circle,
+                                      //               size: 20),
+                                      //           onPressed: () =>
+                                      //               _removeField(index),
+                                      //         ),
+                                      //       ],
+                                      //     ),
+                                      //   ),
+                                      // IconButton(
+                                      //   icon: Row(
+                                      //     mainAxisAlignment:
+                                      //         MainAxisAlignment.center,
+                                      //     children: [
+                                      //       Icon(
+                                      //         Icons.add_circle_outline_sharp,
+                                      //         size: 20,
+                                      //         color: AppColors.primary,
+                                      //       ),
+                                      //       Text(" أضف المزيد"),
+                                      //     ],
+                                      //   ),
+                                      //   onPressed: _addField,
+                                      // ),
                                     ],
                                   ),
                                 ),

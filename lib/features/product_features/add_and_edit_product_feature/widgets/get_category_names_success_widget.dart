@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/brand_entity.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/main_category_entity.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/brand_entity.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/brands_by_main_category_id/cubit/get_brands_by_category_id_cubit.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
@@ -108,7 +108,9 @@ class GetCategoryNamesSuccessWidget extends StatelessWidget {
                   textTitle: 'أختر اسم البراند', hintText: "جاري التحميل...");
             }
             if (state is GetBrandsByCategoryIdSuccess) {
-              final List<BrandEntity> brandsWithNoFound = [BrandEntity(brandId: 000, brandNameEntity: "لا يوجد")];
+              final List<BrandEntity> brandsWithNoFound = [
+                BrandEntity(brandId: 000, brandNameEntity: "لا يوجد")
+              ];
               final List<BrandEntity> brands = state.brands;
               brandsWithNoFound.addAll(brands);
 
@@ -126,25 +128,28 @@ class GetCategoryNamesSuccessWidget extends StatelessWidget {
                 //     ? brands.first.brandNameEntity
                 //     : null, // تعيين أول عنصر إذا كانت القائمة غير فارغة
                 items: brandsWithNoFound
-                        .map((category) => category.brandNameEntity)
-                        .toList(),
+                    .map((category) => category.brandNameEntity)
+                    .toList(),
                 // brands.isNotEmpty
                 //     ? brands
                 //         .map((category) => category.brandNameEntity)
                 //         .toList()
                 //     : [],
                 onChanged: (value) {
-                  int selectedIndex = brandsWithNoFound
-                      .indexWhere((brandsWithNoFound) => brandsWithNoFound.brandNameEntity == value);
-                      print("====================  $selectedIndex  =======================");
-                  if (selectedIndex >0 ) {
-                    final int selectedBrandId = brandsWithNoFound[selectedIndex].brandId;
+                  int selectedIndex = brandsWithNoFound.indexWhere(
+                      (brandsWithNoFound) =>
+                          brandsWithNoFound.brandNameEntity == value);
+                  print(
+                      "====================  $selectedIndex  =======================");
+                  if (selectedIndex > 0) {
+                    final int selectedBrandId =
+                        brandsWithNoFound[selectedIndex].brandId;
                     //
                     cubitAddProduct.selectedBrandId = selectedBrandId;
                     // for test
                     cubitAddProduct.testDropDown();
-                  }else{
-                                        cubitAddProduct.selectedBrandId = null;
+                  } else {
+                    cubitAddProduct.selectedBrandId = null;
                     // for test
                     cubitAddProduct.testDropDown();
                   }

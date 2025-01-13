@@ -3,13 +3,15 @@ import 'dart:io';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sindbad_management_app/core/api_service.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/data/models/add_product_model.dart';
-import '../../domain/entities/add_product_entity.dart';
-import '../../domain/entities/brand_entity.dart';
-import '../../domain/entities/main_category_entity.dart';
+import '../../domain/entities/add_product_entities/add_product_entity.dart';
+import '../../domain/entities/add_product_entities/brand_entity.dart';
+import '../../domain/entities/add_product_entities/main_category_entity.dart';
+import '../../domain/entities/edit_product_entities/product_details_entity.dart';
 import '../models/brand_model/datum.dart';
 import '../models/main_and_sub_category_model/item.dart';
+import '../models/product_details_model/product_detials_model.dart';
 
-abstract class AddProductToStoreRemoteDataSource {
+abstract class AddAndEditProductToStoreRemoteDataSource {
   Future<AddProductEntity> addProductToStore({
     required String name,
     required num price,
@@ -35,10 +37,13 @@ abstract class AddProductToStoreRemoteDataSource {
   Future<List<BrandEntity>> getBrandsByMainCategoryId({
     required int mainCategoryId,
   });
+  Future<ProductDetailsEntity> getProductDetails({
+    required int productId,
+  });
 }
 
 class AddProductToStoreRemoteDataSourceImpl
-    extends AddProductToStoreRemoteDataSource {
+    extends AddAndEditProductToStoreRemoteDataSource {
   final ApiService apiService;
   final FlutterSecureStorage secureStorage;
 
@@ -133,5 +138,18 @@ class AddProductToStoreRemoteDataSourceImpl
 
     List<BrandEntity> brands = changeToDartModel(data['data'] as List<dynamic>);
     return brands;
+  }
+
+  // ============================  for get Product Details  ===========================
+  @override
+  Future<ProductDetailsEntity> getProductDetails(
+      {required int productId}) async {
+    final Map<String, dynamic> data =
+        await apiService.get(endPoint: "Products/GetProductDetails/$productId");
+
+    // change Data from JSON to DartModel
+    ProductDetailsEntity productDetailsEntity =
+        ProductDetailsModel.fromJson(data);
+    return productDetailsEntity;
   }
 }

@@ -1,12 +1,13 @@
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/main_category_entity.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
 import '../../../../../core/errors/failure.dart';
-import '../entities/add_product_entity.dart';
-import '../entities/brand_entity.dart';
+import '../entities/add_product_entities/add_product_entity.dart';
+import '../entities/add_product_entities/brand_entity.dart';
+import '../entities/edit_product_entities/product_details_entity.dart';
 
-abstract class AddProductStoreRepo {
+abstract class AddAndEditProductStoreRepo {
   Future<Either<Failure, AddProductEntity>> addProductToStore({
     required String name,
     required num price,
@@ -32,5 +33,8 @@ abstract class AddProductStoreRepo {
 
   Future<Either<Failure, List<BrandEntity>>> getBrandsByMainCategoryId({
     required int mainCategoryId,
+  });
+  Future<Either<Failure, ProductDetailsEntity>> getProductDetails({
+    required int productId,
   });
 }
