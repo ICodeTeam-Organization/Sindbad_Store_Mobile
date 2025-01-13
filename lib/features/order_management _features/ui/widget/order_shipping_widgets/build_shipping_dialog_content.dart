@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../core/shared_widgets/new_widgets/date_text_field.dart';
 import '../../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
 import '../order_details_widget/build_dialog_content.dart';
 import '../order_details_widget/build_image_section.dart';
@@ -37,9 +38,8 @@ class BuildShippingDialogContent extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            BuildInfoRow(
+            DateTextField(
               title: firstTitle,
-              isDate: true,
               controller: dateConroller,
             ),
             SizedBox(
@@ -47,7 +47,6 @@ class BuildShippingDialogContent extends StatelessWidget {
             ),
             BuildInfoRow(
               title: secondTitle,
-              isDate: false,
               controller: numberShippingConroller,
             ),
             SizedBox(
