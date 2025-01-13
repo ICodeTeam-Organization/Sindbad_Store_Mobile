@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
@@ -172,7 +173,33 @@ class _CardProductDiscountWidgetState extends State<CardProductDiscountWidget> {
                               color: AppColors.blackLight,
                             ),
                             controller: discountRateController,
-                            onChanged: _onDiscountRateChanged,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter
+                                  .digitsOnly, // Allow digits only
+                              TextInputFormatter.withFunction(
+                                  (oldValue, newValue) {
+                                if (newValue.text.isEmpty) {
+                                  return newValue;
+                                }
+                                final int? value = int.tryParse(newValue.text);
+                                if (value == null || value < 1 || value > 100) {
+                                  return oldValue; // Reject values outside the range 0-100
+                                }
+                                return newValue; // Accept valid values
+                              }),
+                            ],
+                            onChanged: (value) {
+                              if (value.isNotEmpty) {
+                                final int? number = int.tryParse(value);
+                                if (number != null &&
+                                    number >= 1 &&
+                                    number <= 100) {
+                                  _onDiscountRateChanged(
+                                      value); // Call your custom handler
+                                }
+                              }
+                            },
                             textAlign: TextAlign.center,
                             decoration: InputDecoration(
                               filled: true,
@@ -276,7 +303,51 @@ class _CardProductDiscountWidgetState extends State<CardProductDiscountWidget> {
                                   color: AppColors.primary,
                                 ),
                                 controller: newPriceController,
-                                onChanged: _onNewPriceChanged,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter
+                                      .digitsOnly, // Allow only numeric input
+                                  TextInputFormatter.withFunction(
+                                      (oldValue, newValue) {
+                                    if (newValue.text.isEmpty) {
+                                      return newValue; // Allow empty input for clearing
+                                    }
+                                    final int? value =
+                                        int.tryParse(newValue.text);
+                                    if (value == null ||
+                                        value < 1 ||
+                                        value > widget.oldPrice - 1) {
+                                      return oldValue; // Reject invalid input
+                                    }
+                                    return newValue; // Accept valid input
+                                  }),
+                                ],
+                                onChanged: (value) {
+                                  if (value.isNotEmpty) {
+                                    final int? number = int.tryParse(value);
+                                    if (number != null &&
+                                        number >= 1 &&
+                                        number <= widget.oldPrice - 1) {
+                                      _onNewPriceChanged(
+                                          value); // Handle valid input
+                                    }
+                                    // else {
+                                    //   setState(() {
+                                    //     ScaffoldMessenger.of(context)
+                                    //         .showSnackBar(
+                                    //       SnackBar(
+                                    //         content: Text(
+                                    //           'Please enter a number between 0 and 1000.',
+                                    //           style: TextStyle(
+                                    //               color: Colors.white),
+                                    //         ),
+                                    //         backgroundColor: Colors.red,
+                                    //       ),
+                                    //     );
+                                    //   });
+                                    // }
+                                  }
+                                },
                                 textAlign: TextAlign.end,
                                 decoration: InputDecoration(
                                   suffixIcon: Padding(

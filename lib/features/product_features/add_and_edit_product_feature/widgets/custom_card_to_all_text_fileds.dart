@@ -36,7 +36,7 @@ class CustomCardToAllTextFileds extends StatelessWidget {
                   .nameProductController, // ================================
               text: 'أسم المنتج',
               height: 65.h,
-              width: 400.0.w,
+              width: 400.w,
             ),
             SizedBox(height: 20.0.h),
             Row(

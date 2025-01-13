@@ -376,7 +376,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                               onTapQuit: () {
                                 setState(() {
                                   selectedItems!.removeAt(index);
-                                  listProduct.removeAt(index);
+                                  // listProduct.removeAt(index);
                                 });
                               },
                               discountRateNotifier: discountRateNotifier,
@@ -389,7 +389,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                               onTapQuit: () {
                                 setState(() {
                                   selectedItems!.removeAt(index);
-                                  listProduct.removeAt(index);
+                                  // listProduct.removeAt(index);
                                 });
                               },
                               numberToBuyNotifier: numberToBuyNotifier,

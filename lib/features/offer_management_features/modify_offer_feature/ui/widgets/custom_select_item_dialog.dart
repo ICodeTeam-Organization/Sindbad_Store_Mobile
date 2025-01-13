@@ -192,82 +192,95 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                                   .contains(query); // Search by title or ID
                         }).toList();
 
-                        return Expanded(
+                        return SizedBox(
+                          width: double.infinity,
+                          height: 450.h,
                           child: ListView.builder(
                             itemCount: itemsToShow.length,
                             itemBuilder: (context, i) {
                               final product = itemsToShow[i];
                               return Column(
                                 children: [
-                                  CheckboxListTile(
-                                    contentPadding: EdgeInsets.zero,
-                                    controlAffinity:
-                                        ListTileControlAffinity.leading,
-                                    activeColor: AppColors.primary,
-                                    side: BorderSide(color: AppColors.primary),
-                                    value: selectedItems.contains(product),
-                                    onChanged: (bool? value) {
-                                      setState(() {
-                                        if (value == true) {
-                                          selectedItems.add(product);
-                                          print(
-                                              state.offerProducts[i].productId);
-                                        } else {
-                                          selectedItems.remove(product);
-                                          print(
-                                              state.offerProducts[i].productId);
-                                        }
-                                      });
-                                    },
-                                    title: Row(
-                                      children: [
-                                        Image.network(
-                                          product.productImage,
-                                          width: 60.w,
-                                          height: 60.h,
-                                          fit: BoxFit.cover,
-                                          loadingBuilder: (BuildContext context,
-                                              Widget child,
-                                              ImageChunkEvent?
-                                                  loadingProgress) {
-                                            if (loadingProgress == null) {
-                                              return child;
-                                            }
-                                            return Image.asset(
-                                              'assets/default_image.png',
-                                              width: 60.w,
-                                              height: 60.h,
-                                              fit: BoxFit.cover,
-                                            );
+                                  Table(
+                                    children: [
+                                      TableRow(children: [
+                                        CheckboxListTile(
+                                          contentPadding: EdgeInsets.zero,
+                                          controlAffinity:
+                                              ListTileControlAffinity.leading,
+                                          activeColor: AppColors.primary,
+                                          side: BorderSide(
+                                              color: AppColors.primary),
+                                          value:
+                                              selectedItems.contains(product),
+                                          onChanged: (bool? value) {
+                                            setState(() {
+                                              if (value == true) {
+                                                selectedItems.add(product);
+                                                print(state.offerProducts[i]
+                                                    .productId);
+                                              } else {
+                                                selectedItems.remove(product);
+                                                print(state.offerProducts[i]
+                                                    .productId);
+                                              }
+                                            });
                                           },
-                                          errorBuilder:
-                                              (context, error, stackTrace) {
-                                            return Image.asset(
+                                          title: Row(
+                                            children: [
+                                              Image.network(
+                                                product.productImage,
                                                 width: 60.w,
                                                 height: 60.h,
                                                 fit: BoxFit.cover,
-                                                'assets/default_image.png'); // Local fallback
-                                          },
-                                        ),
-                                        SizedBox(width: 15.w),
-                                        SizedBox(
-                                          width: 170.w,
-                                          child: Table(
-                                            children: [
-                                              TableRow(children: [
-                                                Text(
-                                                  product.productTitle,
-                                                  style: KTextStyle.textStyle16
-                                                      .copyWith(
-                                                    color: AppColors.blackDark,
-                                                  ),
+                                                loadingBuilder:
+                                                    (BuildContext context,
+                                                        Widget child,
+                                                        ImageChunkEvent?
+                                                            loadingProgress) {
+                                                  if (loadingProgress == null) {
+                                                    return child;
+                                                  }
+                                                  return Image.asset(
+                                                    'assets/default_image.png',
+                                                    width: 60.w,
+                                                    height: 60.h,
+                                                    fit: BoxFit.cover,
+                                                  );
+                                                },
+                                                errorBuilder: (context, error,
+                                                    stackTrace) {
+                                                  return Image.asset(
+                                                      width: 60.w,
+                                                      height: 60.h,
+                                                      fit: BoxFit.cover,
+                                                      'assets/default_image.png'); // Local fallback
+                                                },
+                                              ),
+                                              SizedBox(width: 15.w),
+                                              SizedBox(
+                                                width: 170.w,
+                                                child: Table(
+                                                  children: [
+                                                    TableRow(children: [
+                                                      Text(
+                                                        product.productTitle,
+                                                        style: KTextStyle
+                                                            .textStyle16
+                                                            .copyWith(
+                                                          color: AppColors
+                                                              .blackDark,
+                                                        ),
+                                                      ),
+                                                    ])
+                                                  ],
                                                 ),
-                                              ])
+                                              )
                                             ],
                                           ),
-                                        )
-                                      ],
-                                    ),
+                                        ),
+                                      ])
+                                    ],
                                   ),
                                   Divider(),
                                 ],
@@ -278,7 +291,10 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                       } else if (state is OfferProductsFailuer) {
                         return Center(child: Text(state.errMessage));
                       } else if (state is OfferProductsLoading) {
-                        return Center(child: CircularProgressIndicator());
+                        return SizedBox(
+                            width: double.infinity,
+                            height: 450.h,
+                            child: Center(child: CircularProgressIndicator()));
                       } else {
                         return Center(
                           child: Container(

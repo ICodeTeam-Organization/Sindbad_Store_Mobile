@@ -19,12 +19,6 @@ class ViewOfferBody extends StatefulWidget {
 }
 
 class _ViewOfferBodyState extends State<ViewOfferBody> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<OfferCubit>().getOffer(10, 1);
-  }
-
   late int offerHeadId;
   @override
   Widget build(BuildContext context) {

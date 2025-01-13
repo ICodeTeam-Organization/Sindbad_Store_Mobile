@@ -1,10 +1,31 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sindbad_management_app/core/setup_service_locator.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/store_primary_button.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/section_title_widget.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/data/repos/add_product_store_repo_impl.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/main_category_entity.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/usecases/add_product_to_store_use_case.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/usecases/get_brands_by_main_category_id_use_case.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/usecases/get_main_and_sub_category_use_case.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_attribute_product.dart/add_attribute_product_dart_cubit.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_images/cubit/add_image_to_product_add_cubit.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/brands_by_main_category_id/cubit/get_brands_by_category_id_cubit.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/custom_add_image_widget.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/get_category_names_else_widget.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/get_category_names_failure_widget.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/get_category_names_initial_widget.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/get_category_names_loading_widget.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/get_category_names_success_widget.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/widgets/two_button_in_down_add_product.dart';
 
 import '../../widgets/custom_dropdown_widget.dart';
 import '../../widgets/custom_simple_text_form_field.dart';
@@ -89,359 +110,358 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CustomAppBar(
-                tital: 'تعديل منتج',
-              ),
-              SizedBox(height: 32.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.0.w),
-                child: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Card(
-                        elevation: 4.0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0.r),
-                        ),
-                        color: Colors.white,
-                        child: Container(
-                          width: 363.0.w,
-                          height: 434.0.h,
-                          margin: EdgeInsets.only(
-                            bottom: 20.0.h,
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                    bottom: 16.0.h,
-                                    top: 8.h,
-                                    right: 20.0.w,
-                                  ),
-                                  child: Text(
-                                    "معلومات المنتج",
-                                    style: KTextStyle.textStyle16
-                                        .copyWith(fontWeight: FontWeight.bold),
-                                  ),
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          // =========  initilize BlocProvider for Add Product Screen ==========
+          child: MultiBlocProvider(
+            providers: [
+              //for add product
+              BlocProvider(
+                  create: (context) =>
+                      AddProductToStoreCubit(AddProductToStoreUseCase(
+                        addProductStoreRepo:
+                            getit.get<AddProductStoreRepoImpl>(),
+                      ))),
+              BlocProvider(create: (context) => AddImageToProductAddCubit()),
+              BlocProvider(
+                  create: (context) =>
+                      GetCategoryNamesCubit(GetMainAndSubCategoryUseCase(
+                        getit.get<AddProductStoreRepoImpl>(),
+                      ))),
+              BlocProvider(
+                  create: (context) => GetBrandsByCategoryIdCubit(
+                          GetBrandsByMainCategoryIdUseCase(
+                        getit.get<AddProductStoreRepoImpl>(),
+                      ))),
+              BlocProvider(create: (context) => AddAttributeProductDartCubit()),
+              //
+            ],
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CustomAppBar(
+                  isSearch: false,
+                  tital: 'تعديل منتج',
+                ),
+                SizedBox(height: 40.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24.0.w),
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: double.maxFinite,
+                          decoration: BoxDecoration(
+                              color: AppColors.white,
+                              border: Border.all(color: AppColors.greyBorder),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                //  container Title
+                                SectionTitleWidget(title: 'معلومات المنتج'),
+                                SizedBox(height: 20.h),
+                                CustomTextFormWidget(
+                                  textController: TextEditingController(
+                                      text: widget.productName),
+                                  text: 'أسم المنتج',
+                                  height: 65.h,
+                                  width: 400.w,
                                 ),
-                              ),
-                              CustomTextFormWidget(
-                                textController: TextEditingController(
-                                    text: widget.productName),
-                                text: 'أسم المنتج',
-                                width: 334.0.w,
-                                height: 65.h,
-                              ),
-                              SizedBox(height: 10.0.h),
-                              Padding(
-                                padding: EdgeInsets.only(right: 20.0.w),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                                SizedBox(height: 20.0.h),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     CustomTextFormWidget(
                                       textController: TextEditingController(
                                           text: widget.price),
                                       text: 'السعر',
-                                      width: 147.0.w,
+                                      width: 150.w,
                                       height: 65.h,
                                     ),
-                                    SizedBox(width: 36.0.w),
                                     CustomTextFormWidget(
                                       textController: TextEditingController(
                                           text: widget.productNumber),
                                       text: 'رقم المنتج',
-                                      width: 147.0.w,
+                                      width: 150.w,
                                       height: 65.h,
                                     ),
                                   ],
                                 ),
-                              ),
-                              SizedBox(height: 10.0.h),
-                              CustomTextFormWidget(
-                                textController: TextEditingController(
-                                    text: widget.description),
-                                text: 'وصف المنتج',
-                                width: 334.0.w,
-                                height: 200.0.h,
-                                maxLines: 5,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 26.h),
-                      Card(
-                        elevation: 4.0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0.r),
-                        ),
-                        color: Colors.white,
-                        child: Container(
-                          width: 363.0.w,
-                          height: 434.0.h,
-                          margin: EdgeInsets.only(
-                            bottom: 20.0.h,
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                    bottom: 16.0.h,
-                                    top: 8.h,
-                                    right: 20.0.w,
-                                  ),
-                                  child: Text(
-                                    "أختر صورة المنتح",
-                                    style: KTextStyle.textStyle16
-                                        .copyWith(fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
-                              // CustomAddImageWidget(
-                              //   hasTileButton: true,
-                              //   containerWidth: 333,
-                              //   mainContainerHeight: 210,
-                              //   upContainerHeight: 175,
-                              //   downContainerHeight: 35,
-                              //   initialImageUrl: widget.mainImage,
-                              //   onPressed: () {},
-                              // ),
-                              SizedBox(height: 25.0.h),
-                              Padding(
-                                padding: EdgeInsets.only(left: 14.w),
-                                child: Row(
-                                  children: [
-                                    // if (widget.subImages.isNotEmpty)
-                                    //   CustomAddImageWidget(
-                                    //     initialImageUrl: widget.subImages[0],
-                                    //     onPressed: () {},
-                                    //   ),
-                                    // if (widget.subImages.length > 1)
-                                    //   SizedBox(width: 15.0.w),
-                                    // if (widget.subImages.length > 1)
-                                    //   CustomAddImageWidget(
-                                    //     initialImageUrl: widget.subImages[1],
-                                    //     onPressed: () {},
-                                    //   ),
-                                    // if (widget.subImages.length > 2)
-                                    //   SizedBox(width: 15.0.w),
-                                    // if (widget.subImages.length > 2)
-                                    //   CustomAddImageWidget(
-                                    //     initialImageUrl: widget.subImages[2],
-                                    //     onPressed: () {},
-                                    //   ),
-                                  ],
-                                ),
-                              ),
-                              // SizedBox(height: 25.0.h),
-                              // Padding(
-                              //   padding: EdgeInsets.only(left: 14.w),
-                              //   child: Row(
-                              //     children: [
-                              //       if (widget.subImages.isNotEmpty)
-                              //         CustomAddImageWidget(
-                              //           initialImageUrl: widget.subImages[0],
-                              //           onPressed: () {},
-                              //         ),
-                              //       if (widget.subImages.length > 1)
-                              //         SizedBox(width: 15.0.w),
-                              //       if (widget.subImages.length > 1)
-                              //         CustomAddImageWidget(
-                              //           initialImageUrl: widget.subImages[1],
-                              //           onPressed: () {},
-                              //         ),
-                              //       if (widget.subImages.length > 2)
-                              //         SizedBox(width: 15.0.w),
-                              //       if (widget.subImages.length > 2)
-                              //         CustomAddImageWidget(
-                              //           initialImageUrl: widget.subImages[2],
-                              //           onPressed: () {},
-                              //         ),
-                              //     ],
-                              //   ),
-                              // ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 26.h),
-                      Card(
-                        elevation: 4.0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        color: Colors.white,
-                        child: Container(
-                          width: 363.0.w,
-                          height: 440.0.h,
-                          decoration: BoxDecoration(),
-                          margin: EdgeInsets.only(bottom: 20.0.h),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                    bottom: 14.0.h,
-                                    top: 10.h,
-                                    right: 14.0.w,
-                                  ),
-                                  child: Text(
-                                    " نوع المنتج",
-                                    style: KTextStyle.textStyle16
-                                        .copyWith(fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 10.h),
-                              // CustomDropdownWidget(
-                              //   textTitle: 'أختر الفئة',
-                              //   hintText: "قم بإختيار الفئة المناسبة",
-                              //   items: widget.mainCategoryList,
-                              //   initialItem: widget.selectedCategory,
-                              // ),
-                              // SizedBox(height: 10.h),
-                              // CustomDropdownWidget(
-                              //   textTitle: 'أختر قسم الفئة',
-                              //   hintText: "قم بإختيار قسم الفئة المناسب",
-                              //   items: widget.subCategoryList,
-                              //   initialItem: widget.selectedSubCategory,
-                              // ),
-                              // SizedBox(height: 10.h),
-                              // CustomDropdownWidget(
-                              //   textTitle: 'أختر إسم البراند',
-                              //   hintText: "قم بإختيار البراند المناسب",
-                              //   items: widget.brandList,
-                              //   initialItem: widget.selectedBrand,
-                              // ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 26.h),
-                      Flexible(
-                        child: Card(
-                          elevation: 4.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          color: Colors.white,
-                          child: Container(
-                            decoration: BoxDecoration(),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Align(
-                                  alignment: Alignment.topRight,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                      bottom: 14.0.h,
-                                      top: 10.h,
-                                      right: 14.0.w,
-                                    ),
-                                    child: Text(
-                                      " خصائص المنتج",
-                                      style: KTextStyle.textStyle16.copyWith(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                ),
-                                Flexible(
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      for (int index = 0;
-                                          index < _keys.length;
-                                          index++)
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 8.0.h),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              CustomSimpleTextFormField(
-                                                textController: _keys[index],
-                                                hintText: 'خاصية',
-                                              ),
-                                              SizedBox(width: 20.w),
-                                              CustomSimpleTextFormField(
-                                                textController: _values[index],
-                                                hintText: 'قيمة',
-                                              ),
-                                              IconButton(
-                                                icon: Icon(Icons.remove_circle,
-                                                    size: 20),
-                                                onPressed: () =>
-                                                    _removeField(index),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      IconButton(
-                                        icon: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.add_circle_outline_sharp,
-                                              size: 20,
-                                              color: AppColors.primary,
-                                            ),
-                                            Text(" أضف المزيد"),
-                                          ],
-                                        ),
-                                        onPressed: _addField,
-                                      ),
-                                    ],
-                                  ),
+                                SizedBox(height: 20.h),
+                                CustomTextFormWidget(
+                                  textController: TextEditingController(
+                                      text: widget.description),
+                                  text: 'وصف المنتج',
+                                  width: 400.0.w,
+                                  height: 200.0.h,
+                                  maxLines: 5, // Allow multiple lines
                                 ),
                               ],
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                        SizedBox(height: 26.h),
+                        Container(
+                          width: double.maxFinite,
+                          decoration: BoxDecoration(
+                              color: AppColors.white,
+                              border: Border.all(color: AppColors.greyBorder),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                //  container Title
+                                SectionTitleWidget(title: "أختر صورة المنتح"),
+                                SizedBox(height: 20.h),
+                                // Add MAin image
+                                CustomAddImageWidget(
+                                  imagePartNumber: 1,
+                                  // image: cubitAddImage.mainImageProduct,
+                                  onTapPickImage: () async {
+                                    // await cubitAddImage.pickImageFromGallery(numPartImage: 1);
+                                    // cubitAddProduct.mainImageProductFile =
+                                    //     cubitAddImage.getIamgeFile(numBox: 1);
+                                    // print("image path main = ${cubitAddProduct.mainImageProduct}");
+                                  },
+                                  isForMainImage: true,
+                                  containerWidth: 400.w,
+                                  mainContainerHeight: 210.h,
+                                  upContainerHeight: 175.h,
+                                  downContainerHeight: 35.h,
+                                  onPressed: () {},
+                                ),
+                                SizedBox(height: 25.0.h),
+                                // Add Sub images
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CustomAddImageWidget(
+                                      imagePartNumber: 2,
+                                      // image: cubitAddImage.subOneImageProduct,
+                                      onTapPickImage: () async {
+                                        // await cubitAddImage.pickImageFromGallery(numPartImage: 2);
+                                        // cubitAddProduct.subOneImageProductFile =
+                                        //     cubitAddImage.getIamgeFile(numBox: 2);
+                                        // print(
+                                        //     "image path sub 1 = ${cubitAddProduct.subOneImageProduct}");
+                                      },
+                                      onPressed: () {},
+                                    ),
+                                    CustomAddImageWidget(
+                                      imagePartNumber: 3,
+                                      // image: cubitAddImage.subOneImageProduct,
+                                      onTapPickImage: () async {
+                                        // await cubitAddImage.pickImageFromGallery(numPartImage: 3);
+                                        // cubitAddProduct.subTwoImageProductFile =
+                                        //     cubitAddImage.getIamgeFile(numBox: 3);
+                                        // print(
+                                        //     "image path sub 2 = ${cubitAddProduct.subTwoImageProduct}");
+                                      },
+                                      onPressed: () {},
+                                    ),
+                                    CustomAddImageWidget(
+                                      imagePartNumber: 4,
+                                      // image: cubitAddImage.subOneImageProduct,
+                                      onTapPickImage: () async {
+                                        // await cubitAddImage.pickImageFromGallery(numPartImage: 4);
+                                        // cubitAddProduct.subThreeImageProductFile =
+                                        //     cubitAddImage.getIamgeFile(numBox: 4);
+                                        // print(
+                                        //     "image path sub 3 = ${cubitAddProduct.subThreeImageProduct}");
+                                      },
+                                      onPressed: () {},
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 26.h),
+                        Container(
+                          width: double.maxFinite,
+                          decoration: BoxDecoration(
+                              color: AppColors.white,
+                              border: Border.all(color: AppColors.greyBorder),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // container Title
+                                SectionTitleWidget(title: 'نوع المنتج'),
+                                SizedBox(height: 20.h),
+                                BlocBuilder<GetCategoryNamesCubit,
+                                    GetCategoryNamesState>(
+                                  builder: (context, state) {
+                                    if (state is GetCategoryNamesInitial) {
+                                      // عند فتح الصفحة قبل تنفيذ دالة الجلب لابد أن تعطية شكل إفتراضي
+                                      return const GetCategoryNamesInitialWidget();
+                                    }
+                                    if (state is GetCategoryNamesLoading) {
+                                      print(
+                                          "جارررررررررررررررررررررررري التحميييييييييييييييل");
+                                      return const GetCategoryNamesLoadingWidget();
+                                    }
+                                    if (state is GetCategoryNamesSuccess) {
+                                      // shortuct to access [AddProductToStoreCubit]
+                                      final AddProductToStoreCubit
+                                          cubitAddProduct = context
+                                              .read<AddProductToStoreCubit>();
+                                      // shortuct to access [GetCategoryNamesCubit]
+                                      final GetCategoryNamesCubit
+                                          cubitCategories =
+                                          context.read<GetCategoryNamesCubit>();
+
+                                      final List<MainCategoryEntity>
+                                          mainAndSubCategories =
+                                          state.categoryAndSubCategoryNames;
+
+                                      cubitAddProduct.selectedSubCategoryId =
+                                          cubitCategories.selectedSubCategories
+                                                  .isNotEmpty
+                                              ? cubitCategories
+                                                  .selectedSubCategories
+                                                  .first
+                                                  .subCategoryId
+                                              : null;
+
+                                      return GetCategoryNamesSuccessWidget(
+                                          mainAndSubCategories:
+                                              mainAndSubCategories,
+                                          cubitCategories: cubitCategories,
+                                          cubitAddProduct: cubitAddProduct);
+                                    }
+
+                                    if (state is GetCategoryNamesFailure) {
+                                      print(
+                                          "فششششششششششششششل التحميييييييييييييييل");
+                                      print(state.errMessage);
+
+                                      return const GetCategoryNamesFailureWidget();
+                                    }
+                                    // عند حدوث خطأ غير معروف
+                                    return const GetCategoryNamesElseWidget();
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 26.h),
+                        Container(
+                          width: double.maxFinite,
+                          decoration: BoxDecoration(
+                              color: AppColors.white,
+                              border: Border.all(color: AppColors.greyBorder),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SectionTitleWidget(title: "خصائص المنتج"),
+                                  SizedBox(height: 20.h),
+                                  BlocBuilder<AddAttributeProductDartCubit,
+                                          AddAttributeProductDartState>(
+                                      builder: (context, state) {
+                                    if (state
+                                        is AddAttributeProductDartSuccess) {
+                                      return SizedBox(
+                                        child: Column(
+                                          children: List.generate(
+                                              state.keys.length, (index) {
+                                            return Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 5.0.h),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  CustomSimpleTextFormField(
+                                                    textController:
+                                                        TextEditingController(
+                                                            text:
+                                                                'cubitAttribute.values[index]'),
+                                                    hintText: 'خاصية',
+                                                  ),
+                                                  SizedBox(width: 20.w),
+                                                  CustomSimpleTextFormField(
+                                                    textController:
+                                                        TextEditingController(
+                                                            text:
+                                                                'cubitAttribute.values[index]'),
+                                                    hintText: 'قيمة',
+                                                  ),
+                                                  IconButton(
+                                                    icon: Icon(
+                                                        Icons.remove_circle,
+                                                        size: 20),
+                                                    onPressed: () {
+                                                      // cubitAttribute.removeField(index);
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          }),
+                                        ),
+                                      );
+                                    }
+                                    return SizedBox(); //  working [if in Initial state or else]
+                                  }),
+                                  Center(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            // cubitAttribute.addField();
+                                          },
+                                          child: const SizedBox(
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons
+                                                      .add_circle_outline_sharp,
+                                                  size: 20,
+                                                  color: AppColors.primary,
+                                                ),
+                                                Text(" أضف المزيد"),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 10.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  StorePrimaryButton(
-                    title: "تأكيد",
-                    width: 251.w,
-                    height: 44.h,
-                    buttonColor: AppColors.primary,
-                    onTap: () {
-                      // Handle confirmation
-                    },
-                  ),
-                  SizedBox(width: 8.w),
-                  StorePrimaryButton(
-                    title: "إلغاء",
-                    width: 104.w,
-                    height: 46.h,
-                    buttonColor: AppColors.greyIcon,
-                  ),
-                ],
-              )
-            ],
+                SizedBox(height: 20.h),
+                // for tow Button in down
+                TwoButtonInDownAddproduct(),
+                SizedBox(height: 20.h),
+              ],
+            ),
           ),
         ),
       ),

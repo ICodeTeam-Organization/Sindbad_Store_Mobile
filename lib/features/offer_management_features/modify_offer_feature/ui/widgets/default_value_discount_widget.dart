@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
@@ -39,12 +40,28 @@ class _DefaultValueDiscountWidgetState
           child: TextFormField(
             initialValue: widget.discountRate.toStringAsFixed(0),
             keyboardType: TextInputType.number,
+            inputFormatters: [
+              FilteringTextInputFormatter
+                  .digitsOnly, // Allows only numeric input
+              TextInputFormatter.withFunction((oldValue, newValue) {
+                if (newValue.text.isEmpty) {
+                  return newValue;
+                }
+                final int? number = int.tryParse(newValue.text);
+                if (number == null || number < 1 || number > 100) {
+                  return oldValue; // Reject input if it's not in range 0-100
+                }
+                return newValue; // Accept valid input
+              }),
+            ],
             onChanged: (value) {
-              // Ensure value is numeric before updating
               if (value.isNotEmpty && double.tryParse(value) != null) {
-                setState(() {
-                  widget.onDiscountRateChanged(int.parse(value));
-                });
+                final int newValue = int.parse(value);
+                if (newValue >= 1 && newValue <= 100) {
+                  setState(() {
+                    widget.onDiscountRateChanged(newValue);
+                  });
+                }
               } else {
                 setState(() {
                   widget.onDiscountRateChanged(0);
