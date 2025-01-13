@@ -23,7 +23,7 @@ class CustomCardToAllDropDown extends StatelessWidget {
     // ==================== call fun fetch Main And Sub Category  ==============
     context
         .read<GetCategoryNamesCubit>()
-        .getMainAndSubCategory(filterType: 2, pageNumper: 1, pageSize: 10);
+        .getMainAndSubCategory(filterType: 2, pageNumper: 1, pageSize: 100);
 
     return Container(
       width: double.maxFinite,
