@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../../core/styles/Colors.dart';
 import '../../../../../core/styles/text_style.dart';
-import 'show_date_picker.dart';
 
 // ignore: must_be_immutable
 class BuildInfoRow extends StatelessWidget {
-  BuildInfoRow(
-      {super.key,
-      required this.title,
-      required this.isDate,
-      required this.controller});
+  BuildInfoRow({super.key, required this.title, required this.controller});
   final String title;
-  final bool isDate;
   TextEditingController controller = TextEditingController();
 
   @override
@@ -37,13 +30,9 @@ class BuildInfoRow extends StatelessWidget {
               // width: 200.w,
               height: 48.h,
               child: TextField(
-                readOnly: isDate,
                 keyboardType: TextInputType.number,
                 controller: controller,
                 decoration: InputDecoration(
-                  prefixIcon: isDate
-                      ? ShowDatePicker() // أيقونة التاريخ
-                      : null,
                   contentPadding:
                       EdgeInsets.symmetric(vertical: 5.h, horizontal: 10.w),
                   border: OutlineInputBorder(
@@ -63,3 +52,5 @@ class BuildInfoRow extends StatelessWidget {
     );
   }
 }
+
+// ignore: must_be_immutable
