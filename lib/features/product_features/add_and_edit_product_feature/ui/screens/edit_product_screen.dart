@@ -6,6 +6,7 @@ import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/a.dart';
 import '../../domain/entities/edit_product_entities/product_details_entity.dart';
+import '../../domain/entities/edit_product_entities/product_images_entity.dart';
 import '../widgets/custom_add_image_widget.dart';
 import '../widgets/custom_simple_text_form_field.dart';
 import '../widgets/custom_text_form_widget.dart';
@@ -25,11 +26,13 @@ class EditProductScreen extends StatefulWidget {
 }
 
 class _EditProductScreenState extends State<EditProductScreen> {
+  late List<ProductImagesEntity> subImagesProduct;
   // final List<TextEditingController> _keys = [];
   // final List<TextEditingController> _values = [];
 
   @override
   void initState() {
+    subImagesProduct = widget.productDetailsEntity.imagesProduct;
     super.initState();
     // Initialize controllers with fake data
     // widget.properties.forEach((key, value) {
@@ -210,16 +213,27 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    // CustomBoxAddImageForEditProductScreen(
-                                    //   boxNumber: 2,
-                                    // ),
-                                    // CustomBoxAddImageForEditProductScreen(
-                                    //   boxNumber: 3,
-                                    // ),
-                                    // CustomBoxAddImageForEditProductScreen(
-                                    //   boxNumber: 4,
-                                    // ),
-                                    //   ),
+                                    CustomBoxAddImageForEditProductScreen(
+                                      boxNumber: 2,
+                                      initialImageUrl: subImagesProduct
+                                              .isNotEmpty
+                                          ? subImagesProduct[0].imageUrlProduct
+                                          : null,
+                                    ),
+                                    CustomBoxAddImageForEditProductScreen(
+                                      boxNumber: 3,
+                                      initialImageUrl: subImagesProduct.length >
+                                              1
+                                          ? subImagesProduct[1].imageUrlProduct
+                                          : null,
+                                    ),
+                                    CustomBoxAddImageForEditProductScreen(
+                                      boxNumber: 4,
+                                      initialImageUrl: subImagesProduct.length >
+                                              2
+                                          ? subImagesProduct[2].imageUrlProduct
+                                          : null,
+                                    ),
                                   ],
                                 ),
                               ),
