@@ -30,44 +30,46 @@ class _RootState extends State<Root> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Main content (IndexedStack)
-          IndexedStack(
-            index: myIndex,
-            children: widgetList,
-          ),
-          // CustomBottomNavigationBar positioned at the bottom
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: CustomBottomNavigationBar(
-              currentIndex: myIndex,
-              onTap: (index) {
-                setState(() {
-                  myIndex = index;
-                });
-              },
-              items: [
-                CustomBottomNavigationBarItem(
-                  icon: 'assets/logo_orders.svg',
-                  label: 'الطلبات',
-                ),
-                CustomBottomNavigationBarItem(
-                  icon: 'assets/logo_products.svg',
-                  label: 'المنتجات',
-                ),
-                CustomBottomNavigationBarItem(
-                  icon: 'assets/logo_offers.svg',
-                  label: 'العروض',
-                ),
-                CustomBottomNavigationBarItem(
-                  icon: 'assets/logo_reports.svg',
-                  label: 'التقارير',
-                ),
-              ],
+      body: SafeArea(
+        child: Stack(
+          children: [
+            // Main content (IndexedStack)
+            IndexedStack(
+              index: myIndex,
+              children: widgetList,
             ),
-          ),
-        ],
+            // CustomBottomNavigationBar positioned at the bottom
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: CustomBottomNavigationBar(
+                currentIndex: myIndex,
+                onTap: (index) {
+                  setState(() {
+                    myIndex = index;
+                  });
+                },
+                items: [
+                  CustomBottomNavigationBarItem(
+                    icon: 'assets/logo_orders.svg',
+                    label: 'الطلبات',
+                  ),
+                  CustomBottomNavigationBarItem(
+                    icon: 'assets/logo_products.svg',
+                    label: 'المنتجات',
+                  ),
+                  CustomBottomNavigationBarItem(
+                    icon: 'assets/logo_offers.svg',
+                    label: 'العروض',
+                  ),
+                  CustomBottomNavigationBarItem(
+                    icon: 'assets/logo_reports.svg',
+                    label: 'التقارير',
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

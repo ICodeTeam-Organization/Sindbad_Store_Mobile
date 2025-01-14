@@ -227,7 +227,7 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                             ),
                             if (i == state.offer.length - 1)
                               SizedBox(
-                                height: 110,
+                                height: 120.h,
                               ),
                           ],
                         );
