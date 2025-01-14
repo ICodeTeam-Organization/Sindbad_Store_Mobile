@@ -456,7 +456,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20.h),
                 // for tow Button in down
                 TwoButtonInDownAddproduct(),
                 SizedBox(height: 20.h),

@@ -44,7 +44,7 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                         .watch<ButtonDisableCubit>()
                         .state
                         .isButtonEnabled(idOrders.toString()),
-                    width: 160.w,
+                    width: 150.w,
                     title: 'شحن الطلب',
                     icon: Icons.local_shipping_outlined,
                     onTap: () {
@@ -180,7 +180,7 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                   ),
                   StorePrimaryButton(
                     icon: Icons.receipt_long_outlined,
-                    width: 160.w,
+                    width: 150.w,
                     title: 'طباعة العنوان',
                     // buttonColor: AppColors.redOpacity,
                     // textColor: AppColors.redColor,

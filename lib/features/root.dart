@@ -29,9 +29,9 @@ class _RootState extends State<Root> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Stack(
+    return SafeArea(
+      child: Scaffold(
+        body: Stack(
           children: [
             // Main content (IndexedStack)
             IndexedStack(

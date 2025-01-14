@@ -287,6 +287,7 @@ class _CardProductDiscountWidgetState extends State<CardProductDiscountWidget> {
                         ),
                         // New Price
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               'السعر النهائي',

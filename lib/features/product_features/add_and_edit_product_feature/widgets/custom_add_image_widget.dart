@@ -28,7 +28,7 @@ class CustomAddImageWidget extends StatelessWidget {
 
   CustomAddImageWidget(
       {super.key,
-      this.containerWidth = 100.46,
+      this.containerWidth = 85,
       this.mainContainerHeight = 117,
       this.upContainerHeight = 82,
       this.downContainerHeight = 35,

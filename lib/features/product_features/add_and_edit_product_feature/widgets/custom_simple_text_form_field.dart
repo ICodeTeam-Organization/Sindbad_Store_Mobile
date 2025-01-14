@@ -13,7 +13,7 @@ class CustomSimpleTextFormField extends StatelessWidget {
     super.key,
     required this.textController,
     this.hintText = "",
-    this.width = 130.0,
+    this.width = 100.0,
     this.height = 48.0,
   });
 

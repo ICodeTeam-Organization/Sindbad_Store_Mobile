@@ -21,81 +21,83 @@ class TwoButtonInDownAddproduct extends StatelessWidget {
         context.read<AddProductToStoreCubit>();
     final AddAttributeProductDartCubit cubitAddAttribute =
         context.read<AddAttributeProductDartCubit>();
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-                    // ============  Done button  ================
-        BlocConsumer<AddProductToStoreCubit, AddProductToStoreState>(
-          listener: (context, state) {
-            if (state is AddProductToStoreSuccess) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('تم إضافة المنتج بنجاح!')),
-              );
-              // Trigger the callback to refresh parent screen
-              if (onSuccessCallback != null) {
-                onSuccessCallback!();
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // ============  Done button  ================
+          BlocConsumer<AddProductToStoreCubit, AddProductToStoreState>(
+            listener: (context, state) {
+              if (state is AddProductToStoreSuccess) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('تم إضافة المنتج بنجاح!')),
+                );
+                // Trigger the callback to refresh parent screen
+                if (onSuccessCallback != null) {
+                  onSuccessCallback!();
+                }
+                context.go(AppRouter.storeRouters.root);
+                // Navigator.of(context).pop(); // close add pruduct
+                // context.go(AppRouter.storeRouters.root);
+                // ====  to refrech view pruduct page ====
+                // contextPerant
+                //     .read<GetStoreProductsWithFilterCubit>()
+                //     .getStoreProductsWitheFilter(
+                //       storeProductsFilter: storeProductsFilter,
+                //       pageNumper: 1,
+                //       pageSize: 100,
+                //     );
+              } else if (state is AddProductToStoreFailure) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(state.errMessage)),
+                );
               }
-              context.go(AppRouter.storeRouters.root);
-              // Navigator.of(context).pop(); // close add pruduct
-              // context.go(AppRouter.storeRouters.root);
-              // ====  to refrech view pruduct page ====
-              // contextPerant
-              //     .read<GetStoreProductsWithFilterCubit>()
-              //     .getStoreProductsWitheFilter(
-              //       storeProductsFilter: storeProductsFilter,
-              //       pageNumper: 1,
-              //       pageSize: 100,
-              //     );
-            } else if (state is AddProductToStoreFailure) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.errMessage)),
+            },
+            builder: (context, state) {
+              debugPrint("===========  $state  ========");
+              return StorePrimaryButton(
+                isLoading: state is AddProductToStoreLoading,
+                onTap: () {
+                  cubitAddProduct.keys =
+                      cubitAddAttribute.keys; // == important befor test
+                  cubitAddProduct.values =
+                      cubitAddAttribute.values; // == important befor test
+                  cubitAddProduct.addProductToStore();
+                },
+                title: "تأكيد",
+                width: 200.w,
+                height: 44.h,
+                buttonColor: AppColors.primary,
               );
-            }
-          },
-          builder: (context, state) {
-            debugPrint("===========  $state  ========");
-            return StorePrimaryButton(
-              isLoading: state is AddProductToStoreLoading,
-              onTap: () {
-                cubitAddProduct.keys =
-                    cubitAddAttribute.keys; // == important befor test
-                cubitAddProduct.values =
-                    cubitAddAttribute.values; // == important befor test
-                cubitAddProduct.addProductToStore();
-              },
-              title: "تأكيد",
-              width: 251.w,
-              height: 44.h,
-              buttonColor: AppColors.primary,
-            );
-          },
-
-        ),
-        SizedBox(
-          width: 8.w,
-        ),
-                // ============  Cancel button  ================
-        StorePrimaryButton(
-                    // onTap: () => Navigator.of(context).pop(),
-          onTap: () {
-            context.go(AppRouter.storeRouters.root);
-            // cubitRefrechViewProduct.getStoreProductsWitheFilter(
-            //   storeProductsFilter: 0,
-            //   pageNumper: 1,
-            //   pageSize: 100,
-            // );
-            // Trigger the callback to refresh parent screen
-            // if (onSuccessCallback != null) {
-            //   onSuccessCallback!();
-            // }
-            // Navigator.of(context).pop();
-          },
-          title: "إلغاء",
-          width: 104.w,
-          height: 46.h,
-          buttonColor: AppColors.greyIcon,
-        ),
-      ],
+            },
+          ),
+          SizedBox(
+            width: 8.w,
+          ),
+          // ============  Cancel button  ================
+          StorePrimaryButton(
+            // onTap: () => Navigator.of(context).pop(),
+            onTap: () {
+              context.go(AppRouter.storeRouters.root);
+              // cubitRefrechViewProduct.getStoreProductsWitheFilter(
+              //   storeProductsFilter: 0,
+              //   pageNumper: 1,
+              //   pageSize: 100,
+              // );
+              // Trigger the callback to refresh parent screen
+              // if (onSuccessCallback != null) {
+              //   onSuccessCallback!();
+              // }
+              // Navigator.of(context).pop();
+            },
+            title: "إلغاء",
+            width: 100.w,
+            height: 46.h,
+            buttonColor: AppColors.greyIcon,
+          ),
+        ],
+      ),
     );
   }
 }

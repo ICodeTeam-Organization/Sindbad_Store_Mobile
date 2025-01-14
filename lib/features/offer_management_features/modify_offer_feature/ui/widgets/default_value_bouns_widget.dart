@@ -28,10 +28,20 @@ class DefaultValueBounsWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'كمية شراء المنتج المطلوبة للحصول على العرض ',
-              style: KTextStyle.textStyle9.copyWith(
-                color: AppColors.blackDark,
+            Expanded(
+              child: Table(
+                children: [
+                  TableRow(
+                    children: [
+                      Text(
+                        'كمية شراء المنتج المطلوبة للحصول على العرض ',
+                        style: KTextStyle.textStyle9.copyWith(
+                          color: AppColors.blackDark,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
             CounterQuantityWidget(
@@ -44,10 +54,20 @@ class DefaultValueBounsWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'الكمية التي سيحصل عليها العميل من نفس المنتج ',
-              style: KTextStyle.textStyle9.copyWith(
-                color: AppColors.blackDark,
+            Expanded(
+              child: Table(
+                children: [
+                  TableRow(
+                    children: [
+                      Text(
+                        'الكمية التي سيحصل عليها العميل من نفس المنتج ',
+                        style: KTextStyle.textStyle9.copyWith(
+                          color: AppColors.blackDark,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
             CounterQuantityWidget(

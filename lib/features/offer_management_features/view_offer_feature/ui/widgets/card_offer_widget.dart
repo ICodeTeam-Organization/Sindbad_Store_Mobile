@@ -118,7 +118,7 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
               children: [
                 Padding(
                   padding:
-                      EdgeInsets.only(top: 20.h, bottom: 20.h, right: 20.w),
+                      EdgeInsets.only(top: 20.h, bottom: 20.h, right: 10.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -289,7 +289,7 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(25.0),
+                  padding: EdgeInsets.only(top: 20.h, bottom: 20.h, left: 10.w),
                   child: Column(
                     children: [
                       isRemainingDays == true

@@ -450,7 +450,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                       child: Container(
                         alignment: Alignment.center,
                         height: 40.h,
-                        width: 100.w,
+                        width: 80.w,
                         decoration: BoxDecoration(
                           color: AppColors.greyLight,
                           borderRadius: BorderRadius.circular(5.r),
@@ -561,7 +561,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                           child: Container(
                             alignment: Alignment.center,
                             height: 40.h,
-                            width: 195.w,
+                            width: 180.w,
                             decoration: BoxDecoration(
                               color: AppColors.primary,
                               borderRadius: BorderRadius.circular(5.r),

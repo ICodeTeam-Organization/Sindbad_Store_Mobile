@@ -101,101 +101,108 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
           top: Radius.circular(25.r), // Rounded top corners
         ),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // App Bar
-          Container(
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(25.r)),
-            ),
-            height: 75.h,
-            child: Padding(
-              padding: const EdgeInsets.all(15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'اضافة منتجات العرض',
-                    style: KTextStyle.textStyle18.copyWith(
-                      color: AppColors.white,
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () => Navigator.of(context).pop(),
-                    child: Icon(
-                      Icons.close,
-                      color: AppColors.white,
-                      size: 30.sp,
-                    ),
-                  ),
-                ],
-              ),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: AppColors.white, // Color of the bottom border
+              width: 10.w, // Width of the bottom border
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: SizedBox(
-              height: 600.h,
+        ),
+        child: Stack(
+          children: [
+            // App Bar
+            Align(
+              alignment: Alignment.topCenter,
               child: Column(
                 children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(25.r)),
+                    ),
+                    height: 75.h,
+                    child: Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'اضافة منتجات العرض',
+                            style: KTextStyle.textStyle18.copyWith(
+                              color: AppColors.white,
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () => Navigator.of(context).pop(),
+                            child: Icon(
+                              Icons.close,
+                              color: AppColors.white,
+                              size: 30.sp,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   // Search Bar
-                  TextField(
-                    controller: searchController,
-                    decoration: InputDecoration(
-                      hintText: 'بحث عن رقم المنتج او اسمه',
-                      hintStyle: KTextStyle.textStyle14.copyWith(
-                        color: AppColors.greyDark,
-                      ),
-                      prefixIcon: Icon(Icons.search),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: AppColors.greyBorder,
-                          width: 1.0.w,
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: TextField(
+                      controller: searchController,
+                      decoration: InputDecoration(
+                        hintText: 'بحث عن رقم المنتج او اسمه',
+                        hintStyle: KTextStyle.textStyle14.copyWith(
+                          color: AppColors.greyDark,
                         ),
-                        borderRadius: BorderRadius.circular(20.r),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: AppColors.primary,
-                          width: 1.0.w,
+                        prefixIcon: Icon(Icons.search),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: AppColors.greyBorder,
+                            width: 1.0.w,
+                          ),
+                          borderRadius: BorderRadius.circular(20.r),
                         ),
-                        borderRadius: BorderRadius.circular(10.r),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: AppColors.primary,
+                            width: 1.0.w,
+                          ),
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
                       ),
                     ),
                   ),
                   SizedBox(
                     height: 10.h,
                   ),
-                  // Item List
-                  BlocBuilder<OfferProductsCubit, OfferProductsState>(
-                    builder: (context, state) {
-                      if (state is OfferProductsSuccess) {
-                        // Apply search filter on the complete list of products
-                        final allProducts = state.offerProducts;
-                        final mergedList = [
-                          ...selectedItems, // Include selected items first
-                          ...allProducts.where((item) => !selectedItems.any(
-                              (selectedItem) =>
-                                  selectedItem.productId ==
-                                  item.productId)), // Include non-selected items
-                        ];
+                  Expanded(
+                    child: BlocBuilder<OfferProductsCubit, OfferProductsState>(
+                      builder: (context, state) {
+                        if (state is OfferProductsSuccess) {
+                          // Apply search filter on the complete list of products
+                          final allProducts = state.offerProducts;
+                          final mergedList = [
+                            ...selectedItems, // Include selected items first
+                            ...allProducts.where((item) => !selectedItems.any(
+                                (selectedItem) =>
+                                    selectedItem.productId ==
+                                    item.productId)), // Include non-selected items
+                          ];
 
-                        final query = searchController.text.toLowerCase();
-                        final itemsToShow = mergedList.where((item) {
-                          return item.productTitle
-                                  .toLowerCase()
-                                  .contains(query) ||
-                              item.productId
-                                  .toString()
-                                  .contains(query); // Search by title or ID
-                        }).toList();
+                          final query = searchController.text.toLowerCase();
+                          final itemsToShow = mergedList.where((item) {
+                            return item.productTitle
+                                    .toLowerCase()
+                                    .contains(query) ||
+                                item.productId
+                                    .toString()
+                                    .contains(query); // Search by title or ID
+                          }).toList();
 
-                        return SizedBox(
-                          width: double.infinity,
-                          height: 450.h,
-                          child: ListView.builder(
+                          return ListView.builder(
                             itemCount: itemsToShow.length,
                             itemBuilder: (context, i) {
                               final product = itemsToShow[i];
@@ -259,7 +266,7 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                                               ),
                                               SizedBox(width: 15.w),
                                               SizedBox(
-                                                width: 170.w,
+                                                width: 100.w,
                                                 child: Table(
                                                   children: [
                                                     TableRow(children: [
@@ -286,32 +293,36 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                                 ],
                               );
                             },
-                          ),
-                        );
-                      } else if (state is OfferProductsFailuer) {
-                        return Center(child: Text(state.errMessage));
-                      } else if (state is OfferProductsLoading) {
-                        return SizedBox(
-                            width: double.infinity,
-                            height: 450.h,
-                            child: Center(child: CircularProgressIndicator()));
-                      } else {
-                        return Center(
-                          child: Container(
-                            color: Colors.red.shade400,
-                            height: 50.h,
-                            width: 300.w,
-                            child: Text('لم يتم الوصول الى المعلومات'),
-                          ),
-                        );
-                      }
-                    },
+                          );
+                        } else if (state is OfferProductsFailuer) {
+                          return Center(child: Text(state.errMessage));
+                        } else if (state is OfferProductsLoading) {
+                          return Center(child: CircularProgressIndicator());
+                        } else {
+                          return Center(
+                            child: Container(
+                              color: Colors.red.shade400,
+                              height: 50.h,
+                              child: Text('لم يتم الوصول الى المعلومات'),
+                            ),
+                          );
+                        }
+                      },
+                    ),
                   ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  // Bottom Buttons
-                  Row(
+                ],
+              ),
+            ),
+            // Bottom Buttons
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                alignment: Alignment.bottomCenter,
+                color: AppColors.white,
+                height: 70.h,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       InkWell(
@@ -321,7 +332,7 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                         child: Container(
                           alignment: Alignment.center,
                           height: 40.h,
-                          width: 90.w,
+                          width: 70.w,
                           decoration: BoxDecoration(
                             color: AppColors.greyLight,
                             borderRadius: BorderRadius.circular(5.r),
@@ -343,7 +354,7 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                         child: Container(
                           alignment: Alignment.center,
                           height: 40.h,
-                          width: 180.w,
+                          width: 170.w,
                           decoration: BoxDecoration(
                             color: AppColors.primary,
                             borderRadius: BorderRadius.circular(5.r),
@@ -358,11 +369,11 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
