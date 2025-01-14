@@ -67,6 +67,23 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
 
   @override
   void initState() {
+    widget.listProducts.forEach((offer) {
+      print('''
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+OfferHeadOffer:
+id: ${offer.id},
+productId: ${offer.productId},
+productTitle: ${offer.productTitle},
+productImage: ${offer.productImage},
+oldPrice: ${offer.oldPrice},
+newPrice: ${offer.newPrice},
+discountRate: ${offer.discountRate},
+numberToBuy: ${offer.numberToBuy},
+numberToGet: ${offer.numberToGet},
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+                            ''');
+    });
+
     super.initState();
     offerTitleConroller = TextEditingController(text: widget.offerTitle);
     startOfferConroller =
@@ -146,7 +163,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
           calculateNewPrice(item.oldPrice!, discountRateNotifier.value).toInt();
 
       OfferHeadOffer offer = OfferHeadOffer(
-        id: item.productId,
+        id: item.id,
         productId: item.productId,
         type: offerType,
         startDate: startOfferFormat,
@@ -280,7 +297,29 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                   ],
                 ),
                 SizedBox(height: 40.h),
-                SectionTitleWidget(title: 'القيمة الأفتراضية'),
+                InkWell(
+                    onTap: () {
+                      listProduct.forEach((offer) {
+                        print('''
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+OfferHeadOffer:
+id: ${offer.id},
+productId: ${offer.productId},
+name: ${offer.name},
+mainImageUrl: ${offer.mainImageUrl},
+type: ${offer.type},
+percentage: ${offer.percentage},
+priceBeforeDiscount: ${offer.priceBeforeDiscount},
+finalPrice: ${offer.finalPrice},
+amountToBuy: ${offer.amountToBuy},
+amountToGet: ${offer.amountToGet},
+startDate: ${offer.startDate},
+endDate: ${offer.endDate},
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+                            ''');
+                      });
+                    },
+                    child: SectionTitleWidget(title: 'القيمة الأفتراضية')),
                 SizedBox(height: 20.h),
                 isDiscountDefaultValue
                     ? DefaultValueDiscountWidget(
@@ -500,6 +539,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
 
                             listProduct = selectedItems!.map((item) {
                               return OfferHeadOffer(
+                                id: item.id,
                                 productId: item.productId,
                                 name: item.productTitle,
                                 mainImageUrl: item.productImage,
@@ -525,6 +565,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                               print('''
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 OfferHeadOffer:
+id: ${offer.id},
 productId: ${offer.productId},
 name: ${offer.name},
 mainImageUrl: ${offer.mainImageUrl},

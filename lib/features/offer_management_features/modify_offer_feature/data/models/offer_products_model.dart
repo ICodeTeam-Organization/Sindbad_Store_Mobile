@@ -18,6 +18,7 @@ class OfferProductsModel extends OfferProductsEntity {
     this.mainImageUrl,
     this.description,
   }) : super(
+          id: 0,
           productId: id ?? 0,
           productTitle: name ?? '',
           productImage: mainImageUrl ?? '',

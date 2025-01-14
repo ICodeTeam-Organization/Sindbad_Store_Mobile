@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
@@ -19,6 +20,12 @@ class ViewOfferBody extends StatefulWidget {
 }
 
 class _ViewOfferBodyState extends State<ViewOfferBody> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<OfferCubit>().getOffer(10, 1);
+  }
+
   late int offerHeadId;
   @override
   Widget build(BuildContext context) {
@@ -218,6 +225,10 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                                 },
                               ),
                             ),
+                            if (i == state.offer.length - 1)
+                              SizedBox(
+                                height: 110,
+                              ),
                           ],
                         );
                       },
