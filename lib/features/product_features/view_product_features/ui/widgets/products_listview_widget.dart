@@ -144,25 +144,25 @@ class ProductsListView extends StatelessWidget {
                                     context.read<ProductDetailsCubit>(),
                               );
                             },
-                            reactivate: storeProductsFilter != 2
-                                ? null
-                                : true, // if storeProductsFilter == 2 => for reactivate product
+                            reactivate: storeProductsFilter == 2
+                                ? true
+                                : null, // if storeProductsFilter == 2 => for reactivate product
                             onTapDeleteOrReactivate: () {
-                              storeProductsFilter !=
+                              storeProductsFilter ==
                                       2 // if storeProductsFilter == 2 => for reactivate product
-                                  ? showDeleteProductDialog(
-                                      contextPerant: context,
-                                      productId: product.productid!,
-                                      storeProductsFilter: storeProductsFilter,
-                                      deleteProductCubit: context.read<
-                                          DeleteProductByIdFromStoreCubit>(), // Pass the cubit
-                                    )
-                                  : showActivateProductDialog(
+                                  ? showActivateProductDialog(
                                       contextPerant: context,
                                       productId: product.productid!,
                                       storeProductsFilter: storeProductsFilter,
                                       activateProductsCubit: context
                                           .read<ActivateProductsByIdsCubit>(),
+                                    )
+                                  : showDeleteProductDialog(
+                                      contextPerant: context,
+                                      productId: product.productid!,
+                                      storeProductsFilter: storeProductsFilter,
+                                      deleteProductCubit: context.read<
+                                          DeleteProductByIdFromStoreCubit>(), // Pass the cubit
                                     );
                             },
                           ),
@@ -300,12 +300,16 @@ void showGetProductDetailsDialog({
               Navigator.of(dialogContext, rootNavigator: true).pop();
               contextParent.push(
                 AppRouter.storeRouters.kStoreEditProduct,
-                extra: 355, // Pass the product ID here
+                extra: state.productDetailsEntity, // Pass the product ID here
               );
-              debugPrint("ProductDetailsSuccess");
+              debugPrint(
+                  "=============  ${state.productDetailsEntity.nameProduct}  ==============");
+              debugPrint(
+                  "=============  ${state.productDetailsEntity.mainImageUrlProduct}  ==============");
             } else if (state is ProductDetailsFailure) {
               Navigator.of(dialogContext, rootNavigator: true).pop();
-              debugPrint("ProductDetailsFailure");
+              debugPrint(
+                  "=============  فشل في جلب بيانات المنتج  ==============");
               debugPrint(state.errMessage);
               ScaffoldMessenger.of(dialogContext).showSnackBar(
                 SnackBar(content: Text(state.errMessage)),
@@ -347,82 +351,3 @@ void showGetProductDetailsDialog({
     },
   );
 }
-
-// void showGetProductDetailsDialog({
-//   required BuildContext contextParent,
-//   // required int productId,
-//   required ProductDetailsCubit productDetailsCubit, // Add this parameter
-// }) {
-//   showDialog(
-//     context: contextParent,
-//     builder: (BuildContext dialogContext) {
-//       return BlocProvider.value(
-//         value: productDetailsCubit, // Provide the cubit explicitly
-//         child: BlocConsumer<ProductDetailsCubit, ProductDetailsState>(
-//           listener: (dialogContext, state) {
-//             if (state is ProductDetailsSuccess) {
-//               Navigator.of(dialogContext, rootNavigator: true)
-//                   .pop(); // Close dialog
-//               contextParent.push(AppRouter.storeRouters.kStoreEditProduct,
-//                   extra: 355 // here pass the product id
-//                   );
-//               debugPrint(
-//                   "=================  ProductDetailsSuccess  ==================");
-//               debugPrint(state.productDetailsEntity.nameProduct);
-//               debugPrint(
-//                   "=================  ProductDetailsSuccess  ==================");
-//               // ScaffoldMessenger.of(dialogContext).showSnackBar(
-//               //   SnackBar(content: Text('تم إعادة تنشيط المنتج بنجاح!')),
-//               // );
-//               // Navigator.of(dialogContext, rootNavigator: true)
-//               //     .pop(); // Close dialog
-//               // contextPerant
-//               //     .read<GetStoreProductsWithFilterCubit>()
-//               //     .getStoreProductsWitheFilter(
-//               //       storeProductsFilter: storeProductsFilter,
-//               //       pageNumper: 1,
-//               //       pageSize: 100,
-//               //     );
-//             } else if (state is ProductDetailsFailure) {
-//               Navigator.of(dialogContext, rootNavigator: true).pop();
-//               debugPrint(
-//                   "=================  ProductDetailsFailure  ==================");
-//               debugPrint(state.errMessage);
-//               debugPrint(
-//                   "=================  ProductDetailsFailure  ==================");
-//               ScaffoldMessenger.of(dialogContext).showSnackBar(
-//                 SnackBar(content: Text(state.errMessage)),
-//               );
-//             }
-//           },
-//           builder: (dialogContext, state) {
-//             return DecoratedBox(
-//               decoration: BoxDecoration(
-//                 color: Colors.white,
-//                 borderRadius: BorderRadius.circular(12),
-//               ),
-//               child: Padding(
-//                 padding: const EdgeInsets.all(15),
-//                 child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.center,
-//                   mainAxisAlignment: MainAxisAlignment.center,
-//                   mainAxisSize: MainAxisSize.min,
-//                   children: [
-//                     CircularProgressIndicator(
-//                       color: AppColors.primary,
-//                     ),
-//                     SizedBox(height: 15),
-//                     Text(
-//                       "جاري جلب بيانات المنتج...",
-//                       style: KTextStyle.textStyle20,
-//                     )
-//                   ],
-//                 ),
-//               ),
-//             );
-//           },
-//         ),
-//       );
-//     },
-//   );
-// }

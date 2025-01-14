@@ -4,15 +4,20 @@ import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_ap
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/store_primary_button.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/a.dart';
+import '../../domain/entities/edit_product_entities/product_details_entity.dart';
+import '../widgets/custom_add_image_widget.dart';
 import '../widgets/custom_simple_text_form_field.dart';
 import '../widgets/custom_text_form_widget.dart';
 
 class EditProductScreen extends StatefulWidget {
-  final int productId;
+  // final int productId;
+  final ProductDetailsEntity productDetailsEntity;
 
   const EditProductScreen({
     super.key,
-    required this.productId,
+    required this.productDetailsEntity,
+    // required this.productId,
   });
 
   @override
@@ -91,61 +96,66 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              // Align(
-                              //   alignment: Alignment.topRight,
-                              //   child: Padding(
-                              //     padding: EdgeInsets.only(
-                              //       bottom: 16.0.h,
-                              //       top: 8.h,
-                              //       right: 20.0.w,
-                              //     ),
-                              //     child: Text(
-                              //       "معلومات المنتج",
-                              //       style: KTextStyle.textStyle16
-                              //           .copyWith(fontWeight: FontWeight.bold),
-                              //     ),
-                              //   ),
-                              // ),
-                              // CustomTextFormWidget(
-                              //   textController: TextEditingController(
-                              //       text: widget.productName),
-                              //   text: 'أسم المنتج',
-                              //   width: 334.0.w,
-                              //   height: 65.h,
-                              // ),
-                              // SizedBox(height: 10.0.h),
-                              // Padding(
-                              //   padding: EdgeInsets.only(right: 20.0.w),
-                              //   child: Row(
-                              //     mainAxisAlignment: MainAxisAlignment.end,
-                              //     children: [
-                              //       CustomTextFormWidget(
-                              //         textController: TextEditingController(
-                              //             text: widget.price),
-                              //         text: 'السعر',
-                              //         width: 147.0.w,
-                              //         height: 65.h,
-                              //       ),
-                              //       SizedBox(width: 36.0.w),
-                              //       CustomTextFormWidget(
-                              //         textController: TextEditingController(
-                              //             text: widget.productNumber),
-                              //         text: 'رقم المنتج',
-                              //         width: 147.0.w,
-                              //         height: 65.h,
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
-                              // SizedBox(height: 10.0.h),
-                              // CustomTextFormWidget(
-                              //   textController: TextEditingController(
-                              //       text: widget.description),
-                              //   text: 'وصف المنتج',
-                              //   width: 334.0.w,
-                              //   height: 200.0.h,
-                              //   maxLines: 5,
-                              // ),
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                    bottom: 16.0.h,
+                                    top: 8.h,
+                                    right: 20.0.w,
+                                  ),
+                                  child: Text(
+                                    "معلومات المنتج",
+                                    style: KTextStyle.textStyle16
+                                        .copyWith(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                              CustomTextFormWidget(
+                                textController: TextEditingController(
+                                    text: widget
+                                        .productDetailsEntity.nameProduct),
+                                text: 'أسم المنتج',
+                                width: 334.0.w,
+                                height: 65.h,
+                              ),
+                              SizedBox(height: 10.0.h),
+                              Padding(
+                                padding: EdgeInsets.only(right: 20.0.w),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    CustomTextFormWidget(
+                                      textController: TextEditingController(
+                                          text: widget
+                                              .productDetailsEntity.priceProduct
+                                              .toString()),
+                                      text: 'السعر',
+                                      width: 147.0.w,
+                                      height: 65.h,
+                                    ),
+                                    SizedBox(width: 36.0.w),
+                                    CustomTextFormWidget(
+                                      textController: TextEditingController(
+                                          text: widget.productDetailsEntity
+                                              .numberProduct),
+                                      text: 'رقم المنتج',
+                                      width: 147.0.w,
+                                      height: 65.h,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 10.0.h),
+                              CustomTextFormWidget(
+                                textController: TextEditingController(
+                                    text: widget.productDetailsEntity
+                                        .descriptionProduct),
+                                text: 'وصف المنتج',
+                                width: 334.0.w,
+                                height: 200.0.h,
+                                maxLines: 5,
+                              ),
                             ],
                           ),
                         ),
@@ -181,38 +191,34 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                   ),
                                 ),
                               ),
-                              // CustomAddImageWidget(
-                              //   hasTileButton: true,
-                              //   containerWidth: 333,
-                              //   mainContainerHeight: 210,
-                              //   upContainerHeight: 175,
-                              //   downContainerHeight: 35,
-                              //   initialImageUrl: widget.mainImage,
-                              //   onPressed: () {},
-                              // ),
-                              SizedBox(height: 25.0.h),
+                              // ========  for Main Image  =======
+                              CustomBoxAddImageForEditProductScreen(
+                                initialImageUrl: widget
+                                    .productDetailsEntity.mainImageUrlProduct,
+                                boxNumber: 1,
+                                containerWidth: 333,
+                                mainContainerHeight: 210,
+                                upContainerHeight: 175,
+                                downContainerHeight: 35,
+                              ),
+                              SizedBox(height: 25.h),
+                              // ========  for 3 Sub Images  =======
                               Padding(
-                                padding: EdgeInsets.only(left: 14.w),
+                                // padding: EdgeInsets.only(left: 14.w),
+                                padding: EdgeInsets.symmetric(horizontal: 14.w),
                                 child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    // if (widget.subImages.isNotEmpty)
-                                    //   CustomAddImageWidget(
-                                    //     initialImageUrl: widget.subImages[0],
-                                    //     onPressed: () {},
-                                    //   ),
-                                    // if (widget.subImages.length > 1)
-                                    //   SizedBox(width: 15.0.w),
-                                    // if (widget.subImages.length > 1)
-                                    //   CustomAddImageWidget(
-                                    //     initialImageUrl: widget.subImages[1],
-                                    //     onPressed: () {},
-                                    //   ),
-                                    // if (widget.subImages.length > 2)
-                                    //   SizedBox(width: 15.0.w),
-                                    // if (widget.subImages.length > 2)
-                                    //   CustomAddImageWidget(
-                                    //     initialImageUrl: widget.subImages[2],
-                                    //     onPressed: () {},
+                                    // CustomBoxAddImageForEditProductScreen(
+                                    //   boxNumber: 2,
+                                    // ),
+                                    // CustomBoxAddImageForEditProductScreen(
+                                    //   boxNumber: 3,
+                                    // ),
+                                    // CustomBoxAddImageForEditProductScreen(
+                                    //   boxNumber: 4,
+                                    // ),
                                     //   ),
                                   ],
                                 ),
@@ -256,10 +262,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         ),
                         color: Colors.white,
                         child: Container(
-                          width: 363.0.w,
-                          height: 440.0.h,
+                          width: 363.w,
+                          height: 440.h,
                           decoration: BoxDecoration(),
-                          margin: EdgeInsets.only(bottom: 20.0.h),
+                          margin: EdgeInsets.only(bottom: 20.h),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -267,9 +273,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                 alignment: Alignment.topRight,
                                 child: Padding(
                                   padding: EdgeInsets.only(
-                                    bottom: 14.0.h,
+                                    bottom: 14.h,
                                     top: 10.h,
-                                    right: 14.0.w,
+                                    right: 14.w,
                                   ),
                                   child: Text(
                                     " نوع المنتج",
@@ -320,9 +326,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                   alignment: Alignment.topRight,
                                   child: Padding(
                                     padding: EdgeInsets.only(
-                                      bottom: 14.0.h,
+                                      bottom: 14.h,
                                       top: 10.h,
-                                      right: 14.0.w,
+                                      right: 14.w,
                                     ),
                                     child: Text(
                                       " خصائص المنتج",
