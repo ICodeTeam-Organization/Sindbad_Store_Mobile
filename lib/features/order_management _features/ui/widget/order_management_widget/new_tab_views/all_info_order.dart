@@ -83,16 +83,24 @@ class _AllInfoOrderState extends State<AllInfoOrder> {
             physics: BouncingScrollPhysics(),
             itemCount: state.orders.length,
             itemBuilder: (BuildContext context, int i) {
-              return OrderBody(
-                billNumber: state.orders[i].orderBill,
-                orderNumber: state.orders[i].orderNum,
-                clock: '1:01',
-                date: state.orders[i].orderDates,
-                itemNumber: state.orders[i].productMount,
-                paymentInfo: state.orders[i].payStatus,
-                orderStatus: state.orders[i].orderStatuse,
-                idOrder: state.orders[i].idOrder,
-                idPackage: state.orders[i].idPackage,
+              return Column(
+                children: [
+                  OrderBody(
+                    billNumber: state.orders[i].orderBill,
+                    orderNumber: state.orders[i].orderNum,
+                    clock: '1:01',
+                    date: state.orders[i].orderDates,
+                    itemNumber: state.orders[i].productMount,
+                    paymentInfo: state.orders[i].payStatus,
+                    orderStatus: state.orders[i].orderStatuse,
+                    idOrder: state.orders[i].idOrder,
+                    idPackage: state.orders[i].idPackage,
+                  ),
+                  if (i == state.orders.length - 1)
+                    SizedBox(
+                      height: 120.h,
+                    ),
+                ],
               );
             },
           );

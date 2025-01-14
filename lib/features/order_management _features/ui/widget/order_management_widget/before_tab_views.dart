@@ -84,16 +84,24 @@ class _BeforeTabViewsState extends State<BeforeTabViews> {
             itemCount: state.orders.length,
             itemBuilder: (BuildContext context, int i) {
               // final status = myStatuses[i];
-              return OrderBody(
-                  idOrder: state.orders[i].idOrder,
-                  billNumber: state.orders[i].orderBill,
-                  orderNumber: state.orders[i].orderNum,
-                  clock: '11:11',
-                  date: state.orders[i].orderDates,
-                  itemNumber: state.orders[i].productMount,
-                  paymentInfo: state.orders[i].payStatus,
-                  orderStatus: state.orders[i].orderStatuse,
-                  idPackage: state.orders[i].idPackage);
+              return Column(
+                children: [
+                  OrderBody(
+                      idOrder: state.orders[i].idOrder,
+                      billNumber: state.orders[i].orderBill,
+                      orderNumber: state.orders[i].orderNum,
+                      clock: '11:11',
+                      date: state.orders[i].orderDates,
+                      itemNumber: state.orders[i].productMount,
+                      paymentInfo: state.orders[i].payStatus,
+                      orderStatus: state.orders[i].orderStatuse,
+                      idPackage: state.orders[i].idPackage),
+                  if (i == state.orders.length - 1)
+                    SizedBox(
+                      height: 120.h,
+                    ),
+                ],
+              );
             },
           );
         } else if (state is AllOrderFailuer) {
