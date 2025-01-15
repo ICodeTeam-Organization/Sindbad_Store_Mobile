@@ -68,6 +68,7 @@ class ProductDetailsModel extends ProductDetailsEntity {
           mainImageUrlProduct: mainImageUrl ?? '',
           imagesProduct: productImages ?? [],
           mainCategoryIdProduct: mainCategoriesIds?[0] ?? 000,
+          mainCategoryNameProduct: categoryName ?? '',
           subCategoryIdProduct: subCategoriesIds ?? [],
           brandIdProduct: brandId,
           attributesWithValuesProduct: attributesWithValues ?? [],

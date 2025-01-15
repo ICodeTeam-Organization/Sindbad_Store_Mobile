@@ -137,7 +137,7 @@ class ProductsListView extends StatelessWidget {
                               //     );
                               context
                                   .read<ProductDetailsCubit>()
-                                  .getProductDetails(productId: 355);
+                                  .getProductDetails(productId: 1);
                               showGetProductDetailsDialog(
                                 contextParent: context,
                                 productDetailsCubit:

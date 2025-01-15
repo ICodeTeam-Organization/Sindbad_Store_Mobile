@@ -13,7 +13,8 @@ class AttributesWithValue extends ProductAttributeEntity {
   factory AttributesWithValue.fromJson(Map<String, dynamic> json) {
     return AttributesWithValue(
       attributeName: json['attributeName'] as String?,
-      values: json['values'] as List<String>?,
+      values:
+          (json['values'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
   }
 

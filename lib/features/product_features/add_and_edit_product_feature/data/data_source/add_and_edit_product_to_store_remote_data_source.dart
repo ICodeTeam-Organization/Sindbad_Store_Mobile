@@ -1,11 +1,11 @@
 import 'dart:io';
-
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sindbad_management_app/core/api_service.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/data/models/add_product_model.dart';
 import '../../domain/entities/add_product_entities/add_product_entity.dart';
 import '../../domain/entities/add_product_entities/brand_entity.dart';
 import '../../domain/entities/add_product_entities/main_category_entity.dart';
+import '../../domain/entities/edit_product_entities/edit_product_entity.dart';
 import '../../domain/entities/edit_product_entities/product_details_entity.dart';
 import '../models/brand_model/datum.dart';
 import '../models/main_and_sub_category_model/item.dart';
@@ -28,6 +28,21 @@ abstract class AddAndEditProductToStoreRemoteDataSource {
     required List<int> subCategoryIds,
     required List<Map<String, String>> newAttributes,
   });
+  // Future<EditProductEntity> editProductFromStore({
+  //   required int id,
+  //   // required String name,
+  //   required num price,
+  //   required String description,
+  //   required File mainImageFile,
+  //   // required String number,
+  //   required int? storeId,
+  //   required int? offerId,
+  //   required int? brandId,
+  //   required int mainCategoryId,
+  //   required List<File> images,
+  //   required List<int> subCategoryIds,
+  //   required List<Map<String, String>> newAttributes,
+  // });
 
   Future<List<MainCategoryEntity>> getMainAndSubCategory({
     required int filterType,
@@ -152,4 +167,33 @@ class AddProductToStoreRemoteDataSourceImpl
         ProductDetailsModel.fromJson(data["data"]);
     return productDetailsEntity;
   }
+
+  // @override
+  // Future<EditProductEntity> editProductFromStore({
+  //   required int id,
+  //   required num price,
+  //   required String description,
+  //   required File mainImageFile,
+  //   required int? storeId,
+  //   required int? offerId,
+  //   required int? brandId,
+  //   required int mainCategoryId,
+  //   required List<File> images,
+  //   required List<int> subCategoryIds,
+  //   required List<Map<String, String>> newAttributes,
+  // }) async {
+  //   final response = await apiService.put(
+  //     endPoint: "Products/UpdateProduct?id=$id",
+  //     data: {
+  //       "Price" : price,
+  //       "Description" : description,
+  //       "StoreId" : storeId,
+  //       "OfferId" : offerId,
+  //       "BrandId" : brandId,
+  //       "MainCategoryId" : mainCategoryId,
+  //       "SubCategoryIds" : subCategoryIds,
+  //       "newAttributes" : newAttributes,
+  //     },
+  //   );
+  // }
 }

@@ -50,6 +50,7 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
     });
   }
 
+  // هذي سويتها لصفحة الاضافة وماقدرت استخدمها في التعديل
   // عند اختيار فئة رئيسية، تحديث الفئات الفرعية
   void updateSubCategories(int selectedMainCategoryId) {
     try {
@@ -69,4 +70,24 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
       categoryAndSubCategoryNames: mainAndSubCategories,
     ));
   }
+
+  // هذي داله مؤقته نفس الي فوق بس تغيير بسيط عشان صفحة التعديل والمفترض يكونن الاثنين بذي الداله
+  // void updateSubCategoriesForEditPage(int selectedMainCategoryId) {
+  //   try {
+  //     // نحاول العثور على الفئة الرئيسية
+  //     final selectedMainCategory = mainAndSubCategories.firstWhere(
+  //       (category) => category.mainCategoryId == selectedMainCategoryId,
+  //     );
+
+  //     // إذا تم العثور على الفئة الرئيسية، نقوم بتحديث الفئات الفرعية
+  //     selectedSubCategories = selectedMainCategory.subCategory;
+  //   } catch (e) {
+  //     // إذا لم يتم العثور على العنصر، نعرض رسالة خطأ أو نستخدم قيمة افتراضية
+  //     selectedSubCategories = []; // نستخدم قائمة فارغة كقيمة افتراضية
+  //   }
+
+  //   emit(SubCategorySuccess(
+  //     categoryAndSubCategoryNames: mainAndSubCategories,
+  //   ));
+  // }
 }

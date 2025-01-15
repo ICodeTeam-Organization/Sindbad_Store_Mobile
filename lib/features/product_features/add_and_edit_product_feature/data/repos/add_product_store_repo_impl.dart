@@ -5,6 +5,7 @@ import 'package:sindbad_management_app/core/errors/failure.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/add_product_entity.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/brand_entity.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/edit_product_entities/edit_product_entity.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/edit_product_entities/product_details_entity.dart';
 import '../../domain/repos/add_and_edit_product_store_repo.dart';
 import '../data_source/add_and_edit_product_to_store_remote_data_source.dart';
@@ -123,5 +124,22 @@ class AddAndEditProductStoreRepoImpl extends AddAndEditProductStoreRepo {
         return left(ServerFailure(e.toString()));
       }
     }
+  }
+
+  @override
+  Future<Either<Failure, EditProductEntity>> editProductFromStore(
+      {required int id,
+      required String description,
+      required num price,
+      required File mainImageFile,
+      required int? storeId,
+      required int? offerId,
+      required int? brandId,
+      required int mainCategoryId,
+      required List<File> images,
+      required List<int> subCategoryIds,
+      required List<Map<String, String>> newAttributes}) {
+    // TODO: implement editProductFromStore
+    throw UnimplementedError();
   }
 }
