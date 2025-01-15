@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_images/cubit/add_image_to_product_add_cubit.dart';
-import 'aa.dart';
+import 'after_selected_image_for_edit_screen.dart';
 import 'after_selected_image_widget.dart';
 import 'button_design_add_image_main_product_widget.dart';
 import 'design_for_title_under_image_widget.dart';
