@@ -621,79 +621,76 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                                     builder: (context, state) {
                                       if (state
                                           is AddAttributeProductDartSuccess) {
-                                        return Column(
-                                          children: List.generate(
-                                              state.keys.length, (index) {
-                                            return Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 5.0.h),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  CustomSimpleTextFormField(
-                                                    textController:
-                                                        cubitAttribute
-                                                            .keys[index],
-                                                    hintText: 'خاصية',
-                                                  ),
-                                                  SizedBox(width: 20.w),
-                                                  CustomSimpleTextFormField(
-                                                    textController:
-                                                        cubitAttribute
-                                                            .values[index],
-                                                    hintText: 'قيمة',
-                                                  ),
-                                                  IconButton(
-                                                    icon: Icon(
-                                                        Icons.remove_circle,
-                                                        size: 20),
-                                                    onPressed: () {
-                                                      cubitAttribute
-                                                          .removeField(index);
-                                                    },
-                                                  ),
-                                                ],
-                                              ),
-                                            );
-                                          }),
-                                        );
+                                        return AddAttributeProductDartSuccessForEditPage(
+                                            cubitAttribute: cubitAttribute);
                                       }
                                       return Column(
-                                        children: List.generate(
+                                        children: [
+                                          ...List.generate(
                                             cubitAttribute.keys.length,
                                             (index) {
-                                          return Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 5.0.h),
+                                              return Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 5.0.h),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    CustomSimpleTextFormField(
+                                                      textController:
+                                                          cubitAttribute
+                                                              .keys[index],
+                                                      hintText: 'خاصية',
+                                                    ),
+                                                    SizedBox(width: 20.w),
+                                                    CustomSimpleTextFormField(
+                                                      textController:
+                                                          cubitAttribute
+                                                              .values[index],
+                                                      hintText: 'قيمة',
+                                                    ),
+                                                    IconButton(
+                                                      icon: Icon(
+                                                          Icons.remove_circle,
+                                                          size: 20),
+                                                      onPressed: () {
+                                                        cubitAttribute
+                                                            .removeField(index);
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                          Center(
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
-                                                CustomSimpleTextFormField(
-                                                  textController: cubitAttribute
-                                                      .keys[index],
-                                                  hintText: 'خاصية',
-                                                ),
-                                                SizedBox(width: 20.w),
-                                                CustomSimpleTextFormField(
-                                                  textController: cubitAttribute
-                                                      .values[index],
-                                                  hintText: 'قيمة',
-                                                ),
-                                                IconButton(
-                                                  icon: Icon(
-                                                      Icons.remove_circle,
-                                                      size: 20),
-                                                  onPressed: () {
-                                                    cubitAttribute
-                                                        .removeField(index);
+                                                InkWell(
+                                                  onTap: () {
+                                                    cubitAttribute.addField();
                                                   },
+                                                  child: const SizedBox(
+                                                    child: Row(
+                                                      children: [
+                                                        Icon(
+                                                          Icons
+                                                              .add_circle_outline_sharp,
+                                                          size: 20,
+                                                          color:
+                                                              AppColors.primary,
+                                                        ),
+                                                        Text(" أضف المزيد"),
+                                                      ],
+                                                    ),
+                                                  ),
                                                 ),
                                               ],
                                             ),
-                                          );
-                                        }),
+                                          )
+                                        ],
                                       );
                                       //  working [if in Initial state or else]
                                     },
@@ -737,6 +734,75 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class AddAttributeProductDartSuccessForEditPage extends StatelessWidget {
+  const AddAttributeProductDartSuccessForEditPage({
+    super.key,
+    required this.cubitAttribute,
+  });
+
+  final AddAttributeProductDartCubit cubitAttribute;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ...List.generate(
+          cubitAttribute.keys.length,
+          (index) {
+            return Padding(
+              padding: EdgeInsets.symmetric(vertical: 5.0.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomSimpleTextFormField(
+                    textController: cubitAttribute.keys[index],
+                    hintText: 'خاصية',
+                  ),
+                  SizedBox(width: 20.w),
+                  CustomSimpleTextFormField(
+                    textController: cubitAttribute.values[index],
+                    hintText: 'قيمة',
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.remove_circle, size: 20),
+                    onPressed: () {
+                      cubitAttribute.removeField(index);
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+        Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              InkWell(
+                onTap: () {
+                  cubitAttribute.addField();
+                },
+                child: const SizedBox(
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.add_circle_outline_sharp,
+                        size: 20,
+                        color: AppColors.primary,
+                      ),
+                      Text(" أضف المزيد"),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
     );
   }
 }
