@@ -24,6 +24,10 @@ class _CardOfferProductDetailsBounsWidgetState
     extends State<CardOfferProductDetailsBounsWidget> {
   @override
   Widget build(BuildContext context) {
+    double widthScreen = MediaQuery.sizeOf(context).width;
+    bool ifSmallScreen = widthScreen == 360;
+    TextStyle flexibleStyle =
+        ifSmallScreen ? KTextStyle.textStyle11 : KTextStyle.textStyle12;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -64,7 +68,7 @@ class _CardOfferProductDetailsBounsWidgetState
                     width: 10,
                   ),
                   SizedBox(
-                    width: 125.w,
+                    width: ifSmallScreen ? 80.w : 100.w,
                     child: Table(
                       children: [
                         TableRow(
@@ -84,31 +88,31 @@ class _CardOfferProductDetailsBounsWidgetState
                 Row(children: [
                   Text(
                     'يشتري ',
-                    style: KTextStyle.textStyle12.copyWith(
+                    style: flexibleStyle.copyWith(
                       color: AppColors.greyDark,
                     ),
                   ),
                   Text(
                     widget.numberToBuy.toString(),
-                    style: KTextStyle.textStyle12.copyWith(
+                    style: flexibleStyle.copyWith(
                       color: AppColors.primary,
                     ),
                   ),
                   Text(
                     ' يحصل على ',
-                    style: KTextStyle.textStyle12.copyWith(
+                    style: flexibleStyle.copyWith(
                       color: AppColors.greyDark,
                     ),
                   ),
                   Text(
                     widget.numberToGet.toString(),
-                    style: KTextStyle.textStyle12.copyWith(
+                    style: flexibleStyle.copyWith(
                       color: AppColors.primary,
                     ),
                   ),
                   Text(
                     ' مجاني',
-                    style: KTextStyle.textStyle12.copyWith(
+                    style: flexibleStyle.copyWith(
                       color: AppColors.greyDark,
                     ),
                   ),

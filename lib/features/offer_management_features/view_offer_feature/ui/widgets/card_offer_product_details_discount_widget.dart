@@ -24,6 +24,8 @@ class _CardOfferProductDetailsDiscountWidgetState
     extends State<CardOfferProductDetailsDiscountWidget> {
   @override
   Widget build(BuildContext context) {
+    double widthScreen = MediaQuery.sizeOf(context).width;
+    bool ifSmallScreen = widthScreen == 360;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -64,7 +66,7 @@ class _CardOfferProductDetailsDiscountWidgetState
                     width: 10,
                   ),
                   SizedBox(
-                    width: 125.w,
+                    width: ifSmallScreen ? 80.w : 100.w,
                     child: Table(
                       children: [
                         TableRow(

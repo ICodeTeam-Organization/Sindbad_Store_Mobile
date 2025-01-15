@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
+import 'package:sindbad_management_app/core/styles/text_style.dart';
 import 'package:sindbad_management_app/core/utils/route.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/change_status_offer_cubit/change_status_offer_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/delete_offer_cubit/delete_offer_cubit.dart';
@@ -11,6 +12,7 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/action_button_widget.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/card_offer_widget.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/custom_delete_dialog_widget.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/ui/function/image_picker_function.dart';
 
 class ViewOfferBody extends StatefulWidget {
   const ViewOfferBody({super.key});
@@ -53,6 +55,9 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
             BlocBuilder<OfferCubit, OfferState>(
               builder: (context, state) {
                 if (state is OfferSuccess) {
+                  if (state.offer.isEmpty) {
+                    return CardIfEmptyWidget();
+                  }
                   return Expanded(
                     child: ListView.builder(
                       scrollDirection: Axis.vertical,
@@ -249,6 +254,74 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                   );
                 }
               },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CardIfEmptyWidget extends StatelessWidget {
+  const CardIfEmptyWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: AppColors.greyBorder),
+                  borderRadius: BorderRadius.circular(25.r),
+                  color: Colors.white,
+                ),
+                alignment: Alignment.center,
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/image_loading.png',
+                        height: 80.h,
+                        width: 80.w,
+                      ),
+                      Text(
+                        'لم تضف اي عروض حتى الان!',
+                        style: KTextStyle.textStyle16.copyWith(
+                          color: AppColors.blackDark,
+                        ),
+                      ),
+                      Text(
+                        'شجع عملائك على الشراء بتقديم عروض مغرية',
+                        style: KTextStyle.textStyle12.copyWith(
+                          color: AppColors.greyLight,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      ActionButtonWidget(
+                        title: 'إضافة عرض',
+                        iconPath: 'assets/add.svg',
+                        onTap: () {
+                          context.push(
+                            AppRouter.storeRouters.kNewOffer,
+                          );
+                        },
+                      )
+                    ],
+                  ),
+                ),
+              ),
             ),
           ],
         ),

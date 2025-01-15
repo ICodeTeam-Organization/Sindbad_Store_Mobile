@@ -89,6 +89,8 @@ class _CardProductDiscountWidgetState extends State<CardProductDiscountWidget> {
 
   @override
   Widget build(BuildContext context) {
+    double widthScreen = MediaQuery.sizeOf(context).width;
+    bool ifSmallScreen = widthScreen == 360;
     return Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -164,10 +166,10 @@ class _CardProductDiscountWidgetState extends State<CardProductDiscountWidget> {
                             color: AppColors.blackLight,
                           ),
                         ),
-                        SizedBox(width: 10.h),
+                        SizedBox(width: ifSmallScreen ? 5.h : 10.h),
                         SizedBox(
                           height: 30.h,
-                          width: 80.w,
+                          width: ifSmallScreen ? 60.w : 80.w,
                           child: TextFormField(
                             style: KTextStyle.textStyle9.copyWith(
                               color: AppColors.blackLight,
@@ -244,7 +246,7 @@ class _CardProductDiscountWidgetState extends State<CardProductDiscountWidget> {
                   Positioned(
                     bottom: 0,
                     left: 0,
-                    width: 150.w,
+                    width: ifSmallScreen ? 125.w : 150.w,
                     child: Column(
                       children: [
                         // Last Price
@@ -295,10 +297,10 @@ class _CardProductDiscountWidgetState extends State<CardProductDiscountWidget> {
                                 color: AppColors.blackLight,
                               ),
                             ),
-                            SizedBox(width: 10.h),
+                            SizedBox(width: ifSmallScreen ? 5.h : 10.h),
                             SizedBox(
                               height: 30.h,
-                              width: 80.w,
+                              width: ifSmallScreen ? 60.w : 80.w,
                               child: TextFormField(
                                 style: KTextStyle.textStyle10.copyWith(
                                   color: AppColors.primary,

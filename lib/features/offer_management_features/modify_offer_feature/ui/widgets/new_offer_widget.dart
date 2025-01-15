@@ -408,8 +408,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                     itemBuilder: (context, index) {
                       return isDiscountDefaultValue
                           ? CardProductDiscountWidget(
-                              productName: selectedItems[index].productTitle +
-                                  selectedItems[index].productId.toString(),
+                              productName: selectedItems[index].productTitle,
                               productImage: selectedItems[index].productImage,
                               oldPrice: selectedItems[index].oldPrice!,
                               newPrice: calculateNewPrice(
