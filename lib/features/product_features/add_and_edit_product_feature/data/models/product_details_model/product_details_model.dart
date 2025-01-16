@@ -70,7 +70,9 @@ class ProductDetailsModel extends ProductDetailsEntity {
           mainCategoryIdProduct: mainCategoriesIds?[0] ?? 000,
           mainCategoryNameProduct: categoryName ?? '',
           subCategoryIdProduct: subCategoriesIds ?? [],
+          subCategoriesName: subCategoriesNames?[0] ?? 'error in model data',
           brandIdProduct: brandId,
+          brandNameProduct: brandName ?? 'لا يوجد',
           attributesWithValuesProduct: attributesWithValues ?? [],
         );
 

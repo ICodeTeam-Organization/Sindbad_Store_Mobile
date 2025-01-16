@@ -9,6 +9,7 @@ import '../../../../../core/setup_service_locator.dart';
 import '../../data/repos/add_product_store_repo_impl.dart';
 import '../../domain/entities/add_product_entities/brand_entity.dart';
 import '../../domain/entities/add_product_entities/main_category_entity.dart';
+import '../../domain/entities/add_product_entities/sub_category_entity.dart';
 import '../../domain/entities/edit_product_entities/product_details_entity.dart';
 import '../../domain/entities/edit_product_entities/product_images_entity.dart';
 import '../../domain/usecases/get_main_and_sub_category_use_case.dart';
@@ -38,6 +39,9 @@ class EditProductScreenBody extends StatefulWidget {
 }
 
 class _EditProductScreenBodyState extends State<EditProductScreenBody> {
+  late TextEditingController _priceProductController = TextEditingController();
+  late TextEditingController _descriptionProductController =
+      TextEditingController();
   late List<ProductImagesEntity> subImagesProduct;
   // void d(BuildContext context) {
   // context
@@ -49,7 +53,12 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
 
   @override
   void initState() {
+    _priceProductController = TextEditingController(
+        text: widget.productDetailsEntity.priceProduct.toString());
+    _descriptionProductController = TextEditingController(
+        text: widget.productDetailsEntity.descriptionProduct.toString());
     subImagesProduct = widget.productDetailsEntity.imagesProduct;
+
     super.initState();
     // Initialize controllers with fake data
     // widget.properties.forEach((key, value) {
@@ -85,23 +94,14 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.productDetailsEntity.attributesWithValuesProduct.length > 1 &&
-        widget.productDetailsEntity.attributesWithValuesProduct[1].valueProduct
-            .isNotEmpty) {
-      print(
-          "========== attributesWithValuesProduct value ==   ${widget.productDetailsEntity.attributesWithValuesProduct[1].valueProduct[0]}");
-    } else {
-      print("القائمة فارغة أو لا تحتوي على البيانات المطلوبة.");
-    }
-    // print(
-    //     "==========  attributesWithValuesProduct len ==   ${widget.productDetailsEntity.attributesWithValuesProduct.length}");
-    // print(
-    //     "========== attributesWithValuesProduct value ==   ${widget.productDetailsEntity.attributesWithValuesProduct[1].valueProduct[0]}");
     final AddAttributeProductDartCubit cubitAttribute =
         context.read<AddAttributeProductDartCubit>();
     context
         .read<GetCategoryNamesCubit>()
         .getMainAndSubCategory(filterType: 2, pageNumper: 1, pageSize: 100);
+    // تحديث البراند
+    context.read<GetBrandsByCategoryIdCubit>().getBrandsByMainCategoryId(
+        mainCategoryId: widget.productDetailsEntity.mainCategoryIdProduct);
     // shortuct to access [GetCategoryNamesCubit]
     final GetCategoryNamesCubit cubitCategories =
         context.read<GetCategoryNamesCubit>();
@@ -112,7 +112,6 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
     for (int i = 0;
         i < widget.productDetailsEntity.attributesWithValuesProduct.length;
         i++) {
-      print("=================== $i");
       cubitAttribute.keys.add(TextEditingController(
           text: widget.productDetailsEntity.attributesWithValuesProduct[i]
               .attributeNameProduct));
@@ -120,12 +119,10 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
           text: widget.productDetailsEntity.attributesWithValuesProduct[i]
               .valueProduct[0]));
     }
-    print(
-        "========cubitAttribute.keys.length  == ${cubitAttribute.keys.length}");
-    print(
-        "========cubitAttribute.keys.length  == ${cubitAttribute.keys[0].text}");
-    print(
-        "========cubitAttribute.keys.length  == ${cubitAttribute.values[0].text}");
+
+    // /// for Main category Id
+    // cubitEditProduct.selectedMainCategoryId =
+    //     widget.productDetailsEntity.mainCategoryIdProduct;
     return MaterialApp(
       home: Scaffold(
         body: SingleChildScrollView(
@@ -187,10 +184,7 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     CustomTextFormWidget(
-                                      textController: TextEditingController(
-                                          text: widget
-                                              .productDetailsEntity.priceProduct
-                                              .toString()),
+                                      textController: _priceProductController,
                                       text: 'السعر',
                                       width: 147.0.w,
                                       height: 65.h,
@@ -209,9 +203,7 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                               ),
                               SizedBox(height: 10.0.h),
                               CustomTextFormWidget(
-                                textController: TextEditingController(
-                                    text: widget.productDetailsEntity
-                                        .descriptionProduct),
+                                textController: _descriptionProductController,
                                 text: 'وصف المنتج',
                                 width: 334.0.w,
                                 height: 200.0.h,
@@ -222,6 +214,7 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                         ),
                       ),
                       SizedBox(height: 26.h),
+                      // ================  card Images  ===================
                       Card(
                         elevation: 4.0,
                         shape: RoundedRectangleBorder(
@@ -261,6 +254,10 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                                 mainContainerHeight: 210,
                                 upContainerHeight: 175,
                                 downContainerHeight: 35,
+                                onImageSelected: (value) {
+                                  cubitEditProduct.saveImageInCubit(
+                                      boxNum: 1, file: value);
+                                },
                               ),
                               SizedBox(height: 25.h),
                               // ========  for 3 Sub Images  =======
@@ -277,6 +274,10 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                                               .isNotEmpty
                                           ? subImagesProduct[0].imageUrlProduct
                                           : null,
+                                      onImageSelected: (value) {
+                                        cubitEditProduct.saveImageInCubit(
+                                            boxNum: 2, file: value);
+                                      },
                                     ),
                                     CustomBoxAddImageForEditProductScreen(
                                       boxNumber: 3,
@@ -284,6 +285,10 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                                               1
                                           ? subImagesProduct[1].imageUrlProduct
                                           : null,
+                                      onImageSelected: (value) {
+                                        cubitEditProduct.saveImageInCubit(
+                                            boxNum: 3, file: value);
+                                      },
                                     ),
                                     CustomBoxAddImageForEditProductScreen(
                                       boxNumber: 4,
@@ -291,6 +296,10 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                                               2
                                           ? subImagesProduct[2].imageUrlProduct
                                           : null,
+                                      onImageSelected: (value) {
+                                        cubitEditProduct.saveImageInCubit(
+                                            boxNum: 4, file: value);
+                                      },
                                     ),
                                   ],
                                 ),
@@ -327,6 +336,7 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                         ),
                       ),
                       SizedBox(height: 26.h),
+                      // ================  card Drop down  ===================
                       Card(
                         elevation: 4.0,
                         shape: RoundedRectangleBorder(
@@ -365,23 +375,75 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                                       mainAndSubCategories =
                                       state.categoryAndSubCategoryNames;
 
+                                  List<SubCategoryEntity>
+                                      selectedSubCategories =
+                                      []; // لتخزين الفئات الفرعية
+
+                                  // إذا تم العثور على الفئة الرئيسية، نقوم بتحديث الفئات الفرعية
+
+                                  // نحاول العثور على الفئة الرئيسية
+                                  final selectedMainCategory =
+                                      mainAndSubCategories.firstWhere(
+                                    (category) =>
+                                        category.mainCategoryId ==
+                                        widget.productDetailsEntity
+                                            .mainCategoryIdProduct,
+                                  );
+
+                                  // إذا تم العثور على الفئة الرئيسية، نقوم بتحديث الفئات الفرعية
+                                  selectedSubCategories =
+                                      selectedMainCategory.subCategory;
+
+                                  // // تحديث فئات الفئة الفرعية
+                                  // cubitCategories.updateSubCategories(widget
+                                  //     .productDetailsEntity
+                                  //     .mainCategoryIdProduct);
+                                  // تخزين اول فئة رئيسية تلقائيا
+                                  // cubitEditProduct.selectedMainCategoryId =
+                                  //     cubitCategories
+                                  //             .mainAndSubCategories.isNotEmpty
+                                  //         ? widget.productDetailsEntity
+                                  //             .mainCategoryIdProduct
+                                  //         : null;
+                                  // // refresh list subCategory by MainId
+                                  // cubitCategories.updateSubCategories(
+                                  //     cubitEditProduct.selectedMainCategoryId ??
+                                  //         000);
                                   // تخزين اول فئة فرعية تلقائيا
-                                  cubitEditProduct
-                                          .selectedSubCategoryId = // هذا خطأ نسويه بعدين بعدله
-                                      cubitCategories
-                                              .selectedSubCategories.isNotEmpty
-                                          ? cubitCategories
-                                              .selectedSubCategories
-                                              .first
-                                              .subCategoryId
-                                          : null;
+                                  // cubitEditProduct.selectedSubCategoryId =
+                                  //     cubitCategories.selectedSubCategories
+                                  //         .singleWhere(
+                                  //           (subCat) =>
+                                  //               subCat.subCategoryId ==
+                                  //               widget.productDetailsEntity
+                                  //                   .subCategoryIdProduct[0],
+                                  //           orElse: () => SubCategoryEntity(
+                                  //             subCategoryId: 000,
+                                  //             subCategoryNameEntity:
+                                  //                 "غير موجود",
+                                  //           ),
+                                  //         )
+                                  //         .subCategoryId;
+                                  // // تخزين اول فئة فرعية تلقائيا
+                                  // cubitEditProduct
+                                  //         .selectedSubCategoryId = // هذا خطأ نسويه بعدين بعدله
+                                  //     cubitCategories
+                                  //             .selectedSubCategories.isNotEmpty
+                                  //         ? cubitCategories
+                                  //             .selectedSubCategories
+                                  //             .first
+                                  //             .subCategoryId
+                                  // : null;
                                   return Column(
                                     children: [
                                       CustomDropdownWidget(
+                                        initialItem: widget.productDetailsEntity
+                                            .mainCategoryNameProduct,
                                         enabled: true,
                                         textTitle: 'أختر الفئة',
                                         hintText: "قم بإختيار الفئة المناسبة",
-                                        initialItem: null,
+                                        // initialItem: widget.productDetailsEntity
+                                        //     .mainCategoryNameProduct,
                                         items: mainAndSubCategories.isNotEmpty
                                             ? mainAndSubCategories
                                                 .map((category) =>
@@ -402,10 +464,18 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                                                 mainAndSubCategories[
                                                         selectedIndex]
                                                     .mainCategoryId;
-
+                                            setState(() {
+                                              selectedSubCategories =
+                                                  mainAndSubCategories[
+                                                          selectedIndex]
+                                                      .subCategory;
+                                            });
+                                            cubitEditProduct
+                                                    .selectedMainCategoryId =
+                                                selectedMainCategoryId;
                                             // تحديث فئات الفئة الفرعية
-                                            cubitCategories.updateSubCategories(
-                                                selectedMainCategoryId);
+                                            // cubitCategories.updateSubCategories(
+                                            //     selectedMainCategoryId);
                                             // تحديث فئات الفئة الفرعية
                                             // cubitCategories
                                             //     .updateSubCategoriesForEditPage(
@@ -433,30 +503,33 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                                           }
                                         },
                                       ),
-                                      // sub category
+                                      // =============  sub category
                                       CustomDropdownWidget(
+                                        initialItem: widget.productDetailsEntity
+                                            .subCategoriesName,
                                         // enabled: true,
-                                        enabled: cubitEditProduct
-                                                    .selectedMainCategoryId ==
-                                                null
-                                            ? false
-                                            : true,
+                                        // enabled: cubitEditProduct
+                                        //             .selectedMainCategoryId ==
+                                        //         null
+                                        //     ? false
+                                        //     : true,
                                         textTitle: 'أختر القسم',
                                         hintText: "إختر الفئة الأساسية أولا",
                                         // initialItem: null,
-                                        initialItem: cubitCategories
-                                                .selectedSubCategories
-                                                .isNotEmpty
-                                            ? cubitCategories
-                                                .selectedSubCategories
-                                                .first
-                                                .subCategoryNameEntity
-                                            : null,
-                                        items: cubitCategories
-                                                .selectedSubCategories
-                                                .isNotEmpty
-                                            ? cubitCategories
-                                                .selectedSubCategories
+                                        // initialItem: widget.productDetailsEntity
+                                        // .subCategoriesName,
+                                        // items: cubitCategories
+                                        //         .selectedSubCategories
+                                        //         .isNotEmpty
+                                        //     ? cubitCategories
+                                        //         .selectedSubCategories
+                                        //         .map((subCategory) =>
+                                        //             subCategory
+                                        //                 .subCategoryNameEntity)
+                                        //         .toList()
+                                        //     : [],
+                                        items: selectedSubCategories.isNotEmpty
+                                            ? selectedSubCategories
                                                 .map((subCategory) =>
                                                     subCategory
                                                         .subCategoryNameEntity)
@@ -464,9 +537,16 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                                             : [],
                                         onChanged: (value) {
                                           // [get] Index by mainCatNameSelected from list mainAndSubCategories
-                                          int selectedIndex = cubitCategories
-                                              .selectedSubCategories
-                                              .indexWhere(
+                                          // int selectedIndex = cubitCategories
+                                          //     .selectedSubCategories
+                                          //     .indexWhere(
+                                          //   (subCategory) =>
+                                          //       subCategory
+                                          //           .subCategoryNameEntity ==
+                                          //       value,
+                                          // );
+                                          int selectedIndex =
+                                              selectedSubCategories.indexWhere(
                                             (subCategory) =>
                                                 subCategory
                                                     .subCategoryNameEntity ==
@@ -474,15 +554,21 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                                           );
                                           // [get] Id_Category by selectedIndex from list mainAndSubCategories
                                           if (selectedIndex != -1) {
+                                            // cubitEditProduct
+                                            //         .selectedSubCategoryId =
+                                            //     cubitCategories
+                                            //         .selectedSubCategories[
+                                            //             selectedIndex]
+                                            //         .subCategoryId;
                                             cubitEditProduct
                                                     .selectedSubCategoryId =
-                                                cubitCategories
-                                                    .selectedSubCategories[
+                                                selectedSubCategories[
                                                         selectedIndex]
                                                     .subCategoryId;
+
                                             // طباعة ID الفئة الفرعية المختارة
-                                            debugPrint(
-                                                'ID الفئة الفرعية المختارة: ${cubitCategories.selectedSubCategories[selectedIndex].subCategoryId}');
+                                            // debugPrint(
+                                            // 'ID الفئة الفرعية المختارة: ${cubitCategories.selectedSubCategories[selectedIndex].subCategoryId}');
                                             cubitEditProduct.testDropDown();
                                           }
                                           //
@@ -534,7 +620,8 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                                     enabled: true,
                                     textTitle: 'أختر اسم البراند',
                                     hintText: "قم بإختيار البراند المناسب",
-                                    initialItem: null,
+                                    initialItem: widget
+                                        .productDetailsEntity.brandNameProduct,
                                     // brands.isNotEmpty
                                     //     ? brands.first.brandNameEntity
                                     //     : null, // تعيين أول عنصر إذا كانت القائمة غير فارغة
@@ -587,6 +674,7 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                         ),
                       ),
                       SizedBox(height: 26.h),
+                      // ====================  Attributr card =============================
                       Flexible(
                         child: Card(
                           elevation: 4.0,
@@ -706,6 +794,7 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                 ),
               ),
               SizedBox(height: 10.h),
+              // ==================== Two Button in Down  =============================
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -716,12 +805,32 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                     buttonColor: AppColors.primary,
                     onTap: () {
                       // Handle confirmation
+
+                      // for test
+                      cubitEditProduct.testEditProductRequest(
+                          priceProductController: _priceProductController.text,
+                          descriptionProductController:
+                              _descriptionProductController.text,
+                          keys: cubitAttribute.keys,
+                          values: cubitAttribute.values);
                     },
                   ),
                   SizedBox(width: 8.w),
                   StorePrimaryButton(
                     onTap: () {
+                      debugPrint(
+                          "=======  basic mainId = ${widget.productDetailsEntity.mainCategoryIdProduct.toString()}");
+                      debugPrint(
+                          "=======  basic subId = ${widget.productDetailsEntity.subCategoryIdProduct[0].toString()}");
+                      debugPrint(
+                          "=======  basic brandId = ${widget.productDetailsEntity.brandIdProduct.toString()}");
                       cubitEditProduct.testDropDown();
+                      debugPrint(
+                          "=======  basic mainCategoryName = ${widget.productDetailsEntity.mainCategoryNameProduct.toString()}");
+                      debugPrint(
+                          "=======  basic subCategoriesName = ${widget.productDetailsEntity.subCategoriesName.toString()}");
+                      debugPrint(
+                          "=======  basic brandName = ${widget.productDetailsEntity.brandNameProduct.toString()}");
                     },
                     title: "إلغاء",
                     width: 104.w,

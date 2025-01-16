@@ -13,7 +13,7 @@ class CustomDropdownWidgetForStateCubit extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomDropdownWidget(
-      enabled: false,
+      enabled: true,
       textTitle: textTitle,
       hintText: hintText,
       items: [],

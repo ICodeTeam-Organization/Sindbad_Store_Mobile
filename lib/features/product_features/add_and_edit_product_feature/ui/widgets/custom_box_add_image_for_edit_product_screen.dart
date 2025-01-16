@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_images/cubit/add_image_to_product_add_cubit.dart';
+import '../manger/cubit/edit_product_from_store/edit_product_from_store_cubit.dart';
 import 'after_selected_image_for_edit_screen.dart';
 import 'after_selected_image_widget.dart';
 import 'button_design_add_image_main_product_widget.dart';
@@ -23,6 +24,8 @@ class CustomBoxAddImageForEditProductScreen extends StatefulWidget {
   final double downContainerHeight;
   final String actionButtonText;
   final String titleUnderBox;
+  final ValueChanged<File?> onImageSelected; // Callback function
+
   // final VoidCallback onPressed;
   // final Future<void> Function() onTapPickImage;
   // final bool isForMainImage;
@@ -40,6 +43,7 @@ class CustomBoxAddImageForEditProductScreen extends StatefulWidget {
     this.downContainerHeight = 35,
     this.actionButtonText = "إضافة صورة",
     this.titleUnderBox = "صورة المنتج",
+    required this.onImageSelected,
     // required this.onPressed,
     // this.isForMainImage = false,
     // this.initialImageUrl,
@@ -68,8 +72,8 @@ class _CustomBoxAddImageForEditProductScreenState
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(
-        "================  initialImageUrl ===  $initialImageUrl  =============");
+    final EditProductFromStoreCubit cubitEditProduct =
+        context.read<EditProductFromStoreCubit>();
     return SizedBox(
       width: widget.containerWidth.w,
       height: widget.mainContainerHeight.h,
@@ -97,6 +101,8 @@ class _CustomBoxAddImageForEditProductScreenState
                         if (galleryImage != null) {
                           selectedImage = File(galleryImage.path);
                           initialImageUrl = null;
+                          widget.onImageSelected(
+                              selectedImage); // Return image to parent
                           setState(() {});
                         }
                       },
@@ -110,6 +116,8 @@ class _CustomBoxAddImageForEditProductScreenState
                               onTapDeleteImage: () {
                                 selectedImage = null;
                                 initialImageUrl = null;
+                                cubitEditProduct.deleteImageFromCubit(
+                                    boxNum: widget.boxNumber);
                                 setState(() {});
                               },
                             )

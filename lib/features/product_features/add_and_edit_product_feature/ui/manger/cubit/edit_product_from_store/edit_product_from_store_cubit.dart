@@ -1,5 +1,6 @@
 import 'dart:io';
-
+import 'package:path/path.dart' as path;
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../domain/usecases/edit_product_from_store_use_case.dart';
 part 'edit_product_from_store_state.dart';
@@ -9,6 +10,10 @@ class EditProductFromStoreCubit extends Cubit<EditProductFromStoreState> {
 
   EditProductFromStoreCubit(this.editProductFromStoreUseCase)
       : super(EditProductFromStoreInitial());
+
+  // all fields for [ Attribute product ] ==> Edit product page
+  // List<TextEditingController> keys = [];
+  // List<TextEditingController> values = [];
 
   // // all controller for [ info product ] ==> add product page
   // TextEditingController nameProductController = TextEditingController();
@@ -43,35 +48,75 @@ class EditProductFromStoreCubit extends Cubit<EditProductFromStoreState> {
   // List<TextEditingController> keys = [];
   // List<TextEditingController> values = [];
 
-  // // for test Post Requeste
-  // void testPostRequest() {
-  //   print("=======================  testPostRequest  =====================");
-  //   print("nameProduct =>                  ${nameProductController.text}");
-  //   print("numberProduct =>                ${numberProductController.text}");
-  //   print("priceProduct =>                 ${priceProductController.text}");
-  //   print(
-  //       "descriptionProduct =>           ${descriptionProductController.text}");
-  //   print(
-  //       "mainImageProduct =>             ${path.basename(mainImageProductFile?.path ?? 'لايوجد')}");
-  //   print(
-  //       "subOneImageProduct =>           ${path.basename(subOneImageProductFile?.path ?? 'لايوجد')}");
-  //   print(
-  //       "subTwoImageProduct =>           ${path.basename(subTwoImageProductFile?.path ?? 'لايوجد')}");
-  //   print(
-  //       "subThreeImageProduct =>         ${path.basename(subThreeImageProductFile?.path ?? 'لايوجد')}");
-  //   print("MainCategoryId =>               $selectedMainCategoryId");
-  //   print("SubCategoryId =>                $selectedSubCategoryId");
-  //   print("BrandId =>                      $selectedBrandId");
-  //   for (int i = 0; i < keys.length; i++) {
-  //     print("key ${i + 1} =>                        ${keys[i].text}");
-  //     print("value ${i + 1} =>                      ${values[i].text}");
-  //   }
-  //   print([
-  //     for (int i = 0; i < keys.length; i++)
-  //       {"attributeName": keys[i].text, "attributeValue": values[i].text}
-  //   ]);
-  //   print("=======================  testPostRequest  =====================");
-  // }
+  // for set Image variables = value
+  void saveImageInCubit({required int boxNum, required File? file}) {
+    switch (boxNum) {
+      case 1:
+        mainImageProductFile = file;
+        break;
+      case 2:
+        subOneImageProductFile = file;
+        break;
+      case 3:
+        subTwoImageProductFile = file;
+        break;
+      case 4:
+        subThreeImageProductFile = file;
+        break;
+    }
+  }
+
+  // for set Image variables = value
+  void deleteImageFromCubit({required int boxNum}) {
+    switch (boxNum) {
+      case 1:
+        mainImageProductFile = null;
+        break;
+      case 2:
+        subOneImageProductFile = null;
+        break;
+      case 3:
+        subTwoImageProductFile = null;
+        break;
+      case 4:
+        subThreeImageProductFile = null;
+        break;
+    }
+  }
+
+  // for test Post Request
+  void testEditProductRequest({
+    required String? priceProductController,
+    required String? descriptionProductController,
+    required List<TextEditingController> keys,
+    required List<TextEditingController> values,
+  }) {
+    debugPrint(
+        "=======================  test Edit Product Request  =====================");
+    debugPrint("priceProduct =>                 $priceProductController");
+    debugPrint("descriptionProduct =>           $descriptionProductController");
+    debugPrint(
+        "mainImageProduct =>             ${path.basename(mainImageProductFile?.path ?? 'لايوجد')}");
+    debugPrint(
+        "subOneImageProduct =>           ${path.basename(subOneImageProductFile?.path ?? 'لايوجد')}");
+    debugPrint(
+        "subTwoImageProduct =>           ${path.basename(subTwoImageProductFile?.path ?? 'لايوجد')}");
+    debugPrint(
+        "subThreeImageProduct =>         ${path.basename(subThreeImageProductFile?.path ?? 'لايوجد')}");
+    debugPrint("MainCategoryId =>               $selectedMainCategoryId");
+    debugPrint("SubCategoryId =>                $selectedSubCategoryId");
+    debugPrint("BrandId =>                      $selectedBrandId");
+    // for (int i = 0; i < keys.length; i++) {
+    //   debugPrint("key ${i + 1} =>                        ${keys[i].text}");
+    //   debugPrint("value ${i + 1} =>                      ${values[i].text}");
+    // }
+    debugPrint([
+      for (int i = 0; i < keys.length; i++)
+        {"attributeName": keys[i].text, "attributeValue": values[i].text}
+    ].toString());
+    debugPrint(
+        "=======================  test Edit Product Request  =====================");
+  }
 
   // void addProductToStore() async {
   //   emit(AddProductToStoreLoading()); // ======== emit ==========

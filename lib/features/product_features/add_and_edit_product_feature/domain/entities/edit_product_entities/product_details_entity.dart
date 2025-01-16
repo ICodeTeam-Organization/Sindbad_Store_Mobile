@@ -12,7 +12,9 @@ class ProductDetailsEntity {
   final int mainCategoryIdProduct;
   final String mainCategoryNameProduct;
   final List<int> subCategoryIdProduct;
+  final String subCategoriesName;
   final int? brandIdProduct;
+  final String? brandNameProduct;
   final List<ProductAttributeEntity> attributesWithValuesProduct;
 
   ProductDetailsEntity({
@@ -26,7 +28,9 @@ class ProductDetailsEntity {
     required this.mainCategoryIdProduct,
     required this.mainCategoryNameProduct,
     required this.subCategoryIdProduct,
+    required this.subCategoriesName,
     required this.brandIdProduct,
+    required this.brandNameProduct,
     required this.attributesWithValuesProduct,
   });
 }
