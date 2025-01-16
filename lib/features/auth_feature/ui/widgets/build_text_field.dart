@@ -69,7 +69,7 @@ class _MyWidgetState extends State<buildTextField> {
                     fontSize: 14.sp,
                   ),
                   border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 10.w),
+                  contentPadding: EdgeInsets.only(right: 10.w, bottom: 15.h),
                 ),
               ),
             ),
