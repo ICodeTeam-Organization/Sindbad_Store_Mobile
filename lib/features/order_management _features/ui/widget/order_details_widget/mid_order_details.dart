@@ -18,7 +18,7 @@ class MidOrderDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text('العدد: '),
+        Text('العدد:'),
         Text(
           '$productMount',
           style: KTextStyle.textStyle16.copyWith(color: AppColors.primary),
@@ -27,7 +27,7 @@ class MidOrderDetails extends StatelessWidget {
         // SizedBox(
         //   width: 20.w,
         // ),
-        Text('السعر : '),
+        Text('السعر:'),
         Text(
           '$productPrice',
           style: KTextStyle.textStyle16.copyWith(color: AppColors.primary),
@@ -36,21 +36,26 @@ class MidOrderDetails extends StatelessWidget {
         Spacer(),
         Text('الاجمالي'),
         Container(
-          padding: EdgeInsets.all(8.0),
-          margin: EdgeInsets.all(8.0),
+          width: MediaQuery.sizeOf(context).width * 0.3,
+          padding: EdgeInsets.all(4.0),
+          margin: EdgeInsets.all(4.0),
           decoration: BoxDecoration(
             border: Border.all(color: AppColors.grey),
             borderRadius: BorderRadius.circular(8.r),
           ),
-          child: Row(
-            children: [
-              Text(
-                '$total',
-                style:
-                    KTextStyle.textStyle16.copyWith(color: AppColors.primary),
-              ),
-              Text('\$'),
-            ],
+          child: FittedBox(
+            child: Row(
+              children: [
+                Text(
+                  '1234567891',
+                  // '$total',
+                  overflow: TextOverflow.ellipsis,
+                  style:
+                      KTextStyle.textStyle16.copyWith(color: AppColors.primary),
+                ),
+                Text('\$'),
+              ],
+            ),
           ),
         ),
       ],
