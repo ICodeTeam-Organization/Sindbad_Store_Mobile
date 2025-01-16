@@ -13,9 +13,10 @@ import 'drop_down_widget.dart';
 TextEditingController numberShippingConroller = TextEditingController();
 TextEditingController mountShippingConroller = TextEditingController();
 TextEditingController anotherCompanyConroller = TextEditingController();
+TextEditingController anotherCompanyNumberConroller = TextEditingController();
 
-class BuildShippingDialogContent extends StatelessWidget {
-  const BuildShippingDialogContent({
+class BuildShippingDialogContent extends StatefulWidget {
+  BuildShippingDialogContent({
     super.key,
     required this.firstTitle,
     required this.secondTitle,
@@ -27,7 +28,15 @@ class BuildShippingDialogContent extends StatelessWidget {
   final String secondTitle;
   final String thierdTitle;
   final GestureTapCallback onPressedSure;
+  String anotherCompany = "";
 
+  @override
+  State<BuildShippingDialogContent> createState() =>
+      _BuildShippingDialogContentState();
+}
+
+class _BuildShippingDialogContentState
+    extends State<BuildShippingDialogContent> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,24 +48,40 @@ class BuildShippingDialogContent extends StatelessWidget {
         child: Column(
           children: [
             DateTextField(
-              title: firstTitle,
+              title: widget.firstTitle,
               controller: dateConroller,
             ),
             SizedBox(
               height: 15.h,
             ),
             BuildInfoRow(
-              title: secondTitle,
+              title: widget.secondTitle,
               controller: numberShippingConroller,
             ),
             SizedBox(
               height: 15.h,
             ),
-            DropDownWidget(),
-            AnotherCompanyField(
-              title: 'الشركةالاخرى',
-              controller: anotherCompanyConroller,
+            DropDownWidget(
+              onDataChange: (value) {
+                setState(() {
+                  widget.anotherCompany = value;
+                });
+              },
             ),
+            if (widget.anotherCompany == 'اخرى')
+              BuildInfoRow(
+                title: 'اسم الشركة',
+                controller: anotherCompanyConroller,
+              ),
+            // AnotherCompanyField(
+            //   title: 'اسم الشركة',
+            //   controller: anotherCompanyConroller,
+            // ),
+            if (widget.anotherCompany == 'اخرى')
+              BuildInfoRow(
+                title: 'رقم التواصل',
+                controller: anotherCompanyNumberConroller,
+              ),
             SizedBox(
               height: 15.h,
             ),
@@ -72,7 +97,7 @@ class BuildShippingDialogContent extends StatelessWidget {
             ),
             StorePrimaryButton(
               title: 'تاكيد',
-              onTap: onPressedSure,
+              onTap: widget.onPressedSure,
             ),
           ],
         ),

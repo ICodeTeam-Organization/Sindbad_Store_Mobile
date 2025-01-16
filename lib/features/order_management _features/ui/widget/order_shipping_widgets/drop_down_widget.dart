@@ -14,7 +14,8 @@ const List<String> _list = [
 ];
 
 class DropDownWidget extends StatelessWidget {
-  const DropDownWidget({super.key});
+  const DropDownWidget({super.key, required this.onDataChange(String value)});
+  final Function onDataChange;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +39,7 @@ class DropDownWidget extends StatelessWidget {
           // initialItem: _list[0],
           onChanged: (value) {
             companyName = value;
+            onDataChange(value);
             // log('changing value to: $companyName');
           },
           decoration: CustomDropdownDecoration(
