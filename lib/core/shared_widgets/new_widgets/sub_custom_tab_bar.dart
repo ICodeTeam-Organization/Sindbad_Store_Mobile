@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
 
-class SubCustomTabBar extends StatelessWidget {
+TabController? subTabController;
+
+class SubCustomTabBar extends StatefulWidget {
   final List<Widget> tabs;
   final List<Widget> tabViews;
   final int length;
@@ -39,9 +41,21 @@ class SubCustomTabBar extends StatelessWidget {
             'Length must match the number of tabs and tab views');
 
   @override
+  State<SubCustomTabBar> createState() => _SubCustomTabBarState();
+}
+
+class _SubCustomTabBarState extends State<SubCustomTabBar>
+    with SingleTickerProviderStateMixin {
+  @override
+  void initState() {
+    subTabController = TabController(length: widget.length, vsync: this);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: length,
+      length: widget.length,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w),
         child: Column(
@@ -52,34 +66,36 @@ class SubCustomTabBar extends StatelessWidget {
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(25.r)),
               child: TabBar(
+                controller: subTabController,
                 padding: EdgeInsets.zero,
                 labelStyle: KTextStyle.textStyle16,
                 dividerColor: Colors.transparent,
-                indicatorColor: indicatorColor,
-                indicatorWeight: indicatorWeight.w,
-                labelColor: labelColor,
-                unselectedLabelColor: unselectedLabelColor,
-                tabs: tabs,
+                indicatorColor: widget.indicatorColor,
+                indicatorWeight: widget.indicatorWeight.w,
+                labelColor: widget.labelColor,
+                unselectedLabelColor: widget.unselectedLabelColor,
+                tabs: widget.tabs,
                 indicator: BoxDecoration(
                   border: Border.all(color: AppColors.primary, width: 1.5.w),
                   color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(_borderRadius.r),
+                  borderRadius:
+                      BorderRadius.circular(SubCustomTabBar._borderRadius.r),
                 ),
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicatorPadding: EdgeInsets.symmetric(
-                    horizontal: _indicatorPadding.h,
-                    vertical: _indicatorPadding.w),
+                    horizontal: SubCustomTabBar._indicatorPadding.h,
+                    vertical: SubCustomTabBar._indicatorPadding.w),
               ),
             ),
             SizedBox(
-              height: _sizedBoxHeight.h,
+              height: SubCustomTabBar._sizedBoxHeight.h,
             ),
             Flexible(
               fit: FlexFit.loose,
               child: SizedBox(
-                height: height.h,
                 child: TabBarView(
-                  children: tabViews,
+                  controller: subTabController,
+                  children: widget.tabViews,
                 ),
               ),
             ),
