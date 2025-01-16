@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/core/setup_service_locator.dart';
+import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/utils/route.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/repo/auth_repo_impl.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/usecase/sign_in_use_case.dart';
@@ -109,6 +110,24 @@ class _LoginState extends State<Login> {
                         }
                       },
                       builder: (context, state) {
+                        if (state is SignInCubitLoading) {
+                          return Container(
+                            width: 380.w,
+                            height: 47.h,
+                            decoration: BoxDecoration(
+                              color: Color(0xffFF746B),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: CircleAvatar(
+                              backgroundColor: AppColors.transparent,
+                              child: CircularProgressIndicator(
+                                strokeAlign: -2,
+                                // strokeWidth: 5,
+                                color: AppColors.white,
+                              ),
+                            ),
+                          );
+                        }
                         return Container(
                           width: 380.w,
                           height: 47.h,
