@@ -13,14 +13,17 @@ class CustomSimpleTextFormField extends StatelessWidget {
     super.key,
     required this.textController,
     this.hintText = "",
-    this.width = 100.0,
+    this.width = 130.0,
     this.height = 48.0,
   });
 
   @override
   Widget build(BuildContext context) {
+    double widthScreen = MediaQuery.sizeOf(context).width;
+    bool ifSmallScreen = widthScreen == 360;
+
     return SizedBox(
-      width: width.w,
+      width: ifSmallScreen ? 100.w : width.w,
       height: height.h,
       child: Directionality(
         textDirection: TextDirection.rtl,
