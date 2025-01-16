@@ -49,26 +49,30 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                       productName: state.orderDetails[i].nameProduct,
                       productType: state.orderDetails[i].nameCategory,
                       productNameCat1:
-                          state.orderDetails[i].productAttri.length > i
-                              ? state.orderDetails[i].productAttri[i]
+                          state.orderDetails[i].productAttri.isNotEmpty &&
+                                  state.orderDetails[i].productAttri.isNotEmpty
+                              ? state.orderDetails[i].productAttri[0]
                                       .attributeName ??
                                   ""
                               : "",
                       productTypeCat1:
-                          state.orderDetails[i].productAttri.length > i
-                              ? state.orderDetails[i].productAttri[i]
+                          state.orderDetails[i].productAttri.isNotEmpty &&
+                                  state.orderDetails[i].productAttri.isNotEmpty
+                              ? state.orderDetails[i].productAttri[0]
                                       .attributeValue ??
                                   ""
                               : "",
                       productNameCat2:
-                          state.orderDetails[i].productAttri.length > i
-                              ? state.orderDetails[i].productAttri[i + 1]
+                          state.orderDetails[i].productAttri.isNotEmpty &&
+                                  state.orderDetails[i].productAttri.length > 1
+                              ? state.orderDetails[i].productAttri[1]
                                       .attributeName ??
                                   ""
                               : "",
                       productTypeCat2:
-                          state.orderDetails[i].productAttri.length > i
-                              ? state.orderDetails[i].productAttri[i + 1]
+                          state.orderDetails[i].productAttri.isNotEmpty &&
+                                  state.orderDetails[i].productAttri.length > 1
+                              ? state.orderDetails[i].productAttri[1]
                                       .attributeValue ??
                                   ""
                               : "",
