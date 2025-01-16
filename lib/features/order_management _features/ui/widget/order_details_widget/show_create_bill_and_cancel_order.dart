@@ -118,16 +118,16 @@ class ShowCreateBillAndCancelOrder extends StatelessWidget {
                         mountConroller.clear();
                         dateConroller.clear();
                         context.read<AllOrderCubit>().fetchAllOrder(
-                            isUrgen: false,
-                            canceled: false,
-                            delevred: false,
-                            noInvoice: false,
-                            unpaied: false,
-                            paied: false,
-                            pageNumber: 1,
-                            pageSize: 100,
-                            storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
-                            // srearchKeyword: ''
+                              isUrgen: false,
+                              canceled: false,
+                              delevred: false,
+                              noInvoice: false,
+                              unpaied: false,
+                              paied: false,
+                              pageNumber: 1,
+                              pageSize: 100,
+                              // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
+                              // srearchKeyword: ''
                             );
                       } catch (e) {
                         showDialog(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sindbad_management_app/core/shared_widgets/new_widgets/sub_custom_tab_bar.dart';
 import 'package:sindbad_management_app/core/utils/route.dart';
 import '../../../../core/styles/Colors.dart';
 import '../../../../core/styles/text_style.dart';
@@ -44,15 +45,24 @@ class OrderBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color orderColor;
+    //بدون فاتورة
     if (paymentInfo == 'لايوجد' && billNumber == 'لايوجد') {
       orderColor = Color(0xffE8E8E8);
-    } else if (paymentInfo == 'لا شي') {
+    }
+    //لم تسدد
+    else if (paymentInfo == 'لا شي') {
       orderColor = Color(0xCCFFF2F5);
-    } else if (paymentInfo == 'اجل') {
+    }
+    //للشحن
+    else if (paymentInfo == 'اجل') {
       orderColor = Color(0xffCEECF0);
-    } else if (paymentInfo == 'كاش') {
+    }
+    //للشحن
+    else if (paymentInfo == 'كاش') {
       orderColor = Color(0xffCDE8F6);
-    } else {
+    }
+    //غيره
+    else {
       orderColor = Colors.white;
     }
     return InkWell(
@@ -67,6 +77,7 @@ class OrderBody extends StatelessWidget {
         paymentInfos = paymentInfo;
         orderStatuss = orderStatus;
         orderColors = orderColor;
+        // isDelevredOrCancles = isDelevredOrCancle;
         context.push(AppRouter.storeRouters.details, extra: idPackage);
       },
       child: Container(
@@ -93,7 +104,7 @@ class OrderBody extends StatelessWidget {
               child: Row(
                 children: [
                   Text('بيانات السداد : ', style: KTextStyle.textStyle12),
-                  Text(paymentInfo, style: KTextStyle.textStyle12)
+                  Text(paymentInfo, style: KTextStyle.textStyle12),
                 ],
               ),
             ),

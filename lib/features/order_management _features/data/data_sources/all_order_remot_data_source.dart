@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/data/models/invoice/order_invoice_model.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/order_detalis_entity.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/order_invoice_entity.dart';
@@ -25,7 +26,7 @@ abstract class AllOrderRemotDataSource {
     bool paied,
     int pageNumber,
     int pageSize,
-    String storeId,
+    // String storeId,
     // String srearchKeyword,
   );
   /////////////////////////////////
@@ -129,10 +130,13 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
     bool paied,
     int pageNumber,
     int pageSize,
-    String storeId,
+    // String storeId,
     // String srearchKeyword,
   ) async {
     String? token = await getToken();
+    final decodeToken = JwtDecoder.decode(token!);
+    print('decodeToken[Id]');
+    print(decodeToken['Id']);
     var data = await apiService.post(
       data: {
         'isUrgen': isUrgen,
@@ -143,7 +147,7 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
         'paied': paied,
         'pageSize': pageSize,
         'pageNumber': pageNumber,
-        'storeId': storeId
+        'storeId': decodeToken['Id']
         // 'search': srearchKeyword,
       },
       endPoint: 'Orders/Store/GetStoreOrders',

@@ -14,17 +14,17 @@ class AllOrderUsecase
   Future<Either<Failure, List<AllOrderEntity>>> execute(
       AllOrderParam params) async {
     return await allOrderRepo.fetchAllOrder(
-        isUrgen: params.isUrgen,
-        canceled: params.canceled,
-        delevred: params.delevred,
-        noInvoice: params.noInvoice,
-        unpaied: params.unpaied,
-        paied: params.paied,
-        pageNumber: params.pageNumber,
-        pageSize: params.pageSize,
-        storeId: params.storeId
-        // searchKeyword: params.srearchKeyword
-        );
+      isUrgen: params.isUrgen,
+      canceled: params.canceled,
+      delevred: params.delevred,
+      noInvoice: params.noInvoice,
+      unpaied: params.unpaied,
+      paied: params.paied,
+      pageNumber: params.pageNumber,
+      pageSize: params.pageSize,
+      // storeId: params.storeId
+      // searchKeyword: params.srearchKeyword
+    );
   }
 }
 
@@ -37,7 +37,7 @@ class AllOrderParam {
   final bool paied;
   final int pageNumber;
   final int pageSize;
-  final String storeId;
+  // final String storeId;
   // final String srearchKeyword;
 
   AllOrderParam({
@@ -49,7 +49,7 @@ class AllOrderParam {
     required this.paied,
     required this.pageNumber,
     required this.pageSize,
-    required this.storeId,
+    // required this.storeId,
     // required this.srearchKeyword,
   });
 }

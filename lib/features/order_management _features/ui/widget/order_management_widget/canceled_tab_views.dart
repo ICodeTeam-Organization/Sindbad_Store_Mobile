@@ -49,7 +49,7 @@ class _CanceledTabViewsState extends State<CanceledTabViews> {
         paied: false,
         pageNumber: 1,
         pageSize: 100,
-        storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966',
+        // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966',
         // srearchKeyword: ''
       );
     }
@@ -72,7 +72,7 @@ class _CanceledTabViewsState extends State<CanceledTabViews> {
           paied: false,
           pageNumber: 1,
           pageSize: 100,
-          storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966',
+          // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966',
           // srearchKeyword: ''
         );
 
@@ -87,15 +87,16 @@ class _CanceledTabViewsState extends State<CanceledTabViews> {
               return Column(
                 children: [
                   OrderBody(
-                      idOrder: state.orders[i].idOrder,
-                      billNumber: state.orders[i].orderBill,
-                      orderNumber: state.orders[i].orderNum,
-                      clock: '12:12',
-                      date: state.orders[i].orderDates,
-                      itemNumber: state.orders[i].productMount,
-                      paymentInfo: state.orders[i].payStatus,
-                      orderStatus: state.orders[i].orderStatuse,
-                      idPackage: state.orders[i].idPackage),
+                    idOrder: state.orders[i].idOrder,
+                    billNumber: state.orders[i].orderBill,
+                    orderNumber: state.orders[i].orderNum,
+                    clock: '12:12',
+                    date: state.orders[i].orderDates,
+                    itemNumber: state.orders[i].productMount,
+                    paymentInfo: state.orders[i].payStatus,
+                    orderStatus: state.orders[i].orderStatuse,
+                    idPackage: state.orders[i].idPackage,
+                  ),
                   if (i == state.orders.length - 1)
                     SizedBox(
                       height: 120.h,

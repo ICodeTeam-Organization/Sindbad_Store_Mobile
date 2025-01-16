@@ -46,7 +46,7 @@ class AllOrderRepoImpl extends AllOrderRepo {
     required bool paied,
     required int pageNumber,
     required int pageSize,
-    required String storeId,
+    // required String storeId,
     // required String searchKeyword,
   }) {
     return fetchData(() => allOrderRemotDataSource.fetchAllOrder(
@@ -58,7 +58,7 @@ class AllOrderRepoImpl extends AllOrderRepo {
           paied,
           pageNumber,
           pageSize,
-          storeId,
+          // storeId,
           // searchKeyword,
         ));
   }
