@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -73,7 +72,9 @@ class AddProductToStoreCubit extends Cubit<AddProductToStoreState> {
     }
     print([
       for (int i = 0; i < keys.length; i++)
-        {"attributeName": keys[i].text, "attributeValue": values[i].text}
+        ProAttribute(
+            attributeName: keys[i].text, attributeValue: values[i].text)
+      // {"attributeName": keys[i].text, "attributeValue": values[i].text}
     ]);
     print("=======================  testPostRequest  =====================");
   }

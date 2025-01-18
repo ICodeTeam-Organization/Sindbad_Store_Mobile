@@ -271,10 +271,10 @@ void showActivateProductDialog({
             return CustomShowDialogForViewWidget(
               title: 'إعادة تنشيط المنتج',
               subtitle: 'هل تريد بالتأكيد إعادة تنشيط هذا المنتج؟',
-              isLoading: state is DeleteProductByIdFromStoreLoading,
+              isLoading: state is ActivateProductsByIdsLoading,
               onConfirm: () => dialogContext
-                  .read<DeleteProductByIdFromStoreCubit>()
-                  .deleteProductById(productId: productId),
+                  .read<ActivateProductsByIdsCubit>()
+                  .activateProductsByIds(ids: [productId]),
               confirmText: 'إعادة تنشيط',
               cancelText: 'إلغاء',
             );

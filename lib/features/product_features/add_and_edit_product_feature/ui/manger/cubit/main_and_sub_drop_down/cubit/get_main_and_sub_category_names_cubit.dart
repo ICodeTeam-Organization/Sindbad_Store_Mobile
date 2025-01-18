@@ -43,6 +43,9 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
       //
       // mainAndSubCategories = mainAndSubCategory;
       mainAndSubCategories = mainAndSubCategory;
+
+      // selectedSubCategories = contains just sub categories for mainCategories specific by ID
+
       //
       emit(GetCategoryNamesSuccess(
           categoryAndSubCategoryNames:
@@ -54,16 +57,13 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
   // عند اختيار فئة رئيسية، تحديث الفئات الفرعية
   void updateSubCategories(int selectedMainCategoryId) {
     try {
-      // نحاول العثور على الفئة الرئيسية
       final selectedMainCategory = mainAndSubCategories.firstWhere(
         (category) => category.mainCategoryId == selectedMainCategoryId,
       );
-
-      // إذا تم العثور على الفئة الرئيسية، نقوم بتحديث الفئات الفرعية
+      // selectedSubCategories = contains just sub categories for mainCategories specific by ID
       selectedSubCategories = selectedMainCategory.subCategory;
     } catch (e) {
-      // إذا لم يتم العثور على العنصر، نعرض رسالة خطأ أو نستخدم قيمة افتراضية
-      selectedSubCategories = []; // نستخدم قائمة فارغة كقيمة افتراضية
+      selectedSubCategories = [];
     }
 
     emit(GetCategoryNamesSuccess(

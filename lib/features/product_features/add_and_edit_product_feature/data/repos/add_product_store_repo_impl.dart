@@ -8,6 +8,7 @@ import 'package:sindbad_management_app/features/product_features/add_and_edit_pr
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/edit_product_entities/edit_product_entity.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/edit_product_entities/product_details_entity.dart';
 import '../../domain/repos/add_and_edit_product_store_repo.dart';
+import '../../domain/usecases/add_product_to_store_use_case.dart';
 import '../data_source/add_and_edit_product_to_store_remote_data_source.dart';
 
 class AddAndEditProductStoreRepoImpl extends AddAndEditProductStoreRepo {
@@ -38,19 +39,21 @@ class AddAndEditProductStoreRepoImpl extends AddAndEditProductStoreRepo {
   }
 
   @override
-  Future<Either<Failure, AddProductEntity>> addProductToStore(
-      {required String name,
-      required num price,
-      required String description,
-      required File mainImageFile,
-      required String number,
-      required int? storeId,
-      required int? offerId,
-      required int? brandId,
-      required int mainCategoryId,
-      required List<File> images,
-      required List<int> subCategoryIds,
-      required List<Map<String, String>> newAttributes}) async {
+  Future<Either<Failure, AddProductEntity>> addProductToStore({
+    required String name,
+    required num price,
+    required String description,
+    required File mainImageFile,
+    required String number,
+    required int? storeId,
+    required int? offerId,
+    required int? brandId,
+    required int mainCategoryId,
+    required List<File> images,
+    required List<int> subCategoryIds,
+    // required List<Map<String, String>> newAttributes,
+    required List<Map<String, String>> newAttributes,
+  }) async {
     return postOneData(
         () => addAndEditProductToStoreRemoteDataSource.addProductToStore(
               name: name,

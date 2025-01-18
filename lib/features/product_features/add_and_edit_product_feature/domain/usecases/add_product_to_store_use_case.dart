@@ -30,6 +30,15 @@ class AddProductToStoreUseCase
   }
 }
 
+class ProAttribute {
+  const ProAttribute({
+    required this.attributeName,
+    required this.attributeValue,
+  });
+  final String attributeName;
+  final String attributeValue;
+}
+
 class AddProductToStoreParams {
   final String name;
   final num price;
@@ -44,6 +53,7 @@ class AddProductToStoreParams {
   final int mainCategoryId;
   final List<File> images;
   final List<int> subCategoryIds;
+  // final List<Map<String, String>> newAttributes;
   final List<Map<String, String>> newAttributes;
   AddProductToStoreParams({
     required this.name,

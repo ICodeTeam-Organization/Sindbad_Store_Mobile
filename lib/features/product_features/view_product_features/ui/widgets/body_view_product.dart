@@ -5,6 +5,7 @@ import 'package:sindbad_management_app/features/product_features/view_product_fe
 import '../../../../../core/shared_widgets/new_widgets/custom_app_bar.dart';
 import '../../../../../core/shared_widgets/new_widgets/custom_tab_bar_widget.dart';
 import '../../../../../core/styles/Colors.dart';
+import '../manager/activate_products/activate_products_by_ids_cubit.dart';
 import '../manager/disable_products/disable_products_by_ids_cubit.dart';
 import '../manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
 import 'custom_show_dialog_for_view_widget.dart';
@@ -202,23 +203,13 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
                   anyProductsSelected:
                       cubitGetStoreProducts.updatedProductsSelected.isEmpty,
                   onTapLeft: () {
-                    showDialog(
-                      context: context, // تمرير السياق الصحيح
-                      builder: (BuildContext context) {
-                        final List<int> selectedProducts =
-                            cubitGetStoreProducts.updatedProductsSelected;
-                        return CustomShowDialogForViewWidget(
-                          isLoading: false,
-                          title: 'هل انت متأكد من إعادة تنشيط المنتجات؟',
-                          subtitle:
-                              'عدد المنتجات التي تريد إعادة تنشيطها : ${selectedProducts.length}',
-                          confirmText: "إعادة تنشيط",
-                          cancelText: "إلغاء",
-                          onConfirm: () {
-                            // هنا يتم وضع كود إعادة تنشيط عدة منتجات
-                          },
-                        );
-                      },
+                    showActivateMoreProductDialog(
+                      contextParent: context,
+                      productsIds:
+                          cubitGetStoreProducts.updatedProductsSelected,
+                      storeProductsFilter: tabIndex,
+                      activateProductsCubit:
+                          context.read<ActivateProductsByIdsCubit>(),
                     );
                   },
                 );
@@ -235,4 +226,57 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
         return Container();
     }
   }
+}
+
+void showActivateMoreProductDialog({
+  required BuildContext contextParent,
+  required List<int> productsIds,
+  required int storeProductsFilter,
+  required ActivateProductsByIdsCubit
+      activateProductsCubit, // Add this parameter
+}) {
+  showDialog(
+    context: contextParent,
+    builder: (BuildContext dialogContext) {
+      return BlocProvider.value(
+        value: activateProductsCubit, // Provide the cubit explicitly
+        child: BlocConsumer<ActivateProductsByIdsCubit,
+            ActivateProductsByIdsState>(
+          listener: (dialogContext, state) {
+            if (state is ActivateProductsByIdsSuccess) {
+              ScaffoldMessenger.of(dialogContext).showSnackBar(
+                SnackBar(content: Text('تم إعادة تنشيط المنتجات بنجاح!')),
+              );
+              Navigator.of(dialogContext, rootNavigator: true)
+                  .pop(); // Close dialog
+              contextParent
+                  .read<GetStoreProductsWithFilterCubit>()
+                  .getStoreProductsWitheFilter(
+                    storeProductsFilter: storeProductsFilter,
+                    pageNumper: 1,
+                    pageSize: 100,
+                  );
+            } else if (state is ActivateProductsByIdsFailure) {
+              ScaffoldMessenger.of(dialogContext).showSnackBar(
+                SnackBar(content: Text(state.errMessage)),
+              );
+            }
+          },
+          builder: (dialogContext, state) {
+            return CustomShowDialogForViewWidget(
+              isLoading: state is ActivateProductsByIdsLoading,
+              title: 'هل انت متأكد من إعادة تنشيط المنتجات؟',
+              subtitle:
+                  'عدد المنتجات التي تريد إعادة تنشيطها : ${productsIds.length}',
+              confirmText: "إعادة تنشيط",
+              cancelText: "إلغاء",
+              onConfirm: () => dialogContext
+                  .read<ActivateProductsByIdsCubit>()
+                  .activateProductsByIds(ids: productsIds),
+            );
+          },
+        ),
+      );
+    },
+  );
 }

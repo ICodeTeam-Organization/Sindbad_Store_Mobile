@@ -11,6 +11,7 @@ import '../manger/cubit/add_attribute_product.dart/add_attribute_product_dart_cu
 import '../manger/cubit/brands_by_main_category_id/cubit/get_brands_by_category_id_cubit.dart';
 import '../manger/cubit/edit_product_from_store/edit_product_from_store_cubit.dart';
 import '../manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
+import '../manger/cubit/sub_category/sub_category_cubit.dart';
 import 'edit_product_screen_body.dart';
 
 class EditProductScreen extends StatelessWidget {
@@ -39,6 +40,7 @@ class EditProductScreen extends StatelessWidget {
                     getit.get<AddAndEditProductStoreRepoImpl>(),
                   ))),
           BlocProvider(create: (context) => AddAttributeProductDartCubit()),
+          BlocProvider(create: (context) => SubCategoryCubit()),
         ],
         child: EditProductScreenBody(
           productDetailsEntity: productDetailsEntity,

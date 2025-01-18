@@ -146,7 +146,16 @@ class ApiService {
   }) async {
     try {
       FormData formData = FormData.fromMap(data);
-
+      if (data.keys.contains("newAttributes")) {
+        formData.fields
+            .removeWhere((item) => item.key.contains("newAttributes"));
+        for (var i = 0; i < data["newAttributes"].length; i++) {
+          formData.fields.add(MapEntry("newAttributes[$i].attributeName",
+              data["newAttributes"][i]["attributeName"]));
+          formData.fields.add(MapEntry("newAttributes[$i].attributeValue",
+              data["newAttributes"][i]["attributeValue"]));
+        }
+      }
       // Add image files to the form data
       if (imageFiles.isEmpty != true) {
         // formData.fields.add(const MapEntry("images", ""));

@@ -32,7 +32,8 @@ class EditProductFromStoreCubit extends Cubit<EditProductFromStoreState> {
   File? subTwoImageProductFile;
   File? subThreeImageProductFile;
 
-  // // all num for [ Type product ] ==> add product page
+  // all num for [ Type product ] ==> Edit product page
+  bool isInitialDropDown = true;
   int? selectedMainCategoryId;
   int? selectedSubCategoryId;
   int? selectedBrandId;
@@ -47,6 +48,10 @@ class EditProductFromStoreCubit extends Cubit<EditProductFromStoreState> {
   // // all fileds for [ Attribute product ] ==> add product page
   // List<TextEditingController> keys = [];
   // List<TextEditingController> values = [];
+
+  // void updateIsInitialDropDown() {
+  //   isInitialDropDown = false;
+  // }
 
   // for set Image variables = value
   void saveImageInCubit({required int boxNum, required File? file}) {

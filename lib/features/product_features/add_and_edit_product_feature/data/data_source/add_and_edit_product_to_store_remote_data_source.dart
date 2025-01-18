@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sindbad_management_app/core/api_service.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/data/models/add_product_model.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/usecases/add_product_to_store_use_case.dart';
 import '../../domain/entities/add_product_entities/add_product_entity.dart';
 import '../../domain/entities/add_product_entities/brand_entity.dart';
 import '../../domain/entities/add_product_entities/main_category_entity.dart';
@@ -26,6 +27,7 @@ abstract class AddAndEditProductToStoreRemoteDataSource {
     required int mainCategoryId,
     required List<File> images,
     required List<int> subCategoryIds,
+    // required List<Map<String, String>> newAttributes,
     required List<Map<String, String>> newAttributes,
   });
   // Future<EditProductEntity> editProductFromStore({
@@ -69,19 +71,21 @@ class AddProductToStoreRemoteDataSourceImpl
   }
 
   @override
-  Future<AddProductEntity> addProductToStore(
-      {required String name,
-      required num price,
-      required String description,
-      required File mainImageFile,
-      required String number,
-      required int? storeId,
-      required int? offerId,
-      required int? brandId,
-      required int mainCategoryId,
-      required List<File> images,
-      required List<int> subCategoryIds,
-      required List<Map<String, String>> newAttributes}) async {
+  Future<AddProductEntity> addProductToStore({
+    required String name,
+    required num price,
+    required String description,
+    required File mainImageFile,
+    required String number,
+    required int? storeId,
+    required int? offerId,
+    required int? brandId,
+    required int mainCategoryId,
+    required List<File> images,
+    required List<int> subCategoryIds,
+    // required List<Map<String, String>> newAttributes,
+    required List<Map<String, String>> newAttributes,
+  }) async {
     String? token = await getToken();
     final Map<String, dynamic> dataBody = {
       "Name": name,
