@@ -36,26 +36,23 @@ class MidOrderDetails extends StatelessWidget {
         Spacer(),
         Text('الاجمالي'),
         Container(
-          width: MediaQuery.sizeOf(context).width * 0.3,
+          // width: MediaQuery.sizeOf(context).width * 0.3,
           padding: EdgeInsets.all(4.0),
           margin: EdgeInsets.all(4.0),
           decoration: BoxDecoration(
             border: Border.all(color: AppColors.grey),
             borderRadius: BorderRadius.circular(8.r),
           ),
-          child: FittedBox(
-            child: Row(
-              children: [
-                Text(
-                  '1234567891',
-                  // '$total',
-                  overflow: TextOverflow.ellipsis,
-                  style:
-                      KTextStyle.textStyle16.copyWith(color: AppColors.primary),
-                ),
-                Text('\$'),
-              ],
-            ),
+          child: Row(
+            children: [
+              Text(
+                '$total',
+                overflow: TextOverflow.ellipsis,
+                style:
+                    KTextStyle.textStyle16.copyWith(color: AppColors.primary),
+              ),
+              Text('\$'),
+            ],
           ),
         ),
       ],
