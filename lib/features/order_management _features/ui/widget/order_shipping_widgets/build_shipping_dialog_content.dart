@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/shared_widgets/new_widgets/date_text_field.dart';
 import '../../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
+import '../../manager/shipping/shipping_cubit.dart';
 import '../order_details_widget/build_dialog_content.dart';
 import '../order_details_widget/build_image_section.dart';
 import '../order_details_widget/build_info_row.dart';
@@ -95,9 +97,14 @@ class _BuildShippingDialogContentState
             SizedBox(
               height: 20.h,
             ),
-            StorePrimaryButton(
-              title: 'تاكيد',
-              onTap: widget.onPressedSure,
+            BlocBuilder<ShippingCubit, ShippingState>(
+              builder: (context, state) {
+                return StorePrimaryButton(
+                  isLoading: state is ShippingLoading,
+                  title: 'تاكيد',
+                  onTap: widget.onPressedSure,
+                );
+              },
             ),
           ],
         ),
