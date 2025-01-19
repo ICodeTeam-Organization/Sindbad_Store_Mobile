@@ -85,7 +85,12 @@ class _BuildInfoRowAddState extends State<BuildInfoRowAdd> {
                 padding: EdgeInsets.zero,
                 onPressed: () {
                   setState(() {
-                    parcels = (parcels! - 1);
+                    if (parcels == 1) {
+                      parcels == 1;
+                    } else {
+                      parcels = (parcels! - 1);
+                    }
+
                     // count = widget.parcels;
                   });
                 },
