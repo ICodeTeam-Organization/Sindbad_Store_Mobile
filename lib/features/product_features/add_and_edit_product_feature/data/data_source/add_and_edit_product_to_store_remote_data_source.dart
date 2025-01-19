@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sindbad_management_app/core/api_service.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/data/models/add_product_model.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/data/models/edit_product_model.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/usecases/add_product_to_store_use_case.dart';
 import '../../domain/entities/add_product_entities/add_product_entity.dart';
 import '../../domain/entities/add_product_entities/brand_entity.dart';
@@ -30,21 +31,21 @@ abstract class AddAndEditProductToStoreRemoteDataSource {
     // required List<Map<String, String>> newAttributes,
     required List<Map<String, String>> newAttributes,
   });
-  // Future<EditProductEntity> editProductFromStore({
-  //   required int id,
-  //   // required String name,
-  //   required num price,
-  //   required String description,
-  //   required File mainImageFile,
-  //   // required String number,
-  //   required int? storeId,
-  //   required int? offerId,
-  //   required int? brandId,
-  //   required int mainCategoryId,
-  //   required List<File> images,
-  //   required List<int> subCategoryIds,
-  //   required List<Map<String, String>> newAttributes,
-  // });
+  Future<EditProductEntity> editProductFromStore({
+    required int id,
+    // required String name,
+    required num price,
+    required String description,
+    required File? mainImageFile,
+    // required String number,
+    required int? storeId,
+    required int? offerId,
+    required int? brandId,
+    required int mainCategoryId,
+    required List<File>? images,
+    required List<int> subCategoryIds,
+    required List<Map<String, String>> newAttributes,
+  });
 
   Future<List<MainCategoryEntity>> getMainAndSubCategory({
     required int filterType,
@@ -170,6 +171,47 @@ class AddProductToStoreRemoteDataSourceImpl
     ProductDetailsEntity productDetailsEntity =
         ProductDetailsModel.fromJson(data["data"]);
     return productDetailsEntity;
+  }
+
+  @override
+  Future<EditProductEntity> editProductFromStore({
+    required int id,
+    required num price,
+    required String description,
+    required File? mainImageFile,
+    required int? storeId,
+    required int? offerId,
+    required int? brandId,
+    required int mainCategoryId,
+    required List<File>? images,
+    required List<int> subCategoryIds,
+    required List<Map<String, String>> newAttributes,
+  }) async {
+    String? token = await getToken();
+    final Map<String, dynamic> dataBody = {
+      "Price": price,
+      "Description": description,
+      // "MainImageUrl": mainImageFile,   // down.. in with files
+      "StoreId": storeId,
+      "OfferId": offerId,
+      "BrandId": brandId,
+      "MainCategoryId": mainCategoryId,
+      // "Images": images,                // down.. in with files
+      "SubCategoryIds": subCategoryIds,
+      "newAttributes": newAttributes
+    };
+    final data = await apiService.putWithFilesForEditProduct(
+      endPoint: "Products/UpdateProduct?id=$id",
+      data: dataBody,
+      imageFile: mainImageFile,
+      imageFiles: images,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+    EditProductEntity body = EditProductModel.fromJson(data);
+
+    return body;
   }
 
   // @override

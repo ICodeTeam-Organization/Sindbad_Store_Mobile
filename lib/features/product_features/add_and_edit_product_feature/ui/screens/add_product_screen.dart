@@ -27,7 +27,7 @@ class AddProductScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          // =========  initilize BlocProvider for Add Product Screen ==========
+          // =========  initialize BlocProvider for Add Product Screen ==========
           child: MultiBlocProvider(
             providers: [
               //for add product

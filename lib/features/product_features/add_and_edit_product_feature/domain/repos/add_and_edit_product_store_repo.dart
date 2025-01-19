@@ -46,12 +46,12 @@ abstract class AddAndEditProductStoreRepo {
     required String description,
     required num price,
     // required String number,   // can't update in this in backend
-    required File mainImageFile,
+    required File? mainImageFile,
     required int? storeId,
     required int? offerId,
     required int? brandId,
     required int mainCategoryId,
-    required List<File> images,
+    required List<File>? images,
     required List<int> subCategoryIds,
     required List<Map<String, String>> newAttributes,
   });

@@ -36,13 +36,13 @@ class EditProductFromStoreParams {
   // final String name;
   final num price;
   final String description;
-  final File mainImageFile;
+  final File? mainImageFile;
   // final String number;
   final int? storeId;
   final int? offerId;
   final int? brandId;
   final int mainCategoryId;
-  final List<File> images;
+  final List<File>? images;
   final List<int> subCategoryIds;
   final List<Map<String, String>> newAttributes;
 

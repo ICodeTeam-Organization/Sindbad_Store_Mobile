@@ -130,19 +130,41 @@ class AddAndEditProductStoreRepoImpl extends AddAndEditProductStoreRepo {
   }
 
   @override
-  Future<Either<Failure, EditProductEntity>> editProductFromStore(
-      {required int id,
-      required String description,
-      required num price,
-      required File mainImageFile,
-      required int? storeId,
-      required int? offerId,
-      required int? brandId,
-      required int mainCategoryId,
-      required List<File> images,
-      required List<int> subCategoryIds,
-      required List<Map<String, String>> newAttributes}) {
-    // TODO: implement editProductFromStore
-    throw UnimplementedError();
+  Future<Either<Failure, EditProductEntity>> editProductFromStore({
+    required int id,
+    required String description,
+    required num price,
+    required File? mainImageFile,
+    required int? storeId,
+    required int? offerId,
+    required int? brandId,
+    required int mainCategoryId,
+    required List<File>? images,
+    required List<int> subCategoryIds,
+    required List<Map<String, String>> newAttributes,
+  }) async {
+    try {
+      EditProductEntity response =
+          await addAndEditProductToStoreRemoteDataSource.editProductFromStore(
+        id: id,
+        price: price,
+        description: description,
+        mainImageFile: mainImageFile,
+        storeId: storeId,
+        offerId: offerId,
+        brandId: brandId,
+        mainCategoryId: mainCategoryId,
+        images: images,
+        subCategoryIds: subCategoryIds,
+        newAttributes: newAttributes,
+      );
+      return right(response);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      } else {
+        return left(ServerFailure(e.toString()));
+      }
+    }
   }
 }

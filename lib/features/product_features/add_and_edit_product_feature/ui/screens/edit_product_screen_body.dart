@@ -6,6 +6,7 @@ import 'package:sindbad_management_app/core/shared_widgets/new_widgets/store_pri
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
 import '../../../../../core/setup_service_locator.dart';
+import '../../../../../core/utils/route.dart';
 import '../../data/repos/add_product_store_repo_impl.dart';
 import '../../domain/entities/add_product_entities/brand_entity.dart';
 import '../../domain/entities/add_product_entities/main_category_entity.dart';
@@ -70,46 +71,20 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
 
   @override
   void dispose() {
-    // for (var controller in _keys) {
-    //   controller.dispose();
-    // }
-    // for (var controller in _values) {
-    //   controller.dispose();
-    // }
+    _priceProductController.dispose();
+    _descriptionProductController.dispose();
+
     super.dispose();
   }
-
-  // void _addField() {
-  //   setState(() {
-  //     _keys.add(TextEditingController());
-  //     _values.add(TextEditingController());
-  //   });
-  // }
-
-  // void _removeField(int index) {
-  //   setState(() {
-  //     _keys.removeAt(index);
-  //     _values.removeAt(index);
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
     final AddAttributeProductDartCubit cubitAttribute =
         context.read<AddAttributeProductDartCubit>();
-    // context
-    //     .read<GetCategoryNamesCubit>()
-    //     .getMainAndSubCategory(filterType: 2, pageNumper: 1, pageSize: 100);
-    // تحديث البراند
-    // context.read<GetBrandsByCategoryIdCubit>().getBrandsByMainCategoryId(
-    //     mainCategoryId: widget.productDetailsEntity.mainCategoryIdProduct);
-    // shortuct to access [GetCategoryNamesCubit]
-    // final GetCategoryNamesCubit cubitCategories =
-    //     context.read<GetCategoryNamesCubit>();
-    // shortuct to access [EditProductFromStoreCubit]
+
     final EditProductFromStoreCubit cubitEditProduct =
         context.read<EditProductFromStoreCubit>();
-    // loop to add attribute product from getProductDetails
+    // loop to add attribute product from getProductDetails to cubit Attribute
     for (int i = 0;
         i < widget.productDetailsEntity.attributesWithValuesProduct.length;
         i++) {
@@ -121,9 +96,6 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
               .valueProduct[0]));
     }
 
-    // /// for Main category Id
-    // cubitEditProduct.selectedMainCategoryId =
-    //     widget.productDetailsEntity.mainCategoryIdProduct;
     return MaterialApp(
       home: Scaffold(
         body: SingleChildScrollView(
@@ -353,7 +325,7 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                             widget.productDetailsEntity.brandNameProduct,
                       ),
                       SizedBox(height: 26.h),
-                      // ====================  Attributr card =============================
+                      // ====================  Attribute card =============================
                       Flexible(
                         child: Card(
                           elevation: 4.0,
@@ -477,26 +449,60 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  StorePrimaryButton(
-                    title: "تأكيد",
-                    width: 251.w,
-                    height: 44.h,
-                    buttonColor: AppColors.primary,
-                    onTap: () {
-                      // Handle confirmation
-
-                      // for test
-                      cubitEditProduct.testEditProductRequest(
-                          priceProductController: _priceProductController.text,
-                          descriptionProductController:
-                              _descriptionProductController.text,
-                          keys: cubitAttribute.keys,
-                          values: cubitAttribute.values);
+                  BlocConsumer<EditProductFromStoreCubit,
+                      EditProductFromStoreState>(
+                    listener: (context, state) {
+                      if (state is EditProductFromStoreSuccess) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('تم تعديل المنتج بنجاح!')),
+                        );
+                        // Trigger the callback to refresh parent screen
+                        // if (onSuccessCallback != null) {
+                        //   onSuccessCallback!();
+                        // }
+                        // context.go(AppRouter.storeRouters.root);
+                        // Navigator.of(context).pop(); // close add pruduct
+                        // context.go(AppRouter.storeRouters.root);
+                        // ====  to refrech view pruduct page ====
+                        // contextPerant
+                        //     .read<GetStoreProductsWithFilterCubit>()
+                        //     .getStoreProductsWitheFilter(
+                        //       storeProductsFilter: storeProductsFilter,
+                        //       pageNumper: 1,
+                        //       pageSize: 100,
+                        //     );
+                      } else if (state is EditProductFromStoreFailure) {
+                        debugPrint(state.errMessage);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(state.errMessage)),
+                        );
+                      }
+                    },
+                    builder: (context, state) {
+                      return StorePrimaryButton(
+                        isLoading: state is EditProductFromStoreLoading,
+                        title: "تأكيد",
+                        width: 251.w,
+                        height: 44.h,
+                        buttonColor: AppColors.primary,
+                        onTap: () {
+                          // Handle confirmation
+                          cubitEditProduct.editProductFromStore(
+                            productId: widget.productDetailsEntity.idProduct,
+                            priceProductController: _priceProductController,
+                            descriptionProductController:
+                                _descriptionProductController,
+                            keys: cubitAttribute.keys,
+                            values: cubitAttribute.values,
+                          );
+                        },
+                      );
                     },
                   ),
                   SizedBox(width: 8.w),
                   StorePrimaryButton(
                     onTap: () {
+                      // for test
                       debugPrint(
                           "=======  basic mainId = ${widget.productDetailsEntity.mainCategoryIdProduct.toString()}");
                       debugPrint(
@@ -512,6 +518,15 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                           "=======  basic subCategoriesName = ${widget.productDetailsEntity.subCategoriesName.toString()}");
                       debugPrint(
                           "=======  basic brandName = ${widget.productDetailsEntity.brandNameProduct.toString()}");
+                      debugPrint(
+                          "==============================================================================");
+                      // for test
+                      cubitEditProduct.testEditProductRequest(
+                          priceProductController: _priceProductController.text,
+                          descriptionProductController:
+                              _descriptionProductController.text,
+                          keys: cubitAttribute.keys,
+                          values: cubitAttribute.values);
                     },
                     title: "إلغاء",
                     width: 104.w,

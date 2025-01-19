@@ -1,7 +1,10 @@
 import 'dart:io';
+import 'package:dartz/dartz.dart';
 import 'package:path/path.dart' as path;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../../../core/errors/failure.dart';
+import '../../../../domain/entities/edit_product_entities/edit_product_entity.dart';
 import '../../../../domain/usecases/edit_product_from_store_use_case.dart';
 part 'edit_product_from_store_state.dart';
 
@@ -123,51 +126,52 @@ class EditProductFromStoreCubit extends Cubit<EditProductFromStoreState> {
         "=======================  test Edit Product Request  =====================");
   }
 
-  // void addProductToStore() async {
-  //   emit(AddProductToStoreLoading()); // ======== emit ==========
-  //   print("===========  جاررررررررررررري التحميييييل  =========");
-  //   AddProductToStoreParams params = AddProductToStoreParams(
-  //     name: nameProductController.text,
-  //     price: num.parse(priceProductController.text),
-  //     description: descriptionProductController.text,
-  //     mainImageFile: mainImageProductFile!,
-  //     number: numberProductController.text,
-  //     storeId: null,
-  //     offerId: null,
-  //     brandId: selectedBrandId,
-  //     mainCategoryId: selectedMainCategoryId!,
-  //     images: [
-  //       if (subOneImageProductFile != null) subOneImageProductFile!,
-  //       if (subTwoImageProductFile != null) subTwoImageProductFile!,
-  //       if (subThreeImageProductFile != null) subThreeImageProductFile!,
-  //     ],
-  //     subCategoryIds: [selectedSubCategoryId!],
-  //     newAttributes: [
-  //       for (int i = 0; i < keys.length; i++)
-  //         {"attributeName": keys[i].text, "attributeValue": values[i].text}
-  //     ],
-  //   );
-  //   print("============================  in cubit  ==========================");
-  //   Either<Failure, AddProductEntity> result =
-  //       await addProductToStoreUseCase.execute(params);
+  void editProductFromStore({
+    required int productId,
+    required TextEditingController priceProductController,
+    required TextEditingController descriptionProductController,
+    required List<TextEditingController> keys,
+    required List<TextEditingController> values,
+  }) async {
+    emit(EditProductFromStoreLoading());
+    EditProductFromStoreParams params = EditProductFromStoreParams(
+      id: productId,
+      price: num.parse(priceProductController.text),
+      description: priceProductController.text,
+      mainImageFile: mainImageProductFile,
+      storeId: null,
+      offerId: null,
+      brandId: selectedBrandId,
+      mainCategoryId: selectedMainCategoryId!,
+      images: (subOneImageProductFile == null &&
+              subTwoImageProductFile == null &&
+              subThreeImageProductFile == null)
+          ? null // if all null => will save [Basic images] for product
+          : [
+              if (subOneImageProductFile != null) subOneImageProductFile!,
+              if (subTwoImageProductFile != null) subTwoImageProductFile!,
+              if (subThreeImageProductFile != null) subThreeImageProductFile!
+            ],
+      subCategoryIds: [selectedMainCategoryId!],
+      newAttributes: [
+        for (int i = 0; i < keys.length; i++)
+          {"attributeName": keys[i].text, "attributeValue": values[i].text}
+      ],
+    );
 
-  //   result.fold(
-  //       // left
-  //       (failure) {
-  //     print("===========  فشششششششششل التحميييييل  =========");
-  //     print("===========  ${failure.message} =========");
-  //     print("===========  فشششششششششل التحميييييل  =========");
-  //     emit(AddProductToStoreFailure(
-  //         errMessage: failure.message)); // ======== emit ==========
-  //   },
-  //       // right
-  //       (message) {
-  //     print("===========  تمت الإضافة بنجاح =========");
-  //     print("=========== success =>  ${message.success} =========");
-  //     print("=========== message =>  ${message.message} =========");
-  //     print("===========  تمت الإضافة بنجاح =========");
-  //     emit(AddProductToStoreSuccess(
-  //         message: message)); // ======== emit ==========
-  //   });
-  // }
+    Either<Failure, EditProductEntity> result =
+        await editProductFromStoreUseCase.execute(params);
+
+    result.fold(
+        // left
+        (failure) {
+      emit(EditProductFromStoreFailure(
+          errMessage: failure.message)); // ======== emit ==========
+    },
+        // right
+        (message) {
+      emit(EditProductFromStoreSuccess(
+          message: message)); // ======== emit ==========
+    });
+  }
 }

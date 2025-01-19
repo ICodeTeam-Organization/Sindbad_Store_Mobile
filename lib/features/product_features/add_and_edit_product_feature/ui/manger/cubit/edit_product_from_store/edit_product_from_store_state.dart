@@ -8,9 +8,9 @@ final class EditProductFromStoreInitial extends EditProductFromStoreState {}
 final class EditProductFromStoreLoading extends EditProductFromStoreState {}
 
 final class EditProductFromStoreSuccess extends EditProductFromStoreState {
-  // final EditProductEnt message;
+  final EditProductEntity message;
 
-  // EditProductFromStoreSuccess({required this.message});
+  EditProductFromStoreSuccess({required this.message});
 }
 
 final class EditProductFromStoreFailure extends EditProductFromStoreState {
