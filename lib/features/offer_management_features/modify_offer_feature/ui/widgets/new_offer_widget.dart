@@ -478,6 +478,25 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                         }
                       },
                       builder: (context, state) {
+                        if (state is AddOfferLoading) {
+                          return Container(
+                            alignment: Alignment.center,
+                            height: 40.h,
+                            width: 180.w,
+                            decoration: BoxDecoration(
+                              color: AppColors.primary,
+                              borderRadius: BorderRadius.circular(5.r),
+                            ),
+                            child: CircleAvatar(
+                              backgroundColor: AppColors.transparent,
+                              child: CircularProgressIndicator(
+                                strokeAlign: -2,
+                                // strokeWidth: 5,
+                                color: AppColors.white,
+                              ),
+                            ),
+                          );
+                        }
                         return InkWell(
                           onTap: () async {
                             DateTime? startOfferFormat =

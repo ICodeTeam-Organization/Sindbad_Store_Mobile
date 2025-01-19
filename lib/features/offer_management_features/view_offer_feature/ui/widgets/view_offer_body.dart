@@ -25,7 +25,7 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
   @override
   void initState() {
     super.initState();
-    context.read<OfferCubit>().getOffer(10, 1);
+    context.read<OfferCubit>().getOffer(100, 1);
   }
 
   late int offerHeadId;
@@ -141,14 +141,29 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                                             );
                                             context
                                                 .read<OfferCubit>()
-                                                .getOffer(10, 1);
+                                                .getOffer(100, 1);
 
                                             Navigator.pop(
                                                 dialogContext); // Close the dialog
                                           }
                                         },
                                         builder: (context, state) {
-                                          return CustomDeleteDialogWidget(
+                                          if (state
+                                              is ChangeStatusOfferLoading) {
+                                            return CustomDialogWidget(
+                                              isLoading: true,
+                                              isDelete: false,
+                                              confirmText:
+                                                  'نعم , قم بتغيير الحالة',
+                                              title:
+                                                  'هل انت متأكد من تغيير حالة العرض ؟',
+                                              subtitle: '',
+                                              iconPath:
+                                                  "assets/change_status.svg",
+                                              onConfirm: () async {},
+                                            );
+                                          }
+                                          return CustomDialogWidget(
                                             isDelete: false,
                                             confirmText:
                                                 'نعم , قم بتغيير الحالة',
@@ -167,7 +182,7 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                                                   'Item Actived $offerHeadId');
                                               await context
                                                   .read<OfferCubit>()
-                                                  .getOffer(10, 1);
+                                                  .getOffer(100, 1);
                                             },
                                           );
                                         },
@@ -201,13 +216,23 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                                             )));
                                             context
                                                 .read<OfferCubit>()
-                                                .getOffer(10, 1);
+                                                .getOffer(100, 1);
 
                                             Navigator.pop(context);
                                           }
                                         },
                                         builder: (context, state) {
-                                          return CustomDeleteDialogWidget(
+                                          if (state is DeleteOfferLoading) {
+                                            return CustomDialogWidget(
+                                              isLoading: true,
+                                              title: 'هل انت متأكد من الحذف ؟',
+                                              subtitle:
+                                                  'يوجد بيانات مرتبطة بهذا المدخل',
+                                              onConfirm: () async {},
+                                            );
+                                          }
+
+                                          return CustomDialogWidget(
                                             title: 'هل انت متأكد من الحذف ؟',
                                             subtitle:
                                                 'يوجد بيانات مرتبطة بهذا المدخل',
@@ -219,7 +244,7 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                                                   'Item deleted $offerHeadId');
                                               await context
                                                   .read<OfferCubit>()
-                                                  .getOffer(10, 1);
+                                                  .getOffer(100, 1);
                                               setState(() {});
                                             },
                                           );

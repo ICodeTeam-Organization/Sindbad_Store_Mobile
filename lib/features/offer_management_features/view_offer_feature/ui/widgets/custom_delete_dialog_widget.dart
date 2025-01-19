@@ -4,25 +4,32 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
 
-class CustomDeleteDialogWidget extends StatelessWidget {
+class CustomDialogWidget extends StatefulWidget {
   final String title;
   final String subtitle;
   final String? confirmText;
   final String? cancelText;
   final VoidCallback onConfirm;
   final bool? isDelete;
+  final bool? isLoading;
   final String? iconPath;
-  const CustomDeleteDialogWidget({
+  const CustomDialogWidget({
     super.key,
     required this.title,
     required this.subtitle,
     required this.onConfirm,
     this.iconPath,
     this.isDelete = true,
+    this.isLoading = false,
     this.confirmText,
     this.cancelText,
   });
 
+  @override
+  State<CustomDialogWidget> createState() => _CustomDialogWidgetState();
+}
+
+class _CustomDialogWidgetState extends State<CustomDialogWidget> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -48,7 +55,7 @@ class CustomDeleteDialogWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   // Icon delete_dialog
-                  isDelete == true
+                  widget.isDelete == true
                       ? CircleAvatar(
                           radius: 25,
                           backgroundColor: AppColors.redOpacity,
@@ -62,7 +69,7 @@ class CustomDeleteDialogWidget extends StatelessWidget {
                           radius: 25,
                           backgroundColor: AppColors.greenOpacity,
                           child: SvgPicture.asset(
-                            iconPath!,
+                            widget.iconPath!,
                             width: 25.w,
                             height: 25.h,
                           ),
@@ -70,7 +77,7 @@ class CustomDeleteDialogWidget extends StatelessWidget {
                   const SizedBox(height: 16),
                   // Title
                   Text(
-                    title,
+                    widget.title,
                     style: KTextStyle.textStyle18.copyWith(
                       color: AppColors.blackDark,
                     ),
@@ -78,7 +85,7 @@ class CustomDeleteDialogWidget extends StatelessWidget {
                   const SizedBox(height: 8),
                   // Subtitle
                   Text(
-                    subtitle,
+                    widget.subtitle,
                     style: KTextStyle.textStyle16.copyWith(
                       color: AppColors.greyLight,
                     ),
@@ -91,31 +98,71 @@ class CustomDeleteDialogWidget extends StatelessWidget {
                     children: [
                       // Confirm Button
                       InkWell(
-                          onTap: onConfirm,
-                          child: isDelete == true
-                              ? Container(
-                                  alignment: Alignment.center,
-                                  height: 40.h,
-                                  width: 130.w,
-                                  decoration: BoxDecoration(
-                                      color: AppColors.redOpacity,
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Text('نعم , متابعة الحذف',
-                                      style: KTextStyle.textStyle13.copyWith(
-                                        color: AppColors.redDark,
-                                      )))
-                              : Container(
-                                  alignment: Alignment.center,
-                                  height: 40.h,
-                                  width: 130.w,
-                                  decoration: BoxDecoration(
-                                      color: AppColors.greenOpacity,
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Text(
-                                      confirmText ?? 'نعم , متابعة الحذف',
-                                      style: KTextStyle.textStyle13.copyWith(
-                                        color: Colors.green,
-                                      )))),
+                          onTap: widget.onConfirm,
+                          child: widget.isDelete == true
+                              ? widget.isLoading == false
+                                  ? Container(
+                                      alignment: Alignment.center,
+                                      height: 40.h,
+                                      width: 130.w,
+                                      decoration: BoxDecoration(
+                                          color: AppColors.redOpacity,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Text('نعم , متابعة الحذف',
+                                          style:
+                                              KTextStyle.textStyle13.copyWith(
+                                            color: AppColors.redDark,
+                                          )))
+                                  : Container(
+                                      alignment: Alignment.center,
+                                      height: 40.h,
+                                      width: 130.w,
+                                      decoration: BoxDecoration(
+                                          color: AppColors.redOpacity,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: CircleAvatar(
+                                        backgroundColor: AppColors.transparent,
+                                        child: CircularProgressIndicator(
+                                          strokeAlign: -2,
+                                          // strokeWidth: 5,
+                                          color: AppColors.redDark,
+                                        ),
+                                      ),
+                                    )
+                              : widget.isLoading == false
+                                  ? Container(
+                                      alignment: Alignment.center,
+                                      height: 40.h,
+                                      width: 130.w,
+                                      decoration: BoxDecoration(
+                                          color: AppColors.greenOpacity,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Text(
+                                          widget.confirmText ??
+                                              'نعم , متابعة الحذف',
+                                          style:
+                                              KTextStyle.textStyle13.copyWith(
+                                            color: Colors.green,
+                                          )))
+                                  : Container(
+                                      alignment: Alignment.center,
+                                      height: 40.h,
+                                      width: 130.w,
+                                      decoration: BoxDecoration(
+                                          color: AppColors.greenOpacity,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: CircleAvatar(
+                                        backgroundColor: AppColors.transparent,
+                                        child: CircularProgressIndicator(
+                                          strokeAlign: -2,
+                                          // strokeWidth: 5,
+                                          color: Colors.green,
+                                        ),
+                                      ))),
                       // Cancel Button
                       InkWell(
                           onTap: () => Navigator.of(context).pop(),
@@ -126,7 +173,8 @@ class CustomDeleteDialogWidget extends StatelessWidget {
                               decoration: BoxDecoration(
                                   color: AppColors.blueOpacity,
                                   borderRadius: BorderRadius.circular(10)),
-                              child: Text(cancelText ?? 'لا , إلغاء العملية',
+                              child: Text(
+                                  widget.cancelText ?? 'لا , إلغاء العملية',
                                   style: KTextStyle.textStyle13.copyWith(
                                     color: AppColors.blueDark,
                                   )))),
