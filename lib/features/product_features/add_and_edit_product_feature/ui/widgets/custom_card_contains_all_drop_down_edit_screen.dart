@@ -127,6 +127,28 @@ class _CustomCardContainsAllDropDownEditScreenState
                           .toList()
                       : [],
                   onChanged: (value) {
+                    //
+                    if (cubitEditProduct.isInitialDropDown) {
+                      cubitEditProduct.selectedMainCategoryId =
+                          widget.initialMainIdToProduct;
+                      cubitEditProduct.selectedSubCategoryId =
+                          widget.initialSubIdToProduct;
+                      cubitEditProduct.selectedBrandId =
+                          widget.initialBrandIdToProduct;
+                      final selectedMainCategory =
+                          state.categoryAndSubCategoryNames.firstWhere(
+                        (category) =>
+                            category.mainCategoryId ==
+                            widget.initialMainIdToProduct,
+                      );
+                      context.read<SubCategoryCubit>().updateSubCategories(
+                          SubCategory: selectedMainCategory.subCategory);
+                      // trigger this line after finish line before it
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        cubitEditProduct.isInitialDropDown = false;
+                      });
+                      return;
+                    }
                     // cubitEditProduct.updateIsInitialDropDown();
                     // [get] Index by mainCatNameSelected from list mainAndSubCategories
                     int selectedIndex = state.categoryAndSubCategoryNames
@@ -165,9 +187,9 @@ class _CustomCardContainsAllDropDownEditScreenState
 
                       //   // Initialize [IdSubCategory and IdBrand] in cubit class
                       //   print("============ in on change");
-                      context
-                          .read<EditProductFromStoreCubit>()
-                          .isInitialDropDown = false;
+                      // context
+                      //     .read<EditProductFromStoreCubit>()
+                      //     .isInitialDropDown = false;
                       cubitEditProduct.selectedMainCategoryId =
                           selectedMainCategoryId;
                       cubitEditProduct.selectedSubCategoryId = null;
