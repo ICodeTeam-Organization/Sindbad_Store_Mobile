@@ -147,28 +147,27 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                                   // ignore: use_build_context_synchronously
                                   context: context,
                                   builder: (context) {
-                                    return BlocBuilder<ShippingCubit,
-                                        ShippingState>(
-                                      builder: (context, state) {
-                                        if (state is ShippingSuccess) {
-                                          return Messages(
-                                            isTrue: false,
-                                            trueMessage: '',
-                                            falseMessage:
-                                                'هناك خطاء في العملية',
-                                          );
-                                        } else if (state is ShippingFailure) {
-                                          return Messages(
-                                            isTrue: false,
-                                            trueMessage: '',
-                                            falseMessage:
-                                                'هناك خطاء في العملية',
-                                          );
-                                        } else {
-                                          return Text("يوجد خطا");
-                                        }
-                                      },
+                                    // return BlocBuilder<ShippingCubit,
+                                    //     ShippingState>(
+                                    //   builder: (context, state) {
+                                    //     if (state is ShippingSuccess) {
+                                    return Messages(
+                                      isTrue: false,
+                                      trueMessage: '',
+                                      falseMessage: 'هناك خطاء في العملية',
                                     );
+                                    //     } else if (state is ShippingFailure) {
+                                    //       return Messages(
+                                    //         isTrue: false,
+                                    //         trueMessage: '',
+                                    //         falseMessage:
+                                    //             'هناك خطاء في العملية',
+                                    //       );
+                                    //     } else {
+                                    //       return Text("يوجد خطا");
+                                    //     }
+                                    //   },
+                                    // );
                                   },
                                 );
                               }

@@ -133,26 +133,27 @@ class ShowCreateBillAndCancelOrder extends StatelessWidget {
                         showDialog(
                           context: context,
                           builder: (context) {
-                            return BlocBuilder<OrderInvoiceCubit,
-                                OrderInvoiceState>(
-                              builder: (context, state) {
-                                if (state is OrderInvoiceSuccess) {
-                                  return Messages(
-                                    isTrue: false,
-                                    trueMessage: '',
-                                    falseMessage: 'هناك خطاء في العملية',
-                                  );
-                                } else if (state is OrderInvoiceFailuer) {
-                                  return Messages(
-                                    isTrue: false,
-                                    trueMessage: ' ',
-                                    falseMessage: 'هناك خطاء في العملية',
-                                  );
-                                } else {
-                                  return Text("يوجد خطا");
-                                }
-                              },
+                            // return
+                            //  BlocBuilder<OrderInvoiceCubit,
+                            //     OrderInvoiceState>(
+                            //   builder: (context, state) {
+                            //     if (state is OrderInvoiceSuccess) {
+                            return Messages(
+                              isTrue: false,
+                              trueMessage: '',
+                              falseMessage: 'هناك خطاء في العملية',
                             );
+                            //     } else if (state is OrderInvoiceFailuer) {
+                            //       return Messages(
+                            //         isTrue: false,
+                            //         trueMessage: ' ',
+                            //         falseMessage: 'هناك خطاء في العملية',
+                            //       );
+                            //     } else {
+                            //       return Text("يوجد خطا");
+                            //     }
+                            //   },
+                            // );
                           },
                         );
                       }
