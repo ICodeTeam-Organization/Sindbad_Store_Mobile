@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../core/shared_widgets/new_widgets/date_text_field.dart';
 import '../../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
+import '../../manager/invoice/order_invoice_cubit.dart';
 import 'build_image_section.dart';
 import 'build_info_row.dart';
 import 'radio_widget.dart';
@@ -64,9 +66,14 @@ class BuildDialogContent extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
-            StorePrimaryButton(
-              title: 'تاكيد',
-              onTap: onPressedSure,
+            BlocBuilder<OrderInvoiceCubit, OrderInvoiceState>(
+              builder: (context, state) {
+                return StorePrimaryButton(
+                  isLoading: state is OrderInvoiceLoading,
+                  title: 'تاكيد',
+                  onTap: onPressedSure,
+                );
+              },
             ),
           ],
         ),

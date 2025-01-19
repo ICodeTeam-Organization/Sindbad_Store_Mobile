@@ -1,6 +1,8 @@
 // import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_tab_bar_widget.dart';
+import 'package:sindbad_management_app/core/shared_widgets/new_widgets/sub_custom_tab_bar.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/refresh/refresh_page_state.dart';
 import '../../../../core/setup_service_locator.dart';
 import '../../../../core/shared_widgets/new_widgets/custom_app_bar.dart';
@@ -15,17 +17,19 @@ import '../widget/order_details_widget/show_create_bill_and_cancel_order.dart';
 import '../widget/order_details_widget/show_print_and_shipping_order.dart';
 
 class OrderDetails extends StatelessWidget {
-  const OrderDetails(
-      {super.key,
-      required this.orderId,
-      required this.orderNumber,
-      required this.billNumber,
-      required this.clock,
-      required this.date,
-      required this.itemNumber,
-      required this.paymentInfo,
-      required this.orderStatus,
-      required this.packageId});
+  const OrderDetails({
+    super.key,
+    required this.orderId,
+    required this.orderNumber,
+    required this.billNumber,
+    required this.clock,
+    required this.date,
+    required this.itemNumber,
+    required this.paymentInfo,
+    required this.orderStatus,
+    required this.packageId,
+    // required this.isDelevredOrCancle
+  });
   final int orderId;
   final int packageId;
   final String orderNumber;
@@ -35,9 +39,12 @@ class OrderDetails extends StatelessWidget {
   final String itemNumber;
   final String paymentInfo;
   final String orderStatus;
+  // final bool isDelevredOrCancle;
 
   @override
   Widget build(BuildContext context) {
+    final int subIndex = subTabController!.index;
+    final int index = tabController!.index;
     // bool isbillDone = RefreshPageCubit.get(context).isbillDone;
     return Scaffold(
       body: BlocProvider(
@@ -76,37 +83,39 @@ class OrderDetails extends StatelessWidget {
                   //Order Detaials
                   OrderDetailsBody(),
                   //Show Button
-                  if (paymentInfos != 'لا شي')
-                    BlocBuilder<RefreshPageCubit, RefreshPageState>(
-                      builder: (context, state) {
-                        // Default orders status map
-                        Map<int, bool> ordersStatus = {};
 
-                        if (state is RefreshUpdated) {
-                          ordersStatus = state.ordersStatus;
-                        }
-                        // Assuming `orderId` is available for each order in your list
-                        final isBillDone = ordersStatus[orderId] ?? false;
-                        return Column(
-                          children: [
-                            if ((!isBillDone && billNumbers == 'لايوجد') ||
-                                (billNumbers == 'لايوجد') ||
-                                (!isBillDone &&
-                                    int.tryParse(billNumbers!) == null))
-                              ShowCreateBillAndCancelOrder(
-                                onCreateInvoice: () {
-                                  context
-                                      .read<RefreshPageCubit>()
-                                      .toggleBillStatus(orderId);
-                                },
-                              ),
-                            if ((isBillDone && billNumbers != 'لايوجد') ||
-                                (billNumbers != 'لايوجد'))
-                              ShowPrintAndShippingOrder(),
-                          ],
-                        );
-                      },
-                    )
+                  subIndex == 2 || index == 2 || index == 3
+                      ? SizedBox.shrink()
+                      : BlocBuilder<RefreshPageCubit, RefreshPageState>(
+                          builder: (context, state) {
+                            // Default orders status map
+                            Map<int, bool> ordersStatus = {};
+
+                            if (state is RefreshUpdated) {
+                              ordersStatus = state.ordersStatus;
+                            }
+                            // Assuming `orderId` is available for each order in your list
+                            final isBillDone = ordersStatus[orderId] ?? false;
+                            return Column(
+                              children: [
+                                if ((!isBillDone && billNumbers == 'لايوجد') ||
+                                    (billNumbers == 'لايوجد') ||
+                                    (!isBillDone &&
+                                        int.tryParse(billNumbers!) == null))
+                                  ShowCreateBillAndCancelOrder(
+                                    onCreateInvoice: () {
+                                      context
+                                          .read<RefreshPageCubit>()
+                                          .toggleBillStatus(orderId);
+                                    },
+                                  ),
+                                if ((isBillDone && billNumbers != 'لايوجد') ||
+                                    (billNumbers != 'لايوجد'))
+                                  ShowPrintAndShippingOrder(),
+                              ],
+                            );
+                          },
+                        ),
                 ],
               ),
             ),

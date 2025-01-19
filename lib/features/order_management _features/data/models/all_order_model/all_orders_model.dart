@@ -9,6 +9,7 @@ class AllOrdersModel extends AllOrderEntity {
   dynamic orderStatus;
   String? paymentStatus;
   String? orderDate;
+  bool? isDelevredOrCancled;
 
   AllOrdersModel({
     this.orderId,
@@ -19,16 +20,18 @@ class AllOrdersModel extends AllOrderEntity {
     this.orderStatus,
     this.paymentStatus,
     this.orderDate,
+    this.isDelevredOrCancled,
   }) : super(
-            idOrder: orderId!,
-            idPackage: packageId!,
-            orderNum: orderNumber ?? '0',
-            orderBill: invoiceNumber ?? 'لا يوجد',
-            // orderTime: '4:14',
-            orderDates: orderDate ?? '0000/0/0',
-            productMount: totalProducts ?? '0',
-            orderStatuse: orderStatus ?? 'لا توجد حالة',
-            payStatus: paymentStatus ?? 'لا توجد');
+          idOrder: orderId!,
+          idPackage: packageId!,
+          orderNum: orderNumber ?? '0',
+          orderBill: invoiceNumber ?? 'لا يوجد',
+          // orderTime: '4:14',
+          orderDates: orderDate ?? '0000/0/0',
+          productMount: totalProducts ?? '0',
+          orderStatuse: orderStatus ?? 'لا توجد حالة',
+          payStatus: paymentStatus ?? 'لا توجد',
+        );
 
   factory AllOrdersModel.fromJson(Map<String, dynamic> json) {
     return AllOrdersModel(
@@ -40,6 +43,7 @@ class AllOrdersModel extends AllOrderEntity {
       orderStatus: json['orderStatus'] as dynamic,
       paymentStatus: json['paymentStatus'] as String?,
       orderDate: json['orderDate'] as String?,
+      isDelevredOrCancled: json['isDelevredOrCancled'] as bool?,
     );
   }
 
@@ -52,5 +56,6 @@ class AllOrdersModel extends AllOrderEntity {
         'orderStatus': orderStatus,
         'paymentStatus': paymentStatus,
         'orderDate': orderDate,
+        'isDelevredOrCancled': isDelevredOrCancled,
       };
 }

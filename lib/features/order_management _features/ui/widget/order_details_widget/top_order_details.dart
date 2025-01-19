@@ -29,7 +29,7 @@ class TopOrderDetails extends StatelessWidget {
       leading: Container(
         height: 90.h,
         width: 80.w,
-        padding: const EdgeInsets.all(3),
+        // padding: const EdgeInsets.all(3),
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
             color: Colors.white,
@@ -48,13 +48,20 @@ class TopOrderDetails extends StatelessWidget {
       ),
       title: Row(
         children: [
-          Text(
-            'اسم المنتج :  ',
-            style: KTextStyle.textStyle14.copyWith(fontWeight: FontWeight.w500),
+          SizedBox(
+            width: MediaQuery.sizeOf(context).width * 0.2,
+            child: Text(
+              'اسم المنتج :  ',
+              style:
+                  KTextStyle.textStyle14.copyWith(fontWeight: FontWeight.w500),
+            ),
           ),
-          Text(
-            productName,
-            style: KTextStyle.textStyle14.copyWith(fontWeight: FontWeight.w500),
+          FittedBox(
+            child: Text(
+              productName,
+              style:
+                  KTextStyle.textStyle14.copyWith(fontWeight: FontWeight.w500),
+            ),
           )
         ],
       ),
@@ -62,14 +69,16 @@ class TopOrderDetails extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(
-                'نوع المنتج : ',
-                style: KTextStyle.textStyle14
-                    .copyWith(fontWeight: FontWeight.w500),
+              SizedBox(
+                width: MediaQuery.sizeOf(context).width * 0.20,
+                child: Text(
+                  'نوع المنتج :',
+                  style: KTextStyle.textStyle14
+                      .copyWith(fontWeight: FontWeight.w500, fontSize: 15),
+                ),
               ),
               SizedBox(
-                width: MediaQuery.sizeOf(context).width * 0.26,
-                height: 20,
+                width: MediaQuery.sizeOf(context).width * 0.27,
                 child: Text(
                   productType,
                   overflow: TextOverflow.ellipsis,

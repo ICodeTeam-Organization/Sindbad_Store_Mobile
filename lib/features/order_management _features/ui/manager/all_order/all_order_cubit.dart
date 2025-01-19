@@ -18,7 +18,7 @@ class AllOrderCubit extends Cubit<AllOrderState> {
     required bool paied,
     required int pageNumber,
     required int pageSize,
-    required String storeId,
+    // required String storeId,
     // required String srearchKeyword,
   }) async {
     emit(
@@ -33,7 +33,7 @@ class AllOrderCubit extends Cubit<AllOrderState> {
       paied: paied,
       pageNumber: pageNumber,
       pageSize: pageSize,
-      storeId: storeId,
+      // storeId: storeId,
       // srearchKeyword: srearchKeyword
     ));
 

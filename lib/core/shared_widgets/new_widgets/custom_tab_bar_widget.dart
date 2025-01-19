@@ -4,7 +4,9 @@ import 'package:sindbad_management_app/core/styles/Colors.dart';
 
 import '../../styles/text_style.dart';
 
-class CustomTabBarWidget extends StatelessWidget {
+TabController? tabController;
+
+class CustomTabBarWidget extends StatefulWidget {
   final List<Widget> tabs;
   final List<Widget> tabViews;
   final int length;
@@ -42,9 +44,21 @@ class CustomTabBarWidget extends StatelessWidget {
             'Length must match the number of tabs and tab views');
 
   @override
+  State<CustomTabBarWidget> createState() => _CustomTabBarWidgetState();
+}
+
+class _CustomTabBarWidgetState extends State<CustomTabBarWidget>
+    with SingleTickerProviderStateMixin {
+  @override
+  void initState() {
+    tabController = TabController(length: widget.length, vsync: this);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: length,
+      length: widget.length,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -57,37 +71,39 @@ class CustomTabBarWidget extends StatelessWidget {
               child: SizedBox(
                 height: 60.h,
                 child: TabBar(
+                  controller: tabController,
                   labelStyle: KTextStyle.textStyle16
                       .copyWith(fontWeight: FontWeight.bold),
                   dividerColor: Colors.transparent,
-                  indicatorColor: indicatorColor,
-                  indicatorWeight: indicatorWeight.w,
-                  labelColor: labelColor,
+                  indicatorColor: widget.indicatorColor,
+                  indicatorWeight: widget.indicatorWeight.w,
+                  labelColor: widget.labelColor,
                   labelPadding: EdgeInsets.symmetric(
                       horizontal: 0), // تقليل المسافة بين العناوين
-                  unselectedLabelColor: unselectedLabelColor,
-                  tabs: tabs,
+                  unselectedLabelColor: widget.unselectedLabelColor,
+                  tabs: widget.tabs,
                   indicator: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(_borderRadius.r),
+                    borderRadius: BorderRadius.circular(
+                        CustomTabBarWidget._borderRadius.r),
                   ),
                   indicatorSize: TabBarIndicatorSize.tab,
                   indicatorPadding: EdgeInsets.symmetric(
-                      horizontal: _indicatorPadding.h,
-                      vertical: _indicatorPadding.w),
+                      horizontal: CustomTabBarWidget._indicatorPadding.h,
+                      vertical: CustomTabBarWidget._indicatorPadding.w),
                 ),
               ),
             ),
           ),
           SizedBox(
-            height: _sizedBoxHeight.h,
+            height: CustomTabBarWidget._sizedBoxHeight.h,
           ),
           Flexible(
             fit: FlexFit.loose,
             child: SizedBox(
-              height: height.h,
               child: TabBarView(
-                children: tabViews,
+                controller: tabController,
+                children: widget.tabViews,
               ),
             ),
           ),

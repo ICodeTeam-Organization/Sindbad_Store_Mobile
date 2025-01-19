@@ -10,7 +10,7 @@ import '../../styles/Colors.dart';
 class DateTextField extends StatefulWidget {
   DateTextField({super.key, required this.title, required this.controller});
   final String title;
-  TextEditingController controller = TextEditingController();
+  TextEditingController controller;
 
   @override
   State<DateTextField> createState() => _DateTextFieldState();

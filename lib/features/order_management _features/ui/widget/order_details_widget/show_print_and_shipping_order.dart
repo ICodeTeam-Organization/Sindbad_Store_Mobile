@@ -88,17 +88,17 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                                 context.pop();
                                 // ignore: use_build_context_synchronously
                                 context.read<AllOrderCubit>().fetchAllOrder(
-                                    isUrgen: false,
-                                    canceled: false,
-                                    delevred: false,
-                                    noInvoice: false,
-                                    unpaied: false,
-                                    paied: false,
-                                    pageNumber: 1,
-                                    pageSize: 10,
-                                    storeId:
-                                        '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
-                                    // srearchKeyword: ''
+                                      isUrgen: false,
+                                      canceled: false,
+                                      delevred: false,
+                                      noInvoice: false,
+                                      unpaied: false,
+                                      paied: false,
+                                      pageNumber: 1,
+                                      pageSize: 10,
+                                      // storeId:
+                                      //     '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
+                                      // srearchKeyword: ''
                                     );
                                 showDialog(
                                   // ignore: use_build_context_synchronously
@@ -147,28 +147,27 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                                   // ignore: use_build_context_synchronously
                                   context: context,
                                   builder: (context) {
-                                    return BlocBuilder<ShippingCubit,
-                                        ShippingState>(
-                                      builder: (context, state) {
-                                        if (state is ShippingSuccess) {
-                                          return Messages(
-                                            isTrue: false,
-                                            trueMessage: '',
-                                            falseMessage:
-                                                'هناك خطاء في العملية',
-                                          );
-                                        } else if (state is ShippingFailure) {
-                                          return Messages(
-                                            isTrue: false,
-                                            trueMessage: '',
-                                            falseMessage:
-                                                'هناك خطاء في العملية',
-                                          );
-                                        } else {
-                                          return Text("يوجد خطا");
-                                        }
-                                      },
+                                    // return BlocBuilder<ShippingCubit,
+                                    //     ShippingState>(
+                                    //   builder: (context, state) {
+                                    //     if (state is ShippingSuccess) {
+                                    return Messages(
+                                      isTrue: false,
+                                      trueMessage: '',
+                                      falseMessage: 'هناك خطاء في العملية',
                                     );
+                                    //     } else if (state is ShippingFailure) {
+                                    //       return Messages(
+                                    //         isTrue: false,
+                                    //         trueMessage: '',
+                                    //         falseMessage:
+                                    //             'هناك خطاء في العملية',
+                                    //       );
+                                    //     } else {
+                                    //       return Text("يوجد خطا");
+                                    //     }
+                                    //   },
+                                    // );
                                   },
                                 );
                               }

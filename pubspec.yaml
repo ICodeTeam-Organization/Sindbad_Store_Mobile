@@ -63,6 +63,7 @@ dependencies:
   printing:
   equatable: ^2.0.7
   device_preview: ^1.2.0
+  jwt_decoder: ^2.0.1
 
 dev_dependencies:
   flutter_test:
