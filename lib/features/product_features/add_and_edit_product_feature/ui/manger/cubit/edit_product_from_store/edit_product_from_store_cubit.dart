@@ -137,7 +137,7 @@ class EditProductFromStoreCubit extends Cubit<EditProductFromStoreState> {
     EditProductFromStoreParams params = EditProductFromStoreParams(
       id: productId,
       price: num.parse(priceProductController.text),
-      description: priceProductController.text,
+      description: descriptionProductController.text,
       mainImageFile: mainImageProductFile,
       storeId: null,
       offerId: null,
@@ -152,7 +152,7 @@ class EditProductFromStoreCubit extends Cubit<EditProductFromStoreState> {
               if (subTwoImageProductFile != null) subTwoImageProductFile!,
               if (subThreeImageProductFile != null) subThreeImageProductFile!
             ],
-      subCategoryIds: [selectedMainCategoryId!],
+      subCategoryIds: [selectedSubCategoryId!],
       newAttributes: [
         for (int i = 0; i < keys.length; i++)
           {"attributeName": keys[i].text, "attributeValue": values[i].text}
