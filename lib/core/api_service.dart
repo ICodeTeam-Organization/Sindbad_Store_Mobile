@@ -8,6 +8,7 @@ import 'errors/failure.dart';
 class ApiService {
   final Dio _dio;
   final baseUrl = "https://icode-sendbad-store.runasp.net/api/";
+  // final baseUrl = "https://6cd5lnfl-7130.uks1.devtunnels.ms/api/";
 
   ApiService(this._dio);
   // {
@@ -131,7 +132,7 @@ class ApiService {
       //   formData.fields.add(const MapEntry("MainImage", ""));
       // }
       var response = await _dio.put('$baseUrl$endPoint',
-          data: data, options: Options(headers: headers));
+          data: formData, options: Options(headers: headers));
 
       return response.data;
     } catch (error, stacktrace) {
