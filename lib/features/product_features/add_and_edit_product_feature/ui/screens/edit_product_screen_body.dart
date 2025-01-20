@@ -5,24 +5,12 @@ import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_ap
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/store_primary_button.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
-import '../../../../../core/setup_service_locator.dart';
-import '../../../../../core/utils/route.dart';
-import '../../data/repos/add_product_store_repo_impl.dart';
-import '../../domain/entities/add_product_entities/brand_entity.dart';
-import '../../domain/entities/add_product_entities/main_category_entity.dart';
-import '../../domain/entities/add_product_entities/sub_category_entity.dart';
 import '../../domain/entities/edit_product_entities/product_details_entity.dart';
 import '../../domain/entities/edit_product_entities/product_images_entity.dart';
-import '../../domain/usecases/get_main_and_sub_category_use_case.dart';
 import '../manger/cubit/add_attribute_product.dart/add_attribute_product_dart_cubit.dart';
-import '../manger/cubit/brands_by_main_category_id/cubit/get_brands_by_category_id_cubit.dart';
 import '../manger/cubit/edit_product_from_store/edit_product_from_store_cubit.dart';
-import '../manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
-import '../widgets/custom_add_image_widget.dart';
 import '../widgets/custom_box_add_image_for_edit_product_screen.dart';
 import '../widgets/custom_card_contains_all_drop_down_edit_screen.dart';
-import '../widgets/custom_dropdown_widget.dart';
-import '../widgets/custom_dropdown_widget_for_state_cubit.dart';
 import '../widgets/custom_simple_text_form_field.dart';
 import '../widgets/custom_text_form_widget.dart';
 
