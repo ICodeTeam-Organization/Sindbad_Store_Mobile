@@ -37,7 +37,7 @@ class CustomBoxAddImageForEditProductScreen extends StatefulWidget {
     super.key,
     required this.boxNumber,
     required this.initialImageUrl,
-    this.containerWidth = 100.46,
+    this.containerWidth = 85,
     this.mainContainerHeight = 117,
     this.upContainerHeight = 82,
     this.downContainerHeight = 35,

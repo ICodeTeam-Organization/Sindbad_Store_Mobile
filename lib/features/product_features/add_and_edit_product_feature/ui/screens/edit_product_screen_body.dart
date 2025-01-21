@@ -5,6 +5,7 @@ import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_ap
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/store_primary_button.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/section_title_widget.dart';
 import '../../domain/entities/edit_product_entities/product_details_entity.dart';
 import '../../domain/entities/edit_product_entities/product_images_entity.dart';
 import '../manger/cubit/add_attribute_product.dart/add_attribute_product_dart_cubit.dart';
@@ -84,90 +85,73 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
               .valueProduct[0]));
     }
 
-    return MaterialApp(
-      home: Scaffold(
-        body: SingleChildScrollView(
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               CustomAppBar(
-                tital: 'تعديل منتج',
+                isSearch: false,
+                tital: 'إضافة منتج',
               ),
-              SizedBox(height: 32.h),
+              SizedBox(height: 40.h),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24.0.w),
                 child: Center(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Card(
-                        elevation: 4.0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0.r),
-                        ),
-                        color: Colors.white,
-                        child: Container(
-                          width: 363.0.w,
-                          height: 434.0.h,
-                          margin: EdgeInsets.only(
-                            bottom: 20.0.h,
-                          ),
+                      Container(
+                        width: double.maxFinite,
+                        decoration: BoxDecoration(
+                            color: AppColors.white,
+                            border: Border.all(color: AppColors.greyBorder),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
                           child: Column(
-                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                    bottom: 16.0.h,
-                                    top: 8.h,
-                                    right: 20.0.w,
-                                  ),
-                                  child: Text(
-                                    "معلومات المنتج",
-                                    style: KTextStyle.textStyle16
-                                        .copyWith(fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
+                              SectionTitleWidget(title: 'معلومات المنتج'),
+                              SizedBox(height: 20.h),
                               CustomTextFormWidget(
+                                enabled: false,
                                 textController: TextEditingController(
                                     text: widget
                                         .productDetailsEntity.nameProduct),
                                 text: 'أسم المنتج',
-                                width: 334.0.w,
                                 height: 65.h,
+                                width: 400.w,
                               ),
-                              SizedBox(height: 10.0.h),
-                              Padding(
-                                padding: EdgeInsets.only(right: 20.0.w),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    CustomTextFormWidget(
-                                      textController: _priceProductController,
-                                      text: 'السعر',
-                                      width: 147.0.w,
-                                      height: 65.h,
-                                    ),
-                                    SizedBox(width: 36.0.w),
-                                    CustomTextFormWidget(
-                                      textController: TextEditingController(
-                                          text: widget.productDetailsEntity
-                                              .numberProduct),
-                                      text: 'رقم المنتج',
-                                      width: 147.0.w,
-                                      height: 65.h,
-                                    ),
-                                  ],
-                                ),
+                              SizedBox(height: 20.h),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomTextFormWidget(
+                                    textController: _priceProductController,
+                                    text: 'السعر',
+                                    width: 130.w,
+                                    height: 65.h,
+                                  ),
+                                  CustomTextFormWidget(
+                                    enabled: false,
+                                    textController: TextEditingController(
+                                        text: widget.productDetailsEntity
+                                            .numberProduct),
+                                    text: 'رقم المنتج',
+                                    width: 130.w,
+                                    height: 65.h,
+                                  ),
+                                ],
                               ),
-                              SizedBox(height: 10.0.h),
+                              SizedBox(height: 20.h),
                               CustomTextFormWidget(
                                 textController: _descriptionProductController,
                                 text: 'وصف المنتج',
-                                width: 334.0.w,
-                                height: 200.0.h,
+                                width: 400.w,
+                                height: 200.h,
                                 maxLines: 5,
                               ),
                             ],
@@ -176,45 +160,29 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                       ),
                       SizedBox(height: 26.h),
                       // ================  card Images  ===================
-                      Card(
-                        elevation: 4.0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0.r),
-                        ),
-                        color: Colors.white,
-                        child: Container(
-                          width: 363.0.w,
-                          height: 434.0.h,
-                          margin: EdgeInsets.only(
-                            bottom: 20.0.h,
-                          ),
+                      Container(
+                        width: double.maxFinite,
+                        decoration: BoxDecoration(
+                            color: AppColors.white,
+                            border: Border.all(color: AppColors.greyBorder),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
                           child: Column(
-                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                    bottom: 16.0.h,
-                                    top: 8.h,
-                                    right: 20.0.w,
-                                  ),
-                                  child: Text(
-                                    "أختر صورة المنتح",
-                                    style: KTextStyle.textStyle16
-                                        .copyWith(fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
+                              //  container Title
+                              SectionTitleWidget(title: "أختر صورة المنتح"),
+                              SizedBox(height: 20.h),
                               // ========  for Main Image  =======
                               CustomBoxAddImageForEditProductScreen(
                                 initialImageUrl: widget
                                     .productDetailsEntity.mainImageUrlProduct,
                                 boxNumber: 1,
-                                containerWidth: 333,
-                                mainContainerHeight: 210,
-                                upContainerHeight: 175,
-                                downContainerHeight: 35,
+                                containerWidth: 400.w,
+                                mainContainerHeight: 210.h,
+                                upContainerHeight: 175.h,
+                                downContainerHeight: 35.h,
                                 onImageSelected: (value) {
                                   cubitEditProduct.saveImageInCubit(
                                       boxNum: 1, file: value);
@@ -222,48 +190,41 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                               ),
                               SizedBox(height: 25.h),
                               // ========  for 3 Sub Images  =======
-                              Padding(
-                                // padding: EdgeInsets.only(left: 14.w),
-                                padding: EdgeInsets.symmetric(horizontal: 14.w),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    CustomBoxAddImageForEditProductScreen(
-                                      boxNumber: 2,
-                                      initialImageUrl: subImagesProduct
-                                              .isNotEmpty
-                                          ? subImagesProduct[0].imageUrlProduct
-                                          : null,
-                                      onImageSelected: (value) {
-                                        cubitEditProduct.saveImageInCubit(
-                                            boxNum: 2, file: value);
-                                      },
-                                    ),
-                                    CustomBoxAddImageForEditProductScreen(
-                                      boxNumber: 3,
-                                      initialImageUrl: subImagesProduct.length >
-                                              1
-                                          ? subImagesProduct[1].imageUrlProduct
-                                          : null,
-                                      onImageSelected: (value) {
-                                        cubitEditProduct.saveImageInCubit(
-                                            boxNum: 3, file: value);
-                                      },
-                                    ),
-                                    CustomBoxAddImageForEditProductScreen(
-                                      boxNumber: 4,
-                                      initialImageUrl: subImagesProduct.length >
-                                              2
-                                          ? subImagesProduct[2].imageUrlProduct
-                                          : null,
-                                      onImageSelected: (value) {
-                                        cubitEditProduct.saveImageInCubit(
-                                            boxNum: 4, file: value);
-                                      },
-                                    ),
-                                  ],
-                                ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomBoxAddImageForEditProductScreen(
+                                    boxNumber: 2,
+                                    initialImageUrl: subImagesProduct.isNotEmpty
+                                        ? subImagesProduct[0].imageUrlProduct
+                                        : null,
+                                    onImageSelected: (value) {
+                                      cubitEditProduct.saveImageInCubit(
+                                          boxNum: 2, file: value);
+                                    },
+                                  ),
+                                  CustomBoxAddImageForEditProductScreen(
+                                    boxNumber: 3,
+                                    initialImageUrl: subImagesProduct.length > 1
+                                        ? subImagesProduct[1].imageUrlProduct
+                                        : null,
+                                    onImageSelected: (value) {
+                                      cubitEditProduct.saveImageInCubit(
+                                          boxNum: 3, file: value);
+                                    },
+                                  ),
+                                  CustomBoxAddImageForEditProductScreen(
+                                    boxNumber: 4,
+                                    initialImageUrl: subImagesProduct.length > 2
+                                        ? subImagesProduct[2].imageUrlProduct
+                                        : null,
+                                    onImageSelected: (value) {
+                                      cubitEditProduct.saveImageInCubit(
+                                          boxNum: 4, file: value);
+                                    },
+                                  ),
+                                ],
                               ),
                               // SizedBox(height: 25.0.h),
                               // Padding(
@@ -314,114 +275,98 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                       ),
                       SizedBox(height: 26.h),
                       // ====================  Attribute card =============================
-                      Flexible(
-                        child: Card(
-                          elevation: 4.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          color: Colors.white,
-                          child: Container(
-                            decoration: BoxDecoration(),
+                      Container(
+                        width: double.maxFinite,
+                        decoration: BoxDecoration(
+                            color: AppColors.white,
+                            border: Border.all(color: AppColors.greyBorder),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Flexible(
                             child: Column(
-                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Align(
-                                  alignment: Alignment.topRight,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                      bottom: 14.h,
-                                      top: 10.h,
-                                      right: 14.w,
-                                    ),
-                                    child: Text(
-                                      " خصائص المنتج",
-                                      style: KTextStyle.textStyle16.copyWith(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                ),
-                                Flexible(
-                                  child: BlocBuilder<
-                                      AddAttributeProductDartCubit,
-                                      AddAttributeProductDartState>(
-                                    builder: (context, state) {
-                                      if (state
-                                          is AddAttributeProductDartSuccess) {
-                                        return AddAttributeProductDartSuccessForEditPage(
-                                            cubitAttribute: cubitAttribute);
-                                      }
-                                      return Column(
-                                        children: [
-                                          ...List.generate(
-                                            cubitAttribute.keys.length,
-                                            (index) {
-                                              return Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 5.0.h),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    CustomSimpleTextFormField(
-                                                      textController:
-                                                          cubitAttribute
-                                                              .keys[index],
-                                                      hintText: 'خاصية',
-                                                    ),
-                                                    SizedBox(width: 20.w),
-                                                    CustomSimpleTextFormField(
-                                                      textController:
-                                                          cubitAttribute
-                                                              .values[index],
-                                                      hintText: 'قيمة',
-                                                    ),
-                                                    IconButton(
-                                                      icon: Icon(
-                                                          Icons.remove_circle,
-                                                          size: 20),
-                                                      onPressed: () {
+                                SectionTitleWidget(title: "خصائص المنتج"),
+                                SizedBox(height: 20.h),
+                                BlocBuilder<AddAttributeProductDartCubit,
+                                    AddAttributeProductDartState>(
+                                  builder: (context, state) {
+                                    if (state
+                                        is AddAttributeProductDartSuccess) {
+                                      return AddAttributeProductDartSuccessForEditPage(
+                                          cubitAttribute: cubitAttribute);
+                                    }
+                                    return Column(
+                                      children: [
+                                        ...List.generate(
+                                          cubitAttribute.keys.length,
+                                          (index) {
+                                            return Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 5.0.h),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  CustomSimpleTextFormField(
+                                                    textController:
                                                         cubitAttribute
-                                                            .removeField(index);
-                                                      },
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                          Center(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                InkWell(
-                                                  onTap: () {
-                                                    cubitAttribute.addField();
-                                                  },
-                                                  child: const SizedBox(
-                                                    child: Row(
-                                                      children: [
-                                                        Icon(
-                                                          Icons
-                                                              .add_circle_outline_sharp,
-                                                          size: 20,
-                                                          color:
-                                                              AppColors.primary,
-                                                        ),
-                                                        Text(" أضف المزيد"),
-                                                      ],
-                                                    ),
+                                                            .keys[index],
+                                                    hintText: 'خاصية',
+                                                  ),
+                                                  CustomSimpleTextFormField(
+                                                    textController:
+                                                        cubitAttribute
+                                                            .values[index],
+                                                    hintText: 'قيمة',
+                                                  ),
+                                                  IconButton(
+                                                    icon: Icon(
+                                                        Icons.remove_circle,
+                                                        size: 20),
+                                                    onPressed: () {
+                                                      cubitAttribute
+                                                          .removeField(index);
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                        Center(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  cubitAttribute.addField();
+                                                },
+                                                child: const SizedBox(
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons
+                                                            .add_circle_outline_sharp,
+                                                        size: 20,
+                                                        color:
+                                                            AppColors.primary,
+                                                      ),
+                                                      Text(" أضف المزيد"),
+                                                    ],
                                                   ),
                                                 ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      );
-                                      //  working [if in Initial state or else]
-                                    },
-                                  ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    );
+                                    //  working [if in Initial state or else]
+                                  },
                                 ),
                               ],
                             ),
@@ -432,97 +377,99 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                   ),
                 ),
               ),
-              SizedBox(height: 10.h),
               // ==================== Two Button in Down  =============================
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  BlocConsumer<EditProductFromStoreCubit,
-                      EditProductFromStoreState>(
-                    listener: (context, state) {
-                      if (state is EditProductFromStoreSuccess) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('تم تعديل المنتج بنجاح!')),
-                        );
-                        // Trigger the callback to refresh parent screen
-                        // if (onSuccessCallback != null) {
-                        //   onSuccessCallback!();
-                        // }
-                        // context.go(AppRouter.storeRouters.root);
-                        Navigator.of(context).pop(); // close Edit pruduct
-                        // context.go(AppRouter.storeRouters.root);
-                        // ====  to refrech view pruduct page ====
-                        // contextPerant
-                        //     .read<GetStoreProductsWithFilterCubit>()
-                        //     .getStoreProductsWitheFilter(
-                        //       storeProductsFilter: storeProductsFilter,
-                        //       pageNumper: 1,
-                        //       pageSize: 100,
-                        //     );
-                      } else if (state is EditProductFromStoreFailure) {
-                        debugPrint(state.errMessage);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(state.errMessage)),
-                        );
-                      }
-                    },
-                    builder: (context, state) {
-                      return StorePrimaryButton(
-                        isLoading: state is EditProductFromStoreLoading,
-                        title: "تأكيد",
-                        width: 251.w,
-                        height: 44.h,
-                        buttonColor: AppColors.primary,
-                        onTap: () {
-                          // Handle confirmation
-                          cubitEditProduct.editProductFromStore(
-                            productId: widget.productDetailsEntity.idProduct,
-                            priceProductController: _priceProductController,
-                            descriptionProductController:
-                                _descriptionProductController,
-                            keys: cubitAttribute.keys,
-                            values: cubitAttribute.values,
+              Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    BlocConsumer<EditProductFromStoreCubit,
+                        EditProductFromStoreState>(
+                      listener: (context, state) {
+                        if (state is EditProductFromStoreSuccess) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('تم تعديل المنتج بنجاح!')),
                           );
-                        },
-                      );
-                    },
-                  ),
-                  SizedBox(width: 8.w),
-                  StorePrimaryButton(
-                    onTap: () {
-                      Navigator.of(context).pop(); // close Edit product
-                      // for test
-                      // debugPrint(
-                      //     "=======  basic mainId = ${widget.productDetailsEntity.mainCategoryIdProduct.toString()}");
-                      // debugPrint(
-                      //     "=======  basic subId = ${widget.productDetailsEntity.subCategoryIdProduct[0].toString()}");
-                      // debugPrint(
-                      //     "=======  basic brandId = ${widget.productDetailsEntity.brandIdProduct.toString()}");
-                      // cubitEditProduct.testDropDown();
-                      // debugPrint(
-                      //     "=======  basic isInitial = ${cubitEditProduct.isInitialDropDown.toString()}");
-                      // debugPrint(
-                      //     "=======  basic mainCategoryName = ${widget.productDetailsEntity.mainCategoryNameProduct.toString()}");
-                      // debugPrint(
-                      //     "=======  basic subCategoriesName = ${widget.productDetailsEntity.subCategoriesName.toString()}");
-                      // debugPrint(
-                      //     "=======  basic brandName = ${widget.productDetailsEntity.brandNameProduct.toString()}");
-                      // debugPrint(
-                      //     "==============================================================================");
-                      // // for test
-                      // cubitEditProduct.testEditProductRequest(
-                      //     priceProductController: _priceProductController.text,
-                      //     descriptionProductController:
-                      //         _descriptionProductController.text,
-                      //     keys: cubitAttribute.keys,
-                      //     values: cubitAttribute.values);
-                    },
-                    title: "إلغاء",
-                    width: 104.w,
-                    height: 46.h,
-                    buttonColor: AppColors.greyIcon,
-                  ),
-                ],
+                          // Trigger the callback to refresh parent screen
+                          // if (onSuccessCallback != null) {
+                          //   onSuccessCallback!();
+                          // }
+                          // context.go(AppRouter.storeRouters.root);
+                          Navigator.of(context).pop(); // close Edit pruduct
+                          // context.go(AppRouter.storeRouters.root);
+                          // ====  to refrech view pruduct page ====
+                          // contextPerant
+                          //     .read<GetStoreProductsWithFilterCubit>()
+                          //     .getStoreProductsWitheFilter(
+                          //       storeProductsFilter: storeProductsFilter,
+                          //       pageNumper: 1,
+                          //       pageSize: 100,
+                          //     );
+                        } else if (state is EditProductFromStoreFailure) {
+                          debugPrint(state.errMessage);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(state.errMessage)),
+                          );
+                        }
+                      },
+                      builder: (context, state) {
+                        return StorePrimaryButton(
+                          isLoading: state is EditProductFromStoreLoading,
+                          title: "تأكيد",
+                          width: 200.w,
+                          height: 50.h,
+                          buttonColor: AppColors.primary,
+                          onTap: () {
+                            // Handle confirmation
+                            cubitEditProduct.editProductFromStore(
+                              productId: widget.productDetailsEntity.idProduct,
+                              priceProductController: _priceProductController,
+                              descriptionProductController:
+                                  _descriptionProductController,
+                              keys: cubitAttribute.keys,
+                              values: cubitAttribute.values,
+                            );
+                          },
+                        );
+                      },
+                    ),
+                    SizedBox(width: 8.w),
+                    StorePrimaryButton(
+                      onTap: () {
+                        Navigator.of(context).pop(); // close Edit product
+                        // for test
+                        // debugPrint(
+                        //     "=======  basic mainId = ${widget.productDetailsEntity.mainCategoryIdProduct.toString()}");
+                        // debugPrint(
+                        //     "=======  basic subId = ${widget.productDetailsEntity.subCategoryIdProduct[0].toString()}");
+                        // debugPrint(
+                        //     "=======  basic brandId = ${widget.productDetailsEntity.brandIdProduct.toString()}");
+                        // cubitEditProduct.testDropDown();
+                        // debugPrint(
+                        //     "=======  basic isInitial = ${cubitEditProduct.isInitialDropDown.toString()}");
+                        // debugPrint(
+                        //     "=======  basic mainCategoryName = ${widget.productDetailsEntity.mainCategoryNameProduct.toString()}");
+                        // debugPrint(
+                        //     "=======  basic subCategoriesName = ${widget.productDetailsEntity.subCategoriesName.toString()}");
+                        // debugPrint(
+                        //     "=======  basic brandName = ${widget.productDetailsEntity.brandNameProduct.toString()}");
+                        // debugPrint(
+                        //     "==============================================================================");
+                        // // for test
+                        // cubitEditProduct.testEditProductRequest(
+                        //     priceProductController: _priceProductController.text,
+                        //     descriptionProductController:
+                        //         _descriptionProductController.text,
+                        //     keys: cubitAttribute.keys,
+                        //     values: cubitAttribute.values);
+                      },
+                      title: "إلغاء",
+                      width: 100.w,
+                      height: 50.h,
+                      buttonColor: AppColors.greyIcon,
+                    ),
+                  ],
+                ),
               )
             ],
           ),

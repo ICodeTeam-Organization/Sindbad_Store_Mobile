@@ -11,6 +11,7 @@ class CustomTextFormWidget extends StatelessWidget {
   final double width;
   final double height;
   final int maxLines;
+  final bool? enabled;
 
   const CustomTextFormWidget({
     super.key,
@@ -20,6 +21,7 @@ class CustomTextFormWidget extends StatelessWidget {
     this.width = 147.0,
     this.height = 40.0,
     this.maxLines = 1,
+    this.enabled = true,
   });
 
   @override
@@ -33,12 +35,20 @@ class CustomTextFormWidget extends StatelessWidget {
           width: width.w,
           height: height.h,
           child: TextFormField(
+            enabled: enabled,
             decoration: InputDecoration(
               hintText: 'أكتب هنا...',
               hintStyle: KTextStyle.textStyle12.copyWith(
                 color: AppColors.greyLight,
               ),
               enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: AppColors.greyBorder,
+                  width: 1.0,
+                ),
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              disabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: AppColors.greyBorder,
                   width: 1.0,

@@ -22,7 +22,7 @@ class TwoButtonInDownAddproduct extends StatelessWidget {
     final AddAttributeProductDartCubit cubitAddAttribute =
         context.read<AddAttributeProductDartCubit>();
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         // ============  Done button  ================
         BlocConsumer<AddProductToStoreCubit, AddProductToStoreState>(
@@ -49,15 +49,13 @@ class TwoButtonInDownAddproduct extends StatelessWidget {
                 cubitAddProduct.addProductToStore();
               },
               title: "تأكيد",
-              width: 251.w,
-              height: 44.h,
+              width: 200.w,
+              height: 50.h,
               buttonColor: AppColors.primary,
             );
           },
         ),
-        SizedBox(
-          width: 8.w,
-        ),
+        SizedBox(width: 8.w),
         // ============  Cancel button  ================
         StorePrimaryButton(
           // onTap: () => Navigator.of(context).pop(),
@@ -75,8 +73,8 @@ class TwoButtonInDownAddproduct extends StatelessWidget {
             // Navigator.of(context).pop();
           },
           title: "إلغاء",
-          width: 104.w,
-          height: 46.h,
+          width: 100.w,
+          height: 50.h,
           buttonColor: AppColors.greyIcon,
         ),
       ],

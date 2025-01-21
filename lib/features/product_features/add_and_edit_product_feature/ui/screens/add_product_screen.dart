@@ -82,7 +82,7 @@ class AddProductScreen extends StatelessWidget {
                 ),
                 // for tow Button in down
                 Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(25.0),
                   child: TwoButtonInDownAddproduct(
                     onSuccessCallback: onSuccessCallback,
                   ),

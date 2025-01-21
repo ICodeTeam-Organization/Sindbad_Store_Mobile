@@ -140,33 +140,42 @@ class ProductsListView extends StatelessWidget {
                                   onTapEdit: () {
                                     // state.products //  ===> this pass contains [productid,productName,productNumber,productPrice,productImageUrl]
                                     // تنفيذ التعديل
-                                    context.push(
-                                        AppRouter
-                                            .storeRouters.kStoreEditProduct,
-                                        extra: 1 // here pass the product id
+                                    // context.push(
+                                    //     AppRouter.storeRouters.kStoreEditProduct,
+                                    //     extra: 1 // here pass the product id
+                                    //     );
+                                    context
+                                        .read<ProductDetailsCubit>()
+                                        .getProductDetails(
+                                          productId: product.productid!,
                                         );
+                                    showGetProductDetailsDialog(
+                                      contextParent: context,
+                                      productDetailsCubit:
+                                          context.read<ProductDetailsCubit>(),
+                                    );
                                   },
-                                  reactivate: storeProductsFilter != 2
-                                      ? null
-                                      : true, // if storeProductsFilter == 2 => for reactivate product
+                                  reactivate: storeProductsFilter == 2
+                                      ? true
+                                      : null, // if storeProductsFilter == 2 => for reactivate product
                                   onTapDeleteOrReactivate: () {
-                                    storeProductsFilter !=
+                                    storeProductsFilter ==
                                             2 // if storeProductsFilter == 2 => for reactivate product
-                                        ? showDeleteProductDialog(
-                                            contextPerant: context,
-                                            productId: product.productid!,
-                                            storeProductsFilter:
-                                                storeProductsFilter,
-                                            deleteProductCubit: context.read<
-                                                DeleteProductByIdFromStoreCubit>(), // Pass the cubit
-                                          )
-                                        : showActivateProductDialog(
+                                        ? showActivateProductDialog(
                                             contextPerant: context,
                                             productId: product.productid!,
                                             storeProductsFilter:
                                                 storeProductsFilter,
                                             activateProductsCubit: context.read<
                                                 ActivateProductsByIdsCubit>(),
+                                          )
+                                        : showDeleteProductDialog(
+                                            contextPerant: context,
+                                            productId: product.productid!,
+                                            storeProductsFilter:
+                                                storeProductsFilter,
+                                            deleteProductCubit: context.read<
+                                                DeleteProductByIdFromStoreCubit>(), // Pass the cubit
                                           );
                                   },
                                 ),
@@ -174,47 +183,6 @@ class ProductsListView extends StatelessWidget {
                             )),
                         SizedBox(width: 10.w),
                         // Action Buttons
-                        TwoButtonInsideListViewProducts(
-                          onTapEdit: () {
-                            // state.products //  ===> this pass contains [productid,productName,productNumber,productPrice,productImageUrl]
-                            // تنفيذ التعديل
-                            // context.push(
-                            //     AppRouter.storeRouters.kStoreEditProduct,
-                            //     extra: 1 // here pass the product id
-                            //     );
-                            context
-                                .read<ProductDetailsCubit>()
-                                .getProductDetails(
-                                  productId: product.productid!,
-                                );
-                            showGetProductDetailsDialog(
-                              contextParent: context,
-                              productDetailsCubit:
-                                  context.read<ProductDetailsCubit>(),
-                            );
-                          },
-                          reactivate: storeProductsFilter == 2
-                              ? true
-                              : null, // if storeProductsFilter == 2 => for reactivate product
-                          onTapDeleteOrReactivate: () {
-                            storeProductsFilter ==
-                                    2 // if storeProductsFilter == 2 => for reactivate product
-                                ? showActivateProductDialog(
-                                    contextPerant: context,
-                                    productId: product.productid!,
-                                    storeProductsFilter: storeProductsFilter,
-                                    activateProductsCubit: context
-                                        .read<ActivateProductsByIdsCubit>(),
-                                  )
-                                : showDeleteProductDialog(
-                                    contextPerant: context,
-                                    productId: product.productid!,
-                                    storeProductsFilter: storeProductsFilter,
-                                    deleteProductCubit: context.read<
-                                        DeleteProductByIdFromStoreCubit>(), // Pass the cubit
-                                  );
-                          },
-                        ),
                       ],
                     );
                   },

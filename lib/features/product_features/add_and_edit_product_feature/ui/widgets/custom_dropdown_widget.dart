@@ -38,6 +38,7 @@ class CustomDropdownWidget extends StatelessWidget {
           padding: const EdgeInsets.only(right: 15),
           child: RequiredText(title: textTitle),
         ),
+        SizedBox(height: 5.h),
         SizedBox(
           width: 400.w,
           child: Directionality(

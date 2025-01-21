@@ -36,9 +36,9 @@ class CustomCardToAllTextFileds extends StatelessWidget {
                   .nameProductController, // ================================
               text: 'أسم المنتج',
               height: 65.h,
-              width: 400.0.w,
+              width: 400.w,
             ),
-            SizedBox(height: 20.0.h),
+            SizedBox(height: 20.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -46,14 +46,14 @@ class CustomCardToAllTextFileds extends StatelessWidget {
                   textController: cubitAddProduct
                       .priceProductController, // ================================
                   text: 'السعر',
-                  width: 130.0.w,
+                  width: 130.w,
                   height: 65.h,
                 ),
                 CustomTextFormWidget(
                   textController: cubitAddProduct
                       .numberProductController, // ================================
                   text: 'رقم المنتج',
-                  width: 130.0.w,
+                  width: 130.w,
                   height: 65.h,
                 ),
               ],
@@ -63,10 +63,8 @@ class CustomCardToAllTextFileds extends StatelessWidget {
               textController: cubitAddProduct
                   .descriptionProductController, // ================================
               text: 'وصف المنتج',
-              // labelText: 'أدخل وصف المنتج',
-              width: 400.0.w,
-              height: 200.0.h,
-              // initialValue: '',
+              width: 400.w,
+              height: 200.h,
               maxLines: 5, // Allow multiple lines
             ),
           ],

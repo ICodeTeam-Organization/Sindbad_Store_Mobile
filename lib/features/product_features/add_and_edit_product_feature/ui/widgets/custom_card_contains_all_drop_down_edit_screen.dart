@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/section_title_widget.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/brand_entity.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/sub_category_entity.dart';
@@ -62,34 +64,18 @@ class _CustomCardContainsAllDropDownEditScreenState
     // cubitCategories.getMainAndSubCategory(
     //     filterType: 2, pageNumper: 1, pageSize: 100);
 
-    return Card(
-      elevation: 4.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      color: Colors.white,
-      child: Container(
-        width: 363.w,
-        height: 440.h,
-        decoration: BoxDecoration(),
-        margin: EdgeInsets.only(bottom: 20.h),
-        child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Align(
-            alignment: Alignment.topRight,
-            child: Padding(
-              padding: EdgeInsets.only(
-                bottom: 14.h,
-                top: 10.h,
-                right: 14.w,
-              ),
-              child: Text(
-                " نوع المنتج",
-                style: KTextStyle.textStyle16
-                    .copyWith(fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
-          SizedBox(height: 10.h),
+    return Container(
+      width: double.maxFinite,
+      decoration: BoxDecoration(
+          color: AppColors.white,
+          border: Border.all(color: AppColors.greyBorder),
+          borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          // container Title
+          SectionTitleWidget(title: 'نوع المنتج'),
+          SizedBox(height: 20.h),
           // =======================   Main Category  ========================
           BlocBuilder<GetCategoryNamesCubit, GetCategoryNamesState>(
             // listenWhen: (previous, current) =>
@@ -208,6 +194,8 @@ class _CustomCardContainsAllDropDownEditScreenState
               );
             },
           ),
+          SizedBox(height: 10.h),
+
           // =======================   Sub Category  ========================
           BlocBuilder<SubCategoryCubit, List<SubCategoryEntity>>(
             builder: (context, state) {
@@ -241,7 +229,7 @@ class _CustomCardContainsAllDropDownEditScreenState
               );
             },
           ),
-          // SizedBox(height: 10),
+          SizedBox(height: 10.h),
           // ===========================  for Brand  =======================
           BlocBuilder<GetBrandsByCategoryIdCubit, GetBrandsByCategoryIdState>(
             // listenWhen: (previous, current) {
