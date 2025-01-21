@@ -1,9 +1,8 @@
 import 'dart:io';
-
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entity.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/add_product_entity.dart';
 import 'package:path/path.dart' as path;
 import '../../../../../../../core/errors/failure.dart';
 import '../../../../domain/usecases/add_product_to_store_use_case.dart';
@@ -73,7 +72,9 @@ class AddProductToStoreCubit extends Cubit<AddProductToStoreState> {
     }
     print([
       for (int i = 0; i < keys.length; i++)
-        {"attributeName": keys[i].text, "attributeValue": values[i].text}
+        ProAttribute(
+            attributeName: keys[i].text, attributeValue: values[i].text)
+      // {"attributeName": keys[i].text, "attributeValue": values[i].text}
     ]);
     print("=======================  testPostRequest  =====================");
   }
@@ -94,7 +95,7 @@ class AddProductToStoreCubit extends Cubit<AddProductToStoreState> {
       images: [
         if (subOneImageProductFile != null) subOneImageProductFile!,
         if (subTwoImageProductFile != null) subTwoImageProductFile!,
-        if (subThreeImageProductFile != null) subThreeImageProductFile!, 
+        if (subThreeImageProductFile != null) subThreeImageProductFile!,
       ],
       subCategoryIds: [selectedSubCategoryId!],
       newAttributes: [

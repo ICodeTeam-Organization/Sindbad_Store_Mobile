@@ -1,4 +1,4 @@
-import '../../../domain/entities/sub_category_entity.dart';
+import '../../../domain/entities/add_product_entities/sub_category_entity.dart';
 
 class SubCategory extends SubCategoryEntity {
   int? id;

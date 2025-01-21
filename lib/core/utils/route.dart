@@ -4,7 +4,7 @@ import 'package:sindbad_management_app/features/offer_management_features/modify
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/screens/view_offer_product_details_bouns_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/screens/view_offer_product_details_discount_screen.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/screens/add_product_screen.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/screens/edit_product_screen.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/screens/edit_product_screen_body.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/new_offer_screen.dart';
 import 'package:sindbad_management_app/store_app_features/add_product/ui/screen/store_add_product.dart';
 import 'package:sindbad_management_app/store_app_features/excel_file/ui/screen/store_excel_file.dart';
@@ -17,6 +17,8 @@ import 'package:sindbad_management_app/store_app_features/search_product/ui/scre
 import 'package:sindbad_management_app/store_app_features/stop_product/ui/screen/store_stop_prodect.dart';
 import 'package:sindbad_management_app/store_app_features/stopped_product/ui/screen/store_stopped_product.dart';
 import '../../features/order_management _features/ui/screen/order_details.dart';
+import '../../features/product_features/add_and_edit_product_feature/domain/entities/edit_product_entities/product_details_entity.dart';
+import '../../features/product_features/add_and_edit_product_feature/ui/screens/edit_product_screen.dart';
 import '../../features/root.dart';
 
 class StoreRouters {
@@ -87,7 +89,9 @@ abstract class AppRouter {
       GoRoute(
         path: AppRouter.storeRouters.kStoreEditProduct,
         builder: (context, state) {
-          final int productId = state.extra as int;
+          final ProductDetailsEntity productDetailsEntity =
+              state.extra as ProductDetailsEntity;
+          // final int productId = state.extra as int;
           ////
           // final String productName = state.extra as String;
           // final String price = state.extra as String;
@@ -104,7 +108,8 @@ abstract class AppRouter {
           // final Map<String, dynamic> properties = state.extra as Map<String, dynamic>;
           ////
           return EditProductScreen(
-            productId: productId,
+            productDetailsEntity: productDetailsEntity,
+            // productId: productId,
             //////////
             // productName: productName,
             // price: price,

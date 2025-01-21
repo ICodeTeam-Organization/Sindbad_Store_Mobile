@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/styles/Colors.dart';
+import '../../../../../core/styles/text_style.dart';
 import '../../../../../core/utils/route.dart';
+import '../../../add_and_edit_product_feature/ui/manger/cubit/ProductDetails/product_details_cubit.dart';
 import '../../domain/entities/product_entity.dart';
 import '../manager/activate_products/activate_products_by_ids_cubit.dart';
 import '../manager/delete_product_by_id_from_store/delete_product_by_id_from_store_cubit.dart';
@@ -57,120 +59,162 @@ class ProductsListView extends StatelessWidget {
                     return Column(
                       children: [
                         Container(
-                          padding: EdgeInsets.only(
-                              top: 26.h, bottom: 26.h, left: 10.w),
-                          decoration: BoxDecoration(
-                            color: isEven ? AppColors.background : Colors.white,
-                            borderRadius: BorderRadius.circular(4.r),
-                          ),
-                          child: Row(
-                            // crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              CheckBoxCustom(
-                                val: state.checkedStates[index],
-                                onChanged: (val) {
-                                  cubitGetStoreProducts.updateCheckboxState(
-                                      index, val!, product.productid!);
-                                },
-                              ),
-                              ImageCardCustom(
-                                imageUrlnetwork: product.productImageUrl!,
-                              ), // افترض أن لديك Card مخصص لعرض الصور
-                              SizedBox(width: 10),
-                              // Product Details
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        TextStyleTitleDataProductBold(
-                                            title: 'اسم المنتج :  '),
-                                        Expanded(
-                                          child: TextStyleDataProductGreyDark(
-                                              dataProduct:
-                                                  product.productName!),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: 4.h),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        TextStyleTitleDataProductBold(
-                                            title: 'رقم المنتج :  '),
-                                        Expanded(
-                                          child: TextStyleDataProductGreyDark(
-                                              dataProduct: product.productNumber
-                                                  .toString()),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: 4.h),
-                                    Row(
-                                      children: [
-                                        Text('السعر :  ',
+                            padding: EdgeInsets.only(
+                                top: 26.h, bottom: 26.h, left: 10.w),
+                            decoration: BoxDecoration(
+                              color:
+                                  isEven ? AppColors.background : Colors.white,
+                              borderRadius: BorderRadius.circular(4.r),
+                            ),
+                            child: Row(
+                              // crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                CheckBoxCustom(
+                                  val: state.checkedStates[index],
+                                  onChanged: (val) {
+                                    cubitGetStoreProducts.updateCheckboxState(
+                                        index, val!, product.productid!);
+                                  },
+                                ),
+                                ImageCardCustom(
+                                  imageUrlnetwork: product.productImageUrl!,
+                                ), // افترض أن لديك Card مخصص لعرض الصور
+                                SizedBox(width: 10),
+                                // Product Details
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          TextStyleTitleDataProductBold(
+                                              title: 'اسم المنتج :  '),
+                                          Expanded(
+                                            child: TextStyleDataProductGreyDark(
+                                                dataProduct:
+                                                    product.productName!),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 4.h),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          TextStyleTitleDataProductBold(
+                                              title: 'رقم المنتج :  '),
+                                          Expanded(
+                                            child: TextStyleDataProductGreyDark(
+                                                dataProduct: product
+                                                    .productNumber
+                                                    .toString()),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 4.h),
+                                      Row(
+                                        children: [
+                                          Text('السعر :  ',
+                                              style: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  fontWeight: FontWeight.bold)),
+                                          Text(
+                                            '\$${product.productPrice.toString()}',
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
                                                 fontSize: 12.sp,
-                                                fontWeight: FontWeight.bold)),
-                                        Text(
-                                          '\$${product.productPrice.toString()}',
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              fontSize: 12.sp,
-                                              color: Colors.red),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                                color: Colors.red),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              SizedBox(width: 10.w),
-                              // Action Buttons
-                              TwoButtonInsideListViewProducts(
-                                onTapEdit: () {
-                                  // state.products //  ===> this pass contains [productid,productName,productNumber,productPrice,productImageUrl]
-                                  // تنفيذ التعديل
-                                  context.push(
-                                      AppRouter.storeRouters.kStoreEditProduct,
-                                      extra: 1 // here pass the product id
-                                      );
-                                },
-                                reactivate: storeProductsFilter != 2
-                                    ? null
-                                    : true, // if storeProductsFilter == 2 => for reactivate product
-                                onTapDeleteOrReactivate: () {
-                                  storeProductsFilter !=
-                                          2 // if storeProductsFilter == 2 => for reactivate product
-                                      ? showDeleteProductDialog(
-                                          contextPerant: context,
-                                          productId: product.productid!,
-                                          storeProductsFilter:
-                                              storeProductsFilter,
-                                          deleteProductCubit: context.read<
-                                              DeleteProductByIdFromStoreCubit>(), // Pass the cubit
-                                        )
-                                      : showActivateProductDialog(
-                                          contextPerant: context,
-                                          productId: product.productid!,
-                                          storeProductsFilter:
-                                              storeProductsFilter,
-                                          activateProductsCubit: context.read<
-                                              ActivateProductsByIdsCubit>(),
+                                SizedBox(width: 10.w),
+                                // Action Buttons
+                                TwoButtonInsideListViewProducts(
+                                  onTapEdit: () {
+                                    // state.products //  ===> this pass contains [productid,productName,productNumber,productPrice,productImageUrl]
+                                    // تنفيذ التعديل
+                                    context.push(
+                                        AppRouter
+                                            .storeRouters.kStoreEditProduct,
+                                        extra: 1 // here pass the product id
                                         );
-                                },
-                              ),
-                            ],
-                          ),
+                                  },
+                                  reactivate: storeProductsFilter != 2
+                                      ? null
+                                      : true, // if storeProductsFilter == 2 => for reactivate product
+                                  onTapDeleteOrReactivate: () {
+                                    storeProductsFilter !=
+                                            2 // if storeProductsFilter == 2 => for reactivate product
+                                        ? showDeleteProductDialog(
+                                            contextPerant: context,
+                                            productId: product.productid!,
+                                            storeProductsFilter:
+                                                storeProductsFilter,
+                                            deleteProductCubit: context.read<
+                                                DeleteProductByIdFromStoreCubit>(), // Pass the cubit
+                                          )
+                                        : showActivateProductDialog(
+                                            contextPerant: context,
+                                            productId: product.productid!,
+                                            storeProductsFilter:
+                                                storeProductsFilter,
+                                            activateProductsCubit: context.read<
+                                                ActivateProductsByIdsCubit>(),
+                                          );
+                                  },
+                                ),
+                              ],
+                            )),
+                        SizedBox(width: 10.w),
+                        // Action Buttons
+                        TwoButtonInsideListViewProducts(
+                          onTapEdit: () {
+                            // state.products //  ===> this pass contains [productid,productName,productNumber,productPrice,productImageUrl]
+                            // تنفيذ التعديل
+                            // context.push(
+                            //     AppRouter.storeRouters.kStoreEditProduct,
+                            //     extra: 1 // here pass the product id
+                            //     );
+                            context
+                                .read<ProductDetailsCubit>()
+                                .getProductDetails(
+                                  productId: product.productid!,
+                                );
+                            showGetProductDetailsDialog(
+                              contextParent: context,
+                              productDetailsCubit:
+                                  context.read<ProductDetailsCubit>(),
+                            );
+                          },
+                          reactivate: storeProductsFilter == 2
+                              ? true
+                              : null, // if storeProductsFilter == 2 => for reactivate product
+                          onTapDeleteOrReactivate: () {
+                            storeProductsFilter ==
+                                    2 // if storeProductsFilter == 2 => for reactivate product
+                                ? showActivateProductDialog(
+                                    contextPerant: context,
+                                    productId: product.productid!,
+                                    storeProductsFilter: storeProductsFilter,
+                                    activateProductsCubit: context
+                                        .read<ActivateProductsByIdsCubit>(),
+                                  )
+                                : showDeleteProductDialog(
+                                    contextPerant: context,
+                                    productId: product.productid!,
+                                    storeProductsFilter: storeProductsFilter,
+                                    deleteProductCubit: context.read<
+                                        DeleteProductByIdFromStoreCubit>(), // Pass the cubit
+                                  );
+                          },
                         ),
-                        if (index == products.length - 1)
-                          SizedBox(
-                            height: 80.h,
-                          ),
                       ],
                     );
                   },
@@ -275,12 +319,79 @@ void showActivateProductDialog({
             return CustomShowDialogForViewWidget(
               title: 'إعادة تنشيط المنتج',
               subtitle: 'هل تريد بالتأكيد إعادة تنشيط هذا المنتج؟',
-              isLoading: state is DeleteProductByIdFromStoreLoading,
+              isLoading: state is ActivateProductsByIdsLoading,
               onConfirm: () => dialogContext
-                  .read<DeleteProductByIdFromStoreCubit>()
-                  .deleteProductById(productId: productId),
+                  .read<ActivateProductsByIdsCubit>()
+                  .activateProductsByIds(ids: [productId]),
               confirmText: 'إعادة تنشيط',
               cancelText: 'إلغاء',
+            );
+          },
+        ),
+      );
+    },
+  );
+}
+
+void showGetProductDetailsDialog({
+  required BuildContext contextParent,
+  required ProductDetailsCubit productDetailsCubit,
+}) {
+  showDialog(
+    context: contextParent,
+    builder: (BuildContext dialogContext) {
+      return BlocProvider.value(
+        value: productDetailsCubit,
+        child: BlocConsumer<ProductDetailsCubit, ProductDetailsState>(
+          listener: (dialogContext, state) {
+            if (state is ProductDetailsSuccess) {
+              Navigator.of(dialogContext, rootNavigator: true).pop();
+              contextParent.push(
+                AppRouter.storeRouters.kStoreEditProduct,
+                extra: state.productDetailsEntity, // Pass the product ID here
+              );
+              debugPrint(
+                  "=============  ${state.productDetailsEntity.nameProduct}  ==============");
+              debugPrint(
+                  "=============  ${state.productDetailsEntity.mainImageUrlProduct}  ==============");
+            } else if (state is ProductDetailsFailure) {
+              Navigator.of(dialogContext, rootNavigator: true).pop();
+              debugPrint(
+                  "=============  فشل في جلب بيانات المنتج  ==============");
+              debugPrint(state.errMessage);
+              ScaffoldMessenger.of(dialogContext).showSnackBar(
+                SnackBar(content: Text(state.errMessage)),
+              );
+            }
+          },
+          builder: (dialogContext, state) {
+            return Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0), // Padding for content
+                child: Column(
+                  mainAxisSize: MainAxisSize
+                      .min, // Ensures the dialog sizes based on content
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 80.0,
+                      height: 80.0,
+                      child: CircularProgressIndicator(
+                        color: AppColors.primary,
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    Text(
+                      "جاري جلب بيانات المنتج...",
+                      style: KTextStyle.textStyle18,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
             );
           },
         ),

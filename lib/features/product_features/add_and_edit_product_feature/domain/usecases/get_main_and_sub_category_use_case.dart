@@ -1,12 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/main_category_entity.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
 import '../../../../../core/use_cases/param_use_case.dart';
-import '../repos/add_product_store_repo.dart';
+import '../repos/add_and_edit_product_store_repo.dart';
 
 class GetMainAndSubCategoryUseCase extends UseCaseWithParam<
     List<MainCategoryEntity>, GetMainAndSubCategoryParams> {
-  final AddProductStoreRepo addProductStoreRepo;
+  final AddAndEditProductStoreRepo addProductStoreRepo;
 
   GetMainAndSubCategoryUseCase(this.addProductStoreRepo);
   @override

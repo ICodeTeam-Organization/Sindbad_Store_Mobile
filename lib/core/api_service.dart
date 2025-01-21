@@ -74,6 +74,75 @@ class ApiService {
     }
   }
 
+  // put With Files method
+  Future<Map<String, dynamic>> putWithFilesForEditProduct(
+      {required String endPoint,
+      required Map<String, dynamic> data,
+      List<File?>? imageFiles,
+      File? imageFile,
+      Map<String, String>? headers}) async {
+    try {
+      FormData formData = FormData.fromMap(data);
+      if (data.keys.contains("newAttributes")) {
+        formData.fields
+            .removeWhere((item) => item.key.contains("newAttributes"));
+        for (var i = 0; i < data["newAttributes"].length; i++) {
+          formData.fields.add(MapEntry("newAttributes[$i].attributeName",
+              data["newAttributes"][i]["attributeName"]));
+          formData.fields.add(MapEntry("newAttributes[$i].attributeValue",
+              data["newAttributes"][i]["attributeValue"]));
+        }
+      }
+      // Add an empty value for "images" if no image files are provided
+      if (imageFiles == null) {
+        // formData.fields.add(const MapEntry("Images", ''));
+      }
+      // Add image files to the form data
+      else if (imageFiles.isNotEmpty) {
+        // formData.fields.add(const MapEntry("images", ""));
+        // }
+        for (var file in imageFiles) {
+          String fileName = file!.path.split('/').last;
+          formData.files.add(MapEntry(
+            "Images",
+            await MultipartFile.fromFile(file.path, filename: fileName),
+          ));
+        }
+      }
+      // // Add an empty value for "images" if no image files are provided
+      // if (imageFiles.isEmpty) {
+      //   formData.fields.add(const MapEntry("Images", ""));
+      // }
+      // // Add an empty value for "FilePDF" if no PDF file is provided
+      // if (imageFile == null) {
+      //   // formData.fields.add(const MapEntry("MainImage", ""));
+      // }
+      if (imageFile != null) {
+        // Add the  file to the form data
+        String fileName = imageFile.path.split('/').last;
+        formData.files.add(MapEntry(
+          "MainImage",
+          await MultipartFile.fromFile(imageFile.path, filename: fileName),
+        ));
+      }
+
+      // // // Add an empty value for "FilePDF" if no PDF file is provided
+      // if (imageFile.path.isEmpty || imageFile == null) {
+      //   formData.fields.add(const MapEntry("MainImage", ""));
+      // }
+      var response = await _dio.put('$baseUrl$endPoint',
+          data: formData, options: Options(headers: headers));
+
+      return response.data;
+    } catch (error, stacktrace) {
+      // Handle any error that occurs during the request
+      // print('Error: $error');
+      // print('Stacktrace: $stacktrace');
+      throw Exception(
+          'Failed to make PUT request , Error: $error , Stacktrace: $stacktrace ');
+    }
+  }
+
   // patch method
   Future<Map<String, dynamic>> patch(
       {required String endPoint,
@@ -146,7 +215,16 @@ class ApiService {
   }) async {
     try {
       FormData formData = FormData.fromMap(data);
-
+      if (data.keys.contains("newAttributes")) {
+        formData.fields
+            .removeWhere((item) => item.key.contains("newAttributes"));
+        for (var i = 0; i < data["newAttributes"].length; i++) {
+          formData.fields.add(MapEntry("newAttributes[$i].attributeName",
+              data["newAttributes"][i]["attributeName"]));
+          formData.fields.add(MapEntry("newAttributes[$i].attributeValue",
+              data["newAttributes"][i]["attributeValue"]));
+        }
+      }
       // Add image files to the form data
       if (imageFiles.isEmpty != true) {
         // formData.fields.add(const MapEntry("images", ""));

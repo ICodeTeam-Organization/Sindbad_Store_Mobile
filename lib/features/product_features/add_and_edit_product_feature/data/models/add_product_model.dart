@@ -1,4 +1,4 @@
-import '../../domain/entities/add_product_entity.dart';
+import '../../domain/entities/add_product_entities/add_product_entity.dart';
 
 class AddProductModel extends AddProductEntity {
   bool? successModel;

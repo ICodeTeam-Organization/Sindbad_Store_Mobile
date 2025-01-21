@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/main_category_entity.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
 import '../../../../../../../../core/errors/failure.dart';
-import '../../../../../domain/entities/sub_category_entity.dart';
+import '../../../../../domain/entities/add_product_entities/sub_category_entity.dart';
 import '../../../../../domain/usecases/get_main_and_sub_category_use_case.dart';
 
 part 'get_main_and_sub_category_names_state.dart';
@@ -43,6 +43,9 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
       //
       // mainAndSubCategories = mainAndSubCategory;
       mainAndSubCategories = mainAndSubCategory;
+
+      // selectedSubCategories = contains just sub categories for mainCategories specific by ID
+
       //
       emit(GetCategoryNamesSuccess(
           categoryAndSubCategoryNames:
@@ -50,23 +53,41 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
     });
   }
 
+  // هذي سويتها لصفحة الاضافة وماقدرت استخدمها في التعديل
   // عند اختيار فئة رئيسية، تحديث الفئات الفرعية
   void updateSubCategories(int selectedMainCategoryId) {
     try {
-      // نحاول العثور على الفئة الرئيسية
       final selectedMainCategory = mainAndSubCategories.firstWhere(
         (category) => category.mainCategoryId == selectedMainCategoryId,
       );
-
-      // إذا تم العثور على الفئة الرئيسية، نقوم بتحديث الفئات الفرعية
+      // selectedSubCategories = contains just sub categories for mainCategories specific by ID
       selectedSubCategories = selectedMainCategory.subCategory;
     } catch (e) {
-      // إذا لم يتم العثور على العنصر، نعرض رسالة خطأ أو نستخدم قيمة افتراضية
-      selectedSubCategories = []; // نستخدم قائمة فارغة كقيمة افتراضية
+      selectedSubCategories = [];
     }
 
     emit(GetCategoryNamesSuccess(
       categoryAndSubCategoryNames: mainAndSubCategories,
     ));
   }
+
+  // هذي داله مؤقته نفس الي فوق بس تغيير بسيط عشان صفحة التعديل والمفترض يكونن الاثنين بذي الداله
+  // void updateSubCategoriesForEditPage(int selectedMainCategoryId) {
+  //   try {
+  //     // نحاول العثور على الفئة الرئيسية
+  //     final selectedMainCategory = mainAndSubCategories.firstWhere(
+  //       (category) => category.mainCategoryId == selectedMainCategoryId,
+  //     );
+
+  //     // إذا تم العثور على الفئة الرئيسية، نقوم بتحديث الفئات الفرعية
+  //     selectedSubCategories = selectedMainCategory.subCategory;
+  //   } catch (e) {
+  //     // إذا لم يتم العثور على العنصر، نعرض رسالة خطأ أو نستخدم قيمة افتراضية
+  //     selectedSubCategories = []; // نستخدم قائمة فارغة كقيمة افتراضية
+  //   }
+
+  //   emit(SubCategorySuccess(
+  //     categoryAndSubCategoryNames: mainAndSubCategories,
+  //   ));
+  // }
 }

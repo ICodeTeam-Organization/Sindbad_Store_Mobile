@@ -7,11 +7,11 @@ import '../../data/repos/add_product_store_repo_impl.dart';
 import '../../domain/usecases/add_product_to_store_use_case.dart';
 import '../../domain/usecases/get_brands_by_main_category_id_use_case.dart';
 import '../../domain/usecases/get_main_and_sub_category_use_case.dart';
-import '../../widgets/custom_card_to_all_attributes_fileds.dart';
-import '../../widgets/custom_card_to_all_drop_down.dart';
-import '../../widgets/custom_card_to_all_images.dart';
-import '../../widgets/custom_card_to_all_text_fileds.dart';
-import '../../widgets/two_button_in_down_add_product.dart';
+import '../widgets/custom_card_to_all_attributes_fileds.dart';
+import '../widgets/custom_card_to_all_drop_down.dart';
+import '../widgets/custom_card_to_all_images.dart';
+import '../widgets/custom_card_to_all_text_fileds.dart';
+import '../widgets/two_button_in_down_add_product.dart';
 import '../manger/cubit/add_attribute_product.dart/add_attribute_product_dart_cubit.dart';
 import '../manger/cubit/add_images/cubit/add_image_to_product_add_cubit.dart';
 import '../manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
@@ -27,7 +27,7 @@ class AddProductScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          // =========  initilize BlocProvider for Add Product Screen ==========
+          // =========  initialize BlocProvider for Add Product Screen ==========
           child: MultiBlocProvider(
             providers: [
               //for add product
@@ -35,18 +35,18 @@ class AddProductScreen extends StatelessWidget {
                   create: (context) =>
                       AddProductToStoreCubit(AddProductToStoreUseCase(
                         addProductStoreRepo:
-                            getit.get<AddProductStoreRepoImpl>(),
+                            getit.get<AddAndEditProductStoreRepoImpl>(),
                       ))),
               BlocProvider(create: (context) => AddImageToProductAddCubit()),
               BlocProvider(
                   create: (context) =>
                       GetCategoryNamesCubit(GetMainAndSubCategoryUseCase(
-                        getit.get<AddProductStoreRepoImpl>(),
+                        getit.get<AddAndEditProductStoreRepoImpl>(),
                       ))),
               BlocProvider(
                   create: (context) => GetBrandsByCategoryIdCubit(
                           GetBrandsByMainCategoryIdUseCase(
-                        getit.get<AddProductStoreRepoImpl>(),
+                        getit.get<AddAndEditProductStoreRepoImpl>(),
                       ))),
               BlocProvider(create: (context) => AddAttributeProductDartCubit()),
               //
