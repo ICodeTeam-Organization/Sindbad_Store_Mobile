@@ -449,7 +449,7 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                         //   onSuccessCallback!();
                         // }
                         // context.go(AppRouter.storeRouters.root);
-                        // Navigator.of(context).pop(); // close add pruduct
+                        Navigator.of(context).pop(); // close Edit pruduct
                         // context.go(AppRouter.storeRouters.root);
                         // ====  to refrech view pruduct page ====
                         // contextPerant
