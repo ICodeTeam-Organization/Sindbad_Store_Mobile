@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:sindbad_management_app/core/shared_widgets/new_widgets/sub_custom_tab_bar.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_body.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_details_widget/build_dialog_content.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_details_widget/radio_widget.dart';
@@ -117,18 +118,8 @@ class ShowCreateBillAndCancelOrder extends StatelessWidget {
                         numberConroller.clear();
                         mountConroller.clear();
                         dateConroller.clear();
-                        context.read<AllOrderCubit>().fetchAllOrder(
-                              isUrgen: false,
-                              canceled: false,
-                              delevred: false,
-                              noInvoice: false,
-                              unpaied: false,
-                              paied: false,
-                              pageNumber: 1,
-                              pageSize: 100,
-                              // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
-                              // srearchKeyword: ''
-                            );
+                        //تحديث الصفحة بعد انشاء الفاتورة
+                        refreshAfterCreateInvoice(context);
                       } catch (e) {
                         showDialog(
                           context: context,
@@ -249,5 +240,35 @@ class ShowCreateBillAndCancelOrder extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void refreshAfterCreateInvoice(BuildContext context) {
+    if (subTabController!.index == 0) {
+      context.read<AllOrderCubit>().fetchAllOrder(
+            isUrgen: false,
+            canceled: false,
+            delevred: false,
+            noInvoice: false,
+            unpaied: false,
+            paied: false,
+            pageNumber: 1,
+            pageSize: 100,
+            // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
+            // srearchKeyword: ''
+          );
+    } else if (subTabController!.index == 1) {
+      context.read<AllOrderCubit>().fetchAllOrder(
+            isUrgen: false,
+            canceled: false,
+            delevred: false,
+            noInvoice: true,
+            unpaied: false,
+            paied: false,
+            pageNumber: 1,
+            pageSize: 100,
+            // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
+            // srearchKeyword: ''
+          );
+    }
   }
 }

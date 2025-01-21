@@ -11,6 +11,7 @@ import 'package:sindbad_management_app/features/order_management%20_features/ui/
 import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_shipping_widgets/build_info_row_add.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_shipping_widgets/drop_down_widget.dart';
 import '../../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
+import '../../../../../core/shared_widgets/new_widgets/sub_custom_tab_bar.dart';
 import '../../function/pdf.dart';
 import '../../manager/all_order/all_order_cubit.dart';
 import '../../manager/button_disable/button_disable_cubit.dart';
@@ -87,19 +88,7 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                                 // ignore: use_build_context_synchronously
                                 context.pop();
                                 // ignore: use_build_context_synchronously
-                                context.read<AllOrderCubit>().fetchAllOrder(
-                                      isUrgen: false,
-                                      canceled: false,
-                                      delevred: false,
-                                      noInvoice: false,
-                                      unpaied: false,
-                                      paied: false,
-                                      pageNumber: 1,
-                                      pageSize: 10,
-                                      // storeId:
-                                      //     '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
-                                      // srearchKeyword: ''
-                                    );
+                                refreshAfterShippingInvoice(context);
                                 showDialog(
                                   // ignore: use_build_context_synchronously
                                   context: context,
@@ -277,6 +266,36 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
     } catch (e) {
       // Return null if the input is invalid
       return null;
+    }
+  }
+
+  void refreshAfterShippingInvoice(BuildContext context) {
+    if (subTabController!.index == 0) {
+      context.read<AllOrderCubit>().fetchAllOrder(
+            isUrgen: false,
+            canceled: false,
+            delevred: false,
+            noInvoice: false,
+            unpaied: false,
+            paied: false,
+            pageNumber: 1,
+            pageSize: 100,
+            // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
+            // srearchKeyword: ''
+          );
+    } else if (subTabController!.index == 3) {
+      context.read<AllOrderCubit>().fetchAllOrder(
+            isUrgen: false,
+            canceled: false,
+            delevred: false,
+            noInvoice: false,
+            unpaied: false,
+            paied: true,
+            pageNumber: 1,
+            pageSize: 100,
+            // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
+            // srearchKeyword: ''
+          );
     }
   }
 }
