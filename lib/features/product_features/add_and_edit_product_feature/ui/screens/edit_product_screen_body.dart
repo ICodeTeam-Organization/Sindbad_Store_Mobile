@@ -490,31 +490,32 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                   SizedBox(width: 8.w),
                   StorePrimaryButton(
                     onTap: () {
+                      Navigator.of(context).pop(); // close Edit product
                       // for test
-                      debugPrint(
-                          "=======  basic mainId = ${widget.productDetailsEntity.mainCategoryIdProduct.toString()}");
-                      debugPrint(
-                          "=======  basic subId = ${widget.productDetailsEntity.subCategoryIdProduct[0].toString()}");
-                      debugPrint(
-                          "=======  basic brandId = ${widget.productDetailsEntity.brandIdProduct.toString()}");
-                      cubitEditProduct.testDropDown();
-                      debugPrint(
-                          "=======  basic isInitial = ${cubitEditProduct.isInitialDropDown.toString()}");
-                      debugPrint(
-                          "=======  basic mainCategoryName = ${widget.productDetailsEntity.mainCategoryNameProduct.toString()}");
-                      debugPrint(
-                          "=======  basic subCategoriesName = ${widget.productDetailsEntity.subCategoriesName.toString()}");
-                      debugPrint(
-                          "=======  basic brandName = ${widget.productDetailsEntity.brandNameProduct.toString()}");
-                      debugPrint(
-                          "==============================================================================");
-                      // for test
-                      cubitEditProduct.testEditProductRequest(
-                          priceProductController: _priceProductController.text,
-                          descriptionProductController:
-                              _descriptionProductController.text,
-                          keys: cubitAttribute.keys,
-                          values: cubitAttribute.values);
+                      // debugPrint(
+                      //     "=======  basic mainId = ${widget.productDetailsEntity.mainCategoryIdProduct.toString()}");
+                      // debugPrint(
+                      //     "=======  basic subId = ${widget.productDetailsEntity.subCategoryIdProduct[0].toString()}");
+                      // debugPrint(
+                      //     "=======  basic brandId = ${widget.productDetailsEntity.brandIdProduct.toString()}");
+                      // cubitEditProduct.testDropDown();
+                      // debugPrint(
+                      //     "=======  basic isInitial = ${cubitEditProduct.isInitialDropDown.toString()}");
+                      // debugPrint(
+                      //     "=======  basic mainCategoryName = ${widget.productDetailsEntity.mainCategoryNameProduct.toString()}");
+                      // debugPrint(
+                      //     "=======  basic subCategoriesName = ${widget.productDetailsEntity.subCategoriesName.toString()}");
+                      // debugPrint(
+                      //     "=======  basic brandName = ${widget.productDetailsEntity.brandNameProduct.toString()}");
+                      // debugPrint(
+                      //     "==============================================================================");
+                      // // for test
+                      // cubitEditProduct.testEditProductRequest(
+                      //     priceProductController: _priceProductController.text,
+                      //     descriptionProductController:
+                      //         _descriptionProductController.text,
+                      //     keys: cubitAttribute.keys,
+                      //     values: cubitAttribute.values);
                     },
                     title: "إلغاء",
                     width: 104.w,
