@@ -52,6 +52,7 @@ abstract class AddAndEditProductStoreRepo {
     required int? brandId,
     required int mainCategoryId,
     required List<File>? images,
+    required List<String>? imagesUrl,
     required List<int> subCategoryIds,
     required List<Map<String, String>> newAttributes,
   });

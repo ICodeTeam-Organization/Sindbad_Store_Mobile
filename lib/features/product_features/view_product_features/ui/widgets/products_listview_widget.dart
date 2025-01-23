@@ -316,12 +316,9 @@ void showGetProductDetailsDialog({
               Navigator.of(dialogContext, rootNavigator: true).pop();
               contextParent.push(
                 AppRouter.storeRouters.kStoreEditProduct,
-                extra: state.productDetailsEntity, // Pass the product ID here
+                extra: state
+                    .productDetailsEntity, // Pass the product information here
               );
-              debugPrint(
-                  "=============  ${state.productDetailsEntity.nameProduct}  ==============");
-              debugPrint(
-                  "=============  ${state.productDetailsEntity.mainImageUrlProduct}  ==============");
             } else if (state is ProductDetailsFailure) {
               Navigator.of(dialogContext, rootNavigator: true).pop();
               debugPrint(
