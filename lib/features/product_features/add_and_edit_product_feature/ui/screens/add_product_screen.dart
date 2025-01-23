@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/setup_service_locator.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_app_bar.dart';
-import '../../data/repos/add_product_store_repo_impl.dart';
+import '../../data/repos/add_and_edit_product_store_repo_impl.dart';
 import '../../domain/usecases/add_product_to_store_use_case.dart';
 import '../../domain/usecases/get_brands_by_main_category_id_use_case.dart';
 import '../../domain/usecases/get_main_and_sub_category_use_case.dart';

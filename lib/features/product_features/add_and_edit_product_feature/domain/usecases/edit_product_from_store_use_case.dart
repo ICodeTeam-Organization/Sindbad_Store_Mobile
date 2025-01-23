@@ -25,6 +25,7 @@ class EditProductFromStoreUseCase
       brandId: params.brandId,
       mainCategoryId: params.mainCategoryId,
       images: params.images,
+      imagesUrl: params.imagesUrl,
       subCategoryIds: params.subCategoryIds,
       newAttributes: params.newAttributes,
     );
@@ -43,6 +44,7 @@ class EditProductFromStoreParams {
   final int? brandId;
   final int mainCategoryId;
   final List<File>? images;
+  final List<String>? imagesUrl;
   final List<int> subCategoryIds;
   final List<Map<String, String>> newAttributes;
 
@@ -56,6 +58,7 @@ class EditProductFromStoreParams {
       required this.brandId,
       required this.mainCategoryId,
       required this.images,
+      required this.imagesUrl,
       required this.subCategoryIds,
       required this.newAttributes});
 }

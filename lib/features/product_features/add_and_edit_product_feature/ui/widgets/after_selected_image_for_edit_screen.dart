@@ -42,17 +42,19 @@ class AfterSelectedImageForEditScreen extends StatelessWidget {
         // if (upContainerHeight <= 82)
         boxNumber > 1
             ? // is subImage
-            Positioned(
-                top: 2.0,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                  child: Icon(
-                    Icons.edit_square,
-                    color: Colors.white,
-                    size: 15.0,
-                  ),
-                ),
-              )
+            SizedBox()
+            // Positioned(
+            //     top: 2.0,
+            //     left: 0,
+            //     child: Container(
+            //       padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+            //       child: Icon(
+            //         Icons.edit_square,
+            //         color: Colors.white,
+            //         size: 15.0,
+            //       ),
+            //     ),
+            //   )
             // else
             : // is mainImage
             Positioned(
@@ -70,22 +72,26 @@ class AfterSelectedImageForEditScreen extends StatelessWidget {
                   ),
                 ),
               ),
-        Positioned(
-          top: boxNumber == 1 ? 8.0 : 2.0, // if == mainImage
-          right: boxNumber == 1 ? 8.0 : 1, // if == mainImage
-          child: GestureDetector(
-            onTap: onTapDeleteImage, // here fun delete product
-            child: Container(
-              color: boxNumber == 1 ? Colors.black54 : null,
-              padding: EdgeInsets.all(4.0),
-              child: Icon(
-                Icons.delete,
-                color: Colors.white,
-                size: boxNumber == 1 ? 20.0 : 15.0,
+        boxNumber == 1
+            ? SizedBox()
+            : Positioned(
+                top: boxNumber == 1 ? 8.0 : 2.0, // if == mainImage
+                right: boxNumber == 1 ? 8.0 : 1, // if == mainImage
+                child: GestureDetector(
+                  onTap: onTapDeleteImage, // here fun delete product
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: boxNumber == 1 ? Colors.black54 : Colors.black38,
+                        borderRadius: BorderRadius.circular(4)),
+                    padding: EdgeInsets.all(3.0),
+                    child: Icon(
+                      Icons.delete,
+                      color: Colors.white,
+                      size: boxNumber == 1 ? 20.0 : 15.0,
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
       ],
     );
   }

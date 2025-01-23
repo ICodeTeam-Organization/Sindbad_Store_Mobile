@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/usecases/edit_product_from_store_use_case.dart';
 
 import '../../../../../core/setup_service_locator.dart';
-import '../../data/repos/add_product_store_repo_impl.dart';
+import '../../data/repos/add_and_edit_product_store_repo_impl.dart';
 import '../../domain/entities/edit_product_entities/product_details_entity.dart';
 import '../../domain/usecases/get_brands_by_main_category_id_use_case.dart';
 import '../../domain/usecases/get_main_and_sub_category_use_case.dart';

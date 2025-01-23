@@ -73,6 +73,10 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
 
     final EditProductFromStoreCubit cubitEditProduct =
         context.read<EditProductFromStoreCubit>();
+    cubitEditProduct.saveBasicSubImages(
+        basicSubImages: widget.productDetailsEntity.imagesProduct
+            .map((image) => image.imageUrlProduct)
+            .toList());
     // loop to add attribute product from getProductDetails to cubit Attribute
     for (int i = 0;
         i < widget.productDetailsEntity.attributesWithValuesProduct.length;

@@ -42,6 +42,7 @@ abstract class AddAndEditProductToStoreRemoteDataSource {
     required int? brandId,
     required int mainCategoryId,
     required List<File>? images,
+    required List<String>? imagesUrl,
     required List<int> subCategoryIds,
     required List<Map<String, String>> newAttributes,
   });
@@ -183,6 +184,7 @@ class AddProductToStoreRemoteDataSourceImpl
     required int? brandId,
     required int mainCategoryId,
     required List<File>? images,
+    required List<String>? imagesUrl,
     required List<int> subCategoryIds,
     required List<Map<String, String>> newAttributes,
   }) async {
@@ -192,10 +194,11 @@ class AddProductToStoreRemoteDataSourceImpl
       "Description": description,
       // "MainImageUrl": mainImageFile,   // down.. in with files
       "StoreId": storeId,
-      "OfferId": offerId,
+      // "OfferId": offerId,
       "BrandId": brandId,
       "MainCategoryId": mainCategoryId,
       // "Images": images,                // down.. in with files
+      "ImagesUrl": imagesUrl,
       "SubCategoryIds": subCategoryIds,
       "newAttributes": newAttributes
     };

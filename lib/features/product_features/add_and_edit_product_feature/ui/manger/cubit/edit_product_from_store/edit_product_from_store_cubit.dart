@@ -24,16 +24,17 @@ class EditProductFromStoreCubit extends Cubit<EditProductFromStoreState> {
   // TextEditingController priceProductController = TextEditingController();
   // TextEditingController descriptionProductController = TextEditingController();
 
-  // // all File for [ product Images ] ==> add product page
-  // String? mainImageProduct;
-  // String? subOneImageProduct;
-  // String? subTwoImageProduct;
-  // String? subThreeImageProduct;
-  // // all File for [ product Images ] ==> add product page
+  // all File for [ product Images ] ==> Edit product page
   File? mainImageProductFile;
+
   File? subOneImageProductFile;
   File? subTwoImageProductFile;
   File? subThreeImageProductFile;
+
+  String? subOneImageProductUrl; // for just save [basic sub images]
+  String? subTwoImageProductUrl;
+  String? subThreeImageProductUrl;
+  List<String> subLeftImageProductUrl = [];
 
   // all num for [ Type product ] ==> Edit product page
   bool isInitialDropDown = true;
@@ -52,9 +53,29 @@ class EditProductFromStoreCubit extends Cubit<EditProductFromStoreState> {
   // List<TextEditingController> keys = [];
   // List<TextEditingController> values = [];
 
-  // void updateIsInitialDropDown() {
-  //   isInitialDropDown = false;
-  // }
+  void saveBasicSubImages({required List<String> basicSubImages}) {
+    if (basicSubImages.isNotEmpty) {
+      switch (basicSubImages.length) {
+        case 1:
+          subOneImageProductUrl = basicSubImages[0];
+          break;
+        case 2:
+          subOneImageProductUrl = basicSubImages[0];
+          subTwoImageProductUrl = basicSubImages[1];
+          break;
+        case 3:
+          subOneImageProductUrl = basicSubImages[0];
+          subTwoImageProductUrl = basicSubImages[1];
+          subThreeImageProductUrl = basicSubImages[2];
+          break;
+        case > 3:
+          subOneImageProductUrl = basicSubImages[0];
+          subTwoImageProductUrl = basicSubImages[1];
+          subThreeImageProductUrl = basicSubImages[2];
+          subLeftImageProductUrl = basicSubImages.skip(3).toList();
+      }
+    }
+  }
 
   // for set Image variables = value
   void saveImageInCubit({required int boxNum, required File? file}) {
@@ -64,12 +85,15 @@ class EditProductFromStoreCubit extends Cubit<EditProductFromStoreState> {
         break;
       case 2:
         subOneImageProductFile = file;
+        subOneImageProductUrl = null;
         break;
       case 3:
         subTwoImageProductFile = file;
+        subTwoImageProductUrl = null;
         break;
       case 4:
         subThreeImageProductFile = file;
+        subThreeImageProductUrl = null;
         break;
     }
   }
@@ -82,12 +106,16 @@ class EditProductFromStoreCubit extends Cubit<EditProductFromStoreState> {
         break;
       case 2:
         subOneImageProductFile = null;
+        subOneImageProductUrl = null;
         break;
       case 3:
         subTwoImageProductFile = null;
+        subTwoImageProductUrl = null;
+
         break;
       case 4:
         subThreeImageProductFile = null;
+        subThreeImageProductUrl = null;
         break;
     }
   }
@@ -134,6 +162,21 @@ class EditProductFromStoreCubit extends Cubit<EditProductFromStoreState> {
     required List<TextEditingController> values,
   }) async {
     emit(EditProductFromStoreLoading());
+    final List<File> allSubImageProductFile = [
+      if (subOneImageProductFile != null) subOneImageProductFile!,
+      if (subTwoImageProductFile != null) subTwoImageProductFile!,
+      if (subThreeImageProductFile != null) subThreeImageProductFile!
+    ];
+
+    final List<String> lstForUiOnly = [
+      if (subOneImageProductUrl != null) subOneImageProductUrl!,
+      if (subTwoImageProductUrl != null) subTwoImageProductUrl!,
+      if (subThreeImageProductUrl != null) subThreeImageProductUrl!
+    ];
+    final List<String> allSubImageProductUrl = lstForUiOnly;
+    allSubImageProductUrl
+        .addAll(subLeftImageProductUrl); // add all [ left basic images ]
+
     EditProductFromStoreParams params = EditProductFromStoreParams(
       id: productId,
       price: num.parse(priceProductController.text),
@@ -142,16 +185,11 @@ class EditProductFromStoreCubit extends Cubit<EditProductFromStoreState> {
       storeId: null,
       offerId: null,
       brandId: selectedBrandId,
-      mainCategoryId: selectedMainCategoryId!,
-      images: (subOneImageProductFile == null &&
-              subTwoImageProductFile == null &&
-              subThreeImageProductFile == null)
-          ? null // if all null => will save [Basic images] for product
-          : [
-              if (subOneImageProductFile != null) subOneImageProductFile!,
-              if (subTwoImageProductFile != null) subTwoImageProductFile!,
-              if (subThreeImageProductFile != null) subThreeImageProductFile!
-            ],
+      mainCategoryId:
+          selectedMainCategoryId!, // if = null in backend meaning the basic image
+      images: allSubImageProductFile.isNotEmpty ? allSubImageProductFile : null,
+      imagesUrl:
+          allSubImageProductUrl.isNotEmpty ? allSubImageProductUrl : null,
       subCategoryIds: [selectedSubCategoryId!],
       newAttributes: [
         for (int i = 0; i < keys.length; i++)

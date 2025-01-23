@@ -22,14 +22,8 @@ class AddAndEditProductStoreRepoImpl extends AddAndEditProductStoreRepo {
       Future<T> Function() postDataFunction) async {
     try {
       var dataPosted = await postDataFunction();
-      print("==============  in add product impl  =============");
-      print("==============  right => $dataPosted  =============");
-      print("==============  in add product impl  =============");
       return right(dataPosted);
     } catch (e) {
-      print("==============  in add product impl  =============");
-      print("==============  catch => $e  =============");
-      print("==============  in add product impl  =============");
       if (e is DioException) {
         return left(ServerFailure.fromDioError(e));
       } else {
@@ -140,6 +134,7 @@ class AddAndEditProductStoreRepoImpl extends AddAndEditProductStoreRepo {
     required int? brandId,
     required int mainCategoryId,
     required List<File>? images,
+    required List<String>? imagesUrl,
     required List<int> subCategoryIds,
     required List<Map<String, String>> newAttributes,
   }) async {
@@ -156,6 +151,7 @@ class AddAndEditProductStoreRepoImpl extends AddAndEditProductStoreRepo {
         mainCategoryId: mainCategoryId,
         images: images,
         subCategoryIds: subCategoryIds,
+        imagesUrl: imagesUrl,
         newAttributes: newAttributes,
       );
       return right(response);
