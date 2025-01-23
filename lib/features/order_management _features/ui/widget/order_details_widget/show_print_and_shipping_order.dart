@@ -270,7 +270,8 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
   }
 
   void refreshAfterShippingInvoice(BuildContext context) {
-    if (subTabController!.index == 0) {
+    int subTab = subTabController!.index;
+    if (subTab == 0) {
       context.read<AllOrderCubit>().fetchAllOrder(
             isUrgen: false,
             canceled: false,
@@ -283,7 +284,7 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
             // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
             // srearchKeyword: ''
           );
-    } else if (subTabController!.index == 3) {
+    } else if (subTab == 3) {
       context.read<AllOrderCubit>().fetchAllOrder(
             isUrgen: false,
             canceled: false,

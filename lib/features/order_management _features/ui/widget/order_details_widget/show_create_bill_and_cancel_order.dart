@@ -243,7 +243,8 @@ class ShowCreateBillAndCancelOrder extends StatelessWidget {
   }
 
   void refreshAfterCreateInvoice(BuildContext context) {
-    if (subTabController!.index == 0) {
+    int subTab = subTabController!.index;
+    if (subTab == 0) {
       context.read<AllOrderCubit>().fetchAllOrder(
             isUrgen: false,
             canceled: false,
@@ -256,7 +257,7 @@ class ShowCreateBillAndCancelOrder extends StatelessWidget {
             // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
             // srearchKeyword: ''
           );
-    } else if (subTabController!.index == 1) {
+    } else if (subTab == 1) {
       context.read<AllOrderCubit>().fetchAllOrder(
             isUrgen: false,
             canceled: false,
