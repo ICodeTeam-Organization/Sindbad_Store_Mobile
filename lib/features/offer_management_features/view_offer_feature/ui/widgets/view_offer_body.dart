@@ -11,7 +11,7 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_cubit/offer_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/action_button_widget.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/card_offer_widget.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/custom_delete_dialog_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/custom_dialog_widget.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/function/image_picker_function.dart';
 
 class ViewOfferBody extends StatefulWidget {

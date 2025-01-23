@@ -147,8 +147,8 @@ class ViewOfferRemotDataSourceImpl extends ViewOfferRemotDataSource {
         headers: {
           'Authorization': 'BEARER $token',
         });
-    ChangeStatusOfferEntity delete = ChangeStatusOfferModel.fromJson(data);
-    print(delete);
-    return delete;
+    ChangeStatusOfferEntity response = ChangeStatusOfferModel.fromJson(data);
+    print(response);
+    return response;
   }
 }
