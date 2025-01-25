@@ -134,7 +134,7 @@ class _CustomDialogWidgetState extends State<CustomDialogWidget> {
         borderRadius: BorderRadius.circular(12.0),
       ),
       child: Container(
-        height: 220.h,
+        height: 290.h,
         width: 382.w,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(12.0)),

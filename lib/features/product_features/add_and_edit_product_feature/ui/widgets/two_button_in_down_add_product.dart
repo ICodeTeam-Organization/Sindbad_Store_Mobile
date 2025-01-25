@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/store_primary_button.dart';
+import 'package:sindbad_management_app/core/utils/route.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_attribute_product.dart/add_attribute_product_dart_cubit.dart';
+
 import '../../../../../core/styles/Colors.dart';
 import '../manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
-import 'package:go_router/go_router.dart';
-import 'package:sindbad_management_app/core/utils/route.dart';
 
 class TwoButtonInDownAddproduct extends StatelessWidget {
   final VoidCallback? onSuccessCallback;
@@ -28,8 +29,13 @@ class TwoButtonInDownAddproduct extends StatelessWidget {
         BlocConsumer<AddProductToStoreCubit, AddProductToStoreState>(
           listener: (context, state) {
             if (state is AddProductToStoreSuccess) {
+              context.pop();
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('تم إضافة المنتج بنجاح!')),
+                SnackBar(
+                    content: Text(
+                  'تم إضافة المنتج بنجاح!',
+                  // style: KTextStyle.textStyle16,
+                )),
               );
               // Trigger the callback to refresh parent screen
               if (onSuccessCallback != null) {

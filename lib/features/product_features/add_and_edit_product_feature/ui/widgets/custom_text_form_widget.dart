@@ -12,12 +12,14 @@ class CustomTextFormWidget extends StatelessWidget {
   final double height;
   final int maxLines;
   final bool? enabled;
+  final TextInputType keyboardType;
 
   const CustomTextFormWidget({
     super.key,
     required this.textController,
     required this.text,
     this.labelText = "",
+    this.keyboardType = TextInputType.text,
     this.width = 147.0,
     this.height = 40.0,
     this.maxLines = 1,
@@ -36,6 +38,7 @@ class CustomTextFormWidget extends StatelessWidget {
           height: height.h,
           child: TextFormField(
             enabled: enabled,
+            keyboardType: keyboardType,
             decoration: InputDecoration(
               hintText: 'أكتب هنا...',
               hintStyle: KTextStyle.textStyle12.copyWith(

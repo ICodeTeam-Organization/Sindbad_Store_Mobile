@@ -1,5 +1,6 @@
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
+
 import '../../../domain/usecases/all_order_usecase.dart';
 import 'all_order_state.dart';
 
@@ -42,9 +43,15 @@ class AllOrderCubit extends Cubit<AllOrderState> {
         AllOrderFailuer(errMessage: failuer.message),
       );
     }, (orders) {
-      emit(
-        AllOrderSuccess(orders: orders),
-      );
+      if (orders.isNotEmpty) {
+        emit(
+          AllOrderSuccess(orders: orders),
+        );
+      } else {
+        emit(
+          AllOrderFailuer(errMessage: "لا توجد طلبات"),
+        );
+      }
     });
   }
 }

@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/section_title_widget.dart';
 
-import '../../../../../core/styles/text_style.dart';
 import '../manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
 import 'custom_text_form_widget.dart';
 
@@ -43,6 +42,7 @@ class CustomCardToAllTextFileds extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomTextFormWidget(
+                  keyboardType: TextInputType.number,
                   textController: cubitAddProduct
                       .priceProductController, // ================================
                   text: 'السعر',
@@ -50,6 +50,7 @@ class CustomCardToAllTextFileds extends StatelessWidget {
                   height: 65.h,
                 ),
                 CustomTextFormWidget(
+                  keyboardType: TextInputType.number,
                   textController: cubitAddProduct
                       .numberProductController, // ================================
                   text: 'رقم المنتج',

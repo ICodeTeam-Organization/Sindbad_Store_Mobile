@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
+
 import '../../../manager/all_order/all_order_cubit.dart';
 import '../../../manager/all_order/all_order_state.dart';
 import '../../order_body.dart';
@@ -28,7 +29,7 @@ class NoPaidInfoOrder extends StatefulWidget {
 }
 
 class _NoPaidInfoOrderState extends State<NoPaidInfoOrder> {
-  late final ScrollController _scrollController;
+  // late final ScrollController _scrollController;
   // @override
   // void initState() {
   //   super.initState();
@@ -53,11 +54,11 @@ class _NoPaidInfoOrderState extends State<NoPaidInfoOrder> {
   //   }
   // }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _scrollController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +105,7 @@ class _NoPaidInfoOrderState extends State<NoPaidInfoOrder> {
             },
           );
         } else if (state is AllOrderFailuer) {
-          return Text(state.errMessage);
+          return Center(child: Text(state.errMessage));
         } else if (state is AllOrderLoading) {
           return Shimmer.fromColors(
             baseColor: Colors.grey[300]!,
