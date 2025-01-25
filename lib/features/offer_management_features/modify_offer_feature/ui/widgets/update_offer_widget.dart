@@ -1,15 +1,11 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/data/models/offer_data_model/offer_head_offer.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/entities/offer_products_entity.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/add_offer_cubit/add_offer_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/update_offer_cubit/update_offer_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/card_product_bouns_widget.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/card_product_discount_widget.dart';
@@ -67,7 +63,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
 
   @override
   void initState() {
-    widget.listProducts.forEach((offer) {
+    for (var offer in widget.listProducts) {
       print('''
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 OfferHeadOffer:
@@ -82,7 +78,7 @@ numberToBuy: ${offer.numberToBuy},
 numberToGet: ${offer.numberToGet},
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
                             ''');
-    });
+    }
 
     super.initState();
     offerTitleConroller = TextEditingController(text: widget.offerTitle);
@@ -196,6 +192,7 @@ numberToGet: ${offer.numberToGet},
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     return Column(
       children: [
         Container(
@@ -299,7 +296,7 @@ numberToGet: ${offer.numberToGet},
                 SizedBox(height: 40.h),
                 InkWell(
                     onTap: () {
-                      listProduct.forEach((offer) {
+                      for (var offer in listProduct) {
                         print('''
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 OfferHeadOffer:
@@ -317,7 +314,7 @@ startDate: ${offer.startDate},
 endDate: ${offer.endDate},
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
                             ''');
-                      });
+                      }
                     },
                     child: SectionTitleWidget(title: 'القيمة الأفتراضية')),
                 SizedBox(height: 20.h),
@@ -448,7 +445,7 @@ endDate: ${offer.endDate},
                       child: Container(
                         alignment: Alignment.center,
                         height: 40.h,
-                        width: 100.w,
+                        width: screenWidth <= 360 ? 80 : 100.w,
                         decoration: BoxDecoration(
                           color: AppColors.greyLight,
                           borderRadius: BorderRadius.circular(5.r),
@@ -573,14 +570,14 @@ endDate: ${offer.endDate},
                               );
                             }).toList();
                             print('offerTitle: ${offerTitleConroller.text}');
-                            print('startOffer: ${startOfferFormat}');
-                            print('endOffer: ${endOfferFormat}');
-                            print('offerType: ${offerType}');
+                            print('startOffer: $startOfferFormat');
+                            print('endOffer: $endOfferFormat');
+                            print('offerType: $offerType');
                             print(
                                 'discountRate: ${discountRateNotifier.value}');
                             print('numberToBuy: ${numberToBuyNotifier.value}');
                             print('numberToGet: ${numberToGetNotifier.value}');
-                            listProduct.forEach((offer) {
+                            for (var offer in listProduct) {
                               print('''
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 OfferHeadOffer:
@@ -598,7 +595,7 @@ startDate: ${offer.startDate},
 endDate: ${offer.endDate},
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
                             ''');
-                            });
+                            }
                             populateListProduct();
                             await context.read<UpdateOfferCubit>().updateOffer(
                                   offerTitleConroller.text,
@@ -613,7 +610,7 @@ endDate: ${offer.endDate},
                           child: Container(
                             alignment: Alignment.center,
                             height: 40.h,
-                            width: 195.w,
+                            width: screenWidth <= 360 ? 180 : 195.w,
                             decoration: BoxDecoration(
                               color: AppColors.primary,
                               borderRadius: BorderRadius.circular(5.r),
