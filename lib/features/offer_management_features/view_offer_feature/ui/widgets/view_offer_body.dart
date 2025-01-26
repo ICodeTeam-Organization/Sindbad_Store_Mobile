@@ -180,9 +180,6 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                                                       offerHeadId);
                                               print(
                                                   'Item Actived $offerHeadId');
-                                              await context
-                                                  .read<OfferCubit>()
-                                                  .getOffer(100, 1);
                                             },
                                           );
                                         },

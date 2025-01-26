@@ -134,7 +134,6 @@ class _CustomDialogWidgetState extends State<CustomDialogWidget> {
         borderRadius: BorderRadius.circular(12.0),
       ),
       child: Container(
-        height: 290.h,
         width: 382.w,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(12.0)),
@@ -142,6 +141,7 @@ class _CustomDialogWidgetState extends State<CustomDialogWidget> {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             // Close button (X)
             Align(
@@ -197,84 +197,88 @@ class _CustomDialogWidgetState extends State<CustomDialogWidget> {
             const SizedBox(height: 8),
             const SizedBox(height: 16),
             // Action Buttons
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                // Confirm Button
-                InkWell(
-                    onTap: widget.onConfirm,
-                    child: widget.isDelete == true
-                        ? widget.isLoading == false
-                            ? Container(
-                                alignment: Alignment.center,
-                                height: 40.h,
-                                width: 130.w,
-                                decoration: BoxDecoration(
-                                    color: AppColors.redOpacity,
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Text('نعم , متابعة الحذف',
-                                    style: KTextStyle.textStyle13.copyWith(
+            Padding(
+              padding: EdgeInsets.only(bottom: 20.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  // Confirm Button
+                  InkWell(
+                      onTap: widget.onConfirm,
+                      child: widget.isDelete == true
+                          ? widget.isLoading == false
+                              ? Container(
+                                  alignment: Alignment.center,
+                                  height: 40.h,
+                                  width: 130.w,
+                                  decoration: BoxDecoration(
+                                      color: AppColors.redOpacity,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Text('نعم , متابعة الحذف',
+                                      style: KTextStyle.textStyle13.copyWith(
+                                        color: AppColors.redDark,
+                                      )))
+                              : Container(
+                                  alignment: Alignment.center,
+                                  height: 40.h,
+                                  width: 130.w,
+                                  decoration: BoxDecoration(
+                                      color: AppColors.redOpacity,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: CircleAvatar(
+                                    backgroundColor: AppColors.transparent,
+                                    child: CircularProgressIndicator(
+                                      strokeAlign: -2,
+                                      // strokeWidth: 5,
                                       color: AppColors.redDark,
-                                    )))
-                            : Container(
-                                alignment: Alignment.center,
-                                height: 40.h,
-                                width: 130.w,
-                                decoration: BoxDecoration(
-                                    color: AppColors.redOpacity,
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: CircleAvatar(
-                                  backgroundColor: AppColors.transparent,
-                                  child: CircularProgressIndicator(
-                                    strokeAlign: -2,
-                                    // strokeWidth: 5,
-                                    color: AppColors.redDark,
+                                    ),
                                   ),
-                                ),
-                              )
-                        : widget.isLoading == false
-                            ? Container(
-                                alignment: Alignment.center,
-                                height: 40.h,
-                                width: 130.w,
-                                decoration: BoxDecoration(
-                                    color: AppColors.greenOpacity,
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Text(
-                                    widget.confirmText ?? 'نعم , متابعة الحذف',
-                                    style: KTextStyle.textStyle13.copyWith(
+                                )
+                          : widget.isLoading == false
+                              ? Container(
+                                  alignment: Alignment.center,
+                                  height: 40.h,
+                                  width: 130.w,
+                                  decoration: BoxDecoration(
+                                      color: AppColors.greenOpacity,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Text(
+                                      widget.confirmText ??
+                                          'نعم , متابعة الحذف',
+                                      style: KTextStyle.textStyle13.copyWith(
+                                        color: Colors.green,
+                                      )))
+                              : Container(
+                                  alignment: Alignment.center,
+                                  height: 40.h,
+                                  width: 130.w,
+                                  decoration: BoxDecoration(
+                                      color: AppColors.greenOpacity,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: CircleAvatar(
+                                    backgroundColor: AppColors.transparent,
+                                    child: CircularProgressIndicator(
+                                      strokeAlign: -2,
+                                      // strokeWidth: 5,
                                       color: Colors.green,
-                                    )))
-                            : Container(
-                                alignment: Alignment.center,
-                                height: 40.h,
-                                width: 130.w,
-                                decoration: BoxDecoration(
-                                    color: AppColors.greenOpacity,
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: CircleAvatar(
-                                  backgroundColor: AppColors.transparent,
-                                  child: CircularProgressIndicator(
-                                    strokeAlign: -2,
-                                    // strokeWidth: 5,
-                                    color: Colors.green,
-                                  ),
-                                ))),
-                // Cancel Button
-                InkWell(
-                    onTap: () => Navigator.of(context).pop(),
-                    child: Container(
-                        alignment: Alignment.center,
-                        height: 40.h,
-                        width: 130.w,
-                        decoration: BoxDecoration(
-                            color: AppColors.blueOpacity,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Text(widget.cancelText ?? 'لا , إلغاء العملية',
-                            style: KTextStyle.textStyle13.copyWith(
-                              color: AppColors.blueDark,
-                            )))),
-              ],
+                                    ),
+                                  ))),
+                  // Cancel Button
+                  InkWell(
+                      onTap: () => Navigator.of(context).pop(),
+                      child: Container(
+                          alignment: Alignment.center,
+                          height: 40.h,
+                          width: 130.w,
+                          decoration: BoxDecoration(
+                              color: AppColors.blueOpacity,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Text(widget.cancelText ?? 'لا , إلغاء العملية',
+                              style: KTextStyle.textStyle13.copyWith(
+                                color: AppColors.blueDark,
+                              )))),
+                ],
+              ),
             ),
           ],
         ),

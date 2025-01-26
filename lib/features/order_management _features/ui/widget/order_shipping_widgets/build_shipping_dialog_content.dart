@@ -73,6 +73,7 @@ class _BuildShippingDialogContentState
             ),
             if (widget.anotherCompany == 'اخرى')
               BuildInfoRow(
+                keyboardType: TextInputType.text,
                 title: 'اسم الشركة',
                 controller: anotherCompanyConroller,
               ),
