@@ -51,115 +51,78 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                     onTap: () {
                       showDialog(
                         context: context,
-                        builder: (context) {
-                          return CustomOrderShippingDialog(
-                            headTitle: 'بيانات فاتورة الشحن',
-                            firstTitle: 'تاريخ الفاتورة',
-                            secondTitle: 'رقم فاتورة الشحن',
-                            thierdTitle: 'الشركة الناقلة',
-                            onPressedSure: () async {
-                              try {
-                                if (companyName == 'اخرى') {
-                                  companyName = anotherCompanyConroller.text;
-                                } else {
-                                  companyName = companyName;
-                                }
-                                DateTime? dateFormat =
-                                    convertToDateTime(dateConroller.text);
-                                await context
-                                    .read<ShippingCubit>()
-                                    .fetchOrderShipping(
-                                        packageId: idPackages!,
-                                        invoiceDate:
-                                            dateFormat ?? DateTime.now(),
-                                        shippingNumber: shippingNumber =
-                                            int.parse(
-                                                numberShippingConroller.text),
-                                        shippingCompany: companyName ?? '',
-                                        shippingImages: images!,
-                                        numberParcels: parcels!);
-                                // After successful operation, enable the specific order button
-                                // ignore: use_build_context_synchronously
+                        builder: (BuildContext dialogContext) {
+                          return BlocConsumer<ShippingCubit, ShippingState>(
+                            listener: (context, state) {
+                              if (state is ShippingSuccess) {
                                 context
                                     .read<ButtonDisableCubit>()
                                     .enableButtonForOrder(idOrders!.toString());
-                                // ignore: use_build_context_synchronously
-                                context.pop();
-                                // ignore: use_build_context_synchronously
-                                context.pop();
-                                // ignore: use_build_context_synchronously
                                 refreshAfterShippingInvoice(context);
-                                showDialog(
-                                  // ignore: use_build_context_synchronously
-                                  context: context,
-                                  builder: (context) {
-                                    return BlocBuilder<ShippingCubit,
-                                        ShippingState>(
-                                      builder: (context, state) {
-                                        if (state is ShippingSuccess) {
-                                          return Messages(
-                                            isTrue:
-                                                state.serverMessage.isSuccess,
-                                            trueMessage: 'لقد تم الشحن بنجاح',
-                                            falseMessage:
-                                                'هناك خطاء في العملية',
-                                          );
-                                        } else if (state is ShippingFailure) {
-                                          return Messages(
-                                            isTrue: false,
-                                            trueMessage: 'لقد تم الشحن بنجاح',
-                                            falseMessage:
-                                                'هناك خطاء في العملية',
-                                          );
-                                        } else {
-                                          return Text("يوجد خطا");
-                                        }
-                                      },
-                                    );
-                                  },
+                                Navigator.pop(
+                                    dialogContext); // Close the dialog
+                                Navigator.pop(
+                                    dialogContext); // Close the dialog
+                                Messages(
+                                  isTrue: state.serverMessage.isSuccess,
+                                  trueMessage: 'لقد تم الشحن بنجاح',
+                                  falseMessage: 'هناك خطاء في العملية',
                                 );
-                                dateConroller.clear();
-                                numberShippingConroller.clear();
-                                anotherCompanyConroller.clear();
-                                parcels = 1;
-                                // context.read<ShippingCubit>().enableButton();
-                              } catch (e) {
-                                // ignore: use_build_context_synchronously
-                                // ScaffoldMessenger.of(context).showSnackBar(
-                                //   SnackBar(
-                                //     content: Text('هنالك خطا ما  $e'),
-                                //   ),
-                                // );
-                                // ignore: use_build_context_synchronously
-                                // Navigator.of(context).pop();
-                                showDialog(
-                                  // ignore: use_build_context_synchronously
-                                  context: context,
-                                  builder: (context) {
-                                    // return BlocBuilder<ShippingCubit,
-                                    //     ShippingState>(
-                                    //   builder: (context, state) {
-                                    //     if (state is ShippingSuccess) {
-                                    return Messages(
-                                      isTrue: false,
-                                      trueMessage: '',
-                                      falseMessage: 'هناك خطاء في العملية',
-                                    );
-                                    //     } else if (state is ShippingFailure) {
-                                    //       return Messages(
-                                    //         isTrue: false,
-                                    //         trueMessage: '',
-                                    //         falseMessage:
-                                    //             'هناك خطاء في العملية',
-                                    //       );
-                                    //     } else {
-                                    //       return Text("يوجد خطا");
-                                    //     }
-                                    //   },
-                                    // );
-                                  },
+                              } else if (state is ShippingFailure) {
+                                Navigator.pop(
+                                    dialogContext); // Close the dialog
+                                Messages(
+                                  isTrue: false,
+                                  trueMessage: 'لقد تم الشحن بنجاح',
+                                  falseMessage: 'هناك خطاء في العملية',
                                 );
                               }
+                            },
+                            builder: (context, state) {
+                              if (state is ShippingLoading) {
+                                return CustomOrderShippingDialog(
+                                  isLoading: true,
+                                  headTitle: 'بيانات فاتورة الشحن',
+                                  firstTitle: 'تاريخ الفاتورة',
+                                  secondTitle: 'رقم فاتورة الشحن',
+                                  thierdTitle: 'الشركة الناقلة',
+                                  onPressedSure: () async {},
+                                );
+                              }
+                              return CustomOrderShippingDialog(
+                                headTitle: 'بيانات فاتورة الشحن',
+                                firstTitle: 'تاريخ الفاتورة',
+                                secondTitle: 'رقم فاتورة الشحن',
+                                thierdTitle: 'الشركة الناقلة',
+                                onPressedSure: () async {
+                                  if (companyName == 'اخرى') {
+                                    companyName = anotherCompanyConroller.text;
+                                  } else {
+                                    companyName = companyName;
+                                  }
+                                  DateTime? dateFormat =
+                                      convertToDateTime(dateConroller.text);
+                                  await context
+                                      .read<ShippingCubit>()
+                                      .fetchOrderShipping(
+                                          packageId: idPackages!,
+                                          invoiceDate:
+                                              dateFormat ?? DateTime.now(),
+                                          shippingNumber: shippingNumber =
+                                              int.parse(
+                                                  numberShippingConroller.text),
+                                          shippingCompany: companyName ?? '',
+                                          shippingImages: images!,
+                                          numberParcels: parcels!);
+                                  // After successful operation, enable the specific order button
+                                  // ignore: use_build_context_synchronously
+                                  dateConroller.clear();
+                                  numberShippingConroller.clear();
+                                  anotherCompanyConroller.clear();
+                                  parcels = 1;
+                                  // context.read<ShippingCubit>().enableButton();
+                                },
+                              );
                             },
                           );
                         },

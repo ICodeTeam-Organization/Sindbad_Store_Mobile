@@ -62,92 +62,67 @@ class ShowCreateBillAndCancelOrder extends StatelessWidget {
             onTap: () {
               showDialog(
                 context: context,
-                builder: (context) {
-                  return CustomCreateBillDialog(
-                    headTitle: 'بيانات الفاتورة',
-                    firstTitle: 'تاريخ الفاتورة',
-                    secondTitle: 'رقم الفاتورة',
-                    thierdTitle: 'قيمة الفاتورة',
-                    onPressedSure: () async {
-                      try {
-                        DateTime? dateFormat =
-                            convertToDateTime(dateConroller.text);
-                        await context
-                            .read<OrderInvoiceCubit>()
-                            .fechOrderInvoice(
-                              packageId: idPackages!,
-                              invoiceAmount: mount =
-                                  int.parse(mountConroller.text),
-                              invoiceImage: images!,
-                              invoiceNumber: numberConroller.text,
-                              invoiceDate: dateFormat ?? DateTime.now(),
-                              invoiceType: pays = int.parse(pay ?? '0'),
-                            );
-                        context.pop();
-                        context.pop();
-                        // Show a success or failure message after creating the invoice
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return BlocBuilder<OrderInvoiceCubit,
-                                OrderInvoiceState>(
-                              builder: (context, state) {
-                                if (state is OrderInvoiceSuccess) {
-                                  // Trigger the callback to update the button state
-                                  onCreateInvoice(); // New: Trigger Cubit state update
-                                  return Messages(
-                                    isTrue: state.serverMessage.isSuccess,
-                                    trueMessage:
-                                        'لقد تمت الأضافة في قائمة التجهيز',
-                                    falseMessage: 'هناك خطاء في العملية',
-                                  );
-                                } else if (state is OrderInvoiceFailuer) {
-                                  return Messages(
-                                    isTrue: false,
-                                    trueMessage: ' ',
-                                    falseMessage: 'هناك خطاء في العملية',
-                                  );
-                                } else {
-                                  return Text("يوجد خطا");
-                                }
-                              },
-                            );
-                          },
-                        );
-                        // Clear input fields
-                        numberConroller.clear();
-                        mountConroller.clear();
-                        dateConroller.clear();
+                builder: (BuildContext dialogContext) {
+                  return BlocConsumer<OrderInvoiceCubit, OrderInvoiceState>(
+                    listener: (context, state) {
+                      if (state is OrderInvoiceSuccess) {
+                        // Trigger the callback to update the button state
                         //تحديث الصفحة بعد انشاء الفاتورة
                         refreshAfterCreateInvoice(context);
-                      } catch (e) {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            // return
-                            //  BlocBuilder<OrderInvoiceCubit,
-                            //     OrderInvoiceState>(
-                            //   builder: (context, state) {
-                            //     if (state is OrderInvoiceSuccess) {
-                            return Messages(
-                              isTrue: false,
-                              trueMessage: '',
-                              falseMessage: 'هناك خطاء في العملية',
-                            );
-                            //     } else if (state is OrderInvoiceFailuer) {
-                            //       return Messages(
-                            //         isTrue: false,
-                            //         trueMessage: ' ',
-                            //         falseMessage: 'هناك خطاء في العملية',
-                            //       );
-                            //     } else {
-                            //       return Text("يوجد خطا");
-                            //     }
-                            //   },
-                            // );
-                          },
+                        onCreateInvoice(); // New: Trigger Cubit state update
+                        Navigator.pop(dialogContext); // Close the dialog
+                        Navigator.pop(dialogContext); // Close the dialog
+                        Messages(
+                          isTrue: state.serverMessage.isSuccess,
+                          trueMessage: 'لقد تمت الأضافة في قائمة التجهيز',
+                          falseMessage: 'هناك خطاء في العملية',
+                        );
+                      } else if (state is OrderInvoiceFailuer) {
+                        Navigator.pop(dialogContext); // Close the dialog
+                        Messages(
+                          isTrue: false,
+                          trueMessage: ' ',
+                          falseMessage: 'هناك خطاء في العملية',
                         );
                       }
+                    },
+                    builder: (context, state) {
+                      if (state is OrderInvoiceLoading) {
+                        return CustomCreateBillDialog(
+                          isLoading: true,
+                          headTitle: 'بيانات الفاتورة',
+                          firstTitle: 'تاريخ الفاتورة',
+                          secondTitle: 'رقم الفاتورة',
+                          thierdTitle: 'قيمة الفاتورة',
+                          onPressedSure: () async {},
+                        );
+                      }
+
+                      return CustomCreateBillDialog(
+                        headTitle: 'بيانات الفاتورة',
+                        firstTitle: 'تاريخ الفاتورة',
+                        secondTitle: 'رقم الفاتورة',
+                        thierdTitle: 'قيمة الفاتورة',
+                        onPressedSure: () async {
+                          DateTime? dateFormat =
+                              convertToDateTime(dateConroller.text);
+                          await context
+                              .read<OrderInvoiceCubit>()
+                              .fechOrderInvoice(
+                                packageId: idPackages!,
+                                invoiceAmount: mount =
+                                    int.parse(mountConroller.text),
+                                invoiceImage: images!,
+                                invoiceNumber: numberConroller.text,
+                                invoiceDate: dateFormat ?? DateTime.now(),
+                                invoiceType: pays = int.parse(pay ?? '0'),
+                              );
+                          // Clear input fields
+                          numberConroller.clear();
+                          mountConroller.clear();
+                          dateConroller.clear();
+                        },
+                      );
                     },
                   );
                 },

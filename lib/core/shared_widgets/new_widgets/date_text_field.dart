@@ -42,8 +42,28 @@ class _DateTextFieldState extends State<DateTextField> {
                   DateTime? pickeddate = await showDatePicker(
                     context: context,
                     initialDate: DateTime.now(),
-                    firstDate: DateTime(1980),
-                    lastDate: DateTime(2101),
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime(2100),
+                    builder: (BuildContext context, Widget? child) {
+                      return Theme(
+                        data: ThemeData.light().copyWith(
+                          colorScheme: ColorScheme.light(
+                            primary:
+                                AppColors.primary, // Header background color
+                            onPrimary: AppColors.white, // Header text color
+                            onSurface: AppColors
+                                .blackDark, // Text color on the calendar
+                          ),
+                          textButtonTheme: TextButtonThemeData(
+                            style: TextButton.styleFrom(
+                              foregroundColor:
+                                  AppColors.blackLight, // Button text color
+                            ),
+                          ),
+                        ),
+                        child: child!,
+                      );
+                    },
                   );
                   if (pickeddate != null) {
                     setState(

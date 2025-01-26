@@ -10,12 +10,14 @@ import 'build_shipping_dialog_content.dart';
 class CustomOrderShippingDialog extends StatelessWidget {
   const CustomOrderShippingDialog({
     super.key,
+    this.isLoading = false,
     required this.headTitle,
     required this.firstTitle,
     required this.secondTitle,
     required this.thierdTitle,
     required this.onPressedSure,
   });
+  final bool? isLoading;
   final String headTitle;
   final String firstTitle;
   final String secondTitle;
@@ -30,6 +32,7 @@ class CustomOrderShippingDialog extends StatelessWidget {
       ),
       titlePadding: EdgeInsets.zero,
       content: BuildShippingDialogContent(
+        isLoading: isLoading,
         firstTitle: firstTitle,
         secondTitle: secondTitle,
         thierdTitle: thierdTitle,

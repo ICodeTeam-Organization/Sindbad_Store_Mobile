@@ -470,11 +470,11 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                                 content: Text(state.errorMessage.toString())),
                           );
                         } else if (state is AddOfferSuccess) {
+                          Navigator.pop(context);
+                          context.read<OfferCubit>().getOffer(100, 1);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text(state.addOffer.toString())),
                           );
-                          Navigator.pop(context);
-                          context.read<OfferCubit>().getOffer(100, 1);
                         }
                       },
                       builder: (context, state) {

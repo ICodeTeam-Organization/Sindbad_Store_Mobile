@@ -20,12 +20,13 @@ TextEditingController anotherCompanyNumberConroller = TextEditingController();
 class BuildShippingDialogContent extends StatefulWidget {
   BuildShippingDialogContent({
     super.key,
+    this.isLoading = false,
     required this.firstTitle,
     required this.secondTitle,
     required this.thierdTitle,
     required this.onPressedSure,
   });
-
+  final bool? isLoading;
   final String firstTitle;
   final String secondTitle;
   final String thierdTitle;
@@ -97,14 +98,10 @@ class _BuildShippingDialogContentState
             SizedBox(
               height: 20.h,
             ),
-            BlocBuilder<ShippingCubit, ShippingState>(
-              builder: (context, state) {
-                return StorePrimaryButton(
-                  isLoading: state is ShippingLoading,
-                  title: 'تاكيد',
-                  onTap: widget.onPressedSure,
-                );
-              },
+            StorePrimaryButton(
+              isLoading: widget.isLoading,
+              title: 'تاكيد',
+              onTap: widget.onPressedSure,
             ),
           ],
         ),

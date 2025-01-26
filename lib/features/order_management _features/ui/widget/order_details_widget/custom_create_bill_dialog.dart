@@ -9,11 +9,14 @@ import 'build_dialog_title.dart';
 class CustomCreateBillDialog extends StatelessWidget {
   const CustomCreateBillDialog(
       {super.key,
+      this.isLoading = false,
       required this.headTitle,
       required this.firstTitle,
       required this.secondTitle,
       required this.thierdTitle,
       required this.onPressedSure});
+  final bool? isLoading;
+
   final String headTitle;
   final String firstTitle;
   final String secondTitle;
@@ -27,6 +30,7 @@ class CustomCreateBillDialog extends StatelessWidget {
       ),
       titlePadding: EdgeInsets.zero,
       content: BuildDialogContent(
+        isLoading: isLoading,
         firstTitle: firstTitle,
         secondTitle: secondTitle,
         thierdTitle: thierdTitle,

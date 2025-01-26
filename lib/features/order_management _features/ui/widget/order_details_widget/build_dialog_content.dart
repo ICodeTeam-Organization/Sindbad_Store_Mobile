@@ -16,12 +16,13 @@ TextEditingController mountConroller = TextEditingController();
 class BuildDialogContent extends StatelessWidget {
   const BuildDialogContent({
     super.key,
+    this.isLoading = false,
     required this.firstTitle,
     required this.secondTitle,
     required this.thierdTitle,
     required this.onPressedSure,
   });
-
+  final bool? isLoading;
   final String firstTitle;
   final String secondTitle;
   final String thierdTitle;
@@ -66,14 +67,10 @@ class BuildDialogContent extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
-            BlocBuilder<OrderInvoiceCubit, OrderInvoiceState>(
-              builder: (context, state) {
-                return StorePrimaryButton(
-                  isLoading: state is OrderInvoiceLoading,
-                  title: 'تاكيد',
-                  onTap: onPressedSure,
-                );
-              },
+            StorePrimaryButton(
+              title: 'تاكيد',
+              onTap: onPressedSure,
+              isLoading: isLoading,
             ),
           ],
         ),

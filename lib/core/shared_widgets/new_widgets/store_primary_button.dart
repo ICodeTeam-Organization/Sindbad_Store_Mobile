@@ -5,7 +5,7 @@ import '../../../../../core/styles/Colors.dart';
 import '../../../../../core/styles/text_style.dart';
 
 // ignore: must_be_immutable
-class StorePrimaryButton extends StatelessWidget {
+class StorePrimaryButton extends StatefulWidget {
   StorePrimaryButton(
       {super.key,
       this.onTap,
@@ -32,14 +32,21 @@ class StorePrimaryButton extends StatelessWidget {
   static const double _borderRadius = 8.0;
   static const double _iconSize = 24.0;
 
+  @override
+  State<StorePrimaryButton> createState() => _StorePrimaryButtonState();
+}
+
+class _StorePrimaryButtonState extends State<StorePrimaryButton> {
   /// Creates a store primary button widget.
   ///
-  /// The [title] parameter must not be null.
+  /// The [widget.title] parameter must not be null.
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: disabled == true || isLoading == true ? null : onTap,
+      onTap: widget.disabled == true || widget.isLoading == true
+          ? null
+          : widget.onTap,
 
       /// [qais] => Don't use the {Container} here because it is a heavy widget.
       /// Instead, use the Alignment widget to align stuff and use the SizedBox
@@ -48,34 +55,37 @@ class StorePrimaryButton extends StatelessWidget {
 
       child: Container(
         alignment: Alignment.center,
-        width: width,
-        height: height,
+        width: widget.width,
+        height: widget.height,
         decoration: BoxDecoration(
-          color: disabled == true ? AppColors.greyHint : buttonColor,
-          borderRadius: BorderRadiusDirectional.circular(_borderRadius.r),
+          color:
+              widget.disabled == true ? AppColors.greyHint : widget.buttonColor,
+          borderRadius: BorderRadiusDirectional.circular(
+              StorePrimaryButton._borderRadius.r),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            if (icon != null)
-              Icon(
-                icon,
-                color: AppColors.white,
-                size: _iconSize.w,
-              ),
-            isLoading == true
-                ? SizedBox(
-                    height: 25.h, // ضمان التناسق بين العرض والطول.
-                    width: 25.h,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: Colors.white,
+        child: widget.isLoading == true
+            ? CircleAvatar(
+                backgroundColor: AppColors.transparent,
+                child: CircularProgressIndicator(
+                  strokeAlign: -2,
+                  // strokeWidth: 5,
+                  color: AppColors.white,
+                ),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  if (widget.icon != null)
+                    Icon(
+                      widget.icon,
+                      color: AppColors.white,
+                      size: StorePrimaryButton._iconSize.w,
                     ),
-                  )
-                : Text(title ?? '',
-                    style: KTextStyle.textStyle14.copyWith(color: textColor)),
-          ],
-        ),
+                  Text(widget.title ?? '',
+                      style: KTextStyle.textStyle14
+                          .copyWith(color: widget.textColor)),
+                ],
+              ),
       ),
     );
   }

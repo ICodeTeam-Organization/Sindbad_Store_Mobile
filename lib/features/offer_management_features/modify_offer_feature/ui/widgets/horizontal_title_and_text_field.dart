@@ -49,7 +49,7 @@ class _HorizontalTitleAndTextFieldState
                       context: context,
                       initialDate: DateTime.now(),
                       firstDate: DateTime.now(),
-                      lastDate: DateTime(2101),
+                      lastDate: DateTime(2100),
                       builder: (BuildContext context, Widget? child) {
                         return Theme(
                           data: ThemeData.light().copyWith(
