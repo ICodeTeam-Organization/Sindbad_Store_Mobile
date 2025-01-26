@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -32,6 +33,35 @@ class AfterSelectedImageForEditScreen extends StatelessWidget {
                 width: containerWidth,
                 height: upContainerHeight,
                 fit: BoxFit.fill,
+                //  an errorBuilder to Image.network to handle image loading failures.
+                // if the URL is invalid or the image is not available, the errorBuilder will be called.
+                //In the errorBuilder, check the boxNumber.
+                // If boxNumber == 1 (main image), display the text "عذرا لا توجد صورة صالحة للعرض".
+                // If boxNumber > 1 (sub images), display an appropriate icon indicating no image is available
+                errorBuilder: (context, error, stackTrace) {
+                  if (boxNumber == 1) {
+                    return Center(
+                      child: Text(
+                        'عذرا لا توجد صورة صالحة للعرض',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  } else {
+                    return Center(
+                      child: Icon(
+                        Icons.broken_image,
+                        color: Colors.grey,
+                        size: 24.w,
+                      ),
+                    );
+                  }
+                },
+                //////////// THE END OF errorBuilder ////////////
               )
             : Image.file(
                 imageFile!,

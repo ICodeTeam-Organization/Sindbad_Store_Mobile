@@ -1,21 +1,21 @@
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/screens/login.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/new_offer_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/update_offer_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/screens/view_offer_product_details_bouns_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/screens/view_offer_product_details_discount_screen.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/screens/add_product_screen.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/screens/edit_product_screen_body.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/new_offer_screen.dart';
-import 'package:sindbad_management_app/store_app_features/add_product/ui/screen/store_add_product.dart';
-import 'package:sindbad_management_app/store_app_features/excel_file/ui/screen/store_excel_file.dart';
-import 'package:sindbad_management_app/store_app_features/offer_product/ui/screen/store_offer_product.dart';
-import 'package:sindbad_management_app/store_app_features/offers/ui/screen/store_offer.dart';
-import 'package:sindbad_management_app/store_app_features/order_processing/ui/screen/store_order_processing.dart';
-import 'package:sindbad_management_app/store_app_features/products/ui/screen/store_products.dart';
-import 'package:sindbad_management_app/store_app_features/report/ui/screen/store_report.dart';
-import 'package:sindbad_management_app/store_app_features/search_product/ui/screen/store_search_product.dart';
-import 'package:sindbad_management_app/store_app_features/stop_product/ui/screen/store_stop_prodect.dart';
-import 'package:sindbad_management_app/store_app_features/stopped_product/ui/screen/store_stopped_product.dart';
+
+// import 'package:sindbad_management_app/store_app_features/add_product/ui/screen/store_add_product.dart';
+// import 'package:sindbad_management_app/store_app_features/excel_file/ui/screen/store_excel_file.dart';
+// import 'package:sindbad_management_app/store_app_features/offer_product/ui/screen/store_offer_product.dart';
+// import 'package:sindbad_management_app/store_app_features/offers/ui/screen/store_offer.dart';
+// import 'package:sindbad_management_app/store_app_features/order_processing/ui/screen/store_order_processing.dart';
+// import 'package:sindbad_management_app/store_app_features/products/ui/screen/store_products.dart';
+// import 'package:sindbad_management_app/store_app_features/report/ui/screen/store_report.dart';
+// import 'package:sindbad_management_app/store_app_features/search_product/ui/screen/store_search_product.dart';
+// import 'package:sindbad_management_app/store_app_features/stop_product/ui/screen/store_stop_prodect.dart';
+// import 'package:sindbad_management_app/store_app_features/stopped_product/ui/screen/store_stopped_product.dart';
 import '../../features/order_management _features/ui/screen/order_details.dart';
 import '../../features/product_features/add_and_edit_product_feature/domain/entities/edit_product_entities/product_details_entity.dart';
 import '../../features/product_features/add_and_edit_product_feature/ui/screens/edit_product_screen.dart';
@@ -191,46 +191,46 @@ abstract class AppRouter {
           }),
       ///////////////////////////////////////////////////////
       /////////////////////////////////////////////////////
-      GoRoute(
-        path: AppRouter.storeRouters.kStoreAddProduct,
-        builder: (context, state) => const StoreAddProduct(),
-      ),
-      GoRoute(
-        path: AppRouter.storeRouters.kStoreOrderProcessing,
-        builder: (context, state) => const StoreOrderProcessing(),
-      ),
-      GoRoute(
-        path: AppRouter.storeRouters.kStoreProducts,
-        builder: (context, state) => const StoreProducts(),
-      ),
-      GoRoute(
-        path: AppRouter.storeRouters.kStoreSearchProduct,
-        builder: (context, state) => const StoreSearchProduct(),
-      ),
-      GoRoute(
-        path: AppRouter.storeRouters.kStoreOffer,
-        builder: (context, state) => const StoreOffer(),
-      ),
-      GoRoute(
-        path: AppRouter.storeRouters.kStoreStopProduct,
-        builder: (context, state) => const StoreStopProduct(),
-      ),
-      GoRoute(
-        path: AppRouter.storeRouters.kStoreOfferProduct,
-        builder: (context, state) => const StoreOfferProduct(),
-      ),
-      GoRoute(
-        path: AppRouter.storeRouters.kStoreStoppedProduct,
-        builder: (context, state) => const StoreStoppedProduct(),
-      ),
-      GoRoute(
-        path: AppRouter.storeRouters.kStoreExcelFile,
-        builder: (context, state) => const StoreExcelFile(),
-      ),
-      GoRoute(
-        path: AppRouter.storeRouters.kStoreReport,
-        builder: (context, state) => const StoreReport(),
-      ),
+      // GoRoute(
+      //   path: AppRouter.storeRouters.kStoreAddProduct,
+      //   builder: (context, state) => const StoreAddProduct(),
+      // ),
+      // GoRoute(
+      //   path: AppRouter.storeRouters.kStoreOrderProcessing,
+      //   builder: (context, state) => const StoreOrderProcessing(),
+      // ),
+      // GoRoute(
+      //   path: AppRouter.storeRouters.kStoreProducts,
+      //   builder: (context, state) => const StoreProducts(),
+      // ),
+      // GoRoute(
+      //   path: AppRouter.storeRouters.kStoreSearchProduct,
+      //   builder: (context, state) => const StoreSearchProduct(),
+      // ),
+      // GoRoute(
+      //   path: AppRouter.storeRouters.kStoreOffer,
+      //   builder: (context, state) => const StoreOffer(),
+      // ),
+      // GoRoute(
+      //   path: AppRouter.storeRouters.kStoreStopProduct,
+      //   builder: (context, state) => const StoreStopProduct(),
+      // ),
+      // GoRoute(
+      //   path: AppRouter.storeRouters.kStoreOfferProduct,
+      //   builder: (context, state) => const StoreOfferProduct(),
+      // ),
+      // GoRoute(
+      //   path: AppRouter.storeRouters.kStoreStoppedProduct,
+      //   builder: (context, state) => const StoreStoppedProduct(),
+      // ),
+      // GoRoute(
+      //   path: AppRouter.storeRouters.kStoreExcelFile,
+      //   builder: (context, state) => const StoreExcelFile(),
+      // ),
+      // GoRoute(
+      //   path: AppRouter.storeRouters.kStoreReport,
+      //   builder: (context, state) => const StoreReport(),
+      // ),
     ],
   );
 }
