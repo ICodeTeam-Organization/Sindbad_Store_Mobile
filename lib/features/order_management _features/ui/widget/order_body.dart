@@ -81,7 +81,7 @@ class OrderBody extends StatelessWidget {
         context.push(AppRouter.storeRouters.details, extra: idPackage);
       },
       child: Container(
-        margin: EdgeInsets.all(7),
+        margin: EdgeInsets.all(5),
         decoration: BoxDecoration(
           border: Border.all(color: AppColors.grey),
           borderRadius: BorderRadius.circular(16.r),

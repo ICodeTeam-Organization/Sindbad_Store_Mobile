@@ -77,8 +77,7 @@ class TopOrderDetails extends StatelessWidget {
                       .copyWith(fontWeight: FontWeight.w500, fontSize: 15),
                 ),
               ),
-              SizedBox(
-                width: MediaQuery.sizeOf(context).width * 0.27,
+              Expanded(
                 child: Text(
                   productType,
                   overflow: TextOverflow.ellipsis,

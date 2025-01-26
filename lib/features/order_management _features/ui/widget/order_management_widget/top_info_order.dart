@@ -18,7 +18,7 @@ class TopInfoOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 60.h,
+      height: 62.h,
       padding: EdgeInsets.only(top: 7),
       decoration: BoxDecoration(
           border: Border(
