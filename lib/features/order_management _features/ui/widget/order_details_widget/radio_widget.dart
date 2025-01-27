@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../../../core/styles/Colors.dart';
 import '../../../../../core/styles/text_style.dart';
 
@@ -35,7 +36,7 @@ class _RadioWidgetState extends State<RadioWidget> {
           ),
           Radio(
               activeColor: AppColors.redAccentColor,
-              value: '1',
+              value: '2',
               groupValue: pay,
               onChanged: (val) {
                 setState(() {
@@ -48,7 +49,7 @@ class _RadioWidgetState extends State<RadioWidget> {
           ),
           Radio(
               activeColor: AppColors.redAccentColor,
-              value: '2',
+              value: '1',
               groupValue: pay,
               onChanged: (val) {
                 setState(() {
