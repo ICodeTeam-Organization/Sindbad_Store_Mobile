@@ -51,7 +51,7 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                     onTap: () {
                       showDialog(
                         context: context,
-                        builder: (BuildContext dialogContext) {
+                        builder: (BuildContext context) {
                           return BlocConsumer<ShippingCubit, ShippingState>(
                             listener: (context, state) {
                               if (state is ShippingSuccess) {
@@ -59,18 +59,15 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                                     .read<ButtonDisableCubit>()
                                     .enableButtonForOrder(idOrders!.toString());
                                 refreshAfterShippingInvoice(context);
-                                Navigator.pop(
-                                    dialogContext); // Close the dialog
-                                Navigator.pop(
-                                    dialogContext); // Close the dialog
+                                Navigator.pop(context); // Close the dialog
+                                Navigator.pop(context); // Close the dialog
                                 Messages(
                                   isTrue: state.serverMessage.isSuccess,
                                   trueMessage: 'لقد تم الشحن بنجاح',
                                   falseMessage: 'هناك خطاء في العملية',
                                 );
                               } else if (state is ShippingFailure) {
-                                Navigator.pop(
-                                    dialogContext); // Close the dialog
+                                Navigator.pop(context); // Close the dialog
                                 Messages(
                                   isTrue: false,
                                   trueMessage: 'لقد تم الشحن بنجاح',

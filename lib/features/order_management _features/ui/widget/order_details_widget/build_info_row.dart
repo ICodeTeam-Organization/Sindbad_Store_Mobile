@@ -5,8 +5,13 @@ import '../../../../../core/styles/text_style.dart';
 
 // ignore: must_be_immutable
 class BuildInfoRow extends StatelessWidget {
-  BuildInfoRow({super.key, required this.title, required this.controller});
+  BuildInfoRow(
+      {super.key,
+      required this.title,
+      required this.controller,
+      this.keyboardType = TextInputType.number});
   final String title;
+  final TextInputType? keyboardType;
   TextEditingController controller = TextEditingController();
 
   @override
@@ -30,7 +35,7 @@ class BuildInfoRow extends StatelessWidget {
               // width: 200.w,
               height: 48.h,
               child: TextField(
-                keyboardType: TextInputType.number,
+                keyboardType: keyboardType,
                 controller: controller,
                 decoration: InputDecoration(
                   contentPadding:

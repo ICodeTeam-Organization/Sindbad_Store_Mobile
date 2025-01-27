@@ -62,7 +62,7 @@ class ShowCreateBillAndCancelOrder extends StatelessWidget {
             onTap: () {
               showDialog(
                 context: context,
-                builder: (BuildContext dialogContext) {
+                builder: (context) {
                   return BlocConsumer<OrderInvoiceCubit, OrderInvoiceState>(
                     listener: (context, state) {
                       if (state is OrderInvoiceSuccess) {
@@ -70,19 +70,27 @@ class ShowCreateBillAndCancelOrder extends StatelessWidget {
                         //تحديث الصفحة بعد انشاء الفاتورة
                         refreshAfterCreateInvoice(context);
                         onCreateInvoice(); // New: Trigger Cubit state update
-                        Navigator.pop(dialogContext); // Close the dialog
-                        Navigator.pop(dialogContext); // Close the dialog
-                        Messages(
-                          isTrue: state.serverMessage.isSuccess,
-                          trueMessage: 'لقد تمت الأضافة في قائمة التجهيز',
-                          falseMessage: 'هناك خطاء في العملية',
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content:
+                                  Text('لقد تمت الأضافة في قائمة التجهيز')),
                         );
+                        // Messages(
+                        //   isTrue: state.serverMessage.isSuccess,
+                        //   trueMessage: 'لقد تمت الأضافة في قائمة التجهيز',
+                        //   falseMessage: 'هناك خطاء في العملية',
+                        // );
+                        Navigator.pop(context); // Close the dialog
+                        Navigator.pop(context); // Close the dialog
                       } else if (state is OrderInvoiceFailuer) {
-                        Navigator.pop(dialogContext); // Close the dialog
-                        Messages(
-                          isTrue: false,
-                          trueMessage: ' ',
-                          falseMessage: 'هناك خطاء في العملية',
+                        // Messages(
+                        //   isTrue: false,
+                        //   trueMessage: ' ',
+                        //   falseMessage: 'هناك خطاء في العملية',
+                        // );
+                        Navigator.pop(context); // Close the dialog
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('هناك خطاء في العملية')),
                         );
                       }
                     },

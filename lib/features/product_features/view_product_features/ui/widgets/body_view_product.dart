@@ -144,6 +144,7 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
                 storeProductsFilter: tabIndex,
               ),
             ),
+            SizedBox(height: 120.h),
           ],
         );
       case 1: // "منتجات عليها عروض"
@@ -190,6 +191,7 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
                 storeProductsFilter: tabIndex,
               ),
             ),
+            SizedBox(height: 120.h),
           ],
         );
       case 2: // "منتجات موقوفة"
@@ -215,11 +217,13 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
                 );
               },
             ),
+            SizedBox(height: 15.h),
             Expanded(
               child: ProductsListView(
                 storeProductsFilter: tabIndex,
               ),
             ),
+            SizedBox(height: 120.h),
           ],
         );
       default:
