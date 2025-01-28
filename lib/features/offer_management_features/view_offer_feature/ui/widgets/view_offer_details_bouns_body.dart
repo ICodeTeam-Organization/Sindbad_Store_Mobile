@@ -6,25 +6,25 @@ import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_details_cubit/offer_details_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_details_cubit/offer_details_state.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/card_offer_product_details_bouns_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/card_message_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/card_offer_details_bouns_widget.dart';
 
-class ViewOfferProductDetailsBounsBody extends StatefulWidget {
+class ViewOfferDetailsBounsBody extends StatefulWidget {
   final String offerName;
   final int offerId; // Add this line to accept the nameOffer
 
-  const ViewOfferProductDetailsBounsBody({
+  const ViewOfferDetailsBounsBody({
     super.key,
     required this.offerName,
     required this.offerId,
   });
 
   @override
-  State<ViewOfferProductDetailsBounsBody> createState() =>
-      _ViewOfferProductDetailsBounsBodyState();
+  State<ViewOfferDetailsBounsBody> createState() =>
+      _ViewOfferDetailsBounsBodyState();
 }
 
-class _ViewOfferProductDetailsBounsBodyState
-    extends State<ViewOfferProductDetailsBounsBody> {
+class _ViewOfferDetailsBounsBodyState extends State<ViewOfferDetailsBounsBody> {
   late String offerTypeTitle;
 
   @override
@@ -69,12 +69,11 @@ class _ViewOfferProductDetailsBounsBodyState
                             color: AppColors.white,
                           ),
                           child: ListView.builder(
-                            itemCount: state.offerDetails
-                                .length, // Use the length of the list
+                            itemCount: state.offerDetails.length,
                             itemBuilder: (context, i) {
                               return Column(
                                 children: [
-                                  CardOfferProductDetailsBounsWidget(
+                                  CardOfferDetailsBounsWidget(
                                     productName:
                                         state.offerDetails[i].productTitle,
                                     productImage:
@@ -92,16 +91,29 @@ class _ViewOfferProductDetailsBounsBodyState
                       ),
                     );
                   } else if (state is OfferDetailsFailuer) {
-                    return Center(child: Text(state.errMessage));
+                    return Center(
+                      child: CardMesssageWidget(
+                        logo: Image.asset(
+                          'assets/image_loading.png',
+                          height: 80.h,
+                          width: 80.w,
+                        ),
+                        title: 'هناك خطأ الرجاء المحاولة لاحقاً',
+                        subTitle: 'الخطأ : ${state.errMessage}',
+                      ),
+                    );
                   } else if (state is OfferDetailsLoading) {
                     return Center(child: CircularProgressIndicator());
                   } else {
                     return Center(
-                      child: Container(
-                        color: Colors.red.shade400,
-                        height: 50,
-                        width: 300,
-                        child: Text('لم يتم الوصول الى المعلومات'),
+                      child: CardMesssageWidget(
+                        logo: Image.asset(
+                          'assets/image_loading.png',
+                          height: 80.h,
+                          width: 80.w,
+                        ),
+                        title: 'لم يتم جلب المعلومات!!',
+                        subTitle: '',
                       ),
                     );
                   }

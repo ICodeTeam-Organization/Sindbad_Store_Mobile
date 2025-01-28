@@ -1,13 +1,11 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sindbad_management_app/core/api_service.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/models/change_status_offer_model.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/models/delete_offer_model.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/models/offer_details_model.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/models/offer_model.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/change_status_offer_entity.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/delete_offer_entity.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/models/post_response_model.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/offer_details_entity.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/offer_entity.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/post_response_entity.dart';
 
 abstract class ViewOfferRemotDataSource {
   Future<List<OfferEntity>> getOffer(
@@ -19,10 +17,10 @@ abstract class ViewOfferRemotDataSource {
     int pageNumber,
     int offerHeadId,
   );
-  Future<DeleteOfferEntity> deleteOffer(
+  Future<PostResponseEntity> deleteOffer(
     int offerHeadId,
   );
-  Future<ChangeStatusOfferEntity> changeStatusOffer(
+  Future<PostResponseEntity> changeStatusOffer(
     int offerHeadId,
   );
 }
@@ -50,8 +48,6 @@ class ViewOfferRemotDataSourceImpl extends ViewOfferRemotDataSource {
       // If data['data'] is not a list, add the message to the list
       entities.add(fromJson(data));
     }
-    print('this the list added in data source $entities');
-
     return entities;
   }
 
@@ -61,25 +57,18 @@ class ViewOfferRemotDataSourceImpl extends ViewOfferRemotDataSource {
   }
 
   @override
-  Future<List<OfferEntity>> getOffer(int pageNumber, int pageSize) async {
+  Future<List<OfferEntity>> getOffer(int pageSize, int pageNumber) async {
     String? token = await getToken();
     var data = await apiService.post(
       data: {
         "pageSize": 100,
         "pageNumber": pageNumber,
-        // "search": "string",
-        // "type": "string",
-        // "offerHeadId": 0,
-        // "isOfferHeadId": true
       },
       endPoint: 'Offers/Store/GetStoreOfferHeads',
-      headers: {
-        'Authorization': 'BEARER $token',
-      },
+      headers: {'Authorization': 'BEARER $token'},
     );
-    List<OfferEntity> offer = getOfferList(data);
-    print(offer);
-    return offer;
+    List<OfferEntity> response = getOfferList(data);
+    return response;
   }
 
   // get OfferDetailsEntity List function-------------------------------------------------
@@ -99,23 +88,19 @@ class ViewOfferRemotDataSourceImpl extends ViewOfferRemotDataSource {
       data: {
         "pageSize": 100,
         "pageNumber": pageNumber,
-        "search": "string",
-        "type": "string",
         "offerHeadId": offerHeadId,
         "isOfferHeadId": false
       },
       endPoint: 'Offers/Store/GetStoreOffers',
-      headers: {
-        'Authorization': 'BEARER $token',
-      },
+      headers: {'Authorization': 'BEARER $token'},
     );
-    List<OfferDetailsEntity> offerDetails = getOfferDetailsList(data);
-    print(offerDetails);
-    return offerDetails;
+    List<OfferDetailsEntity> response = getOfferDetailsList(data);
+    return response;
   }
 
+  // get DeleteOfferEntity a function-------------------------------------------------
   @override
-  Future<DeleteOfferEntity> deleteOffer(
+  Future<PostResponseEntity> deleteOffer(
     int offerHeadId,
   ) async {
     String? token = await getToken();
@@ -125,16 +110,14 @@ class ViewOfferRemotDataSourceImpl extends ViewOfferRemotDataSource {
           "isOfferHead": true,
         },
         endPoint: "Offers/Store/DeleteOffer",
-        headers: {
-          'Authorization': 'BEARER $token',
-        });
-    DeleteOfferEntity delete = DeleteOfferModel.fromJson(data);
-    print(delete);
-    return delete;
+        headers: {'Authorization': 'BEARER $token'});
+    PostResponseEntity response = PostResponseModel.fromJson(data);
+    return response;
   }
 
+  // get ChangeStatusOfferEntity a function-------------------------------------------------
   @override
-  Future<ChangeStatusOfferEntity> changeStatusOffer(
+  Future<PostResponseEntity> changeStatusOffer(
     int offerHeadId,
   ) async {
     String? token = await getToken();
@@ -144,11 +127,8 @@ class ViewOfferRemotDataSourceImpl extends ViewOfferRemotDataSource {
           "justActiveAndDis": true,
         },
         endPoint: "Offers/Store/EditOffer",
-        headers: {
-          'Authorization': 'BEARER $token',
-        });
-    ChangeStatusOfferEntity response = ChangeStatusOfferModel.fromJson(data);
-    print(response);
+        headers: {'Authorization': 'BEARER $token'});
+    PostResponseEntity response = PostResponseModel.fromJson(data);
     return response;
   }
 }

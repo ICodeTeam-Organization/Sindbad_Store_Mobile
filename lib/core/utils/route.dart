@@ -2,38 +2,21 @@ import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/screens/login.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/new_offer_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/update_offer_screen.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/screens/view_offer_product_details_bouns_screen.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/screens/view_offer_product_details_discount_screen.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/screens/view_offer_details_screen.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/screens/add_product_screen.dart';
-
-// import 'package:sindbad_management_app/store_app_features/add_product/ui/screen/store_add_product.dart';
-// import 'package:sindbad_management_app/store_app_features/excel_file/ui/screen/store_excel_file.dart';
-// import 'package:sindbad_management_app/store_app_features/offer_product/ui/screen/store_offer_product.dart';
-// import 'package:sindbad_management_app/store_app_features/offers/ui/screen/store_offer.dart';
-// import 'package:sindbad_management_app/store_app_features/order_processing/ui/screen/store_order_processing.dart';
-// import 'package:sindbad_management_app/store_app_features/products/ui/screen/store_products.dart';
-// import 'package:sindbad_management_app/store_app_features/report/ui/screen/store_report.dart';
-// import 'package:sindbad_management_app/store_app_features/search_product/ui/screen/store_search_product.dart';
-// import 'package:sindbad_management_app/store_app_features/stop_product/ui/screen/store_stop_prodect.dart';
-// import 'package:sindbad_management_app/store_app_features/stopped_product/ui/screen/store_stopped_product.dart';
 import '../../features/order_management _features/ui/screen/order_details.dart';
 import '../../features/product_features/add_and_edit_product_feature/domain/entities/edit_product_entities/product_details_entity.dart';
 import '../../features/product_features/add_and_edit_product_feature/ui/screens/edit_product_screen.dart';
 import '../../features/root.dart';
 
 class StoreRouters {
-  // String signIn = '/';
   String root = '/root';
-  String kOfferProductDetailsDiscount = '/offerProductDetailsDiscount';
-  String kOfferProductDetailsBouns = '/offerProductDetailsBouns';
-  String kOfferProductDetails = '/offerProductDetails';
+  String kOfferDetails = '/offerDetails';
   String kNewOffer = '/newOffer';
   String kUpdateOffer = '/updateOffer';
 
   String signIn = '/';
-  // String root = '/root';
   String details = '/details';
-  ///////////////////////////////////////////////////
   ///////////////////////////////////////////////////
 
 // [qais + salem + abduallah] => give the screen router names a meanful name
@@ -129,27 +112,16 @@ abstract class AppRouter {
         },
       ),
       GoRoute(
-        path: AppRouter.storeRouters
-            .kOfferProductDetailsDiscount, // Use the parameterized path
+        path: AppRouter.storeRouters.kOfferDetails,
         builder: (context, state) {
           final List<dynamic> args = state.extra as List<dynamic>;
-          final String offerName = args[0]; // The first parameter in the list
-          final int offerId = args[1]; // The second parameter in the list
-          return ViewOfferProductDetailsDiscountScreen(
-            offerName: offerName,
+          final int offerId = args[0];
+          final String offerName = args[1];
+          final String offertype = args[2];
+          return ViewOfferDetailsScreen(
             offerId: offerId,
-          );
-        },
-      ),
-      GoRoute(
-        path: AppRouter.storeRouters.kOfferProductDetailsBouns,
-        builder: (context, state) {
-          final List<dynamic> args = state.extra as List<dynamic>;
-          final String offerName = args[0]; // The first parameter in the list
-          final int offerId = args[1]; // The second parameter in the list
-          return ViewOfferProductDetailsBounsScreen(
             offerName: offerName,
-            offerId: offerId,
+            offertype: offertype,
           );
         },
       ),

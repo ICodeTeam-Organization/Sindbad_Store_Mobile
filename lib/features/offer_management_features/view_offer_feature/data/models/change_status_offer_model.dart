@@ -1,6 +1,6 @@
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/change_status_offer_entity.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/post_response_entity.dart';
 
-class ChangeStatusOfferModel extends ChangeStatusOfferEntity {
+class ChangeStatusOfferModel extends PostResponseEntity {
   bool? success;
   String? message;
 

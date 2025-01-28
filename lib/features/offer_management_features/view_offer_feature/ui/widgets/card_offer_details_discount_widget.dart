@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/text_discount_prices_widget.dart';
 
-class CardOfferProductDetailsDiscountWidget extends StatefulWidget {
+class CardOfferDetailsDiscountWidget extends StatefulWidget {
   final String productName;
   final String productImage;
   final num lastPrice;
   final num newPrice;
-  const CardOfferProductDetailsDiscountWidget(
+  const CardOfferDetailsDiscountWidget(
       {super.key,
       required this.productName,
       required this.productImage,
@@ -16,12 +17,12 @@ class CardOfferProductDetailsDiscountWidget extends StatefulWidget {
       required this.newPrice});
 
   @override
-  State<CardOfferProductDetailsDiscountWidget> createState() =>
-      _CardOfferProductDetailsDiscountWidgetState();
+  State<CardOfferDetailsDiscountWidget> createState() =>
+      _CardOfferDetailsDiscountWidgetState();
 }
 
-class _CardOfferProductDetailsDiscountWidgetState
-    extends State<CardOfferProductDetailsDiscountWidget> {
+class _CardOfferDetailsDiscountWidgetState
+    extends State<CardOfferDetailsDiscountWidget> {
   @override
   Widget build(BuildContext context) {
     double widthScreen = MediaQuery.sizeOf(context).width;
@@ -84,49 +85,17 @@ class _CardOfferProductDetailsDiscountWidgetState
                   ),
                 ]),
                 Row(children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'قبل الخصم',
-                        style: KTextStyle.textStyle11.copyWith(
-                          color: AppColors.greyLight,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Text(
-                        "\$ ${widget.lastPrice.toStringAsFixed(0)}",
-                        style: KTextStyle.textStyle13.copyWith(
-                          color: AppColors.greyDark,
-                          decoration: TextDecoration.lineThrough,
-                        ),
-                      ),
-                    ],
+                  TextDiscountPricesWidget(
+                    title: 'قبل الخصم',
+                    content: "\$ ${widget.lastPrice.toStringAsFixed(0)}",
+                    isBeforeDiscount: true,
                   ),
                   SizedBox(
                     width: 15,
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'بعد الخصم',
-                        style: KTextStyle.textStyle11.copyWith(
-                          color: AppColors.greyLight,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Text(
-                        "\$ ${widget.newPrice.toStringAsFixed(0)}",
-                        style: KTextStyle.textStyle13.copyWith(
-                          color: AppColors.primary,
-                        ),
-                      ),
-                    ],
+                  TextDiscountPricesWidget(
+                    title: 'بعد الخصم',
+                    content: "\$ ${widget.newPrice.toStringAsFixed(0)}",
                   ),
                 ]),
               ],

@@ -18,25 +18,13 @@ class ChangeStatusOfferCubit extends Cubit<ChangeStatusOfferState> {
       var params = ChangeStatusOfferParams(offerHeadId);
       final result = await deleteOfferUseCase.execute(params);
 
-      result.fold(
-          // left
-          (failure) => emit(ChangeStatusOfferFailure(failure.message)),
-          // right
+      result.fold((failure) => emit(ChangeStatusOfferFailure(failure.message)),
           (changeStatusOffer) {
         if (changeStatusOffer.isSuccess == true) {
           emit(ChangeStatusOfferSuccess("تم تعديل العرض بنجاح"));
         } else {
           emit(ChangeStatusOfferFailure("فشلت عملية تحويل حالة العرض"));
         }
-        // if (delete.serverMessage ==
-        //     "OfferHead not found or you do not have permission to delete it") {
-        //   emit(ChangeStatusOfferFailure("منتج غير موجود"));
-        //   //
-        // } else if (delete.serverMessage == "Store ID not found in token") {
-        //   emit(ChangeStatusOfferFailure("Store ID not found in token..."));
-        // } else {
-        //   emit(ChangeStatusOfferSuccess("تم حذف العرض بنجاح"));
-        // }
       });
     } catch (e) {
       if (e is DioException) {

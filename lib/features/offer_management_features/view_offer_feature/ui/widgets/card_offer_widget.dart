@@ -3,9 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/action_button_widget.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/custom_dialog_widget.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/remaining_notice.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/functions/view_offer_functions.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/all_action_button_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/container_status_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/remaining_notice_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/text_grey_light_widget.dart';
 
 class CardOfferWidget extends StatefulWidget {
   final int? offerId;
@@ -44,64 +46,23 @@ class CardOfferWidget extends StatefulWidget {
 }
 
 class _CardOfferWidgetState extends State<CardOfferWidget> {
-  DateTime dateNow = DateTime.now();
   int result = 0;
   String specialCase = '';
   dynamic remainingDays;
   bool? isRemainingDays;
   String? offerTypeTitle;
   String? isActiveTitleButton;
-
   @override
   void initState() {
     super.initState();
-    remainigDays();
-    selectedOffer();
-    if (widget.isActive == true) {
-      isActiveTitleButton = 'ايقاف عرض';
-    } else {
-      isActiveTitleButton = 'تنشيط عرض';
-    }
-    if (result == 1) {
-      specialCase = '';
-      remainingDays = 'يوم واحد ';
-    } else if (result == 2) {
-      specialCase = '';
-      remainingDays = 'يومين ';
-    } else if (result > 2 && result < 11) {
-      specialCase = ' أيام ';
-      remainingDays = result;
-    } else if (result > 10) {
-      specialCase = ' يوم ';
-      remainingDays = result;
-    }
-  }
-
-  void remainigDays() {
-    dateNow = dateNow.toUtc();
-    if (dateNow.year <= widget.endOffer.year) {
-      if (dateNow.day == 31) {
-        result = ((31 + widget.endOffer.day) - dateNow.day) +
-            (30 * ((11 + widget.endOffer.month) - dateNow.month)) +
-            (360 * ((widget.endOffer.year - 1) - dateNow.year));
-      }
-      result = ((30 + widget.endOffer.day) - dateNow.day) +
-          (30 * ((11 + widget.endOffer.month) - dateNow.month)) +
-          (360 * ((widget.endOffer.year - 1) - dateNow.year));
-      isRemainingDays = true;
-      if (result <= 0) {
-        isRemainingDays = false;
-      }
-    }
-  }
-
-  void selectedOffer() {
-    if (widget.typeName == 'Percent') {
-      offerTypeTitle = '${widget.discountRate}% من إجمالي الخصم';
-    } else if (widget.typeName == 'Bonus') {
-      offerTypeTitle =
-          ' اشتري ${widget.numberToBuy} واحصل على ${widget.numberToGet}';
-    }
+    ViewOfferFunctions.offerActiveTitleButton(
+        widget.isActive, isActiveTitleButton!);
+    ViewOfferFunctions.offerTypetitle(widget.typeName, offerTypeTitle!,
+        widget.discountRate!, widget.numberToBuy!, widget.numberToGet!);
+    ViewOfferFunctions.calculateRemainigDays(
+        widget.endOffer, isRemainingDays!, result);
+    ViewOfferFunctions.specialCasesInRemainigDays(
+        result, specialCase, remainingDays);
   }
 
   @override
@@ -131,7 +92,6 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
                             ),
                           ),
                           SizedBox(
-                            // color: Colors.red,
                             width: 130.w,
                             child: Table(
                               children: [
@@ -150,49 +110,22 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
                           ),
                         ],
                       ),
-                      SizedBox(
-                        height: 15.h,
-                      ),
-                      Text(
-                        offerTypeTitle!,
-                        style: KTextStyle.textStyle11.copyWith(
-                          color: AppColors.greyLight,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10.h,
-                      ),
+                      SizedBox(height: 10.h),
+                      TextGrayLightWidget(title: offerTypeTitle),
+                      SizedBox(height: 10.h),
                       Row(
                         children: [
-                          Text(
-                            "من ",
-                            style: KTextStyle.textStyle11.copyWith(
-                              color: AppColors.greyLight,
-                            ),
-                          ),
-                          Text(
-                            "${widget.startOffer.year}/${widget.startOffer.month}/${widget.startOffer.day}",
-                            style: KTextStyle.textStyle11.copyWith(
-                              color: AppColors.greyLight,
-                            ),
-                          ),
-                          Text(
-                            " الى  ",
-                            style: KTextStyle.textStyle11.copyWith(
-                              color: AppColors.greyLight,
-                            ),
-                          ),
-                          Text(
-                            "${widget.endOffer.year}/${widget.endOffer.month}/${widget.endOffer.day}",
-                            style: KTextStyle.textStyle11.copyWith(
-                              color: AppColors.greyLight,
-                            ),
-                          ),
+                          TextGrayLightWidget(title: "من "),
+                          TextGrayLightWidget(
+                              title:
+                                  "${widget.startOffer.year}/${widget.startOffer.month}/${widget.startOffer.day}"),
+                          TextGrayLightWidget(title: " الى  "),
+                          TextGrayLightWidget(
+                              title:
+                                  "${widget.endOffer.year}/${widget.endOffer.month}/${widget.endOffer.day}"),
                         ],
                       ),
-                      SizedBox(
-                        height: 20.h,
-                      ),
+                      SizedBox(height: 20.h),
                       Row(
                         children: [
                           SizedBox(
@@ -224,64 +157,19 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
                               ),
                             ]),
                           ),
-                          SizedBox(
-                            width: 5.w,
-                          ),
-                          Text(
-                            "عدد المنتجات",
-                            style: KTextStyle.textStyle11.copyWith(
-                              color: AppColors.greyLight,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 15.w,
-                          ),
+                          SizedBox(width: 5.w),
+                          TextGrayLightWidget(title: "عدد المنتجات"),
+                          SizedBox(width: 15.w),
                           widget.isActive == true
-                              ? Container(
-                                  width: 75.w,
-                                  decoration: BoxDecoration(
-                                      color: AppColors.greenOpacity,
-                                      borderRadius: BorderRadius.circular(100)),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      SvgPicture.asset(
-                                        "assets/circle_green.svg",
-                                        width: 9.w,
-                                        height: 9.h,
-                                      ),
-                                      Text(
-                                        "نشط",
-                                        style: KTextStyle.textStyle11.copyWith(
-                                          color: AppColors.blackLight,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                              ? ContainerStatusWidget(
+                                  color: AppColors.greenOpacity,
+                                  iconPath: "assets/circle_green.svg",
+                                  title: "نشط",
                                 )
-                              : Container(
-                                  width: 75.w,
-                                  decoration: BoxDecoration(
-                                      color: AppColors.redOpacity,
-                                      borderRadius: BorderRadius.circular(100)),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      SvgPicture.asset(
-                                        "assets/circle_red.svg",
-                                        width: 9.w,
-                                        height: 9.h,
-                                      ),
-                                      Text(
-                                        "غير نشط",
-                                        style: KTextStyle.textStyle11.copyWith(
-                                          color: AppColors.blackLight,
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                              : ContainerStatusWidget(
+                                  color: AppColors.redOpacity,
+                                  iconPath: "assets/circle_red.svg",
+                                  title: "غير نشط",
                                 ),
                         ],
                       ),
@@ -292,49 +180,19 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
                   padding: EdgeInsets.only(top: 20.h, bottom: 20.h, left: 10.w),
                   child: Column(
                     children: [
-                      isRemainingDays == true
-                          ? RemainingNotice(
-                              remainingDays: remainingDays,
-                              specialCase: specialCase,
-                            )
-                          : Text(' (  انتهاء العرض  ) ',
-                              style: KTextStyle.textStyle8.copyWith(
-                                color: AppColors.greyLight,
-                              )),
-                      SizedBox(
-                        height: 10.h,
+                      RemainingNoticeWidget(
+                        remainingDays: remainingDays,
+                        specialCase: specialCase,
+                        isRemainingDays: isRemainingDays,
                       ),
-                      ActionButtonWidget(
-                        title: 'تعديل عرض',
-                        iconPath: "assets/update.svg",
-                        isSolid: false,
-                        onTap: widget.onUpdateTap,
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      widget.isActive
-                          ? ActionButtonWidget(
-                              title: isActiveTitleButton!,
-                              iconPath: "assets/stop.svg",
-                              isSolid: false,
-                              onTap: widget.onChangeStatusTap,
-                            )
-                          : ActionButtonWidget(
-                              title: isActiveTitleButton!,
-                              iconPath: "assets/active.svg",
-                              isSolid: false,
-                              onTap: widget.onChangeStatusTap,
-                            ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      ActionButtonWidget(
-                        title: 'حذف عرض',
-                        iconPath: "assets/delete.svg",
-                        isSolid: false,
-                        onTap: widget.onDeleteTap,
-                      ),
+                      SizedBox(height: 10.h),
+                      AllActionButtonWidget(
+                        isActiveTitleButton: isActiveTitleButton!,
+                        isActive: widget.isActive,
+                        onUpdateTap: widget.onUpdateTap!,
+                        onChangeStatusTap: widget.onChangeStatusTap!,
+                        onDeleteTap: widget.onDeleteTap!,
+                      )
                     ],
                   ),
                 ),

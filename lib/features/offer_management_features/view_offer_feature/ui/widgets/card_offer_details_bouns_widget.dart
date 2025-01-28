@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/text_flexible_widget.dart';
 
-class CardOfferProductDetailsBounsWidget extends StatefulWidget {
+class CardOfferDetailsBounsWidget extends StatefulWidget {
   final String productName;
   final String productImage;
   final num numberToBuy;
   final num numberToGet;
-  const CardOfferProductDetailsBounsWidget(
+  const CardOfferDetailsBounsWidget(
       {super.key,
       required this.productName,
       required this.productImage,
@@ -16,18 +17,16 @@ class CardOfferProductDetailsBounsWidget extends StatefulWidget {
       required this.numberToGet});
 
   @override
-  State<CardOfferProductDetailsBounsWidget> createState() =>
-      _CardOfferProductDetailsBounsWidgetState();
+  State<CardOfferDetailsBounsWidget> createState() =>
+      _CardOfferDetailsBounsWidgetState();
 }
 
-class _CardOfferProductDetailsBounsWidgetState
-    extends State<CardOfferProductDetailsBounsWidget> {
+class _CardOfferDetailsBounsWidgetState
+    extends State<CardOfferDetailsBounsWidget> {
   @override
   Widget build(BuildContext context) {
     double widthScreen = MediaQuery.sizeOf(context).width;
     bool ifSmallScreen = widthScreen == 360;
-    TextStyle flexibleStyle =
-        ifSmallScreen ? KTextStyle.textStyle11 : KTextStyle.textStyle12;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -86,35 +85,25 @@ class _CardOfferProductDetailsBounsWidgetState
                   ),
                 ]),
                 Row(children: [
-                  Text(
-                    'يشتري ',
-                    style: flexibleStyle.copyWith(
-                      color: AppColors.greyDark,
-                    ),
+                  TextFlexibleWidget(
+                    title: 'يشتري ',
+                    colorTitle: AppColors.greyDark,
                   ),
-                  Text(
-                    widget.numberToBuy.toString(),
-                    style: flexibleStyle.copyWith(
-                      color: AppColors.primary,
-                    ),
+                  TextFlexibleWidget(
+                    title: widget.numberToBuy.toString(),
+                    colorTitle: AppColors.primary,
                   ),
-                  Text(
-                    ' يحصل على ',
-                    style: flexibleStyle.copyWith(
-                      color: AppColors.greyDark,
-                    ),
+                  TextFlexibleWidget(
+                    title: ' يحصل على ',
+                    colorTitle: AppColors.greyDark,
                   ),
-                  Text(
-                    widget.numberToGet.toString(),
-                    style: flexibleStyle.copyWith(
-                      color: AppColors.primary,
-                    ),
+                  TextFlexibleWidget(
+                    title: widget.numberToGet.toString(),
+                    colorTitle: AppColors.primary,
                   ),
-                  Text(
-                    ' مجاني',
-                    style: flexibleStyle.copyWith(
-                      color: AppColors.greyDark,
-                    ),
+                  TextFlexibleWidget(
+                    title: ' مجاني',
+                    colorTitle: AppColors.greyDark,
                   ),
                 ]),
               ],

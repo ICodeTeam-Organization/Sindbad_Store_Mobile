@@ -6,26 +6,27 @@ import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_details_cubit/offer_details_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_details_cubit/offer_details_state.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/card_offer_product_details_discount_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/card_message_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/card_offer_details_discount_widget.dart';
 
-class ViewOfferProductDetailsDiscountBody extends StatefulWidget {
+class ViewOfferDetailsDiscountBody extends StatefulWidget {
   final String offerName; // Add this line to accept the nameOffer
   final int offerId; // Add this line to accept the nameOffer
 
   // Modify the constructor to accept nameOffer
-  const ViewOfferProductDetailsDiscountBody({
+  const ViewOfferDetailsDiscountBody({
     super.key,
     required this.offerName,
     required this.offerId,
   });
 
   @override
-  State<ViewOfferProductDetailsDiscountBody> createState() =>
-      _ViewOfferProductDetailsDiscountBodyState();
+  State<ViewOfferDetailsDiscountBody> createState() =>
+      _ViewOfferDetailsDiscountBodyState();
 }
 
-class _ViewOfferProductDetailsDiscountBodyState
-    extends State<ViewOfferProductDetailsDiscountBody> {
+class _ViewOfferDetailsDiscountBodyState
+    extends State<ViewOfferDetailsDiscountBody> {
   late String offerTypeTitle;
   @override
   void initState() {
@@ -69,21 +70,14 @@ class _ViewOfferProductDetailsDiscountBodyState
                         ),
                         child: ListView.builder(
                           scrollDirection: Axis.vertical,
-                          itemCount: state.offerDetails
-                              .length, // Use the length of the list
+                          itemCount: state.offerDetails.length,
                           physics: const AlwaysScrollableScrollPhysics(),
                           itemBuilder: (context, i) {
-                            return Column(
-                              children: [
-                                CardOfferProductDetailsDiscountWidget(
-                                  productName:
-                                      state.offerDetails[i].productTitle,
-                                  productImage:
-                                      state.offerDetails[i].productImage,
-                                  lastPrice: state.offerDetails[i].oldPrice!,
-                                  newPrice: state.offerDetails[i].newPrice!,
-                                ),
-                              ],
+                            return CardOfferDetailsDiscountWidget(
+                              productName: state.offerDetails[i].productTitle,
+                              productImage: state.offerDetails[i].productImage,
+                              lastPrice: state.offerDetails[i].oldPrice!,
+                              newPrice: state.offerDetails[i].newPrice!,
                             );
                           },
                         ),
@@ -91,16 +85,29 @@ class _ViewOfferProductDetailsDiscountBodyState
                     ),
                   );
                 } else if (state is OfferDetailsFailuer) {
-                  return Center(child: Text(state.errMessage));
+                  return Center(
+                    child: CardMesssageWidget(
+                      logo: Image.asset(
+                        'assets/image_loading.png',
+                        height: 80.h,
+                        width: 80.w,
+                      ),
+                      title: 'هناك خطأ الرجاء المحاولة لاحقاً',
+                      subTitle: 'الخطأ : ${state.errMessage}',
+                    ),
+                  );
                 } else if (state is OfferDetailsLoading) {
                   return Center(child: CircularProgressIndicator());
                 } else {
                   return Center(
-                    child: Container(
-                      color: Colors.red.shade400,
-                      height: 50,
-                      width: 300,
-                      child: Text('لم يتم الوصول الى المعلومات'),
+                    child: CardMesssageWidget(
+                      logo: Image.asset(
+                        'assets/image_loading.png',
+                        height: 80.h,
+                        width: 80.w,
+                      ),
+                      title: 'لم يتم جلب المعلومات!!',
+                      subTitle: '',
                     ),
                   );
                 }

@@ -1,8 +1,8 @@
-class DeleteOfferEntity {
+class PostResponseEntity {
   final bool isSuccess;
   final String serverMessage;
 
-  DeleteOfferEntity({
+  PostResponseEntity({
     required this.isSuccess,
     required this.serverMessage,
   });

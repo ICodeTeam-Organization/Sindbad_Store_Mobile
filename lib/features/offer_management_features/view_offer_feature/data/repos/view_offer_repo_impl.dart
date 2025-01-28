@@ -2,10 +2,9 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/data_source/remote/view_offer_remot_data_source.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/change_status_offer_entity.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/delete_offer_entity.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/offer_details_entity.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/offer_entity.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/post_response_entity.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/repo/view_offer_repo.dart';
 
 class ViewOfferRepoImpl extends ViewOfferRepo {
@@ -45,7 +44,7 @@ class ViewOfferRepoImpl extends ViewOfferRepo {
 
   @override
   Future<Either<Failure, List<OfferEntity>>> getOffer(
-      int pageNumber, int pageSize) {
+      int pageSize, int pageNumber) {
     return fetchData(
         () => viewOfferRemotDataSource.getOffer(pageSize, pageNumber));
   }
@@ -58,14 +57,14 @@ class ViewOfferRepoImpl extends ViewOfferRepo {
   }
 
   @override
-  Future<Either<Failure, DeleteOfferEntity>> deleteOffer(
+  Future<Either<Failure, PostResponseEntity>> deleteOffer(
     int offerHeadId,
   ) async {
     return postOneData(() => viewOfferRemotDataSource.deleteOffer(offerHeadId));
   }
 
   @override
-  Future<Either<Failure, ChangeStatusOfferEntity>> changeStatusOffer(
+  Future<Either<Failure, PostResponseEntity>> changeStatusOffer(
     int offerHeadId,
   ) async {
     return postOneData(
