@@ -50,7 +50,6 @@ class _UrgentNoBillInfoOrderState extends State<UrgentNoBillInfoOrder> {
         paied: false,
         pageNumber: 1,
         pageSize: 100,
-        // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966',
         // srearchKeyword: ''
       );
     }
@@ -73,7 +72,6 @@ class _UrgentNoBillInfoOrderState extends State<UrgentNoBillInfoOrder> {
           paied: false,
           pageNumber: 1,
           pageSize: 100,
-          // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966',
           // srearchKeyword: ''
         );
 
@@ -84,12 +82,10 @@ class _UrgentNoBillInfoOrderState extends State<UrgentNoBillInfoOrder> {
             physics: BouncingScrollPhysics(),
             itemCount: state.orders.length,
             itemBuilder: (BuildContext context, int i) {
-              // final status = myStatuses[i];
               return OrderBody(
                 idOrder: state.orders[i].idOrder,
                 billNumber: state.orders[i].orderBill,
                 orderNumber: state.orders[i].orderNum,
-                clock: '7:07',
                 date: state.orders[i].orderDates,
                 itemNumber: state.orders[i].productMount,
                 paymentInfo: state.orders[i].payStatus,

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
-
 import '../../../manager/all_order/all_order_cubit.dart';
 import '../../../manager/all_order/all_order_state.dart';
 import '../../order_body.dart';
@@ -50,7 +49,6 @@ class _AllInfoOrderState extends State<AllInfoOrder> {
         paied: false,
         pageNumber: 1,
         pageSize: 100,
-        // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
         // srearchKeyword: ''
       );
     }
@@ -73,7 +71,6 @@ class _AllInfoOrderState extends State<AllInfoOrder> {
           paied: false,
           pageNumber: 1,
           pageSize: 100,
-          // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
           // srearchKeyword: ''
         );
 
@@ -89,7 +86,6 @@ class _AllInfoOrderState extends State<AllInfoOrder> {
                   OrderBody(
                     billNumber: state.orders[i].orderBill,
                     orderNumber: state.orders[i].orderNum,
-                    clock: '1:01',
                     date: state.orders[i].orderDates,
                     itemNumber: state.orders[i].productMount,
                     paymentInfo: state.orders[i].payStatus,
