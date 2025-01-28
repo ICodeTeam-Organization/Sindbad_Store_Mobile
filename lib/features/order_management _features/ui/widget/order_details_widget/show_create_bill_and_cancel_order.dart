@@ -17,14 +17,11 @@ import 'custom_create_bill_dialog.dart';
 import 'custom_order_cancle_dialog.dart';
 import 'messages.dart';
 
-// ignore: must_be_immutable
 class ShowCreateBillAndCancelOrder extends StatelessWidget {
-  // Add a callback for creating an invoice
   final VoidCallback onCreateInvoice; // New: Callback to trigger state update
-  ShowCreateBillAndCancelOrder(
+  const ShowCreateBillAndCancelOrder(
       {super.key, required this.onCreateInvoice}); // Updated constructor
-  int? mount;
-  int pays = 0;
+
   DateTime? convertToDateTime(String inputDate) {
     try {
       DateTime parsedDate = DateFormat('yyyy/MM/dd').parse(inputDate);
@@ -47,6 +44,8 @@ class ShowCreateBillAndCancelOrder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int? mount;
+    int pays = 0;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
