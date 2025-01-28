@@ -173,7 +173,6 @@ abstract class AppRouter {
             final orderNumber = state.extra;
             final billNumber = state.extra;
             final date = state.extra;
-            final colck = state.extra;
             final itemNumber = state.extra;
             final paymentInfo = state.extra;
             final orderStatus = state.extra;
@@ -182,7 +181,6 @@ abstract class AppRouter {
               packageId: packageId,
               orderNumber: orderNumber.toString(),
               billNumber: billNumber.toString(),
-              clock: colck.toString(),
               date: date.toString(),
               itemNumber: itemNumber.toString(),
               paymentInfo: paymentInfo.toString(),

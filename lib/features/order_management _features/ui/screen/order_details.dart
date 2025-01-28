@@ -1,4 +1,3 @@
-// import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_tab_bar_widget.dart';
@@ -22,7 +21,6 @@ class OrderDetails extends StatelessWidget {
     required this.orderId,
     required this.orderNumber,
     required this.billNumber,
-    required this.clock,
     required this.date,
     required this.itemNumber,
     required this.paymentInfo,
@@ -34,7 +32,6 @@ class OrderDetails extends StatelessWidget {
   final int packageId;
   final String orderNumber;
   final String billNumber;
-  final String clock;
   final String date;
   final String itemNumber;
   final String paymentInfo;
@@ -45,7 +42,6 @@ class OrderDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     final int subIndex = subTabController!.index;
     final int index = tabController!.index;
-    // bool isbillDone = RefreshPageCubit.get(context).isbillDone;
     return Scaffold(
       body: BlocProvider(
           create: (context) => OrderDetailsCubit(
@@ -81,7 +77,6 @@ class OrderDetails extends StatelessWidget {
                   ),
                   //! Order Detaials
                   OrderDetailsBody(),
-
                   //! Show Button
                   subIndex == 2 || index == 2 || index == 3
                       ? SizedBox()
