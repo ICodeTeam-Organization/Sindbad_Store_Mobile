@@ -49,16 +49,18 @@ class TopOrderDetails extends StatelessWidget {
       title: Row(
         children: [
           SizedBox(
-            width: MediaQuery.sizeOf(context).width * 0.2,
-            child: Text(
-              'اسم المنتج :  ',
-              style:
-                  KTextStyle.textStyle14.copyWith(fontWeight: FontWeight.w500),
+            child: Expanded(
+              child: Text(
+                'اسم المنتج :  ',
+                style: KTextStyle.textStyle14
+                    .copyWith(fontWeight: FontWeight.w500),
+              ),
             ),
           ),
-          FittedBox(
+          Expanded(
             child: Text(
               productName,
+              overflow: TextOverflow.ellipsis,
               style:
                   KTextStyle.textStyle14.copyWith(fontWeight: FontWeight.w500),
             ),
@@ -70,11 +72,14 @@ class TopOrderDetails extends StatelessWidget {
           Row(
             children: [
               SizedBox(
-                width: MediaQuery.sizeOf(context).width * 0.20,
-                child: Text(
-                  'نوع المنتج :',
-                  style: KTextStyle.textStyle14
-                      .copyWith(fontWeight: FontWeight.w500, fontSize: 15),
+                // width: MediaQuery.sizeOf(context).width * 0.20,
+                child: Expanded(
+                  child: Text(
+                    'نوع المنتج : ',
+                    style: KTextStyle.textStyle14.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ),
               ),
               Expanded(
