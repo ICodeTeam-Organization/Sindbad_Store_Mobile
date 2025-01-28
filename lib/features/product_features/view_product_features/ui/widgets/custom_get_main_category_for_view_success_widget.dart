@@ -44,16 +44,15 @@ class _CustomGetMainCategoryForViewSuccessWidgetState
               title: category.mainCategoryName,
               isSelected: i == _selectedSubIndex,
               onTap: () {
-                //
                 cubitGetStoreProducts.getStoreProductsWitheFilter(
                     storeProductsFilter: widget.storeProductsFilter,
                     categoryId: i == 0 ? null : category.mainCategoryId,
-                    pageNumper: 1,
+                    pageNumber: 1,
                     pageSize: 100);
-                //
                 debugPrint("Selected Category: ${category.mainCategoryName}");
-                _selectedSubIndex = i;
-                setState(() {});
+                setState(() {
+                  _selectedSubIndex = i;
+                });
               },
             );
           }),

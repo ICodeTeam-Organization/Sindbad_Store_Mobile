@@ -10,7 +10,7 @@ abstract class ViewProductRepo {
   // for get MainCategory
   Future<Either<Failure, List<MainCategoryForViewEntity>>>
       getMainCategoryForView({
-    required int pageNumper,
+    required int pageNumber,
     required int pageSize,
   });
 

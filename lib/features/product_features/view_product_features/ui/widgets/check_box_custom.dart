@@ -16,7 +16,7 @@ class CheckBoxCustom extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       child: Transform.scale(
-        scale: 0.8, // هنا يمكنك تعديل القيمة حسب الحجم المطلوب
+        scale: 0.8,
         child: Checkbox(
           value: val,
           onChanged: onChanged,

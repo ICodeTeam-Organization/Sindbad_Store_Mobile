@@ -5,8 +5,6 @@ import '../manager/get_main_category_for_view/get_main_category_for_view_cubit.d
 import 'custom_get_main_category_for_view_success_widget.dart';
 import 'shimmer_for_main_category_for_view.dart';
 
-//  =====  بناء قائمة التصنيفات الفرعية (Sub Categories)  ========
-
 class ListMainCategoryForView extends StatelessWidget {
   final int storeProductsFilter;
   const ListMainCategoryForView({super.key, required this.storeProductsFilter});
@@ -14,7 +12,7 @@ class ListMainCategoryForView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<GetMainCategoryForViewCubit>().getMainCategoryForView(
-        pageNumper: 1, pageSize: 100); // for get Main category
+        pageNumber: 1, pageSize: 100); // for get Main category
     return BlocBuilder<GetMainCategoryForViewCubit,
         GetMainCategoryForViewState>(
       builder: (context, state) {
@@ -25,7 +23,7 @@ class ListMainCategoryForView extends StatelessWidget {
             MainCategoryForViewEntity(
                 mainCategoryId: 0000, mainCategoryName: "الكل")
           ]; // list for category with "الكل"
-          allCategory.addAll(mainCategoryForViewEntity); // marege
+          allCategory.addAll(mainCategoryForViewEntity); // marge
 
           return CustomGetMainCategoryForViewSuccessWidget(
             allCategory: allCategory,

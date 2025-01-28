@@ -4,10 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/styles/Colors.dart';
 
 class ImageCardCustom extends StatelessWidget {
-  final String imageUrlnetwork;
+  final String imageUrlNetwork;
   const ImageCardCustom({
     super.key,
-    required this.imageUrlnetwork,
+    required this.imageUrlNetwork,
   });
 
   @override
@@ -25,19 +25,12 @@ class ImageCardCustom extends StatelessWidget {
           width: double.infinity,
           child: FadeInImage.assetNetwork(
             placeholder: "assets/image_loading.png",
-            image: imageUrlnetwork,
+            image: imageUrlNetwork,
             // in case the Image URL is Wrong
             imageErrorBuilder: (context, error, stackTrace) {
               return Image.asset("assets/image_loading.png");
             },
-          )
-          // Image.network(
-          //   imageUrlnetwork,
-          //   // width: 70.w,
-          //   // height: 65.h,
-          //   fit: BoxFit.cover,
-          // ),
-          ),
+          )),
     );
   }
 }

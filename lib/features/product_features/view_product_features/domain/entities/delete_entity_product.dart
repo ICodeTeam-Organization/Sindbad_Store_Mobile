@@ -1,9 +1,9 @@
 class DeleteProductEntity {
-  final bool isSuuccess;
+  final bool isSuccess;
   final String message;
 
   DeleteProductEntity({
-    required this.isSuuccess,
+    required this.isSuccess,
     required this.message,
   });
 }

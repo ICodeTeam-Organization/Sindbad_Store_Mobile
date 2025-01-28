@@ -9,7 +9,7 @@ import '../manager/activate_products/activate_products_by_ids_cubit.dart';
 import '../manager/disable_products/disable_products_by_ids_cubit.dart';
 import '../manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
 import 'custom_show_dialog_for_view_widget.dart';
-import 'products_listview_widget.dart';
+import 'products_list_view_widget.dart';
 import 'two_button_in_row_costum.dart';
 
 class BodyViewProductScreen extends StatefulWidget {
@@ -73,14 +73,11 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
     );
   }
 
-  // بناء محتوى التبويب بناءً على التحديد
   Widget _buildTabView(int tabIndex, BuildContext context) {
     switch (tabIndex) {
-      case 0: // "جميع المنتجات"
-
+      case 0: // all products
         return Column(
           children: [
-            // في حال كانت التصنيفات الفرعية يجب عرضها
             ListMainCategoryForView(
               storeProductsFilter: tabIndex,
             ),
@@ -93,28 +90,26 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
                     if (state is DisableProductsByIdsSuccess) {
                       cubitGetStoreProducts.getStoreProductsWitheFilter(
                         storeProductsFilter: tabIndex,
-                        pageNumper: 1,
+                        pageNumber: 1,
                         pageSize: 100,
                       );
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(state.message.message)));
-                      // إغلاق مربع الحوار
                       Navigator.of(context, rootNavigator: true)
-                          .pop(); // استخدم rootNavigator
+                          .pop(); //  rootNavigator
                     }
                     if (state is DisableProductsByIdsFailure) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text(state.errMessage)),
                       );
                     }
-                    // يمكنك أيضًا التعامل مع حالة التحميل هنا إذا لزم الأمر
                   },
                   child: TwoButtonInRow(
                     anyProductsSelected:
                         cubitGetStoreProducts.updatedProductsSelected.isEmpty,
                     onTapLeft: () {
                       showDialog(
-                        context: context, // تمرير السياق الصحيح
+                        context: context,
                         builder: (BuildContext context) {
                           final List<int> selectedProducts =
                               cubitGetStoreProducts.updatedProductsSelected;
@@ -137,7 +132,6 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
                 );
               },
             ),
-
             SizedBox(height: 15.h),
             Expanded(
               child: ProductsListView(
@@ -147,10 +141,9 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
             SizedBox(height: 120.h),
           ],
         );
-      case 1: // "منتجات عليها عروض"
+      case 1: // products offers on it
         return Column(
           children: [
-            // في حال كانت التصنيفات الفرعية يجب عرضها
             ListMainCategoryForView(
               storeProductsFilter: tabIndex,
             ),
@@ -162,7 +155,7 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
                       cubitGetStoreProducts.updatedProductsSelected.isEmpty,
                   onTapLeft: () {
                     showDialog(
-                      context: context, // تمرير السياق الصحيح
+                      context: context,
                       builder: (BuildContext context) {
                         final List<int> selectedProducts =
                             cubitGetStoreProducts.updatedProductsSelected;
@@ -184,7 +177,6 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
                 );
               },
             ),
-
             SizedBox(height: 15.h),
             Expanded(
               child: ProductsListView(
@@ -257,7 +249,7 @@ void showActivateMoreProductDialog({
                   .read<GetStoreProductsWithFilterCubit>()
                   .getStoreProductsWitheFilter(
                     storeProductsFilter: storeProductsFilter,
-                    pageNumper: 1,
+                    pageNumber: 1,
                     pageSize: 100,
                   );
             } else if (state is ActivateProductsByIdsFailure) {

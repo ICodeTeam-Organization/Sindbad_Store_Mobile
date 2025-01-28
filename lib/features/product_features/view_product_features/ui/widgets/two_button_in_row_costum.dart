@@ -49,11 +49,12 @@ class TwoButtonInRow extends StatelessWidget {
                       .read<GetStoreProductsWithFilterCubit>()
                       .getStoreProductsWitheFilter(
                         storeProductsFilter: 0,
-                        pageNumper: 1,
+                        pageNumber: 1,
                         pageSize: 100,
                       );
                 },
-              );            },
+              );
+            },
           ),
           StorePrimaryButton(
             disabled: anyProductsSelected,

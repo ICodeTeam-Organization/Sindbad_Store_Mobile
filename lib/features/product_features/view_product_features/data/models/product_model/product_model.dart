@@ -18,7 +18,7 @@ class ProductModel extends ProductEntity {
     this.productImageUrl,
     this.productDescription,
   }) : super(
-            productid: id ?? 0,
+            productId: id ?? 0,
             productName: productName ?? 'لا يوجد',
             productNumber: productNumber ?? '0',
             productPrice: productPrice ?? 0.0,

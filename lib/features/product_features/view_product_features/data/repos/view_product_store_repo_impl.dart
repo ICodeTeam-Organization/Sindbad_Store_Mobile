@@ -19,10 +19,10 @@ class ViewProductStoreRepoImpl extends ViewProductRepo {
   @override
   Future<Either<Failure, List<MainCategoryForViewEntity>>>
       getMainCategoryForView(
-          {required int pageNumper, required int pageSize}) async {
+          {required int pageNumber, required int pageSize}) async {
     try {
       var data = await viewProductRemoteDataSource.getMainCategoryForView(
-        pageNumper: pageNumper,
+        pageNumber: pageNumber,
         pageSize: pageSize,
       );
       return right(data);
@@ -45,7 +45,7 @@ class ViewProductStoreRepoImpl extends ViewProductRepo {
     try {
       var data = await viewProductRemoteDataSource.getProductsByFilter(
         storeProductsFilter: storeProductsFilter,
-        pageNumper: pageNumper,
+        pageNumber: pageNumper,
         pageSize: pageSize,
         categoryId: categoryId,
       );

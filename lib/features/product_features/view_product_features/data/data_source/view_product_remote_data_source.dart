@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sindbad_management_app/features/product_features/view_product_features/domain/entities/delete_entity_product.dart';
-
 import '../../../../../core/api_service.dart';
 import '../../domain/entities/activate_products_entity.dart';
 import '../../domain/entities/disable_products_entity.dart';
@@ -12,18 +11,17 @@ import '../models/delete_product_model.dart';
 import '../models/disable_products_model/disable_products_model.dart';
 import '../models/main_category_for_view_model/item.dart';
 import '../models/product_model/product_model.dart';
-// import '../models/product_model/product_model.dart';
 
 abstract class ViewProductRemoteDataSource {
   // for get MainCategory
   Future<List<MainCategoryForViewEntity>> getMainCategoryForView({
-    required int pageNumper,
+    required int pageNumber,
     required int pageSize,
   });
 
   Future<List<ProductEntity>> getProductsByFilter({
     required int storeProductsFilter,
-    required int pageNumper,
+    required int pageNumber,
     required int pageSize,
     required int? categoryId,
   });
@@ -52,10 +50,10 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
   // =====================  for Main Category For View  ======================
   @override
   Future<List<MainCategoryForViewEntity>> getMainCategoryForView(
-      {required int pageNumper, required int pageSize}) async {
+      {required int pageNumber, required int pageSize}) async {
     final Map<String, dynamic> data = await apiService.get(
         endPoint:
-            "Categories/GetCategories?searchType=1&isBrief=true&pageNumber=$pageNumper&pageSize=$pageSize");
+            "Categories/GetCategories?searchType=1&isBrief=true&pageNumber=$pageNumber&pageSize=$pageSize");
 
     // fun for change Data from JSON to DartModel
     List<MainCategoryForViewEntity> changeToDartModel(List<dynamic> data) {
@@ -71,7 +69,7 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
   }
 
   // Generic function to convert data to a list of items entities
-  List<T> getListProductsByfilter<T>(
+  List<T> getListProductsByFilter<T>(
       Map<String, dynamic> data, T Function(Map<String, dynamic>) fromJson) {
     List<T> entities = [];
 
@@ -89,14 +87,14 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
   }
 
   // get MyOrder List function
-  List<ProductEntity> getAllProductsByfilter(Map<String, dynamic> data) {
-    return getListProductsByfilter(data, (item) => ProductModel.fromJson(item));
+  List<ProductEntity> getAllProductsByFilter(Map<String, dynamic> data) {
+    return getListProductsByFilter(data, (item) => ProductModel.fromJson(item));
   }
 
   @override
   Future<List<ProductEntity>> getProductsByFilter({
     required int storeProductsFilter,
-    required int pageNumper,
+    required int pageNumber,
     required int pageSize,
     required int? categoryId,
   }) async {
@@ -107,7 +105,7 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
         requestData = {
           "categoryId":
               categoryId, // if categoryId = null  will return all products
-          "pageNumber": pageNumper,
+          "pageNumber": pageNumber,
           "pageSize": pageSize
         };
         break;
@@ -116,7 +114,7 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
           "hasOffer": true,
           "categoryId":
               categoryId, // if categoryId = null  will return all products offers
-          "pageNumber": pageNumper,
+          "pageNumber": pageNumber,
           "pageSize": pageSize
         };
         break;
@@ -125,7 +123,7 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
           "isDisable": true,
           "categoryId":
               categoryId, // if categoryId = null  will return all products offers
-          "pageNumber": pageNumper,
+          "pageNumber": pageNumber,
           "pageSize": pageSize
         };
         break;
@@ -136,7 +134,7 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
         endPoint: "Products/GetProductsWitheFilter?returnDtoName=1",
         data: requestData,
         headers: {"Authorization": "BEARER $token"});
-    List<ProductEntity> products = getAllProductsByfilter(data);
+    List<ProductEntity> products = getAllProductsByFilter(data);
     return products;
   }
 
@@ -151,12 +149,6 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
     );
     DeleteProductEntity responseDeleteProduct =
         DeleteProductModel.fromJson(data);
-    print(
-        " ===================== Bagar Message Delete Product =============== ");
-    print(
-        "========== Success =>  ${responseDeleteProduct.isSuuccess.toString()}");
-    print("========== Message =>  ${responseDeleteProduct.message}");
-    print(" ===================== Bagar =============== ");
     return responseDeleteProduct;
   }
 
@@ -171,12 +163,6 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
     );
     DisableProductsEntity responseDisableProducts =
         DisableProductsModel.fromJson(response);
-    print(
-        " ===================== Bagar Message Disable Product =============== ");
-    print(
-        "========== Success =>  ${responseDisableProducts.success.toString()}");
-    print("========== Message =>  ${responseDisableProducts.message}");
-    print(" ===================== Bagar =============== ");
     return responseDisableProducts;
   }
 
@@ -192,12 +178,6 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
     );
     ActivateProductsEntity responseActivateProducts =
         ActivateProductsModel.fromJson(response);
-    print(
-        " ===================== Bagar Message Activate Product =============== ");
-    print(
-        "========== Success =>  ${responseActivateProducts.success.toString()}");
-    print("========== Message =>  ${responseActivateProducts.message}");
-    print(" ===================== Bagar =============== ");
     return responseActivateProducts;
   }
 }
