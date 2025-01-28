@@ -62,7 +62,7 @@ class OrderDetails extends StatelessWidget {
                     tital: 'الطلب',
                     isSearch: false,
                   ),
-                  //Show Order
+                  //! Show Order
                   OrderBodyD(
                     idPackage: packageId,
                     idOrder: orderId,
@@ -73,19 +73,18 @@ class OrderDetails extends StatelessWidget {
                     infoPayment: paymentInfo,
                     statusOrder: orderStatus,
                   ),
-                  //icon
                   SizedBox(
                     height: 5,
                   ),
                   Center(
                     child: Image.asset("assets/down.png"),
                   ),
-                  //Order Detaials
+                  //! Order Detaials
                   OrderDetailsBody(),
-                  //Show Button
 
+                  //! Show Button
                   subIndex == 2 || index == 2 || index == 3
-                      ? SizedBox.shrink()
+                      ? SizedBox()
                       : BlocBuilder<RefreshPageCubit, RefreshPageState>(
                           builder: (context, state) {
                             // Default orders status map

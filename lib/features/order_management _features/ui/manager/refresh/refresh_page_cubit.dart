@@ -1,21 +1,5 @@
-// // bill_cubit.dart
-// import 'package:bloc/bloc.dart';
-// import 'refresh_page_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-// class BillCubit extends Cubit<BillState> {
-//   BillCubit() : super(BillInitial());
-
-//   void toggleBillStatus() {
-//     final currentState = state;
-//     if (currentState is BillInitial) {
-//       emit(BillUpdated(true)); // تغيير القيمة إلى true
-//     } else if (currentState is BillUpdated) {
-//       emit(BillUpdated(
-//           !currentState.isBillDone)); // تغيير القيمة بناءً على الحالة الحالية
-//     }
-//   }
-// }
-import 'package:bloc/bloc.dart';
 import 'refresh_page_state.dart';
 
 class RefreshPageCubit extends Cubit<RefreshPageState> {

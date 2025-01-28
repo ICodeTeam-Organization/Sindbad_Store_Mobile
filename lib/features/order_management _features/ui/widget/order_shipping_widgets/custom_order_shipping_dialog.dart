@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-
 import '../order_details_widget/build_dialog_title.dart';
 import 'build_shipping_dialog_content.dart';
-
-// TextEditingController dateShippingConroller = TextEditingController();
-// TextEditingController numberShippingConroller = TextEditingController();
-// TextEditingController mountShippingConroller = TextEditingController();
 
 class CustomOrderShippingDialog extends StatelessWidget {
   const CustomOrderShippingDialog({

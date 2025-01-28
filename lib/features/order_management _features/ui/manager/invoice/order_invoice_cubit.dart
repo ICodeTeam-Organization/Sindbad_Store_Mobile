@@ -1,8 +1,6 @@
 import 'dart:io';
-
-import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/order_invoice_entity.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/usecases/order_invoice_usecasse.dart';
 
@@ -38,10 +36,8 @@ class OrderInvoiceCubit extends Cubit<OrderInvoiceState> {
           (serverMessage) {
         if (serverMessage.isSuccess == true) {
           emit(OrderInvoiceSuccess(serverMessage: serverMessage));
-          print("Omar and Qais");
         } else {
           emit(OrderInvoiceFailuer(errMessage: serverMessage.serverMessage));
-          print("fjdiofghsjkdfhsjkahfjkhglk");
         }
       });
     } catch (e) {

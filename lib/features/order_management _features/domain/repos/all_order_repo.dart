@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dartz/dartz.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/order_detalis_entity.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/order_shipping_entity.dart';
@@ -9,8 +8,7 @@ import '../entities/order_cancel_entity.dart';
 import '../entities/order_invoice_entity.dart';
 
 abstract class AllOrderRepo {
-  ///////////////////////////
-  ///All orders
+  //! All orders
   Future<Either<Failure, List<AllOrderEntity>>> fetchAllOrder({
     required bool isUrgen,
     required bool canceled,
@@ -23,21 +21,13 @@ abstract class AllOrderRepo {
     // required String storeId,
     // required String searchKeyword
   });
-  /////////////////////////////
-  ///Order Deatalis
+
+  //! Order Deatalis
   Future<Either<Failure, List<OrderDetailsEntity>>> fetchOrderDetails({
     required int packageId,
-    // required String orderNumber,
-    // required String billNumber,
-    // required String clock,
-    // required String date,
-    // required String itemNumber,
-    // required String paymentInfo,
-    // required String orderStatus,
   });
 
-  /////////////////////////////////
-  ///Order Invoice
+  //! Create Invoice
   Future<Either<Failure, OrderInvoiceEntity>> fetchOrderInvoice(
       {required int packageId,
       required String invoiceNumber,
@@ -45,6 +35,8 @@ abstract class AllOrderRepo {
       required int invoiceType,
       required File invoiceImage,
       required DateTime invoiceDate});
+
+  //! Shipping Invoice
   Future<Either<Failure, OrderShippingEntity>> fetchOrderShipping(
       {required int packageId,
       required DateTime invoiceDate,
@@ -52,6 +44,8 @@ abstract class AllOrderRepo {
       required String shippingCompany,
       required File shippingImages,
       required int numberParcels});
+
+  //! Order Cancel
   Future<Either<Failure, OrderCancelEntity>> fetchOrderCancel({
     required int orderId,
     required bool orderCancel,

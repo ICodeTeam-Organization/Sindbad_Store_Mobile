@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sindbad_management_app/core/shared_widgets/new_widgets/sub_custom_tab_bar.dart';
 import 'package:sindbad_management_app/core/utils/route.dart';
 import '../../../../core/styles/Colors.dart';
 import '../../../../core/styles/text_style.dart';
@@ -25,7 +24,6 @@ class OrderBody extends StatelessWidget {
     required this.idOrder,
     required this.orderNumber,
     required this.billNumber,
-    required this.clock,
     required this.date,
     required this.itemNumber,
     required this.paymentInfo,
@@ -36,7 +34,6 @@ class OrderBody extends StatelessWidget {
   final int idPackage;
   final String orderNumber;
   final String billNumber;
-  final String clock;
   final String date;
   final String itemNumber;
   final String paymentInfo;
@@ -71,7 +68,6 @@ class OrderBody extends StatelessWidget {
         idPackages = idPackage;
         orderNumbers = orderNumber;
         billNumbers = billNumber;
-        clocks = clock;
         dates = date;
         itemNumbers = itemNumber;
         paymentInfos = paymentInfo;

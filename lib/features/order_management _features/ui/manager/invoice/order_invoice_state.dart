@@ -1,6 +1,5 @@
 part of 'order_invoice_cubit.dart';
 
-@immutable
 sealed class OrderInvoiceState {}
 
 final class OrderInvoiceInitial extends OrderInvoiceState {}

@@ -8,15 +8,6 @@ import '../widget/order_management_widget/bottom_info_order.dart';
 import '../widget/order_management_widget/top_info_order.dart';
 import 'order_body.dart';
 
-// int? idOrderD;
-// String? orderNumberD;
-// String? billNumberD;
-// String? clockD;
-// String? dateD;
-// String? itemNumberD;
-// String? paymentInfoD;
-// String? orderStatusD;
-
 class OrderBodyD extends StatelessWidget {
   const OrderBodyD({
     super.key,
@@ -41,26 +32,7 @@ class OrderBodyD extends StatelessWidget {
   // @override
   @override
   Widget build(BuildContext context) {
-    context.read<OrderDetailsCubit>().fetchOrderDetails(idPackage
-        // , numberOrder,
-        //     numberBill, clock, date, numberItem, infoPayment, statusOrder
-        );
-    Color orderColor;
-
-    switch (infoPayment) {
-      case 'Refunded':
-        orderColor = Colors.yellow.shade50;
-        break;
-      case 'Paid':
-        orderColor = Colors.green.shade50;
-        break;
-      case 'Unpaid':
-        orderColor = Colors.red.shade50;
-        break;
-      default:
-        orderColor = Colors.blue.shade50;
-    }
-    // final status = myStatuses[i];
+    context.read<OrderDetailsCubit>().fetchOrderDetails(idPackage);
     return BlocBuilder<OrderDetailsCubit, OrderDetailsState>(
       builder: (context, state) {
         return Container(

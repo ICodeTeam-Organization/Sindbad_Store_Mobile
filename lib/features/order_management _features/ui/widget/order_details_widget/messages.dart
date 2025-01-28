@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../../../../../core/styles/Colors.dart';
 import '../../../../../core/styles/text_style.dart';
 
-// ignore: must_be_immutable
 class Messages extends StatelessWidget {
   const Messages(
       {super.key,
@@ -60,14 +58,12 @@ class Messages extends StatelessWidget {
       content: isTrue
           ? Text(
               trueMessage,
-              // 'لقد تمت الأضافة في قائمة التجهيز',
               textAlign: TextAlign.center,
               style:
                   KTextStyle.textStyle16.copyWith(color: AppColors.greenDark),
             )
           : Text(
               falseMessage,
-              // 'هناك خطاء في العملية',
               textAlign: TextAlign.center,
               style: KTextStyle.textStyle16.copyWith(color: AppColors.redDark),
             ),

@@ -1,7 +1,6 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../../core/styles/text_style.dart';
 
 class BottomOrderDetails extends StatelessWidget {
@@ -19,8 +18,7 @@ class BottomOrderDetails extends StatelessWidget {
       data: barcodeNumber,
       textPadding: 8,
       style: KTextStyle.textStyle14,
-      // data: orderNum.toString(), // Data here
-      barcode: Barcode.code128(), // Specify the barcode type
+      barcode: Barcode.code128(), //! Specify the barcode type
     );
   }
 }

@@ -1,6 +1,5 @@
 part of 'cancel_cubit.dart';
 
-@immutable
 sealed class CancelState {}
 
 final class CancelInitial extends CancelState {}
