@@ -146,7 +146,7 @@ class ProductsListView extends StatelessWidget {
                                           .read<ActivateProductsByIdsCubit>(),
                                     )
                                   : showDeleteProductDialog(
-                                      contextPerant: context,
+                                      contextParent: context,
                                       productId: product.productId!,
                                       storeProductsFilter: storeProductsFilter,
                                       deleteProductCubit: context.read<
@@ -170,14 +170,14 @@ class ProductsListView extends StatelessWidget {
 }
 
 void showDeleteProductDialog({
-  required BuildContext contextPerant,
+  required BuildContext contextParent,
   required int productId,
   required int storeProductsFilter,
   required DeleteProductByIdFromStoreCubit
       deleteProductCubit, // Add this parameter
 }) {
   showDialog(
-    context: contextPerant,
+    context: contextParent,
     builder: (BuildContext dialogContext) {
       return BlocProvider.value(
         value: deleteProductCubit, // Provide the cubit explicitly
@@ -190,7 +190,7 @@ void showDeleteProductDialog({
               );
               Navigator.of(dialogContext, rootNavigator: true)
                   .pop(); // Close dialog
-              contextPerant
+              contextParent
                   .read<GetStoreProductsWithFilterCubit>()
                   .getStoreProductsWitheFilter(
                     storeProductsFilter: storeProductsFilter,
