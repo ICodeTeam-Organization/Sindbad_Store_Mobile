@@ -49,12 +49,10 @@ class TopOrderDetails extends StatelessWidget {
       title: Row(
         children: [
           SizedBox(
-            child: Expanded(
-              child: Text(
-                'اسم المنتج :  ',
-                style: KTextStyle.textStyle14
-                    .copyWith(fontWeight: FontWeight.w500),
-              ),
+            child: Text(
+              'اسم المنتج :  ',
+              style:
+                  KTextStyle.textStyle14.copyWith(fontWeight: FontWeight.w500),
             ),
           ),
           Expanded(
@@ -72,13 +70,10 @@ class TopOrderDetails extends StatelessWidget {
           Row(
             children: [
               SizedBox(
-                // width: MediaQuery.sizeOf(context).width * 0.20,
-                child: Expanded(
-                  child: Text(
-                    'نوع المنتج : ',
-                    style: KTextStyle.textStyle14.copyWith(
-                      fontWeight: FontWeight.w500,
-                    ),
+                child: Text(
+                  'نوع المنتج : ',
+                  style: KTextStyle.textStyle14.copyWith(
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
