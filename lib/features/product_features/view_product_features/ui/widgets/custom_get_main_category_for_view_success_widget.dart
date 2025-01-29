@@ -37,7 +37,8 @@ class _CustomGetMainCategoryForViewSuccessWidgetState
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: widget.allCategory.length, // Use the length of the list
-          physics: const AlwaysScrollableScrollPhysics(),
+          physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
           itemBuilder: (context, i) {
             final category = widget.allCategory[i];
             return ChipCustom(
