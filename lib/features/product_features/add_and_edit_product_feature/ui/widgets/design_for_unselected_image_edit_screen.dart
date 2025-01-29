@@ -12,18 +12,14 @@ class DesignForUnselectedImageEditScreen extends StatelessWidget {
   final double containerWidth;
   final double upContainerHeight;
   final double downContainerHeight;
-  // final Future<void> Function() onTapPickImage;
-  // final bool isForMainImage;
   final String titleButtonAddImage;
 
   const DesignForUnselectedImageEditScreen({
     super.key,
-    // required this.isForMainImage,
     required this.containerWidth,
     required this.upContainerHeight,
     required this.downContainerHeight,
     required this.titleButtonAddImage,
-    // required this.onTapPickImage,
     required this.boxNumber,
   });
 
@@ -46,12 +42,6 @@ class DesignForUnselectedImageEditScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.0.r),
               ),
               child: Center(
-                // child: GestureDetector(
-                //   onTap: onTapPickImage,
-                //   child: boxNumber == 1
-                //       ? ButtonDesignAddImageMainProduct()
-                //       : ImageForSubImages(),
-                // ),
                 child: boxNumber == 1
                     ? ButtonDesignAddImageMainProduct()
                     : ImageForSubImages(),

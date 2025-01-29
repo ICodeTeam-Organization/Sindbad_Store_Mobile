@@ -197,10 +197,9 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
                   anyProductsSelected:
                       cubitGetStoreProducts.updatedProductsSelected.isEmpty,
                   onTapLeft: () {
-                    showActivateMoreProductDialog(
+                    showActivateOneOrMoreProductsDialog(
                       contextParent: context,
-                      productsIds:
-                          cubitGetStoreProducts.updatedProductsSelected,
+                      ids: cubitGetStoreProducts.updatedProductsSelected,
                       storeProductsFilter: tabIndex,
                       activateProductsCubit:
                           context.read<ActivateProductsByIdsCubit>(),
@@ -222,57 +221,4 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
         return Container();
     }
   }
-}
-
-void showActivateMoreProductDialog({
-  required BuildContext contextParent,
-  required List<int> productsIds,
-  required int storeProductsFilter,
-  required ActivateProductsByIdsCubit
-      activateProductsCubit, // Add this parameter
-}) {
-  showDialog(
-    context: contextParent,
-    builder: (BuildContext dialogContext) {
-      return BlocProvider.value(
-        value: activateProductsCubit, // Provide the cubit explicitly
-        child: BlocConsumer<ActivateProductsByIdsCubit,
-            ActivateProductsByIdsState>(
-          listener: (dialogContext, state) {
-            if (state is ActivateProductsByIdsSuccess) {
-              ScaffoldMessenger.of(dialogContext).showSnackBar(
-                SnackBar(content: Text('تم إعادة تنشيط المنتجات بنجاح!')),
-              );
-              Navigator.of(dialogContext, rootNavigator: true)
-                  .pop(); // Close dialog
-              contextParent
-                  .read<GetStoreProductsWithFilterCubit>()
-                  .getStoreProductsWitheFilter(
-                    storeProductsFilter: storeProductsFilter,
-                    pageNumber: 1,
-                    pageSize: 100,
-                  );
-            } else if (state is ActivateProductsByIdsFailure) {
-              ScaffoldMessenger.of(dialogContext).showSnackBar(
-                SnackBar(content: Text(state.errMessage)),
-              );
-            }
-          },
-          builder: (dialogContext, state) {
-            return CustomShowDialogForViewWidget(
-              isLoading: state is ActivateProductsByIdsLoading,
-              title: 'هل انت متأكد من إعادة تنشيط المنتجات؟',
-              subtitle:
-                  'عدد المنتجات التي تريد إعادة تنشيطها : ${productsIds.length}',
-              confirmText: "إعادة تنشيط",
-              cancelText: "إلغاء",
-              onConfirm: () => dialogContext
-                  .read<ActivateProductsByIdsCubit>()
-                  .activateProductsByIds(ids: productsIds),
-            );
-          },
-        ),
-      );
-    },
-  );
 }

@@ -138,9 +138,9 @@ class ProductsListView extends StatelessWidget {
                             onTapDeleteOrReactivate: () {
                               storeProductsFilter ==
                                       2 // if storeProductsFilter == 2 => for reactivate product
-                                  ? showActivateProductDialog(
+                                  ? showActivateOneOrMoreProductsDialog(
                                       contextParent: context,
-                                      productId: product.productId!,
+                                      ids: [product.productId!],
                                       storeProductsFilter: storeProductsFilter,
                                       activateProductsCubit: context
                                           .read<ActivateProductsByIdsCubit>(),
@@ -185,7 +185,7 @@ void showDeleteProductDialog({
             DeleteProductByIdFromStoreState>(
           listener: (dialogContext, state) {
             if (state is DeleteProductByIdFromStoreSuccess) {
-              ScaffoldMessenger.of(dialogContext).showSnackBar(
+              ScaffoldMessenger.of(contextParent).showSnackBar(
                 SnackBar(content: Text('تم حذف المنتج بنجاح!')),
               );
               Navigator.of(dialogContext, rootNavigator: true)
@@ -208,9 +208,8 @@ void showDeleteProductDialog({
               title: 'حذف المنتج',
               subtitle: 'هل تريد بالتأكيد حذف هذا المنتج؟',
               isLoading: state is DeleteProductByIdFromStoreLoading,
-              onConfirm: () => dialogContext
-                  .read<DeleteProductByIdFromStoreCubit>()
-                  .deleteProductById(productId: productId),
+              onConfirm: () =>
+                  deleteProductCubit.deleteProductById(productId: productId),
               confirmText: 'حذف',
               cancelText: 'إلغاء',
             );
@@ -221,9 +220,9 @@ void showDeleteProductDialog({
   );
 }
 
-void showActivateProductDialog({
+void showActivateOneOrMoreProductsDialog({
   required BuildContext contextParent,
-  required int productId,
+  required List<int> ids,
   required int storeProductsFilter,
   required ActivateProductsByIdsCubit
       activateProductsCubit, // Add this parameter
@@ -237,7 +236,7 @@ void showActivateProductDialog({
             ActivateProductsByIdsState>(
           listener: (dialogContext, state) {
             if (state is ActivateProductsByIdsSuccess) {
-              ScaffoldMessenger.of(dialogContext).showSnackBar(
+              ScaffoldMessenger.of(contextParent).showSnackBar(
                 SnackBar(content: Text('تم إعادة تنشيط المنتج بنجاح!')),
               );
               Navigator.of(dialogContext, rootNavigator: true)
@@ -250,19 +249,22 @@ void showActivateProductDialog({
                     pageSize: 100,
                   );
             } else if (state is ActivateProductsByIdsFailure) {
-              ScaffoldMessenger.of(dialogContext).showSnackBar(
+              ScaffoldMessenger.of(contextParent).showSnackBar(
                 SnackBar(content: Text(state.errMessage)),
               );
             }
           },
           builder: (dialogContext, state) {
             return CustomShowDialogForViewWidget(
-              title: 'إعادة تنشيط المنتج',
-              subtitle: 'هل تريد بالتأكيد إعادة تنشيط هذا المنتج؟',
+              title: ids.length > 1
+                  ? 'هل انت متأكد من إيقاف المنتجات؟'
+                  : 'إعادة تنشيط المنتج',
+              subtitle: ids.length > 1
+                  ? 'عدد المنتجات التي تريد إيقافها : ${ids.length}'
+                  : 'هل تريد بالتأكيد إعادة تنشيط هذا المنتج؟',
               isLoading: state is ActivateProductsByIdsLoading,
-              onConfirm: () => dialogContext
-                  .read<ActivateProductsByIdsCubit>()
-                  .activateProductsByIds(ids: [productId]),
+              onConfirm: () =>
+                  activateProductsCubit.activateProductsByIds(ids: ids),
               confirmText: 'إعادة تنشيط',
               cancelText: 'إلغاء',
             );
