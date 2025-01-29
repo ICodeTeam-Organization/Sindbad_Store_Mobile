@@ -7,6 +7,7 @@ import '../../../../../core/shared_widgets/new_widgets/custom_tab_bar_widget.dar
 import '../../../../../core/styles/Colors.dart';
 import '../manager/activate_products/activate_products_by_ids_cubit.dart';
 import '../manager/disable_products/disable_products_by_ids_cubit.dart';
+import '../manager/get_main_category_for_view/get_main_category_for_view_cubit.dart';
 import '../manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
 import 'custom_show_dialog_for_view_widget.dart';
 import 'products_list_view_widget.dart';
@@ -35,6 +36,8 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
     super.initState();
     initCubitGetStoreProducts();
     initCubitDisableProducts();
+    context.read<GetMainCategoryForViewCubit>().getMainCategoryForView(
+        pageNumber: 1, pageSize: 100); // for get Main category
   }
 
   @override

@@ -11,8 +11,6 @@ class ListMainCategoryForView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<GetMainCategoryForViewCubit>().getMainCategoryForView(
-        pageNumber: 1, pageSize: 100); // for get Main category
     return BlocBuilder<GetMainCategoryForViewCubit,
         GetMainCategoryForViewState>(
       builder: (context, state) {
