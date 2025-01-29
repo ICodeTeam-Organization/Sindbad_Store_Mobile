@@ -84,51 +84,17 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
             BlocBuilder<GetStoreProductsWithFilterCubit,
                 GetStoreProductsWithFilterState>(
               builder: (context, state) {
-                return BlocListener<DisableProductsByIdsCubit,
-                    DisableProductsByIdsState>(
-                  listener: (context, state) {
-                    if (state is DisableProductsByIdsSuccess) {
-                      cubitGetStoreProducts.getStoreProductsWitheFilter(
-                        storeProductsFilter: tabIndex,
-                        pageNumber: 1,
-                        pageSize: 100,
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(state.message.message)));
-                      Navigator.of(context, rootNavigator: true)
-                          .pop(); //  rootNavigator
-                    }
-                    if (state is DisableProductsByIdsFailure) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(state.errMessage)),
-                      );
-                    }
+                return TwoButtonInRow(
+                  anyProductsSelected:
+                      cubitGetStoreProducts.updatedProductsSelected.isEmpty,
+                  onTapLeft: () {
+                    showDisableOneOrMoreProductsDialog(
+                      parentContext: context,
+                      storeProductsFilter: tabIndex,
+                      ids: cubitGetStoreProducts.updatedProductsSelected,
+                      cubitDisableProducts: cubitDisableProducts,
+                    );
                   },
-                  child: TwoButtonInRow(
-                    anyProductsSelected:
-                        cubitGetStoreProducts.updatedProductsSelected.isEmpty,
-                    onTapLeft: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          final List<int> selectedProducts =
-                              cubitGetStoreProducts.updatedProductsSelected;
-                          return CustomShowDialogForViewWidget(
-                            isLoading: false,
-                            title: 'هل انت متأكد من إيقاف المنتجات؟',
-                            subtitle:
-                                'عدد المنتجات التي تريد إيقافها : ${selectedProducts.length}',
-                            confirmText: "إيقاف",
-                            cancelText: "إلغاء",
-                            onConfirm: () {
-                              cubitDisableProducts.disableProductsByIds(
-                                  ids: selectedProducts);
-                            },
-                          );
-                        },
-                      );
-                    },
-                  ),
                 );
               },
             ),
@@ -154,24 +120,11 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
                   anyProductsSelected:
                       cubitGetStoreProducts.updatedProductsSelected.isEmpty,
                   onTapLeft: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        final List<int> selectedProducts =
-                            cubitGetStoreProducts.updatedProductsSelected;
-                        return CustomShowDialogForViewWidget(
-                          isLoading: false,
-                          title: 'هل انت متأكد من إيقاف المنتجات؟',
-                          subtitle:
-                              'عدد المنتجات التي تريد إيقافها : ${selectedProducts.length}',
-                          confirmText: "إيقاف",
-                          cancelText: "إلغاء",
-                          onConfirm: () {
-                            cubitDisableProducts.disableProductsByIds(
-                                ids: selectedProducts);
-                          },
-                        );
-                      },
+                    showDisableOneOrMoreProductsDialog(
+                      parentContext: context,
+                      storeProductsFilter: tabIndex,
+                      ids: cubitGetStoreProducts.updatedProductsSelected,
+                      cubitDisableProducts: cubitDisableProducts,
                     );
                   },
                 );
@@ -221,4 +174,54 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
         return Container();
     }
   }
+}
+
+void showDisableOneOrMoreProductsDialog({
+  required BuildContext parentContext,
+  required int storeProductsFilter,
+  required List<int> ids,
+  required DisableProductsByIdsCubit cubitDisableProducts, // Add this parameter
+}) {
+  showDialog(
+    context: parentContext,
+    builder: (BuildContext dialogContext) {
+      return BlocProvider.value(
+        value: cubitDisableProducts, // Provide the cubit explicitly
+        child:
+            BlocConsumer<DisableProductsByIdsCubit, DisableProductsByIdsState>(
+          listener: (dialogContext, state) {
+            if (state is DisableProductsByIdsSuccess) {
+              ScaffoldMessenger.of(parentContext).showSnackBar(
+                SnackBar(content: Text('تم إيقاف المنتجات بنجاح!')),
+              );
+              Navigator.of(dialogContext, rootNavigator: true)
+                  .pop(); // Close dialog
+              parentContext
+                  .read<GetStoreProductsWithFilterCubit>()
+                  .getStoreProductsWitheFilter(
+                    storeProductsFilter: storeProductsFilter,
+                    pageNumber: 1,
+                    pageSize: 100,
+                  );
+            } else if (state is DisableProductsByIdsFailure) {
+              ScaffoldMessenger.of(parentContext).showSnackBar(
+                SnackBar(content: Text(state.errMessage)),
+              );
+            }
+          },
+          builder: (dialogContext, state) {
+            return CustomShowDialogForViewWidget(
+              title: 'هل انت متأكد من إيقاف المنتجات؟',
+              subtitle: 'عدد المنتجات التي تريد إيقافها : ${ids.length}',
+              isLoading: state is DisableProductsByIdsLoading,
+              onConfirm: () =>
+                  cubitDisableProducts.disableProductsByIds(ids: ids),
+              confirmText: "إيقاف",
+              cancelText: 'إلغاء',
+            );
+          },
+        ),
+      );
+    },
+  );
 }
