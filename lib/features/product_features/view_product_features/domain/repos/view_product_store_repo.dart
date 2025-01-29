@@ -16,7 +16,7 @@ abstract class ViewProductRepo {
 
   Future<Either<Failure, List<ProductEntity>>> getProductsByFilter({
     required int storeProductsFilter,
-    required int pageNumper,
+    required int pageNumber,
     required int pageSize,
     required int? categoryId,
   });

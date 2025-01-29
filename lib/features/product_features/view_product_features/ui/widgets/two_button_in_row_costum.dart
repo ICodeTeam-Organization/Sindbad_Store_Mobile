@@ -10,18 +10,14 @@ import '../manager/get_store_products_with_filter/get_store_products_with_filter
 class TwoButtonInRow extends StatelessWidget {
   const TwoButtonInRow({
     super.key,
-    // required this.productCheckedByNames,
     this.titleRight = "إضافة منتج",
     this.titleLeft = "إيقاف منتج",
-    // required this.onTapRight,
     required this.onTapLeft,
     required this.anyProductsSelected,
   });
 
-  // final List<String> productCheckedByNames;
   final String titleRight;
   final String titleLeft;
-  // final void Function() onTapRight;
   final void Function() onTapLeft;
   final bool anyProductsSelected;
 
@@ -41,7 +37,6 @@ class TwoButtonInRow extends StatelessWidget {
             height: 55.h,
             width: 150.w,
             onTap: () {
-              // context.push(AppRouter.storeRouters.kStoreAddProduct); //////////
               context.push(
                 AppRouter.storeRouters.kStoreAddProduct,
                 extra: () {

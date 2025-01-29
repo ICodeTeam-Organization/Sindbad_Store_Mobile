@@ -14,7 +14,7 @@ class GetProductsByFilterUseCase
       ProductsByFilterParams params) async {
     return viewProductRepo.getProductsByFilter(
       storeProductsFilter: params.storeProductsFilter,
-      pageNumper: params.pageNumber,
+      pageNumber: params.pageNumber,
       pageSize: params.pageSize,
       categoryId: params.categoryId,
     );
