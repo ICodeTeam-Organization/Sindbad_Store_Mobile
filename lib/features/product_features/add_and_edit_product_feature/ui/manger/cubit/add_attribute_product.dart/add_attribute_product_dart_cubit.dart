@@ -11,26 +11,12 @@ class AddAttributeProductDartCubit extends Cubit<AddAttributeProductDartState> {
   void addField() {
     keys.add(TextEditingController());
     values.add(TextEditingController());
-    testAdd();
     emit(AddAttributeProductDartSuccess(keys: keys, values: values));
   }
 
   void removeField(int index) {
-    test(index); // for test
     keys.removeAt(index);
     values.removeAt(index);
     emit(AddAttributeProductDartSuccess(keys: keys, values: values));
-  }
-
-  // fun for test
-  void test(int index) {
-    print(
-        "العنصر المراد حذفه: \n الخاصية== ${keys[index].text}\n القيمة ==  ${values[index].text}");
-  }
-
-  // fun for test
-  void testAdd() {
-    print(" ===================  list keys = ${keys.length}");
-    print(" ===================  list values = ${values.length}");
   }
 }

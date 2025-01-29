@@ -5,13 +5,6 @@ sealed class AddAttributeProductDartState {}
 final class AddAttributeProductDartInitial
     extends AddAttributeProductDartState {}
 
-// final class AddAttributeProductDartLoading
-//     extends AddAttributeProductDartState {}
-
-// final class AddAttributeProductDartFailure
-//     extends AddAttributeProductDartState {}
-
-// duo to local data
 final class AddAttributeProductDartSuccess
     extends AddAttributeProductDartState {
   final List<TextEditingController> keys;

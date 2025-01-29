@@ -19,15 +19,14 @@ abstract class AddAndEditProductToStoreRemoteDataSource {
     required String description,
     required File mainImageFile,
     required String number,
-    // i don't know what data tybe and value
+    // i don't use it
     required int? storeId,
     required int? offerId,
-    required int? brandId,
     //
+    required int? brandId,
     required int mainCategoryId,
     required List<File> images,
     required List<int> subCategoryIds,
-    // required List<Map<String, String>> newAttributes,
     required List<Map<String, String>> newAttributes,
   });
   Future<EditProductEntity> editProductFromStore({
@@ -49,7 +48,7 @@ abstract class AddAndEditProductToStoreRemoteDataSource {
 
   Future<List<MainCategoryEntity>> getMainAndSubCategory({
     required int filterType,
-    required int pageNumper,
+    required int pageNumber,
     required int pageSize,
   });
   Future<List<BrandEntity>> getBrandsByMainCategoryId({
@@ -84,7 +83,6 @@ class AddProductToStoreRemoteDataSourceImpl
     required int mainCategoryId,
     required List<File> images,
     required List<int> subCategoryIds,
-    // required List<Map<String, String>> newAttributes,
     required List<Map<String, String>> newAttributes,
   }) async {
     String? token = await getToken();
@@ -121,12 +119,12 @@ class AddProductToStoreRemoteDataSourceImpl
   @override
   Future<List<MainCategoryEntity>> getMainAndSubCategory({
     required int filterType,
-    required int pageNumper,
+    required int pageNumber,
     required int pageSize,
   }) async {
     final Map<String, dynamic> data = await apiService.get(
         endPoint:
-            "Categories/GetCategoriesWithFilter?filterType=$filterType&pageSize=$pageSize&pageNumber=$pageNumper");
+            "Categories/GetCategoriesWithFilter?filterType=$filterType&pageSize=$pageSize&pageNumber=$pageNumber");
 
     // change Data from JSON to DartModel
     List<MainCategoryEntity> changeToDartModel(List<dynamic> data) {
@@ -136,9 +134,9 @@ class AddProductToStoreRemoteDataSourceImpl
       return mainCategoryEntity;
     }
 
-    List<MainCategoryEntity> mainAndSubCategores =
+    List<MainCategoryEntity> mainAndSubCategories =
         changeToDartModel(data['data']['items'] as List<dynamic>);
-    return mainAndSubCategores;
+    return mainAndSubCategories;
   }
 
   // =============================  for get Brands  ==================================

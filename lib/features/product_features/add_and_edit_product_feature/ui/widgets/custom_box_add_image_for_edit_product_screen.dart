@@ -5,13 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_images/cubit/add_image_to_product_add_cubit.dart';
 import '../manger/cubit/edit_product_from_store/edit_product_from_store_cubit.dart';
 import 'after_selected_image_for_edit_screen.dart';
-import 'after_selected_image_widget.dart';
 import 'button_design_add_image_main_product_widget.dart';
 import 'design_for_title_under_image_widget.dart';
-import 'design_for_unselected_image_widget.dart';
 import 'image_for_sub_images_widget.dart';
 
 // ignore: must_be_immutable
@@ -26,13 +23,6 @@ class CustomBoxAddImageForEditProductScreen extends StatefulWidget {
   final String titleUnderBox;
   final ValueChanged<File?> onImageSelected; // Callback function
 
-  // final VoidCallback onPressed;
-  // final Future<void> Function() onTapPickImage;
-  // final bool isForMainImage;
-  // File? image;
-  // int? imagePartNumber; // لتحديد الصورة المناسبة لكل مربع
-  // String? initialImageUrl; // Add initial image URL
-
   const CustomBoxAddImageForEditProductScreen({
     super.key,
     required this.boxNumber,
@@ -44,12 +34,6 @@ class CustomBoxAddImageForEditProductScreen extends StatefulWidget {
     this.actionButtonText = "إضافة صورة",
     this.titleUnderBox = "صورة المنتج",
     required this.onImageSelected,
-    // required this.onPressed,
-    // this.isForMainImage = false,
-    // this.initialImageUrl,
-    // this.imagePartNumber,
-    // required this.onTapPickImage,
-    // this.image, // Add initial image URL
   });
 
   @override
@@ -64,9 +48,6 @@ class _CustomBoxAddImageForEditProductScreenState
   @override
   void initState() {
     initialImageUrl = widget.initialImageUrl;
-    debugPrint(
-        "================  initialImageUrl ===  $initialImageUrl  =============");
-    // setState(() {});
     super.initState();
   }
 
@@ -137,12 +118,3 @@ class _CustomBoxAddImageForEditProductScreenState
     );
   }
 }
-          // في حال اول مره فتح الصفحة - لم يختار أي صورة بعد
-// DesignForUnselectedImage(
-//             isForMainImage: isForMainImage,
-//             titleText: titleText,
-//             containerWidth: containerWidth.w,
-//             upContainerHeight: upContainerHeight.h,
-//             downContainerHeight: downContainerHeight.h,
-//             onTapPickImage: onTapPickImage,
-//           )

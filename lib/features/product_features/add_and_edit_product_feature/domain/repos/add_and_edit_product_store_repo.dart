@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/usecases/add_product_to_store_use_case.dart';
 import '../../../../../core/errors/failure.dart';
 import '../entities/add_product_entities/add_product_entity.dart';
 import '../entities/add_product_entities/brand_entity.dart';
@@ -16,7 +15,7 @@ abstract class AddAndEditProductStoreRepo {
     required String description,
     required File mainImageFile,
     required String number,
-    // i don't know what data tybe and value
+    // i don't know what data type and value
     required int? storeId,
     required int? offerId,
     required int? brandId,
@@ -30,7 +29,7 @@ abstract class AddAndEditProductStoreRepo {
 
   Future<Either<Failure, List<MainCategoryEntity>>> getMainAndSubCategory({
     required int filterType,
-    required int pageNumper,
+    required int pageNumber,
     required int pageSize,
   });
 

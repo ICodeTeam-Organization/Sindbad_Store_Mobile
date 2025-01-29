@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/brand_entity.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
@@ -43,9 +42,8 @@ class GetCategoryNamesSuccessWidget extends StatelessWidget {
               final int selectedMainCategoryId =
                   mainAndSubCategories[selectedIndex].mainCategoryId;
 
-              // تحديث فئات الفئة الفرعية
-              cubitCategories.updateSubCategories(selectedMainCategoryId);
-              //
+              cubitCategories.updateSubCategories(
+                  selectedMainCategoryId); // refresh sub categories
               context
                   .read<GetBrandsByCategoryIdCubit>()
                   .getBrandsByMainCategoryId(
@@ -77,21 +75,11 @@ class GetCategoryNamesSuccessWidget extends StatelessWidget {
                   .toList()
               : [],
           onChanged: (value) {
-            // البحث عن الفئة الفرعية المختارة باستخدام الاسم
-            int selectedIndex =
-                cubitCategories.selectedSubCategories.indexWhere(
-              (subCategory) => subCategory.subCategoryNameEntity == value,
-            );
-
-            if (selectedIndex != -1) {
-              cubitAddProduct.selectedSubCategoryId = cubitCategories
-                  .selectedSubCategories[selectedIndex].subCategoryId;
-              // طباعة ID الفئة الفرعية المختارة
-              debugPrint(
-                  'ID الفئة الفرعية المختارة: ${cubitCategories.selectedSubCategories[selectedIndex].subCategoryId}');
-              cubitAddProduct.testDropDown();
-            }
-            //
+            cubitAddProduct.selectedSubCategoryId = cubitCategories
+                .selectedSubCategories
+                .firstWhere((subCategories) =>
+                    subCategories.subCategoryNameEntity == value)
+                .subCategoryId;
           },
         ),
         SizedBox(height: 10),
@@ -111,47 +99,26 @@ class GetCategoryNamesSuccessWidget extends StatelessWidget {
               final List<BrandEntity> brandsWithNoFound = [
                 BrandEntity(brandId: 000, brandNameEntity: "لا يوجد")
               ];
-              final List<BrandEntity> brands = state.brands;
-              brandsWithNoFound.addAll(brands);
+              brandsWithNoFound.addAll(state.brands);
 
-              // set [selectedBrandId] auto first id duo [initialItem]
-              // cubitAddProduct.selectedBrandId =
-              //     brands.isNotEmpty ? brands.first.brandId : null;
-              // for test
-              cubitAddProduct.testDropDown();
               return CustomDropdownWidget(
                 enabled: true,
                 textTitle: 'أختر اسم البراند',
                 hintText: "قم بإختيار البراند المناسب",
                 initialItem: null,
-                // brands.isNotEmpty
-                //     ? brands.first.brandNameEntity
-                //     : null, // تعيين أول عنصر إذا كانت القائمة غير فارغة
                 items: brandsWithNoFound
                     .map((category) => category.brandNameEntity)
                     .toList(),
-                // brands.isNotEmpty
-                //     ? brands
-                //         .map((category) => category.brandNameEntity)
-                //         .toList()
-                //     : [],
                 onChanged: (value) {
                   int selectedIndex = brandsWithNoFound.indexWhere(
                       (brandsWithNoFound) =>
                           brandsWithNoFound.brandNameEntity == value);
-                  print(
-                      "====================  $selectedIndex  =======================");
+
                   if (selectedIndex > 0) {
-                    final int selectedBrandId =
+                    cubitAddProduct.selectedBrandId =
                         brandsWithNoFound[selectedIndex].brandId;
-                    //
-                    cubitAddProduct.selectedBrandId = selectedBrandId;
-                    // for test
-                    cubitAddProduct.testDropDown();
                   } else {
                     cubitAddProduct.selectedBrandId = null;
-                    // for test
-                    cubitAddProduct.testDropDown();
                   }
                 },
               );
@@ -163,7 +130,6 @@ class GetCategoryNamesSuccessWidget extends StatelessWidget {
               hintText: "قم بإختيار البراند المناسب",
               items: [],
               onChanged: (value) => null,
-              // initialItem: AddProductScreen._brandList[0],
             );
           },
         )

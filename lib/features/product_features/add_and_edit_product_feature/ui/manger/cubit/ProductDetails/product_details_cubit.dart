@@ -2,8 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../../core/errors/failure.dart';
 import '../../../../domain/entities/edit_product_entities/product_details_entity.dart';
-import '../../../../domain/usecases/get_product_details_to_store_use_case.dart';
-
+import '../../../../domain/use_cases/get_product_details_to_store_use_case.dart';
 part 'product_details_state.dart';
 
 class ProductDetailsCubit extends Cubit<ProductDetailsState> {
@@ -21,13 +20,11 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     result.fold(
         // left
         (failure) {
-      emit(ProductDetailsFailure(
-          errMessage: failure.message)); // ======== emit ==========
+      emit(ProductDetailsFailure(errMessage: failure.message));
     },
         // right
         (brands) {
-      emit(ProductDetailsSuccess(
-          productDetailsEntity: brands)); // ======== emit ==========
+      emit(ProductDetailsSuccess(productDetailsEntity: brands));
     });
   }
 }

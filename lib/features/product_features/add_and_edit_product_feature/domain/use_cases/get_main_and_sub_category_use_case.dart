@@ -14,7 +14,7 @@ class GetMainAndSubCategoryUseCase extends UseCaseWithParam<
       GetMainAndSubCategoryParams params) async {
     return addProductStoreRepo.getMainAndSubCategory(
       filterType: params.filterType,
-      pageNumper: params.pageNumper,
+      pageNumber: params.pageNumber,
       pageSize: params.pageSize,
     );
   }
@@ -22,12 +22,12 @@ class GetMainAndSubCategoryUseCase extends UseCaseWithParam<
 
 class GetMainAndSubCategoryParams {
   final int filterType;
-  final int pageNumper;
+  final int pageNumber;
   final int pageSize;
 
   GetMainAndSubCategoryParams({
     required this.filterType,
-    required this.pageNumper,
+    required this.pageNumber,
     required this.pageSize,
   });
 }

@@ -5,6 +5,4 @@ sealed class AddImageToProductAddState {}
 
 final class AddImageToProductAddInitial extends AddImageToProductAddState {}
 
-// for Add Image
-// final class AddImageProductToStoreInitial extends AddProductToStoreState {}
 final class AddImageToProductAddSuccess extends AddImageToProductAddState {}

@@ -19,22 +19,3 @@ final class AddProductToStoreFailure extends AddProductToStoreState {
 
   AddProductToStoreFailure({required this.errMessage});
 }
-
-// // for Add Image
-// // final class AddImageProductToStoreInitial extends AddProductToStoreState {}
-// final class AddImageProductToStoreSuccess extends AddProductToStoreState {}
-
-// // for drop down
-// final class GetCategoryNamesLoading extends AddProductToStoreState {}
-
-// final class GetCategoryNamesSuccess extends AddProductToStoreState {
-//   final Map<int, Map<String, List<Map<String, dynamic>>>>
-//       categoryAndSubCategoryNames;
-
-//   GetCategoryNamesSuccess({required this.categoryAndSubCategoryNames});
-// }
-
-// final class GetCategoryNamesFailure extends AddProductToStoreState {}
-
-// final class GetSubCategoryNamesSuccess
-//     extends AddProductToStoreState {} // for SubCategoryNames only

@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../manger/cubit/add_images/cubit/add_image_to_product_add_cubit.dart';
+import '../manger/cubit/add_images/add_image_to_product_add_cubit.dart';
 import '../manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
 
 class AfterSelectedImage extends StatelessWidget {
@@ -72,20 +72,12 @@ class AfterSelectedImage extends StatelessWidget {
               switch (boxNumber) {
                 case 1:
                   cubitAddProduct.mainImageProductFile = null;
-                  print(
-                      " ==============  done delete image main  =============");
                 case 2:
                   cubitAddProduct.subOneImageProductFile = null;
-                  print(
-                      " ==============  done delete image sub 1  =============");
                 case 3:
                   cubitAddProduct.subTwoImageProductFile = null;
-                  print(
-                      " ==============  done delete image sub 2  =============");
                 case 4:
                   cubitAddProduct.subThreeImageProductFile = null;
-                  print(
-                      " ==============  done delete image sub 3  =============");
               }
             },
             child: Container(

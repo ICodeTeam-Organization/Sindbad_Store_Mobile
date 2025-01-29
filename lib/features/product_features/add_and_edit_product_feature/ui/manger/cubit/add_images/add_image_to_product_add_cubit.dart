@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-// import 'package:path/path.dart' as path;
 part 'add_image_to_product_add_state.dart';
 
 class AddImageToProductAddCubit extends Cubit<AddImageToProductAddState> {
@@ -75,8 +74,8 @@ class AddImageToProductAddCubit extends Cubit<AddImageToProductAddState> {
     }
   }
 
-  // for return IamgePath
-  File? getIamgeFile({required int numBox}) {
+  // for return ImagePath
+  File? getImageFile({required int numBox}) {
     switch (numBox) {
       case 1:
         if (mainImageProduct != null) {
@@ -105,38 +104,4 @@ class AddImageToProductAddCubit extends Cubit<AddImageToProductAddState> {
     }
     return null;
   }
-  // // for return IamgePath
-  // String? getIamgePath({required int numBox}) {
-  //   switch (numBox) {
-  //     case 1:
-  //       // return mainImageProduct?.path;
-  //       if (mainImageProduct != null) {
-  //         final String imageName = path.basename(mainImageProduct!.path);
-  //         return imageName;
-  //       }
-  //       return null;
-  //     case 2:
-  //       // return subOneImageProduct?.path;
-  //       if (subOneImageProduct != null) {
-  //         final String imageName = path.basename(subOneImageProduct!.path);
-  //         return imageName;
-  //       }
-  //       return null;
-  //     case 3:
-  //       // return subTwoImageProduct?.path;
-  //       if (subTwoImageProduct != null) {
-  //         final String imageName = path.basename(subTwoImageProduct!.path);
-  //         return imageName;
-  //       }
-  //       return null;
-  //     case 4:
-  //       // return subThreeImageProduct?.path;
-  //       if (subThreeImageProduct != null) {
-  //         final String imageName = path.basename(subThreeImageProduct!.path);
-  //         return imageName;
-  //       }
-  //       return null;
-  //   }
-  //   return null;
-  // }
 }

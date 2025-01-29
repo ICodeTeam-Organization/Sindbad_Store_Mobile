@@ -24,7 +24,6 @@ class AfterSelectedImageForEditScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("===========  initialImageUrl ==  $initialImageUrl  =============");
     return Stack(
       children: [
         initialImageUrl != null

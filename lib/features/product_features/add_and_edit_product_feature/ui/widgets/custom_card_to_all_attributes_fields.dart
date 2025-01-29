@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/section_title_widget.dart';
-
 import '../../../../../core/styles/Colors.dart';
 import '../manger/cubit/add_attribute_product.dart/add_attribute_product_dart_cubit.dart';
 import 'custom_simple_text_form_field.dart';
 
-class CustomCardToAllAttributesFileds extends StatelessWidget {
-  const CustomCardToAllAttributesFileds({
+class CustomCardToAllAttributesFields extends StatelessWidget {
+  final AddAttributeProductDartCubit cubitAttribute;
+
+  const CustomCardToAllAttributesFields({
     super.key,
+    required this.cubitAttribute,
   });
 
   @override
   Widget build(BuildContext context) {
-    final AddAttributeProductDartCubit cubitAttribute =
-        context.read<AddAttributeProductDartCubit>();
     return Container(
       width: double.maxFinite,
       decoration: BoxDecoration(

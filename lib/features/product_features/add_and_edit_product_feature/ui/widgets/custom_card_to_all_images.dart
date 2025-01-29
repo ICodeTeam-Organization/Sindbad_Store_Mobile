@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/section_title_widget.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
-import '../../../../../core/styles/text_style.dart';
-import '../manger/cubit/add_images/cubit/add_image_to_product_add_cubit.dart';
+import '../manger/cubit/add_images/add_image_to_product_add_cubit.dart';
 import 'custom_add_image_widget.dart';
 
 class CustomCardToAllImages extends StatelessWidget {
+  final AddImageToProductAddCubit cubitAddImage;
+  final AddProductToStoreCubit cubitAddProduct;
+
   const CustomCardToAllImages({
     super.key,
+    required this.cubitAddImage,
+    required this.cubitAddProduct,
   });
 
   @override
   Widget build(BuildContext context) {
-    final AddImageToProductAddCubit cubitAddImage =
-        context.read<AddImageToProductAddCubit>();
-    final AddProductToStoreCubit cubitAddProduct =
-        context.read<AddProductToStoreCubit>();
-
     return Container(
       width: double.maxFinite,
       decoration: BoxDecoration(
@@ -41,8 +39,7 @@ class CustomCardToAllImages extends StatelessWidget {
               onTapPickImage: () async {
                 await cubitAddImage.pickImageFromGallery(numPartImage: 1);
                 cubitAddProduct.mainImageProductFile =
-                    cubitAddImage.getIamgeFile(numBox: 1);
-                print("image path main = ${cubitAddProduct.mainImageProduct}");
+                    cubitAddImage.getImageFile(numBox: 1);
               },
               isForMainImage: true,
               containerWidth: 400.w,
@@ -62,9 +59,7 @@ class CustomCardToAllImages extends StatelessWidget {
                   onTapPickImage: () async {
                     await cubitAddImage.pickImageFromGallery(numPartImage: 2);
                     cubitAddProduct.subOneImageProductFile =
-                        cubitAddImage.getIamgeFile(numBox: 2);
-                    print(
-                        "image path sub 1 = ${cubitAddProduct.subOneImageProduct}");
+                        cubitAddImage.getImageFile(numBox: 2);
                   },
                   onPressed: () {},
                 ),
@@ -74,9 +69,7 @@ class CustomCardToAllImages extends StatelessWidget {
                   onTapPickImage: () async {
                     await cubitAddImage.pickImageFromGallery(numPartImage: 3);
                     cubitAddProduct.subTwoImageProductFile =
-                        cubitAddImage.getIamgeFile(numBox: 3);
-                    print(
-                        "image path sub 2 = ${cubitAddProduct.subTwoImageProduct}");
+                        cubitAddImage.getImageFile(numBox: 3);
                   },
                   onPressed: () {},
                 ),
@@ -86,9 +79,7 @@ class CustomCardToAllImages extends StatelessWidget {
                   onTapPickImage: () async {
                     await cubitAddImage.pickImageFromGallery(numPartImage: 4);
                     cubitAddProduct.subThreeImageProductFile =
-                        cubitAddImage.getIamgeFile(numBox: 4);
-                    print(
-                        "image path sub 3 = ${cubitAddProduct.subThreeImageProduct}");
+                        cubitAddImage.getImageFile(numBox: 4);
                   },
                   onPressed: () {},
                 ),

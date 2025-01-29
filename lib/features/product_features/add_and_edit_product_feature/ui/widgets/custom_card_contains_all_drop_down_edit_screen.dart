@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
-import 'package:sindbad_management_app/core/styles/text_style.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/section_title_widget.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/brand_entity.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/sub_category_entity.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/brands_by_main_category_id/cubit/get_brands_by_category_id_cubit.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/edit_product_from_store/edit_product_from_store_cubit.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/custom_dropdown_widget.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/custom_dropdown_widget_for_state_cubit.dart';
-
 import '../manger/cubit/sub_category/sub_category_cubit.dart';
 
 class CustomCardContainsAllDropDownEditScreen extends StatefulWidget {
@@ -47,23 +44,13 @@ class _CustomCardContainsAllDropDownEditScreenState
     super.initState();
     context
         .read<GetCategoryNamesCubit>()
-        .getMainAndSubCategory(filterType: 2, pageNumper: 1, pageSize: 100);
+        .getMainAndSubCategory(filterType: 2, pageNumber: 1, pageSize: 100);
     context.read<GetBrandsByCategoryIdCubit>().getBrandsByMainCategoryId(
         mainCategoryId: widget.initialMainIdToProduct);
   }
 
-  // late GetCategoryNamesCubit cubitCategories;
-  //     late EditProductFromStoreCubit cubitEditProduct = context.read<EditProductFromStoreCubit>();
-
   @override
   Widget build(BuildContext context) {
-    // shortcut
-    // final cubitCategories = context.read<GetCategoryNamesCubit>();
-    // final cubitEditProduct = context.read<EditProductFromStoreCubit>();
-    // trigger getMainAndSubCategory
-    // cubitCategories.getMainAndSubCategory(
-    //     filterType: 2, pageNumper: 1, pageSize: 100);
-
     return Container(
       width: double.maxFinite,
       decoration: BoxDecoration(
@@ -78,19 +65,9 @@ class _CustomCardContainsAllDropDownEditScreenState
           SizedBox(height: 20.h),
           // =======================   Main Category  ========================
           BlocBuilder<GetCategoryNamesCubit, GetCategoryNamesState>(
-            // listenWhen: (previous, current) =>
-            //     current is GetCategoryNamesSuccess,
-            // listener: (context, state) {
-            //   // final cubitEditProduct =
-            //   //     context.read<EditProductFromStoreCubit>();
-            //   if (cubitEditProduct.isInitialDropDown) {
-            //     cubitEditProduct.isInitialDropDown = false;
-            //   }
-            // },
             builder: (context, state) {
               if (state is GetCategoryNamesInitial) {
                 return CustomDropdownWidget(
-                  // enabled: false,
                   textTitle: 'أختر الفئة',
                   hintText: "قم بإختيار الفئة المناسبة",
                   items: [widget.initialMainNameToProduct],
@@ -106,14 +83,12 @@ class _CustomCardContainsAllDropDownEditScreenState
                       : null,
                   textTitle: 'أختر الفئة',
                   hintText: "قم بإختيار الفئة المناسبة",
-                  // initialItem:cubitCategories.is,
                   items: state.categoryAndSubCategoryNames.isNotEmpty
                       ? state.categoryAndSubCategoryNames
                           .map((category) => category.mainCategoryName)
                           .toList()
                       : [],
                   onChanged: (value) {
-                    //
                     if (cubitEditProduct.isInitialDropDown) {
                       cubitEditProduct.selectedMainCategoryId =
                           widget.initialMainIdToProduct;
@@ -128,7 +103,7 @@ class _CustomCardContainsAllDropDownEditScreenState
                             widget.initialMainIdToProduct,
                       );
                       context.read<SubCategoryCubit>().updateSubCategories(
-                          SubCategory: selectedMainCategory.subCategory);
+                          subCategories: selectedMainCategory.subCategory);
                       // trigger this line after finish line before it
                       WidgetsBinding.instance.addPostFrameCallback((_) {
                         cubitEditProduct.isInitialDropDown = false;
@@ -153,7 +128,7 @@ class _CustomCardContainsAllDropDownEditScreenState
                       );
                       // selectedSubCategories = contains just sub categories for mainCategories specific by ID
                       context.read<SubCategoryCubit>().updateSubCategories(
-                          SubCategory: selectedMainCategory.subCategory);
+                          subCategories: selectedMainCategory.subCategory);
                       //   // save IdMainCategory in cubit class
                       //   cubitCategories
                       //       .updateSubCategories(selectedMainCategoryId);
@@ -220,7 +195,6 @@ class _CustomCardContainsAllDropDownEditScreenState
                   if (selectedIndex != -1) {
                     cubitEditProduct.selectedSubCategoryId =
                         state[selectedIndex].subCategoryId;
-                    cubitEditProduct.testDropDown();
                   } else {
                     print("======  error in sub category");
                   }
@@ -266,11 +240,6 @@ class _CustomCardContainsAllDropDownEditScreenState
                 final List<BrandEntity> brands = state.brands;
                 brandsWithNoFound.addAll(brands);
 
-                // set [selectedBrandId] auto first id duo [initialItem]
-                // cubitAddProduct.selectedBrandId =
-                //     brands.isNotEmpty ? brands.first.brandId : null;
-                // for test
-                cubitEditProduct.testDropDown();
                 return CustomDropdownWidget(
                   enabled: true,
                   textTitle: 'أختر اسم البراند',
