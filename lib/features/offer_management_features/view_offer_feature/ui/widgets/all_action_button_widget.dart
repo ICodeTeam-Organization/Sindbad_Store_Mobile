@@ -3,15 +3,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/action_button_widget.dart';
 
 class AllActionButtonWidget extends StatelessWidget {
-  final String isActiveTitleButton;
   final bool isActive;
-  final void Function() onUpdateTap;
-  final void Function() onChangeStatusTap;
-  final void Function() onDeleteTap;
+  final String? isActiveTitleButton;
+  final void Function()? onUpdateTap;
+  final void Function()? onChangeStatusTap;
+  final void Function()? onDeleteTap;
   const AllActionButtonWidget({
     super.key,
-    required this.isActiveTitleButton,
     required this.isActive,
+    required this.isActiveTitleButton,
     required this.onUpdateTap,
     required this.onChangeStatusTap,
     required this.onDeleteTap,
@@ -30,13 +30,13 @@ class AllActionButtonWidget extends StatelessWidget {
         SizedBox(height: 5.h),
         isActive
             ? ActionButtonWidget(
-                title: isActiveTitleButton,
+                title: isActiveTitleButton!,
                 iconPath: "assets/stop.svg",
                 isSolid: false,
                 onTap: onChangeStatusTap,
               )
             : ActionButtonWidget(
-                title: isActiveTitleButton,
+                title: isActiveTitleButton!,
                 iconPath: "assets/active.svg",
                 isSolid: false,
                 onTap: onChangeStatusTap,

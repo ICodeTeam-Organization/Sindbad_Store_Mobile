@@ -30,7 +30,9 @@ class TextDiscountPricesWidget extends StatelessWidget {
         Text(
           content,
           style: KTextStyle.textStyle13.copyWith(
-            color: AppColors.greyDark,
+            color: isBeforeDiscount == true
+                ? AppColors.greyDark
+                : AppColors.primary,
             decoration:
                 isBeforeDiscount == true ? TextDecoration.lineThrough : null,
           ),

@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/functions/view_offer_functions.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/all_action_button_widget.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/container_status_widget.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/remaining_notice_widget.dart';
@@ -46,6 +45,7 @@ class CardOfferWidget extends StatefulWidget {
 }
 
 class _CardOfferWidgetState extends State<CardOfferWidget> {
+  DateTime dateNow = DateTime.now();
   int result = 0;
   String specialCase = '';
   dynamic remainingDays;
@@ -55,14 +55,61 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
   @override
   void initState() {
     super.initState();
-    ViewOfferFunctions.offerActiveTitleButton(
-        widget.isActive, isActiveTitleButton!);
-    ViewOfferFunctions.offerTypetitle(widget.typeName, offerTypeTitle!,
-        widget.discountRate!, widget.numberToBuy!, widget.numberToGet!);
-    ViewOfferFunctions.calculateRemainigDays(
-        widget.endOffer, isRemainingDays!, result);
-    ViewOfferFunctions.specialCasesInRemainigDays(
-        result, specialCase, remainingDays);
+    offerActiveTitleButton();
+    offerTypetitle();
+    calculateRemainigDays();
+    specialCasesInRemainigDays();
+  }
+
+  void offerActiveTitleButton() {
+    if (widget.isActive == true) {
+      isActiveTitleButton = 'ايقاف عرض';
+    } else {
+      isActiveTitleButton = 'تنشيط عرض';
+    }
+  }
+
+  void offerTypetitle() {
+    if (widget.typeName == 'Percent') {
+      offerTypeTitle = '${widget.discountRate}% من إجمالي الخصم';
+    } else if (widget.typeName == 'Bonus') {
+      offerTypeTitle =
+          ' اشتري ${widget.numberToBuy} واحصل على ${widget.numberToGet}';
+    }
+  }
+
+  void calculateRemainigDays() {
+    dateNow = dateNow.toUtc();
+    if (dateNow.year <= widget.endOffer.year) {
+      if (dateNow.day == 31) {
+        result = ((31 + widget.endOffer.day) - dateNow.day) +
+            (30 * ((11 + widget.endOffer.month) - dateNow.month)) +
+            (360 * ((widget.endOffer.year - 1) - dateNow.year));
+      }
+      result = ((30 + widget.endOffer.day) - dateNow.day) +
+          (30 * ((11 + widget.endOffer.month) - dateNow.month)) +
+          (360 * ((widget.endOffer.year - 1) - dateNow.year));
+      isRemainingDays = true;
+      if (result <= 0) {
+        isRemainingDays = false;
+      }
+    }
+  }
+
+  void specialCasesInRemainigDays() {
+    if (result == 1) {
+      specialCase = '';
+      remainingDays = 'يوم واحد ';
+    } else if (result == 2) {
+      specialCase = '';
+      remainingDays = 'يومين ';
+    } else if (result > 2 && result < 11) {
+      specialCase = ' أيام ';
+      remainingDays = result;
+    } else if (result > 10) {
+      specialCase = ' يوم ';
+      remainingDays = result;
+    }
   }
 
   @override
@@ -187,11 +234,11 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
                       ),
                       SizedBox(height: 10.h),
                       AllActionButtonWidget(
-                        isActiveTitleButton: isActiveTitleButton!,
                         isActive: widget.isActive,
-                        onUpdateTap: widget.onUpdateTap!,
-                        onChangeStatusTap: widget.onChangeStatusTap!,
-                        onDeleteTap: widget.onDeleteTap!,
+                        isActiveTitleButton: isActiveTitleButton,
+                        onUpdateTap: widget.onUpdateTap,
+                        onChangeStatusTap: widget.onChangeStatusTap,
+                        onDeleteTap: widget.onDeleteTap,
                       )
                     ],
                   ),

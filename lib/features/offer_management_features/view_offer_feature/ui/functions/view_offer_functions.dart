@@ -7,8 +7,13 @@ class ViewOfferFunctions {
     }
   }
 
-  static offerTypetitle(String typeName, String offerTypeTitle,
-      num discountRate, num numberToBuy, num numberToGet) {
+  static offerTypetitle(
+    String typeName,
+    String offerTypeTitle,
+    num discountRate,
+    num numberToBuy,
+    num numberToGet,
+  ) {
     if (typeName == 'Percent') {
       offerTypeTitle = '$discountRate% من إجمالي الخصم';
     } else if (typeName == 'Bonus') {
@@ -17,7 +22,10 @@ class ViewOfferFunctions {
   }
 
   static calculateRemainigDays(
-      DateTime endOffer, bool isRemainingDays, int result) {
+    DateTime endOffer,
+    bool isRemainingDays,
+    int result,
+  ) {
     DateTime dateNow = DateTime.now();
     dateNow = dateNow.toUtc();
     if (dateNow.year <= endOffer.year) {
@@ -37,7 +45,10 @@ class ViewOfferFunctions {
   }
 
   static specialCasesInRemainigDays(
-      int result, String specialCase, dynamic remainingDays) {
+    int result,
+    String specialCase,
+    dynamic remainingDays,
+  ) {
     if (result == 1) {
       specialCase = '';
       remainingDays = 'يوم واحد ';
