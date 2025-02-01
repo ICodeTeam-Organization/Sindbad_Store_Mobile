@@ -39,7 +39,7 @@ class AddProductToStoreCubit extends Cubit<AddProductToStoreState> {
   List<TextEditingController> keys = [];
   List<TextEditingController> values = [];
 
-  void addProductToStore() async {
+  Future<void> addProductToStore() async {
     emit(AddProductToStoreLoading()); // ======== emit ==========
     AddProductToStoreParams params = AddProductToStoreParams(
       name: nameProductController.text,

@@ -3,20 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/store_primary_button.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_attribute_product.dart/add_attribute_product_dart_cubit.dart';
 import '../../../../../core/styles/Colors.dart';
+import '../manger/cubit/attribute_product/attribute_product_cubit.dart';
 import '../manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
 
 class TwoButtonInDownAddProduct extends StatelessWidget {
   final AddProductToStoreCubit cubitAddProduct;
-  final AddAttributeProductDartCubit cubitAddAttribute;
 
   final VoidCallback? onSuccessCallback;
   const TwoButtonInDownAddProduct({
     super.key,
     this.onSuccessCallback,
     required this.cubitAddProduct,
-    required this.cubitAddAttribute,
   });
 
   @override
@@ -44,12 +42,16 @@ class TwoButtonInDownAddProduct extends StatelessWidget {
           builder: (context, state) {
             return StorePrimaryButton(
               isLoading: state is AddProductToStoreLoading,
-              onTap: () {
-                cubitAddProduct.keys =
-                    cubitAddAttribute.keys; //  important before test
-                cubitAddProduct.values =
-                    cubitAddAttribute.values; //  important before test
-                cubitAddProduct.addProductToStore();
+              onTap: () async {
+                cubitAddProduct.keys = context
+                    .read<AttributeProductCubit>()
+                    .state
+                    .keys; //  important before test
+                cubitAddProduct.values = context
+                    .read<AttributeProductCubit>()
+                    .state
+                    .values; //  important before test
+                await cubitAddProduct.addProductToStore();
               },
               title: "تأكيد",
               width: 200.w,

@@ -6,7 +6,7 @@ import '../../data/repos/add_and_edit_product_store_repo_impl.dart';
 import '../../domain/entities/edit_product_entities/product_details_entity.dart';
 import '../../domain/use_cases/get_brands_by_main_category_id_use_case.dart';
 import '../../domain/use_cases/get_main_and_sub_category_use_case.dart';
-import '../manger/cubit/add_attribute_product.dart/add_attribute_product_dart_cubit.dart';
+import '../manger/cubit/attribute_product/attribute_product_cubit.dart';
 import '../manger/cubit/brands_by_main_category_id/cubit/get_brands_by_category_id_cubit.dart';
 import '../manger/cubit/edit_product_from_store/edit_product_from_store_cubit.dart';
 import '../manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
@@ -38,8 +38,8 @@ class EditProductScreen extends StatelessWidget {
                   GetBrandsByCategoryIdCubit(GetBrandsByMainCategoryIdUseCase(
                     getit.get<AddAndEditProductStoreRepoImpl>(),
                   ))),
-          BlocProvider(create: (context) => AddAttributeProductDartCubit()),
           BlocProvider(create: (context) => SubCategoryCubit()),
+          BlocProvider(create: (context) => AttributeProductCubit()),
         ],
         child: EditProductScreenBody(
           productDetailsEntity: productDetailsEntity,

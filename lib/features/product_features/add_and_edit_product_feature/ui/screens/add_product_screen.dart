@@ -6,7 +6,7 @@ import '../../data/repos/add_and_edit_product_store_repo_impl.dart';
 import '../../domain/use_cases/add_product_to_store_use_case.dart';
 import '../../domain/use_cases/get_brands_by_main_category_id_use_case.dart';
 import '../../domain/use_cases/get_main_and_sub_category_use_case.dart';
-import '../manger/cubit/add_attribute_product.dart/add_attribute_product_dart_cubit.dart';
+import '../manger/cubit/attribute_product/attribute_product_cubit.dart';
 import '../manger/cubit/add_images/add_image_to_product_add_cubit.dart';
 import '../manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
 import '../manger/cubit/brands_by_main_category_id/cubit/get_brands_by_category_id_cubit.dart';
@@ -42,8 +42,7 @@ class AddProductScreen extends StatelessWidget {
                           GetBrandsByMainCategoryIdUseCase(
                         getit.get<AddAndEditProductStoreRepoImpl>(),
                       ))),
-              BlocProvider(create: (context) => AddAttributeProductDartCubit()),
-              //
+              BlocProvider(create: (context) => AttributeProductCubit()),
             ],
             child: AddProductScreenBody(onSuccessCallback: onSuccessCallback),
           ),

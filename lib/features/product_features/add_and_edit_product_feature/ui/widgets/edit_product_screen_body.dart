@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_app_bar.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/custom_card_product_attribute_for_edit_product.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/custom_card_product_images_for_edit_product.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/custom_card_product_info_for_edit_product.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/two_button_in_down_for_edit_product.dart';
 import '../../domain/entities/edit_product_entities/product_details_entity.dart';
 import '../../domain/entities/edit_product_entities/product_images_entity.dart';
-import '../manger/cubit/add_attribute_product.dart/add_attribute_product_dart_cubit.dart';
+import '../manger/cubit/attribute_product/attribute_product_cubit.dart';
 import '../manger/cubit/edit_product_from_store/edit_product_from_store_cubit.dart';
 import 'custom_card_contains_all_drop_down_edit_screen.dart';
+import 'custom_card_to_all_attributes_fields.dart';
 
 class EditProductScreenBody extends StatefulWidget {
   final ProductDetailsEntity productDetailsEntity;
@@ -25,16 +25,29 @@ class EditProductScreenBody extends StatefulWidget {
 }
 
 class _EditProductScreenBodyState extends State<EditProductScreenBody> {
-  late AddAttributeProductDartCubit cubitAttribute;
+  late AttributeProductCubit cubitAttribute;
   late EditProductFromStoreCubit cubitEditProduct;
   late TextEditingController _priceProductController = TextEditingController();
   late TextEditingController _descriptionProductController =
       TextEditingController();
   late List<ProductImagesEntity> subImagesProduct;
 
+  // initialize attribute product from getProductDetails to cubit Attribute
+  void initializeAttribute() {
+    final List<String> textKeys = widget
+        .productDetailsEntity.attributesWithValuesProduct
+        .map((attribute) => attribute.attributeNameProduct)
+        .toList();
+    final List<String> textValues = widget
+        .productDetailsEntity.attributesWithValuesProduct
+        .map((attribute) => attribute.valueProduct.first)
+        .toList();
+    cubitAttribute.initialField(textKeys: textKeys, textValues: textValues);
+  }
+
   @override
   void initState() {
-    cubitAttribute = context.read<AddAttributeProductDartCubit>();
+    cubitAttribute = context.read<AttributeProductCubit>();
     cubitEditProduct = context.read<EditProductFromStoreCubit>();
 
     _priceProductController = TextEditingController(
@@ -47,18 +60,7 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
         basicSubImages: widget.productDetailsEntity.imagesProduct
             .map((image) => image.imageUrlProduct)
             .toList());
-    // loop to add attribute product from getProductDetails to cubit Attribute
-    for (var attribute
-        in widget.productDetailsEntity.attributesWithValuesProduct) {
-      cubitAttribute.keys
-          .add(TextEditingController(text: attribute.attributeNameProduct));
-      cubitAttribute.values.add(
-        TextEditingController(
-            text: attribute.valueProduct.isNotEmpty
-                ? attribute.valueProduct.first
-                : ""),
-      );
-    }
+    initializeAttribute();
 
     super.initState();
   }
@@ -125,8 +127,7 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                       ),
                       SizedBox(height: 26.h),
                       // ====================  Attribute card =============================
-                      CustomCardProductAttributeForEditProduct(
-                          cubitAttribute: cubitAttribute),
+                      CustomCardToAllAttributesFields(),
                     ],
                   ),
                 ),

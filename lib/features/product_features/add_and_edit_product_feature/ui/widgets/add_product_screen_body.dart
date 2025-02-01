@@ -7,8 +7,6 @@ import 'package:sindbad_management_app/features/product_features/add_and_edit_pr
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/custom_card_to_all_images.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/custom_card_to_all_text_fields.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/two_button_in_down_add_product.dart';
-
-import '../manger/cubit/add_attribute_product.dart/add_attribute_product_dart_cubit.dart';
 import '../manger/cubit/add_images/add_image_to_product_add_cubit.dart';
 import '../manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
 import '../manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
@@ -29,14 +27,12 @@ class _AddProductScreenBodyState extends State<AddProductScreenBody> {
   late AddProductToStoreCubit cubitAddProduct;
   late AddImageToProductAddCubit cubitAddImage;
   late GetCategoryNamesCubit getCategoryNamesCubit;
-  late AddAttributeProductDartCubit addAttributeProductDartCubit;
 
   @override
   void initState() {
     cubitAddProduct = context.read<AddProductToStoreCubit>();
     cubitAddImage = context.read<AddImageToProductAddCubit>();
     getCategoryNamesCubit = context.read<GetCategoryNamesCubit>();
-    addAttributeProductDartCubit = context.read<AddAttributeProductDartCubit>();
     context.read<GetCategoryNamesCubit>().getMainAndSubCategory(
         filterType: 2,
         pageNumber: 1,
@@ -84,9 +80,7 @@ class _AddProductScreenBodyState extends State<AddProductScreenBody> {
                 ),
                 SizedBox(height: 26.h),
                 //  ================= for Attributes Fields =========
-                CustomCardToAllAttributesFields(
-                  cubitAttribute: addAttributeProductDartCubit,
-                ),
+                CustomCardToAllAttributesFields(),
               ],
             ),
           ),
@@ -97,7 +91,6 @@ class _AddProductScreenBodyState extends State<AddProductScreenBody> {
           child: TwoButtonInDownAddProduct(
             onSuccessCallback: widget.onSuccessCallback,
             cubitAddProduct: cubitAddProduct,
-            cubitAddAttribute: addAttributeProductDartCubit,
           ),
         )
       ],

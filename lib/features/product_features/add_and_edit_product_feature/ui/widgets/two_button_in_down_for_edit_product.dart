@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/store_primary_button.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/add_attribute_product.dart/add_attribute_product_dart_cubit.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/edit_product_from_store/edit_product_from_store_cubit.dart';
+
+import '../manger/cubit/attribute_product/attribute_product_cubit.dart';
 
 class TwoButtonInDownForEditProduct extends StatelessWidget {
   const TwoButtonInDownForEditProduct({
@@ -21,7 +22,7 @@ class TwoButtonInDownForEditProduct extends StatelessWidget {
   final int idProduct;
   final TextEditingController _priceProductController;
   final TextEditingController _descriptionProductController;
-  final AddAttributeProductDartCubit cubitAttribute;
+  final AttributeProductCubit cubitAttribute;
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +57,8 @@ class TwoButtonInDownForEditProduct extends StatelessWidget {
                     productId: idProduct,
                     priceProductController: _priceProductController,
                     descriptionProductController: _descriptionProductController,
-                    keys: cubitAttribute.keys,
-                    values: cubitAttribute.values,
+                    keys: cubitAttribute.state.keys,
+                    values: cubitAttribute.state.values,
                   );
                 },
               );
