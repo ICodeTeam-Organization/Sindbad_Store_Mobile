@@ -25,7 +25,7 @@ class CustomBoxAddImageForAddAndEditProductScreen extends StatefulWidget {
   final String titleUnderBox;
   final ValueChanged<File?> onImageSelected; // Callback function
 
-   const CustomBoxAddImageForAddAndEditProductScreen.CustomBoxAddImageForAddAndEditProductScreen({
+  const CustomBoxAddImageForAddAndEditProductScreen.CustomBoxAddImageForAddAndEditProductScreen({
     super.key,
     required this.boxNumber,
     required this.initialImageUrl,
@@ -69,52 +69,53 @@ class _CustomBoxAddImageForAddAndEditProductScreenState
               color: AppColors.primary,
               strokeWidth: 1.w,
               dashPattern: [16, 3],
-              child: Container(
-                width: widget.containerWidth.w,
-                height: widget.upContainerHeight.h,
-                decoration: BoxDecoration(
-                  color: AppColors.primaryOpacity,
-                  borderRadius: BorderRadius.circular(10.0.r),
-                ),
-                child: Center(
-                  child: GestureDetector(
-                      onTap: () async {
-                        final XFile? galleryImage = await ImagePicker()
-                            .pickImage(source: ImageSource.gallery);
-                        if (galleryImage != null) {
-                          selectedImage = File(galleryImage.path);
-                          initialImageUrl = null;
-                          widget.onImageSelected(
-                              selectedImage); // Return image to parent
-                          setState(() {});
-                        }
-                      },
-                      child: (selectedImage != null || initialImageUrl != null)
-                          ? AfterSelectedImageForAddAndEditScreen(
-                              boxNumber: widget.boxNumber,
-                              initialImageUrl: initialImageUrl,
-                              imageFile: selectedImage,
-                              containerWidth: widget.containerWidth.w,
-                              upContainerHeight: widget.upContainerHeight.h,
-                              onTapDeleteImage: () {
-                                selectedImage = null;
-                                initialImageUrl = null;
+              child: GestureDetector(
+                onTap: () async {
+                  final XFile? galleryImage = await ImagePicker()
+                      .pickImage(source: ImageSource.gallery);
+                  if (galleryImage != null) {
+                    selectedImage = File(galleryImage.path);
+                    initialImageUrl = null;
+                    widget.onImageSelected(
+                        selectedImage); // Return image to parent
+                    setState(() {});
+                  }
+                },
+                child: Container(
+                  width: widget.containerWidth.w,
+                  height: widget.upContainerHeight.h,
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryOpacity,
+                    borderRadius: BorderRadius.circular(10.0.r),
+                  ),
+                  child: Center(
+                    child: (selectedImage != null || initialImageUrl != null)
+                        ? AfterSelectedImageForAddAndEditScreen(
+                            boxNumber: widget.boxNumber,
+                            initialImageUrl: initialImageUrl,
+                            imageFile: selectedImage,
+                            containerWidth: widget.containerWidth.w,
+                            upContainerHeight: widget.upContainerHeight.h,
+                            onTapDeleteImage: () {
+                              selectedImage = null;
+                              initialImageUrl = null;
 
-                                setState(() {});
+                              setState(() {});
 
-                                if (widget.cubitEditProduct != null) {
-                                  widget.cubitEditProduct!.deleteImageFromCubit(
-                                      boxNum: widget.boxNumber);
-                                }
-                                if (widget.cubitAddProduct != null) {
-                                  widget.cubitAddProduct!.deleteImageFromCubit(
-                                      boxNum: widget.boxNumber);
-                                }
-                              },
-                            )
-                          : widget.boxNumber == 1 // if == mainImage
-                              ? const ButtonDesignAddImageMainProduct()
-                              : const ImageForSubImages()),
+                              if (widget.cubitEditProduct != null) {
+                                widget.cubitEditProduct!.deleteImageFromCubit(
+                                    boxNum: widget.boxNumber);
+                              }
+                              if (widget.cubitAddProduct != null) {
+                                widget.cubitAddProduct!.deleteImageFromCubit(
+                                    boxNum: widget.boxNumber);
+                              }
+                            },
+                          )
+                        : widget.boxNumber == 1 // if == mainImage
+                            ? const ButtonDesignAddImageMainProduct()
+                            : const ImageForSubImages(),
+                  ),
                 ),
               ),
             ),
