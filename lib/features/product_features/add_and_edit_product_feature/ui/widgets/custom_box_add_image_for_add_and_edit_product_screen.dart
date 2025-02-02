@@ -1,20 +1,22 @@
 import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
+import '../manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
 import '../manger/cubit/edit_product_from_store/edit_product_from_store_cubit.dart';
-import 'after_selected_image_for_edit_screen.dart';
+import 'after_selected_image_for_add_and_edit_screen.dart';
 import 'button_design_add_image_main_product_widget.dart';
 import 'design_for_title_under_image_widget.dart';
 import 'image_for_sub_images_widget.dart';
 
 // ignore: must_be_immutable
-class CustomBoxAddImageForEditProductScreen extends StatefulWidget {
+class CustomBoxAddImageForAddAndEditProductScreen extends StatefulWidget {
   final int boxNumber;
   final String? initialImageUrl;
+  final EditProductFromStoreCubit? cubitEditProduct;
+  final AddProductToStoreCubit? cubitAddProduct;
   final double containerWidth;
   final double mainContainerHeight;
   final double upContainerHeight;
@@ -23,7 +25,7 @@ class CustomBoxAddImageForEditProductScreen extends StatefulWidget {
   final String titleUnderBox;
   final ValueChanged<File?> onImageSelected; // Callback function
 
-  const CustomBoxAddImageForEditProductScreen({
+   const CustomBoxAddImageForAddAndEditProductScreen.CustomBoxAddImageForAddAndEditProductScreen({
     super.key,
     required this.boxNumber,
     required this.initialImageUrl,
@@ -34,15 +36,17 @@ class CustomBoxAddImageForEditProductScreen extends StatefulWidget {
     this.actionButtonText = "إضافة صورة",
     this.titleUnderBox = "صورة المنتج",
     required this.onImageSelected,
+    this.cubitEditProduct,
+    this.cubitAddProduct,
   });
 
   @override
-  State<CustomBoxAddImageForEditProductScreen> createState() =>
-      _CustomBoxAddImageForEditProductScreenState();
+  State<CustomBoxAddImageForAddAndEditProductScreen> createState() =>
+      _CustomBoxAddImageForAddAndEditProductScreenState();
 }
 
-class _CustomBoxAddImageForEditProductScreenState
-    extends State<CustomBoxAddImageForEditProductScreen> {
+class _CustomBoxAddImageForAddAndEditProductScreenState
+    extends State<CustomBoxAddImageForAddAndEditProductScreen> {
   String? initialImageUrl;
   File? selectedImage;
   @override
@@ -53,8 +57,6 @@ class _CustomBoxAddImageForEditProductScreenState
 
   @override
   Widget build(BuildContext context) {
-    final EditProductFromStoreCubit cubitEditProduct =
-        context.read<EditProductFromStoreCubit>();
     return SizedBox(
       width: widget.containerWidth.w,
       height: widget.mainContainerHeight.h,
@@ -88,7 +90,7 @@ class _CustomBoxAddImageForEditProductScreenState
                         }
                       },
                       child: (selectedImage != null || initialImageUrl != null)
-                          ? AfterSelectedImageForEditScreen(
+                          ? AfterSelectedImageForAddAndEditScreen(
                               boxNumber: widget.boxNumber,
                               initialImageUrl: initialImageUrl,
                               imageFile: selectedImage,
@@ -97,9 +99,17 @@ class _CustomBoxAddImageForEditProductScreenState
                               onTapDeleteImage: () {
                                 selectedImage = null;
                                 initialImageUrl = null;
-                                cubitEditProduct.deleteImageFromCubit(
-                                    boxNum: widget.boxNumber);
+
                                 setState(() {});
+
+                                if (widget.cubitEditProduct != null) {
+                                  widget.cubitEditProduct!.deleteImageFromCubit(
+                                      boxNum: widget.boxNumber);
+                                }
+                                if (widget.cubitAddProduct != null) {
+                                  widget.cubitAddProduct!.deleteImageFromCubit(
+                                      boxNum: widget.boxNumber);
+                                }
                               },
                             )
                           : widget.boxNumber == 1 // if == mainImage

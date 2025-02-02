@@ -20,11 +20,6 @@ class AddProductToStoreCubit extends Cubit<AddProductToStoreState> {
   TextEditingController descriptionProductController = TextEditingController();
 
   // all File for [ product Images ] ==> add product page
-  String? mainImageProduct;
-  String? subOneImageProduct;
-  String? subTwoImageProduct;
-  String? subThreeImageProduct;
-  // all File for [ product Images ] ==> add product page
   File? mainImageProductFile;
   File? subOneImageProductFile;
   File? subTwoImageProductFile;
@@ -38,6 +33,43 @@ class AddProductToStoreCubit extends Cubit<AddProductToStoreState> {
   // all fields for [ Attribute product ] ==> add product page
   List<TextEditingController> keys = [];
   List<TextEditingController> values = [];
+
+  // for set Image variables = value
+  void saveImageInCubit({required int boxNum, required File? file}) {
+    switch (boxNum) {
+      case 1:
+        mainImageProductFile = file;
+        break;
+      case 2:
+        subOneImageProductFile = file;
+        break;
+      case 3:
+        subTwoImageProductFile = file;
+        break;
+      case 4:
+        subThreeImageProductFile = file;
+        break;
+    }
+  }
+
+  // for set Image variables = value
+  void deleteImageFromCubit({required int boxNum}) {
+    switch (boxNum) {
+      case 1:
+        mainImageProductFile = null;
+        break;
+      case 2:
+        subOneImageProductFile = null;
+        break;
+      case 3:
+        subTwoImageProductFile = null;
+
+        break;
+      case 4:
+        subThreeImageProductFile = null;
+        break;
+    }
+  }
 
   Future<void> addProductToStore() async {
     emit(AddProductToStoreLoading()); // ======== emit ==========
