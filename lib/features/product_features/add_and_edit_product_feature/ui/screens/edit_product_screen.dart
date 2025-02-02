@@ -15,8 +15,10 @@ import '../widgets/edit_product_screen_body.dart';
 
 class EditProductScreen extends StatelessWidget {
   final ProductDetailsEntity productDetailsEntity;
+  final VoidCallback? onSuccessCallback;
 
-  const EditProductScreen({super.key, required this.productDetailsEntity});
+  const EditProductScreen(
+      {super.key, required this.productDetailsEntity, this.onSuccessCallback});
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +45,17 @@ class EditProductScreen extends StatelessWidget {
         ],
         child: EditProductScreenBody(
           productDetailsEntity: productDetailsEntity,
+          onSuccessCallback: onSuccessCallback,
         ));
   }
+}
+
+class EditProductExtraData {
+  final ProductDetailsEntity productDetails;
+  final VoidCallback onSuccess;
+
+  EditProductExtraData({
+    required this.productDetails,
+    required this.onSuccess,
+  });
 }

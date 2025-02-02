@@ -40,10 +40,17 @@ class TwoButtonInRow extends StatelessWidget {
               context.push(
                 AppRouter.storeRouters.kStoreAddProduct,
                 extra: () {
+                  // for refresh the store products after add new product
                   context
                       .read<GetStoreProductsWithFilterCubit>()
                       .getStoreProductsWitheFilter(
-                        storeProductsFilter: 0,
+                        storeProductsFilter: context
+                                .read<GetStoreProductsWithFilterCubit>()
+                                .currentStoreProductsFilter ??
+                            0,
+                        categoryId: context
+                            .read<GetStoreProductsWithFilterCubit>()
+                            .currentMainCategoryId,
                         pageNumber: 1,
                         pageSize: 100,
                       );

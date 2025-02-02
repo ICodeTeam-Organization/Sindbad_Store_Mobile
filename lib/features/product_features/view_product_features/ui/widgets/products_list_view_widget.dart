@@ -6,6 +6,7 @@ import '../../../../../core/styles/Colors.dart';
 import '../../../../../core/styles/text_style.dart';
 import '../../../../../core/utils/route.dart';
 import '../../../add_and_edit_product_feature/ui/manger/cubit/ProductDetails/product_details_cubit.dart';
+import '../../../add_and_edit_product_feature/ui/screens/edit_product_screen.dart';
 import '../../domain/entities/product_entity.dart';
 import '../manager/activate_products/activate_products_by_ids_cubit.dart';
 import '../manager/delete_product_by_id_from_store/delete_product_by_id_from_store_cubit.dart';
@@ -194,6 +195,9 @@ void showDeleteProductDialog({
                   .read<GetStoreProductsWithFilterCubit>()
                   .getStoreProductsWitheFilter(
                     storeProductsFilter: storeProductsFilter,
+                    categoryId: contextParent
+                        .read<GetStoreProductsWithFilterCubit>()
+                        .currentMainCategoryId,
                     pageNumber: 1,
                     pageSize: 100,
                   );
@@ -245,6 +249,9 @@ void showActivateOneOrMoreProductsDialog({
                   .read<GetStoreProductsWithFilterCubit>()
                   .getStoreProductsWitheFilter(
                     storeProductsFilter: storeProductsFilter,
+                    categoryId: contextParent
+                        .read<GetStoreProductsWithFilterCubit>()
+                        .currentMainCategoryId,
                     pageNumber: 1,
                     pageSize: 100,
                   );
@@ -290,8 +297,21 @@ void showGetProductDetailsDialog({
                 Navigator.of(dialogContext, rootNavigator: true).pop();
                 contextParent.push(
                   AppRouter.storeRouters.kStoreEditProduct,
-                  extra: state
-                      .productDetailsEntity, // Pass the product information here
+                  extra: EditProductExtraData(
+                    productDetails: state.productDetailsEntity,
+                    onSuccess: () {
+                      final cubitGetStoreProducts =
+                          contextParent.read<GetStoreProductsWithFilterCubit>();
+                      cubitGetStoreProducts.getStoreProductsWitheFilter(
+                        storeProductsFilter:
+                            cubitGetStoreProducts.currentStoreProductsFilter ??
+                                0,
+                        categoryId: cubitGetStoreProducts.currentMainCategoryId,
+                        pageNumber: 1,
+                        pageSize: 100,
+                      );
+                    },
+                  ),
                 );
               } else if (state is ProductDetailsFailure) {
                 Navigator.of(dialogContext, rootNavigator: true).pop();

@@ -26,17 +26,17 @@ class TwoButtonInDownAddProduct extends StatelessWidget {
         BlocConsumer<AddProductToStoreCubit, AddProductToStoreState>(
           listener: (context, state) {
             if (state is AddProductToStoreSuccess) {
-              context.pop();
+              // Trigger the callback to refresh parent screen
+              if (onSuccessCallback != null) {
+                onSuccessCallback!();
+              }
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                     content: Text(
                   'تم إضافة المنتج بنجاح!',
                 )),
               );
-              // Trigger the callback to refresh parent screen
-              if (onSuccessCallback != null) {
-                onSuccessCallback!();
-              }
+              Navigator.of(context).pop();
             }
           },
           builder: (context, state) {

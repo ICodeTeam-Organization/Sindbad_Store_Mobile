@@ -203,6 +203,9 @@ void showDisableOneOrMoreProductsDialog({
                   .read<GetStoreProductsWithFilterCubit>()
                   .getStoreProductsWitheFilter(
                     storeProductsFilter: storeProductsFilter,
+                    categoryId: parentContext
+                        .read<GetStoreProductsWithFilterCubit>()
+                        .currentMainCategoryId,
                     pageNumber: 1,
                     pageSize: 100,
                   );

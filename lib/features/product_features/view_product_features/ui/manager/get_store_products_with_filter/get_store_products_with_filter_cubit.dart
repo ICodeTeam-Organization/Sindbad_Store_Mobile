@@ -12,6 +12,11 @@ class GetStoreProductsWithFilterCubit
   final GetProductsByFilterUseCase getProductsByFilterUseCase;
 
   List<int> updatedProductsSelected = [];
+
+  // used for refresh the list
+  int? currentStoreProductsFilter;
+  int? currentMainCategoryId;
+
   // fun to refresh list check box state
   void updateCheckboxState(int index, bool value, int productId) {
     if (state is GetStoreProductsWithFilterSuccess) {
@@ -45,6 +50,10 @@ class GetStoreProductsWithFilterCubit
     int? categoryId,
   }) async {
     emit(GetStoreProductsWithFilterLoading());
+
+    currentStoreProductsFilter = storeProductsFilter;
+    currentMainCategoryId = categoryId;
+
     var params = ProductsByFilterParams(
         storeProductsFilter, pageNumber, pageSize, categoryId);
 

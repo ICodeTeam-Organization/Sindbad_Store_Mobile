@@ -14,10 +14,12 @@ import 'custom_card_to_all_attributes_fields.dart';
 
 class EditProductScreenBody extends StatefulWidget {
   final ProductDetailsEntity productDetailsEntity;
+  final VoidCallback? onSuccessCallback;
 
   const EditProductScreenBody({
     super.key,
     required this.productDetailsEntity,
+    this.onSuccessCallback,
   });
 
   @override

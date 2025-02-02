@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:flutter/widgets.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/screens/login.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/new_offer_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/update_offer_screen.dart';
@@ -17,7 +18,6 @@ import 'package:sindbad_management_app/features/product_features/add_and_edit_pr
 // import 'package:sindbad_management_app/store_app_features/stop_product/ui/screen/store_stop_prodect.dart';
 // import 'package:sindbad_management_app/store_app_features/stopped_product/ui/screen/store_stopped_product.dart';
 import '../../features/order_management _features/ui/screen/order_details.dart';
-import '../../features/product_features/add_and_edit_product_feature/domain/entities/edit_product_entities/product_details_entity.dart';
 import '../../features/product_features/add_and_edit_product_feature/ui/screens/edit_product_screen.dart';
 import '../../features/root.dart';
 
@@ -84,50 +84,25 @@ abstract class AppRouter {
 
       GoRoute(
         path: AppRouter.storeRouters.kStoreAddProduct,
-        builder: (context, state) => const AddProductScreen(),
+        builder: (context, state) {
+          final onSuccessCallback = state.extra as VoidCallback?;
+
+          return AddProductScreen(
+            onSuccessCallback: onSuccessCallback,
+          );
+        },
       ),
       GoRoute(
         path: AppRouter.storeRouters.kStoreEditProduct,
         builder: (context, state) {
-          final ProductDetailsEntity productDetailsEntity =
-              state.extra as ProductDetailsEntity;
-          // final int productId = state.extra as int;
-          ////
-          // final String productName = state.extra as String;
-          // final String price = state.extra as String;
-          // final String productNumber = state.extra as String;
-          // final String description = state.extra as String;
-          // final List<String> mainCategoryList = state.extra as List<String>;
-          // final String selectedCategory = state.extra as String;
-          // final List<String> subCategoryList = state.extra as List<String>;
-          // final String selectedSubCategory = state.extra as String;
-          // final List<String> brandList = state.extra as List<String>;
-          // final String selectedBrand = state.extra as String;
-          // final String mainImage = state.extra as String;
-          // final List<String> subImages = state.extra as List<String>;
-          // final Map<String, dynamic> properties = state.extra as Map<String, dynamic>;
-          ////
+          final extraData = state.extra as EditProductExtraData;
           return EditProductScreen(
-            productDetailsEntity: productDetailsEntity,
-            // productId: productId,
-            //////////
-            // productName: productName,
-            // price: price,
-            // productNumber: productNumber,
-            // description: description,
-            // mainCategoryList: mainCategoryList,
-            // selectedCategory: selectedCategory,
-            // subCategoryList: subCategoryList,
-            // selectedSubCategory: selectedSubCategory,
-            // brandList: brandList,
-            // selectedBrand: selectedBrand,
-            // mainImage: mainImage,
-            // subImages: subImages,
-            // properties: properties,
-            ////////
+            productDetailsEntity: extraData.productDetails,
+            onSuccessCallback: extraData.onSuccess,
           );
         },
       ),
+
       GoRoute(
         path: AppRouter.storeRouters
             .kOfferProductDetailsDiscount, // Use the parameterized path

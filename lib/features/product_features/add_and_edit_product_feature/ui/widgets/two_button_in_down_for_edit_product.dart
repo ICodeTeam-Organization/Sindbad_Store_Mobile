@@ -15,11 +15,13 @@ class TwoButtonInDownForEditProduct extends StatelessWidget {
     required TextEditingController priceProductController,
     required TextEditingController descriptionProductController,
     required this.cubitAttribute,
+    this.onSuccessCallback,
   })  : _priceProductController = priceProductController,
         _descriptionProductController = descriptionProductController;
 
   final EditProductFromStoreCubit cubitEditProduct;
   final int idProduct;
+  final VoidCallback? onSuccessCallback;
   final TextEditingController _priceProductController;
   final TextEditingController _descriptionProductController;
   final AttributeProductCubit cubitAttribute;
@@ -34,6 +36,9 @@ class TwoButtonInDownForEditProduct extends StatelessWidget {
           BlocConsumer<EditProductFromStoreCubit, EditProductFromStoreState>(
             listener: (context, state) {
               if (state is EditProductFromStoreSuccess) {
+                if (onSuccessCallback != null) {
+                  onSuccessCallback!(); // refresh product list
+                }
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('تم تعديل المنتج بنجاح!')),
                 );
