@@ -1,12 +1,10 @@
 import 'dart:io';
-
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/order_cancel_entity.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/order_detalis_entity.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/order_invoice_entity.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/order_shipping_entity.dart';
-
 import '../../../../core/errors/failure.dart';
 import '../../domain/entities/all_order_entity.dart';
 import '../../domain/repos/all_order_repo.dart';
@@ -19,7 +17,7 @@ class AllOrderRepoImpl extends AllOrderRepo {
     this.allOrderRemotDataSource,
   );
 
-  // basic fetch list Entity function
+  //! basic fetch list Entity function
   Future<Either<Failure, List<T>>> fetchData<T>(
       Future<List<T>> Function() fetchFunction) async {
     try {
@@ -34,8 +32,22 @@ class AllOrderRepoImpl extends AllOrderRepo {
     }
   }
 
-//////////////////////////////////
-  ///All Order
+  //! basic fetch Entity function
+  Future<Either<Failure, T>> fetchDataOrder<T>(
+      Future<T> Function() postDataFunction) async {
+    try {
+      var dataPosted = await postDataFunction();
+      return right(dataPosted);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      } else {
+        return left(ServerFailure(e.toString()));
+      }
+    }
+  }
+
+  //!All Order
   @override
   Future<Either<Failure, List<AllOrderEntity>>> fetchAllOrder({
     required bool isUrgen,
@@ -63,47 +75,15 @@ class AllOrderRepoImpl extends AllOrderRepo {
         ));
   }
 
-  //////////////////////////////////
-  ///Order Details
+  //! Order Details
   @override
-  Future<Either<Failure, List<OrderDetailsEntity>>> fetchOrderDetails({
-    required int packageId,
-    // required String orderNumber,
-    // required String billNumber,
-    // required String clock,
-    // required String date,
-    // required String itemNumber,
-    // required String paymentInfo,
-    // required String orderStatus,
-  }) {
-    return fetchData(() => allOrderRemotDataSource.fetchOrderDetails(
-          packageId,
-          // orderNumber,
-          // billNumber,
-          // clock,
-          // date,
-          // itemNumber,
-          // paymentInfo,
-          // orderStatus,
-        ));
+  Future<Either<Failure, List<OrderDetailsEntity>>> fetchOrderDetails(
+      {required int packageId}) {
+    return fetchData(
+        () => allOrderRemotDataSource.fetchOrderDetails(packageId));
   }
 
-  Future<Either<Failure, T>> fetchDataOrder<T>(
-      Future<T> Function() postDataFunction) async {
-    try {
-      var dataPosted = await postDataFunction();
-      return right(dataPosted);
-    } catch (e) {
-      if (e is DioException) {
-        return left(ServerFailure.fromDioError(e));
-      } else {
-        return left(ServerFailure(e.toString()));
-      }
-    }
-  }
-
-///////////////////////////////
-  ///Create Invoice
+  //! Create Invoice
   @override
   Future<Either<Failure, OrderInvoiceEntity>> fetchOrderInvoice(
       {required int packageId,
@@ -121,6 +101,7 @@ class AllOrderRepoImpl extends AllOrderRepo {
         invoiceType));
   }
 
+  //! Shipping Invoice
   @override
   Future<Either<Failure, OrderShippingEntity>> fetchOrderShipping(
       {required int packageId,
@@ -138,6 +119,7 @@ class AllOrderRepoImpl extends AllOrderRepo {
         numberParcels));
   }
 
+  //! Order Cancel
   @override
   Future<Either<Failure, OrderCancelEntity>> fetchOrderCancel(
       {required int orderId,

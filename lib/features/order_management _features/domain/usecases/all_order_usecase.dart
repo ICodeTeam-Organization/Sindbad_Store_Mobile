@@ -9,7 +9,6 @@ class AllOrderUsecase
   final AllOrderRepo allOrderRepo;
 
   AllOrderUsecase(this.allOrderRepo);
-
   @override
   Future<Either<Failure, List<AllOrderEntity>>> execute(
       AllOrderParam params) async {

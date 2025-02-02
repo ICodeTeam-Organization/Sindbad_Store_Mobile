@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/shared_widgets/new_widgets/date_text_field.dart';
 import '../../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
-import '../../manager/shipping/shipping_cubit.dart';
 import '../order_details_widget/build_dialog_content.dart';
 import '../order_details_widget/build_image_section.dart';
 import '../order_details_widget/build_info_row.dart';
-import 'another_company_field.dart';
 import 'build_info_row_add.dart';
 import 'drop_down_widget.dart';
 
@@ -18,7 +15,7 @@ TextEditingController anotherCompanyConroller = TextEditingController();
 TextEditingController anotherCompanyNumberConroller = TextEditingController();
 
 class BuildShippingDialogContent extends StatefulWidget {
-  BuildShippingDialogContent({
+  const BuildShippingDialogContent({
     super.key,
     this.isLoading = false,
     required this.firstTitle,
@@ -31,7 +28,6 @@ class BuildShippingDialogContent extends StatefulWidget {
   final String secondTitle;
   final String thierdTitle;
   final GestureTapCallback onPressedSure;
-  String anotherCompany = "";
 
   @override
   State<BuildShippingDialogContent> createState() =>
@@ -67,25 +63,13 @@ class _BuildShippingDialogContentState
             DropDownWidget(
               onDataChange: (value) {
                 setState(() {
-                  widget.anotherCompany = value;
+                  companyName = value;
                 });
               },
             ),
-            if (widget.anotherCompany == 'اخرى')
-              BuildInfoRow(
-                keyboardType: TextInputType.text,
-                title: 'اسم الشركة',
-                controller: anotherCompanyConroller,
-              ),
-            // AnotherCompanyField(
-            //   title: 'اسم الشركة',
-            //   controller: anotherCompanyConroller,
-            // ),
-            if (widget.anotherCompany == 'اخرى')
-              BuildInfoRow(
-                title: 'رقم التواصل',
-                controller: anotherCompanyNumberConroller,
-              ),
+            companyName == "اخرى"
+                ? buildAnotherCompany(companyName ?? '')
+                : Center(),
             SizedBox(
               height: 15.h,
             ),
@@ -107,6 +91,22 @@ class _BuildShippingDialogContentState
           ],
         ),
       ),
+    );
+  }
+
+  Column buildAnotherCompany(String companyName) {
+    return Column(
+      children: [
+        BuildInfoRow(
+          keyboardType: TextInputType.text,
+          title: 'اسم الشركة',
+          controller: anotherCompanyConroller,
+        ),
+        BuildInfoRow(
+          title: 'رقم التواصل',
+          controller: anotherCompanyNumberConroller,
+        ),
+      ],
     );
   }
 }

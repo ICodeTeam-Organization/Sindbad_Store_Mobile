@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/data/models/invoice/order_invoice_model.dart';
@@ -15,8 +14,7 @@ import '../models/shipping/order_shipping_model.dart';
 import '../models/orders_details_model/orders_details_model.dart';
 
 abstract class AllOrderRemotDataSource {
-  ///////////////////////////
-  ///All Order
+  //! All Order
   Future<List<AllOrderEntity>> fetchAllOrder(
     bool isUrgen,
     bool canceled,
@@ -29,20 +27,13 @@ abstract class AllOrderRemotDataSource {
     // String storeId,
     // String srearchKeyword,
   );
-  /////////////////////////////////
-  ///Order Deatails
+
+  //! Order Deatails
   Future<List<OrderDetailsEntity>> fetchOrderDetails(
     int packageId,
-    // String orderNumber,
-    // String billNumber,
-    // String clock,
-    // String date,
-    // String itemNumber,
-    // String paymentInfo,
-    // String orderStatus
   );
-  ///////////////////////////////
-  ///Order Invoice
+
+  //! Order Invoice
   Future<OrderInvoiceEntity> fetchOrderInvoice(
     int packageId,
     num invoiceAmount,
@@ -51,17 +42,17 @@ abstract class AllOrderRemotDataSource {
     DateTime invoiceDate,
     int invoiceType,
   );
-  ///////////////////
-  ///Order Shipping
+
+  //! Order Shipping
   Future<OrderShippingEntity> fetchOrderShipping(
-      int orderId,
+      int packageId,
       DateTime invoiceDate,
       int shippingNumber,
       String shippingCompany,
       File shippingImages,
       int numberParcels);
-  /////////////////////
-  ///Order Cancrl
+
+  //! Order Cancrl
   Future<OrderCancelEntity> fetchOrderCancel(
     int orderId,
     bool orderCancel,
@@ -92,11 +83,10 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
       // If data['data'] is not a list, add the message to the list
       entities.add(fromJson(data));
     }
-    print('this the list added in data source $entities');
-
     return entities;
   }
 
+  // Generic function to convert data to a list entities
   List<T> getListFromData<T>(
       Map<String, dynamic> data, T Function(Map<String, dynamic>) fromJson) {
     List<T> entities = [];
@@ -109,13 +99,10 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
       // If data['data'] is not a list, add the message to the list
       entities.add(fromJson(data));
     }
-    print('this the list added in data source $entities');
-
     return entities;
   }
 
-  /////////////////////
-  // عرض جميع الطلبات
+  //! عرض جميع الطلبات
   List<AllOrderEntity> getAllOrderList(Map<String, dynamic> data) {
     return getListItemsFromData(data, (item) => AllOrdersModel.fromJson(item));
   }
@@ -135,8 +122,6 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
   ) async {
     String? token = await getToken();
     final decodeToken = JwtDecoder.decode(token!);
-    print('decodeToken[Id]');
-    print(decodeToken['Id']);
     var data = await apiService.post(
       data: {
         'isUrgen': isUrgen,
@@ -156,12 +141,10 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
       },
     );
     List<AllOrderEntity> orders = getAllOrderList(data);
-    print(orders);
     return orders;
   }
 
-  //////////////////////////////////////////////////////////////
-  ///ارسال الفاتورة
+  //! ارسال الفاتورة
   @override
   Future<OrderInvoiceEntity> fetchOrderInvoice(
     int packageId,
@@ -174,7 +157,6 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
     String? token = await getToken();
     var data = await apiService.postRequestWithFileAndImage(
         endPoint:
-            // 'OrderDetailsInvoices/CreateOrderDetailsInvoice?orderId=$orderId&InvoiceNumber=$invoiceNumber&InvoiceAmount=$invoiceAmount&Date=$invoiceDate&InvoiceType=$invoiceType',
             'OrderDetailsInvoices/CreateOrderDetailsInvoice?packageId=$packageId&InvoiceNumber=$invoiceNumber&InvoiceAmount=$invoiceAmount&Date=$invoiceDate&InvoiceType=$invoiceDate',
         headers: {
           'Authorization': 'Bearer $token',
@@ -190,12 +172,10 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
           'ParcelNumber': '',
         });
     OrderInvoiceEntity invoice = OrderInvoiceModel.fromJson(data);
-    print(invoice);
     return invoice;
   }
 
-  //////////////////////////////////////////////
-  //عرض تفاصيل الطلب
+  //! عرض تفاصيل الطلب
   List<OrderDetailsEntity> fetchOrderDetailsList(Map<String, dynamic> data) {
     return getListFromData(data, (item) => OrdersDetailsModel.fromJson(item));
   }
@@ -203,13 +183,6 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
   @override
   Future<List<OrderDetailsEntity>> fetchOrderDetails(
     int packageId,
-    // String orderNumber,
-    // String billNumber,
-    // String clock,
-    // String date,
-    // String itemNumber,
-    // String paymentInfo,
-    // String orderStatus
   ) async {
     String? token = await getToken();
     var data = await apiService.post(
@@ -223,8 +196,7 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
     return orderDetails;
   }
 
-  /////////////////////
-  //شحن الطلب
+  // !شحن الطلب
   @override
   Future<OrderShippingEntity> fetchOrderShipping(
       int packageId,
@@ -236,7 +208,6 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
     String? token = await getToken();
     var data = await apiService.postRequestWithFileAndImage(
         endPoint:
-            // 'ShippingInformations/CreateShippingInformation?orderId=$orderId&Date=$invoiceDate&InvoiceNumber=$shippingNumber&CompanyName=$shippingCompany&ParcelNumber=$numberParcels',
             'ShippingInformations/CreateShippingInformation?PackageId=$packageId&Date=$invoiceDate&InvoiceNumber=$shippingNumber&CompanyName=$shippingCompany&ParcelNumber=$numberParcels',
         headers: {
           'Authorization': 'Bearer $token',
@@ -255,10 +226,10 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
           'ShopLocation': '',
         });
     OrderShippingEntity shipping = OrderShippingModel.fromJson(data);
-    print(shipping);
     return shipping;
   }
 
+  //! الغاء الطلب
   @override
   Future<OrderCancelEntity> fetchOrderCancel(
       int orderId, bool orderCancel, String reasonCancel) async {
@@ -272,7 +243,6 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
       'cancelReason': reasonCancel,
     });
     OrderCancelEntity cancel = OrderCancelModel.fromJson(data);
-    print(cancel);
     return cancel;
   }
 }

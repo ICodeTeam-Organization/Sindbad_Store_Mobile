@@ -36,16 +36,15 @@ class DropDownWidget extends StatelessWidget {
           closedHeaderPadding: EdgeInsets.all(7),
           items: _list,
           hintText: "",
-          // initialItem: _list[0],
           onChanged: (value) {
             companyName = value;
             onDataChange(value);
-            // log('changing value to: $companyName');
           },
           decoration: CustomDropdownDecoration(
-              closedBorderRadius: BorderRadius.circular(5),
-              closedFillColor: Colors.transparent,
-              closedBorder: Border.all(color: AppColors.grey)),
+            closedBorderRadius: BorderRadius.circular(5),
+            closedFillColor: Colors.transparent,
+            closedBorder: Border.all(color: AppColors.grey),
+          ),
         ),
         SizedBox(
           height: 5.h,

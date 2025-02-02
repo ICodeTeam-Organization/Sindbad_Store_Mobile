@@ -1,6 +1,5 @@
 part of 'shipping_cubit.dart';
 
-@immutable
 sealed class ShippingState {}
 
 final class ShippingInitial extends ShippingState {}

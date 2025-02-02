@@ -27,24 +27,6 @@ class CustomOrderPrintDialog extends StatelessWidget {
       ),
       titlePadding: EdgeInsets.zero,
       content: BuildDialogContent(
-        // onPressedPrint: () async {
-        //   final pdfFile = await Pdf.generateCenteredText(
-        //       '$billNumber - $storeNumber', parcels);
-        // },
-        // onPressedShare: () async {
-        //   // الحصول على المسار المؤقت
-        //   final directory = await getTemporaryDirectory();
-        //   final path = '${directory.path}/sample.pdf';
-        //   final file = File(path);
-
-        //   // كتابة المحتوى إلى الملف
-        //   await file.writeAsString(share!);
-
-        //   // مشاركة الملف باستخدام share_plus
-        //   Share.shareXFiles([XFile(path)], text: 'Great picture');
-
-        //   // Share.shareFiles([share], text: 'إليك هذا الملف!');
-        // },
         onPressedPrint: onPressedPrint,
         onPressedShare: onPressedShare,
       ),
@@ -79,20 +61,24 @@ class BuildDialogContent extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                StorePrimaryButton(
-                  width: 140.w,
-                  title: 'طباعة',
-                  onTap: onPressedPrint,
+                Expanded(
+                  child: StorePrimaryButton(
+                    width: 140.w,
+                    title: 'طباعة',
+                    onTap: onPressedPrint,
+                  ),
                 ),
                 SizedBox(
                   width: 5.w,
                 ),
-                StorePrimaryButton(
-                  icon: Icons.picture_as_pdf,
-                  buttonColor: AppColors.greyDark,
-                  width: 140.w,
-                  title: 'مشاركة',
-                  onTap: onPressedShare,
+                Expanded(
+                  child: StorePrimaryButton(
+                    icon: Icons.picture_as_pdf,
+                    buttonColor: AppColors.greyDark,
+                    width: 140.w,
+                    title: 'مشاركة',
+                    onTap: onPressedShare,
+                  ),
                 ),
               ],
             ),

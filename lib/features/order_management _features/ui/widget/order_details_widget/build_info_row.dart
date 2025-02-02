@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/styles/Colors.dart';
 import '../../../../../core/styles/text_style.dart';
 
-// ignore: must_be_immutable
 class BuildInfoRow extends StatelessWidget {
   BuildInfoRow(
       {super.key,
@@ -57,5 +56,3 @@ class BuildInfoRow extends StatelessWidget {
     );
   }
 }
-
-// ignore: must_be_immutable

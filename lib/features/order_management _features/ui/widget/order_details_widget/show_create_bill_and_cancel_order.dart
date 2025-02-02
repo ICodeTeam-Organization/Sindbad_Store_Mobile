@@ -17,27 +17,22 @@ import 'custom_create_bill_dialog.dart';
 import 'custom_order_cancle_dialog.dart';
 import 'messages.dart';
 
-// ignore: must_be_immutable
 class ShowCreateBillAndCancelOrder extends StatelessWidget {
-  // Add a callback for creating an invoice
   final VoidCallback onCreateInvoice; // New: Callback to trigger state update
-  ShowCreateBillAndCancelOrder(
+  const ShowCreateBillAndCancelOrder(
       {super.key, required this.onCreateInvoice}); // Updated constructor
-  int? mount;
-  int pays = 0;
+
   DateTime? convertToDateTime(String inputDate) {
     try {
-      // Parse the input date string
       DateTime parsedDate = DateFormat('yyyy/MM/dd').parse(inputDate);
-      // Add the desired time component
       DateTime dateWithTime = DateTime(
         parsedDate.year,
         parsedDate.month,
         parsedDate.day,
-        03, // Hour
-        00, // Minute
-        00, // Second
-        000, // Milliseconds
+        03,
+        00,
+        00,
+        000,
       );
       // Return the DateTime in UTC
       return dateWithTime.toUtc();
@@ -49,6 +44,8 @@ class ShowCreateBillAndCancelOrder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int? mount;
+    int pays = 0;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -154,65 +151,78 @@ class ShowCreateBillAndCancelOrder extends StatelessWidget {
                             orderId: idOrders!,
                             orderCancel: true,
                             reasonCancel: cancelConroller.text);
-                        context.pop();
-                        context.pop();
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return BlocBuilder<CancelCubit, CancelState>(
-                              builder: (context, state) {
-                                if (state is CancelSuccess) {
-                                  return Messages(
-                                    isTrue: state.serverMessage.isSuccess,
-                                    trueMessage: 'لقد تم ارسال رفض طلب',
-                                    falseMessage: '',
-                                  );
-                                } else if (state is CancelFailure) {
-                                  return Messages(
-                                    isTrue: false,
-                                    trueMessage: '',
-                                    falseMessage: 'هناك خطاء في العملية',
-                                  );
-                                } else {
-                                  return Text("يوجد خطا");
-                                }
-                              },
-                            );
-                          },
-                        );
-                        // Clear input fields
-                        cancelConroller.clear();
+                        //! هذه الطريقة تجربة فقط اذا ضبطت او سيتم حذفها
+                        if (context.mounted) {
+                          context.pop();
+                        }
+                        if (context.mounted) {
+                          context.pop();
+                        }
+                        // context.pop();
+                        // context.pop();
+                        //! هذه الطريقة تجربة فقط اذا ضبطت او سيتم حذفها
+                        if (context.mounted) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return BlocBuilder<CancelCubit, CancelState>(
+                                builder: (context, state) {
+                                  if (state is CancelSuccess) {
+                                    return Messages(
+                                      isTrue: state.serverMessage.isSuccess,
+                                      trueMessage: 'لقد تم ارسال رفض طلب',
+                                      falseMessage: '',
+                                    );
+                                  } else if (state is CancelFailure) {
+                                    return Messages(
+                                      isTrue: false,
+                                      trueMessage: '',
+                                      falseMessage: 'هناك خطاء في العملية',
+                                    );
+                                  } else {
+                                    return Text("يوجد خطا");
+                                  }
+                                },
+                              );
+                            },
+                          );
+                          // Clear input fields
+                          cancelConroller.clear();
+                        }
                       } catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('هنالك خطا ما  $e'),
-                          ),
-                        );
-                        Navigator.of(context).pop();
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return BlocBuilder<CancelCubit, CancelState>(
-                              builder: (context, state) {
-                                if (state is CancelSuccess) {
-                                  return Messages(
-                                    isTrue: false,
-                                    trueMessage: '',
-                                    falseMessage: 'هناك خطاء في العملية',
-                                  );
-                                } else if (state is CancelFailure) {
-                                  return Messages(
-                                    isTrue: false,
-                                    trueMessage: '',
-                                    falseMessage: 'هناك خطاء في العملية',
-                                  );
-                                } else {
-                                  return Text("يوجد خطا");
-                                }
-                              },
-                            );
-                          },
-                        );
+                        //! هذه الطريقة تجربة فقط اذا ضبطت او سيتم حذفها
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('هنالك خطا ما  $e'),
+                            ),
+                          );
+                          Navigator.of(context).pop();
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return BlocBuilder<CancelCubit, CancelState>(
+                                builder: (context, state) {
+                                  if (state is CancelSuccess) {
+                                    return Messages(
+                                      isTrue: false,
+                                      trueMessage: '',
+                                      falseMessage: 'هناك خطاء في العملية',
+                                    );
+                                  } else if (state is CancelFailure) {
+                                    return Messages(
+                                      isTrue: false,
+                                      trueMessage: '',
+                                      falseMessage: 'هناك خطاء في العملية',
+                                    );
+                                  } else {
+                                    return Text("يوجد خطا");
+                                  }
+                                },
+                              );
+                            },
+                          );
+                        }
                       }
                     },
                   );
@@ -237,7 +247,6 @@ class ShowCreateBillAndCancelOrder extends StatelessWidget {
             paied: false,
             pageNumber: 1,
             pageSize: 100,
-            // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
             // srearchKeyword: ''
           );
     } else if (subTab == 1) {
@@ -250,7 +259,6 @@ class ShowCreateBillAndCancelOrder extends StatelessWidget {
             paied: false,
             pageNumber: 1,
             pageSize: 100,
-            // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
             // srearchKeyword: ''
           );
     }

@@ -7,7 +7,7 @@ import 'errors/failure.dart';
 
 class ApiService {
   final Dio _dio;
-  final baseUrl = "https://icode-sendbad-store.runasp.net/api/";
+  final baseUrl = "http://51.178.112.50:81/api/";
 
   ApiService(this._dio);
   // {

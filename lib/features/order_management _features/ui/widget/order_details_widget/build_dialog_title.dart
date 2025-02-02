@@ -38,6 +38,7 @@ class BuildDialogTitle extends StatelessWidget {
               numberShippingConroller.clear();
               mountShippingConroller.clear();
               anotherCompanyConroller.clear();
+              anotherCompanyNumberConroller.clear();
               parcels = 1;
               companyName = '';
             },

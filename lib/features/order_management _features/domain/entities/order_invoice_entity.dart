@@ -1,5 +1,3 @@
-import 'dart:io';
-
 class OrderInvoiceEntity {
   final bool isSuccess;
   final String serverMessage;

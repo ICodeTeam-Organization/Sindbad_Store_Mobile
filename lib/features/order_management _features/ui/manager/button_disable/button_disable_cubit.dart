@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 part 'button_disable_state.dart';
 
 class ButtonDisableCubit extends Cubit<ButtonDisableState> {

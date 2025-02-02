@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/function/image_picker_function.dart';
@@ -149,18 +148,23 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                                   name: 'invoice_$randomFileName.pdf',
                                   pdf: pdfDocument);
                               await Pdf.openFile(file);
-                              Navigator.of(context).pop();
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return Messages(
-                                    isTrue: true,
-                                    trueMessage:
-                                        'لقد تم طباعة ملصق انتقل الى شحن الطلبات',
-                                    falseMessage: 'هناك خطاء في العملية',
-                                  );
-                                },
-                              );
+                              if (context.mounted) {
+                                Navigator.of(context).pop();
+                              }
+
+                              if (context.mounted) {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return Messages(
+                                      isTrue: true,
+                                      trueMessage:
+                                          'لقد تم طباعة ملصق انتقل الى شحن الطلبات',
+                                      falseMessage: 'هناك خطاء في العملية',
+                                    );
+                                  },
+                                );
+                              }
                               parcels = 1;
                               // After successful operation, enable the specific order button
                               context

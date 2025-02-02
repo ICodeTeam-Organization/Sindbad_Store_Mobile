@@ -35,7 +35,7 @@ class _RadioWidgetState extends State<RadioWidget> {
           ),
           Radio(
               activeColor: AppColors.redAccentColor,
-              value: '1',
+              value: '2',
               groupValue: pay,
               onChanged: (val) {
                 setState(() {
@@ -48,7 +48,7 @@ class _RadioWidgetState extends State<RadioWidget> {
           ),
           Radio(
               activeColor: AppColors.redAccentColor,
-              value: '2',
+              value: '1',
               groupValue: pay,
               onChanged: (val) {
                 setState(() {

@@ -20,7 +20,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<SignInEntity> signIn(String phoneNumber, String password) async {
     var data = await apiService.post(
-      endPoint: "Auth/loginAsync",
+      endPoint: "Auth/Login",
       data: {
         'password': password,
         'phoneNumber': phoneNumber,

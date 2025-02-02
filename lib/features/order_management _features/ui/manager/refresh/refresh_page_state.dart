@@ -1,17 +1,3 @@
-// // bill_state.dart
-// abstract class BillState {}
-
-// class BillInitial extends BillState {
-//   final bool isBillDone;
-
-//   BillInitial({this.isBillDone = false});
-// }
-
-// class BillUpdated extends BillState {
-//   final bool isBillDone;
-
-//   BillUpdated(this.isBillDone);
-// }
 abstract class RefreshPageState {}
 
 class RefreshInitial extends RefreshPageState {

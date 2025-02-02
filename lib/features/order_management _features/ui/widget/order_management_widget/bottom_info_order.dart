@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../../../../../core/styles/Colors.dart';
 import '../../../../../core/styles/text_style.dart';
 
@@ -41,10 +40,6 @@ class BottomInfoOrder extends StatelessWidget {
               ],
             ),
           ),
-          // SizedBox(
-          //   width: 65.w,
-          // ),
-          // Spacer(),
           Padding(
             padding: (MediaQuery.sizeOf(context).width) >= 480
                 ? const EdgeInsets.only(left: 35)

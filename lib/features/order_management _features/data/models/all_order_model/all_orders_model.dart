@@ -26,7 +26,6 @@ class AllOrdersModel extends AllOrderEntity {
           idPackage: packageId!,
           orderNum: orderNumber ?? '0',
           orderBill: invoiceNumber ?? 'لا يوجد',
-          // orderTime: '4:14',
           orderDates: orderDate ?? '0000/0/0',
           productMount: totalProducts ?? '0',
           orderStatuse: orderStatus ?? 'لا توجد حالة',
