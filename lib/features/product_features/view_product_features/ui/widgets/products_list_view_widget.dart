@@ -52,6 +52,9 @@ class ProductsListView extends StatelessWidget {
                     ProductEntity product = products[index];
                     bool isEven = index % 2 == 0;
                     return Container(
+                      margin: index + 1 == products.length
+                          ? EdgeInsets.only(bottom: 100.h)
+                          : null,
                       padding:
                           EdgeInsets.only(top: 26.h, bottom: 26.h, left: 10.w),
                       decoration: BoxDecoration(
