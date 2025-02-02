@@ -335,8 +335,8 @@ void showGetProductDetailsDialog({
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
-                      width: 80.0,
-                      height: 80.0,
+                      width: 25.0,
+                      height: 25.0,
                       child: CircularProgressIndicator(
                         color: AppColors.primary,
                       ),
