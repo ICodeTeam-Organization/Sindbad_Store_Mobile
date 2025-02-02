@@ -6,18 +6,20 @@ import 'package:sindbad_management_app/core/styles/text_style.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/entities/offer_products_entity.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/offer_products_cubit/offer_products_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/offer_products_cubit/offer_products_state.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/product_check_box_tile_widget.dart';
 
 class CustomSelectItemDialog extends StatefulWidget {
   final List<OfferProductsEntity> selectedItems; // Receive pre-selected items
   final Function(List<OfferProductsEntity>) onConfirm;
 
-  CustomSelectItemDialog({
+  const CustomSelectItemDialog({
+    super.key,
     required this.selectedItems, // Initialize with pre-selected items
     required this.onConfirm,
   });
 
   @override
-  _CustomSelectItemDialogState createState() => _CustomSelectItemDialogState();
+  State<CustomSelectItemDialog> createState() => _CustomSelectItemDialogState();
 }
 
 class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
@@ -28,16 +30,13 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
   @override
   void initState() {
     super.initState();
-
     // Initialize selected items from passed widget data
     selectedItems = List.from(widget.selectedItems);
-
     // Fetch products only if state is being initialized for the first time
     if (isSetState) {
       context.read<OfferProductsCubit>().getOfferProducts(100, 1);
       isSetState = false;
     }
-
     // Initialize search controller
     searchController = TextEditingController();
     searchController.addListener(() {
@@ -57,41 +56,6 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
     searchController.dispose();
     super.dispose();
   }
-
-  // late List<OfferProductsEntity> selectedItems = [];
-  // late TextEditingController
-  //     searchController; // Controller for search text field
-  // List<OfferProductsEntity> filteredItems = []; // List to hold filtered items
-  // bool isSetState = true;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   if (isSetState == true) {
-  //     context.read<OfferProductsCubit>().getOfferProducts(10, 1);
-  //     isSetState = false;
-  //   } else {
-  //     selectedItems =
-  //         List.from(widget.selectedItems); // Copy pre-selected items
-  //     isSetState = false;
-  //   }
-  //   searchController = TextEditingController(); // Initialize search controller
-  //   searchController.addListener(() {
-  //     filterItems();
-  //   });
-  //   print("Items passed to the selectedItems: ${widget.selectedItems}");
-  //   print("Items passed to the selectedItems: ${isSetState}");
-  // }
-
-  // void filterItems() {
-  //   setState(() {});
-  // }
-
-  // @override
-  // void dispose() {
-  //   searchController.dispose(); // Dispose of the controller when done
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -116,6 +80,7 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
             Align(
               alignment: Alignment.topCenter,
               child: Column(
+                mainAxisSize: MainAxisSize.max,
                 children: [
                   Container(
                     decoration: BoxDecoration(
@@ -206,96 +171,28 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                             itemCount: itemsToShow.length,
                             itemBuilder: (context, i) {
                               final product = itemsToShow[i];
-                              return Column(
-                                children: [
-                                  Table(
-                                    children: [
-                                      TableRow(children: [
-                                        CheckboxListTile(
-                                          contentPadding: EdgeInsets.zero,
-                                          controlAffinity:
-                                              ListTileControlAffinity.leading,
-                                          activeColor: AppColors.primary,
-                                          side: BorderSide(
-                                              color: AppColors.primary),
-                                          value:
-                                              selectedItems.contains(product),
-                                          onChanged: (bool? value) {
-                                            setState(() {
-                                              if (value == true) {
-                                                selectedItems.add(product);
-                                                print(state.offerProducts[i]
-                                                    .productId);
-                                              } else {
-                                                selectedItems.remove(product);
-                                                print(state.offerProducts[i]
-                                                    .productId);
-                                              }
-                                            });
-                                          },
-                                          title: Row(
-                                            children: [
-                                              Image.network(
-                                                product.productImage,
-                                                width: 50.w,
-                                                height: 50.h,
-                                                fit: BoxFit.cover,
-                                                loadingBuilder:
-                                                    (BuildContext context,
-                                                        Widget child,
-                                                        ImageChunkEvent?
-                                                            loadingProgress) {
-                                                  if (loadingProgress == null) {
-                                                    return child;
-                                                  }
-                                                  return Image.asset(
-                                                    'assets/default_image.png',
-                                                    width: 50.w,
-                                                    height: 50.h,
-                                                    fit: BoxFit.cover,
-                                                  );
-                                                },
-                                                errorBuilder: (context, error,
-                                                    stackTrace) {
-                                                  return Image.asset(
-                                                      width: 50.w,
-                                                      height: 50.h,
-                                                      fit: BoxFit.cover,
-                                                      'assets/default_image.png'); // Local fallback
-                                                },
-                                              ),
-                                              SizedBox(width: 15.w),
-                                              SizedBox(
-                                                width: 100.w,
-                                                child: Table(
-                                                  children: [
-                                                    TableRow(children: [
-                                                      Text(
-                                                        product.productTitle,
-                                                        style: KTextStyle
-                                                            .textStyle16
-                                                            .copyWith(
-                                                          color: AppColors
-                                                              .blackDark,
-                                                        ),
-                                                      ),
-                                                    ])
-                                                  ],
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ])
-                                    ],
-                                  ),
-                                  Divider(),
-                                ],
+                              return ProductCheckBoxTileWidget(
+                                valueCheckBox: selectedItems.contains(product),
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    if (value == true) {
+                                      selectedItems.add(product);
+                                    } else {
+                                      selectedItems.remove(product);
+                                    }
+                                  });
+                                },
+                                pathImage: product.productImage,
+                                title: product.productTitle,
                               );
                             },
                           );
                         } else if (state is OfferProductsFailuer) {
-                          return Center(child: Text(state.errMessage));
+                          return Center(
+                              child: Text(
+                            state.errMessage,
+                            textAlign: TextAlign.center,
+                          ));
                         } else if (state is OfferProductsLoading) {
                           return Center(child: CircularProgressIndicator());
                         } else {
@@ -326,9 +223,7 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       InkWell(
-                        onTap: () {
-                          Navigator.pop(context); // Cancel and close dialog
-                        },
+                        onTap: () => Navigator.pop(context),
                         child: Container(
                           alignment: Alignment.center,
                           height: 40.h,
@@ -347,8 +242,7 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                       ),
                       InkWell(
                         onTap: () {
-                          widget.onConfirm(
-                              selectedItems); // Return selected items
+                          widget.onConfirm(selectedItems); //selected items
                           Navigator.pop(context);
                         },
                         child: Container(

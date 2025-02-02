@@ -3,21 +3,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
-import 'package:sindbad_management_app/core/styles/text_style.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/required_text.dart';
 
 class HorizontalTitleAndTextField extends StatefulWidget {
   final String title;
   final TextEditingController info;
   final bool isDate;
-  final context;
 
   const HorizontalTitleAndTextField({
     super.key,
     required this.title,
     required this.info,
     required this.isDate,
-    this.context,
   });
 
   @override

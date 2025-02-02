@@ -9,7 +9,6 @@ import 'package:sindbad_management_app/features/offer_management_features/modify
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/entities/offer_data_entity.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/entities/offer_products_entity.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/entities/update_offer_entity.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/usecases/get_offer_data_use_case.dart';
 
 abstract class NewOfferRemotDataSource {
   Future<List<OfferProductsEntity>> getOfferProducts(
@@ -23,7 +22,6 @@ abstract class NewOfferRemotDataSource {
     int countProducts,
     int typeName,
     List<Map<String, dynamic>>? listProduct,
-    // List<AddOfferDto>? listProduct,
   );
   Future<UpdateOfferEntity> updateOffer(
     String offerTitle,
@@ -33,7 +31,6 @@ abstract class NewOfferRemotDataSource {
     int typeName,
     List<OfferHeadOffer>? listProduct,
     int offerHeadId,
-    // List<AddOfferDto>? listProduct,
   );
   Future<OfferDataEntity> getOfferData(
     int offerHeadId,
@@ -63,7 +60,6 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
       // If data['data'] is not a list, add the message to the list
       entities.add(fromJson(data));
     }
-    print('this the list added in data source $entities');
 
     return entities;
   }
@@ -80,7 +76,6 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
       // If data['data'] is not a list, add the message to the list
       entities.add(fromJson(data));
     }
-    print('this the list added in data source $entities');
 
     return entities;
   }
@@ -105,15 +100,13 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
         "pageNumber": pageNumber,
       },
       endPoint: 'Products/GetProductsWitheFilter?returnDtoName=1',
-      headers: {
-        'Authorization': 'BEARER $token',
-      },
+      headers: {'Authorization': 'BEARER $token'},
     );
-    List<OfferProductsEntity> offerProducts = getOfferProductsList(data);
-    print(offerProducts);
-    return offerProducts;
+    List<OfferProductsEntity> response = getOfferProductsList(data);
+    return response;
   }
 
+  // get AddOfferEntity a function-------------------------------------------------
   @override
   Future<AddOfferEntity> addOffer(
     String offerTitle,
@@ -121,7 +114,6 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
     DateTime endOffer,
     int countProducts,
     int typeName,
-    // List<AddOfferDto>? listProduct,
     List<Map<String, dynamic>>? listProduct,
   ) async {
     String? token = await getToken();
@@ -137,14 +129,13 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
           "offerHeadOffers": listProduct,
         },
         endPoint: "Offers/Store/AddOffer",
-        headers: {
-          'Authorization': 'BEARER $token',
-        });
-    AddOfferEntity add = AddOfferModel.fromJson(data);
-    print(add);
-    return add;
+        headers: {'Authorization': 'BEARER $token'});
+    AddOfferEntity response = AddOfferModel.fromJson(data);
+    return response;
   }
 
+  // get AddOfferEntity a function-------------------------------------------------
+  @override
   Future<UpdateOfferEntity> updateOffer(
     String offerTitle,
     DateTime startOffer,
@@ -169,14 +160,12 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
           "id": offerHeadId
         },
         endPoint: "Offers/Store/EditOffer",
-        headers: {
-          'Authorization': 'BEARER $token',
-        });
-    UpdateOfferEntity update = UpdateOfferModel.fromJson(data);
-    print(update);
-    return update;
+        headers: {'Authorization': 'BEARER $token'});
+    UpdateOfferEntity response = UpdateOfferModel.fromJson(data);
+    return response;
   }
 
+  // get OfferDataEntity for update a function-------------------------------------------------
   @override
   Future<OfferDataEntity> getOfferData(
     int offerHeadId,
@@ -185,11 +174,8 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
     var data = await apiService.post(
         data: {},
         endPoint: "Offers/Store/GetOfferForEdit/$offerHeadId",
-        headers: {
-          'Authorization': 'BEARER $token',
-        });
-    OfferDataEntity offerData = OfferDataModel.fromJson(data.values.last);
-    print(offerData);
-    return offerData;
+        headers: {'Authorization': 'BEARER $token'});
+    OfferDataEntity response = OfferDataModel.fromJson(data.values.last);
+    return response;
   }
 }

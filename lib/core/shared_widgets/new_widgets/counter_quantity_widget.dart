@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
@@ -8,10 +9,10 @@ class CounterQuantityWidget extends StatefulWidget {
   final ValueChanged<int> onChanged;
 
   const CounterQuantityWidget({
-    Key? key,
+    super.key,
     required this.number,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   State<CounterQuantityWidget> createState() => _CounterQuantityWidgetState();
@@ -19,28 +20,31 @@ class CounterQuantityWidget extends StatefulWidget {
 
 class _CounterQuantityWidgetState extends State<CounterQuantityWidget> {
   late int _counter;
+  late TextEditingController _controller;
 
   @override
   void initState() {
     super.initState();
-    _counter = widget.number; // Initialize the counter with the initial value
+    _counter = widget.number;
+    _controller = TextEditingController(text: _counter.toString());
   }
 
   @override
   void didUpdateWidget(CounterQuantityWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // Update the counter when the parent passes a new number value
+
+    // Ensure _controller is updated only if the number has changed
     if (widget.number != oldWidget.number) {
-      setState(() {
-        _counter = widget.number;
-      });
+      _counter = widget.number;
+      _controller.text = _counter.toString();
     }
   }
 
   void _increment() {
     setState(() {
       _counter++;
-      widget.onChanged(_counter); // Notify parent of the new value
+      _controller.text = _counter.toString();
+      widget.onChanged(_counter);
     });
   }
 
@@ -48,14 +52,38 @@ class _CounterQuantityWidgetState extends State<CounterQuantityWidget> {
     if (_counter > 1) {
       setState(() {
         _counter--;
-        widget.onChanged(_counter); // Notify parent of the new value
+        _controller.text = _counter.toString();
+        widget.onChanged(_counter);
+      });
+    }
+  }
+
+  void _onTextChanged(String value) {
+    int? newValue = int.tryParse(value);
+    if (newValue != null && newValue >= 1) {
+      setState(() {
+        _counter = newValue;
+        widget.onChanged(_counter);
+      });
+    } else if (value.isEmpty) {
+      // Prevent errors when clearing input
+      setState(() {
+        _counter = 1;
+        _controller.text = _counter.toString();
+        widget.onChanged(_counter);
       });
     }
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 32.h,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -83,17 +111,21 @@ class _CounterQuantityWidgetState extends State<CounterQuantityWidget> {
             ),
           ),
           SizedBox(width: 5.w),
-          // Display Counter in a TextField
+          // Text Input for Counter
           SizedBox(
             height: 30.h,
-            width: 30.w,
+            width: 40.w,
             child: TextFormField(
-              controller: TextEditingController(text: _counter.toString()),
+              controller: _controller,
               textAlign: TextAlign.center,
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly
+              ], // Allow only numeric input
               style: KTextStyle.textStyle11.copyWith(
                 color: AppColors.blackLight,
               ),
-              readOnly: true, // Makes the text field read-only
+              onChanged: _onTextChanged,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: AppColors.white,

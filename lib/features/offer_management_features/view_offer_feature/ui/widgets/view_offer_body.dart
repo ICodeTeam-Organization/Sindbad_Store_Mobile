@@ -278,7 +278,7 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                         width: 80.w,
                       ),
                       title: 'هناك خطأ الرجاء المحاولة لاحقاً',
-                      subTitle: 'الخطأ : ${state.errMessage}',
+                      subTitle: state.errMessage,
                     ),
                   );
                 } else if (state is OfferLoading) {

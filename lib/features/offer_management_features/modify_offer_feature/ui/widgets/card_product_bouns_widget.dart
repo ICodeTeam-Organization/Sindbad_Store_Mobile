@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sindbad_management_app/core/shared_widgets/new_widgets/counter_quantity_widget.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/default_value_bouns_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/counter_quantity_bouns_widget.dart';
 
 class CardProductBounsWidget extends StatefulWidget {
   final String productName;
@@ -36,18 +35,15 @@ class _CardProductBounsWidgetState extends State<CardProductBounsWidget> {
   @override
   void initState() {
     super.initState();
-
     // Initialize TextEditingControllers with the current values
     numberToBuyController = widget.numberToBuy;
     numberToGetController = widget.numberToGet;
-
     // Add listeners to update controllers and trigger UI rebuild
     widget.numberToBuyNotifier.addListener(() {
       setState(() {
         numberToBuyController = widget.numberToBuyNotifier.value;
       });
     });
-
     widget.numberToGetNotifier.addListener(() {
       setState(() {
         numberToGetController = widget.numberToGetNotifier.value;
@@ -67,27 +63,15 @@ class _CardProductBounsWidgetState extends State<CardProductBounsWidget> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Stack(
-                alignment: Alignment.center,
+                alignment: Alignment.bottomCenter,
                 children: [
-                  Positioned(
-                    top: 15,
-                    left: 0,
-                    child: InkWell(
-                      onTap: widget.onTapQuit,
-                      child: Icon(
-                        Icons.close,
-                        color: AppColors.greyIcon,
-                        size: 15,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 0,
-                    right: 0,
+                  Align(
+                    alignment: Alignment.topCenter,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Image.network(
                               widget.productImage,
@@ -107,9 +91,10 @@ class _CardProductBounsWidgetState extends State<CardProductBounsWidget> {
                               },
                               errorBuilder: (context, error, stackTrace) {
                                 return Image.asset(
-                                    width: 45.w,
-                                    height: 45.w,
-                                    'assets/default_image.png'); // Local fallback
+                                  width: 45.w,
+                                  height: 45.w,
+                                  'assets/default_image.png',
+                                ); // Local fallback
                               },
                             ),
                             SizedBox(width: 10),
@@ -121,6 +106,14 @@ class _CardProductBounsWidgetState extends State<CardProductBounsWidget> {
                             ),
                           ],
                         ),
+                        InkWell(
+                          onTap: widget.onTapQuit,
+                          child: Icon(
+                            Icons.close,
+                            color: AppColors.greyIcon,
+                            size: 15,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -128,7 +121,7 @@ class _CardProductBounsWidgetState extends State<CardProductBounsWidget> {
                     bottom: 0,
                     left: 0,
                     right: 0,
-                    child: DefaultValueBounsWidget(
+                    child: CounterQuantityBounsWidget(
                       numberToBuy: widget.numberToBuy,
                       numberToGet: widget.numberToGet,
                       onNumberToBuyChanged: (newBuysCount) {

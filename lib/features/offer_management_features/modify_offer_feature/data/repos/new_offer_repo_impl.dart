@@ -8,7 +8,6 @@ import 'package:sindbad_management_app/features/offer_management_features/modify
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/entities/offer_products_entity.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/entities/update_offer_entity.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/repo/new_offer_repo.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/usecases/get_offer_data_use_case.dart';
 
 class NewOfferRepoImpl extends NewOfferRepo {
   final NewOfferRemotDataSource newOfferRemotDataSource;
@@ -80,7 +79,6 @@ class NewOfferRepoImpl extends NewOfferRepo {
     DateTime endOffer,
     int countProducts,
     int typeName,
-    // List<AddOfferDto>? listProduct,
     List<Map<String, dynamic>>? listProduct,
   ) async {
     return postOneData(() => newOfferRemotDataSource.addOffer(

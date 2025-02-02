@@ -1,20 +1,18 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/entities/offer_products_entity.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/add_offer_cubit/add_offer_cubit.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/offer_default_value_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/offer_type_radio_widget.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/card_product_bouns_widget.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/card_product_discount_widget.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/custom_select_item_dialog.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/default_value_bouns_widget.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/default_value_discount_widget.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/horizontal_title_and_text_field.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/offer_info_text_field_widget.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/required_text.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/section_title_widget.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_cubit/offer_cubit.dart';
@@ -45,31 +43,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
   int numberToBuy = 2; // Default "Buy X" value
   int numberToGet = 1; // Default "Get Y" value
 
-  // List<AddOfferDto> listProduct = [];
-  List<Map<String, dynamic>> listProduct = [
-    // {
-    //   "id": 195,
-    //   "type": 1,
-    //   "percentage": 10,
-    //   "finalPrice": 90,
-    //   "amountToBuy": null,
-    //   "amountToGet": null,
-    //   "startDate": "2024-12-01",
-    //   "endDate": "2024-12-31",
-    //   "productId": "001"
-    // },
-    // {
-    //   "id": 199,
-    //   "type": 2,
-    //   "percentage": null,
-    //   "finalPrice": null,
-    //   "amountToBuy": 2,
-    //   "amountToGet": 1,
-    //   "startDate": "2024-12-01",
-    //   "endDate": "2024-12-31",
-    //   "productId": "002"
-    // }
-  ];
+  List<Map<String, dynamic>> listProduct = [];
 
   @override
   void initState() {
@@ -110,21 +84,11 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
     // Parse and format the start and end offer dates
     DateTime? startOfferFormat = convertToDateTime(startOfferConroller.text);
     DateTime? endOfferFormat = convertToDateTime(endOfferConroller.text);
-
     // Helper function to format DateTime
     String? formatDateTime(DateTime? dateTime) {
       if (dateTime == null) return null;
       return DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
           .format(dateTime.toUtc());
-    }
-
-    if (startOfferFormat != null && endOfferFormat != null) {
-      print(
-          '${formatDateTime(startOfferFormat)}***************************'); // Output: 2024-12-03T09:55:12.120Z
-      print(formatDateTime(endOfferFormat)); // Output: 2024-12-03T09:55:12.120Z
-    } else {
-      print("Invalid date format");
-      return; // Exit if dates are invalid
     }
 
     for (var item in selectedItems) {
@@ -133,16 +97,14 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
 
       // Create a map to hold the offer details for each product
       Map<String, dynamic> offerMap = {
-        "id": item.productId,
+        "id": item.productId, // Product Offer ID
         "productId": item.productId, // Product ID
         "type": offerType, // Offer type (either 1 or 2)
         "startDate": formatDateTime(startOfferFormat), // Formatted start date
         "endDate": formatDateTime(endOfferFormat), // Formatted end date
-        "name": item.productTitle.toString(), // Offer type (either 1 or 2)
-        "mainImageUrl":
-            item.productImage.toString(), // Offer type (either 1 or 2)
-        "priceBeforeDiscount":
-            item.oldPrice?.toInt(), // Offer type (either 1 or 2)
+        "name": item.productTitle.toString(), // Product name
+        "mainImageUrl": item.productImage.toString(), // Product mainImageUrl
+        "priceBeforeDiscount": item.oldPrice?.toInt(), // Product price
       };
 
       if (offerType == 1) {
@@ -165,48 +127,6 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
     }
   }
 
-  // void populateListProduct() {
-  //   listProduct.clear(); // Clear the list to avoid duplicates on re-population
-  //   for (var item in selectedItems) {
-  //     // Calculate the new price for the item
-  //     final int newPrice =
-  //         calculateNewPrice(item.productIPrice!, discountRateNotifier.value)
-  //             .toInt();
-
-  //     if (offerType == 1) {
-  //       // If offerType is 1, set percentage, finalPrice, and leave amountToBuy and amountToGet as null
-  //       listProduct.add(
-  //         AddOfferDto(
-  //           id: item.productId,
-  //           type: offerType,
-  //           startDate: startOfferConroller.text, // Parse date
-  //           endDate: endOfferConroller.text, // Parse date
-  //           productId: item.productId,
-  //           percentage: discountRateNotifier.value,
-  //           finalPrice: newPrice,
-  //           amountToBuy: null, // Null for amountToBuy
-  //           amountToGet: null, // Null for amountToGet
-  //         ),
-  //       );
-  //     } else if (offerType == 2) {
-  //       // If offerType is 2, set amountToBuy and amountToGet, leave percentage and finalPrice as null
-  //       listProduct.add(
-  //         AddOfferDto(
-  //           id: item.productId,
-  //           type: offerType,
-  //           startDate: startOfferConroller.text, // Parse date
-  //           endDate: endOfferConroller.text, // Parse date
-  //           productId: item.productId,
-  //           percentage: null, // Null for percentage
-  //           finalPrice: null, // Null for finalPrice
-  //           amountToBuy: numberToBuyNotifier.value,
-  //           amountToGet: numberToGetNotifier.value,
-  //         ),
-  //       );
-  //     }
-  //   }
-  // }
-
   // Function to calculate discounted price
   num calculateNewPrice(num oldPrice, int discountRate) {
     return oldPrice - (oldPrice * discountRate / 100);
@@ -221,6 +141,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     return Column(
       children: [
         Container(
@@ -231,123 +152,70 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SectionTitleWidget(title: 'معلومات العرض'),
-                SizedBox(height: 20.h),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    RequiredText(title: 'اسم العرض '),
-                    SizedBox(height: 10.h),
-                    TextFormField(
+                    SectionTitleWidget(title: 'معلومات العرض'),
+                    SizedBox(height: 20.h),
+                    OfferInfoTextFieldWidget(
+                      title: 'اسم العرض',
                       controller: offerTitleConroller,
-                      decoration: InputDecoration(
-                        hintText: 'أكتب اسم العرض...',
-                        hintStyle: KTextStyle.textStyle12.copyWith(
-                          color: AppColors.greyLight,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.greyBorder,
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.primary,
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                      ),
+                      isDate: false,
+                    ),
+                    SizedBox(height: 40.h),
+                    OfferInfoTextFieldWidget(
+                      title: 'بداية العرض',
+                      controller: startOfferConroller,
+                      isDate: true,
+                    ),
+                    SizedBox(height: 40.h),
+                    OfferInfoTextFieldWidget(
+                      title: 'نهاية العرض',
+                      controller: endOfferConroller,
+                      isDate: true,
                     ),
                   ],
                 ),
                 SizedBox(height: 40.h),
-                HorizontalTitleAndTextField(
-                  title: 'بداية العرض ',
-                  info: startOfferConroller,
-                  isDate: true,
+                OfferTypeRadioWidget(
+                  selectedOption: selectedOption,
+                  onChangedDiscount: (value) {
+                    setState(() {
+                      selectedOption = value!;
+                      isDiscountDefaultValue = true;
+                      offerType = 1;
+                    });
+                  },
+                  onChangedBouns: (value) {
+                    setState(() {
+                      selectedOption = value!;
+                      isDiscountDefaultValue = false;
+                      offerType = 2;
+                    });
+                  },
                 ),
                 SizedBox(height: 40.h),
-                HorizontalTitleAndTextField(
-                  title: 'نهاية العرض ',
-                  info: endOfferConroller,
-                  isDate: true,
+                OfferDefaultValueWidget(
+                  isDiscountDefaultValue: isDiscountDefaultValue,
+                  discountRate: discountRate,
+                  numberToBuy: numberToBuy,
+                  numberToGet: numberToGet,
+                  onDiscountRateChanged: (newRate) {
+                    setState(() {
+                      discountRateNotifier.value = newRate;
+                    });
+                  },
+                  onNumberToBuyChanged: (newBuysCount) {
+                    setState(() {
+                      numberToBuyNotifier.value = newBuysCount;
+                    });
+                  },
+                  onNumberToGetChanged: (newNumberToGet) {
+                    setState(() {
+                      numberToGetNotifier.value = newNumberToGet;
+                    });
+                  },
                 ),
-                SizedBox(height: 40.h),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SectionTitleWidget(title: 'نوع الخصم'),
-                    SizedBox(height: 10.h),
-                    RadioListTile<String>(
-                      title: Text(
-                        'خصم مبلغ من منتج',
-                        style: KTextStyle.textStyle13.copyWith(
-                          color: AppColors.greyLight,
-                        ),
-                      ),
-                      value: 'Percent',
-                      groupValue: selectedOption,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedOption = value!;
-                          isDiscountDefaultValue = true;
-                          offerType = 1;
-                        });
-                      },
-                      activeColor: AppColors.primary,
-                      visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                    ),
-                    RadioListTile<String>(
-                      title: Text(
-                        'اشتري x واحصل على y',
-                        style: KTextStyle.textStyle13.copyWith(
-                          color: AppColors.greyLight,
-                        ),
-                      ),
-                      value: 'Bonus',
-                      groupValue: selectedOption,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedOption = value!;
-                          isDiscountDefaultValue = false;
-                          offerType = 2;
-                        });
-                      },
-                      activeColor: AppColors.primary,
-                      visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 40.h),
-                SectionTitleWidget(title: 'القيمة الأفتراضية'),
-                SizedBox(height: 20.h),
-                isDiscountDefaultValue
-                    ? DefaultValueDiscountWidget(
-                        discountRate: discountRate,
-                        onDiscountRateChanged: (newRate) {
-                          setState(() {
-                            discountRateNotifier.value = newRate;
-                          });
-                        },
-                      )
-                    : DefaultValueBounsWidget(
-                        numberToBuy: numberToBuy,
-                        numberToGet: numberToGet,
-                        onNumberToBuyChanged: (newBuysCount) {
-                          setState(() {
-                            numberToBuyNotifier.value = newBuysCount;
-                            print(numberToBuyNotifier.value);
-                          });
-                        },
-                        onNumberToGetChanged: (newNumberToGet) {
-                          setState(() {
-                            numberToGetNotifier.value = newNumberToGet;
-                          });
-                        },
-                      ),
               ],
             ),
           ),
@@ -361,22 +229,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text.rich(
-                  TextSpan(
-                    text: 'اختر  المنتجات ',
-                    style: KTextStyle.textStyle14.copyWith(
-                      color: AppColors.greyLight,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: '*',
-                        style: KTextStyle.textStyle13.copyWith(
-                          color: AppColors.primary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                RequiredText(title: 'اختر  المنتجات '),
                 SizedBox(height: 10.h),
                 ActionButtonWidget(
                   title: 'تصفح المنتجات',
@@ -404,6 +257,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                   width: double.maxFinite,
                   height: 500.h,
                   child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
                     itemCount: selectedItems.length,
                     itemBuilder: (context, index) {
                       return isDiscountDefaultValue
@@ -444,12 +298,12 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.pop(context); // Cancel and close dialog
+                        Navigator.pop(context);
                       },
                       child: Container(
                         alignment: Alignment.center,
                         height: 40.h,
-                        width: 80.w,
+                        width: screenWidth <= 360 ? 80 : 100.w,
                         decoration: BoxDecoration(
                           color: AppColors.greyLight,
                           borderRadius: BorderRadius.circular(5.r),
@@ -505,15 +359,9 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                                 convertToDateTime(endOfferConroller.text);
                             if (startOfferFormat != null &&
                                 endOfferFormat != null) {
-                              print(startOfferFormat
-                                  .toIso8601String()); // Output: 2024-12-03T09:55:12.120Z
-                              print(endOfferFormat
-                                  .toIso8601String()); // Output: 2024-12-03T09:55:12.120Z
-
                               final differenceInDays = endOfferFormat
                                   .difference(startOfferFormat)
                                   .inDays;
-                              print(differenceInDays);
                               if (differenceInDays <= 0) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -524,7 +372,6 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                                 return;
                               }
                             } else {
-                              print("Invalid date format");
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text(
@@ -555,17 +402,6 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                               );
                               return;
                             }
-
-                            print('offerTitle: ${offerTitleConroller.text}');
-                            print('startOffer: ${startOfferFormat}');
-                            print('endOffer: ${endOfferFormat}');
-                            print('offerType: ${offerType}');
-                            print(
-                                'discountRate: ${discountRateNotifier.value}');
-                            print('numberToBuy: ${numberToBuyNotifier.value}');
-                            print('numberToGet: ${numberToGetNotifier.value}');
-
-// Call the function after all checks have passed
                             populateListProduct();
                             await context.read<AddOfferCubit>().addOffer(
                                   offerTitleConroller.text,
@@ -579,7 +415,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                           child: Container(
                             alignment: Alignment.center,
                             height: 40.h,
-                            width: 180.w,
+                            width: screenWidth <= 360 ? 180 : 195.w,
                             decoration: BoxDecoration(
                               color: AppColors.primary,
                               borderRadius: BorderRadius.circular(5.r),

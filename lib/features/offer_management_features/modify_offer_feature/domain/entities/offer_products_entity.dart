@@ -1,5 +1,5 @@
 class OfferProductsEntity {
-  final int? id;
+  final int? productOfferId;
   final int productId;
   final String productTitle;
   final String productImage;
@@ -10,7 +10,7 @@ class OfferProductsEntity {
   final num? numberToGet;
 
   OfferProductsEntity({
-    required this.id,
+    required this.productOfferId,
     required this.productId,
     required this.productTitle,
     required this.productImage,

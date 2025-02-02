@@ -18,7 +18,7 @@ class OfferProductsModel extends OfferProductsEntity {
     this.mainImageUrl,
     this.description,
   }) : super(
-          id: 0,
+          productOfferId: 0,
           productId: id ?? 0,
           productTitle: name ?? '',
           productImage: mainImageUrl ?? '',
@@ -35,7 +35,7 @@ class OfferProductsModel extends OfferProductsEntity {
         storeId: json['storeId'] as String?,
         number: json['number'] as String?,
         name: json['name'] as String?,
-        price: json['price'] as dynamic?,
+        price: json['price'] as dynamic,
         mainImageUrl: json['mainImageUrl'] as String?,
         description: json['description'] as String?,
       );

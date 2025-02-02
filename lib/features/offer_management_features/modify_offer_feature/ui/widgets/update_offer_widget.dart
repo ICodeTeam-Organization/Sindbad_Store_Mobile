@@ -10,9 +10,9 @@ import 'package:sindbad_management_app/features/offer_management_features/modify
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/card_product_bouns_widget.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/card_product_discount_widget.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/custom_select_item_dialog.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/default_value_bouns_widget.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/default_value_discount_widget.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/horizontal_title_and_text_field.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/offer_default_value_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/offer_info_text_field_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/offer_type_radio_widget.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/required_text.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/section_title_widget.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_cubit/offer_cubit.dart';
@@ -63,30 +63,12 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
 
   @override
   void initState() {
-    for (var offer in widget.listProducts) {
-      print('''
-\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-OfferHeadOffer:
-id: ${offer.id},
-productId: ${offer.productId},
-productTitle: ${offer.productTitle},
-productImage: ${offer.productImage},
-oldPrice: ${offer.oldPrice},
-newPrice: ${offer.newPrice},
-discountRate: ${offer.discountRate},
-numberToBuy: ${offer.numberToBuy},
-numberToGet: ${offer.numberToGet},
-\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-                            ''');
-    }
-
     super.initState();
     offerTitleConroller = TextEditingController(text: widget.offerTitle);
     startOfferConroller =
         TextEditingController(text: convertFromApi(widget.startOffer));
     endOfferConroller =
         TextEditingController(text: convertFromApi(widget.endOffer));
-
     discountRateNotifier = ValueNotifier<int>(widget.discountRate);
     numberToBuyNotifier = ValueNotifier<int>(widget.numberToBuy);
     numberToGetNotifier = ValueNotifier<int>(widget.numberToGet);
@@ -101,8 +83,6 @@ numberToGet: ${offer.numberToGet},
       // Format the DateTime object to the desired string format
       return DateFormat("yyyy/MM/dd").format(apiDate);
     } catch (e) {
-      // Handle any unexpected errors (rare for DateTime objects)
-      print("Error formatting date: $e");
       // Fallback: Return an empty string or any default value
       return '';
     }
@@ -139,27 +119,12 @@ numberToGet: ${offer.numberToGet},
     DateTime? startOfferFormat = convertToDateTime(startOfferConroller.text);
     DateTime? endOfferFormat = convertToDateTime(endOfferConroller.text);
 
-    // Helper function to format DateTime
-    String? formatDateTime(DateTime? dateTime) {
-      if (dateTime == null) return null;
-      return DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-          .format(dateTime.toUtc());
-    }
-
-    if (startOfferFormat != null && endOfferFormat != null) {
-      print('${formatDateTime(startOfferFormat)}***************************');
-      print(formatDateTime(endOfferFormat));
-    } else {
-      print("Invalid date format");
-      return; // Exit if dates are invalid
-    }
-
     for (var item in selectedItems!) {
       final int newPrice =
           calculateNewPrice(item.oldPrice!, discountRateNotifier.value).toInt();
 
       OfferHeadOffer offer = OfferHeadOffer(
-        id: item.id,
+        id: item.productOfferId,
         productId: item.productId,
         type: offerType,
         startDate: startOfferFormat,
@@ -203,145 +168,70 @@ numberToGet: ${offer.numberToGet},
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SectionTitleWidget(title: 'معلومات العرض'),
-                SizedBox(height: 20.h),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    RequiredText(title: 'اسم العرض '),
-                    SizedBox(height: 10.h),
-                    TextFormField(
+                    SectionTitleWidget(title: 'معلومات العرض'),
+                    SizedBox(height: 20.h),
+                    OfferInfoTextFieldWidget(
+                      title: 'اسم العرض',
                       controller: offerTitleConroller,
-                      decoration: InputDecoration(
-                        hintText: 'أكتب اسم العرض...',
-                        hintStyle: KTextStyle.textStyle12.copyWith(
-                          color: AppColors.greyLight,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.greyBorder,
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.primary,
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                      ),
+                      isDate: false,
+                    ),
+                    SizedBox(height: 40.h),
+                    OfferInfoTextFieldWidget(
+                      title: 'بداية العرض',
+                      controller: startOfferConroller,
+                      isDate: true,
+                    ),
+                    SizedBox(height: 40.h),
+                    OfferInfoTextFieldWidget(
+                      title: 'نهاية العرض',
+                      controller: endOfferConroller,
+                      isDate: true,
                     ),
                   ],
                 ),
                 SizedBox(height: 40.h),
-                HorizontalTitleAndTextField(
-                  title: 'بداية العرض ',
-                  info: startOfferConroller,
-                  isDate: true,
+                OfferTypeRadioWidget(
+                  selectedOption: selectedOption,
+                  onChangedDiscount: (value) {
+                    setState(() {
+                      selectedOption = value!;
+                      isDiscountDefaultValue = true;
+                      offerType = 1;
+                    });
+                  },
+                  onChangedBouns: (value) {
+                    setState(() {
+                      selectedOption = value!;
+                      isDiscountDefaultValue = false;
+                      offerType = 2;
+                    });
+                  },
                 ),
                 SizedBox(height: 40.h),
-                HorizontalTitleAndTextField(
-                  title: 'نهاية العرض ',
-                  info: endOfferConroller,
-                  isDate: true,
+                OfferDefaultValueWidget(
+                  isDiscountDefaultValue: isDiscountDefaultValue,
+                  discountRate: discountRateNotifier.value,
+                  numberToBuy: numberToBuyNotifier.value,
+                  numberToGet: numberToGetNotifier.value,
+                  onDiscountRateChanged: (newRate) {
+                    setState(() {
+                      discountRateNotifier.value = newRate;
+                    });
+                  },
+                  onNumberToBuyChanged: (newBuysCount) {
+                    setState(() {
+                      numberToBuyNotifier.value = newBuysCount;
+                    });
+                  },
+                  onNumberToGetChanged: (newNumberToGet) {
+                    setState(() {
+                      numberToGetNotifier.value = newNumberToGet;
+                    });
+                  },
                 ),
-                SizedBox(height: 40.h),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SectionTitleWidget(title: 'نوع الخصم'),
-                    SizedBox(height: 10.h),
-                    RadioListTile<String>(
-                      title: Text(
-                        'خصم مبلغ من منتج',
-                        style: KTextStyle.textStyle13.copyWith(
-                          color: AppColors.greyLight,
-                        ),
-                      ),
-                      value: 'Percent',
-                      groupValue: selectedOption,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedOption = value;
-                          isDiscountDefaultValue = true;
-                          offerType = 1; // Update offerType
-                        });
-                      },
-                      activeColor: AppColors.primary,
-                      visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                    ),
-                    RadioListTile<String>(
-                      title: Text(
-                        'اشتري x واحصل على y',
-                        style: KTextStyle.textStyle13.copyWith(
-                          color: AppColors.greyLight,
-                        ),
-                      ),
-                      value: 'Bonus',
-                      groupValue: selectedOption,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedOption = value;
-                          isDiscountDefaultValue = false;
-                          offerType = 2; // Update offerType
-                        });
-                      },
-                      activeColor: AppColors.primary,
-                      visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 40.h),
-                InkWell(
-                    onTap: () {
-                      for (var offer in listProduct) {
-                        print('''
-\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-OfferHeadOffer:
-id: ${offer.id},
-productId: ${offer.productId},
-name: ${offer.name},
-mainImageUrl: ${offer.mainImageUrl},
-type: ${offer.type},
-percentage: ${offer.percentage},
-priceBeforeDiscount: ${offer.priceBeforeDiscount},
-finalPrice: ${offer.finalPrice},
-amountToBuy: ${offer.amountToBuy},
-amountToGet: ${offer.amountToGet},
-startDate: ${offer.startDate},
-endDate: ${offer.endDate},
-\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-                            ''');
-                      }
-                    },
-                    child: SectionTitleWidget(title: 'القيمة الأفتراضية')),
-                SizedBox(height: 20.h),
-                isDiscountDefaultValue
-                    ? DefaultValueDiscountWidget(
-                        discountRate: discountRateNotifier.value,
-                        onDiscountRateChanged: (newRate) {
-                          setState(() {
-                            discountRateNotifier.value = newRate;
-                          });
-                        },
-                      )
-                    : DefaultValueBounsWidget(
-                        numberToBuy: numberToBuyNotifier.value,
-                        numberToGet: numberToGetNotifier.value,
-                        onNumberToBuyChanged: (newBuysCount) {
-                          setState(() {
-                            numberToBuyNotifier.value = newBuysCount;
-                            print(numberToBuyNotifier.value);
-                          });
-                        },
-                        onNumberToGetChanged: (newNumberToGet) {
-                          setState(() {
-                            numberToGetNotifier.value = newNumberToGet;
-                          });
-                        },
-                      ),
               ],
             ),
           ),
@@ -355,22 +245,7 @@ endDate: ${offer.endDate},
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text.rich(
-                  TextSpan(
-                    text: 'اختر  المنتجات ',
-                    style: KTextStyle.textStyle14.copyWith(
-                      color: AppColors.greyLight,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: '*',
-                        style: KTextStyle.textStyle13.copyWith(
-                          color: AppColors.primary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                RequiredText(title: 'اختر  المنتجات '),
                 SizedBox(height: 10.h),
                 ActionButtonWidget(
                   title: 'تصفح المنتجات',
@@ -412,7 +287,6 @@ endDate: ${offer.endDate},
                               onTapQuit: () {
                                 setState(() {
                                   selectedItems!.removeAt(index);
-                                  // listProduct.removeAt(index);
                                 });
                               },
                               discountRateNotifier: discountRateNotifier,
@@ -425,7 +299,6 @@ endDate: ${offer.endDate},
                               onTapQuit: () {
                                 setState(() {
                                   selectedItems!.removeAt(index);
-                                  // listProduct.removeAt(index);
                                 });
                               },
                               numberToBuyNotifier: numberToBuyNotifier,
@@ -502,15 +375,9 @@ endDate: ${offer.endDate},
                                 convertToDateTime(endOfferConroller.text);
                             if (startOfferFormat != null &&
                                 endOfferFormat != null) {
-                              print(startOfferFormat
-                                  .toIso8601String()); // Output: 2024-12-03T09:55:12.120Z
-                              print(endOfferFormat
-                                  .toIso8601String()); // Output: 2024-12-03T09:55:12.120Z
-
                               final differenceInDays = endOfferFormat
                                   .difference(startOfferFormat)
                                   .inDays;
-                              print(differenceInDays);
                               if (differenceInDays <= 0) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -521,7 +388,6 @@ endDate: ${offer.endDate},
                                 return;
                               }
                             } else {
-                              print("Invalid date format");
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text(
@@ -555,7 +421,7 @@ endDate: ${offer.endDate},
 
                             listProduct = selectedItems!.map((item) {
                               return OfferHeadOffer(
-                                id: item.id,
+                                id: item.productOfferId,
                                 productId: item.productId,
                                 name: item.productTitle,
                                 mainImageUrl: item.productImage,
@@ -569,33 +435,6 @@ endDate: ${offer.endDate},
                                 endDate: endOfferFormat,
                               );
                             }).toList();
-                            print('offerTitle: ${offerTitleConroller.text}');
-                            print('startOffer: $startOfferFormat');
-                            print('endOffer: $endOfferFormat');
-                            print('offerType: $offerType');
-                            print(
-                                'discountRate: ${discountRateNotifier.value}');
-                            print('numberToBuy: ${numberToBuyNotifier.value}');
-                            print('numberToGet: ${numberToGetNotifier.value}');
-                            for (var offer in listProduct) {
-                              print('''
-\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-OfferHeadOffer:
-id: ${offer.id},
-productId: ${offer.productId},
-name: ${offer.name},
-mainImageUrl: ${offer.mainImageUrl},
-type: ${offer.type},
-percentage: ${offer.percentage},
-priceBeforeDiscount: ${offer.priceBeforeDiscount},
-finalPrice: ${offer.finalPrice},
-amountToBuy: ${offer.amountToBuy},
-amountToGet: ${offer.amountToGet},
-startDate: ${offer.startDate},
-endDate: ${offer.endDate},
-\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-                            ''');
-                            }
                             populateListProduct();
                             await context.read<UpdateOfferCubit>().updateOffer(
                                   offerTitleConroller.text,

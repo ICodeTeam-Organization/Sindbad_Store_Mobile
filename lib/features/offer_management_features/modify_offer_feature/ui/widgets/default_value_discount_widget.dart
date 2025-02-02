@@ -7,6 +7,7 @@ import 'package:sindbad_management_app/core/styles/text_style.dart';
 class DefaultValueDiscountWidget extends StatefulWidget {
   final int discountRate;
   final ValueChanged<int> onDiscountRateChanged;
+
   const DefaultValueDiscountWidget({
     super.key,
     required this.discountRate,
@@ -20,6 +21,52 @@ class DefaultValueDiscountWidget extends StatefulWidget {
 
 class _DefaultValueDiscountWidgetState
     extends State<DefaultValueDiscountWidget> {
+  late TextEditingController _controller;
+  late int _discountRate;
+
+  @override
+  void initState() {
+    super.initState();
+    _discountRate = widget.discountRate;
+    _controller = TextEditingController(text: _discountRate.toString());
+  }
+
+  @override
+  void didUpdateWidget(DefaultValueDiscountWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.discountRate != oldWidget.discountRate) {
+      _discountRate = widget.discountRate;
+      _controller.text = _discountRate.toString();
+    }
+  }
+
+  void _onTextChanged(String value) {
+    if (value.isEmpty) {
+      setState(() {
+        _discountRate = 1;
+        _controller.text = _discountRate.toString(); // Prevent empty text field
+        widget.onDiscountRateChanged(_discountRate);
+      });
+    } else {
+      final int? newValue = int.tryParse(value);
+      if (newValue != null && newValue >= 1 && newValue <= 100) {
+        setState(() {
+          _discountRate = newValue;
+          widget.onDiscountRateChanged(_discountRate);
+        });
+      } else {
+        _controller.text =
+            _discountRate.toString(); // Keep the last valid value
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -31,47 +78,21 @@ class _DefaultValueDiscountWidgetState
             color: AppColors.greyLight,
           ),
         ),
-        SizedBox(
-          height: 10.h,
-        ),
+        SizedBox(height: 10.h),
         SizedBox(
           height: 45.h, // Adjusted height
           width: 150.w, // Adjusted width
           child: TextFormField(
-            initialValue: widget.discountRate.toStringAsFixed(0),
+            controller: _controller,
             keyboardType: TextInputType.number,
             inputFormatters: [
-              FilteringTextInputFormatter
-                  .digitsOnly, // Allows only numeric input
-              TextInputFormatter.withFunction((oldValue, newValue) {
-                if (newValue.text.isEmpty) {
-                  return newValue;
-                }
-                final int? number = int.tryParse(newValue.text);
-                if (number == null || number < 1 || number > 100) {
-                  return oldValue; // Reject input if it's not in range 0-100
-                }
-                return newValue; // Accept valid input
-              }),
+              FilteringTextInputFormatter.digitsOnly, // Only numeric input
             ],
-            onChanged: (value) {
-              if (value.isNotEmpty && double.tryParse(value) != null) {
-                final int newValue = int.parse(value);
-                if (newValue >= 1 && newValue <= 100) {
-                  setState(() {
-                    widget.onDiscountRateChanged(newValue);
-                  });
-                }
-              } else {
-                setState(() {
-                  widget.onDiscountRateChanged(0);
-                });
-              }
-            },
+            onChanged: _onTextChanged,
             style: KTextStyle.textStyle12.copyWith(
               color: AppColors.blackLight,
             ),
-            textAlign: TextAlign.center, // Center-align text horizontally
+            textAlign: TextAlign.center,
             decoration: InputDecoration(
               filled: true,
               fillColor: AppColors.white,
@@ -80,12 +101,11 @@ class _DefaultValueDiscountWidgetState
                 horizontal: 4.w, // Reduced horizontal padding
               ),
               prefixIcon: Padding(
-                padding:
-                    EdgeInsets.only(left: 4.w, right: 4.w), // Padding for icon
+                padding: EdgeInsets.only(left: 4.w, right: 4.w),
                 child: Icon(
                   Icons.percent,
                   color: AppColors.greyLight,
-                  size: 16, // Adjusted size of the icon
+                  size: 16,
                 ),
               ),
               prefixIconConstraints: BoxConstraints(

@@ -1,0 +1,37 @@
+import 'package:flutter/material.dart';
+import 'package:sindbad_management_app/core/styles/Colors.dart';
+import 'package:sindbad_management_app/core/styles/text_style.dart';
+
+class CustomRadioWidget extends StatelessWidget {
+  final String title;
+  final String value;
+  final String? selectedOption;
+  final void Function(String? p1)? onChanged;
+
+  const CustomRadioWidget({
+    super.key,
+    required this.title,
+    required this.value,
+    required this.selectedOption,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      child: RadioListTile<String>(
+        title: Text(
+          title,
+          style: KTextStyle.textStyle13.copyWith(
+            color: AppColors.greyLight,
+          ),
+        ),
+        value: value,
+        groupValue: selectedOption,
+        onChanged: onChanged,
+        activeColor: AppColors.primary,
+        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+      ),
+    );
+  }
+}

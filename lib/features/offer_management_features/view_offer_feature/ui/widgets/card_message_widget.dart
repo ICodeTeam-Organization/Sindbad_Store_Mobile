@@ -21,7 +21,7 @@ class CardMesssageWidget extends StatelessWidget {
     return Expanded(
       child: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
               padding: const EdgeInsets.all(30.0),
@@ -37,6 +37,7 @@ class CardMesssageWidget extends StatelessWidget {
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
                     children: [
                       logo,
                       Text(
@@ -47,6 +48,7 @@ class CardMesssageWidget extends StatelessWidget {
                       ),
                       Text(
                         subTitle,
+                        textAlign: TextAlign.center,
                         style: KTextStyle.textStyle12.copyWith(
                           color: AppColors.greyLight,
                         ),

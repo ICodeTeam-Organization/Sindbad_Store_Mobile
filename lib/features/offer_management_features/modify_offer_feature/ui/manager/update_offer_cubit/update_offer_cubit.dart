@@ -15,7 +15,6 @@ class UpdateOfferCubit extends Cubit<UpdateOfferState> {
     DateTime endOffer,
     int countProducts,
     int typeName,
-    // List<UpdateOfferDto>? listProduct,
     List<OfferHeadOffer>? listProduct,
     int offerHeadId,
   ) async {

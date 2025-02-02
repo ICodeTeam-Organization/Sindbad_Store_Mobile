@@ -19,7 +19,7 @@ class RequiredText extends StatelessWidget {
         ),
         children: <TextSpan>[
           TextSpan(
-            text: '*',
+            text: ' *',
             style: KTextStyle.textStyle13.copyWith(
               color: AppColors.primary,
             ),

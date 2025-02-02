@@ -28,7 +28,6 @@ class AddOfferParams {
   final DateTime endOffer;
   final int countProducts;
   final int typeName;
-  // final List<AddOfferDto>? listProduct;
   final List<Map<String, dynamic>>? listProduct;
 
   AddOfferParams(

@@ -32,7 +32,7 @@ class _UpdateOfferBodyState extends State<UpdateOfferBody> {
               List<OfferHeadOffer> offerHeadList) {
             return offerHeadList.map((offerHead) {
               return OfferProductsEntity(
-                id: offerHead.id ?? 0,
+                productOfferId: offerHead.id ?? 0,
                 productId: offerHead.productId ?? 0,
                 productTitle: offerHead.name ?? 'Unnamed Product',
                 productImage: offerHead.mainImageUrl ?? '',
@@ -47,7 +47,7 @@ class _UpdateOfferBodyState extends State<UpdateOfferBody> {
 
           // Debugging: Print the data of each product
           for (var offerMap in state.offerData.listProduct) {
-            print(jsonEncode(offerMap.toJson()));
+            debugPrint(jsonEncode(offerMap.toJson()));
           }
 
           // Pass data to the UpdateOfferWidget
@@ -74,7 +74,6 @@ class _UpdateOfferBodyState extends State<UpdateOfferBody> {
           // Default fallback for unknown states
           return Center(
             child: Container(
-              color: Colors.red.shade400,
               height: 50,
               width: 300,
               alignment: Alignment.center,

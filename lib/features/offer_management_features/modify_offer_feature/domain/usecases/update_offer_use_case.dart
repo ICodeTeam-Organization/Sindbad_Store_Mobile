@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
 import 'package:sindbad_management_app/core/use_cases/param_use_case.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/data/models/offer_data_model/offer_head_offer.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/entities/add_offer_entity.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/entities/update_offer_entity.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/repo/new_offer_repo.dart';
 
@@ -32,7 +31,6 @@ class UpdateOfferParams {
   final DateTime endOffer;
   final int countProducts;
   final int typeName;
-  // final List<UpdateOfferDto>? listProduct;
   final List<OfferHeadOffer>? listProduct;
   final int offerHeadId;
 

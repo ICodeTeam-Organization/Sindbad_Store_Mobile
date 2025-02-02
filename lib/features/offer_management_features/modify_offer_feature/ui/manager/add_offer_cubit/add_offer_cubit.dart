@@ -1,7 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
-import 'package:sindbad_management_app/core/errors/failure.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/usecases/add_offer_use_case.dart';
 
 part 'add_offer_state.dart';
