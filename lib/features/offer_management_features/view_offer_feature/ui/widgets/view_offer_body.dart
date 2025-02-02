@@ -63,6 +63,7 @@ class _ViewOfferBodyState extends State<ViewOfferBody> {
                           title: 'لم تضف اي عروض حتى الان!',
                           subTitle: 'شجع عملائك على الشراء بتقديم عروض مغرية',
                           extra: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SizedBox(height: 20.h),
                               ActionButtonWidget(

@@ -203,16 +203,11 @@ class _CardProductDiscountWidgetState extends State<CardProductDiscountWidget> {
                           controller: newPriceController,
                           isEnable: true,
                           onChanged: (value) {
-                            if (value.isEmpty) {
-                              newPriceController.text = '1';
-                              _onNewPriceChanged('1');
-                            } else {
-                              final int? number = int.tryParse(value);
-                              if (number != null &&
-                                  number >= 1 &&
-                                  number <= widget.oldPrice - 1) {
-                                _onNewPriceChanged(value);
-                              }
+                            final int? number = int.tryParse(value);
+                            if (number != null &&
+                                number >= 1 &&
+                                number <= widget.oldPrice - 1) {
+                              _onNewPriceChanged(value);
                             }
                           },
                           oldPrice: widget.oldPrice,
