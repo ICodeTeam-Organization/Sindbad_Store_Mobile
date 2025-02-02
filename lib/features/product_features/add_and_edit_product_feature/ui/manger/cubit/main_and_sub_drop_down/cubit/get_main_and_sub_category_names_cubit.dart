@@ -35,15 +35,18 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
     result.fold(
         // left
         (failure) {
-      emit(GetCategoryNamesFailure(errMessage: failure.message));
+      if (!isClosed) {
+        emit(GetCategoryNamesFailure(errMessage: failure.message));
+      }
     },
         // right
         (mainAndSubCategory) {
       // to store in cubit class
       mainAndSubCategories = mainAndSubCategory;
-
-      emit(GetCategoryNamesSuccess(
-          categoryAndSubCategoryNames: mainAndSubCategory));
+      if (!isClosed) {
+        emit(GetCategoryNamesSuccess(
+            categoryAndSubCategoryNames: mainAndSubCategory));
+      }
     });
   }
 
