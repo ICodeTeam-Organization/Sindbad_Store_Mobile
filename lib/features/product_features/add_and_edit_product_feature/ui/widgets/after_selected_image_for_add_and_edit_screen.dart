@@ -31,7 +31,7 @@ class AfterSelectedImageForAddAndEditScreen extends StatelessWidget {
                 initialImageUrl!,
                 width: containerWidth,
                 height: upContainerHeight,
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
                 //  an errorBuilder to Image.network to handle image loading failures.
                 // if the URL is invalid or the image is not available, the errorBuilder will be called.
                 //In the errorBuilder, check the boxNumber.
@@ -66,12 +66,12 @@ class AfterSelectedImageForAddAndEditScreen extends StatelessWidget {
                 imageFile!,
                 width: containerWidth,
                 height: upContainerHeight,
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
               ),
         // if (upContainerHeight <= 82)
         boxNumber > 1
             ? // is subImage
-            SizedBox() 
+            SizedBox()
             // for show delete button in box image
             // Positioned(
             //     top: 2.0,
