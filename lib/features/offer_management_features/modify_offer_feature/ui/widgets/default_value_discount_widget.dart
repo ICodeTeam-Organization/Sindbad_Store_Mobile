@@ -49,7 +49,7 @@ class _DefaultValueDiscountWidgetState
       });
     } else {
       final int? newValue = int.tryParse(value);
-      if (newValue != null && newValue >= 1 && newValue <= 100) {
+      if (newValue != null && newValue >= 1 && newValue <= 99) {
         setState(() {
           _discountRate = newValue;
           widget.onDiscountRateChanged(_discountRate);
@@ -80,7 +80,7 @@ class _DefaultValueDiscountWidgetState
         ),
         SizedBox(height: 10.h),
         SizedBox(
-          height: 45.h, // Adjusted height
+          height: 50.h, // Adjusted height
           width: 150.w, // Adjusted width
           child: TextFormField(
             controller: _controller,
@@ -89,9 +89,6 @@ class _DefaultValueDiscountWidgetState
               FilteringTextInputFormatter.digitsOnly, // Only numeric input
             ],
             onChanged: _onTextChanged,
-            style: KTextStyle.textStyle12.copyWith(
-              color: AppColors.blackLight,
-            ),
             textAlign: TextAlign.center,
             decoration: InputDecoration(
               filled: true,

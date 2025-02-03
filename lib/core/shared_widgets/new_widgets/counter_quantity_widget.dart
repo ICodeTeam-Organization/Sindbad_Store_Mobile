@@ -41,11 +41,13 @@ class _CounterQuantityWidgetState extends State<CounterQuantityWidget> {
   }
 
   void _increment() {
-    setState(() {
-      _counter++;
-      _controller.text = _counter.toString();
-      widget.onChanged(_counter);
-    });
+    if (_counter < 999) {
+      setState(() {
+        _counter++;
+        _controller.text = _counter.toString();
+        widget.onChanged(_counter);
+      });
+    }
   }
 
   void _decrement() {
@@ -60,15 +62,23 @@ class _CounterQuantityWidgetState extends State<CounterQuantityWidget> {
 
   void _onTextChanged(String value) {
     int? newValue = int.tryParse(value);
-    if (newValue != null && newValue >= 1) {
+
+    if (newValue != null && newValue >= 1 && newValue <= 999) {
       setState(() {
         _counter = newValue;
         widget.onChanged(_counter);
       });
-    } else if (value.isEmpty) {
-      // Prevent errors when clearing input
+    } else if (value.isEmpty || newValue == 0) {
+      // Prevent errors when clearing input or entering 0
       setState(() {
         _counter = 1;
+        _controller.text = _counter.toString();
+        widget.onChanged(_counter);
+      });
+    } else if (newValue != null && newValue >= 1000) {
+      // Prevent input values of 1000 or more
+      setState(() {
+        _counter = 999;
         _controller.text = _counter.toString();
         widget.onChanged(_counter);
       });
@@ -122,7 +132,7 @@ class _CounterQuantityWidgetState extends State<CounterQuantityWidget> {
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly
               ], // Allow only numeric input
-              style: KTextStyle.textStyle11.copyWith(
+              style: KTextStyle.textStyle13.copyWith(
                 color: AppColors.blackLight,
               ),
               onChanged: _onTextChanged,

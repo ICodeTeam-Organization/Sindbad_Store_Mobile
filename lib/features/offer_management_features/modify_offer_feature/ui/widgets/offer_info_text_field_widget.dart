@@ -25,26 +25,29 @@ class OfferInfoTextFieldWidget extends StatelessWidget {
             children: [
               RequiredText(title: title),
               SizedBox(height: 10.h),
-              TextFormField(
-                controller: controller,
-                decoration: InputDecoration(
-                  hintText: 'أكتب هنا...',
-                  hintStyle: KTextStyle.textStyle12.copyWith(
-                    color: AppColors.greyLight,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: AppColors.greyBorder,
-                      width: 1.0,
+              SizedBox(
+                height: 50.h,
+                child: TextFormField(
+                  controller: controller,
+                  decoration: InputDecoration(
+                    hintText: 'أكتب هنا...',
+                    hintStyle: KTextStyle.textStyle12.copyWith(
+                      color: AppColors.greyLight,
                     ),
-                    borderRadius: BorderRadius.circular(5.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: AppColors.primary,
-                      width: 1.0,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: AppColors.greyBorder,
+                        width: 1.0,
+                      ),
+                      borderRadius: BorderRadius.circular(5.0),
                     ),
-                    borderRadius: BorderRadius.circular(5.0),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: AppColors.primary,
+                        width: 1.0,
+                      ),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
                   ),
                 ),
               ),

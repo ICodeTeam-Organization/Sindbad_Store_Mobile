@@ -176,7 +176,7 @@ class _CardProductDiscountWidgetState extends State<CardProductDiscountWidget> {
                           _onDiscountRateChanged('1');
                         } else {
                           final int? number = int.tryParse(value);
-                          if (number != null && number >= 1 && number <= 100) {
+                          if (number != null && number >= 1 && number <= 99) {
                             _onDiscountRateChanged(value);
                           }
                         }
@@ -204,7 +204,10 @@ class _CardProductDiscountWidgetState extends State<CardProductDiscountWidget> {
                           isEnable: true,
                           onChanged: (value) {
                             final int? number = int.tryParse(value);
-                            if (number != null &&
+                            if (value.isEmpty) {
+                              newPriceController.text = '1';
+                              _onNewPriceChanged('1');
+                            } else if (number != null &&
                                 number >= 1 &&
                                 number <= widget.oldPrice - 1) {
                               _onNewPriceChanged(value);

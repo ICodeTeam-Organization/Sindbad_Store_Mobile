@@ -135,128 +135,138 @@ class _HorizontalTitleAndTextFieldState
     extends State<HorizontalTitleAndTextField> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      // Added GestureDetector to handle taps on the entire row when isDate is true
-      onTap: widget.isDate
-          ? () async {
-              DateTime? pickeddate = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime.now(),
-                lastDate: DateTime(2100),
-                builder: (BuildContext context, Widget? child) {
-                  return Theme(
-                    data: ThemeData.light().copyWith(
-                      colorScheme: ColorScheme.light(
-                        primary: AppColors.primary, // Header background color
-                        onPrimary: AppColors.white, // Header text color
-                        onSurface:
-                            AppColors.blackDark, // Text color on the calendar
-                      ),
-                      textButtonTheme: TextButtonThemeData(
-                        style: TextButton.styleFrom(
-                          foregroundColor:
-                              AppColors.blackLight, // Button text color
-                        ),
-                      ),
-                    ),
-                    child: child!,
-                  );
-                },
-              );
-              if (pickeddate != null) {
-                setState(
-                  () {
-                    widget.info.text =
-                        DateFormat('yyyy/MM/dd').format(pickeddate);
-                  },
-                );
-              }
-            }
-          : null, // No action when isDate is false
-      child: Row(
-        children: [
-          RequiredText(title: widget.title),
-          SizedBox(
-            width: 40.h,
-          ),
-          Expanded(
+    return Row(
+      children: [
+        RequiredText(title: widget.title),
+        SizedBox(
+          width: 40.h,
+        ),
+        Expanded(
+          child: InkWell(
+            // Added GestureDetector to handle taps on the entire row when isDate is true
+            onTap: widget.isDate
+                ? () async {
+                    DateTime? pickeddate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime(2100),
+                      builder: (BuildContext context, Widget? child) {
+                        return Theme(
+                          data: ThemeData.light().copyWith(
+                            colorScheme: ColorScheme.light(
+                              primary:
+                                  AppColors.primary, // Header background color
+                              onPrimary: AppColors.white, // Header text color
+                              onSurface: AppColors
+                                  .blackDark, // Text color on the calendar
+                            ),
+                            textButtonTheme: TextButtonThemeData(
+                              style: TextButton.styleFrom(
+                                foregroundColor:
+                                    AppColors.blackLight, // Button text color
+                              ),
+                            ),
+                          ),
+                          child: child!,
+                        );
+                      },
+                    );
+                    if (pickeddate != null) {
+                      setState(
+                        () {
+                          widget.info.text =
+                              DateFormat('yyyy/MM/dd').format(pickeddate);
+                        },
+                      );
+                    }
+                  }
+                : null, // No action when isDate is false
             child: AbsorbPointer(
               // Prevents the TextFormField from handling taps when isDate is true
               absorbing: widget.isDate,
-              child: TextFormField(
-                readOnly: widget.isDate,
-                keyboardType: TextInputType.datetime,
-                controller: widget.info,
-                decoration: InputDecoration(
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: InkWell(
-                      onTap: widget.isDate
-                          ? () async {
-                              DateTime? pickeddate = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime.now(),
-                                lastDate: DateTime(2100),
-                                builder: (BuildContext context, Widget? child) {
-                                  return Theme(
-                                    data: ThemeData.light().copyWith(
-                                      colorScheme: ColorScheme.light(
-                                        primary: AppColors
-                                            .primary, // Header background color
-                                        onPrimary: AppColors
-                                            .white, // Header text color
-                                        onSurface: AppColors
-                                            .blackDark, // Text color on the calendar
-                                      ),
-                                      textButtonTheme: TextButtonThemeData(
-                                        style: TextButton.styleFrom(
-                                          foregroundColor: AppColors
-                                              .blackLight, // Button text color
+              child: SizedBox(
+                height: 50.h,
+                child: TextFormField(
+                  readOnly: widget.isDate,
+                  keyboardType: TextInputType.datetime,
+                  controller: widget.info,
+                  decoration: InputDecoration(
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: InkWell(
+                        onTap: widget.isDate
+                            ? () async {
+                                DateTime? pickeddate = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime.now(),
+                                  lastDate: DateTime(2100),
+                                  builder:
+                                      (BuildContext context, Widget? child) {
+                                    return Theme(
+                                      data: ThemeData.light().copyWith(
+                                        colorScheme: ColorScheme.light(
+                                          primary: AppColors
+                                              .primary, // Header background color
+                                          onPrimary: AppColors
+                                              .white, // Header text color
+                                          onSurface: AppColors
+                                              .blackDark, // Text color on the calendar
+                                        ),
+                                        textButtonTheme: TextButtonThemeData(
+                                          style: TextButton.styleFrom(
+                                            foregroundColor: AppColors
+                                                .blackLight, // Button text color
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    child: child!,
-                                  );
-                                },
-                              );
-                              if (pickeddate != null) {
-                                setState(
-                                  () {
-                                    widget.info.text = DateFormat('yyyy/MM/dd')
-                                        .format(pickeddate);
+                                      child: child!,
+                                    );
                                   },
                                 );
+                                if (pickeddate != null) {
+                                  setState(
+                                    () {
+                                      widget.info.text =
+                                          DateFormat('yyyy/MM/dd')
+                                              .format(pickeddate);
+                                    },
+                                  );
+                                }
                               }
-                            }
-                          : null, // No action when isDate is false
-                      child: SvgPicture.asset(
-                        "assets/calendar.svg",
+                            : null, // No action when isDate is false
+                        child: SvgPicture.asset(
+                          "assets/calendar.svg",
+                        ),
                       ),
                     ),
-                  ),
-                  prefixIconConstraints: BoxConstraints.tight(Size(40, 40)),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: AppColors.greyBorder,
-                      width: 1.0,
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 4.h, // Reduced vertical padding
+                      horizontal: 4.w, // Reduced horizontal padding
                     ),
-                    borderRadius: BorderRadius.circular(5.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: AppColors.primary,
-                      width: 1.0,
+                    prefixIconConstraints: BoxConstraints.tight(Size(40, 40)),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: AppColors.greyBorder,
+                        width: 1.0,
+                      ),
+                      borderRadius: BorderRadius.circular(5.0),
                     ),
-                    borderRadius: BorderRadius.circular(5.0),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: AppColors.primary,
+                        width: 1.0,
+                      ),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

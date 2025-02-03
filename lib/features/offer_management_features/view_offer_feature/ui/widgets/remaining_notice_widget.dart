@@ -16,32 +16,29 @@ class RemainingNoticeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return isRemainingDays == true
-        ? Row(
-            children: [
-              Text(
-                '( متبقي ',
-                style: KTextStyle.textStyle8.copyWith(
-                  color: AppColors.greyLight,
-                ),
+        ? Text.rich(
+            TextSpan(
+              style: KTextStyle.textStyle10.copyWith(
+                color: AppColors.greyDark,
               ),
-              Text(
-                remainingDays.toString(),
-                style: KTextStyle.textStyle8.copyWith(
-                  color: AppColors.primary,
+              children: <TextSpan>[
+                TextSpan(
+                  text: '( متبقي ',
                 ),
-              ),
-              Text(
-                '$specialCaseعلى الانتهاء )',
-                style: KTextStyle.textStyle8.copyWith(
-                  color: AppColors.greyLight,
+                TextSpan(
+                  text: remainingDays.toString(),
+                  style: TextStyle(color: AppColors.primary),
                 ),
-              ),
-            ],
+                TextSpan(
+                  text: '$specialCaseعلى الانتهاء )',
+                ),
+              ],
+            ),
           )
         : Text(
             ' (  انتهاء العرض  ) ',
-            style: KTextStyle.textStyle8.copyWith(
-              color: AppColors.greyLight,
+            style: KTextStyle.textStyle10.copyWith(
+              color: AppColors.greyDark,
             ),
           );
   }

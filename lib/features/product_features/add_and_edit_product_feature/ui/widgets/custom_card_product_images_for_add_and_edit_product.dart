@@ -46,7 +46,7 @@ class CustomCardProductImagesForAddAndEditProduct extends StatelessWidget {
               cubitEditProduct: cubitEditProduct,
               initialImageUrl: mainImageUrlProduct,
               boxNumber: 1,
-              containerWidth: 400.w,
+              // containerWidth: 400.w,
               mainContainerHeight: 210.h,
               upContainerHeight: 175.h,
               downContainerHeight: 35.h,
