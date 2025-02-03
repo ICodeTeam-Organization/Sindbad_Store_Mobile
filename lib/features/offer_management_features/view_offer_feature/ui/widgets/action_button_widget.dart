@@ -41,6 +41,7 @@ class ActionButtonWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(
+              color: isSolid == false ? AppColors.primary : AppColors.white,
               iconPath,
               width: 25.w,
               height: 25.h,

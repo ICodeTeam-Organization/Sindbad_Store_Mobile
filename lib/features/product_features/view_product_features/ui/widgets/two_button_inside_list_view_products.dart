@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/action_button_widget.dart';
 
 import 'button_custom.dart';
 
@@ -19,12 +20,20 @@ class TwoButtonInsideListViewProducts extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CustomButton(text: 'تعديل', icon: Icons.edit, onPressed: onTapEdit),
+        ActionButtonWidget(
+          title: 'تعديل المنتج',
+          iconPath: "assets/update.svg",
+          isSolid: false,
+          onTap: onTapEdit,
+        ),
         SizedBox(height: 5.h),
-        CustomButton(
-            text: reactivate ? 'إعادة تنشيط' : 'حذف',
-            icon: reactivate ? Icons.refresh : Icons.delete,
-            onPressed: onTapDeleteOrReactivate),
+        ActionButtonWidget(
+          title: reactivate ? 'إعادة تنشيط' : 'حذف المنتج',
+          iconPath:
+              reactivate ? 'assets/change_status.svg' : 'assets/delete.svg',
+          isSolid: false,
+          onTap: onTapDeleteOrReactivate,
+        ),
       ],
     );
   }

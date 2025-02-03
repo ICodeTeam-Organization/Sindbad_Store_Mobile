@@ -82,8 +82,8 @@ class ProductsListView extends StatelessWidget {
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    TextStyleTitleDataProductBold(
-                                        title: 'اسم المنتج :  '),
+                                    // TextStyleTitleDataProductBold(
+                                    //     title: 'اسم المنتج :  '),
                                     Expanded(
                                       child: TextStyleDataProductGreyDark(
                                           dataProduct: product.productName!),
@@ -94,8 +94,8 @@ class ProductsListView extends StatelessWidget {
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    TextStyleTitleDataProductBold(
-                                        title: 'رقم المنتج :  '),
+                                    // TextStyleTitleDataProductBold(
+                                    //     title: 'رقم المنتج :  '),
                                     Expanded(
                                       child: TextStyleDataProductGreyDark(
                                           dataProduct:
@@ -106,10 +106,10 @@ class ProductsListView extends StatelessWidget {
                                 SizedBox(height: 4.h),
                                 Row(
                                   children: [
-                                    Text('السعر :  ',
-                                        style: TextStyle(
-                                            fontSize: 12.sp,
-                                            fontWeight: FontWeight.bold)),
+                                    // Text('السعر :  ',
+                                    //     style: TextStyle(
+                                    //         fontSize: 12.sp,
+                                    //         fontWeight: FontWeight.bold)),
                                     Text(
                                       '\$${product.productPrice.toString()}',
                                       maxLines: 2,
