@@ -17,7 +17,7 @@ class CustomBoxAddImageForAddAndEditProductScreen extends StatefulWidget {
   final String? initialImageUrl;
   final EditProductFromStoreCubit? cubitEditProduct;
   final AddProductToStoreCubit? cubitAddProduct;
-  final double? containerWidth;
+  final double containerWidth;
   final double mainContainerHeight;
   final double upContainerHeight;
   final double downContainerHeight;
@@ -29,7 +29,7 @@ class CustomBoxAddImageForAddAndEditProductScreen extends StatefulWidget {
     super.key,
     required this.boxNumber,
     required this.initialImageUrl,
-    this.containerWidth,
+    this.containerWidth = 85,
     this.mainContainerHeight = 117,
     this.upContainerHeight = 82,
     this.downContainerHeight = 35,
@@ -58,12 +58,12 @@ class _CustomBoxAddImageForAddAndEditProductScreenState
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: widget.containerWidth!.w,
+      width: widget.containerWidth.w,
       height: widget.mainContainerHeight.h,
       child: Column(
         children: [
           SizedBox(
-            width: widget.containerWidth!.w,
+            width: widget.containerWidth.w,
             height: widget.upContainerHeight.h,
             child: DottedBorder(
               color: AppColors.primary,
@@ -82,7 +82,7 @@ class _CustomBoxAddImageForAddAndEditProductScreenState
                   }
                 },
                 child: Container(
-                  width: widget.containerWidth!.w,
+                  width: widget.containerWidth.w,
                   height: widget.upContainerHeight.h,
                   decoration: BoxDecoration(
                     color: AppColors.primaryOpacity,
@@ -94,7 +94,7 @@ class _CustomBoxAddImageForAddAndEditProductScreenState
                             boxNumber: widget.boxNumber,
                             initialImageUrl: initialImageUrl,
                             imageFile: selectedImage,
-                            containerWidth: widget.containerWidth!.w,
+                            containerWidth: widget.containerWidth.w,
                             upContainerHeight: widget.upContainerHeight.h,
                             onTapDeleteImage: () {
                               selectedImage = null;
@@ -122,7 +122,7 @@ class _CustomBoxAddImageForAddAndEditProductScreenState
           ),
           DesignForTitleUnderImage(
               title: widget.titleUnderBox,
-              width: widget.containerWidth!.w,
+              width: widget.containerWidth.w,
               height: widget.downContainerHeight.h),
         ],
       ),
