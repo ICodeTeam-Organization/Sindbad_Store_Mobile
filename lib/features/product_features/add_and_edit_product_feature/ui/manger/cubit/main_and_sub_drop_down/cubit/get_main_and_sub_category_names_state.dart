@@ -19,16 +19,3 @@ final class GetCategoryNamesFailure extends GetCategoryNamesState {
 
   GetCategoryNamesFailure({required this.errMessage});
 }
-
-// final class SubCategorySuccess extends GetCategoryNamesState {
-//   // for Sub Category
-//   final List<SubCategoryEntity> subCategories;
-
-//   SubCategorySuccess({required this.subCategories});
-// }
-final class SubCategorySuccess extends GetCategoryNamesState {
-  // for Sub Category
-  final List<MainCategoryEntity> categoryAndSubCategoryNames;
-
-  SubCategorySuccess({required this.categoryAndSubCategoryNames});
-}

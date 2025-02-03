@@ -13,16 +13,16 @@ class GetMainCategoryForViewUseCase extends UseCaseWithParam<
   Future<Either<Failure, List<MainCategoryForViewEntity>>> execute(
       MainCategoryForViewParams params) async {
     return viewProductRepo.getMainCategoryForView(
-        pageNumper: params.pageNumper, pageSize: params.pageSize);
+        pageNumber: params.pageNumber, pageSize: params.pageSize);
   }
 }
 
 class MainCategoryForViewParams {
-  final int pageNumper;
+  final int pageNumber;
   final int pageSize;
 
   MainCategoryForViewParams({
-    required this.pageNumper,
+    required this.pageNumber,
     required this.pageSize,
   });
 }

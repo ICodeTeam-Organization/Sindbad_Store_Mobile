@@ -5,7 +5,7 @@ class DeleteProductModel extends DeleteProductEntity {
   String? kmessage;
 
   DeleteProductModel({this.success, this.kmessage})
-      : super(isSuuccess: success!, message: kmessage!);
+      : super(isSuccess: success!, message: kmessage!);
 
   factory DeleteProductModel.fromJson(Map<String, dynamic> json) {
     return DeleteProductModel(

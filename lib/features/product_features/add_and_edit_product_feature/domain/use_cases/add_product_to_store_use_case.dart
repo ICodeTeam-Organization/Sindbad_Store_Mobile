@@ -45,15 +45,14 @@ class AddProductToStoreParams {
   final String description;
   final File mainImageFile;
   final String number;
-  // i don't know what data tybe and value
+  // i don't use it
   final int? storeId;
   final int? offerId;
-  final int? brandId;
   //
+  final int? brandId;
   final int mainCategoryId;
   final List<File> images;
   final List<int> subCategoryIds;
-  // final List<Map<String, String>> newAttributes;
   final List<Map<String, String>> newAttributes;
   AddProductToStoreParams({
     required this.name,
@@ -64,8 +63,8 @@ class AddProductToStoreParams {
     //
     required this.storeId,
     required this.offerId,
-    required this.brandId,
     //
+    required this.brandId,
     required this.mainCategoryId,
     required this.images,
     required this.subCategoryIds,

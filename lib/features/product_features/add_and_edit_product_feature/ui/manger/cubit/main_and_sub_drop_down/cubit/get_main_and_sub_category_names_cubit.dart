@@ -4,8 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
 import '../../../../../../../../core/errors/failure.dart';
 import '../../../../../domain/entities/add_product_entities/sub_category_entity.dart';
-import '../../../../../domain/usecases/get_main_and_sub_category_use_case.dart';
-
+import '../../../../../domain/use_cases/get_main_and_sub_category_use_case.dart';
 part 'get_main_and_sub_category_names_state.dart';
 
 class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
@@ -15,19 +14,20 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
   final GetMainAndSubCategoryUseCase getMainAndSubCategoryUseCase;
 
   List<MainCategoryEntity> mainAndSubCategories =
-      []; // لتخزين الفئات الرئيسية والفرعية
-  List<SubCategoryEntity> selectedSubCategories = []; // لتخزين الفئات الفرعية
+      []; // to store main and sub categories
+  List<SubCategoryEntity> selectedSubCategories =
+      []; // to store just sub categories
 
   // for drop down category
 
   Future<void> getMainAndSubCategory({
     required int filterType,
-    required int pageNumper,
+    required int pageNumber,
     required int pageSize,
   }) async {
-    emit(GetCategoryNamesLoading()); // ======== emit ==========
+    emit(GetCategoryNamesLoading());
     GetMainAndSubCategoryParams params = GetMainAndSubCategoryParams(
-        filterType: filterType, pageNumper: pageNumper, pageSize: pageSize);
+        filterType: filterType, pageNumber: pageNumber, pageSize: pageSize);
 
     Either<Failure, List<MainCategoryEntity>> result =
         await getMainAndSubCategoryUseCase.execute(params);
@@ -35,21 +35,18 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
     result.fold(
         // left
         (failure) {
-      emit(GetCategoryNamesFailure(
-          errMessage: failure.message)); // ======== emit ==========
+      if (!isClosed) {
+        emit(GetCategoryNamesFailure(errMessage: failure.message));
+      }
     },
         // right
         (mainAndSubCategory) {
-      //
-      // mainAndSubCategories = mainAndSubCategory;
+      // to store in cubit class
       mainAndSubCategories = mainAndSubCategory;
-
-      // selectedSubCategories = contains just sub categories for mainCategories specific by ID
-
-      //
-      emit(GetCategoryNamesSuccess(
-          categoryAndSubCategoryNames:
-              mainAndSubCategory)); // ======== emit ==========
+      if (!isClosed) {
+        emit(GetCategoryNamesSuccess(
+            categoryAndSubCategoryNames: mainAndSubCategory));
+      }
     });
   }
 
@@ -70,24 +67,4 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
       categoryAndSubCategoryNames: mainAndSubCategories,
     ));
   }
-
-  // هذي داله مؤقته نفس الي فوق بس تغيير بسيط عشان صفحة التعديل والمفترض يكونن الاثنين بذي الداله
-  // void updateSubCategoriesForEditPage(int selectedMainCategoryId) {
-  //   try {
-  //     // نحاول العثور على الفئة الرئيسية
-  //     final selectedMainCategory = mainAndSubCategories.firstWhere(
-  //       (category) => category.mainCategoryId == selectedMainCategoryId,
-  //     );
-
-  //     // إذا تم العثور على الفئة الرئيسية، نقوم بتحديث الفئات الفرعية
-  //     selectedSubCategories = selectedMainCategory.subCategory;
-  //   } catch (e) {
-  //     // إذا لم يتم العثور على العنصر، نعرض رسالة خطأ أو نستخدم قيمة افتراضية
-  //     selectedSubCategories = []; // نستخدم قائمة فارغة كقيمة افتراضية
-  //   }
-
-  //   emit(SubCategorySuccess(
-  //     categoryAndSubCategoryNames: mainAndSubCategories,
-  //   ));
-  // }
 }

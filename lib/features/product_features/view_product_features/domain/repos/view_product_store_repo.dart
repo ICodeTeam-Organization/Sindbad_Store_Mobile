@@ -10,13 +10,13 @@ abstract class ViewProductRepo {
   // for get MainCategory
   Future<Either<Failure, List<MainCategoryForViewEntity>>>
       getMainCategoryForView({
-    required int pageNumper,
+    required int pageNumber,
     required int pageSize,
   });
 
   Future<Either<Failure, List<ProductEntity>>> getProductsByFilter({
     required int storeProductsFilter,
-    required int pageNumper,
+    required int pageNumber,
     required int pageSize,
     required int? categoryId,
   });

@@ -14,7 +14,7 @@ class GetProductsByFilterUseCase
       ProductsByFilterParams params) async {
     return viewProductRepo.getProductsByFilter(
       storeProductsFilter: params.storeProductsFilter,
-      pageNumper: params.pageNumper,
+      pageNumber: params.pageNumber,
       pageSize: params.pageSize,
       categoryId: params.categoryId,
     );
@@ -23,13 +23,13 @@ class GetProductsByFilterUseCase
 
 class ProductsByFilterParams {
   final int storeProductsFilter;
-  final int pageNumper;
+  final int pageNumber;
   final int pageSize;
   final int? categoryId;
 
   ProductsByFilterParams(
     this.storeProductsFilter,
-    this.pageNumper,
+    this.pageNumber,
     this.pageSize,
     this.categoryId,
   );

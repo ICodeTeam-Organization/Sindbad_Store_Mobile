@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
 import 'package:sindbad_management_app/features/product_features/view_product_features/domain/entities/activate_products_entity.dart';
 import 'package:sindbad_management_app/features/product_features/view_product_features/domain/entities/delete_entity_product.dart';
@@ -19,10 +18,10 @@ class ViewProductStoreRepoImpl extends ViewProductRepo {
   @override
   Future<Either<Failure, List<MainCategoryForViewEntity>>>
       getMainCategoryForView(
-          {required int pageNumper, required int pageSize}) async {
+          {required int pageNumber, required int pageSize}) async {
     try {
       var data = await viewProductRemoteDataSource.getMainCategoryForView(
-        pageNumper: pageNumper,
+        pageNumber: pageNumber,
         pageSize: pageSize,
       );
       return right(data);
@@ -38,14 +37,14 @@ class ViewProductStoreRepoImpl extends ViewProductRepo {
   @override
   Future<Either<Failure, List<ProductEntity>>> getProductsByFilter({
     required int storeProductsFilter,
-    required int pageNumper,
+    required int pageNumber,
     required int pageSize,
     required int? categoryId,
   }) async {
     try {
       var data = await viewProductRemoteDataSource.getProductsByFilter(
         storeProductsFilter: storeProductsFilter,
-        pageNumper: pageNumper,
+        pageNumber: pageNumber,
         pageSize: pageSize,
         categoryId: categoryId,
       );
@@ -74,10 +73,6 @@ class ViewProductStoreRepoImpl extends ViewProductRepo {
         return left(ServerFailure(e.toString()));
       }
     }
-    // finally {
-    //   // to control errMessage when response 404 becouse we can
-    //   return left(ServerFailure("المنتج غير موجود."));
-    // }
   }
 
   // ===================  for Disable Products  ====================
@@ -87,7 +82,6 @@ class ViewProductStoreRepoImpl extends ViewProductRepo {
     try {
       var response =
           await viewProductRemoteDataSource.disableProductsByIds(ids: ids);
-      debugPrint("=====  done DisableProducts $ids");
       return right(response);
     } catch (e) {
       if (e is DioException) {

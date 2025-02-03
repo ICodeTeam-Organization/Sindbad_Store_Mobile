@@ -2,7 +2,6 @@ import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
-import 'package:sindbad_management_app/core/styles/text_style.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/required_text.dart';
 
 class CustomDropdownWidget extends StatelessWidget {
@@ -11,26 +10,20 @@ class CustomDropdownWidget extends StatelessWidget {
   final String textTitle;
   final bool enabled;
   final String? initialItem;
-  // final SingleSelectController<String?>? controller;
   final dynamic Function(String?) onChanged;
 
   const CustomDropdownWidget({
     super.key,
     required this.textTitle,
-    // this.controller,
     required this.items,
     required this.hintText,
     required this.onChanged,
     this.enabled = true,
     this.initialItem,
-    // this.initialItem,
   });
 
   @override
   Widget build(BuildContext context) {
-    // final String? initialDropdownItem =
-    //     (items.isNotEmpty && items.contains(initialItem)) ? initialItem : null;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -45,7 +38,6 @@ class CustomDropdownWidget extends StatelessWidget {
             textDirection: TextDirection.rtl,
             child: CustomDropdown<String>(
               enabled: enabled,
-              // controller: controller,
               hintText: hintText,
               items: items,
               initialItem: initialItem,

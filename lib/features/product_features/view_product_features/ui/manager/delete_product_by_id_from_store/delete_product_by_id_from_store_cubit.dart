@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../domain/usecases/delete_product_by_id_use_case.dart';
+import '../../../domain/use_cases/delete_product_by_id_use_case.dart';
 
 part 'delete_product_by_id_from_store_state.dart';
 

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class AfterSelectedImageForEditScreen extends StatelessWidget {
+class AfterSelectedImageForAddAndEditScreen extends StatelessWidget {
   final String? initialImageUrl;
   final File? imageFile;
   final int
@@ -12,7 +12,7 @@ class AfterSelectedImageForEditScreen extends StatelessWidget {
   final double upContainerHeight;
   final void Function() onTapDeleteImage;
 
-  const AfterSelectedImageForEditScreen({
+  const AfterSelectedImageForAddAndEditScreen({
     super.key,
     required this.imageFile,
     required this.containerWidth,
@@ -24,7 +24,6 @@ class AfterSelectedImageForEditScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("===========  initialImageUrl ==  $initialImageUrl  =============");
     return Stack(
       children: [
         initialImageUrl != null
@@ -72,7 +71,8 @@ class AfterSelectedImageForEditScreen extends StatelessWidget {
         // if (upContainerHeight <= 82)
         boxNumber > 1
             ? // is subImage
-            SizedBox()
+            SizedBox() 
+            // for show delete button in box image
             // Positioned(
             //     top: 2.0,
             //     left: 0,

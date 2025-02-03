@@ -1,12 +1,12 @@
 class ProductEntity {
-  final int? productid;
+  final int? productId;
   final String? productName;
   final String? productNumber;
   final num? productPrice;
   final String? productImageUrl;
 
   ProductEntity({
-    this.productid,
+    this.productId,
     this.productName,
     this.productNumber,
     this.productPrice,

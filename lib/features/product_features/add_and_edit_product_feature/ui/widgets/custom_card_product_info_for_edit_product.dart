@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/section_title_widget.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/custom_text_form_widget.dart';
 
-import '../manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
-import 'custom_text_form_widget.dart';
-
-class CustomCardToAllTextFileds extends StatelessWidget {
-  const CustomCardToAllTextFileds({
+class CustomCardProductInfoForEditProduct extends StatelessWidget {
+  const CustomCardProductInfoForEditProduct({
     super.key,
-  });
+    required TextEditingController priceProductController,
+    required TextEditingController descriptionProductController,
+    required this.productName,
+    required this.productNumber,
+  })  : _priceProductController = priceProductController,
+        _descriptionProductController = descriptionProductController;
+
+  final String productName;
+  final String productNumber;
+  final TextEditingController _priceProductController;
+  final TextEditingController _descriptionProductController;
 
   @override
   Widget build(BuildContext context) {
-    final AddProductToStoreCubit cubitAddProduct =
-        context.read<AddProductToStoreCubit>();
     return Container(
       width: double.maxFinite,
       decoration: BoxDecoration(
@@ -27,12 +32,11 @@ class CustomCardToAllTextFileds extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //  container Title
             SectionTitleWidget(title: 'معلومات المنتج'),
             SizedBox(height: 20.h),
             CustomTextFormWidget(
-              textController: cubitAddProduct
-                  .nameProductController, // ================================
+              enabled: false,
+              textController: TextEditingController(text: productName),
               text: 'أسم المنتج',
               height: 65.h,
               width: 400.w,
@@ -42,17 +46,14 @@ class CustomCardToAllTextFileds extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomTextFormWidget(
-                  keyboardType: TextInputType.number,
-                  textController: cubitAddProduct
-                      .priceProductController, // ================================
+                  textController: _priceProductController,
                   text: 'السعر',
                   width: 130.w,
                   height: 65.h,
                 ),
                 CustomTextFormWidget(
-                  keyboardType: TextInputType.number,
-                  textController: cubitAddProduct
-                      .numberProductController, // ================================
+                  enabled: false,
+                  textController: TextEditingController(text: productNumber),
                   text: 'رقم المنتج',
                   width: 130.w,
                   height: 65.h,
@@ -61,12 +62,11 @@ class CustomCardToAllTextFileds extends StatelessWidget {
             ),
             SizedBox(height: 20.h),
             CustomTextFormWidget(
-              textController: cubitAddProduct
-                  .descriptionProductController, // ================================
+              textController: _descriptionProductController,
               text: 'وصف المنتج',
               width: 400.w,
               height: 200.h,
-              maxLines: 5, // Allow multiple lines
+              maxLines: 5,
             ),
           ],
         ),

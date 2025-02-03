@@ -8,7 +8,6 @@ import 'package:sindbad_management_app/features/product_features/add_and_edit_pr
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/edit_product_entities/edit_product_entity.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/edit_product_entities/product_details_entity.dart';
 import '../../domain/repos/add_and_edit_product_store_repo.dart';
-import '../../domain/usecases/add_product_to_store_use_case.dart';
 import '../data_source/add_and_edit_product_to_store_remote_data_source.dart';
 
 class AddAndEditProductStoreRepoImpl extends AddAndEditProductStoreRepo {
@@ -45,7 +44,6 @@ class AddAndEditProductStoreRepoImpl extends AddAndEditProductStoreRepo {
     required int mainCategoryId,
     required List<File> images,
     required List<int> subCategoryIds,
-    // required List<Map<String, String>> newAttributes,
     required List<Map<String, String>> newAttributes,
   }) async {
     return postOneData(
@@ -68,14 +66,14 @@ class AddAndEditProductStoreRepoImpl extends AddAndEditProductStoreRepo {
   @override
   Future<Either<Failure, List<MainCategoryEntity>>> getMainAndSubCategory({
     required int filterType,
-    required int pageNumper,
+    required int pageNumber,
     required int pageSize,
   }) async {
     try {
       var data =
           await addAndEditProductToStoreRemoteDataSource.getMainAndSubCategory(
         filterType: filterType,
-        pageNumper: pageNumper,
+        pageNumber: pageNumber,
         pageSize: pageSize,
       );
       return right(data);

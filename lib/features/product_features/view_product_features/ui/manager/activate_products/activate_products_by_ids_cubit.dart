@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/entities/activate_products_entity.dart';
-import '../../../domain/usecases/activate_products_by_ids_use_case.dart';
+import '../../../domain/use_cases/activate_products_by_ids_use_case.dart';
 part 'activate_products_by_ids_state.dart';
 
 class ActivateProductsByIdsCubit extends Cubit<ActivateProductsByIdsState> {

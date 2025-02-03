@@ -19,8 +19,8 @@ final class GetStoreProductsWithFilterFailure
 final class GetStoreProductsWithFilterSuccess
     extends GetStoreProductsWithFilterState {
   final List<ProductEntity> products;
-  final List<bool> checkedStates; // الحالة الخاصة بكل Checkbox
-  final List<int> productsSelected; // المنتجات المختارة من check box
+  final List<bool> checkedStates; // [states for Check boxes]
+  final List<int> productsSelected; // [IDs for products selected]
 
   GetStoreProductsWithFilterSuccess(
       this.products, this.checkedStates, this.productsSelected);
