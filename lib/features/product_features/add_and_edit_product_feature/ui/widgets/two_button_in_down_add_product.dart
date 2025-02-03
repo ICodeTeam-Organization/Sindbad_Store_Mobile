@@ -38,6 +38,14 @@ class TwoButtonInDownAddProduct extends StatelessWidget {
               );
               Navigator.of(context).pop();
             }
+            if (state is AddProductToStoreFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    content: Text(
+                  'فشل في إضافة المنتج, الرجاء المحاولة مرة أخرى',
+                )),
+              );
+            }
           },
           builder: (context, state) {
             return StorePrimaryButton(
