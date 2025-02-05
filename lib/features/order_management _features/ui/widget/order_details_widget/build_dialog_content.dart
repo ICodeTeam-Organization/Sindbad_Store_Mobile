@@ -6,9 +6,9 @@ import 'build_image_section.dart';
 import 'build_info_row.dart';
 import 'radio_widget.dart';
 
-TextEditingController dateConroller = TextEditingController();
-TextEditingController numberConroller = TextEditingController();
-TextEditingController mountConroller = TextEditingController();
+// TextEditingController dateConroller = TextEditingController();
+// TextEditingController numberConroller = TextEditingController();
+// TextEditingController mountConroller = TextEditingController();
 
 class BuildDialogContent extends StatelessWidget {
   const BuildDialogContent({
@@ -18,12 +18,19 @@ class BuildDialogContent extends StatelessWidget {
     required this.secondTitle,
     required this.thierdTitle,
     required this.onPressedSure,
+    required this.dateController,
+    required this.numberController,
+    required this.mountController,
   });
   final bool? isLoading;
   final String firstTitle;
   final String secondTitle;
   final String thierdTitle;
   final GestureTapCallback onPressedSure;
+  //
+  final TextEditingController dateController;
+  final TextEditingController numberController;
+  final TextEditingController mountController;
 
   @override
   Widget build(BuildContext context) {
@@ -38,21 +45,21 @@ class BuildDialogContent extends StatelessWidget {
           children: [
             DateTextField(
               title: firstTitle,
-              controller: dateConroller,
+              controller: dateController,
             ),
             SizedBox(
               height: 15.h,
             ),
             BuildInfoRow(
               title: secondTitle,
-              controller: numberConroller,
+              controller: numberController,
             ),
             SizedBox(
               height: 15.h,
             ),
             BuildInfoRow(
               title: thierdTitle,
-              controller: mountConroller,
+              controller: mountController,
             ),
             SizedBox(
               height: 15.h,

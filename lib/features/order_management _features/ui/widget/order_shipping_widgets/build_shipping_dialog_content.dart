@@ -2,17 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/shared_widgets/new_widgets/date_text_field.dart';
 import '../../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
-import '../order_details_widget/build_dialog_content.dart';
 import '../order_details_widget/build_image_section.dart';
 import '../order_details_widget/build_info_row.dart';
 import 'build_info_row_add.dart';
 import 'drop_down_widget.dart';
-
-// TextEditingController dateShippingConroller = TextEditingController();
-TextEditingController numberShippingConroller = TextEditingController();
-TextEditingController mountShippingConroller = TextEditingController();
-TextEditingController anotherCompanyConroller = TextEditingController();
-TextEditingController anotherCompanyNumberConroller = TextEditingController();
 
 class BuildShippingDialogContent extends StatefulWidget {
   const BuildShippingDialogContent({
@@ -22,12 +15,27 @@ class BuildShippingDialogContent extends StatefulWidget {
     required this.secondTitle,
     required this.thierdTitle,
     required this.onPressedSure,
+    required this.dateController,
+    required this.numberShippingController,
+    required this.mountShippingController,
+    required this.anotherCompanyController,
+    required this.anotherCompanyNumberController,
   });
   final bool? isLoading;
   final String firstTitle;
   final String secondTitle;
   final String thierdTitle;
   final GestureTapCallback onPressedSure;
+  //
+  final TextEditingController dateController;
+
+  final TextEditingController numberShippingController;
+
+  final TextEditingController mountShippingController;
+
+  final TextEditingController anotherCompanyController;
+
+  final TextEditingController anotherCompanyNumberController;
 
   @override
   State<BuildShippingDialogContent> createState() =>
@@ -48,14 +56,14 @@ class _BuildShippingDialogContentState
           children: [
             DateTextField(
               title: widget.firstTitle,
-              controller: dateConroller,
+              controller: widget.dateController,
             ),
             SizedBox(
               height: 15.h,
             ),
             BuildInfoRow(
               title: widget.secondTitle,
-              controller: numberShippingConroller,
+              controller: widget.numberShippingController,
             ),
             SizedBox(
               height: 15.h,
@@ -100,11 +108,11 @@ class _BuildShippingDialogContentState
         BuildInfoRow(
           keyboardType: TextInputType.text,
           title: 'اسم الشركة',
-          controller: anotherCompanyConroller,
+          controller: widget.anotherCompanyController,
         ),
         BuildInfoRow(
           title: 'رقم التواصل',
-          controller: anotherCompanyNumberConroller,
+          controller: widget.anotherCompanyNumberController,
         ),
       ],
     );
