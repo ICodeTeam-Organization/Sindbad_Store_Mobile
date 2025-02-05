@@ -141,6 +141,7 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                 priceProductController: _priceProductController,
                 descriptionProductController: _descriptionProductController,
                 cubitAttribute: cubitAttribute,
+                onSuccessCallback: widget.onSuccessCallback,
               )
             ],
           ),
