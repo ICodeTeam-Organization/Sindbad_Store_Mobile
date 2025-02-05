@@ -16,6 +16,8 @@ class ShippingCubit extends Cubit<ShippingState> {
     required String shippingCompany,
     required File shippingImages,
     required int numberParcels,
+    required int shippingCompniesId,
+    required String phoneNumber,
   }) async {
     emit(ShippingLoading());
     try {
@@ -25,7 +27,9 @@ class ShippingCubit extends Cubit<ShippingState> {
           shippingNumber: shippingNumber,
           shippingCompany: shippingCompany,
           shippingImages: shippingImages,
-          numberParcels: numberParcels);
+          numberParcels: numberParcels,
+          shippingCompniesId: shippingCompniesId,
+          phoneNumber: phoneNumber);
       final result = await orderShippingUsecase.execute(params);
       result
           .fold((failure) => emit(ShippingFailure(errMessage: failure.message)),
