@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/sub_custom_tab_bar.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_body.dart';
-import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_details_widget/build_dialog_content.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_details_widget/radio_widget.dart';
 import '../../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
 import '../../../../../core/styles/Colors.dart';
@@ -17,10 +16,33 @@ import 'custom_create_bill_dialog.dart';
 import 'custom_order_cancle_dialog.dart';
 import 'messages.dart';
 
-class ShowCreateBillAndCancelOrder extends StatelessWidget {
+class ShowCreateBillAndCancelOrder extends StatefulWidget {
   final VoidCallback onCreateInvoice; // New: Callback to trigger state update
   const ShowCreateBillAndCancelOrder(
-      {super.key, required this.onCreateInvoice}); // Updated constructor
+      {super.key, required this.onCreateInvoice});
+  @override
+  State<ShowCreateBillAndCancelOrder> createState() =>
+      _ShowCreateBillAndCancelOrderState();
+}
+
+class _ShowCreateBillAndCancelOrderState
+    extends State<ShowCreateBillAndCancelOrder> {
+  // Updated constructor
+  TextEditingController dateController = TextEditingController();
+
+  TextEditingController numberController = TextEditingController();
+
+  TextEditingController mountController = TextEditingController();
+
+  TextEditingController cancelConroller = TextEditingController();
+  @override
+  void dispose() {
+    dateController.dispose();
+    numberController.dispose();
+    mountController.dispose();
+    cancelConroller.dispose();
+    super.dispose();
+  }
 
   DateTime? convertToDateTime(String inputDate) {
     try {
@@ -44,8 +66,8 @@ class ShowCreateBillAndCancelOrder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int? mount;
-    int pays = 0;
+    // int? mount;
+    // int pays = 0;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -66,11 +88,11 @@ class ShowCreateBillAndCancelOrder extends StatelessWidget {
                         // Trigger the callback to update the button state
                         //تحديث الصفحة بعد انشاء الفاتورة
                         refreshAfterCreateInvoice(context);
-                        onCreateInvoice(); // New: Trigger Cubit state update
+                        widget
+                            .onCreateInvoice(); // New: Trigger Cubit state update
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                              content:
-                                  Text('لقد تمت الأضافة في قائمة التجهيز')),
+                              content: Text('لقد تم انشاء الفاتورة بنجاح')),
                         );
                         // Messages(
                         //   isTrue: state.serverMessage.isSuccess,
@@ -99,6 +121,9 @@ class ShowCreateBillAndCancelOrder extends StatelessWidget {
                           firstTitle: 'تاريخ الفاتورة',
                           secondTitle: 'رقم الفاتورة',
                           thierdTitle: 'قيمة الفاتورة',
+                          dateController: dateController,
+                          numberController: numberController,
+                          mountController: mountController,
                           onPressedSure: () async {},
                         );
                       }
@@ -108,24 +133,26 @@ class ShowCreateBillAndCancelOrder extends StatelessWidget {
                         firstTitle: 'تاريخ الفاتورة',
                         secondTitle: 'رقم الفاتورة',
                         thierdTitle: 'قيمة الفاتورة',
+                        dateController: dateController,
+                        numberController: numberController,
+                        mountController: mountController,
                         onPressedSure: () async {
                           DateTime? dateFormat =
-                              convertToDateTime(dateConroller.text);
+                              convertToDateTime(dateController.text);
                           await context
                               .read<OrderInvoiceCubit>()
                               .fechOrderInvoice(
                                 packageId: idPackages!,
-                                invoiceAmount: mount =
-                                    int.parse(mountConroller.text),
+                                invoiceAmount: int.parse(mountController.text),
                                 invoiceImage: images!,
-                                invoiceNumber: numberConroller.text,
+                                invoiceNumber: numberController.text,
                                 invoiceDate: dateFormat ?? DateTime.now(),
-                                invoiceType: pays = int.parse(pay ?? '0'),
+                                invoiceType: int.parse(pay ?? '0'),
                               );
                           // Clear input fields
-                          numberConroller.clear();
-                          mountConroller.clear();
-                          dateConroller.clear();
+                          numberController.clear();
+                          mountController.clear();
+                          dateController.clear();
                         },
                       );
                     },
@@ -144,6 +171,7 @@ class ShowCreateBillAndCancelOrder extends StatelessWidget {
                 context: context,
                 builder: (context) {
                   return CustomOrderCancleDialog(
+                    cancelConroller: cancelConroller,
                     headTitle: 'ملاحظة رفض الطلب',
                     onPressedSure: () async {
                       try {

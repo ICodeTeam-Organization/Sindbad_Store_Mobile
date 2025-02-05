@@ -37,13 +37,16 @@ abstract class AllOrderRepo {
       required DateTime invoiceDate});
 
   //! Shipping Invoice
-  Future<Either<Failure, OrderShippingEntity>> fetchOrderShipping(
-      {required int packageId,
-      required DateTime invoiceDate,
-      required int shippingNumber,
-      required String shippingCompany,
-      required File shippingImages,
-      required int numberParcels});
+  Future<Either<Failure, OrderShippingEntity>> fetchOrderShipping({
+    required int packageId,
+    required DateTime invoiceDate,
+    required int shippingNumber,
+    required String shippingCompany,
+    required File shippingImages,
+    required int numberParcels,
+    required int shippingCompniesId,
+    required String phoneNumber,
+  });
 
   //! Order Cancel
   Future<Either<Failure, OrderCancelEntity>> fetchOrderCancel({

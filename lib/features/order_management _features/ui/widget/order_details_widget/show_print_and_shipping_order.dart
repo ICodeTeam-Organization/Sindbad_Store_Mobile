@@ -15,16 +15,38 @@ import '../../function/pdf.dart';
 import '../../manager/all_order/all_order_cubit.dart';
 import '../../manager/button_disable/button_disable_cubit.dart';
 import '../../manager/refresh/refresh_page_cubit.dart';
-import '../order_shipping_widgets/build_shipping_dialog_content.dart';
 import '../order_shipping_widgets/custom_order_print_dialog.dart';
 import '../order_shipping_widgets/custom_order_shipping_dialog.dart';
-import 'build_dialog_content.dart';
-import 'messages.dart';
 
-class ShowPrintAndShippingOrder extends StatelessWidget {
+class ShowPrintAndShippingOrder extends StatefulWidget {
   const ShowPrintAndShippingOrder({
     super.key,
   });
+
+  @override
+  State<ShowPrintAndShippingOrder> createState() =>
+      _ShowPrintAndShippingOrderState();
+}
+
+class _ShowPrintAndShippingOrderState extends State<ShowPrintAndShippingOrder> {
+  TextEditingController dateController = TextEditingController();
+
+  TextEditingController numberShippingController = TextEditingController();
+
+  TextEditingController mountShippingController = TextEditingController();
+
+  TextEditingController anotherCompanyController = TextEditingController();
+
+  TextEditingController anotherCompanyNumberController =
+      TextEditingController();
+  @override
+  void dispose() {
+    numberShippingController.dispose();
+    mountShippingController.dispose();
+    anotherCompanyController.dispose();
+    anotherCompanyNumberController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,17 +82,17 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                                 refreshAfterShippingInvoice(context);
                                 Navigator.pop(context); // Close the dialog
                                 Navigator.pop(context); // Close the dialog
-                                Messages(
-                                  isTrue: state.serverMessage.isSuccess,
-                                  trueMessage: 'لقد تم الشحن بنجاح',
-                                  falseMessage: 'هناك خطاء في العملية',
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('لقد تم الشحن بنجاح'),
+                                  ),
                                 );
                               } else if (state is ShippingFailure) {
                                 Navigator.pop(context); // Close the dialog
-                                Messages(
-                                  isTrue: false,
-                                  trueMessage: 'لقد تم الشحن بنجاح',
-                                  falseMessage: 'هناك خطاء في العملية',
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('هناك خطاء في العملية'),
+                                  ),
                                 );
                               }
                             },
@@ -83,6 +105,15 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                                   secondTitle: 'رقم فاتورة الشحن',
                                   thierdTitle: 'الشركة الناقلة',
                                   onPressedSure: () async {},
+                                  dateController: dateController,
+                                  numberShippingController:
+                                      numberShippingController,
+                                  mountShippingController:
+                                      mountShippingController,
+                                  anotherCompanyController:
+                                      anotherCompanyController,
+                                  anotherCompanyNumberController:
+                                      anotherCompanyNumberController,
                                 );
                               }
                               return CustomOrderShippingDialog(
@@ -90,14 +121,23 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                                 firstTitle: 'تاريخ الفاتورة',
                                 secondTitle: 'رقم فاتورة الشحن',
                                 thierdTitle: 'الشركة الناقلة',
+                                dateController: dateController,
+                                numberShippingController:
+                                    numberShippingController,
+                                mountShippingController:
+                                    mountShippingController,
+                                anotherCompanyController:
+                                    anotherCompanyController,
+                                anotherCompanyNumberController:
+                                    anotherCompanyNumberController,
                                 onPressedSure: () async {
                                   if (companyName == 'اخرى') {
-                                    companyName = anotherCompanyConroller.text;
+                                    companyName = anotherCompanyController.text;
                                   } else {
                                     companyName = companyName;
                                   }
                                   DateTime? dateFormat =
-                                      convertToDateTime(dateConroller.text);
+                                      convertToDateTime(dateController.text);
                                   await context
                                       .read<ShippingCubit>()
                                       .fetchOrderShipping(
@@ -105,16 +145,20 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                                           invoiceDate:
                                               dateFormat ?? DateTime.now(),
                                           shippingNumber: shippingNumber =
-                                              int.parse(
-                                                  numberShippingConroller.text),
+                                              int.parse(numberShippingController
+                                                  .text),
                                           shippingCompany: companyName ?? '',
                                           shippingImages: images!,
-                                          numberParcels: parcels!);
+                                          numberParcels: parcels!,
+                                          shippingCompniesId: 0,
+                                          phoneNumber:
+                                              anotherCompanyNumberController
+                                                  .text);
                                   // After successful operation, enable the specific order button
                                   // ignore: use_build_context_synchronously
-                                  dateConroller.clear();
-                                  numberShippingConroller.clear();
-                                  anotherCompanyConroller.clear();
+                                  dateController.clear();
+                                  numberShippingController.clear();
+                                  anotherCompanyController.clear();
                                   parcels = 1;
                                   // context.read<ShippingCubit>().enableButton();
                                 },
@@ -153,23 +197,20 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                               }
 
                               if (context.mounted) {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return Messages(
-                                      isTrue: true,
-                                      trueMessage:
-                                          'لقد تم طباعة ملصق انتقل الى شحن الطلبات',
-                                      falseMessage: 'هناك خطاء في العملية',
-                                    );
-                                  },
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content:
+                                        Text('لقد تمت طباعة العنوان بنجاح'),
+                                  ),
                                 );
                               }
                               parcels = 1;
                               // After successful operation, enable the specific order button
-                              context
-                                  .read<ButtonDisableCubit>()
-                                  .enableButtonForOrder(idOrders.toString());
+                              if (context.mounted) {
+                                context
+                                    .read<ButtonDisableCubit>()
+                                    .enableButtonForOrder(idOrders.toString());
+                              }
                             },
                             onPressedShare: () async {
                               final now = DateTime.now();
@@ -184,17 +225,15 @@ class ShowPrintAndShippingOrder extends StatelessWidget {
                                   pdf: pdfDocument);
 
                               // Now share the file
-                              if (file != null) {
-                                Share.shareXFiles([XFile(file.path)],
-                                    text: 'Great picture');
-                                print('File shared from ${file.path}');
-                              } else {
-                                print('File does not exist to share.');
-                              }
+                              Share.shareXFiles([XFile(file.path)],
+                                  text: 'Great picture');
+                              print('File shared from ${file.path}');
                               parcels = 1;
-                              context
-                                  .read<ButtonDisableCubit>()
-                                  .enableButtonForOrder(idOrders.toString());
+                              if (context.mounted) {
+                                context
+                                    .read<ButtonDisableCubit>()
+                                    .enableButtonForOrder(idOrders.toString());
+                              }
                             },
                           );
                         },

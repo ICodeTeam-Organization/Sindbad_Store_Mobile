@@ -3,18 +3,29 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_shipping_widgets/drop_down_widget.dart';
+import '../order_shipping_widgets/build_info_row_add.dart';
 
-class BuildDialogTitle extends StatelessWidget {
-  const BuildDialogTitle(
-      {super.key,
-      required this.headTitle,
-      required this.numberController,
-      required this.mountController,
-      required this.dateController});
+class BuildDialogTitleShipping extends StatelessWidget {
+  const BuildDialogTitleShipping({
+    super.key,
+    required this.headTitle,
+    required this.dateController,
+    required this.numberShippingController,
+    required this.mountShippingController,
+    required this.anotherCompanyController,
+    required this.anotherCompanyNumberController,
+  });
   final String headTitle;
-  final TextEditingController numberController;
-  final TextEditingController mountController;
   final TextEditingController dateController;
+
+  final TextEditingController numberShippingController;
+
+  final TextEditingController mountShippingController;
+
+  final TextEditingController anotherCompanyController;
+
+  final TextEditingController anotherCompanyNumberController;
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +48,12 @@ class BuildDialogTitle extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).pop();
               dateController.clear();
-              numberController.clear();
-              mountController.clear();
+              numberShippingController.clear();
+              mountShippingController.clear();
+              anotherCompanyController.clear();
+              anotherCompanyNumberController.clear();
+              parcels = 1;
+              companyName = '';
             },
             icon: SvgPicture.asset(
               "assets/cancle.svg",

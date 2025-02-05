@@ -19,7 +19,9 @@ class OrderShippingUsecase
         shippingNumber: params.shippingNumber,
         shippingCompany: params.shippingCompany,
         shippingImages: params.shippingImages,
-        numberParcels: params.numberParcels);
+        numberParcels: params.numberParcels,
+        shippingCompniesId: params.shippingCompniesId,
+        phoneNumber: params.phoneNumber);
   }
 }
 
@@ -30,12 +32,17 @@ class OrderShippingParam {
   final String shippingCompany;
   final File shippingImages;
   final int numberParcels;
+  final int shippingCompniesId;
+  final String phoneNumber;
 
-  OrderShippingParam(
-      {required this.packageId,
-      required this.invoiceDate,
-      required this.shippingNumber,
-      required this.shippingCompany,
-      required this.shippingImages,
-      required this.numberParcels});
+  OrderShippingParam({
+    required this.packageId,
+    required this.invoiceDate,
+    required this.shippingNumber,
+    required this.shippingCompany,
+    required this.shippingImages,
+    required this.numberParcels,
+    required this.phoneNumber,
+    required this.shippingCompniesId,
+  });
 }

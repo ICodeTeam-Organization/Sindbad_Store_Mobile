@@ -3,14 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
-import '../../../features/order_management _features/ui/widget/order_details_widget/build_dialog_content.dart';
 import '../../styles/Colors.dart';
 
-// ignore: must_be_immutable
 class DateTextField extends StatefulWidget {
-  DateTextField({super.key, required this.title, required this.controller});
+  const DateTextField(
+      {super.key, required this.title, required this.controller});
   final String title;
-  TextEditingController controller;
+  final TextEditingController controller;
 
   @override
   State<DateTextField> createState() => _DateTextFieldState();
@@ -68,7 +67,7 @@ class _DateTextFieldState extends State<DateTextField> {
                   if (pickeddate != null) {
                     setState(
                       () {
-                        dateConroller.text =
+                        widget.controller.text =
                             DateFormat('yyyy/MM/dd').format(pickeddate);
                       },
                     );

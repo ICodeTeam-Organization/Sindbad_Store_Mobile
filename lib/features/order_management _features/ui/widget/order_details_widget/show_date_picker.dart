@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
-import 'build_dialog_content.dart';
 
 class ShowDatePicker extends StatefulWidget {
   const ShowDatePicker({
     super.key,
+    required this.dateController,
   });
-
+  final TextEditingController dateController;
   @override
   State<ShowDatePicker> createState() => _ShowDatePickerState();
 }
@@ -27,7 +27,8 @@ class _ShowDatePickerState extends State<ShowDatePicker> {
         if (pickeddate != null) {
           setState(
             () {
-              dateConroller.text = DateFormat('yyyy/MM/dd').format(pickeddate);
+              widget.dateController.text =
+                  DateFormat('yyyy/MM/dd').format(pickeddate);
             },
           );
         }

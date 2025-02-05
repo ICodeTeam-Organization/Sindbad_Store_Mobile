@@ -32,85 +32,103 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xffF6F5F6),
-      body: GestureDetector(
-        onTap: () {
-          //يختفي الكيبورد لمن تظغط في أي مكان خارج الحقول
-          FocusScope.of(context).requestFocus(FocusNode());
-        },
-        child: SingleChildScrollView(
-          child: BlocProvider(
-            create: (context) =>
-                SignInCubitCubit(SignInUseCase(getit.get<AuthRepoImpl>())),
-            child: Column(
-              children: [
-                //ذي وديجت حق صوره
-                ImageLogin(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  images: "assets/image_4_login-removebg-preview.png",
-                  width: 335,
-                ),
-                SizedBox(height: 30.h),
-                Center(
-                  child: Column(
-                    children: [
-                      Text(
-                        "مرحباً ",
-                        style: TextStyle(
-                          color: Color(0xff231f20),
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        "تسجيل الدخول مالك محل ",
-                        style: TextStyle(
-                          color: Color(0xff000000),
-                          fontSize: 15,
-                        ),
-                      ),
-                      SizedBox(height: 40.h),
-                      //ذي وديجت حقل
-                      buildTextField(
-                        visible: true,
-                        hinttext: "رقم الجوال",
-                        controller: phoneNumberController,
-                      ),
-                      SizedBox(height: 25.h),
-                      buildTextField(
-                          hinttext: "كلمة المرور",
-                          controller: passwordController,
-                          visible: false)
-                    ],
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Color(0xffF6F5F6),
+        body: GestureDetector(
+          onTap: () {
+            //يختفي الكيبورد لمن تظغط في أي مكان خارج الحقول
+            FocusScope.of(context).requestFocus(FocusNode());
+          },
+          child: SingleChildScrollView(
+            child: BlocProvider(
+              create: (context) =>
+                  SignInCubitCubit(SignInUseCase(getit.get<AuthRepoImpl>())),
+              child: Column(
+                children: [
+                  //ذي وديجت حق صوره
+                  ImageLogin(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    images: "assets/image_4_login-removebg-preview.png",
+                    width: 335,
                   ),
-                ),
-                Column(
-                  children: [
-                    SizedBox(height: 60.h),
-                    BlocConsumer<SignInCubitCubit, SignInCubitState>(
-                      listener: (context, state) {
-                        if (state is SignInCubitFailure) {
-                          // سويت دايلوج اذا كلمة سر خطا او رقم جوال
-                          ShowErrorDialoge.showErrorDialog(
-                              context, state.errorMessage);
-                        } else if (state is SignInCubitSuccess) {
-                          if (state.user.userRoles[0] == "Store") {
-                            GoRouter.of(context)
-                                .go(AppRouter.storeRouters.root);
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                    "ليس لديك الصلاحيه لاستخدم هذا التطبيق"),
+                  SizedBox(height: 30.h),
+                  Center(
+                    child: Column(
+                      children: [
+                        Text(
+                          "مرحباً ",
+                          style: TextStyle(
+                            color: Color(0xff231f20),
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          "تسجيل الدخول مالك محل ",
+                          style: TextStyle(
+                            color: Color(0xff000000),
+                            fontSize: 15,
+                          ),
+                        ),
+                        SizedBox(height: 40.h),
+                        //ذي وديجت حقل
+                        buildTextField(
+                          visible: true,
+                          hinttext: "رقم الجوال",
+                          controller: phoneNumberController,
+                        ),
+                        SizedBox(height: 25.h),
+                        buildTextField(
+                            hinttext: "كلمة المرور",
+                            controller: passwordController,
+                            visible: false)
+                      ],
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      SizedBox(height: 60.h),
+                      BlocConsumer<SignInCubitCubit, SignInCubitState>(
+                        listener: (context, state) {
+                          if (state is SignInCubitFailure) {
+                            // سويت دايلوج اذا كلمة سر خطا او رقم جوال
+                            ShowErrorDialoge.showErrorDialog(
+                                context, state.errorMessage);
+                          } else if (state is SignInCubitSuccess) {
+                            if (state.user.userRoles[0] == "Store") {
+                              GoRouter.of(context)
+                                  .go(AppRouter.storeRouters.root);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      "ليس لديك الصلاحيه لاستخدم هذا التطبيق"),
+                                ),
+                              );
+                            }
+                          }
+                        },
+                        builder: (context, state) {
+                          if (state is SignInCubitLoading) {
+                            return Container(
+                              width: 380.w,
+                              height: 47.h,
+                              decoration: BoxDecoration(
+                                color: Color(0xffFF746B),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: CircleAvatar(
+                                backgroundColor: AppColors.transparent,
+                                child: CircularProgressIndicator(
+                                  strokeAlign: -2,
+                                  // strokeWidth: 5,
+                                  color: AppColors.white,
+                                ),
                               ),
                             );
                           }
-                        }
-                      },
-                      builder: (context, state) {
-                        if (state is SignInCubitLoading) {
                           return Container(
                             width: 380.w,
                             height: 47.h,
@@ -118,50 +136,34 @@ class _LoginState extends State<Login> {
                               color: Color(0xffFF746B),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: CircleAvatar(
-                              backgroundColor: AppColors.transparent,
-                              child: CircularProgressIndicator(
-                                strokeAlign: -2,
-                                // strokeWidth: 5,
-                                color: AppColors.white,
+                            child: MaterialButton(
+                              child: Text(
+                                "تسجيل الدخول",
+                                style: TextStyle(
+                                  color: Color(0xffffffff),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
+                              onPressed: () {
+                                context.read<SignInCubitCubit>().signIn(
+                                      phoneNumberController.text,
+                                      passwordController.text,
+                                    );
+                              },
                             ),
                           );
-                        }
-                        return Container(
-                          width: 380.w,
-                          height: 47.h,
-                          decoration: BoxDecoration(
-                            color: Color(0xffFF746B),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: MaterialButton(
-                            child: Text(
-                              "تسجيل الدخول",
-                              style: TextStyle(
-                                color: Color(0xffffffff),
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            onPressed: () {
-                              context.read<SignInCubitCubit>().signIn(
-                                    phoneNumberController.text,
-                                    passwordController.text,
-                                  );
-                            },
-                          ),
-                        );
-                      },
-                    )
-                  ],
-                ),
-                ImageLogin(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    images: "assets/image_3_login-removebg-preview.png",
-                    width: 205)
-              ],
+                        },
+                      )
+                    ],
+                  ),
+                  ImageLogin(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      images: "assets/image_3_login-removebg-preview.png",
+                      width: 205)
+                ],
+              ),
             ),
           ),
         ),

@@ -4,14 +4,14 @@ import '../../../../../core/styles/Colors.dart';
 import '../../../../../core/styles/text_style.dart';
 
 class BuildInfoRow extends StatelessWidget {
-  BuildInfoRow(
+  const BuildInfoRow(
       {super.key,
       required this.title,
       required this.controller,
       this.keyboardType = TextInputType.number});
   final String title;
   final TextInputType? keyboardType;
-  TextEditingController controller = TextEditingController();
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {

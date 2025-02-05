@@ -109,14 +109,18 @@ class AllOrderRepoImpl extends AllOrderRepo {
       required int shippingNumber,
       required String shippingCompany,
       required File shippingImages,
-      required int numberParcels}) {
+      required int numberParcels,
+      required int shippingCompniesId,
+      required String phoneNumber}) {
     return fetchDataOrder(() => allOrderRemotDataSource.fetchOrderShipping(
         packageId,
         invoiceDate,
         shippingNumber,
         shippingCompany,
         shippingImages,
-        numberParcels));
+        numberParcels,
+        shippingCompniesId,
+        phoneNumber));
   }
 
   //! Order Cancel

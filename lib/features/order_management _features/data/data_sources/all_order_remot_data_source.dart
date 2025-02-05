@@ -50,7 +50,9 @@ abstract class AllOrderRemotDataSource {
       int shippingNumber,
       String shippingCompany,
       File shippingImages,
-      int numberParcels);
+      int numberParcels,
+      int shippingCompniesId,
+      String phoneNumber);
 
   //! Order Cancrl
   Future<OrderCancelEntity> fetchOrderCancel(
@@ -204,11 +206,13 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
       int shippingNumber,
       String shippingCompany,
       File shippingImages,
-      int numberParcels) async {
+      int numberParcels,
+      int shippingCompniesId,
+      String phoneNumber) async {
     String? token = await getToken();
     var data = await apiService.postRequestWithFileAndImage(
         endPoint:
-            'ShippingInformations/CreateShippingInformation?PackageId=$packageId&Date=$invoiceDate&InvoiceNumber=$shippingNumber&CompanyName=$shippingCompany&ParcelNumber=$numberParcels',
+            'ShippingInformations/CreateShippingInformation?PackageId=$packageId&Date=$invoiceDate&InvoiceNumber=$shippingNumber&CompanyName=$shippingCompany&PhoneNumper=$phoneNumber&ParcelNumber=$numberParcels',
         headers: {
           'Authorization': 'Bearer $token',
         },
@@ -219,6 +223,8 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
           'InvoiceNumber': shippingNumber,
           'CompanyName': shippingCompany,
           'ParcelNumber': numberParcels,
+          'ShippingCompniesId': shippingCompniesId,
+          'PhoneNumper': phoneNumber,
           'InvoiceType': '',
           'InvoiceAmount': '',
           'ShopName': '',
