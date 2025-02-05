@@ -7,7 +7,7 @@ import 'errors/failure.dart';
 
 class ApiService {
   final Dio _dio;
-  final baseUrl = "https://51.178.112.50:82/api/";
+  final baseUrl = "https://sindibad-shop.com:82/api/";
 
   ApiService(this._dio);
   // {
@@ -322,6 +322,18 @@ class ApiService {
             .add(MapEntry('ParcelNumber', data['ParcelNumber'].toString()));
       } else {
         throw Exception('ParcelNumber is required');
+      }
+      if (data.containsKey('ShippingCompniesId')) {
+        formData.fields.add(MapEntry(
+            'ShippingCompniesId', data['ShippingCompniesId'].toString()));
+      } else {
+        return {};
+      }
+      if (data.containsKey('PhoneNumper')) {
+        formData.fields
+            .add(MapEntry('PhoneNumper', data['PhoneNumper'].toString()));
+      } else {
+        return {};
       }
 
       // Check the file
