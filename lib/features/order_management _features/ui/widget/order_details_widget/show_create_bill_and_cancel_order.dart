@@ -95,19 +95,9 @@ class _ShowCreateBillAndCancelOrderState
                             content: Text(state.serverMessage.serverMessage),
                           ),
                         );
-                        // Messages(
-                        //   isTrue: state.serverMessage.isSuccess,
-                        //   trueMessage: 'لقد تمت الأضافة في قائمة التجهيز',
-                        //   falseMessage: 'هناك خطاء في العملية',
-                        // );
                         Navigator.pop(context); // Close the dialog
                         Navigator.pop(context); // Close the dialog
                       } else if (state is OrderInvoiceFailuer) {
-                        // Messages(
-                        //   isTrue: false,
-                        //   trueMessage: ' ',
-                        //   falseMessage: 'هناك خطاء في العملية',
-                        // );
                         Navigator.pop(context); // Close the dialog
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(state.errMessage)),
@@ -180,7 +170,6 @@ class _ShowCreateBillAndCancelOrderState
                             orderId: idOrders!,
                             orderCancel: true,
                             reasonCancel: cancelConroller.text);
-                        //! هذه الطريقة تجربة فقط اذا ضبطت او سيتم حذفها
                         if (context.mounted) {
                           context.pop();
                         }
@@ -189,7 +178,6 @@ class _ShowCreateBillAndCancelOrderState
                         }
                         // context.pop();
                         // context.pop();
-                        //! هذه الطريقة تجربة فقط اذا ضبطت او سيتم حذفها
                         if (context.mounted) {
                           showDialog(
                             context: context,
@@ -219,7 +207,6 @@ class _ShowCreateBillAndCancelOrderState
                           cancelConroller.clear();
                         }
                       } catch (e) {
-                        //! هذه الطريقة تجربة فقط اذا ضبطت او سيتم حذفها
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
