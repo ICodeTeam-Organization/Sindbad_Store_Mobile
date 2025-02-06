@@ -47,17 +47,17 @@ import 'features/order_management _features/domain/usecases/order_shipping_useca
 import 'features/order_management _features/ui/manager/all_order/all_order_cubit.dart';
 import 'features/order_management _features/ui/manager/button_disable/button_disable_cubit.dart';
 
-class MyhttpsOverride extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-  }
-}
+// class MyhttpsOverride extends HttpOverrides {
+//   @override
+//   HttpClient createHttpClient(SecurityContext? context) {
+//     return super.createHttpClient(context)
+//       ..badCertificateCallback =
+//           (X509Certificate cert, String host, int port) => true;
+//   }
+// }
 
 void main() {
-  HttpOverrides.global = MyhttpsOverride();
+  // HttpOverrides.global = MyhttpsOverride();
   WidgetsFlutterBinding.ensureInitialized();
   setupServiceLocator();
   Bloc.observer = SimpleBlocObserver();
