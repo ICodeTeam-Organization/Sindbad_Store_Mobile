@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:device_preview/device_preview.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -39,6 +40,7 @@ import 'package:sindbad_management_app/features/order_management%20_features/ui/
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/order_details/order_details_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/refresh/refresh_page_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/shipping/shipping_cubit.dart';
+import 'package:sindbad_management_app/firebase_options.dart';
 
 import 'core/setup_service_locator.dart';
 import 'core/simple_bloc_observer.dart';
@@ -47,18 +49,19 @@ import 'features/order_management _features/domain/usecases/order_shipping_useca
 import 'features/order_management _features/ui/manager/all_order/all_order_cubit.dart';
 import 'features/order_management _features/ui/manager/button_disable/button_disable_cubit.dart';
 
-class MyhttpsOverride extends HttpOverrides {
+ class MyHttpOverrides extends HttpOverrides{
   @override
-  HttpClient createHttpClient(SecurityContext? context) {
+  HttpClient createHttpClient(SecurityContext? context){
     return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
   }
 }
-
-void main() {
-  HttpOverrides.global = MyhttpsOverride();
+void main() async {
+  HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   setupServiceLocator();
   Bloc.observer = SimpleBlocObserver();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])

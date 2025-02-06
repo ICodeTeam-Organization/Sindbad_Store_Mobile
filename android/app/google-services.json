@@ -1,0 +1,105 @@
+{
+  "project_info": {
+    "project_number": "937049177428",
+    "project_id": "sendbad-devlopment",
+    "storage_bucket": "sendbad-devlopment.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:937049177428:android:0a8f38d91b72f4ae621cc1",
+        "android_client_info": {
+          "package_name": "com.exa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6qkVwV-7uZXu1oWCmx2IcMW57zDvpvZ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:937049177428:android:05d5f594b6bf0d3a621cc1",
+        "android_client_info": {
+          "package_name": "com.example.market"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6qkVwV-7uZXu1oWCmx2IcMW57zDvpvZ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:937049177428:android:cef66c3e4d408722621cc1",
+        "android_client_info": {
+          "package_name": "com.example.sindbad_store"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6qkVwV-7uZXu1oWCmx2IcMW57zDvpvZ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:937049177428:android:6e7b6922dd4ec5c1621cc1",
+        "android_client_info": {
+          "package_name": "com.example.sindbad_store_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6qkVwV-7uZXu1oWCmx2IcMW57zDvpvZ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:937049177428:android:e3174544eac5d0f6621cc1",
+        "android_client_info": {
+          "package_name": "com.example.store"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6qkVwV-7uZXu1oWCmx2IcMW57zDvpvZ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
