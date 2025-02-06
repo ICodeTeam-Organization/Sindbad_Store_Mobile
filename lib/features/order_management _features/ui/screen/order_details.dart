@@ -92,8 +92,8 @@ class OrderDetails extends StatelessWidget {
                             final isBillDone = ordersStatus[orderId] ?? false;
                             return Column(
                               children: [
-                                if ((!isBillDone && billNumbers == 'لايوجد') ||
-                                    (billNumbers == 'لايوجد') ||
+                                if ((!isBillDone && billNumbers == '??????') ||
+                                    (billNumbers == '??????') ||
                                     (!isBillDone &&
                                         int.tryParse(billNumbers!) == null))
                                   ShowCreateBillAndCancelOrder(
@@ -103,8 +103,8 @@ class OrderDetails extends StatelessWidget {
                                           .toggleBillStatus(orderId);
                                     },
                                   ),
-                                if ((isBillDone && billNumbers != 'لايوجد') ||
-                                    (billNumbers != 'لايوجد'))
+                                if ((isBillDone && billNumbers != '??????') ||
+                                    (billNumbers != '??????'))
                                   ShowPrintAndShippingOrder(),
                               ],
                             );
