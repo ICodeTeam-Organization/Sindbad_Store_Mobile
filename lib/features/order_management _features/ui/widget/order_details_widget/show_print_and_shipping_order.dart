@@ -50,8 +50,7 @@ class _ShowPrintAndShippingOrderState extends State<ShowPrintAndShippingOrder> {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: unused_local_variable
-    int shippingNumber;
+    // int shippingNumber;
     return BlocBuilder<ButtonDisableCubit, ButtonDisableState>(
       builder: (context, state) {
         return BlocBuilder<RefreshPageCubit, RefreshPageState>(
@@ -83,15 +82,16 @@ class _ShowPrintAndShippingOrderState extends State<ShowPrintAndShippingOrder> {
                                 Navigator.pop(context); // Close the dialog
                                 Navigator.pop(context); // Close the dialog
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('لقد تم الشحن بنجاح'),
+                                  SnackBar(
+                                    content:
+                                        Text(state.serverMessage.serverMessage),
                                   ),
                                 );
                               } else if (state is ShippingFailure) {
                                 Navigator.pop(context); // Close the dialog
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('هناك خطاء في العملية'),
+                                  SnackBar(
+                                    content: Text(state.errMessage),
                                   ),
                                 );
                               }
@@ -144,9 +144,8 @@ class _ShowPrintAndShippingOrderState extends State<ShowPrintAndShippingOrder> {
                                           packageId: idPackages!,
                                           invoiceDate:
                                               dateFormat ?? DateTime.now(),
-                                          shippingNumber: shippingNumber =
-                                              int.parse(numberShippingController
-                                                  .text),
+                                          shippingNumber: int.parse(
+                                              numberShippingController.text),
                                           shippingCompany: companyName ?? '',
                                           shippingImages: images!,
                                           numberParcels: parcels!,
@@ -155,11 +154,10 @@ class _ShowPrintAndShippingOrderState extends State<ShowPrintAndShippingOrder> {
                                               anotherCompanyNumberController
                                                   .text);
                                   // After successful operation, enable the specific order button
-                                  // ignore: use_build_context_synchronously
                                   dateController.clear();
                                   numberShippingController.clear();
                                   anotherCompanyController.clear();
-                                  parcels = 1;
+                                  // parcels = 1;
                                   // context.read<ShippingCubit>().enableButton();
                                 },
                               );
