@@ -172,6 +172,8 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
           'InvoiceType': invoiceType,
           'CompanyName': '',
           'ParcelNumber': '',
+          'ShippingCompniesId': '',
+          'PhoneNumper': '',
         });
     OrderInvoiceEntity invoice = OrderInvoiceModel.fromJson(data);
     return invoice;

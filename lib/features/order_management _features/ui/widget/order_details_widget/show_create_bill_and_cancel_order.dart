@@ -92,7 +92,8 @@ class _ShowCreateBillAndCancelOrderState
                             .onCreateInvoice(); // New: Trigger Cubit state update
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                              content: Text('لقد تم انشاء الفاتورة بنجاح')),
+                            content: Text(state.serverMessage.serverMessage),
+                          ),
                         );
                         // Messages(
                         //   isTrue: state.serverMessage.isSuccess,
@@ -109,7 +110,7 @@ class _ShowCreateBillAndCancelOrderState
                         // );
                         Navigator.pop(context); // Close the dialog
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('هناك خطاء في العملية')),
+                          SnackBar(content: Text(state.errMessage)),
                         );
                       }
                     },

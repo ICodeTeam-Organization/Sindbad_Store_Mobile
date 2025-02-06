@@ -327,13 +327,13 @@ class ApiService {
         formData.fields.add(MapEntry(
             'ShippingCompniesId', data['ShippingCompniesId'].toString()));
       } else {
-        return {};
+        throw Exception('ShippingCompniesId is required');
       }
       if (data.containsKey('PhoneNumper')) {
         formData.fields
             .add(MapEntry('PhoneNumper', data['PhoneNumper'].toString()));
       } else {
-        return {};
+        throw Exception('PhoneNumper is required');
       }
 
       // Check the file
