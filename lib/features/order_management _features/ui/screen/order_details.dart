@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_tab_bar_widget.dart';
-import 'package:sindbad_management_app/core/shared_widgets/new_widgets/sub_custom_tab_bar.dart';
-import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/refresh/refresh_page_state.dart';
 import '../../../../core/setup_service_locator.dart';
 import '../../../../core/shared_widgets/new_widgets/custom_app_bar.dart';
 import '../../data/repos_impl/all_order_repo_impl.dart';
 import '../../domain/usecases/order_details_usecase.dart';
 import '../manager/order_details/order_details_cubit.dart';
-import '../manager/refresh/refresh_page_cubit.dart';
 import '../widget/order_body.dart';
 import '../widget/order_details_d.dart';
 import '../widget/order_details_widget/order_details_body.dart';
@@ -40,7 +37,7 @@ class OrderDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int subIndex = subTabController!.index;
+    // final int subIndex = subTabController!.index;
     final int index = tabController!.index;
     return Scaffold(
       body: BlocProvider(
@@ -78,38 +75,16 @@ class OrderDetails extends StatelessWidget {
                   //! Order Detaials
                   OrderDetailsBody(),
                   //! Show Button
-                  subIndex == 2 || index == 2 || index == 3
+                  orderStatuss == '3' || orderStatuss == '5' || index == 3
                       ? SizedBox()
-                      : BlocBuilder<RefreshPageCubit, RefreshPageState>(
-                          builder: (context, state) {
-                            // Default orders status map
-                            Map<int, bool> ordersStatus = {};
-
-                            if (state is RefreshUpdated) {
-                              ordersStatus = state.ordersStatus;
-                            }
-                            // Assuming `orderId` is available for each order in your list
-                            final isBillDone = ordersStatus[orderId] ?? false;
-                            return Column(
-                              children: [
-                                if ((!isBillDone && billNumbers == '??????') ||
-                                    (billNumbers == '??????') ||
-                                    (!isBillDone &&
-                                        int.tryParse(billNumbers!) == null))
-                                  ShowCreateBillAndCancelOrder(
-                                    onCreateInvoice: () {
-                                      context
-                                          .read<RefreshPageCubit>()
-                                          .toggleBillStatus(orderId);
-                                    },
-                                  ),
-                                if ((isBillDone && billNumbers != '??????') ||
-                                    (billNumbers != '??????'))
-                                  ShowPrintAndShippingOrder(),
-                              ],
-                            );
-                          },
-                        ),
+                      : Column(
+                          children: [
+                            if (orderStatuss == '2')
+                              ShowCreateBillAndCancelOrder(),
+                            if ((orderStatuss == '4'))
+                              ShowPrintAndShippingOrder(),
+                          ],
+                        )
                 ],
               ),
             ),
