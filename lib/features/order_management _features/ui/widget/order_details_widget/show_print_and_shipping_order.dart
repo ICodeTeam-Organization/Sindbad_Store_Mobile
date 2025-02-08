@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/function/image_picker_function.dart';
-import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/refresh/refresh_page_state.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/shipping/shipping_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_body.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_shipping_widgets/build_info_row_add.dart';
@@ -14,7 +13,6 @@ import '../../../../../core/shared_widgets/new_widgets/sub_custom_tab_bar.dart';
 import '../../function/pdf.dart';
 import '../../manager/all_order/all_order_cubit.dart';
 import '../../manager/button_disable/button_disable_cubit.dart';
-import '../../manager/refresh/refresh_page_cubit.dart';
 import '../order_shipping_widgets/custom_order_print_dialog.dart';
 import '../order_shipping_widgets/custom_order_shipping_dialog.dart';
 
@@ -53,195 +51,182 @@ class _ShowPrintAndShippingOrderState extends State<ShowPrintAndShippingOrder> {
     // int shippingNumber;
     return BlocBuilder<ButtonDisableCubit, ButtonDisableState>(
       builder: (context, state) {
-        return BlocBuilder<RefreshPageCubit, RefreshPageState>(
-          builder: (context, state) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  StorePrimaryButton(
-                    disabled: !context
-                        .watch<ButtonDisableCubit>()
-                        .state
-                        .isButtonEnabled(idOrders.toString()),
-                    width: 150.w,
-                    title: 'شحن الطلب',
-                    icon: Icons.local_shipping_outlined,
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return BlocConsumer<ShippingCubit, ShippingState>(
-                            listener: (context, state) {
-                              if (state is ShippingSuccess) {
-                                context
-                                    .read<ButtonDisableCubit>()
-                                    .enableButtonForOrder(idOrders!.toString());
-                                refreshAfterShippingInvoice(context);
-                                Navigator.pop(context); // Close the dialog
-                                Navigator.pop(context); // Close the dialog
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content:
-                                        Text(state.serverMessage.serverMessage),
-                                  ),
-                                );
-                              } else if (state is ShippingFailure) {
-                                Navigator.pop(context); // Close the dialog
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(state.errMessage),
-                                  ),
-                                );
-                              }
-                            },
-                            builder: (context, state) {
-                              if (state is ShippingLoading) {
-                                return CustomOrderShippingDialog(
-                                  isLoading: true,
-                                  headTitle: 'بيانات فاتورة الشحن',
-                                  firstTitle: 'تاريخ الفاتورة',
-                                  secondTitle: 'رقم فاتورة الشحن',
-                                  thierdTitle: 'الشركة الناقلة',
-                                  onPressedSure: () async {},
-                                  dateController: dateController,
-                                  numberShippingController:
-                                      numberShippingController,
-                                  mountShippingController:
-                                      mountShippingController,
-                                  anotherCompanyController:
-                                      anotherCompanyController,
-                                  anotherCompanyNumberController:
-                                      anotherCompanyNumberController,
-                                );
-                              }
-                              return CustomOrderShippingDialog(
-                                headTitle: 'بيانات فاتورة الشحن',
-                                firstTitle: 'تاريخ الفاتورة',
-                                secondTitle: 'رقم فاتورة الشحن',
-                                thierdTitle: 'الشركة الناقلة',
-                                dateController: dateController,
-                                numberShippingController:
-                                    numberShippingController,
-                                mountShippingController:
-                                    mountShippingController,
-                                anotherCompanyController:
-                                    anotherCompanyController,
-                                anotherCompanyNumberController:
-                                    anotherCompanyNumberController,
-                                onPressedSure: () async {
-                                  if (companyName == 'اخرى') {
-                                    companyName = anotherCompanyController.text;
-                                  } else {
-                                    companyName = companyName;
-                                  }
-                                  DateTime? dateFormat =
-                                      convertToDateTime(dateController.text);
-                                  await context
-                                      .read<ShippingCubit>()
-                                      .fetchOrderShipping(
-                                          packageId: idPackages!,
-                                          invoiceDate:
-                                              dateFormat ?? DateTime.now(),
-                                          shippingNumber: int.parse(
-                                              numberShippingController.text),
-                                          shippingCompany: companyName ?? '',
-                                          shippingImages: images!,
-                                          numberParcels: parcels!,
-                                          shippingCompniesId: 0,
-                                          phoneNumber:
-                                              anotherCompanyNumberController
-                                                  .text);
-                                  // After successful operation, enable the specific order button
-                                  dateController.clear();
-                                  numberShippingController.clear();
-                                  anotherCompanyController.clear();
-                                  // parcels = 1;
-                                  // context.read<ShippingCubit>().enableButton();
-                                },
-                              );
-                            },
-                          );
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              StorePrimaryButton(
+                disabled: !context
+                    .watch<ButtonDisableCubit>()
+                    .state
+                    .isButtonEnabled(idOrders.toString()),
+                width: 150.w,
+                title: 'شحن الطلب',
+                icon: Icons.local_shipping_outlined,
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return BlocConsumer<ShippingCubit, ShippingState>(
+                        listener: (context, state) {
+                          if (state is ShippingSuccess) {
+                            context
+                                .read<ButtonDisableCubit>()
+                                .enableButtonForOrder(idOrders!.toString());
+                            refreshAfterShippingInvoice(context);
+                            Navigator.pop(context); // Close the dialog
+                            Navigator.pop(context); // Close the dialog
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content:
+                                    Text(state.serverMessage.serverMessage),
+                              ),
+                            );
+                          } else if (state is ShippingFailure) {
+                            Navigator.pop(context); // Close the dialog
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(state.errMessage),
+                              ),
+                            );
+                          }
                         },
-                      );
-                    },
-                  ),
-                  StorePrimaryButton(
-                    icon: Icons.receipt_long_outlined,
-                    width: 150.w,
-                    title: 'طباعة العنوان',
-                    // buttonColor: AppColors.redOpacity,
-                    // textColor: AppColors.redColor,
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return CustomOrderPrintDialog(
-                            headTitle: '  طباعة عنوان الطلب',
-                            onPressedPrint: () async {
-                              final now = DateTime.now();
-                              final randomFileName =
-                                  '${now.year}-${now.month}-${now.day}_${now.hour}-${now.minute}-${now.second}-${now.millisecond}';
-                              final pdfDocument =
-                                  await Pdf.generateCenteredText(
-                                      '$idPackages', parcels!);
-                              final file = await Pdf.saveDocument(
-                                  name: 'invoice_$randomFileName.pdf',
-                                  pdf: pdfDocument);
-                              await Pdf.openFile(file);
-                              if (context.mounted) {
-                                Navigator.of(context).pop();
+                        builder: (context, state) {
+                          if (state is ShippingLoading) {
+                            return CustomOrderShippingDialog(
+                              isLoading: true,
+                              headTitle: 'بيانات فاتورة الشحن',
+                              firstTitle: 'تاريخ الفاتورة',
+                              secondTitle: 'رقم فاتورة الشحن',
+                              thierdTitle: 'الشركة الناقلة',
+                              onPressedSure: () async {},
+                              dateController: dateController,
+                              numberShippingController:
+                                  numberShippingController,
+                              mountShippingController: mountShippingController,
+                              anotherCompanyController:
+                                  anotherCompanyController,
+                              anotherCompanyNumberController:
+                                  anotherCompanyNumberController,
+                            );
+                          }
+                          return CustomOrderShippingDialog(
+                            headTitle: 'بيانات فاتورة الشحن',
+                            firstTitle: 'تاريخ الفاتورة',
+                            secondTitle: 'رقم فاتورة الشحن',
+                            thierdTitle: 'الشركة الناقلة',
+                            dateController: dateController,
+                            numberShippingController: numberShippingController,
+                            mountShippingController: mountShippingController,
+                            anotherCompanyController: anotherCompanyController,
+                            anotherCompanyNumberController:
+                                anotherCompanyNumberController,
+                            onPressedSure: () async {
+                              if (companyName == 'اخرى') {
+                                companyName = anotherCompanyController.text;
+                              } else {
+                                companyName = companyName;
                               }
-
-                              if (context.mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content:
-                                        Text('لقد تمت طباعة العنوان بنجاح'),
-                                  ),
-                                );
-                              }
-                              parcels = 1;
+                              DateTime? dateFormat =
+                                  convertToDateTime(dateController.text);
+                              await context
+                                  .read<ShippingCubit>()
+                                  .fetchOrderShipping(
+                                      packageId: idPackages!,
+                                      invoiceDate: dateFormat ?? DateTime.now(),
+                                      shippingNumber: int.parse(
+                                          numberShippingController.text),
+                                      shippingCompany: companyName ?? '',
+                                      shippingImages: images!,
+                                      numberParcels: parcels!,
+                                      shippingCompniesId: 0,
+                                      phoneNumber:
+                                          anotherCompanyNumberController.text);
                               // After successful operation, enable the specific order button
-                              if (context.mounted) {
-                                context
-                                    .read<ButtonDisableCubit>()
-                                    .enableButtonForOrder(idOrders.toString());
-                              }
-                            },
-                            onPressedShare: () async {
-                              final now = DateTime.now();
-                              final randomFileName =
-                                  '${now.year}-${now.month}-${now.day}_${now.hour}-${now.minute}-${now.second}-${now.millisecond}';
-                              // Ensure pdfDocument is properly initialized and not null
-                              final pdfDocument =
-                                  await Pdf.generateCenteredText(
-                                      '$idPackages', parcels!);
-                              final file = await Pdf.saveDocument(
-                                  name: 'invoice_$randomFileName.pdf',
-                                  pdf: pdfDocument);
-
-                              // Now share the file
-                              Share.shareXFiles([XFile(file.path)],
-                                  text: 'Great picture');
-                              print('File shared from ${file.path}');
-                              parcels = 1;
-                              if (context.mounted) {
-                                context
-                                    .read<ButtonDisableCubit>()
-                                    .enableButtonForOrder(idOrders.toString());
-                              }
+                              dateController.clear();
+                              numberShippingController.clear();
+                              anotherCompanyController.clear();
+                              // parcels = 1;
+                              // context.read<ShippingCubit>().enableButton();
                             },
                           );
                         },
                       );
                     },
-                  ),
-                ],
+                  );
+                },
               ),
-            );
-          },
+              StorePrimaryButton(
+                icon: Icons.receipt_long_outlined,
+                width: 150.w,
+                title: 'طباعة العنوان',
+                // buttonColor: AppColors.redOpacity,
+                // textColor: AppColors.redColor,
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return CustomOrderPrintDialog(
+                        headTitle: '  طباعة عنوان الطلب',
+                        onPressedPrint: () async {
+                          final now = DateTime.now();
+                          final randomFileName =
+                              '${now.year}-${now.month}-${now.day}_${now.hour}-${now.minute}-${now.second}-${now.millisecond}';
+                          final pdfDocument = await Pdf.generateCenteredText(
+                              '$idPackages', parcels!);
+                          final file = await Pdf.saveDocument(
+                              name: 'invoice_$randomFileName.pdf',
+                              pdf: pdfDocument);
+                          await Pdf.openFile(file);
+                          if (context.mounted) {
+                            Navigator.of(context).pop();
+                          }
+
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('لقد تمت طباعة العنوان بنجاح'),
+                              ),
+                            );
+                          }
+                          parcels = 1;
+                          // After successful operation, enable the specific order button
+                          if (context.mounted) {
+                            context
+                                .read<ButtonDisableCubit>()
+                                .enableButtonForOrder(idOrders.toString());
+                          }
+                        },
+                        onPressedShare: () async {
+                          final now = DateTime.now();
+                          final randomFileName =
+                              '${now.year}-${now.month}-${now.day}_${now.hour}-${now.minute}-${now.second}-${now.millisecond}';
+                          // Ensure pdfDocument is properly initialized and not null
+                          final pdfDocument = await Pdf.generateCenteredText(
+                              '$idPackages', parcels!);
+                          final file = await Pdf.saveDocument(
+                              name: 'invoice_$randomFileName.pdf',
+                              pdf: pdfDocument);
+
+                          // Now share the file
+                          Share.shareXFiles([XFile(file.path)],
+                              text: 'Great picture');
+                          print('File shared from ${file.path}');
+                          parcels = 1;
+                          if (context.mounted) {
+                            context
+                                .read<ButtonDisableCubit>()
+                                .enableButtonForOrder(idOrders.toString());
+                          }
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
         );
       },
     );

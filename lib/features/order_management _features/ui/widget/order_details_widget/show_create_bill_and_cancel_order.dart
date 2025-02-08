@@ -17,9 +17,7 @@ import 'custom_order_cancle_dialog.dart';
 import 'messages.dart';
 
 class ShowCreateBillAndCancelOrder extends StatefulWidget {
-  final VoidCallback onCreateInvoice; // New: Callback to trigger state update
-  const ShowCreateBillAndCancelOrder(
-      {super.key, required this.onCreateInvoice});
+  const ShowCreateBillAndCancelOrder({super.key});
   @override
   State<ShowCreateBillAndCancelOrder> createState() =>
       _ShowCreateBillAndCancelOrderState();
@@ -88,8 +86,6 @@ class _ShowCreateBillAndCancelOrderState
                         // Trigger the callback to update the button state
                         //تحديث الصفحة بعد انشاء الفاتورة
                         refreshAfterCreateInvoice(context);
-                        widget
-                            .onCreateInvoice(); // New: Trigger Cubit state update
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(state.serverMessage.serverMessage),
