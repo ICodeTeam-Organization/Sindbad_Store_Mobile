@@ -43,19 +43,19 @@ class OrderBody extends StatelessWidget {
   Widget build(BuildContext context) {
     Color orderColor;
     //بدون فاتورة
-    if (paymentInfo == 'لايوجد' && billNumber == 'لايوجد') {
+    if (orderStatus == '2') {
       orderColor = Color(0xffE8E8E8);
     }
     //لم تسدد
-    else if (paymentInfo == 'لا شي') {
+    else if (orderStatus == '3') {
       orderColor = Color(0xCCFFF2F5);
     }
     //للشحن
-    else if (paymentInfo == 'اجل') {
+    else if (orderStatus == '4') {
       orderColor = Color(0xffCEECF0);
     }
-    //للشحن
-    else if (paymentInfo == 'كاش') {
+    //السابقة
+    else if (orderStatus == '5' || (orderStatus == '6')) {
       orderColor = Color(0xffCDE8F6);
     }
     //غيره
