@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -37,9 +35,7 @@ import 'package:sindbad_management_app/features/order_management%20_features/dom
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/cancel/cancel_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/invoice/order_invoice_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/order_details/order_details_cubit.dart';
-import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/refresh/refresh_page_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/shipping/shipping_cubit.dart';
-
 import 'core/setup_service_locator.dart';
 import 'core/simple_bloc_observer.dart';
 import 'features/order_management _features/domain/usecases/order_details_usecase.dart';
@@ -135,7 +131,6 @@ class SindbadManagementApp extends StatelessWidget {
             create: (context) => OrderDetailsCubit(OrderDetailsUsecase(
                   getit.get<AllOrderRepoImpl>(),
                 ))),
-        BlocProvider(create: (context) => RefreshPageCubit()),
         BlocProvider(create: (context) => ButtonDisableCubit()),
         BlocProvider(
             create: (context) => OrderInvoiceCubit(OrderInvoiceUsecase(
