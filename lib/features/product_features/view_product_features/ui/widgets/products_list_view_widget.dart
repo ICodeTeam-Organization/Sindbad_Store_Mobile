@@ -111,7 +111,7 @@ class ProductsListView extends StatelessWidget {
                                     //         fontSize: 12.sp,
                                     //         fontWeight: FontWeight.bold)),
                                     Text(
-                                      '\$${product.productPrice.toString()}',
+                                      '${product.productPrice.toString()} ر.س',
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(

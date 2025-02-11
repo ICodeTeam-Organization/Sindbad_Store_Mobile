@@ -87,7 +87,7 @@ class _CardOfferDetailsDiscountWidgetState
                 Row(children: [
                   TextDiscountPricesWidget(
                     title: 'قبل الخصم',
-                    content: "\$ ${widget.lastPrice.toStringAsFixed(0)}",
+                    content: "${widget.lastPrice.toStringAsFixed(0)} ر.س",
                     isBeforeDiscount: true,
                   ),
                   SizedBox(
@@ -95,7 +95,7 @@ class _CardOfferDetailsDiscountWidgetState
                   ),
                   TextDiscountPricesWidget(
                     title: 'بعد الخصم',
-                    content: "\$ ${widget.newPrice.toStringAsFixed(0)}",
+                    content: "${widget.newPrice.toStringAsFixed(0)} ر.س",
                   ),
                 ]),
               ],
