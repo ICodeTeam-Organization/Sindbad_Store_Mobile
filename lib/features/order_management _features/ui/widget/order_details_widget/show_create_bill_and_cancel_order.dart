@@ -130,7 +130,7 @@ class _ShowCreateBillAndCancelOrderState
                               .read<OrderInvoiceCubit>()
                               .fechOrderInvoice(
                                 packageId: idPackages!,
-                                invoiceAmount: int.parse(mountController.text),
+                                invoiceAmount: totalPricess ?? 0,
                                 invoiceImage: images!,
                                 invoiceNumber: numberController.text,
                                 invoiceDate: dateFormat ?? DateTime.now(),

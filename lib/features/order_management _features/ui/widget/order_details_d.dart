@@ -59,7 +59,7 @@ class OrderBodyD extends StatelessWidget {
                 child: Row(
                   children: [
                     Text('بيانات السداد : ', style: KTextStyle.textStyle12),
-                    Text(paymentInfos ?? '', style: KTextStyle.textStyle12)
+                    Text(paymentInfos ?? '', style: KTextStyle.textStyle12),
                   ],
                 ),
               ),

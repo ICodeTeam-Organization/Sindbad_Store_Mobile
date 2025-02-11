@@ -91,6 +91,7 @@ class _UrgentNoPaidInfoOrderState extends State<UrgentNoPaidInfoOrder> {
                 paymentInfo: state.orders[i].payStatus,
                 orderStatus: state.orders[i].orderStatuse,
                 idPackage: state.orders[i].idPackage,
+                totalPrices: state.orders[i].totalPrices,
               );
             },
           );

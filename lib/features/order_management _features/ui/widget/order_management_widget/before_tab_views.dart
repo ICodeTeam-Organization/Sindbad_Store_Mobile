@@ -92,6 +92,7 @@ class _BeforeTabViewsState extends State<BeforeTabViews> {
                     paymentInfo: state.orders[i].payStatus,
                     orderStatus: state.orders[i].orderStatuse,
                     idPackage: state.orders[i].idPackage,
+                    totalPrices: state.orders[i].totalPrices,
                   ),
                   if (i == state.orders.length - 1)
                     SizedBox(

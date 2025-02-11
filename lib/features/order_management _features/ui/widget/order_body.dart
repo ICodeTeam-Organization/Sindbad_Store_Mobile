@@ -17,6 +17,7 @@ String? itemNumbers;
 String? paymentInfos;
 String? orderStatuss;
 Color? orderColors;
+num? totalPricess;
 
 class OrderBody extends StatelessWidget {
   const OrderBody({
@@ -29,6 +30,7 @@ class OrderBody extends StatelessWidget {
     required this.paymentInfo,
     required this.orderStatus,
     required this.idPackage,
+    required this.totalPrices,
   });
   final int idOrder;
   final int idPackage;
@@ -38,6 +40,7 @@ class OrderBody extends StatelessWidget {
   final String itemNumber;
   final String paymentInfo;
   final String orderStatus;
+  final num totalPrices;
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +76,7 @@ class OrderBody extends StatelessWidget {
         paymentInfos = paymentInfo;
         orderStatuss = orderStatus;
         orderColors = orderColor;
+        totalPricess = totalPrices;
         // isDelevredOrCancles = isDelevredOrCancle;
         context.push(AppRouter.storeRouters.details, extra: idPackage);
       },

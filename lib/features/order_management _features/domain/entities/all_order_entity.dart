@@ -7,6 +7,7 @@ class AllOrderEntity {
   final String orderStatuse;
   final String payStatus;
   final String orderDates;
+  final num totalPrices;
 
   AllOrderEntity({
     required this.idOrder,
@@ -17,5 +18,6 @@ class AllOrderEntity {
     required this.orderStatuse,
     required this.payStatus,
     required this.orderDates,
+    required this.totalPrices,
   });
 }
