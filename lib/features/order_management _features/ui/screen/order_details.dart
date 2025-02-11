@@ -23,6 +23,7 @@ class OrderDetails extends StatelessWidget {
     required this.paymentInfo,
     required this.orderStatus,
     required this.packageId,
+    // required this.totalPrices,
     // required this.isDelevredOrCancle
   });
   final int orderId;
@@ -33,6 +34,7 @@ class OrderDetails extends StatelessWidget {
   final String itemNumber;
   final String paymentInfo;
   final String orderStatus;
+  // final num totalPrices;
   // final bool isDelevredOrCancle;
 
   @override
@@ -75,16 +77,15 @@ class OrderDetails extends StatelessWidget {
                   //! Order Detaials
                   OrderDetailsBody(),
                   //! Show Button
-                  orderStatuss == '3' || orderStatuss == '5' || index == 3
-                      ? SizedBox()
-                      : Column(
-                          children: [
-                            if (orderStatuss == '2')
-                              ShowCreateBillAndCancelOrder(),
-                            if ((orderStatuss == '4'))
-                              ShowPrintAndShippingOrder(),
-                          ],
-                        )
+                  // orderStatuss == '3' || orderStatuss == '5' || index == 3
+                  //     ? SizedBox()
+                  //     :
+                  Column(
+                    children: [
+                      if (orderStatuss == '2') ShowCreateBillAndCancelOrder(),
+                      if ((orderStatuss == '4')) ShowPrintAndShippingOrder(),
+                    ],
+                  )
                 ],
               ),
             ),
