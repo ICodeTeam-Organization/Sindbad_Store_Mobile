@@ -92,7 +92,6 @@ class _AllInfoOrderState extends State<AllInfoOrder> {
                     orderStatus: state.orders[i].orderStatuse,
                     idOrder: state.orders[i].idOrder,
                     idPackage: state.orders[i].idPackage,
-                    totalPrices: state.orders[i].totalPrices,
                   ),
                   if (i == state.orders.length - 1)
                     SizedBox(

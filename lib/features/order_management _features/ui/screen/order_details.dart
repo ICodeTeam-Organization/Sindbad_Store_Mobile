@@ -23,8 +23,6 @@ class OrderDetails extends StatelessWidget {
     required this.paymentInfo,
     required this.orderStatus,
     required this.packageId,
-    // required this.totalPrices,
-    // required this.isDelevredOrCancle
   });
   final int orderId;
   final int packageId;
@@ -34,13 +32,9 @@ class OrderDetails extends StatelessWidget {
   final String itemNumber;
   final String paymentInfo;
   final String orderStatus;
-  // final num totalPrices;
-  // final bool isDelevredOrCancle;
 
   @override
   Widget build(BuildContext context) {
-    // final int subIndex = subTabController!.index;
-    final int index = tabController!.index;
     return Scaffold(
       body: BlocProvider(
           create: (context) => OrderDetailsCubit(
@@ -77,9 +71,6 @@ class OrderDetails extends StatelessWidget {
                   //! Order Detaials
                   OrderDetailsBody(),
                   //! Show Button
-                  // orderStatuss == '3' || orderStatuss == '5' || index == 3
-                  //     ? SizedBox()
-                  //     :
                   Column(
                     children: [
                       if (orderStatuss == '2') ShowCreateBillAndCancelOrder(),
