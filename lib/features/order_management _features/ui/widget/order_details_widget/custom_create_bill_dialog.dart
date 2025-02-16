@@ -6,21 +6,12 @@ class CustomCreateBillDialog extends StatelessWidget {
   const CustomCreateBillDialog({
     super.key,
     this.isLoading = false,
-    required this.headTitle,
-    required this.firstTitle,
-    required this.secondTitle,
-    required this.thierdTitle,
     required this.onPressedSure,
     required this.dateController,
     required this.numberController,
     required this.mountController,
   });
   final bool? isLoading;
-
-  final String headTitle;
-  final String firstTitle;
-  final String secondTitle;
-  final String thierdTitle;
   final GestureTapCallback onPressedSure;
   //
   final TextEditingController dateController;
@@ -30,7 +21,7 @@ class CustomCreateBillDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: BuildDialogTitle(
-        headTitle: headTitle,
+        headTitle: "بيانات الفاتورة",
         numberController: numberController,
         mountController: mountController,
         dateController: dateController,
@@ -41,9 +32,6 @@ class CustomCreateBillDialog extends StatelessWidget {
         numberController: numberController,
         mountController: mountController,
         isLoading: isLoading,
-        firstTitle: firstTitle,
-        secondTitle: secondTitle,
-        thierdTitle: thierdTitle,
         onPressedSure: onPressedSure,
       ),
     );
