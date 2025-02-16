@@ -1,4 +1,3 @@
-// ignore: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,11 +6,10 @@ import '../../../../../core/styles/Colors.dart';
 
 int? parcels = 1;
 
-// ignore: must_be_immutable
 class BuildInfoRowAdd extends StatefulWidget {
-  BuildInfoRowAdd({super.key, required this.title});
+  const BuildInfoRowAdd({super.key, required this.title});
 
-  String? title;
+  final String? title;
 
   @override
   State<BuildInfoRowAdd> createState() => _BuildInfoRowAddState();
@@ -45,7 +43,6 @@ class _BuildInfoRowAddState extends State<BuildInfoRowAdd> {
                 onPressed: () {
                   setState(() {
                     parcels = (parcels! + 1);
-                    // count = widget.parcels;
                   });
                 },
                 icon: SvgPicture.asset('assets/plus.svg'),
@@ -89,8 +86,6 @@ class _BuildInfoRowAddState extends State<BuildInfoRowAdd> {
                     } else {
                       parcels = (parcels! - 1);
                     }
-
-                    // count = widget.parcels;
                   });
                 },
                 icon: SvgPicture.asset('assets/minus.svg'),

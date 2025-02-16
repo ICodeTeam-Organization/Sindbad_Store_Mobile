@@ -75,8 +75,8 @@ class _ShowPrintAndShippingOrderState extends State<ShowPrintAndShippingOrder> {
                                 .read<ButtonDisableCubit>()
                                 .enableButtonForOrder(idOrders!.toString());
                             refreshAfterShippingInvoice(context);
-                            Navigator.pop(context); // Close the dialog
-                            Navigator.pop(context); // Close the dialog
+                            Navigator.pop(context);
+                            Navigator.pop(context);
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content:
@@ -84,7 +84,7 @@ class _ShowPrintAndShippingOrderState extends State<ShowPrintAndShippingOrder> {
                               ),
                             );
                           } else if (state is ShippingFailure) {
-                            Navigator.pop(context); // Close the dialog
+                            Navigator.pop(context);
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(state.errMessage),
@@ -143,11 +143,9 @@ class _ShowPrintAndShippingOrderState extends State<ShowPrintAndShippingOrder> {
                                       shippingCompniesId: 0,
                                       phoneNumber:
                                           anotherCompanyNumberController.text);
-                              // After successful operation, enable the specific order button
                               dateController.clear();
                               numberShippingController.clear();
                               anotherCompanyController.clear();
-                              // parcels = 1;
                               // context.read<ShippingCubit>().enableButton();
                             },
                           );

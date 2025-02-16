@@ -32,13 +32,13 @@ class _ShowCreateBillAndCancelOrderState
 
   TextEditingController mountController = TextEditingController();
 
-  TextEditingController cancelConroller = TextEditingController();
+  TextEditingController cancelController = TextEditingController();
   @override
   void dispose() {
     dateController.dispose();
     numberController.dispose();
     mountController.dispose();
-    cancelConroller.dispose();
+    cancelController.dispose();
     super.dispose();
   }
 
@@ -64,8 +64,6 @@ class _ShowCreateBillAndCancelOrderState
 
   @override
   Widget build(BuildContext context) {
-    // int? mount;
-    // int pays = 0;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -83,18 +81,17 @@ class _ShowCreateBillAndCancelOrderState
                   return BlocConsumer<OrderInvoiceCubit, OrderInvoiceState>(
                     listener: (context, state) {
                       if (state is OrderInvoiceSuccess) {
-                        // Trigger the callback to update the button state
-                        //تحديث الصفحة بعد انشاء الفاتورة
+                        //!تحديث الصفحة بعد انشاء الفاتورة
                         refreshAfterCreateInvoice(context);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(state.serverMessage.serverMessage),
                           ),
                         );
-                        Navigator.pop(context); // Close the dialog
-                        Navigator.pop(context); // Close the dialog
+                        Navigator.pop(context);
+                        Navigator.pop(context);
                       } else if (state is OrderInvoiceFailuer) {
-                        Navigator.pop(context); // Close the dialog
+                        Navigator.pop(context);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(state.errMessage)),
                         );
@@ -104,10 +101,6 @@ class _ShowCreateBillAndCancelOrderState
                       if (state is OrderInvoiceLoading) {
                         return CustomCreateBillDialog(
                           isLoading: true,
-                          headTitle: 'بيانات الفاتورة',
-                          firstTitle: 'تاريخ الفاتورة',
-                          secondTitle: 'رقم الفاتورة',
-                          thierdTitle: 'قيمة الفاتورة',
                           dateController: dateController,
                           numberController: numberController,
                           mountController: mountController,
@@ -116,10 +109,6 @@ class _ShowCreateBillAndCancelOrderState
                       }
 
                       return CustomCreateBillDialog(
-                        headTitle: 'بيانات الفاتورة',
-                        firstTitle: 'تاريخ الفاتورة',
-                        secondTitle: 'رقم الفاتورة',
-                        thierdTitle: 'قيمة الفاتورة',
                         dateController: dateController,
                         numberController: numberController,
                         mountController: mountController,
@@ -130,13 +119,13 @@ class _ShowCreateBillAndCancelOrderState
                               .read<OrderInvoiceCubit>()
                               .fechOrderInvoice(
                                 packageId: idPackages!,
-                                invoiceAmount: totalPricess ?? 0,
+                                invoiceAmount:
+                                    double.parse(mountController.text),
                                 invoiceImage: images!,
                                 invoiceNumber: numberController.text,
                                 invoiceDate: dateFormat ?? DateTime.now(),
                                 invoiceType: int.parse(pay ?? '0'),
                               );
-                          // Clear input fields
                           numberController.clear();
                           mountController.clear();
                           dateController.clear();
@@ -158,22 +147,18 @@ class _ShowCreateBillAndCancelOrderState
                 context: context,
                 builder: (context) {
                   return CustomOrderCancleDialog(
-                    cancelConroller: cancelConroller,
+                    cancelConroller: cancelController,
                     headTitle: 'ملاحظة رفض الطلب',
                     onPressedSure: () async {
                       try {
                         await context.read<CancelCubit>().fetchOrderCancel(
                             orderId: idOrders!,
                             orderCancel: true,
-                            reasonCancel: cancelConroller.text);
+                            reasonCancel: cancelController.text);
                         if (context.mounted) {
                           context.pop();
-                        }
-                        if (context.mounted) {
                           context.pop();
                         }
-                        // context.pop();
-                        // context.pop();
                         if (context.mounted) {
                           showDialog(
                             context: context,
@@ -200,7 +185,7 @@ class _ShowCreateBillAndCancelOrderState
                             },
                           );
                           // Clear input fields
-                          cancelConroller.clear();
+                          cancelController.clear();
                         }
                       } catch (e) {
                         if (context.mounted) {
