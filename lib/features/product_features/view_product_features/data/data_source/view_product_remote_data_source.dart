@@ -53,7 +53,8 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
       {required int pageNumber, required int pageSize}) async {
     final Map<String, dynamic> data = await apiService.get(
         endPoint:
-            "Categories/GetCategories?searchType=1&isBrief=true&pageNumber=$pageNumber&pageSize=$pageSize");
+            // "Categories/GetCategories?searchType=1&isBrief=true&pageNumber=$pageNumber&pageSize=$pageSize");
+            "Category?searchType=1&isBrief=true&pageNumber=$pageNumber&pageSize=$pageSize");
 
     // fun for change Data from JSON to DartModel
     List<MainCategoryForViewEntity> changeToDartModel(List<dynamic> data) {

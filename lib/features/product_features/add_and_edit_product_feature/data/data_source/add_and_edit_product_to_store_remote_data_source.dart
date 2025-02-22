@@ -124,7 +124,8 @@ class AddProductToStoreRemoteDataSourceImpl
   }) async {
     final Map<String, dynamic> data = await apiService.get(
         endPoint:
-            "Categories/GetCategoriesWithFilter?filterType=$filterType&pageSize=$pageSize&pageNumber=$pageNumber");
+            // "Categories/GetCategoriesWithFilter?filterType=$filterType&pageSize=$pageSize&pageNumber=$pageNumber");
+            "Category/GetCategoriesWithFilter?filterType=$filterType&pageSize=$pageSize&pageNumber=$pageNumber");
 
     // change Data from JSON to DartModel
     List<MainCategoryEntity> changeToDartModel(List<dynamic> data) {
