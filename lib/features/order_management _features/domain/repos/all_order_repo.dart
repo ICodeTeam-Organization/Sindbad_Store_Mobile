@@ -4,6 +4,7 @@ import 'package:sindbad_management_app/features/order_management%20_features/dom
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/order_shipping_entity.dart';
 import '../../../../core/errors/failure.dart';
 import '../entities/all_order_entity.dart';
+import '../entities/company_shipping_entity.dart';
 import '../entities/order_cancel_entity.dart';
 import '../entities/order_invoice_entity.dart';
 
@@ -53,5 +54,11 @@ abstract class AllOrderRepo {
     required int orderId,
     required bool orderCancel,
     required String reasonCancel,
+  });
+
+  //! CompanyShipping
+  Future<Either<Failure, List<CompanyShippingEntity>>> fetchCompanyShipping({
+    required int pageNumber,
+    required int pageSize,
   });
 }

@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/data/models/company_shipping/company_shipping_model/company_shipping_model.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/data/models/invoice/order_invoice_model.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/company_shipping_entity.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/order_detalis_entity.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/order_invoice_entity.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/order_shipping_entity.dart';
@@ -59,6 +61,11 @@ abstract class AllOrderRemotDataSource {
     int orderId,
     bool orderCancel,
     String reasonCancel,
+  );
+  //! Company Shipping
+  Future<List<CompanyShippingEntity>> fetchCompanyShipping(
+    int pageNumber,
+    int pageSize,
   );
 }
 
@@ -252,5 +259,27 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
     });
     OrderCancelEntity cancel = OrderCancelModel.fromJson(data);
     return cancel;
+  }
+
+  List<CompanyShippingEntity> getCompanyShipping(Map<String, dynamic> data) {
+    return getListItemsFromData(
+        data, (item) => CompanyShippingModel.fromJson(item));
+  }
+
+  @override
+  Future<List<CompanyShippingEntity>> fetchCompanyShipping(
+    int pageNumber,
+    int pageSize,
+  ) async {
+    String? token = await getToken();
+    var data = await apiService.get(
+      endPoint:
+          'ShippingInformations/ShippingCompanies?pageNumber=$pageNumber&pageSize=$pageSize',
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+    List<CompanyShippingEntity> companyShipping = getCompanyShipping(data);
+    return companyShipping;
   }
 }

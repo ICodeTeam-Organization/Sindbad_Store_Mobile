@@ -30,9 +30,11 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_details_cubit/offer_details_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/data/repos_impl/all_order_repo_impl.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/usecases/all_order_usecase.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/domain/usecases/company_shipping_usecase.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/usecases/order_cancel_usecase.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/usecases/order_invoice_usecasse.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/cancel/cancel_cubit.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/company_shipping/cubit/company_shipping_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/invoice/order_invoice_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/order_details/order_details_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/shipping/shipping_cubit.dart';
@@ -142,6 +144,10 @@ class SindbadManagementApp extends StatelessWidget {
                 ))),
         BlocProvider(
             create: (context) => CancelCubit(OrderCancelUsecase(
+                  allOrderRepo: getit.get<AllOrderRepoImpl>(),
+                ))),
+        BlocProvider(
+            create: (context) => CompanyShippingCubit(CompanyShippingUsecase(
                   allOrderRepo: getit.get<AllOrderRepoImpl>(),
                 ))),
         // BlocProvider(

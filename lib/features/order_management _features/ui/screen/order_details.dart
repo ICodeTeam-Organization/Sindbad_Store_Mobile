@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_tab_bar_widget.dart';
 import '../../../../core/setup_service_locator.dart';
 import '../../../../core/shared_widgets/new_widgets/custom_app_bar.dart';
 import '../../data/repos_impl/all_order_repo_impl.dart';
