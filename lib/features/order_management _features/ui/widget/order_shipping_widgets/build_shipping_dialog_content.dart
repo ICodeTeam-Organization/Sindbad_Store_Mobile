@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/ui/function/image_picker_function.dart';
 import '../../../../../core/shared_widgets/new_widgets/date_text_field.dart';
 import '../../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
 import '../order_details_widget/build_image_section.dart';
@@ -46,6 +47,7 @@ class _BuildShippingDialogContentState
     extends State<BuildShippingDialogContent> {
   @override
   Widget build(BuildContext context) {
+    String? _errorMessage = '';
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5.h),
       width: MediaQuery.sizeOf(context).width,
@@ -71,11 +73,14 @@ class _BuildShippingDialogContentState
             DropDownWidget(
               onDataChange: (value) {
                 setState(() {
-                  companyName = value;
+                  // companyName = value;
+                  companyId = value;
                 });
               },
             ),
-            companyName == "اخرى"
+            // companyName == "اخرى"
+            //     ? buildAnotherCompany(companyName ?? '')
+            companyId == -1
                 ? buildAnotherCompany(companyName ?? '')
                 : Center(),
             SizedBox(
@@ -96,6 +101,72 @@ class _BuildShippingDialogContentState
               title: 'تاكيد',
               onTap: widget.onPressedSure,
             ),
+
+//                          StorePrimaryButton(
+//   title: 'تاكيد',
+//   onTap: ()  {
+//     try {
+
+//       if (widget.numberShippingController.text.isEmpty) {
+//         setState(() {
+//           _errorMessage = 'رقم فاتورة الشحن لا يمكن أن يكون فارغ.';
+//         });
+//         return;
+//       }
+//       if (widget.dateController.text.isEmpty) {
+//         setState(() {
+//           _errorMessage = 'تاريخ الفاتورة لا يمكن أن يكون فارغ.';
+//         });
+//         return;
+//       }
+
+//       // Ensure images are not null
+//       if (images == null) {
+//         setState(() {
+//           _errorMessage = 'يرجى تحميل صورة الفاتورة.';
+//         });
+//         return;
+//       }
+
+//       if (companyId == null) {
+//         setState(() {
+//           _errorMessage = 'رقم الشركة لا يمكن أن يكون فارغ.';
+//         });
+//         return;
+//       }
+//       if (companyId != -1 || companyName != "أخرى") {
+//         if (widget.anotherCompanyController.text.isEmpty) {
+//           setState(() {
+//         _errorMessage = 'اسم الشركة لا يمكن أن يكون فارغ.';
+//           });
+//           return;
+//         }
+//         if (widget.anotherCompanyNumberController.text.isEmpty) {
+//           setState(() {
+//         _errorMessage = 'رقم التواصل لا يمكن أن يكون فارغ.';
+//           });
+//           return;
+//         }
+//       }
+
+//       // Call the onPressedSure callback
+//       widget.onPressedSure();
+//     } catch (e) {
+//       setState(() {
+//         _errorMessage = 'حدث خطأ ما. حاول مرة أخرى.';
+//       });
+//     }
+//   },
+//   isLoading: widget.isLoading,
+// ),
+// // if (_errorMessage != null)
+//   Padding(
+//     padding: EdgeInsets.only(top: 10.h),
+//     child: Text(
+//       _errorMessage!,
+//       style: TextStyle(color: Colors.red),
+//     ),
+//   ), 
           ],
         ),
       ),

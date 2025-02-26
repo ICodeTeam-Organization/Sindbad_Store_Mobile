@@ -8,9 +8,11 @@ import 'package:sindbad_management_app/features/order_management%20_features/dom
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/company_shipping/cubit/company_shipping_cubit.dart';
 
 String? companyName;
+int? companyId;
 
 class DropDownWidget extends StatefulWidget {
-  const DropDownWidget({super.key, required this.onDataChange(String value)});
+  // const DropDownWidget({super.key, required this.onDataChange(String value)});
+  const DropDownWidget({super.key, required this.onDataChange(int value)});
   final Function onDataChange;
 
   @override
@@ -66,7 +68,9 @@ class _DropDownWidgetState extends State<DropDownWidget> {
                 hintText: "",
                 onChanged: (value) {
                   companyName = value;
-                  widget.onDataChange(value);
+                    int? comId = companies.firstWhere((company) => company.comName == value).comId;
+                  // widget.onDataChange(value);
+                  widget.onDataChange(comId);
                 },
                 decoration: CustomDropdownDecoration(
                   closedBorderRadius: BorderRadius.circular(5),

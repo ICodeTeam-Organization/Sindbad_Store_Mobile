@@ -135,17 +135,23 @@ class _ShowPrintAndShippingOrderState extends State<ShowPrintAndShippingOrder> {
                                   .fetchOrderShipping(
                                       packageId: idPackages!,
                                       invoiceDate: dateFormat ?? DateTime.now(),
-                                      shippingNumber: int.parse(
-                                          numberShippingController.text),
-                                      shippingCompany: companyName ?? '',
+                                      // shippingNumber: int.parse(
+                                      //     numberShippingController.text),
+                                      // shippingCompany: companyName ?? '',
+                                        shippingNumber: companyName == 'اخرى' || companyId == -1 ? int.parse(
+                                          numberShippingController.text) : 0,
+                                        shippingCompany: companyName == 'اخرى' || companyId == -1 ? anotherCompanyController.text : companyName ?? '',
                                       shippingImages: images!,
                                       numberParcels: parcels!,
-                                      shippingCompniesId: 0,
+                                      // shippingCompniesId: 0,
+                                        shippingCompniesId: companyId != -1 ? companyId! : 0,
                                       phoneNumber:
                                           anotherCompanyNumberController.text);
                               dateController.clear();
                               numberShippingController.clear();
                               anotherCompanyController.clear();
+                              images = null;
+                              parcels = 1;
                               // context.read<ShippingCubit>().enableButton();
                             },
                           );
