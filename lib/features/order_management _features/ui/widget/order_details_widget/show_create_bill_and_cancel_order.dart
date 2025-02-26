@@ -129,6 +129,7 @@ class _ShowCreateBillAndCancelOrderState
                           numberController.clear();
                           mountController.clear();
                           dateController.clear();
+                          images = null;
                         },
                       );
                     },

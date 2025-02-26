@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/ui/function/image_picker_function.dart';
 import '../../../../../core/shared_widgets/new_widgets/date_text_field.dart';
 import '../../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
 import 'build_image_section.dart';
@@ -10,7 +11,7 @@ import 'radio_widget.dart';
 // TextEditingController numberConroller = TextEditingController();
 // TextEditingController mountConroller = TextEditingController();
 
-class BuildDialogContent extends StatelessWidget {
+class BuildDialogContent extends StatefulWidget {
   const BuildDialogContent({
     super.key,
     this.isLoading = false,
@@ -27,6 +28,12 @@ class BuildDialogContent extends StatelessWidget {
   final TextEditingController mountController;
 
   @override
+  State<BuildDialogContent> createState() => _BuildDialogContentState();
+}
+
+class _BuildDialogContentState extends State<BuildDialogContent> {
+  String? _errorMessage = "";
+  @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5.h),
@@ -39,21 +46,21 @@ class BuildDialogContent extends StatelessWidget {
           children: [
             DateTextField(
               title: "تاريخ الفاتورة",
-              controller: dateController,
+              controller: widget.dateController,
             ),
             SizedBox(
               height: 15.h,
             ),
             BuildInfoRow(
               title: "رقم الفاتورة",
-              controller: numberController,
+              controller: widget.numberController,
             ),
             SizedBox(
               height: 15.h,
             ),
             BuildInfoRow(
               title: "قيمة الفاتورة",
-              controller: mountController,
+              controller: widget.mountController,
             ),
             SizedBox(
               height: 15.h,
@@ -64,11 +71,80 @@ class BuildDialogContent extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
-            StorePrimaryButton(
-              title: 'تاكيد',
-              onTap: onPressedSure,
-              isLoading: isLoading,
-            ),
+            // StorePrimaryButton(
+            //   title: 'تاكيد',
+            //   onTap: onPressedSure,
+            //   isLoading: isLoading,
+            // ),
+                  StorePrimaryButton(
+  title: 'تاكيد',
+  onTap: () async {
+    try {
+      // Validate the mountController text
+      if (widget.mountController.text.isEmpty) {
+        setState(() {
+          _errorMessage = 'قيمة الفاتورة لا يمكن أن تكون فارغة.';
+        });
+        return;
+      }
+      if (widget.numberController.text.isEmpty) {
+        setState(() {
+          _errorMessage = 'رقم الفاتورة لا يمكن أن يكون فارغ.';
+        });
+        return;
+      }
+      if (widget.dateController.text.isEmpty) {
+        setState(() {
+          _errorMessage = 'تاريخ الفاتورة لا يمكن أن يكون فارغ.';
+        });
+        return;
+      }
+      // Try to parse the mountController text to a double
+      double? invoiceAmount;
+      try {
+        invoiceAmount = double.parse(widget.mountController.text);
+      } catch (e) {
+        setState(() {
+          _errorMessage = 'قيمة الفاتورة غير صالحة. يرجى إدخال رقم صحيح.';
+        });
+        return;
+      }
+
+      // Ensure images are not null
+      if (images == null) {
+        setState(() {
+          _errorMessage = 'يرجى تحميل صورة الفاتورة.';
+        });
+        return;
+      }
+
+      // Ensure pay is not null
+      if (pay == null) {
+        setState(() {
+          _errorMessage = 'يرجى تحديد نوع الفاتورة.';
+        });
+        return;
+      }
+
+
+      // Call the onPressedSure callback
+      widget.onPressedSure();
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'حدث خطأ ما. حاول مرة أخرى.';
+      });
+    }
+  },
+  isLoading: widget.isLoading,
+),
+// if (_errorMessage != null)
+  Padding(
+    padding: EdgeInsets.only(top: 10.h),
+    child: Text(
+      _errorMessage!,
+      style: TextStyle(color: Colors.red),
+    ),
+  ), 
           ],
         ),
       ),

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/ui/function/image_picker_function.dart';
 
 class BuildDialogTitle extends StatelessWidget {
   const BuildDialogTitle(
@@ -39,6 +40,7 @@ class BuildDialogTitle extends StatelessWidget {
               dateController.clear();
               numberController.clear();
               mountController.clear();
+              images = null;
             },
             icon: SvgPicture.asset(
               "assets/cancle.svg",
