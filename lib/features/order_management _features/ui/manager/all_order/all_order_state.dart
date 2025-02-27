@@ -20,3 +20,12 @@ final class AllOrderSuccess extends AllOrderState {
 
   AllOrderSuccess({required this.orders});
 }
+/// for pagination
+
+final class AllOrderPaginationLoadging extends AllOrderState {}
+
+final class AllOrderPaginationFaliure extends AllOrderState {
+  final String errMessage;
+
+  AllOrderPaginationFaliure({required this.errMessage});
+}
