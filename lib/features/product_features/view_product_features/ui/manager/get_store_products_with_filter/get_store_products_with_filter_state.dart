@@ -21,9 +21,14 @@ final class GetStoreProductsWithFilterSuccess
   final List<ProductEntity> products;
   final List<bool> checkedStates; // [states for Check boxes]
   final List<int> productsSelected; // [IDs for products selected]
+  final bool isLoadingMore; // true when pagination is loading
 
   GetStoreProductsWithFilterSuccess(
-      this.products, this.checkedStates, this.productsSelected);
+    this.products,
+    this.checkedStates,
+    this.productsSelected, {
+    this.isLoadingMore = false,
+  });
 }
 
 /// for pagination

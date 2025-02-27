@@ -18,45 +18,81 @@ import 'shimmer_for_products_with_filter.dart';
 import 'text_style_detials.dart';
 import 'two_button_inside_list_view_products.dart';
 
-class ProductsListView extends StatelessWidget {
-  final int
-      storeProductsFilter; // 1 => for all products, 2 => for deactivate products, 3 => for activate products
-  const ProductsListView({
-    super.key,
-    required this.storeProductsFilter,
-  });
+class ProductsListView extends StatefulWidget {
+  final int storeProductsFilter; // 1 => all products, 2 => deactivate, 3 => activate
+  const ProductsListView({super.key, required this.storeProductsFilter});
+
+  @override
+  State<ProductsListView> createState() => _ProductsListViewState();
+}
+
+class _ProductsListViewState extends State<ProductsListView> {
+  final ScrollController _scrollController = ScrollController();
+  final int _pageSize = 10;
+
+  @override
+  void initState() {
+    super.initState();
+    // Trigger the initial fetch
+    context.read<GetStoreProductsWithFilterCubit>().getStoreProductsWitheFilter(
+          storeProductsFilter: widget.storeProductsFilter,
+          pageNumber: 1,
+          pageSize: _pageSize,
+        );
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
+        final cubit = context.read<GetStoreProductsWithFilterCubit>();
+        if (cubit.state is GetStoreProductsWithFilterSuccess) {
+          final currentState = cubit.state as GetStoreProductsWithFilterSuccess;
+          if (!currentState.isLoadingMore) {
+            final nextPage = (currentState.products.length ~/ _pageSize) + 1;
+            cubit.getStoreProductsWitheFilter(
+              storeProductsFilter: widget.storeProductsFilter,
+              pageNumber: nextPage,
+              pageSize: _pageSize,
+              categoryId: cubit.currentMainCategoryId,
+            );
+          }
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final cubitGetStoreProducts =
-        context.read<GetStoreProductsWithFilterCubit>();
-    cubitGetStoreProducts.getStoreProductsWitheFilter(
-        storeProductsFilter: storeProductsFilter, pageNumber: 1, pageSize: 100);
-
-    return BlocBuilder<GetStoreProductsWithFilterCubit,
-        GetStoreProductsWithFilterState>(
+    return BlocBuilder<GetStoreProductsWithFilterCubit, GetStoreProductsWithFilterState>(
       builder: (context, state) {
-        if (state is GetStoreProductsWithFilterLoading) {
+        if (state is GetStoreProductsWithFilterInitial || state is GetStoreProductsWithFilterLoading) {
           return ShimmerForProductsWithFilter();
         } else if (state is GetStoreProductsWithFilterSuccess) {
           final List<ProductEntity> products = state.products;
-
           return products.isEmpty
               ? Center(child: Text("لا يوجد منتجات"))
               : ListView.builder(
+                  controller: _scrollController,
                   shrinkWrap: true,
-                  physics: const BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics()),
-                  itemCount: products.length,
+                  physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                  itemCount: products.length + (state.isLoadingMore ? 1 : 0),
                   itemBuilder: (context, index) {
+                    if (index == products.length) {
+                      return Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }
                     ProductEntity product = products[index];
                     bool isEven = index % 2 == 0;
                     return Container(
-                      margin: index + 1 == products.length
-                          ? EdgeInsets.only(bottom: 100.h)
-                          : null,
-                      padding:
-                          EdgeInsets.only(top: 26.h, bottom: 26.h, left: 10.w),
+                      margin: index + 1 == products.length ? EdgeInsets.only(bottom: 100.h) : null,
+                      padding: EdgeInsets.only(top: 26.h, bottom: 26.h, left: 10.w),
                       decoration: BoxDecoration(
                         color: isEven ? AppColors.background : Colors.white,
                         borderRadius: BorderRadius.circular(4.r),
@@ -64,97 +100,49 @@ class ProductsListView extends StatelessWidget {
                       child: Row(
                         children: [
                           CheckBoxCustom(
-                            val: state.checkedStates[index],
+                            val: (context.read<GetStoreProductsWithFilterCubit>().state
+                                        as GetStoreProductsWithFilterSuccess)
+                                    .checkedStates[index],
                             onChanged: (val) {
-                              cubitGetStoreProducts.updateCheckboxState(
+                              context.read<GetStoreProductsWithFilterCubit>().updateCheckboxState(
                                   index, val!, product.productId!);
                             },
                           ),
-                          ImageCardCustom(
-                            imageUrlNetwork: product.productImageUrl!,
-                          ),
+                          ImageCardCustom(imageUrlNetwork: product.productImageUrl!),
                           SizedBox(width: 10),
-                          // Product Details
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    // TextStyleTitleDataProductBold(
-                                    //     title: 'اسم المنتج :  '),
-                                    Expanded(
-                                      child: TextStyleDataProductGreyDark(
-                                          dataProduct: product.productName!),
-                                    ),
-                                  ],
-                                ),
+                                Text(product.productName!,
+                                    style: KTextStyle.textStyle18),
                                 SizedBox(height: 4.h),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    // TextStyleTitleDataProductBold(
-                                    //     title: 'رقم المنتج :  '),
-                                    Expanded(
-                                      child: TextStyleDataProductGreyDark(
-                                          dataProduct:
-                                              product.productNumber.toString()),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 4.h),
-                                Row(
-                                  children: [
-                                    // Text('السعر :  ',
-                                    //     style: TextStyle(
-                                    //         fontSize: 12.sp,
-                                    //         fontWeight: FontWeight.bold)),
-                                    Text(
-                                      '${product.productPrice.toString()} ر.س',
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontSize: 12.sp, color: Colors.red),
-                                    ),
-                                  ],
-                                ),
                               ],
                             ),
                           ),
                           SizedBox(width: 10.w),
-                          // Action Buttons
                           TwoButtonInsideListViewProducts(
                             onTapEdit: () {
-                              context
-                                  .read<ProductDetailsCubit>()
-                                  .getProductDetails(
-                                    productId: product.productId!,
-                                  );
+                              context.read<ProductDetailsCubit>().getProductDetails(productId: product.productId!);
                               showGetProductDetailsDialog(
                                 contextParent: context,
-                                productDetailsCubit:
-                                    context.read<ProductDetailsCubit>(),
+                                productDetailsCubit: context.read<ProductDetailsCubit>(),
                               );
                             },
-                            reactivate: storeProductsFilter ==
-                                2, // if storeProductsFilter == 2 => for reactivate product
+                            reactivate: widget.storeProductsFilter == 2,
                             onTapDeleteOrReactivate: () {
-                              storeProductsFilter ==
-                                      2 // if storeProductsFilter == 2 => for reactivate product
+                              widget.storeProductsFilter == 2
                                   ? showActivateOneOrMoreProductsDialog(
                                       contextParent: context,
                                       ids: [product.productId!],
-                                      storeProductsFilter: storeProductsFilter,
-                                      activateProductsCubit: context
-                                          .read<ActivateProductsByIdsCubit>(),
+                                      storeProductsFilter: widget.storeProductsFilter,
+                                      activateProductsCubit: context.read<ActivateProductsByIdsCubit>(),
                                     )
                                   : showDeleteProductDialog(
                                       contextParent: context,
                                       productId: product.productId!,
-                                      storeProductsFilter: storeProductsFilter,
-                                      deleteProductCubit: context.read<
-                                          DeleteProductByIdFromStoreCubit>(), // Pass the cubit
+                                      storeProductsFilter: widget.storeProductsFilter,
+                                      deleteProductCubit: context.read<DeleteProductByIdFromStoreCubit>(),
                                     );
                             },
                           ),
@@ -259,7 +247,7 @@ void showActivateOneOrMoreProductsDialog({
                     pageSize: 100,
                   );
             } else if (state is ActivateProductsByIdsFailure) {
-              ScaffoldMessenger.of(contextParent).showSnackBar(
+              ScaffoldMessenger.of(dialogContext).showSnackBar(
                 SnackBar(content: Text(state.errMessage)),
               );
             }
