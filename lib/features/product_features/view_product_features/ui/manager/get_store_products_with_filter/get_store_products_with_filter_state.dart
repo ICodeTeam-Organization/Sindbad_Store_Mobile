@@ -25,3 +25,13 @@ final class GetStoreProductsWithFilterSuccess
   GetStoreProductsWithFilterSuccess(
       this.products, this.checkedStates, this.productsSelected);
 }
+
+/// for pagination
+
+final class GetStoreProductsWithFilterPaginationLoadging extends GetStoreProductsWithFilterState {}
+
+final class GetStoreProductsWithFilterPaginationFaliure extends GetStoreProductsWithFilterState {
+  final String errMessage;
+
+  GetStoreProductsWithFilterPaginationFaliure({required this.errMessage});
+}

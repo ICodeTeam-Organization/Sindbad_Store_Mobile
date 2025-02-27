@@ -10,10 +10,12 @@ class CustomGetMainCategoryForViewSuccessWidget extends StatefulWidget {
     super.key,
     required this.allCategory,
     required this.storeProductsFilter,
+    required this.isLoadingMore,
   });
 
   final List<MainCategoryForViewEntity> allCategory;
   final int storeProductsFilter;
+  final bool isLoadingMore;
 
   @override
   State<CustomGetMainCategoryForViewSuccessWidget> createState() =>
@@ -36,10 +38,13 @@ class _CustomGetMainCategoryForViewSuccessWidgetState
       height: 50.h,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: widget.allCategory.length, // Use the length of the list
+          itemCount: widget.allCategory.length + (widget.isLoadingMore ? 1 : 0), // Add one for the loading indicator if loading more
           physics: const BouncingScrollPhysics(
               parent: AlwaysScrollableScrollPhysics()),
           itemBuilder: (context, i) {
+            if (i == widget.allCategory.length) {
+              return Center(child: CircularProgressIndicator());
+            }
             final category = widget.allCategory[i];
             return ChipCustom(
               title: category.mainCategoryName,

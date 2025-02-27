@@ -49,7 +49,13 @@ class GetStoreProductsWithFilterCubit
     required int pageSize,
     int? categoryId,
   }) async {
-    emit(GetStoreProductsWithFilterLoading());
+    if (pageNumber == 1) {
+  emit(GetStoreProductsWithFilterLoading());
+  }
+  else{
+    emit(GetStoreProductsWithFilterPaginationLoadging());
+  }
+
 
     currentStoreProductsFilter = storeProductsFilter;
     currentMainCategoryId = categoryId;
@@ -62,7 +68,12 @@ class GetStoreProductsWithFilterCubit
     result.fold(
         // left
         (failure) {
-      emit(GetStoreProductsWithFilterFailure(failure.message));
+      if (pageNumber == 1) {
+  emit(GetStoreProductsWithFilterFailure(failure.message));
+  }
+  else{
+    emit(GetStoreProductsWithFilterPaginationFaliure(errMessage: failure.message));
+}
     },
         // right
         (products) {

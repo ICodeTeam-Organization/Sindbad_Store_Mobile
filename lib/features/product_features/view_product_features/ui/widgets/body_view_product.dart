@@ -37,7 +37,7 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
     initCubitGetStoreProducts();
     initCubitDisableProducts();
     context.read<GetMainCategoryForViewCubit>().getMainCategoryForView(
-        pageNumber: 1, pageSize: 100); // for get Main category
+        pageNumber: 1, pageSize: 10); // for get Main category
   }
 
   @override

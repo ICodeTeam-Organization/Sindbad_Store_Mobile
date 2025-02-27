@@ -11,21 +11,29 @@ class ListMainCategoryForView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GetMainCategoryForViewCubit,
-        GetMainCategoryForViewState>(
+    return BlocBuilder<GetMainCategoryForViewCubit, GetMainCategoryForViewState>(
       builder: (context, state) {
         if (state is GetMainCategoryForViewSuccess) {
-          final mainCategoryForViewEntity =
-              state.mainCategoryForViewEntity; // list for category
+          final mainCategoryForViewEntity = state.mainCategoryForViewEntity;
+          // Create "الكل" category as first chip
           final List<MainCategoryForViewEntity> allCategory = [
-            MainCategoryForViewEntity(
-                mainCategoryId: 0000, mainCategoryName: "الكل")
-          ]; // list for category with "الكل"
-          allCategory.addAll(mainCategoryForViewEntity); // marge
+            MainCategoryForViewEntity(mainCategoryId: 0000, mainCategoryName: "الكل")
+          ];
+          allCategory.addAll(mainCategoryForViewEntity);
 
-          return CustomGetMainCategoryForViewSuccessWidget(
-            allCategory: allCategory,
-            storeProductsFilter: storeProductsFilter,
+          return NotificationListener<ScrollNotification>(
+            onNotification: (ScrollNotification scrollInfo) {
+              if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
+                context.read<GetMainCategoryForViewCubit>().getMainCategoryForView(
+                    pageNumber: (allCategory.length ~/ 10) + 1, pageSize: 10);
+              }
+              return false;
+            },
+            child: CustomGetMainCategoryForViewSuccessWidget(
+              allCategory: allCategory,
+              storeProductsFilter: storeProductsFilter,
+              isLoadingMore: state.isLoadingMore,
+            ),
           );
         } else if (state is GetMainCategoryForViewFailure) {
           return Center(child: Text(state.errMessage));

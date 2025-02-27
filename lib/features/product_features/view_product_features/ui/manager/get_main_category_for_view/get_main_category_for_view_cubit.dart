@@ -12,26 +12,53 @@ class GetMainCategoryForViewCubit extends Cubit<GetMainCategoryForViewState> {
       : super(GetMainCategoryForViewInitial());
 
   final GetMainCategoryForViewUseCase getMainCategoryForViewUseCase;
+  List<MainCategoryForViewEntity> _allCategories = [];
+  bool _isFetching = false;
 
   Future<void> getMainCategoryForView({
     required int pageNumber,
     required int pageSize,
   }) async {
-    emit(GetMainCategoryForViewLoading());
+    if (_isFetching) return;
+    _isFetching = true;
+
+    if (pageNumber == 1) {
+      emit(GetMainCategoryForViewLoading());
+    } else {
+      // Immediately emit success with loading flag true (to show loading indicator in list)
+      emit(GetMainCategoryForViewSuccess(
+          mainCategoryForViewEntity: _allCategories, isLoadingMore: true));
+    }
+
     MainCategoryForViewParams params =
         MainCategoryForViewParams(pageNumber: pageNumber, pageSize: pageSize);
 
     Either<Failure, List<MainCategoryForViewEntity>> result =
         await getMainCategoryForViewUseCase.execute(params);
+
     result.fold(
-        // left
-        (failure) {
-      emit(GetMainCategoryForViewFailure(errMessage: failure.message));
-    },
-        // right
-        (mainCategoryForView) {
-      emit(GetMainCategoryForViewSuccess(
-          mainCategoryForViewEntity: mainCategoryForView));
-    });
+      // On failure
+      (failure) {
+        if (pageNumber == 1) {
+          emit(GetMainCategoryForViewFailure(errMessage: failure.message));
+        } else {
+          // For pagination failure, keep the old data without loading flag
+          emit(GetMainCategoryForViewSuccess(
+              mainCategoryForViewEntity: _allCategories));
+        }
+      },
+      // On success
+      (mainCategoryForView) {
+        if (pageNumber == 1) {
+          _allCategories = mainCategoryForView;
+        } else {
+          _allCategories.addAll(mainCategoryForView);
+        }
+        emit(GetMainCategoryForViewSuccess(
+            mainCategoryForViewEntity: _allCategories));
+      },
+    );
+
+    _isFetching = false;
   }
 }
