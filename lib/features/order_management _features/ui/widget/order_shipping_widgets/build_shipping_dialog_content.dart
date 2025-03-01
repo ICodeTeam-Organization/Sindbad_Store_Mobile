@@ -45,9 +45,11 @@ class BuildShippingDialogContent extends StatefulWidget {
 
 class _BuildShippingDialogContentState
     extends State<BuildShippingDialogContent> {
+
+  String? _errorMessage = '';
+
   @override
   Widget build(BuildContext context) {
-    String? _errorMessage = '';
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5.h),
       width: MediaQuery.sizeOf(context).width,
@@ -96,77 +98,77 @@ class _BuildShippingDialogContentState
             SizedBox(
               height: 20.h,
             ),
-            StorePrimaryButton(
-              isLoading: widget.isLoading,
-              title: 'تاكيد',
-              onTap: widget.onPressedSure,
-            ),
+            // StorePrimaryButton(
+            //   isLoading: widget.isLoading,
+            //   title: 'تاكيد',
+            //   onTap: widget.onPressedSure,
+            // ),
 
-//                          StorePrimaryButton(
-//   title: 'تاكيد',
-//   onTap: ()  {
-//     try {
+                         StorePrimaryButton(
+  title: 'تاكيد',
+  onTap: () async  {
+    try {
 
-//       if (widget.numberShippingController.text.isEmpty) {
-//         setState(() {
-//           _errorMessage = 'رقم فاتورة الشحن لا يمكن أن يكون فارغ.';
-//         });
-//         return;
-//       }
-//       if (widget.dateController.text.isEmpty) {
-//         setState(() {
-//           _errorMessage = 'تاريخ الفاتورة لا يمكن أن يكون فارغ.';
-//         });
-//         return;
-//       }
+      if (widget.numberShippingController.text.isEmpty) {
+        setState(() {
+          _errorMessage = 'رقم فاتورة الشحن لا يمكن أن يكون فارغ.';
+        });
+        return;
+      }
+      if (widget.dateController.text.isEmpty) {
+        setState(() {
+          _errorMessage = 'تاريخ الفاتورة لا يمكن أن يكون فارغ.';
+        });
+        return;
+      }
 
-//       // Ensure images are not null
-//       if (images == null) {
-//         setState(() {
-//           _errorMessage = 'يرجى تحميل صورة الفاتورة.';
-//         });
-//         return;
-//       }
+      // Ensure images are not null
+      if (images == null) {
+        setState(() {
+          _errorMessage = 'يرجى تحميل صورة الفاتورة.';
+        });
+        return;
+      }
 
-//       if (companyId == null) {
-//         setState(() {
-//           _errorMessage = 'رقم الشركة لا يمكن أن يكون فارغ.';
-//         });
-//         return;
-//       }
-//       if (companyId != -1 || companyName != "أخرى") {
-//         if (widget.anotherCompanyController.text.isEmpty) {
-//           setState(() {
-//         _errorMessage = 'اسم الشركة لا يمكن أن يكون فارغ.';
-//           });
-//           return;
-//         }
-//         if (widget.anotherCompanyNumberController.text.isEmpty) {
-//           setState(() {
-//         _errorMessage = 'رقم التواصل لا يمكن أن يكون فارغ.';
-//           });
-//           return;
-//         }
-//       }
+      if (companyId == null) {
+        setState(() {
+          _errorMessage = 'رقم الشركة لا يمكن أن يكون فارغ.';
+        });
+        return;
+      }
+      if (companyId == -1 || companyName == "أخرى") {
+        if (widget.anotherCompanyController.text.isEmpty) {
+          setState(() {
+        _errorMessage = 'اسم الشركة لا يمكن أن يكون فارغ.';
+          });
+          return;
+        }
+        if (widget.anotherCompanyNumberController.text.isEmpty) {
+          setState(() {
+        _errorMessage = 'رقم التواصل لا يمكن أن يكون فارغ.';
+          });
+          return;
+        }
+      }
 
-//       // Call the onPressedSure callback
-//       widget.onPressedSure();
-//     } catch (e) {
-//       setState(() {
-//         _errorMessage = 'حدث خطأ ما. حاول مرة أخرى.';
-//       });
-//     }
-//   },
-//   isLoading: widget.isLoading,
-// ),
-// // if (_errorMessage != null)
-//   Padding(
-//     padding: EdgeInsets.only(top: 10.h),
-//     child: Text(
-//       _errorMessage!,
-//       style: TextStyle(color: Colors.red),
-//     ),
-//   ), 
+      // Call the onPressedSure callback
+      widget.onPressedSure();
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'حدث خطأ ما. حاول مرة أخرى.';
+      });
+    }
+  },
+  isLoading: widget.isLoading,
+),
+// if (_errorMessage != null)
+  Padding(
+    padding: EdgeInsets.only(top: 10.h),
+    child: Text(
+      _errorMessage!,
+      style: TextStyle(color: Colors.red),
+    ),
+  ), 
           ],
         ),
       ),
