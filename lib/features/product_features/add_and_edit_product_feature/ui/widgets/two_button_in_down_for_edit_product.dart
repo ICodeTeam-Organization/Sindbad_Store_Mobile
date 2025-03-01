@@ -26,6 +26,60 @@ class TwoButtonInDownForEditProduct extends StatelessWidget {
   final TextEditingController _descriptionProductController;
   final AttributeProductCubit cubitAttribute;
 
+  bool validateFields(BuildContext context, EditProductFromStoreCubit cubitEditProduct) {
+    if (_priceProductController.text.isEmpty ||
+        _descriptionProductController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('برجاء تعبئة كافة الحقول المطلوبة')),
+      );
+      return false;
+    }
+
+    // if (cubitEditProduct.mainImageProductFile == null) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(content: Text('برجاء اختيار الصورة الرئيسية للمنتج')),
+    //   );
+    //   return false;
+    // }
+
+    if (cubitEditProduct.subOneImageProductFile == null &&
+        cubitEditProduct.subTwoImageProductFile == null &&
+        cubitEditProduct.subThreeImageProductFile == null &&
+        cubitEditProduct.subOneImageProductUrl == null &&
+        cubitEditProduct.subTwoImageProductUrl == null &&
+        cubitEditProduct.subThreeImageProductUrl == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('برجاء اختيار صورة فرعية على الأقل للمنتج')),
+      );
+      return false;
+    }
+
+    if (cubitEditProduct.selectedMainCategoryId == null ||
+        cubitEditProduct.selectedSubCategoryId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('برجاء اختيار نوع المنتج بشكل صحيح')),
+      );
+      return false;
+    }
+
+    bool attributesValid = true;
+    for (int i = 0; i < cubitAttribute.state.keys.length; i++) {
+      if (cubitAttribute.state.keys[i].text.isEmpty ||
+          cubitAttribute.state.values[i].text.isEmpty) {
+        attributesValid = false;
+        break;
+      }
+    }
+    if (!attributesValid) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('برجاء تعبئة كافة خصائص المنتج')),
+      );
+      return false;
+    }
+
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -58,13 +112,15 @@ class TwoButtonInDownForEditProduct extends StatelessWidget {
                 height: 50.h,
                 buttonColor: AppColors.primary,
                 onTap: () async {
-                  await cubitEditProduct.editProductFromStore(
-                    productId: idProduct,
-                    priceProductController: _priceProductController,
-                    descriptionProductController: _descriptionProductController,
-                    keys: cubitAttribute.state.keys,
-                    values: cubitAttribute.state.values,
-                  );
+                  if (validateFields(context, cubitEditProduct)) {
+                    await cubitEditProduct.editProductFromStore(
+                      productId: idProduct,
+                      priceProductController: _priceProductController,
+                      descriptionProductController: _descriptionProductController,
+                      keys: cubitAttribute.state.keys,
+                      values: cubitAttribute.state.values,
+                    );
+                  }
                 },
               );
             },
