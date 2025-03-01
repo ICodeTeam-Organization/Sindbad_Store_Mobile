@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/store_primary_button.dart';
 import '../../../../../core/styles/Colors.dart';
 import '../manger/cubit/attribute_product/attribute_product_cubit.dart';
@@ -9,41 +8,93 @@ import '../manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
 
 class TwoButtonInDownAddProduct extends StatelessWidget {
   final AddProductToStoreCubit cubitAddProduct;
-
   final VoidCallback? onSuccessCallback;
+
   const TwoButtonInDownAddProduct({
     super.key,
     this.onSuccessCallback,
     required this.cubitAddProduct,
   });
 
+  bool validateFields(BuildContext context, AddProductToStoreCubit cubitAddProduct) {
+    if (cubitAddProduct.nameProductController.text.isEmpty ||
+        cubitAddProduct.priceProductController.text.isEmpty ||
+        cubitAddProduct.numberProductController.text.isEmpty ||
+        cubitAddProduct.descriptionProductController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('برجاء تعبئة كافة الحقول المطلوبة')),
+      );
+      return false;
+    }
+
+    if (cubitAddProduct.mainImageProductFile == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('برجاء اختيار الصورة الرئيسية للمنتج')),
+      );
+      return false;
+    }
+
+    if (cubitAddProduct.subOneImageProductFile == null &&
+        cubitAddProduct.subTwoImageProductFile == null &&
+        cubitAddProduct.subThreeImageProductFile == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('برجاء اختيار صورة فرعية على الأقل للمنتج')),
+      );
+      return false;
+    }
+
+    if (cubitAddProduct.selectedMainCategoryId == null ||
+        cubitAddProduct.selectedSubCategoryId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('برجاء اختيار نوع المنتج بشكل صحيح')),
+      );
+      return false;
+    }
+
+    // if (cubitAddProduct.selectedBrandId == null) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(content: Text('برجاء اختيار علامة تجارية أو اختيار "لايوجد"')),
+    //   );
+    //   return false;
+    // }
+
+    bool attributesValid = true;
+    for (int i = 0; i < cubitAddProduct.keys.length; i++) {
+      if (cubitAddProduct.keys[i].text.isEmpty ||
+          cubitAddProduct.values[i].text.isEmpty) {
+        attributesValid = false;
+        break;
+      }
+    }
+    if (!attributesValid) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('برجاء تعبئة كافة خصائص المنتج')),
+      );
+      return false;
+    }
+
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        // ============  Done button  ================
         BlocConsumer<AddProductToStoreCubit, AddProductToStoreState>(
           listener: (context, state) {
             if (state is AddProductToStoreSuccess) {
-              // Trigger the callback to refresh parent screen
               if (onSuccessCallback != null) {
                 onSuccessCallback!();
               }
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                    content: Text(
-                  'تم إضافة المنتج بنجاح!',
-                )),
+                SnackBar(content: Text('تم إضافة المنتج بنجاح!')),
               );
               Navigator.of(context).pop();
             }
             if (state is AddProductToStoreFailure) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                    content: Text(
-                  'فشل في إضافة المنتج, الرجاء المحاولة مرة أخرى',
-                )),
+                SnackBar(content: Text('فشل في إضافة المنتج, الرجاء المحاولة مرة أخرى')),
               );
             }
           },
@@ -51,15 +102,11 @@ class TwoButtonInDownAddProduct extends StatelessWidget {
             return StorePrimaryButton(
               isLoading: state is AddProductToStoreLoading,
               onTap: () async {
-                cubitAddProduct.keys = context
-                    .read<AttributeProductCubit>()
-                    .state
-                    .keys; //  important before test
-                cubitAddProduct.values = context
-                    .read<AttributeProductCubit>()
-                    .state
-                    .values; //  important before test
-                await cubitAddProduct.addProductToStore();
+                if (validateFields(context, cubitAddProduct)) {
+                  cubitAddProduct.keys = context.read<AttributeProductCubit>().state.keys;
+                  cubitAddProduct.values = context.read<AttributeProductCubit>().state.values;
+                  await cubitAddProduct.addProductToStore();
+                }
               },
               title: "تأكيد",
               width: 200.w,
@@ -69,7 +116,6 @@ class TwoButtonInDownAddProduct extends StatelessWidget {
           },
         ),
         SizedBox(width: 8.w),
-        // ============  Cancel button  ================
         StorePrimaryButton(
           onTap: () => Navigator.of(context).pop(),
           title: "إلغاء",

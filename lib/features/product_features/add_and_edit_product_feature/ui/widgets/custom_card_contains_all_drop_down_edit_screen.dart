@@ -271,7 +271,8 @@ class _CustomCardContainsAllDropDownEditScreenState
                       // for test
                       // cubitEditProduct.testDropDown();
                     } else {
-                      cubitEditProduct.selectedBrandId = null;
+                      // if user select "لا يوجد"
+                      cubitEditProduct.selectedBrandId = 000;
                       // for test
                       // cubitEditProduct.testDropDown();
                     }

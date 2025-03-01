@@ -94,7 +94,11 @@ class AddProductToStoreRemoteDataSourceImpl
       "Number": number,
       "StoreId": storeId,
       "OfferId": offerId,
-      "BrandId": brandId,
+      // "BrandId": brandId,
+      
+      // this is for the case of brandId = 000 when the user select "لايوجد"
+      // we make the brandId = 000 and send it as null else send the brandId
+      "BrandId": brandId == 000 ? null : brandId,
       "MainCategoryId": mainCategoryId,
       // "Images": images,                // down.. in with files
       "SubCategoryIds": subCategoryIds,
