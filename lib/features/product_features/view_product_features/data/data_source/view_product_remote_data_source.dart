@@ -100,12 +100,14 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
     required int? categoryId,
   }) async {
     String? token = await getToken();
+    final List<int> category = categoryId != null ? [categoryId] : []; 
     final Map<String, dynamic> requestData;
     switch (storeProductsFilter) {
       case 0: // for all products
         requestData = {
-          "categoryId":
-              categoryId, // if categoryId = null  will return all products
+          "categories":
+              // categoryId, // if categoryId = null  will return all products
+              category, // if categoryId = null  will return all products
           "pageNumber": pageNumber,
           "pageSize": pageSize
         };
@@ -113,8 +115,9 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
       case 1: // for products hasOffer
         requestData = {
           "hasOffer": true,
-          "categoryId":
-              categoryId, // if categoryId = null  will return all products offers
+          "categories":
+              // categoryId, // if categoryId = null  will return all products offers
+              category, // if categoryId = null  will return all products offers
           "pageNumber": pageNumber,
           "pageSize": pageSize
         };
@@ -122,8 +125,9 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
       case 2: // for products isDeleted
         requestData = {
           "isDisable": true,
-          "categoryId":
-              categoryId, // if categoryId = null  will return all products offers
+          "categories":
+              // categoryId, // if categoryId = null  will return all products offers
+              category, // if categoryId = null  will return all products offers
           "pageNumber": pageNumber,
           "pageSize": pageSize
         };
