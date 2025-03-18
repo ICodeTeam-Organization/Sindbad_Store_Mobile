@@ -66,7 +66,7 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                         Text(
-                          "تسجيل الدخول مالك محل ",
+                          "تسجيل دخول مالك المحل ",
                           style: TextStyle(
                             color: Color(0xff000000),
                             fontSize: 15,
