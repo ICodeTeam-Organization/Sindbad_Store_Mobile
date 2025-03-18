@@ -6,7 +6,7 @@ import '../../data/repos_impl/all_order_repo_impl.dart';
 import '../../domain/usecases/order_details_usecase.dart';
 import '../manager/order_details/order_details_cubit.dart';
 import '../widget/order_body.dart';
-import '../widget/order_details_d.dart';
+import '../widget/order_body_details.dart';
 import '../widget/order_details_widget/order_details_body.dart';
 import '../widget/order_details_widget/show_create_bill_and_cancel_order.dart';
 import '../widget/order_details_widget/show_print_and_shipping_order.dart';
@@ -51,7 +51,7 @@ class OrderDetails extends StatelessWidget {
                     isSearch: false,
                   ),
                   //! Show Order
-                  OrderBodyD(
+                  OrderBodyDetails(
                     idPackage: packageId,
                     idOrder: orderId,
                     numberBill: billNumber,
