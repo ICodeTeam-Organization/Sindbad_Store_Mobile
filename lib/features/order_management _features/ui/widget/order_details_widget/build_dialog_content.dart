@@ -7,10 +7,6 @@ import 'build_image_section.dart';
 import 'build_info_row.dart';
 import 'radio_widget.dart';
 
-// TextEditingController dateConroller = TextEditingController();
-// TextEditingController numberConroller = TextEditingController();
-// TextEditingController mountConroller = TextEditingController();
-
 class BuildDialogContent extends StatefulWidget {
   const BuildDialogContent({
     super.key,
@@ -76,75 +72,75 @@ class _BuildDialogContentState extends State<BuildDialogContent> {
             //   onTap: onPressedSure,
             //   isLoading: isLoading,
             // ),
-                  StorePrimaryButton(
-  title: 'تاكيد',
-  onTap: () async {
-    try {
-      // Validate the mountController text
-      if (widget.mountController.text.isEmpty) {
-        setState(() {
-          _errorMessage = 'قيمة الفاتورة لا يمكن أن تكون فارغة.';
-        });
-        return;
-      }
-      if (widget.numberController.text.isEmpty) {
-        setState(() {
-          _errorMessage = 'رقم الفاتورة لا يمكن أن يكون فارغ.';
-        });
-        return;
-      }
-      if (widget.dateController.text.isEmpty) {
-        setState(() {
-          _errorMessage = 'تاريخ الفاتورة لا يمكن أن يكون فارغ.';
-        });
-        return;
-      }
-      // Try to parse the mountController text to a double
-      double? invoiceAmount;
-      try {
-        invoiceAmount = double.parse(widget.mountController.text);
-      } catch (e) {
-        setState(() {
-          _errorMessage = 'قيمة الفاتورة غير صالحة. يرجى إدخال رقم صحيح.';
-        });
-        return;
-      }
+            StorePrimaryButton(
+              title: 'تاكيد',
+              onTap: () async {
+                try {
+                  // Validate the mountController text
+                  if (widget.mountController.text.isEmpty) {
+                    setState(() {
+                      _errorMessage = 'قيمة الفاتورة لا يمكن أن تكون فارغة.';
+                    });
+                    return;
+                  }
+                  if (widget.numberController.text.isEmpty) {
+                    setState(() {
+                      _errorMessage = 'رقم الفاتورة لا يمكن أن يكون فارغ.';
+                    });
+                    return;
+                  }
+                  if (widget.dateController.text.isEmpty) {
+                    setState(() {
+                      _errorMessage = 'تاريخ الفاتورة لا يمكن أن يكون فارغ.';
+                    });
+                    return;
+                  }
+                  // Try to parse the mountController text to a double
+                  double? invoiceAmount;
+                  try {
+                    invoiceAmount = double.parse(widget.mountController.text);
+                  } catch (e) {
+                    setState(() {
+                      _errorMessage =
+                          'قيمة الفاتورة غير صالحة. يرجى إدخال رقم صحيح.';
+                    });
+                    return;
+                  }
 
-      // Ensure images are not null
-      if (images == null) {
-        setState(() {
-          _errorMessage = 'يرجى تحميل صورة الفاتورة.';
-        });
-        return;
-      }
+                  // Ensure images are not null
+                  if (images == null) {
+                    setState(() {
+                      _errorMessage = 'يرجى تحميل صورة الفاتورة.';
+                    });
+                    return;
+                  }
 
-      // Ensure pay is not null
-      if (pay == null) {
-        setState(() {
-          _errorMessage = 'يرجى تحديد نوع الفاتورة.';
-        });
-        return;
-      }
+                  // Ensure pay is not null
+                  if (pay == null) {
+                    setState(() {
+                      _errorMessage = 'يرجى تحديد نوع الفاتورة.';
+                    });
+                    return;
+                  }
 
-
-      // Call the onPressedSure callback
-      widget.onPressedSure();
-    } catch (e) {
-      setState(() {
-        _errorMessage = 'حدث خطأ ما. حاول مرة أخرى.';
-      });
-    }
-  },
-  isLoading: widget.isLoading,
-),
+                  // Call the onPressedSure callback
+                  widget.onPressedSure();
+                } catch (e) {
+                  setState(() {
+                    _errorMessage = 'حدث خطأ ما. حاول مرة أخرى.';
+                  });
+                }
+              },
+              isLoading: widget.isLoading,
+            ),
 // if (_errorMessage != null)
-  Padding(
-    padding: EdgeInsets.only(top: 10.h),
-    child: Text(
-      _errorMessage!,
-      style: TextStyle(color: Colors.red),
-    ),
-  ), 
+            Padding(
+              padding: EdgeInsets.only(top: 10.h),
+              child: Text(
+                _errorMessage!,
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
           ],
         ),
       ),

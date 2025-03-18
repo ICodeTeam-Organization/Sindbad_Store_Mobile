@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:sindbad_management_app/core/styles/Colors.dart';
-import 'package:sindbad_management_app/core/styles/text_style.dart';
 import 'package:sindbad_management_app/features/custom_bottom_navigation_bar.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_cubit/offer_cubit.dart';
 // import 'order_management _features/ui/screen/order_management_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/screens/view_offer_screen.dart';
-import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/all_order/all_order_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/screen/order_management_screen.dart';
-import 'package:sindbad_management_app/features/product_features/view_product_features/ui/manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
 import 'product_features/view_product_features/ui/screens/view_product_screen.dart';
 
 class Root extends StatefulWidget {

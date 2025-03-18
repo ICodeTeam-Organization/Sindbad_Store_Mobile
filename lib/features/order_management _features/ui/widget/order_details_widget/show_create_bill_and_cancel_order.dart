@@ -245,7 +245,6 @@ class _ShowCreateBillAndCancelOrderState
             paied: false,
             pageNumber: 1,
             pageSize: 100,
-            // srearchKeyword: ''
           );
     } else if (subTab == 1) {
       context.read<AllOrderCubit>().fetchAllOrder(
@@ -257,7 +256,6 @@ class _ShowCreateBillAndCancelOrderState
             paied: false,
             pageNumber: 1,
             pageSize: 100,
-            // srearchKeyword: ''
           );
     }
   }
