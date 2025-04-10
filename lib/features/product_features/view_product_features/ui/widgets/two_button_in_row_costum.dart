@@ -61,7 +61,7 @@ class TwoButtonInRow extends StatelessWidget {
           StorePrimaryButton(
             disabled: anyProductsSelected,
             title: titleLeft,
-            icon: Icons.delete_outline_rounded,
+            icon: Icons.refresh,
             buttonColor: AppColors.primary,
             height: 55.h,
             width: 150.w,
