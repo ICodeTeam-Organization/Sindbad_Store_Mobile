@@ -7,7 +7,7 @@ import 'errors/failure.dart';
 
 class ApiService {
   final Dio _dio;
-  final baseUrl = "https://sindibad-shop.com:82/api/";
+  final baseUrl = "https://www.sindibad-back.com:82/api/";
 
   ApiService(this._dio);
   // {
