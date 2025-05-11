@@ -255,10 +255,12 @@ void showActivateOneOrMoreProductsDialog({
           builder: (dialogContext, state) {
             return CustomShowDialogForViewWidget(
               title: ids.length > 1
-                  ? 'هل انت متأكد من إيقاف المنتجات؟'
+                  // ? 'هل انت متأكد من إيقاف المنتجات؟'
+                  ? 'هل انت متأكد من إعادة تنشيط المنتجات؟'
                   : 'إعادة تنشيط المنتج',
               subtitle: ids.length > 1
-                  ? 'عدد المنتجات التي تريد إيقافها : ${ids.length}'
+                  // ? 'عدد المنتجات التي تريد إيقافها : ${ids.length}'
+                  ? 'عدد المنتجات التي تريد تنشطيها : ${ids.length}'
                   : 'هل تريد بالتأكيد إعادة تنشيط هذا المنتج؟',
               isLoading: state is ActivateProductsByIdsLoading,
               onConfirm: () =>
