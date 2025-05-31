@@ -59,12 +59,15 @@ class ViewOfferRemotDataSourceImpl extends ViewOfferRemotDataSource {
   @override
   Future<List<OfferEntity>> getOffer(int pageSize, int pageNumber) async {
     String? token = await getToken();
-    var data = await apiService.post(
-      data: {
-        "pageSize": 100,
-        "pageNumber": pageNumber,
-      },
-      endPoint: 'Offers/Store/GetStoreOfferHeads',
+    // var data = await apiService.post(
+    var data = await apiService.get(
+      // data: {
+      //   "pageSize": 100,
+      //   "pageNumber": pageNumber,
+      // },
+      // endPoint: 'Offers/Store/GetStoreOfferHeads',
+      // endPoint: 'Offers/Store/GetStoreOfferHeads?PageSize=$pageSize&PageNumber=$pageNumber',
+      endPoint: 'Offers/Store/GetStoreOfferHeads?PageSize=100&PageNumber=$pageNumber',
       headers: {'Authorization': 'BEARER $token'},
     );
     List<OfferEntity> response = getOfferList(data);
@@ -84,14 +87,17 @@ class ViewOfferRemotDataSourceImpl extends ViewOfferRemotDataSource {
     int offerHeadId,
   ) async {
     String? token = await getToken();
-    var data = await apiService.post(
-      data: {
-        "pageSize": 100,
-        "pageNumber": pageNumber,
-        "offerHeadId": offerHeadId,
-        "isOfferHeadId": false
-      },
-      endPoint: 'Offers/Store/GetStoreOffers',
+    // var data = await apiService.post(
+    var data = await apiService.get(
+      // data: {
+      //   "pageSize": 100,
+      //   "pageNumber": pageNumber,
+      //   "offerHeadId": offerHeadId,
+      //   "isOfferHeadId": false
+      // },
+      // endPoint: 'Offers/Store/GetStoreOffers',
+      // endPoint: 'Offers/Store/GetStoreOffers?PageSize=$pageSize&PageNumber=$pageNumber&OfferHeadId=$offerHeadId',
+      endPoint: 'Offers/Store/GetStoreOffers?PageSize=100&PageNumber=$pageNumber&OfferHeadId=$offerHeadId',
       headers: {'Authorization': 'BEARER $token'},
     );
     List<OfferDetailsEntity> response = getOfferDetailsList(data);

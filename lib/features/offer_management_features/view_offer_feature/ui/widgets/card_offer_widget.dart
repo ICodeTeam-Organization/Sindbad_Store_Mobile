@@ -75,6 +75,8 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
     } else if (widget.typeName == 'Bonus') {
       offerTypeTitle =
           ' اشتري ${widget.numberToBuy} واحصل على ${widget.numberToGet}';
+    } else {
+      offerTypeTitle = ''; // Default to empty to avoid null title.
     }
   }
 
@@ -160,17 +162,21 @@ class _CardOfferWidgetState extends State<CardOfferWidget> {
                       SizedBox(height: 10.h),
                       TextGrayLightWidget(title: offerTypeTitle),
                       SizedBox(height: 10.h),
-                      Row(
-                        children: [
-                          TextGrayLightWidget(title: "من "),
-                          TextGrayLightWidget(
-                              title:
-                                  "${widget.startOffer.year}/${widget.startOffer.month}/${widget.startOffer.day}"),
-                          TextGrayLightWidget(title: " الى  "),
-                          TextGrayLightWidget(
-                              title:
-                                  "${widget.endOffer.year}/${widget.endOffer.month}/${widget.endOffer.day}"),
-                        ],
+                      // Wrap the row in SingleChildScrollView to avoid overflow
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            TextGrayLightWidget(title: "من "),
+                            TextGrayLightWidget(
+                                title:
+                                    "${widget.startOffer.year}/${widget.startOffer.month}/${widget.startOffer.day}"),
+                            TextGrayLightWidget(title: " الى  "),
+                            TextGrayLightWidget(
+                                title:
+                                    "${widget.endOffer.year}/${widget.endOffer.month}/${widget.endOffer.day}"),
+                          ],
+                        ),
                       ),
                       SizedBox(height: 20.h),
                       Row(
