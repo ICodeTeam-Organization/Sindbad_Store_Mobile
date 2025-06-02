@@ -67,7 +67,8 @@ class ViewOfferRemotDataSourceImpl extends ViewOfferRemotDataSource {
       // },
       // endPoint: 'Offers/Store/GetStoreOfferHeads',
       // endPoint: 'Offers/Store/GetStoreOfferHeads?PageSize=$pageSize&PageNumber=$pageNumber',
-      endPoint: 'Offers/Store/GetStoreOfferHeads?PageSize=100&PageNumber=$pageNumber',
+      endPoint:
+          'Offers/Store/GetStoreOfferHeads?PageSize=100&PageNumber=$pageNumber',
       headers: {'Authorization': 'BEARER $token'},
     );
     List<OfferEntity> response = getOfferList(data);
@@ -97,7 +98,7 @@ class ViewOfferRemotDataSourceImpl extends ViewOfferRemotDataSource {
       // },
       // endPoint: 'Offers/Store/GetStoreOffers',
       // endPoint: 'Offers/Store/GetStoreOffers?PageSize=$pageSize&PageNumber=$pageNumber&OfferHeadId=$offerHeadId',
-      endPoint: 'Offers/Store/GetStoreOffers?PageSize=100&PageNumber=$pageNumber&OfferHeadId=$offerHeadId',
+      endPoint: 'Offers/Store/GetStoreOffers?OfferHeadId=$offerHeadId',
       headers: {'Authorization': 'BEARER $token'},
     );
     List<OfferDetailsEntity> response = getOfferDetailsList(data);
@@ -110,12 +111,8 @@ class ViewOfferRemotDataSourceImpl extends ViewOfferRemotDataSource {
     int offerHeadId,
   ) async {
     String? token = await getToken();
-    var data = await apiService.post(
-        data: {
-          "id": offerHeadId,
-          "isOfferHead": true,
-        },
-        endPoint: "Offers/Store/DeleteOffer",
+    var data = await apiService.delete(
+        endPoint: "Offers/Store/DeleteOffer/$offerHeadId",
         headers: {'Authorization': 'BEARER $token'});
     PostResponseEntity response = PostResponseModel.fromJson(data);
     return response;
@@ -129,10 +126,10 @@ class ViewOfferRemotDataSourceImpl extends ViewOfferRemotDataSource {
     String? token = await getToken();
     var data = await apiService.post(
         data: {
-          "id": offerHeadId,
-          "justActiveAndDis": true,
+          // "offerHeadId ": offerHeadId,
+          // "": true,
         },
-        endPoint: "Offers/Store/EditOffer",
+        endPoint: "Offers/Store/ActivateOffers/$offerHeadId",
         headers: {'Authorization': 'BEARER $token'});
     PostResponseEntity response = PostResponseModel.fromJson(data);
     return response;

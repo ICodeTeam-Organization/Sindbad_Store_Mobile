@@ -17,7 +17,7 @@ class ViewOfferDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: offertype == 'Percent'
+      body: offertype == 'نسبة'
           ? ViewOfferDetailsDiscountBody(
               offerId: offerId,
               offerName: offerName,

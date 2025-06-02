@@ -171,9 +171,8 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
     int offerHeadId,
   ) async {
     String? token = await getToken();
-    var data = await apiService.post(
-        data: {},
-        endPoint: "Offers/Store/GetOfferForEdit/$offerHeadId",
+    var data = await apiService.get(
+        endPoint: "Offers/Store/GetStoreOffers?OfferHeadId=$offerHeadId",
         headers: {'Authorization': 'BEARER $token'});
     OfferDataEntity response = OfferDataModel.fromJson(data.values.last);
     return response;
