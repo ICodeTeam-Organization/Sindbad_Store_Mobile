@@ -34,7 +34,7 @@ abstract class AddAndEditProductStoreRepo {
   });
 
   Future<Either<Failure, List<BrandEntity>>> getBrandsByMainCategoryId({
-    required int mainCategoryId,
+    required int? mainCategoryId,
   });
   Future<Either<Failure, ProductDetailsEntity>> getProductDetails({
     required int productId,

@@ -64,9 +64,12 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
         parsedDate.year,
         parsedDate.month,
         parsedDate.day,
-        03, // Hour
-        00, // Minute
-        00, // Second
+        03,
+        // Hour
+        00,
+        // Minute
+        00,
+        // Second
         000, // Milliseconds
       );
 
@@ -112,12 +115,12 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
         offerMap["percentage"] =
             discountRateNotifier.value; // Discount percentage
         offerMap["finalPrice"] = newPrice; // Discounted price
-        offerMap["amountToBuy"] = null; // Not applicable
-        offerMap["amountToGet"] = null; // Not applicable
+        offerMap["amountToBuy"] = 0; // Not applicable
+        offerMap["amountToGet"] = 0; // Not applicable
       } else if (offerType == 2) {
         // For "buy X, get Y" offers
-        offerMap["percentage"] = null; // Not applicable
-        offerMap["finalPrice"] = null; // Not applicable
+        offerMap["percentage"] = 0; // Not applicable
+        offerMap["finalPrice"] = newPrice; // Not applicable
         offerMap["amountToBuy"] = numberToBuyNotifier.value; // Amount to buy
         offerMap["amountToGet"] = numberToGetNotifier.value; // Amount to get
       }

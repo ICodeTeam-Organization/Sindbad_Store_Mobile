@@ -19,7 +19,7 @@ class GetBrandsByMainCategoryIdUseCase extends UseCaseWithParam<
 }
 
 class GetBrandsByMainCategoryIdParams {
-  final int mainCategoryId;
+  final int? mainCategoryId;
 
   GetBrandsByMainCategoryIdParams({
     required this.mainCategoryId,

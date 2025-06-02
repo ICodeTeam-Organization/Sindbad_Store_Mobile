@@ -88,7 +88,7 @@ class AddAndEditProductStoreRepoImpl extends AddAndEditProductStoreRepo {
 
   @override
   Future<Either<Failure, List<BrandEntity>>> getBrandsByMainCategoryId({
-    required int mainCategoryId,
+    required int? mainCategoryId,
   }) async {
     try {
       List<BrandEntity> data = await addAndEditProductToStoreRemoteDataSource

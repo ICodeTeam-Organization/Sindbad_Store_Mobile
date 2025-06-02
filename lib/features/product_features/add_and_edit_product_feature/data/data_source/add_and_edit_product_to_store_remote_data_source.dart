@@ -52,7 +52,7 @@ abstract class AddAndEditProductToStoreRemoteDataSource {
     required int pageSize,
   });
   Future<List<BrandEntity>> getBrandsByMainCategoryId({
-    required int mainCategoryId,
+    required int? mainCategoryId,
   });
   Future<ProductDetailsEntity> getProductDetails({
     required int productId,
@@ -95,7 +95,7 @@ class AddProductToStoreRemoteDataSourceImpl
       "StoreId": storeId,
       "OfferId": offerId,
       // "BrandId": brandId,
-      
+
       // this is for the case of brandId = 000 when the user select "لايوجد"
       // we make the brandId = 000 and send it as null else send the brandId
       "BrandId": brandId == 000 ? null : brandId,
@@ -147,20 +147,36 @@ class AddProductToStoreRemoteDataSourceImpl
   // =============================  for get Brands  ==================================
   @override
   Future<List<BrandEntity>> getBrandsByMainCategoryId(
-      {required int mainCategoryId}) async {
-    final Map<String, dynamic> data = await apiService.get(
-        endPoint: "Brands/GetBrandsByMainCategory/$mainCategoryId");
+      {required int? mainCategoryId}) async {
+    if (mainCategoryId == null) {
+      final Map<String, dynamic> data =
+          await apiService.get(endPoint: "Brands/GetBrands");
+      List<BrandEntity> changeToDartModel(List<dynamic> data) {
+        List<BrandEntity> brandsEntity = data
+            .map((datum) => Datum.fromJson(datum as Map<String, dynamic>))
+            .toList();
+        return brandsEntity;
+      }
 
-    // fun change Data from JSON to DartModel
-    List<BrandEntity> changeToDartModel(List<dynamic> data) {
-      List<BrandEntity> brandsEntity = data
-          .map((datum) => Datum.fromJson(datum as Map<String, dynamic>))
-          .toList();
-      return brandsEntity;
+      List<BrandEntity> brands =
+          changeToDartModel(data['data'] as List<dynamic>);
+      return brands;
+    } else {
+      final Map<String, dynamic> data = await apiService.get(
+          endPoint: "Brands/GetBrands?categoryId=$mainCategoryId");
+      List<BrandEntity> changeToDartModel(List<dynamic> data) {
+        List<BrandEntity> brandsEntity = data
+            .map((datum) => Datum.fromJson(datum as Map<String, dynamic>))
+            .toList();
+        return brandsEntity;
+      }
+
+      List<BrandEntity> brands =
+          changeToDartModel(data['data'] as List<dynamic>);
+      return brands;
     }
 
-    List<BrandEntity> brands = changeToDartModel(data['data'] as List<dynamic>);
-    return brands;
+    // fun change Data from JSON to DartModel
   }
 
   // ============================  for get Product Details  ===========================

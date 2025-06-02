@@ -14,7 +14,7 @@ class GetBrandsByCategoryIdCubit extends Cubit<GetBrandsByCategoryIdState> {
 
   final GetBrandsByMainCategoryIdUseCase getBrandsByMainCategoryIdUseCase;
 
-  void getBrandsByMainCategoryId({required int mainCategoryId}) async {
+  void getBrandsByMainCategoryId({required int? mainCategoryId}) async {
     emit(GetBrandsByCategoryIdLoading());
     GetBrandsByMainCategoryIdParams params =
         GetBrandsByMainCategoryIdParams(mainCategoryId: mainCategoryId);

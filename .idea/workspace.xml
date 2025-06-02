@@ -10,10 +10,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e37062d7-d375-4029-a514-497f1fd7063d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/lib/features/offer_management_features/view_offer_feature/data/data_source/remote/view_offer_remot_data_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/offer_management_features/view_offer_feature/data/data_source/remote/view_offer_remot_data_source.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/offer_management_features/view_offer_feature/ui/widgets/card_offer_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/offer_management_features/view_offer_feature/ui/widgets/card_offer_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/offer_management_features/view_offer_feature/ui/widgets/custom_delete_dialog_widget.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/offer_management_features/view_offer_feature/ui/widgets/view_offer_body.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/offer_management_features/view_offer_feature/ui/widgets/view_offer_body.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/offer_management_features/modify_offer_feature/ui/widgets/new_offer_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/offer_management_features/modify_offer_feature/ui/widgets/new_offer_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/product_features/add_and_edit_product_feature/data/data_source/add_and_edit_product_to_store_remote_data_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/product_features/add_and_edit_product_feature/data/data_source/add_and_edit_product_to_store_remote_data_source.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/product_features/add_and_edit_product_feature/data/repos/add_and_edit_product_store_repo_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/product_features/add_and_edit_product_feature/data/repos/add_and_edit_product_store_repo_impl.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/product_features/add_and_edit_product_feature/domain/repos/add_and_edit_product_store_repo.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/product_features/add_and_edit_product_feature/domain/repos/add_and_edit_product_store_repo.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/product_features/add_and_edit_product_feature/domain/use_cases/get_brands_by_main_category_id_use_case.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/product_features/add_and_edit_product_feature/domain/use_cases/get_brands_by_main_category_id_use_case.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/product_features/add_and_edit_product_feature/ui/manger/cubit/brands_by_main_category_id/cubit/get_brands_by_category_id_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/product_features/add_and_edit_product_feature/ui/manger/cubit/brands_by_main_category_id/cubit/get_brands_by_category_id_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/linux/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/linux/flutter/generated_plugin_registrant.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/linux/flutter/generated_plugins.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sindbad_store_app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/sindbad_store_app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/windows/flutter/generated_plugin_registrant.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/windows/flutter/generated_plugins.cmake" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,17 +73,19 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Flutter.main.dart.executor": "Run",
+    "Flutter.main.dart.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "devlop",
+    "io.flutter.reload.alreadyRun": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/ICODE/Documents/GitHub/Sindbad_Store_App",
-    "settings.editor.selected.configurable": "AndroidSdkUpdater",
+    "last_opened_file_path": "C:/flutterProject/Sindbad_Store_Mobile",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
@@ -87,5 +105,21 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
     </layout>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/features/offer_management_features/modify_offer_feature/data/data_source/remote/new_offer_remot_data_source.dart</url>
+          <line>128</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/features/offer_management_features/modify_offer_feature/data/data_source/remote/new_offer_remot_data_source.dart</url>
+          <line>133</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
