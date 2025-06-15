@@ -87,10 +87,11 @@ class ProductDiscountTileWidget extends StatelessWidget {
               suffixIcon: isPrice == true
                   ? Padding(
                       padding: EdgeInsets.only(left: 4.w, right: 4.w),
-                      child: Icon(
-                        Icons.attach_money,
-                        color: AppColors.greyLight,
-                        size: 15,
+                      child: Text(
+                        'ر.س',
+                        style: KTextStyle.textStyle10.copyWith(
+                          color: AppColors.greyLight,
+                        ),
                       ),
                     )
                   : null,

@@ -10,10 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e37062d7-d375-4029-a514-497f1fd7063d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/offer_management_features/modify_offer_feature/data/data_source/remote/new_offer_remot_data_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/offer_management_features/modify_offer_feature/data/data_source/remote/new_offer_remot_data_source.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/offer_management_features/view_offer_feature/data/data_source/remote/view_offer_remot_data_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/offer_management_features/view_offer_feature/data/data_source/remote/view_offer_remot_data_source.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/offer_management_features/view_offer_feature/ui/screens/view_offer_details_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/offer_management_features/view_offer_feature/ui/screens/view_offer_details_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +66,7 @@
     "git-widget-placeholder": "devlop",
     "io.flutter.reload.alreadyRun": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/flutterProject/Sindbad_Store_Mobile",
+    "last_opened_file_path": "C:/flutterProject/wether_app",
     "settings.editor.selected.configurable": "preferences.pluginManager",
     "show.migrate.to.gradle.popup": "false"
   }
