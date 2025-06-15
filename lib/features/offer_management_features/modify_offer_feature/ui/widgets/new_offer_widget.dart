@@ -120,7 +120,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
       } else if (offerType == 2) {
         // For "buy X, get Y" offers
         offerMap["percentage"] = 0; // Not applicable
-        offerMap["finalPrice"] = newPrice; // Not applicable
+        offerMap["finalPrice"] = item.oldPrice; // Not applicable
         offerMap["amountToBuy"] = numberToBuyNotifier.value; // Amount to buy
         offerMap["amountToGet"] = numberToGetNotifier.value; // Amount to get
       }
@@ -286,7 +286,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                               onTapQuit: () {
                                 setState(() {
                                   selectedItems.removeAt(index);
-                                  listProduct.removeAt(index);
+                                  // listProduct.removeAt(index);
                                 });
                               },
                               numberToBuyNotifier: numberToBuyNotifier,
