@@ -132,10 +132,10 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
         name: item.productTitle.toString(),
         mainImageUrl: item.productImage.toString(),
         priceBeforeDiscount: item.oldPrice?.toInt() ?? 0,
-        percentage: offerType == 1 ? discountRateNotifier.value : null,
-        finalPrice: offerType == 1 ? newPrice : null,
-        amountToBuy: offerType == 2 ? numberToBuyNotifier.value : null,
-        amountToGet: offerType == 2 ? numberToGetNotifier.value : null,
+        percentage: offerType == 1 ? discountRateNotifier.value : 0,
+        finalPrice: offerType == 1 ? newPrice : 0,
+        amountToBuy: offerType == 2 ? numberToBuyNotifier.value : 0,
+        amountToGet: offerType == 2 ? numberToGetNotifier.value : 0,
       );
 
       // Add the offer object to the list

@@ -146,7 +146,7 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
     int offerHeadId,
   ) async {
     String? token = await getToken();
-    var data = await apiService.post(
+    var data = await apiService.put(
         data: {
           "name": offerTitle,
           "description": "",
@@ -157,9 +157,9 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
           "offerHeadType": typeName,
           "offerHeadOffers": listProduct,
           "justActiveAndDis": false,
-          "id": offerHeadId
+          // "id": offerHeadId
         },
-        endPoint: "Offers/Store/EditOffer",
+        endPoint: "Offers/Store/EditOffer/$offerHeadId",
         headers: {'Authorization': 'BEARER $token'});
     UpdateOfferEntity response = UpdateOfferModel.fromJson(data);
     return response;
@@ -171,8 +171,9 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
     int offerHeadId,
   ) async {
     String? token = await getToken();
-    var data = await apiService.get(
-        endPoint: "Offers/Store/GetStoreOffers?OfferHeadId=$offerHeadId",
+    var data = await apiService.post(
+        data: {},
+        endPoint: "Offers/Store/GetOfferForEdit/$offerHeadId",
         headers: {'Authorization': 'BEARER $token'});
     OfferDataEntity response = OfferDataModel.fromJson(data.values.last);
     return response;
