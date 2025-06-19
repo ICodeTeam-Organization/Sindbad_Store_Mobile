@@ -8,6 +8,7 @@ class OfferProductsEntity {
   final num? newPrice;
   final num? numberToBuy;
   final num? numberToGet;
+  bool isDeleted = false;
 
   OfferProductsEntity({
     required this.productOfferId,
@@ -19,5 +20,6 @@ class OfferProductsEntity {
     required this.newPrice,
     required this.numberToBuy,
     required this.numberToGet,
+    this.isDeleted = false,
   });
 }

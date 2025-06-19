@@ -11,21 +11,22 @@ class OfferHeadOffer {
   String? name;
   String? mainImageUrl;
   dynamic priceBeforeDiscount;
+  bool isDeleted;
 
-  OfferHeadOffer({
-    this.id,
-    this.type,
-    this.percentage,
-    this.finalPrice,
-    this.amountToBuy,
-    this.amountToGet,
-    this.startDate,
-    this.endDate,
-    this.productId,
-    this.name,
-    this.mainImageUrl,
-    this.priceBeforeDiscount,
-  });
+  OfferHeadOffer(
+      {this.id,
+      this.type,
+      this.percentage,
+      this.finalPrice,
+      this.amountToBuy,
+      this.amountToGet,
+      this.startDate,
+      this.endDate,
+      this.productId,
+      this.name,
+      this.mainImageUrl,
+      this.priceBeforeDiscount,
+      this.isDeleted = false});
 
   factory OfferHeadOffer.fromJson(Map<String, dynamic> json) {
     return OfferHeadOffer(
@@ -45,6 +46,7 @@ class OfferHeadOffer {
       name: json['name'] as String?,
       mainImageUrl: json['mainImageUrl'] as String?,
       priceBeforeDiscount: json['priceBeforeDiscount'] as dynamic,
+      isDeleted: json['isDeleted'] as bool? ?? false,
     );
   }
 
@@ -61,5 +63,6 @@ class OfferHeadOffer {
         'name': name,
         'mainImageUrl': mainImageUrl,
         'priceBeforeDiscount': priceBeforeDiscount,
+        'isDeleted': isDeleted,
       };
 }

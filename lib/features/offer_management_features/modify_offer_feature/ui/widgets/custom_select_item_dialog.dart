@@ -11,11 +11,13 @@ import 'package:sindbad_management_app/features/offer_management_features/modify
 class CustomSelectItemDialog extends StatefulWidget {
   final List<OfferProductsEntity> selectedItems; // Receive pre-selected items
   final Function(List<OfferProductsEntity>) onConfirm;
+  final List<OfferProductsEntity>? listProductForUpdate;
 
   const CustomSelectItemDialog({
     super.key,
     required this.selectedItems, // Initialize with pre-selected items
     required this.onConfirm,
+    this.listProductForUpdate = const [],
   });
 
   @override
@@ -242,7 +244,12 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                       ),
                       InkWell(
                         onTap: () {
-                          widget.onConfirm(selectedItems); //selected items
+                          widget.onConfirm(selectedItems);
+                          if (widget.listProductForUpdate != null) {
+                            //selected items
+                            widget.listProductForUpdate!.clear();
+                            widget.listProductForUpdate!.addAll(selectedItems);
+                          }
                           Navigator.pop(context);
                         },
                         child: Container(

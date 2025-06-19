@@ -60,6 +60,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
   bool isDiscountDefaultValue = true; // Default state
   int offerType = 1; // Default offer type
   List<OfferHeadOffer> listProduct = [];
+  List<OfferProductsEntity> listProductForUpdate = [];
 
   @override
   void initState() {
@@ -75,6 +76,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
     selectedOption = widget.offerType == 1 ? 'Percent' : 'Bonus';
     isDiscountDefaultValue = widget.offerType == 1;
     offerType = widget.offerType;
+    listProductForUpdate = List<OfferProductsEntity>.from(widget.listProducts);
     selectedItems = List<OfferProductsEntity>.from(widget.listProducts);
   }
 
@@ -119,12 +121,12 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
     DateTime? startOfferFormat = convertToDateTime(startOfferConroller.text);
     DateTime? endOfferFormat = convertToDateTime(endOfferConroller.text);
 
-    for (var item in selectedItems!) {
+    for (var item in listProductForUpdate) {
       final int newPrice =
           calculateNewPrice(item.oldPrice!, discountRateNotifier.value).toInt();
 
       OfferHeadOffer offer = OfferHeadOffer(
-        id: item.productOfferId,
+        id: item.productId,
         productId: item.productId,
         type: offerType,
         startDate: startOfferFormat,
@@ -136,6 +138,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
         finalPrice: offerType == 1 ? newPrice : 0,
         amountToBuy: offerType == 2 ? numberToBuyNotifier.value : 0,
         amountToGet: offerType == 2 ? numberToGetNotifier.value : 0,
+        isDeleted: item.isDeleted,
       );
 
       // Add the offer object to the list
@@ -258,6 +261,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                       builder: (context) => CustomSelectItemDialog(
                         selectedItems: selectedItems!,
                         onConfirm: onItemsSelected,
+                        listProductForUpdate: listProductForUpdate,
                       ),
                     );
 
@@ -286,6 +290,11 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                               discountRate: discountRateNotifier.value,
                               onTapQuit: () {
                                 setState(() {
+                                  listProductForUpdate
+                                      .firstWhere((item) =>
+                                          item.productId ==
+                                          selectedItems![index].productId)
+                                      .isDeleted = true;
                                   selectedItems!.removeAt(index);
                                 });
                               },
@@ -298,6 +307,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                               numberToGet: numberToGetNotifier.value,
                               onTapQuit: () {
                                 setState(() {
+                                  listProductForUpdate[index].isDeleted = true;
                                   selectedItems!.removeAt(index);
                                 });
                               },
@@ -419,7 +429,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                               return;
                             }
 
-                            listProduct = selectedItems!.map((item) {
+                            listProduct = listProductForUpdate.map((item) {
                               return OfferHeadOffer(
                                 id: item.productOfferId,
                                 productId: item.productId,
@@ -433,6 +443,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                                 amountToGet: item.numberToGet,
                                 startDate: startOfferFormat,
                                 endDate: endOfferFormat,
+                                isDeleted: item.isDeleted,
                               );
                             }).toList();
                             populateListProduct();
@@ -440,7 +451,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                                   offerTitleConroller.text,
                                   startOfferFormat,
                                   endOfferFormat,
-                                  selectedItems!.length,
+                                  listProductForUpdate.length,
                                   offerType,
                                   listProduct,
                                   widget.offerHeadId,

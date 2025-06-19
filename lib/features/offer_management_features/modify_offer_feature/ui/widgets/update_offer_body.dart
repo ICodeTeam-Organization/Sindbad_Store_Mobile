@@ -33,7 +33,7 @@ class _UpdateOfferBodyState extends State<UpdateOfferBody> {
             return offerHeadList.map((offerHead) {
               return OfferProductsEntity(
                 productOfferId: offerHead.id ?? 0,
-                productId: offerHead.productId ?? 0,
+                productId: offerHead.id ?? 0,
                 productTitle: offerHead.name ?? 'Unnamed Product',
                 productImage: offerHead.mainImageUrl ?? '',
                 discountRate: offerHead.percentage?.toDouble() ?? 0.0,
