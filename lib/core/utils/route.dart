@@ -1,6 +1,8 @@
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/screens/login.dart';
+import 'package:sindbad_management_app/features/notifiction_featurs/ui/screen/notificion_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/new_offer_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/update_offer_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/screens/view_offer_details_screen.dart';
@@ -17,6 +19,7 @@ class StoreRouters {
 
   String signIn = '/';
   String details = '/details';
+  String notifiction = '/notifiction';
   ///////////////////////////////////////////////////
 
 // [qais + salem + abduallah] => give the screen router names a meanful name
@@ -44,7 +47,21 @@ abstract class AppRouter {
       // Store Routes
       GoRoute(
         path: AppRouter.storeRouters.signIn,
-        builder: (context, state) => const Login(),
+        builder: (context, state) {
+          FlutterSecureStorage storage = const FlutterSecureStorage();
+          return FutureBuilder<bool>(
+            future: storage.containsKey(key: 'token'),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const SizedBox.shrink(); // or a loading indicator
+              }
+              if (snapshot.hasData && snapshot.data == true) {
+                return const Root();
+              }
+              return const Login();
+            },
+          );
+        },
       ),
       GoRoute(
         path: AppRouter.storeRouters.root,
@@ -133,6 +150,11 @@ abstract class AppRouter {
               paymentInfo: paymentInfo.toString(),
               orderStatus: orderStatus.toString(),
             );
+          }),
+      GoRoute(
+          path: AppRouter.storeRouters.notifiction,
+          builder: (context, state) {
+            return const NotificionScreen();
           }),
       ///////////////////////////////////////////////////////
       /////////////////////////////////////////////////////

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/core/utils/route.dart';
 
 import '../../styles/Colors.dart';
 
@@ -57,12 +59,11 @@ class CustomAppBar extends StatelessWidget {
                   child: Padding(
                       padding: const EdgeInsets.only(left: 15),
                       child: InkWell(
-                        onTap: onSearchPressed,
-                        child: SvgPicture.asset(
-                          "assets/search_appbar.svg",
-                          width: 40.w,
-                          height: 40.w,
-                        ),
+                        onTap: onSearchPressed ??
+                            () => GoRouter.of(context)
+                                .go(AppRouter.storeRouters.notifiction),
+                        child: Icon(Icons.notifications_none,
+                            size: 30.w, color: AppColors.blackDark),
                       )),
                 )
               : SizedBox(),

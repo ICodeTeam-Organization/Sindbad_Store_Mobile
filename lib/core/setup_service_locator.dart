@@ -3,6 +3,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/data_source/auth_remote_data_source.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/repo/auth_repo_impl.dart';
+import 'package:sindbad_management_app/features/notifiction_featurs/data/remote_data/notifiction_remote_data_source.dart';
+import 'package:sindbad_management_app/features/notifiction_featurs/data/repo/notifiction_repo_impl.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/data/repos/add_and_edit_product_store_repo_impl.dart';
 // import 'package:sindbad_management_app/features/order_management%20_features/data/data_sources/all_order_remot_data_source.dart';
 // import 'package:sindbad_management_app/features/order_management%20_features/data/repos_impl/all_order_repo_impl.dart';
@@ -90,7 +92,9 @@ void setupServiceLocator() {
       ),
     ),
   );
-
+  getit.registerSingleton<NotifictionRepoImpl>(NotifictionRepoImpl(
+      notifictionRemoteDataSource:
+          NotifictionRemoteDataSourceImpl(getit.get<ApiService>())));
   // getit.registerSingleton<YAccontantRepoimple>(YAccontantRepoimple(
   //     boundRemoteDataSource: BoundRemoteDataSourceImpl(
   //   apiService: getit.get<ApiService>(),

@@ -10,6 +10,9 @@ import 'package:sindbad_management_app/core/utils/route.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/repo/auth_repo_impl.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/usecase/sign_in_use_case.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit_cubit.dart';
+import 'package:sindbad_management_app/features/notifiction_featurs/data/repo/notifiction_repo_impl.dart';
+import 'package:sindbad_management_app/features/notifiction_featurs/domin/use_case/get_unread_notiftion.dart';
+import 'package:sindbad_management_app/features/notifiction_featurs/ui/cubit/notifiction_cubit/unread_notifiction_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/data/repos/new_offer_repo_impl.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/usecases/add_offer_use_case.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/usecases/get_offer_data_use_case.dart';
@@ -150,6 +153,10 @@ class SindbadManagementApp extends StatelessWidget {
             create: (context) => CompanyShippingCubit(CompanyShippingUsecase(
                   allOrderRepo: getit.get<AllOrderRepoImpl>(),
                 ))),
+        BlocProvider(
+          create: (context) => UnreadNotifictionCubit(GetUnreadNotiftionUseCase(
+              notifictionRepo: getit.get<NotifictionRepoImpl>())),
+        ),
         // BlocProvider(
         //     create: (context) => OrderDetailsCubit(OrderDetailsUsecase(
         //           getit.get<AllOrderRepoImpl>(),
