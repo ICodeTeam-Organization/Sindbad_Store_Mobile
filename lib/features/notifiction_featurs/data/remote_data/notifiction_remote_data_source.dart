@@ -42,7 +42,7 @@ class NotifictionRemoteDataSourceImpl implements NotifictionRemoteDataSource {
     String? token = await storage.read(key: 'token');
     var data = await apiService.get(
       endPoint:
-          'Notifications?pageNumber=$pageNumber&pageSize=$pageSize&type=$type',
+          'Notifications?pageNumber=$pageNumber&pageSize=$pageSize&actions=0&actions=7&actions=8&actions=12',
       headers: {
         'Authorization': 'Bearer $token',
       },
@@ -62,7 +62,7 @@ class NotifictionRemoteDataSourceImpl implements NotifictionRemoteDataSource {
       },
     );
     GetUnreadNutficonEntity nutficonEntity =
-        UnreadNotifictionModel.fromJson(data.values.last);
+        UnreadNotifictionModel.fromJson(data);
     return nutficonEntity;
   }
 

@@ -25,7 +25,7 @@ class NotificionScreen extends StatelessWidget {
         ),
       ],
       child: const Scaffold(
-        body: NotificionBody(),
+        body: SafeArea(child: NotificionBody()),
       ),
     );
   }

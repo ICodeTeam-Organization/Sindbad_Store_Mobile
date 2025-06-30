@@ -138,13 +138,20 @@ class _ShowPrintAndShippingOrderState extends State<ShowPrintAndShippingOrder> {
                                       // shippingNumber: int.parse(
                                       //     numberShippingController.text),
                                       // shippingCompany: companyName ?? '',
-                                        shippingNumber: companyName == 'اخرى' || companyId == -1 ? int.parse(
-                                          numberShippingController.text) : 0,
-                                        shippingCompany: companyName == 'اخرى' || companyId == -1 ? anotherCompanyController.text : companyName ?? '',
+                                      shippingNumber: companyName == 'اخرى' ||
+                                              companyId == -1
+                                          ? int.parse(
+                                              numberShippingController.text)
+                                          : 0,
+                                      shippingCompany: companyName == 'اخرى' ||
+                                              companyId == -1
+                                          ? anotherCompanyController.text
+                                          : companyName ?? '',
                                       shippingImages: images!,
                                       numberParcels: parcels!,
                                       // shippingCompniesId: 0,
-                                        shippingCompniesId: companyId != -1 ? companyId! : 0,
+                                      shippingCompniesId:
+                                          companyId != -1 ? companyId! : 0,
                                       phoneNumber:
                                           anotherCompanyNumberController.text);
                               dateController.clear();

@@ -42,40 +42,14 @@ class _NotificionBodyState extends State<NotificionBody> {
               child: CircularProgressIndicator(),
             );
           } else if (state is UnreadNotifictionSuccess) {
-            return Expanded(
-              child: CustomTabBarWidget(
-                tabViews: const [
-                  NottifictionItem(
-                    type: 0,
-                  ),
-                  NottifictionItem(
-                    type: 1,
-                  ),
-                  NottifictionItem(
-                    type: 2,
-                  ),
-                ],
-                tabs: [
-                  Tab(
-                    child: TabBarNotifictionWidget(
-                      title: 'كل الاشعارات',
-                      counter: state.getUnreadNotifiction.allNotfiction,
-                    ),
-                  ),
-                  Tab(
-                    child: TabBarNotifictionWidget(
-                      title: 'اشعارات الطلبات',
-                      counter: state.getUnreadNotifiction.specialOrderOnly,
-                    ),
-                  ),
-                  Tab(
-                    child: TabBarNotifictionWidget(
-                      title: 'اشعارات الشحنات',
-                      counter: state.getUnreadNotifiction.orderOnly,
-                    ),
-                  ),
-                ],
-                length: 3,
+            return NottifictionItem(
+              type: 0,
+            );
+          } else if (state is UnreadNotifictionFailure) {
+            return Center(
+              child: Text(
+                state.failure,
+                style: TextStyle(fontSize: 16.sp, color: Colors.red),
               ),
             );
           } else {

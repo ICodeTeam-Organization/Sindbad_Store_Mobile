@@ -61,7 +61,7 @@ class CustomAppBar extends StatelessWidget {
                       child: InkWell(
                         onTap: onSearchPressed ??
                             () => GoRouter.of(context)
-                                .go(AppRouter.storeRouters.notifiction),
+                                .push(AppRouter.storeRouters.notifiction),
                         child: Icon(Icons.notifications_none,
                             size: 30.w, color: AppColors.blackDark),
                       )),
