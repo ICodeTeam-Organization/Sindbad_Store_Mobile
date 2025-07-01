@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/store_primary_button.dart';
+import 'package:sindbad_management_app/features/auth_feature/ui/reset_password_cubit/reset_password_cubit_cubit.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/custom_text_form_widget.dart';
 
 class ChangePasswordBody extends StatelessWidget {
@@ -37,10 +39,54 @@ class ChangePasswordBody extends StatelessWidget {
             height: 50,
           ),
           SizedBox(height: 60),
-          StorePrimaryButton(
-            title: 'تغيير كلمة المرور',
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: 50,
+          BlocConsumer<ResetPasswordCubitCubit, ResetPasswordCubitState>(
+            listener: (context, state) {
+              if (state is ResetPasswordCubitSuccess) {
+                Navigator.pop(context);
+              }
+              if (state is ResetPasswordCubitFailure) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(state.errorMessage)),
+                );
+              }
+            },
+            builder: (context, state) {
+              return StorePrimaryButton(
+                  title: 'تغيير كلمة المرور',
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: 50,
+                  isLoading: state is ResetPasswordCubitLoading,
+                  onTap: () {
+                    if (oldPasswordController.text.isEmpty ||
+                        newPasswordController.text.isEmpty ||
+                        confirmPasswordController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("الرجاء ملء جميع الحقول")),
+                      );
+                      return;
+                    }
+                    if (newPasswordController.text !=
+                        confirmPasswordController.text) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("كلمة المرور غير متطابقة")),
+                      );
+                      return;
+                    } else if (newPasswordController.text.isEmpty ||
+                        newPasswordController.text.length < 9 ||
+                        !RegExp(r'^(?=.*[A-Za-z])(?=.*[0-9]).{8,}$')
+                            .hasMatch(newPasswordController.text)) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text(
+                                "يجب أن تكون كلمة المرور على الأقل 9 حروف، ويجب أن تحتوي على حرف واحد على الأقل و رقم واحد على الأقل")),
+                      );
+                    }
+                    context.read<ResetPasswordCubitCubit>().resetPassword(
+                          oldPasswordController.text,
+                          newPasswordController.text,
+                        );
+                  });
+            },
           )
         ],
       ),

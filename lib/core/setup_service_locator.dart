@@ -40,6 +40,8 @@ import '../features/order_management _features/data/repos_impl/all_order_repo_im
 import '../features/order_management _features/data/data_sources/all_order_remot_data_source.dart';
 import '../features/product_features/add_and_edit_product_feature/data/data_source/add_and_edit_product_to_store_remote_data_source.dart';
 import '../features/product_features/view_product_features/data/repos/view_product_store_repo_impl.dart';
+import '../features/profile_feature/data/data_source/profile_data_source.dart';
+import '../features/profile_feature/data/repo/profile_repo_impl.dart';
 import 'api_service.dart';
 
 final getit = GetIt.instance;
@@ -95,6 +97,9 @@ void setupServiceLocator() {
   getit.registerSingleton<NotifictionRepoImpl>(NotifictionRepoImpl(
       notifictionRemoteDataSource:
           NotifictionRemoteDataSourceImpl(getit.get<ApiService>())));
+  getit.registerSingleton<ProfileRepoImpl>(ProfileRepoImpl(
+      profileDataSource:
+          ProfileDataSourceImpl(apiService: getit.get<ApiService>())));
   // getit.registerSingleton<YAccontantRepoimple>(YAccontantRepoimple(
   //     boundRemoteDataSource: BoundRemoteDataSourceImpl(
   //   apiService: getit.get<ApiService>(),
