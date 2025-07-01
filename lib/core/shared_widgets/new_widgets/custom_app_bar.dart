@@ -54,17 +54,35 @@ class CustomAppBar extends StatelessWidget {
             ),
           ),
           isSearch == true
-              ? Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: InkWell(
-                        onTap: onSearchPressed ??
-                            () => GoRouter.of(context)
-                                .push(AppRouter.storeRouters.notifiction),
-                        child: Icon(Icons.notifications_none,
-                            size: 30.w, color: AppColors.blackDark),
-                      )),
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                          padding: const EdgeInsets.only(right: 15),
+                          child: InkWell(
+                            onTap: onSearchPressed ??
+                                () => GoRouter.of(context)
+                                    .push(AppRouter.storeRouters.kprofile),
+                            child: Icon(Icons.person_outline,
+                                size: 30.w, color: AppColors.blackDark),
+                          )),
+                    ),
+                    SizedBox(width: 10),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                          padding: const EdgeInsets.only(left: 15),
+                          child: InkWell(
+                            onTap: onSearchPressed ??
+                                () => GoRouter.of(context)
+                                    .push(AppRouter.storeRouters.notifiction),
+                            child: Icon(Icons.notifications_none,
+                                size: 30.w, color: AppColors.blackDark),
+                          )),
+                    ),
+                  ],
                 )
               : SizedBox(),
         ],

@@ -7,6 +7,8 @@ import 'package:sindbad_management_app/features/offer_management_features/modify
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/update_offer_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/screens/view_offer_details_screen.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/screens/add_product_screen.dart';
+import 'package:sindbad_management_app/features/profile_feature/ui/screen/chnage_passsowrd_screen.dart';
+import 'package:sindbad_management_app/features/profile_feature/ui/screen/profile_sacreen.dart';
 import '../../features/order_management _features/ui/screen/order_details.dart';
 import '../../features/product_features/add_and_edit_product_feature/ui/screens/edit_product_screen.dart';
 import '../../features/root.dart';
@@ -37,6 +39,8 @@ class StoreRouters {
   String kStoreStoppedProduct = '/store/stoppedProduct';
   String kStoreExcelFile = '/store/excelFile';
   String kStoreReport = '/store/report';
+  String kprofile = '/profile';
+  String kchangePassword = '/changePassword';
 }
 
 abstract class AppRouter {
@@ -155,6 +159,17 @@ abstract class AppRouter {
           path: AppRouter.storeRouters.notifiction,
           builder: (context, state) {
             return const NotificionScreen();
+          }),
+
+      GoRoute(
+          path: AppRouter.storeRouters.kprofile,
+          builder: (context, state) {
+            return const ProfileScreen();
+          }),
+      GoRoute(
+          path: AppRouter.storeRouters.kchangePassword,
+          builder: (context, state) {
+            return const ChnagePasssowrdScreen();
           }),
       ///////////////////////////////////////////////////////
       /////////////////////////////////////////////////////
