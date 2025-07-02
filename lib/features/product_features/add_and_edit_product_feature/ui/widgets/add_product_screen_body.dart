@@ -38,6 +38,12 @@ class _AddProductScreenBodyState extends State<AddProductScreenBody> {
     super.initState();
   }
 
+  final TextEditingController shortDescriptionController =
+      TextEditingController();
+  final TextEditingController oldPriceController = TextEditingController();
+
+  final List<String> tags = [];
+
   @override
   void dispose() {
     super.dispose();
@@ -62,6 +68,9 @@ class _AddProductScreenBodyState extends State<AddProductScreenBody> {
                 //  ================= for text filed =========
                 CustomCardToAllTextFields(
                   cubitAddProduct: cubitAddProduct,
+                  oldPriceController: oldPriceController,
+                  shortDescriptionController: shortDescriptionController,
+                  tags: tags, // this is for tags
                 ),
                 SizedBox(height: 26.h),
                 //  ================= for Add Images =========
@@ -89,6 +98,11 @@ class _AddProductScreenBodyState extends State<AddProductScreenBody> {
           child: TwoButtonInDownAddProduct(
             onSuccessCallback: widget.onSuccessCallback,
             cubitAddProduct: cubitAddProduct,
+            oldPrice: oldPriceController.text.isNotEmpty
+                ? num.parse(oldPriceController.text)
+                : 0,
+            shortDescription: shortDescriptionController.text,
+            tags: tags,
           ),
         )
       ],

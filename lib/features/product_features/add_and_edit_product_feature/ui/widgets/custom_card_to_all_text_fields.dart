@@ -5,13 +5,25 @@ import 'package:sindbad_management_app/features/offer_management_features/modify
 import '../manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
 import 'custom_text_form_widget.dart';
 
-class CustomCardToAllTextFields extends StatelessWidget {
+class CustomCardToAllTextFields extends StatefulWidget {
   final AddProductToStoreCubit cubitAddProduct;
+  final TextEditingController shortDescriptionController;
+  final TextEditingController oldPriceController;
+  final List<String> tags;
   const CustomCardToAllTextFields({
     super.key,
     required this.cubitAddProduct,
+    required this.shortDescriptionController,
+    required this.oldPriceController,
+    required this.tags,
   });
 
+  @override
+  State<CustomCardToAllTextFields> createState() =>
+      _CustomCardToAllTextFieldsState();
+}
+
+class _CustomCardToAllTextFieldsState extends State<CustomCardToAllTextFields> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,7 +41,7 @@ class CustomCardToAllTextFields extends StatelessWidget {
             SectionTitleWidget(title: 'معلومات المنتج'),
             SizedBox(height: 20.h),
             CustomTextFormWidget(
-              textController: cubitAddProduct.nameProductController,
+              textController: widget.cubitAddProduct.nameProductController,
               text: 'أسم المنتج',
               height: 65.h,
               width: 400.w,
@@ -40,14 +52,16 @@ class CustomCardToAllTextFields extends StatelessWidget {
               children: [
                 CustomTextFormWidget(
                   keyboardType: TextInputType.number,
-                  textController: cubitAddProduct.priceProductController,
+                  textController: widget.cubitAddProduct.priceProductController,
                   text: 'السعر',
                   width: 130.w,
                   height: 65.h,
                 ),
+                SizedBox(width: 20.w),
                 CustomTextFormWidget(
                   keyboardType: TextInputType.number,
-                  textController: cubitAddProduct.numberProductController,
+                  textController:
+                      widget.cubitAddProduct.numberProductController,
                   text: 'رقم المنتج',
                   width: 130.w,
                   height: 65.h,
@@ -55,12 +69,60 @@ class CustomCardToAllTextFields extends StatelessWidget {
               ],
             ),
             SizedBox(height: 20.h),
+            SizedBox(width: 20.w),
             CustomTextFormWidget(
-              textController: cubitAddProduct.descriptionProductController,
+              textController: null,
+              text: 'السعر السابق',
+              isRequired: false,
+            ),
+            SizedBox(height: 20.h),
+            CustomTextFormWidget(
+              textController: null,
+              text: 'وصف مختصر',
+              isRequired: false,
+              maxLines: 3,
+              width: 400.w,
+              height: 130.h,
+            ),
+            CustomTextFormWidget(
+              textController:
+                  widget.cubitAddProduct.descriptionProductController,
               text: 'وصف المنتج',
               width: 400.w,
               height: 200.h,
               maxLines: 5, // Allow multiple lines
+              keyboardType: TextInputType.multiline,
+            ),
+
+            CustomTextFormWidget(
+              textController: null,
+              onFieldSubmitted: (value) {
+                if (value.isNotEmpty) {
+                  setState(() {
+                    widget.tags.add(value);
+                  });
+                }
+              },
+              text: 'صفات المنتج',
+              width: 400.w,
+              height: 65.h,
+              keyboardType: TextInputType.number,
+              isRequired: false,
+            ),
+            SizedBox(height: 20.h),
+            Wrap(
+              spacing: 8.0, // Spacing between tags
+              runSpacing: 4.0, // Spacing between lines
+              children: widget.tags.map((tag) {
+                return Chip(
+                  label: Text(tag),
+                  onDeleted: () {
+                    setState(() {
+                      widget.tags.remove(tag);
+                    });
+                  },
+                );
+              }).toList(),
             ),
           ],
         ),

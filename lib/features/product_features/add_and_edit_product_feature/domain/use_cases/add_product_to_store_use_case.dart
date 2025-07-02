@@ -14,19 +14,21 @@ class AddProductToStoreUseCase
   Future<Either<Failure, AddProductEntity>> execute(
       AddProductToStoreParams params) {
     return addProductStoreRepo.addProductToStore(
-      name: params.name,
-      price: params.price,
-      description: params.description,
-      mainImageFile: params.mainImageFile,
-      number: params.number,
-      storeId: params.storeId,
-      offerId: params.offerId,
-      brandId: params.brandId,
-      mainCategoryId: params.mainCategoryId,
-      images: params.images,
-      subCategoryIds: params.subCategoryIds,
-      newAttributes: params.newAttributes,
-    );
+        name: params.name,
+        price: params.price,
+        description: params.description,
+        mainImageFile: params.mainImageFile,
+        number: params.number,
+        storeId: params.storeId,
+        offerId: params.offerId,
+        brandId: params.brandId,
+        mainCategoryId: params.mainCategoryId,
+        images: params.images,
+        subCategoryIds: params.subCategoryIds,
+        newAttributes: params.newAttributes,
+        tags: params.tags,
+        oldPrice: params.oldPrice,
+        shortDescription: params.shortDescription);
   }
 }
 
@@ -54,20 +56,25 @@ class AddProductToStoreParams {
   final List<File> images;
   final List<int> subCategoryIds;
   final List<Map<String, String>> newAttributes;
-  AddProductToStoreParams({
-    required this.name,
-    required this.price,
-    required this.description,
-    required this.mainImageFile,
-    required this.number,
-    //
-    required this.storeId,
-    required this.offerId,
-    //
-    required this.brandId,
-    required this.mainCategoryId,
-    required this.images,
-    required this.subCategoryIds,
-    required this.newAttributes,
-  });
+  final List<String> tags;
+  final num oldPrice;
+  final String shortDescription;
+  AddProductToStoreParams(
+      {required this.name,
+      required this.price,
+      required this.description,
+      required this.mainImageFile,
+      required this.number,
+      //
+      required this.storeId,
+      required this.offerId,
+      //
+      required this.brandId,
+      required this.mainCategoryId,
+      required this.images,
+      required this.subCategoryIds,
+      required this.newAttributes,
+      required this.tags,
+      required this.oldPrice,
+      required this.shortDescription});
 }

@@ -25,6 +25,9 @@ abstract class AddAndEditProductStoreRepo {
     required List<int> subCategoryIds,
     // required List<Map<String, String>> newAttributes,
     required List<Map<String, String>> newAttributes,
+    required List<String> tags,
+    required num oldPrice,
+    required String shortDescription,
   });
 
   Future<Either<Failure, List<MainCategoryEntity>>> getMainAndSubCategory({

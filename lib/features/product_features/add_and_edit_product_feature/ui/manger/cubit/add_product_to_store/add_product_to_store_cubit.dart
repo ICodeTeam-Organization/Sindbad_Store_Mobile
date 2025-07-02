@@ -71,10 +71,14 @@ class AddProductToStoreCubit extends Cubit<AddProductToStoreState> {
     }
   }
 
-  Future<void> addProductToStore() async {
+  Future<void> addProductToStore(
+      List<String> tags, String shortDescription, num oldPrice) async {
     emit(AddProductToStoreLoading()); // ======== emit ==========
     AddProductToStoreParams params = AddProductToStoreParams(
       name: nameProductController.text,
+      oldPrice: oldPrice,
+      shortDescription: shortDescription,
+      tags: tags,
       price: num.parse(priceProductController.text),
       description: descriptionProductController.text,
       mainImageFile: mainImageProductFile!,

@@ -5,7 +5,7 @@ import 'package:sindbad_management_app/core/styles/text_style.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/required_text.dart';
 
 class CustomTextFormWidget extends StatelessWidget {
-  final TextEditingController textController;
+  final TextEditingController? textController;
   final String text;
   final String labelText;
   final double width;
@@ -13,6 +13,8 @@ class CustomTextFormWidget extends StatelessWidget {
   final int maxLines;
   final bool? enabled;
   final TextInputType keyboardType;
+  final Function(String)? onFieldSubmitted;
+  final bool? isRequired;
 
   const CustomTextFormWidget({
     super.key,
@@ -24,6 +26,8 @@ class CustomTextFormWidget extends StatelessWidget {
     this.height = 40.0,
     this.maxLines = 1,
     this.enabled = true,
+    this.onFieldSubmitted,
+    this.isRequired = true,
   });
 
   @override
@@ -31,12 +35,20 @@ class CustomTextFormWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        RequiredText(title: text),
+        isRequired == true
+            ? RequiredText(title: text)
+            : Text(
+                text,
+                style: KTextStyle.textStyle13.copyWith(
+                  color: AppColors.greyLight,
+                ),
+              ),
         SizedBox(height: 10.0.h),
         SizedBox(
           width: width.w,
           height: height.h,
           child: TextFormField(
+            onFieldSubmitted: onFieldSubmitted,
             enabled: enabled,
             keyboardType: keyboardType,
             decoration: InputDecoration(

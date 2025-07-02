@@ -28,6 +28,9 @@ abstract class AddAndEditProductToStoreRemoteDataSource {
     required List<File> images,
     required List<int> subCategoryIds,
     required List<Map<String, String>> newAttributes,
+    required List<String> tags,
+    required num oldPrice,
+    required String shortDescription,
   });
   Future<EditProductEntity> editProductFromStore({
     required int id,
@@ -84,6 +87,9 @@ class AddProductToStoreRemoteDataSourceImpl
     required List<File> images,
     required List<int> subCategoryIds,
     required List<Map<String, String>> newAttributes,
+    required List<String> tags,
+    required num oldPrice,
+    required String shortDescription,
   }) async {
     String? token = await getToken();
     final Map<String, dynamic> dataBody = {
@@ -94,6 +100,9 @@ class AddProductToStoreRemoteDataSourceImpl
       "Number": number,
       "StoreId": storeId,
       "OfferId": offerId,
+      'Tags': tags,
+      "OldPrice": oldPrice,
+      "ProductDetails": shortDescription,
       // "BrandId": brandId,
 
       // this is for the case of brandId = 000 when the user select "لايوجد"

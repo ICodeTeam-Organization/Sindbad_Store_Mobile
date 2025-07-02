@@ -9,14 +9,20 @@ import '../manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
 class TwoButtonInDownAddProduct extends StatelessWidget {
   final AddProductToStoreCubit cubitAddProduct;
   final VoidCallback? onSuccessCallback;
-
+  final List<String> tags;
+  final String shortDescription;
+  final num oldPrice;
   const TwoButtonInDownAddProduct({
     super.key,
     this.onSuccessCallback,
     required this.cubitAddProduct,
+    required this.tags,
+    required this.shortDescription,
+    required this.oldPrice,
   });
 
-  bool validateFields(BuildContext context, AddProductToStoreCubit cubitAddProduct) {
+  bool validateFields(
+      BuildContext context, AddProductToStoreCubit cubitAddProduct) {
     if (cubitAddProduct.nameProductController.text.isEmpty ||
         cubitAddProduct.priceProductController.text.isEmpty ||
         cubitAddProduct.numberProductController.text.isEmpty ||
@@ -94,7 +100,9 @@ class TwoButtonInDownAddProduct extends StatelessWidget {
             }
             if (state is AddProductToStoreFailure) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('فشل في إضافة المنتج, الرجاء المحاولة مرة أخرى')),
+                SnackBar(
+                    content:
+                        Text('فشل في إضافة المنتج, الرجاء المحاولة مرة أخرى')),
               );
             }
           },
@@ -103,9 +111,15 @@ class TwoButtonInDownAddProduct extends StatelessWidget {
               isLoading: state is AddProductToStoreLoading,
               onTap: () async {
                 if (validateFields(context, cubitAddProduct)) {
-                  cubitAddProduct.keys = context.read<AttributeProductCubit>().state.keys;
-                  cubitAddProduct.values = context.read<AttributeProductCubit>().state.values;
-                  await cubitAddProduct.addProductToStore();
+                  cubitAddProduct.keys =
+                      context.read<AttributeProductCubit>().state.keys;
+                  cubitAddProduct.values =
+                      context.read<AttributeProductCubit>().state.values;
+                  await cubitAddProduct.addProductToStore(
+                    tags,
+                    shortDescription,
+                    oldPrice,
+                  );
                 }
               },
               title: "تأكيد",

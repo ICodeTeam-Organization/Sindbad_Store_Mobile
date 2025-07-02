@@ -45,6 +45,9 @@ class AddAndEditProductStoreRepoImpl extends AddAndEditProductStoreRepo {
     required List<File> images,
     required List<int> subCategoryIds,
     required List<Map<String, String>> newAttributes,
+    required List<String> tags,
+    required num oldPrice,
+    required String shortDescription,
   }) async {
     return postOneData(
         () => addAndEditProductToStoreRemoteDataSource.addProductToStore(
@@ -60,6 +63,9 @@ class AddAndEditProductStoreRepoImpl extends AddAndEditProductStoreRepo {
               images: images,
               subCategoryIds: subCategoryIds,
               newAttributes: newAttributes,
+              tags: tags,
+              oldPrice: oldPrice,
+              shortDescription: shortDescription,
             ));
   }
 
