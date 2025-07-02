@@ -43,7 +43,7 @@ class NotifictionRemoteDataSourceImpl implements NotifictionRemoteDataSource {
     String? token = await storage.read(key: 'token');
     var data = await apiService.get(
       endPoint:
-          'Notifications?pageNumber=$pageNumber&pageSize=$pageSize&actions=0&actions=7&actions=8&actions=12',
+          'Notifications?pageNumber=$pageNumber&pageSize=$pageSize&actions=7&actions=8',
       headers: {
         'Authorization': 'Bearer $token',
       },
