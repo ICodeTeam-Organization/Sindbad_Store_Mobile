@@ -46,7 +46,7 @@ class NotifictionRepoImpl extends NotifictionRepo {
   }
 
   @override
-  Future<Either<Failure, GetUnreadNutficonEntity>> getUnreadNotifiction(
+  Future<Either<Failure, List<GetUnreadNutficonEntity>>> getUnreadNotifiction(
       int type) {
     return addData(
         () => notifictionRemoteDataSource.getUnreadNotifiction(type));

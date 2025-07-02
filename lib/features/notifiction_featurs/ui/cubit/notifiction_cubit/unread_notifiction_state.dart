@@ -8,7 +8,7 @@ final class UnreadNotifictionInitial extends UnreadNotifictionState {}
 final class UnreadNotifictionLoading extends UnreadNotifictionState {}
 
 final class UnreadNotifictionSuccess extends UnreadNotifictionState {
-  final GetUnreadNutficonEntity getUnreadNotifiction;
+  final List<GetUnreadNutficonEntity> getUnreadNotifiction;
   UnreadNotifictionSuccess(this.getUnreadNotifiction);
 }
 

@@ -7,7 +7,7 @@ import 'package:sindbad_management_app/features/notifiction_featurs/domin/entity
 abstract class NotifictionRepo {
   Future<Either<Failure, List<NotifctionEntity>>> getNotifiction(
       {required int pageNumber, required int pageSize, required int type});
-  Future<Either<Failure, GetUnreadNutficonEntity>> getUnreadNotifiction(
+  Future<Either<Failure, List<GetUnreadNutficonEntity>>> getUnreadNotifiction(
       int type);
   Future<Either<Failure, ReadNotifictonEntity>> readNotifction(int id);
 }

@@ -25,38 +25,39 @@ class _NotificionBodyState extends State<NotificionBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Padding(
-        padding: EdgeInsets.only(bottom: 25.h),
-        child: const CustomAppBar(
+    return Column(
+      children: [
+        const CustomAppBar(
           tital: 'الاشعارات',
           isSearch: false,
         ),
-      ),
-      Directionality(
-        textDirection: TextDirection.rtl,
-        child: BlocBuilder<UnreadNotifictionCubit, UnreadNotifictionState>(
-            builder: (context, state) {
-          if (state is UnreadNotifictionLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is UnreadNotifictionSuccess) {
-            return NottifictionItem(
-              type: 0,
-            );
-          } else if (state is UnreadNotifictionFailure) {
-            return Center(
-              child: Text(
-                state.failure,
-                style: TextStyle(fontSize: 16.sp, color: Colors.red),
-              ),
-            );
-          } else {
-            return const SizedBox.shrink();
-          }
-        }),
-      ),
-    ]);
+        Expanded(
+          // ✅ This solves the issue!
+          child: Directionality(
+            textDirection: TextDirection.rtl,
+            child: BlocBuilder<UnreadNotifictionCubit, UnreadNotifictionState>(
+              builder: (context, state) {
+                if (state is UnreadNotifictionLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (state is UnreadNotifictionSuccess) {
+                  return NottifictionItem(type: 0); // ← Contains ListView
+                } else if (state is UnreadNotifictionFailure) {
+                  return Center(
+                    child: Text(
+                      state.failure,
+                      style: TextStyle(fontSize: 16.sp, color: Colors.red),
+                    ),
+                  );
+                } else {
+                  return const SizedBox.shrink();
+                }
+              },
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

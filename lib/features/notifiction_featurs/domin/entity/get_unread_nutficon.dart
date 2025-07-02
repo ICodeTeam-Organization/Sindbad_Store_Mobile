@@ -1,10 +1,8 @@
 class GetUnreadNutficonEntity {
-  final int allNotfiction;
-  final int orderOnly;
-  final int specialOrderOnly;
+  final int? totalUnreadCount;
+
+  final int actionNumber;
 
   GetUnreadNutficonEntity(
-      {required this.allNotfiction,
-      required this.orderOnly,
-      required this.specialOrderOnly});
+      {required this.totalUnreadCount, required this.actionNumber});
 }

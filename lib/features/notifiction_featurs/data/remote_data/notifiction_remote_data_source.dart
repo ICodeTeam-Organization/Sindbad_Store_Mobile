@@ -2,13 +2,14 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sindbad_management_app/core/api_service.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/data/model/notifiction_model.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/data/model/read_notifiction_model.dart';
-import 'package:sindbad_management_app/features/notifiction_featurs/data/model/unread_notifiction_model.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/domin/entity/get_unread_nutficon.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/domin/entity/nottifction_entity.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/domin/entity/read_notificton.dart';
 
+import '../model/get_unread_notifition_model.dart';
+
 abstract class NotifictionRemoteDataSource {
-  Future<GetUnreadNutficonEntity> getUnreadNotifiction(int type);
+  Future<List<GetUnreadNutficonEntity>> getUnreadNotifiction(int type);
   Future<List<NotifctionEntity>> getNotifiction(
       {required int pageNumber, required int pageSize, required int type});
   Future<ReadNotifictonEntity> readNotifction(int id);
@@ -52,8 +53,24 @@ class NotifictionRemoteDataSourceImpl implements NotifictionRemoteDataSource {
     return notifiction;
   }
 
+  List<T> getNotifictionDataList<T>(
+      Map<String, dynamic> data, T Function(Map<String, dynamic>) fromJson) {
+    List<T> entities = [];
+
+    if (data['data'] is List) {
+      for (var item in data['data']) {
+        entities.add(fromJson(item));
+      }
+    } else if (data['message'] != null) {
+      // If data['data'] is not a list, add the message to the list
+      entities.add(fromJson(data));
+    }
+
+    return entities;
+  }
+
   @override
-  Future<GetUnreadNutficonEntity> getUnreadNotifiction(int type) async {
+  Future<List<GetUnreadNutficonEntity>> getUnreadNotifiction(int type) async {
     String? token = await storage.read(key: 'token');
     var data = await apiService.get(
       endPoint: 'Notifications/Count',
@@ -61,8 +78,8 @@ class NotifictionRemoteDataSourceImpl implements NotifictionRemoteDataSource {
         'Authorization': 'Bearer $token',
       },
     );
-    GetUnreadNutficonEntity nutficonEntity =
-        UnreadNotifictionModel.fromJson(data);
+    List<GetUnreadNutficonEntity> nutficonEntity =
+        getNotifictionDataList(data, GetUnreadNotifitionModel.fromJson);
     return nutficonEntity;
   }
 

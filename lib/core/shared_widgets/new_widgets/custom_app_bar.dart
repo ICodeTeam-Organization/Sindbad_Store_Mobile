@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
 import 'package:sindbad_management_app/core/utils/route.dart';
+import 'package:sindbad_management_app/features/notifiction_featurs/ui/cubit/notifiction_cubit/unread_notifiction_cubit.dart';
 
 import '../../styles/Colors.dart';
 
-class CustomAppBar extends StatelessWidget {
+class CustomAppBar extends StatefulWidget {
   final String tital;
   final void Function()? onBackPressed;
   final bool? isBack;
@@ -21,22 +23,36 @@ class CustomAppBar extends StatelessWidget {
     this.isBack = true,
     this.isSearch = true,
   });
+
+  @override
+  State<CustomAppBar> createState() => _CustomAppBarState();
+}
+
+class _CustomAppBarState extends State<CustomAppBar> {
+  @override
+  void initState() {
+    super.initState();
+    // Fetch unread notifications when the app bar is initialized
+    context.read<UnreadNotifictionCubit>().getUnreadNotifiction(0);
+  }
+
   @override
   Widget build(BuildContext context) {
+    int count = 0;
     return Container(
       color: AppColors.white,
       height: 75.h,
       width: double.infinity.w,
       child: Stack(
         children: [
-          isBack == true
+          widget.isBack == true
               ? Align(
                   alignment: Alignment.centerRight,
                   child: Padding(
                       padding: const EdgeInsets.only(right: 15),
                       child: InkWell(
-                        onTap:
-                            onBackPressed ?? () => Navigator.of(context).pop(),
+                        onTap: widget.onBackPressed ??
+                            () => Navigator.of(context).pop(),
                         child: SvgPicture.asset(
                           "assets/back_appbar.svg",
                           width: 40.w,
@@ -47,13 +63,13 @@ class CustomAppBar extends StatelessWidget {
               : SizedBox(),
           Center(
             child: Text(
-              tital,
+              widget.tital,
               style: KTextStyle.textStyle20.copyWith(
                 color: AppColors.blackDark,
               ),
             ),
           ),
-          isSearch == true
+          widget.isSearch == true
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -62,7 +78,7 @@ class CustomAppBar extends StatelessWidget {
                       child: Padding(
                           padding: const EdgeInsets.only(right: 15),
                           child: InkWell(
-                            onTap: onSearchPressed ??
+                            onTap: widget.onSearchPressed ??
                                 () => GoRouter.of(context)
                                     .push(AppRouter.storeRouters.kprofile),
                             child: Icon(Icons.person_outline,
@@ -75,11 +91,50 @@ class CustomAppBar extends StatelessWidget {
                       child: Padding(
                           padding: const EdgeInsets.only(left: 15),
                           child: InkWell(
-                            onTap: onSearchPressed ??
+                            onTap: widget.onSearchPressed ??
                                 () => GoRouter.of(context)
                                     .push(AppRouter.storeRouters.notifiction),
-                            child: Icon(Icons.notifications_none,
-                                size: 30.w, color: AppColors.blackDark),
+                            child: BlocConsumer<UnreadNotifictionCubit,
+                                UnreadNotifictionState>(
+                              listener: (context, state) {
+                                if (state is UnreadNotifictionSuccess) {
+                                  count = 0;
+                                  for (var element
+                                      in state.getUnreadNotifiction) {
+                                    count += element.totalUnreadCount ?? 0;
+                                  }
+                                }
+                              },
+                              builder: (context, state) {
+                                if (state is UnreadNotifictionSuccess) {
+                                  return count > 0
+                                      ? Badge(
+                                          label: count > 99
+                                              ? Text('99+')
+                                              : Text(count.toString()),
+                                          backgroundColor: Colors.red,
+                                          child: Icon(Icons.notifications_none,
+                                              size: 30.w,
+                                              color: AppColors.blackDark),
+                                        )
+                                      : Icon(Icons.notifications_none,
+                                          size: 30.w,
+                                          color: AppColors.blackDark);
+                                }
+                                return count > 0
+                                    ? Badge(
+                                        label: count > 99
+                                            ? Text('99+')
+                                            : Text(count.toString()),
+                                        backgroundColor: Colors.red,
+                                        child: Icon(Icons.notifications_none,
+                                            size: 30.w,
+                                            color: AppColors.blackDark),
+                                      )
+                                    : Icon(Icons.notifications_none,
+                                        size: 30.w, color: AppColors.blackDark);
+                              },
+                            ),
                           )),
                     ),
                   ],
