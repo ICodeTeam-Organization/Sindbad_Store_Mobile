@@ -71,13 +71,13 @@ class _CustomCardToAllTextFieldsState extends State<CustomCardToAllTextFields> {
             SizedBox(height: 20.h),
             SizedBox(width: 20.w),
             CustomTextFormWidget(
-              textController: null,
+              textController: widget.oldPriceController,
               text: 'السعر السابق',
               isRequired: false,
             ),
             SizedBox(height: 20.h),
             CustomTextFormWidget(
-              textController: null,
+              textController: widget.shortDescriptionController,
               text: 'وصف مختصر',
               isRequired: false,
               maxLines: 3,
