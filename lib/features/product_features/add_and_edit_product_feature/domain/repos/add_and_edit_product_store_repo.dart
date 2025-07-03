@@ -57,5 +57,8 @@ abstract class AddAndEditProductStoreRepo {
     required List<String>? imagesUrl,
     required List<int> subCategoryIds,
     required List<Map<String, String>> newAttributes,
+    required List<String>? tags,
+    required num? oldPrice,
+    required String? shortDescription,
   });
 }

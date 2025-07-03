@@ -14,12 +14,12 @@ import '../manger/cubit/sub_category/sub_category_cubit.dart';
 
 class CustomCardContainsAllDropDownEditScreen extends StatefulWidget {
   final int initialMainIdToProduct;
-  final int initialSubIdToProduct;
+  int? initialSubIdToProduct;
   final int? initialBrandIdToProduct;
   final String initialMainNameToProduct;
-  final String initialSubNameToProduct;
+  String initialSubNameToProduct;
   final String? initialBrandNameToProduct;
-  const CustomCardContainsAllDropDownEditScreen({
+  CustomCardContainsAllDropDownEditScreen({
     super.key,
     required this.initialMainIdToProduct,
     required this.initialSubIdToProduct,
@@ -64,7 +64,31 @@ class _CustomCardContainsAllDropDownEditScreenState
           SectionTitleWidget(title: 'نوع المنتج'),
           SizedBox(height: 20.h),
           // =======================   Main Category  ========================
-          BlocBuilder<GetCategoryNamesCubit, GetCategoryNamesState>(
+          BlocConsumer<GetCategoryNamesCubit, GetCategoryNamesState>(
+            listener: (context, state) {
+              if (state is GetCategoryNamesSuccess) {
+                if (widget.initialSubIdToProduct == null) {
+                  widget.initialSubIdToProduct = state
+                      .categoryAndSubCategoryNames
+                      .where((category) =>
+                          category.mainCategoryId ==
+                          widget.initialMainIdToProduct)
+                      .first
+                      .subCategory
+                      .first
+                      .subCategoryId;
+                  widget.initialSubNameToProduct = state
+                      .categoryAndSubCategoryNames
+                      .where((category) =>
+                          category.mainCategoryId ==
+                          widget.initialMainIdToProduct)
+                      .first
+                      .subCategory
+                      .first
+                      .subCategoryNameEntity;
+                }
+              }
+            },
             builder: (context, state) {
               if (state is GetCategoryNamesInitial) {
                 return CustomDropdownWidget(

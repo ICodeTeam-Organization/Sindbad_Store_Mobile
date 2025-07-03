@@ -141,6 +141,9 @@ class AddAndEditProductStoreRepoImpl extends AddAndEditProductStoreRepo {
     required List<String>? imagesUrl,
     required List<int> subCategoryIds,
     required List<Map<String, String>> newAttributes,
+    required List<String>? tags,
+    required num? oldPrice,
+    required String? shortDescription,
   }) async {
     try {
       EditProductEntity response =
@@ -157,6 +160,9 @@ class AddAndEditProductStoreRepoImpl extends AddAndEditProductStoreRepo {
         subCategoryIds: subCategoryIds,
         imagesUrl: imagesUrl,
         newAttributes: newAttributes,
+        tags: tags,
+        oldPrice: oldPrice,
+        shortDescription: shortDescription,
       );
       return right(response);
     } catch (e) {

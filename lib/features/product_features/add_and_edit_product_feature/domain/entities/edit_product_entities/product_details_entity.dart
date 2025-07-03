@@ -16,6 +16,9 @@ class ProductDetailsEntity {
   final int? brandIdProduct;
   final String? brandNameProduct;
   final List<ProductAttributeEntity> attributesWithValuesProduct;
+  List<Map<String, dynamic>>? productTags;
+  num? productOldPrice;
+  String? productShortDescription;
 
   ProductDetailsEntity({
     required this.idProduct,
@@ -32,5 +35,8 @@ class ProductDetailsEntity {
     required this.brandIdProduct,
     required this.brandNameProduct,
     required this.attributesWithValuesProduct,
+    required this.productTags,
+    required this.productOldPrice,
+    required this.productShortDescription,
   });
 }

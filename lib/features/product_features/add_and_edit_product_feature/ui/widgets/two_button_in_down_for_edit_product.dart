@@ -15,6 +15,9 @@ class TwoButtonInDownForEditProduct extends StatelessWidget {
     required TextEditingController priceProductController,
     required TextEditingController descriptionProductController,
     required this.cubitAttribute,
+    required this.oldPriceController,
+    required this.shortDescriptionProductController,
+    required this.tags,
     this.onSuccessCallback,
   })  : _priceProductController = priceProductController,
         _descriptionProductController = descriptionProductController;
@@ -25,8 +28,12 @@ class TwoButtonInDownForEditProduct extends StatelessWidget {
   final TextEditingController _priceProductController;
   final TextEditingController _descriptionProductController;
   final AttributeProductCubit cubitAttribute;
+  final TextEditingController? oldPriceController;
+  final TextEditingController? shortDescriptionProductController;
+  final List<String>? tags;
 
-  bool validateFields(BuildContext context, EditProductFromStoreCubit cubitEditProduct) {
+  bool validateFields(
+      BuildContext context, EditProductFromStoreCubit cubitEditProduct) {
     if (_priceProductController.text.isEmpty ||
         _descriptionProductController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -116,9 +123,14 @@ class TwoButtonInDownForEditProduct extends StatelessWidget {
                     await cubitEditProduct.editProductFromStore(
                       productId: idProduct,
                       priceProductController: _priceProductController,
-                      descriptionProductController: _descriptionProductController,
+                      descriptionProductController:
+                          _descriptionProductController,
                       keys: cubitAttribute.state.keys,
                       values: cubitAttribute.state.values,
+                      oldPriceController: oldPriceController,
+                      shortDescriptionProductController:
+                          shortDescriptionProductController,
+                      tags: tags ?? [], // ensure tags is not null
                     );
                   }
                 },

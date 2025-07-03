@@ -47,6 +47,9 @@ abstract class AddAndEditProductToStoreRemoteDataSource {
     required List<String>? imagesUrl,
     required List<int> subCategoryIds,
     required List<Map<String, String>> newAttributes,
+    required num? oldPrice,
+    required String? shortDescription,
+    required List<String>? tags,
   });
 
   Future<List<MainCategoryEntity>> getMainAndSubCategory({
@@ -74,23 +77,23 @@ class AddProductToStoreRemoteDataSourceImpl
   }
 
   @override
-  Future<AddProductEntity> addProductToStore({
-    required String name,
-    required num price,
-    required String description,
-    required File mainImageFile,
-    required String number,
-    required int? storeId,
-    required int? offerId,
-    required int? brandId,
-    required int mainCategoryId,
-    required List<File> images,
-    required List<int> subCategoryIds,
-    required List<Map<String, String>> newAttributes,
-    required List<String> tags,
-    required num oldPrice,
-    required String shortDescription,
-  }) async {
+  Future<AddProductEntity> addProductToStore(
+      {required String name,
+      required num price,
+      required String description,
+      required File mainImageFile,
+      required String number,
+      required int? storeId,
+      required int? offerId,
+      required int? brandId,
+      required int mainCategoryId,
+      required List<File> images,
+      required List<int> subCategoryIds,
+      required List<Map<String, String>> newAttributes,
+      required List<String> tags,
+      required num oldPrice,
+      required String shortDescription,
+      re}) async {
     String? token = await getToken();
     final Map<String, dynamic> dataBody = {
       "Name": name,
@@ -111,7 +114,7 @@ class AddProductToStoreRemoteDataSourceImpl
       "MainCategoryId": mainCategoryId,
       // "Images": images,                // down.. in with files
       "SubCategoryIds": subCategoryIds,
-      "newAttributes": newAttributes
+      "newAttributes": newAttributes,
     };
     final data = await apiService.postRequestWithFiles(
       endPoint: "Products/AddProduct",
@@ -215,6 +218,9 @@ class AddProductToStoreRemoteDataSourceImpl
     required List<String>? imagesUrl,
     required List<int> subCategoryIds,
     required List<Map<String, String>> newAttributes,
+    required num? oldPrice,
+    required String? shortDescription,
+    required List<String>? tags,
   }) async {
     String? token = await getToken();
     final Map<String, dynamic> dataBody = {
@@ -228,7 +234,10 @@ class AddProductToStoreRemoteDataSourceImpl
       // "Images": images,                // down.. in with files
       "ImagesUrl": imagesUrl,
       "SubCategoryIds": subCategoryIds,
-      "newAttributes": newAttributes
+      "newAttributes": newAttributes,
+      "OldPrice": oldPrice,
+      "productDetails": shortDescription,
+      "Tags": tags,
     };
     final data = await apiService.putWithFilesForEditProduct(
       endPoint: "Products/UpdateProduct?id=$id",

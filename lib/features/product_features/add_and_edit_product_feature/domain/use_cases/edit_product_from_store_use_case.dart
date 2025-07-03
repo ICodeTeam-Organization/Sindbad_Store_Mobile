@@ -16,19 +16,21 @@ class EditProductFromStoreUseCase
   Future<Either<Failure, EditProductEntity>> execute(
       EditProductFromStoreParams params) {
     return addAndEditProductStoreRepo.editProductFromStore(
-      id: params.id,
-      description: params.description,
-      price: params.price,
-      mainImageFile: params.mainImageFile,
-      storeId: params.storeId,
-      offerId: params.offerId,
-      brandId: params.brandId,
-      mainCategoryId: params.mainCategoryId,
-      images: params.images,
-      imagesUrl: params.imagesUrl,
-      subCategoryIds: params.subCategoryIds,
-      newAttributes: params.newAttributes,
-    );
+        id: params.id,
+        description: params.description,
+        price: params.price,
+        mainImageFile: params.mainImageFile,
+        storeId: params.storeId,
+        offerId: params.offerId,
+        brandId: params.brandId,
+        mainCategoryId: params.mainCategoryId,
+        images: params.images,
+        imagesUrl: params.imagesUrl,
+        subCategoryIds: params.subCategoryIds,
+        newAttributes: params.newAttributes,
+        tags: params.tags,
+        oldPrice: params.oldPrice,
+        shortDescription: params.shortDescription);
   }
 }
 
@@ -47,6 +49,9 @@ class EditProductFromStoreParams {
   final List<String>? imagesUrl;
   final List<int> subCategoryIds;
   final List<Map<String, String>> newAttributes;
+  final List<String>? tags;
+  final num? oldPrice;
+  final String? shortDescription;
 
   EditProductFromStoreParams(
       {required this.id,
@@ -60,5 +65,8 @@ class EditProductFromStoreParams {
       required this.images,
       required this.imagesUrl,
       required this.subCategoryIds,
-      required this.newAttributes});
+      required this.newAttributes,
+      required this.tags,
+      required this.oldPrice,
+      required this.shortDescription});
 }

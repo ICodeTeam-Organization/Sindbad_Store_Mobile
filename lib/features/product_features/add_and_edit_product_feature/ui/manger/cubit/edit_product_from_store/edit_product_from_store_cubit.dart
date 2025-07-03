@@ -104,6 +104,9 @@ class EditProductFromStoreCubit extends Cubit<EditProductFromStoreState> {
     required TextEditingController descriptionProductController,
     required List<TextEditingController> keys,
     required List<TextEditingController> values,
+    required TextEditingController? oldPriceController,
+    required TextEditingController? shortDescriptionProductController,
+    required List<String> tags,
   }) async {
     emit(EditProductFromStoreLoading());
     final List<File> allSubImageProductFile = [
@@ -129,6 +132,14 @@ class EditProductFromStoreCubit extends Cubit<EditProductFromStoreState> {
       storeId: null,
       offerId: null,
       brandId: selectedBrandId,
+      oldPrice: oldPriceController != null
+          ? num.tryParse(oldPriceController.text)
+          : null,
+      shortDescription: shortDescriptionProductController != null
+          ? shortDescriptionProductController.text
+          : null,
+
+      tags: tags,
       mainCategoryId:
           selectedMainCategoryId!, // if = null in backend meaning the basic image
       images: allSubImageProductFile.isNotEmpty ? allSubImageProductFile : null,

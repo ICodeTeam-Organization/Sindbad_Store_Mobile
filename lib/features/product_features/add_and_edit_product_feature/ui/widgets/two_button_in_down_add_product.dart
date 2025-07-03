@@ -93,10 +93,10 @@ class TwoButtonInDownAddProduct extends StatelessWidget {
               if (onSuccessCallback != null) {
                 onSuccessCallback!();
               }
+              Navigator.of(context).pop();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('تم إضافة المنتج بنجاح!')),
               );
-              Navigator.of(context).pop();
             }
             if (state is AddProductToStoreFailure) {
               ScaffoldMessenger.of(context).showSnackBar(

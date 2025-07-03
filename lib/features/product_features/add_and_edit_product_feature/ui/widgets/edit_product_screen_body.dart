@@ -30,6 +30,11 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
   late AttributeProductCubit cubitAttribute;
   late EditProductFromStoreCubit cubitEditProduct;
   late TextEditingController _priceProductController = TextEditingController();
+  late TextEditingController shortDescriptionProductController =
+      TextEditingController();
+  List<Map<String, dynamic>> productTags = [];
+  List<String> tags = [];
+  late TextEditingController oldPriceController = TextEditingController();
   late TextEditingController _descriptionProductController =
       TextEditingController();
   late List<ProductImagesEntity> subImagesProduct;
@@ -42,9 +47,13 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
         .toList();
     final List<String> textValues = widget
         .productDetailsEntity.attributesWithValuesProduct
-        .map((attribute) => attribute.valueProduct.first)
+        .map((attribute) => attribute.valueProduct)
         .toList();
     cubitAttribute.initialField(textKeys: textKeys, textValues: textValues);
+    tags = widget.productDetailsEntity.productTags
+            ?.map((tag) => tag['name'] as String)
+            .toList() ??
+        [];
   }
 
   @override
@@ -52,6 +61,11 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
     cubitAttribute = context.read<AttributeProductCubit>();
     cubitEditProduct = context.read<EditProductFromStoreCubit>();
 
+    productTags = widget.productDetailsEntity.productTags ?? [];
+    shortDescriptionProductController.text =
+        widget.productDetailsEntity.productShortDescription ?? '';
+    oldPriceController.text =
+        widget.productDetailsEntity.productOldPrice?.toString() ?? '';
     _priceProductController = TextEditingController(
         text: widget.productDetailsEntity.priceProduct.toString());
     _descriptionProductController = TextEditingController(
@@ -102,6 +116,10 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                         priceProductController: _priceProductController,
                         descriptionProductController:
                             _descriptionProductController,
+                        shortDescriptionProductController:
+                            shortDescriptionProductController,
+                        oldPriceController: oldPriceController,
+                        tags: tags,
                       ),
                       SizedBox(height: 26.h),
                       // ================  card Images  ===================
@@ -116,8 +134,11 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                       CustomCardContainsAllDropDownEditScreen(
                         initialMainIdToProduct:
                             widget.productDetailsEntity.mainCategoryIdProduct,
-                        initialSubIdToProduct:
-                            widget.productDetailsEntity.subCategoryIdProduct[0],
+                        initialSubIdToProduct: widget.productDetailsEntity
+                                .subCategoryIdProduct.isEmpty
+                            ? null
+                            : widget
+                                .productDetailsEntity.subCategoryIdProduct[0],
                         initialBrandIdToProduct:
                             widget.productDetailsEntity.brandIdProduct,
                         initialMainNameToProduct:
@@ -142,6 +163,10 @@ class _EditProductScreenBodyState extends State<EditProductScreenBody> {
                 descriptionProductController: _descriptionProductController,
                 cubitAttribute: cubitAttribute,
                 onSuccessCallback: widget.onSuccessCallback,
+                oldPriceController: oldPriceController,
+                shortDescriptionProductController:
+                    shortDescriptionProductController,
+                tags: tags,
               )
             ],
           ),

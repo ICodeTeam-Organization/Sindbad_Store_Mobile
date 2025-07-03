@@ -30,6 +30,9 @@ class ProductDetailsModel extends ProductDetailsEntity {
   int? fiveStarCount;
   List<ProductImage>? productImages;
   List<AttributesWithValue>? attributesWithValues;
+  num? oldPrice;
+  String? productDetails;
+  List<Map<String, dynamic>>? tags;
 
   ProductDetailsModel({
     required this.id,
@@ -59,6 +62,9 @@ class ProductDetailsModel extends ProductDetailsEntity {
     this.fiveStarCount,
     this.productImages,
     this.attributesWithValues,
+    this.oldPrice,
+    this.productDetails,
+    this.tags,
   }) : super(
           idProduct: id,
           nameProduct: name ?? '',
@@ -67,17 +73,22 @@ class ProductDetailsModel extends ProductDetailsEntity {
           priceProduct: priceBeforOffer ?? 0,
           mainImageUrlProduct: mainImageUrl ?? '',
           imagesProduct: productImages ?? [],
-          mainCategoryIdProduct: (mainCategoriesIds != null && mainCategoriesIds.isNotEmpty)
-              ? mainCategoriesIds[0]
-              : 0,
+          mainCategoryIdProduct:
+              (mainCategoriesIds != null && mainCategoriesIds.isNotEmpty)
+                  ? mainCategoriesIds[0]
+                  : 0,
           mainCategoryNameProduct: categoryName ?? '',
           subCategoryIdProduct: subCategoriesIds ?? [],
-          subCategoriesName: (subCategoriesNames != null && subCategoriesNames.isNotEmpty)
-              ? subCategoriesNames[0]
-              : 'error in model data',
+          subCategoriesName:
+              (subCategoriesNames != null && subCategoriesNames.isNotEmpty)
+                  ? subCategoriesNames[0]
+                  : 'error in model data',
           brandIdProduct: brandId,
           brandNameProduct: brandName ?? 'لا يوجد',
           attributesWithValuesProduct: attributesWithValues ?? [],
+          productTags: tags ?? [],
+          productOldPrice: oldPrice ?? 0,
+          productShortDescription: productDetails ?? '',
         );
 
   factory ProductDetailsModel.fromJson(Map<String, dynamic> json) {
@@ -88,7 +99,8 @@ class ProductDetailsModel extends ProductDetailsEntity {
       priceBeforOffer: json['priceBeforOffer'] as num?,
       priceAfterOffer: json['priceAfterOffer'] as num?,
       percentageOfDiscount: json['percentageOfDiscount'] as num?,
-      amountYouShouldToBuyForGetOffer: json['amountYouShouldToBuyForGetOffer'] as num?,
+      amountYouShouldToBuyForGetOffer:
+          json['amountYouShouldToBuyForGetOffer'] as num?,
       amountYouWillGetFromOffer: json['amountYouWillGetFromOffer'] as num?,
       offerSentence: json['offerSentence'] as String?,
       offerStartDate: json['offerStartDate'] == null
@@ -109,10 +121,12 @@ class ProductDetailsModel extends ProductDetailsEntity {
           ? List<int>.from((json['subCategoriesIds'] as List).whereType<int>())
           : [],
       mainCategoriesNames: json['mainCategoriesNames'] != null
-          ? List<String>.from((json['mainCategoriesNames'] as List).whereType<String>())
+          ? List<String>.from(
+              (json['mainCategoriesNames'] as List).whereType<String>())
           : [],
       subCategoriesNames: json['subCategoriesNames'] != null
-          ? List<String>.from((json['subCategoriesNames'] as List).whereType<String>())
+          ? List<String>.from(
+              (json['subCategoriesNames'] as List).whereType<String>())
           : [],
       oneStarCount: json['oneStarCount'] as int?,
       twoStarCount: json['twoStarCount'] as int?,
@@ -126,8 +140,15 @@ class ProductDetailsModel extends ProductDetailsEntity {
           : [],
       attributesWithValues: json['attributesWithValues'] != null
           ? (json['attributesWithValues'] as List)
-              .map((e) => AttributesWithValue.fromJson(e as Map<String, dynamic>))
+              .map((e) =>
+                  AttributesWithValue.fromJson(e as Map<String, dynamic>))
               .toList()
+          : [],
+      oldPrice: json['oldPrice'] as num?,
+      productDetails: json['productDetails'] as String?,
+      tags: json['tags'] != null
+          ? List<Map<String, dynamic>>.from(
+              (json['tags'] as List).whereType<Map<String, dynamic>>())
           : [],
     );
   }
@@ -159,6 +180,10 @@ class ProductDetailsModel extends ProductDetailsEntity {
         'fourStarCount': fourStarCount,
         'fiveStarCount': fiveStarCount,
         'productImages': productImages?.map((e) => e.toJson()).toList(),
-        'attributesWithValues': attributesWithValues?.map((e) => e.toJson()).toList(),
+        'attributesWithValues':
+            attributesWithValues?.map((e) => e.toJson()).toList(),
+        'oldPrice': oldPrice,
+        'productDetails': productDetails,
+        'tags': tags,
       };
 }

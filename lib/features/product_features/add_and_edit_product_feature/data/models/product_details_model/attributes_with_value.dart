@@ -2,24 +2,22 @@ import '../../../domain/entities/edit_product_entities/product_attribute_entity.
 
 class AttributesWithValue extends ProductAttributeEntity {
   String? attributeName;
-  List<String>? values;
+  String? values;
 
   AttributesWithValue({this.attributeName, this.values})
       : super(
-          attributeNameProduct: attributeName ?? '',
-          valueProduct: values ?? [],
-        );
+            attributeNameProduct: attributeName ?? '',
+            valueProduct: values ?? '');
 
   factory AttributesWithValue.fromJson(Map<String, dynamic> json) {
     return AttributesWithValue(
       attributeName: json['attributeName'] as String?,
-      values:
-          (json['values'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      values: json['attributeValue'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() => {
         'attributeName': attributeName,
-        'values': values,
+        'attributeValue': values,
       };
 }

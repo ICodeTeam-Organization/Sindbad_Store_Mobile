@@ -1,6 +1,6 @@
 class ProductAttributeEntity {
   final String attributeNameProduct;
-  final List<String> valueProduct;
+  final String valueProduct;
 
   ProductAttributeEntity({
     required this.attributeNameProduct,
