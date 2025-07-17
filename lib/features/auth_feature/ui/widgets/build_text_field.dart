@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 class buildTextField extends StatefulWidget {
   final String hinttext;
   final TextEditingController controller;
   final bool visible;
+  final TextInputType? type;
 
   const buildTextField({
     super.key,
     required this.hinttext,
     required this.controller,
     required this.visible,
+    this.type,
   });
 
   @override
@@ -61,7 +60,7 @@ class _MyWidgetState extends State<buildTextField> {
                 controller: widget.controller,
                 focusNode: _focusNode, // ربط FocusNode هنا
                 textAlign: TextAlign.start,
-                keyboardType: TextInputType.phone,
+                keyboardType: widget.type ?? TextInputType.phone,
                 decoration: InputDecoration(
                   hintText: widget.hinttext,
                   hintStyle: TextStyle(

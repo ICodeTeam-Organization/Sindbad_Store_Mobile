@@ -37,8 +37,8 @@ abstract class AllOrderRemotDataSource {
 
   //! Order Invoice
   Future<OrderInvoiceEntity> fetchOrderInvoice(
-    int packageId,
-    num invoiceAmount,
+    int? packageId,
+    num? invoiceAmount,
     File invoiceImage,
     String invoiceNumber,
     DateTime invoiceDate,
@@ -156,8 +156,8 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
   //! ارسال الفاتورة
   @override
   Future<OrderInvoiceEntity> fetchOrderInvoice(
-    int packageId,
-    num invoiceAmount,
+    int? packageId,
+    num? invoiceAmount,
     File invoiceImage,
     String invoiceNumber,
     DateTime invoiceDate,

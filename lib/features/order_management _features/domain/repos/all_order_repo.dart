@@ -30,9 +30,9 @@ abstract class AllOrderRepo {
 
   //! Create Invoice
   Future<Either<Failure, OrderInvoiceEntity>> fetchOrderInvoice(
-      {required int packageId,
+      {required int? packageId,
       required String invoiceNumber,
-      required num invoiceAmount,
+      required num? invoiceAmount,
       required int invoiceType,
       required File invoiceImage,
       required DateTime invoiceDate});

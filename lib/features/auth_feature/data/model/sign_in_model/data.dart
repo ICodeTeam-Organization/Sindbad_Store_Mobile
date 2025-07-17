@@ -7,6 +7,7 @@ class Data {
   String? fullName;
   String? phoneNumber;
   String? email;
+  String? cuntry;
 
   Data({
     this.message,
@@ -17,6 +18,7 @@ class Data {
     this.fullName,
     this.phoneNumber,
     this.email,
+    this.cuntry,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -30,6 +32,7 @@ class Data {
         fullName: json['fullName'] as String?,
         phoneNumber: json['phoneNumber'] as String?,
         email: json['email'] as String?,
+        cuntry: json['country'] as String?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -41,5 +44,6 @@ class Data {
         'fullName': fullName,
         'phoneNumber': phoneNumber,
         'email': email,
+        'country': cuntry,
       };
 }

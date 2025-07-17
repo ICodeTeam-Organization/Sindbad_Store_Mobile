@@ -77,28 +77,13 @@ class _BuildDialogContentState extends State<BuildDialogContent> {
               onTap: () async {
                 try {
                   // Validate the mountController text
-                  if (widget.mountController.text.isEmpty) {
-                    setState(() {
-                      _errorMessage = 'قيمة الفاتورة لا يمكن أن تكون فارغة.';
-                    });
-                    return;
-                  }
-                  if (widget.numberController.text.isEmpty) {
-                    setState(() {
-                      _errorMessage = 'رقم الفاتورة لا يمكن أن يكون فارغ.';
-                    });
-                    return;
-                  }
-                  if (widget.dateController.text.isEmpty) {
-                    setState(() {
-                      _errorMessage = 'تاريخ الفاتورة لا يمكن أن يكون فارغ.';
-                    });
-                    return;
-                  }
+
                   // Try to parse the mountController text to a double
                   double? invoiceAmount;
                   try {
-                    invoiceAmount = double.parse(widget.mountController.text);
+                    if (images == null) {
+                      invoiceAmount = double.parse(widget.mountController.text);
+                    }
                   } catch (e) {
                     setState(() {
                       _errorMessage =

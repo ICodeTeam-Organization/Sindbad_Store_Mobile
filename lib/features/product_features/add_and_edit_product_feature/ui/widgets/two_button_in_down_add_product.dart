@@ -25,8 +25,7 @@ class TwoButtonInDownAddProduct extends StatelessWidget {
       BuildContext context, AddProductToStoreCubit cubitAddProduct) {
     if (cubitAddProduct.nameProductController.text.isEmpty ||
         cubitAddProduct.priceProductController.text.isEmpty ||
-        cubitAddProduct.numberProductController.text.isEmpty ||
-        cubitAddProduct.descriptionProductController.text.isEmpty) {
+        cubitAddProduct.numberProductController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('برجاء تعبئة كافة الحقول المطلوبة')),
       );
@@ -36,15 +35,6 @@ class TwoButtonInDownAddProduct extends StatelessWidget {
     if (cubitAddProduct.mainImageProductFile == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('برجاء اختيار الصورة الرئيسية للمنتج')),
-      );
-      return false;
-    }
-
-    if (cubitAddProduct.subOneImageProductFile == null &&
-        cubitAddProduct.subTwoImageProductFile == null &&
-        cubitAddProduct.subThreeImageProductFile == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('برجاء اختيار صورة فرعية على الأقل للمنتج')),
       );
       return false;
     }

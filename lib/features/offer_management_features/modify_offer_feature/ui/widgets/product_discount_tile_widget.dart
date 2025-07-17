@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/core/utils/currancy.dart';
 
 class ProductDiscountTileWidget extends StatelessWidget {
   final String title;
@@ -88,7 +89,7 @@ class ProductDiscountTileWidget extends StatelessWidget {
                   ? Padding(
                       padding: EdgeInsets.only(left: 4.w, right: 4.w),
                       child: Text(
-                        'ر.س',
+                        Currancy.currency,
                         style: KTextStyle.textStyle10.copyWith(
                           color: AppColors.greyLight,
                         ),

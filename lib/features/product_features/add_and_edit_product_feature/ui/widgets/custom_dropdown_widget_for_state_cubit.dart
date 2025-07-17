@@ -4,9 +4,11 @@ import 'package:sindbad_management_app/features/product_features/add_and_edit_pr
 class CustomDropdownWidgetForStateCubit extends StatelessWidget {
   final String textTitle;
   final String hintText;
+  final isRequired;
   const CustomDropdownWidgetForStateCubit({
     super.key,
     required this.textTitle,
+    this.isRequired,
     required this.hintText,
   });
 
@@ -15,6 +17,7 @@ class CustomDropdownWidgetForStateCubit extends StatelessWidget {
     return CustomDropdownWidget(
       enabled: true,
       textTitle: textTitle,
+      isRequired: isRequired,
       hintText: hintText,
       items: [],
       onChanged: (value) => null,

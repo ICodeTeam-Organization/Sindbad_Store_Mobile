@@ -89,6 +89,7 @@ class GetCategoryNamesSuccessWidget extends StatelessWidget {
             if (state is GetBrandsByCategoryIdInitial) {
               return CustomDropdownWidgetForStateCubit(
                   textTitle: 'أختر اسم البراند',
+                  isRequired: false,
                   hintText: "إختر الفئة الأساسية أولا");
             }
             if (state is GetBrandsByCategoryIdLoading) {
@@ -103,6 +104,7 @@ class GetCategoryNamesSuccessWidget extends StatelessWidget {
 
               return CustomDropdownWidget(
                 enabled: true,
+                isRequired: false,
                 textTitle: 'أختر اسم البراند',
                 hintText: "قم بإختيار البراند المناسب",
                 initialItem: null,

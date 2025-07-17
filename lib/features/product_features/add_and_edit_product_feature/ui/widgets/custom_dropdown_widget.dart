@@ -2,6 +2,7 @@ import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
+import 'package:sindbad_management_app/core/styles/text_style.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/required_text.dart';
 
 class CustomDropdownWidget extends StatelessWidget {
@@ -11,6 +12,7 @@ class CustomDropdownWidget extends StatelessWidget {
   final bool enabled;
   final String? initialItem;
   final dynamic Function(String?) onChanged;
+  final bool? isRequired;
 
   const CustomDropdownWidget({
     super.key,
@@ -20,6 +22,7 @@ class CustomDropdownWidget extends StatelessWidget {
     required this.onChanged,
     this.enabled = true,
     this.initialItem,
+    this.isRequired,
   });
 
   @override
@@ -29,7 +32,14 @@ class CustomDropdownWidget extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(right: 15),
-          child: RequiredText(title: textTitle),
+          child: isRequired ?? true
+              ? RequiredText(title: textTitle)
+              : Text(
+                  textTitle,
+                  style: KTextStyle.textStyle13.copyWith(
+                    color: AppColors.greyLight,
+                  ),
+                ),
         ),
         SizedBox(height: 5.h),
         SizedBox(

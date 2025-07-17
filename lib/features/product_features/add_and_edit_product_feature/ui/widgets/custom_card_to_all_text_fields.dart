@@ -92,6 +92,7 @@ class _CustomCardToAllTextFieldsState extends State<CustomCardToAllTextFields> {
               height: 200.h,
               maxLines: 5, // Allow multiple lines
               keyboardType: TextInputType.multiline,
+              isRequired: false,
             ),
 
             CustomTextFormWidget(

@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sindbad_management_app/core/utils/currancy.dart';
 import 'package:sindbad_management_app/core/utils/route.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/repo/auth_repo_impl.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/usecase/sign_in_use_case.dart';
@@ -57,11 +58,12 @@ import 'features/order_management _features/ui/manager/button_disable/button_dis
 //   }
 // }
 
-void main() {
+void main() async {
   // HttpOverrides.global = MyhttpsOverride();
   WidgetsFlutterBinding.ensureInitialized();
   setupServiceLocator();
   Bloc.observer = SimpleBlocObserver();
+  await Currancy.initCurrency();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(

@@ -44,18 +44,20 @@ class _ShowCreateBillAndCancelOrderState
 
   DateTime? convertToDateTime(String inputDate) {
     try {
-      DateTime parsedDate = DateFormat('yyyy/MM/dd').parse(inputDate);
-      DateTime dateWithTime = DateTime(
-        parsedDate.year,
-        parsedDate.month,
-        parsedDate.day,
-        03,
-        00,
-        00,
-        000,
-      );
-      // Return the DateTime in UTC
-      return dateWithTime.toUtc();
+      if (images == null) {
+        DateTime parsedDate = DateFormat('yyyy/MM/dd').parse(inputDate);
+        DateTime dateWithTime = DateTime(
+          parsedDate.year,
+          parsedDate.month,
+          parsedDate.day,
+          03,
+          00,
+          00,
+          000,
+        );
+        // Return the DateTime in UTC
+        return dateWithTime.toUtc();
+      }
     } catch (e) {
       // Return null if the input is invalid
       return null;
@@ -113,14 +115,47 @@ class _ShowCreateBillAndCancelOrderState
                         numberController: numberController,
                         mountController: mountController,
                         onPressedSure: () async {
+                          if (images == null &&
+                              (dateController.text.isEmpty ||
+                                  numberController.text.isEmpty ||
+                                  mountController.text.isEmpty)) {
+                            if (images == null &&
+                                (dateController.text.isEmpty ||
+                                    numberController.text.isEmpty ||
+                                    mountController.text.isEmpty)) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('خطأ'),
+                                    content: Text(
+                                        'يرجى إدخال جميع البيانات المطلوبة أو إدراج صورة.'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('حسناً'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                              return;
+                            } else if (images != null) {
+                              return;
+                            }
+                          }
+                          ;
                           DateTime? dateFormat =
                               convertToDateTime(dateController.text);
                           await context
                               .read<OrderInvoiceCubit>()
                               .fechOrderInvoice(
-                                packageId: idPackages!,
-                                invoiceAmount:
-                                    double.parse(mountController.text),
+                                packageId: idPackages,
+                                invoiceAmount: mountController.text.isEmpty
+                                    ? 0.0
+                                    : double.parse(mountController.text),
                                 invoiceImage: images!,
                                 invoiceNumber: numberController.text,
                                 invoiceDate: dateFormat ?? DateTime.now(),

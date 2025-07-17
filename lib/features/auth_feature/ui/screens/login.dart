@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/core/setup_service_locator.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
+import 'package:sindbad_management_app/core/utils/currancy.dart';
+import 'package:sindbad_management_app/core/utils/key_name.dart';
 import 'package:sindbad_management_app/core/utils/route.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/repo/auth_repo_impl.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/usecase/sign_in_use_case.dart';
@@ -22,7 +25,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final phoneNumberController = TextEditingController();
   final passwordController = TextEditingController();
-
+  FlutterSecureStorage secureStorage = const FlutterSecureStorage();
   @override
   void dispose() {
     super.dispose();
@@ -83,6 +86,7 @@ class _LoginState extends State<Login> {
                         buildTextField(
                             hinttext: "كلمة المرور",
                             controller: passwordController,
+                            type: TextInputType.text,
                             visible: false)
                       ],
                     ),
@@ -98,6 +102,10 @@ class _LoginState extends State<Login> {
                                 context, state.errorMessage);
                           } else if (state is SignInCubitSuccess) {
                             if (state.user.userRoles[0] == "Store") {
+                              secureStorage.write(
+                                  key: KeyName.country,
+                                  value: state.user.userCuntry);
+                              Currancy.initCurrency();
                               GoRouter.of(context)
                                   .go(AppRouter.storeRouters.root);
                             } else {

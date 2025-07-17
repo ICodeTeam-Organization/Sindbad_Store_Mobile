@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../../../../core/styles/Colors.dart';
 import '../../../../../core/styles/text_style.dart';
 
@@ -18,7 +19,18 @@ class RadioWidget extends StatefulWidget {
 class _RadioWidgetState extends State<RadioWidget> {
   final String title;
 
+  FlutterSecureStorage storage = const FlutterSecureStorage();
   _RadioWidgetState({required this.title});
+  @override
+  void initState() {
+    super.initState();
+    storage.read(key: 'pay').then((value) {
+      setState(() {
+        pay = value;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(

@@ -5,14 +5,14 @@ import 'package:sindbad_management_app/core/styles/text_style.dart';
 class ProfileButton extends StatelessWidget {
   final String title;
   final IconData icon;
-
+  final Widget? switchButtton;
   final Function()? onTap;
-  const ProfileButton({
-    super.key,
-    required this.title,
-    required this.icon,
-    this.onTap,
-  });
+  const ProfileButton(
+      {super.key,
+      required this.title,
+      required this.icon,
+      this.onTap,
+      this.switchButtton});
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +39,15 @@ class ProfileButton extends StatelessWidget {
                     color: Colors.grey,
                   ),
                 ),
-                SizedBox(width: 10.w),
-                Icon(
-                  icon,
-                  color: Colors.grey,
-                ),
+                switchButtton == null
+                    ? SizedBox(width: 10.w)
+                    : SizedBox.shrink(),
+                switchButtton != null
+                    ? switchButtton ?? SizedBox.shrink()
+                    : Icon(
+                        icon,
+                        color: Colors.grey,
+                      ),
               ],
             ),
           ),

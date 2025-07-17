@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/core/utils/currancy.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/text_discount_prices_widget.dart';
 
 class CardOfferDetailsDiscountWidget extends StatefulWidget {
@@ -87,7 +88,8 @@ class _CardOfferDetailsDiscountWidgetState
                 Row(children: [
                   TextDiscountPricesWidget(
                     title: 'قبل الخصم',
-                    content: "${widget.lastPrice.toStringAsFixed(0)} ر.س",
+                    content:
+                        "${widget.lastPrice.toStringAsFixed(0)} ${Currancy.currency}",
                     isBeforeDiscount: true,
                   ),
                   SizedBox(
@@ -95,7 +97,9 @@ class _CardOfferDetailsDiscountWidgetState
                   ),
                   TextDiscountPricesWidget(
                     title: 'بعد الخصم',
-                    content: "${widget.newPrice.toStringAsFixed(0)} ر.س",
+                    content:
+                        "${widget.newPrice.toStringAsFixed(0)} ${Currancy.currency}",
+                    isBeforeDiscount: false,
                   ),
                 ]),
               ],

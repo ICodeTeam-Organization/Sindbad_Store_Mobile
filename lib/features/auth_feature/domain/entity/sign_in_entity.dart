@@ -10,6 +10,7 @@ class SignInEntity {
   final String fullName;
   final String phoneNumber;
   final String email;
+  final String userCuntry;
 
   SignInEntity(
       {required this.isSuccess,
@@ -20,5 +21,6 @@ class SignInEntity {
       required this.token,
       required this.fullName,
       required this.phoneNumber,
-      required this.email});
+      required this.email,
+      required this.userCuntry});
 }

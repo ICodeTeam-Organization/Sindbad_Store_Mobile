@@ -19,6 +19,7 @@ class SignInModel extends SignInEntity {
           fullName: data?.fullName ?? "",
           phoneNumber: data?.phoneNumber ?? "",
           email: data?.email ?? "",
+          userCuntry: data?.cuntry ?? "",
         );
 
   factory SignInModel.fromJson(Map<String, dynamic> json) => SignInModel(

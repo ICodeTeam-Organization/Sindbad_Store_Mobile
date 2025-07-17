@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_app_bar.dart';
+import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/core/utils/route.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/widget/profile_button_widget.dart';
 
@@ -13,7 +14,18 @@ class ProfileBody extends StatefulWidget {
 }
 
 class _ProfileBodyState extends State<ProfileBody> {
+  bool isSwitched = false;
   final FlutterSecureStorage storage = const FlutterSecureStorage();
+  @override
+  void initState() {
+    super.initState();
+    storage.read(key: 'pay').then((value) {
+      setState(() {
+        isSwitched = value == '1';
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,6 +79,22 @@ class _ProfileBodyState extends State<ProfileBody> {
                     GoRouter.of(context)
                         .push(AppRouter.storeRouters.kchangePassword);
                   }),
+              SizedBox(
+                height: 10,
+              ),
+              ProfileButton(
+                  title: 'الدفع الاجل الافتراضي',
+                  icon: Icons.payment,
+                  switchButtton: Switch.adaptive(
+                      activeColor: AppColors.primary,
+                      value: isSwitched,
+                      onChanged: (value) {
+                        setState(() {
+                          isSwitched = value;
+                          storage.write(key: 'pay', value: value ? '1' : '2');
+                        });
+                      }),
+                  onTap: null),
               SizedBox(
                 height: 10,
               ),

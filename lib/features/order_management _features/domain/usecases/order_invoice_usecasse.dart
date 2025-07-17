@@ -26,9 +26,9 @@ class OrderInvoiceUsecase
 }
 
 class OrderInvoiceParam {
-  final int packageId;
+  final int? packageId;
   final String invoiceNumbers;
-  final num invoiceAmounts;
+  final num? invoiceAmounts;
   final File invoiceImages;
   final DateTime invoiceDate;
   final int invoiceType;
