@@ -162,7 +162,7 @@ class AddProductToStoreRemoteDataSourceImpl
       {required int? mainCategoryId}) async {
     if (mainCategoryId == null) {
       final Map<String, dynamic> data =
-          await apiService.get(endPoint: "Brands/GetBrands");
+          await apiService.get(endPoint: "Brands");
       List<BrandEntity> changeToDartModel(List<dynamic> data) {
         List<BrandEntity> brandsEntity = data
             .map((datum) => Datum.fromJson(datum as Map<String, dynamic>))
