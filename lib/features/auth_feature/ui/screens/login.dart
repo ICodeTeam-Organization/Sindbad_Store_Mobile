@@ -78,7 +78,7 @@ class _LoginState extends State<Login> {
                         SizedBox(height: 40.h),
                         //ذي وديجت حقل
                         buildTextField(
-                          visible: true,
+                          visible: null,
                           hinttext: "رقم الجوال",
                           controller: phoneNumberController,
                         ),

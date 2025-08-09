@@ -245,6 +245,9 @@ class _ShowPrintAndShippingOrderState extends State<ShowPrintAndShippingOrder> {
 
   DateTime? convertToDateTime(String inputDate) {
     try {
+      if (inputDate.isEmpty) {
+        return null;
+      }
       // Parse the input date string
       DateTime parsedDate = DateFormat('yyyy/MM/dd').parse(inputDate);
 

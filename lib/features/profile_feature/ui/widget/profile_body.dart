@@ -103,7 +103,7 @@ class _ProfileBodyState extends State<ProfileBody> {
                   icon: Icons.logout,
                   onTap: () {
                     storage.delete(key: 'token');
-                    GoRouter.of(context).push('/');
+                    GoRouter.of(context).go(AppRouter.storeRouters.signIn);
                   }),
             ],
           ),
