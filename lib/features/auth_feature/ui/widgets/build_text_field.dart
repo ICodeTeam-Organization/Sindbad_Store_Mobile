@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class buildTextField extends StatefulWidget {
   final String hinttext;
   final TextEditingController controller;
-  final bool visible;
+  final bool? visible;
   final TextInputType? type;
 
   const buildTextField({
@@ -22,7 +22,7 @@ class buildTextField extends StatefulWidget {
 class _MyWidgetState extends State<buildTextField> {
   String selectedCountryCode = "+967"; // المفتاح الافتراضي
   String selectedFlag = "🇾🇪"; // العلم الافتراضي
-
+  late bool isVisable; // حالة الرؤية للحقول
   final FocusNode _focusNode = FocusNode(); // إضافة FocusNode
 
   final List<Map<String, String>> countries = [
@@ -31,6 +31,12 @@ class _MyWidgetState extends State<buildTextField> {
     {"code": "+971", "flag": "🇦🇪"}, // الإمارات
     {"code": "+20", "flag": "🇪🇬"}, // مصر
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    isVisable = widget.visible ?? false; // تهيئة حالة الرؤية للحقول
+  }
 
   @override
   void dispose() {
@@ -57,16 +63,37 @@ class _MyWidgetState extends State<buildTextField> {
           children: [
             Expanded(
               child: TextFormField(
+                obscureText: !isVisable,
                 controller: widget.controller,
                 focusNode: _focusNode, // ربط FocusNode هنا
                 textAlign: TextAlign.start,
                 keyboardType: widget.type ?? TextInputType.phone,
                 decoration: InputDecoration(
                   hintText: widget.hinttext,
-                  hintStyle: TextStyle(
-                    color: Color(0xff979797),
-                    fontSize: 14.sp,
-                  ),
+                  suffixIcon: widget.visible == null
+                      ? null
+                      : isVisable == true
+                          ? InkWell(
+                              onTap: () {
+                                setState(() {
+                                  isVisable = !isVisable; // تغيير حالة الرؤية
+                                });
+                              },
+                              child: Icon(
+                                Icons.visibility,
+                                color: Colors.grey,
+                              ))
+                          : InkWell(
+                              onTap: () {
+                                setState(() {
+                                  isVisable = !isVisable; // تغيير حالة الرؤية
+                                });
+                              },
+                              child: Icon(
+                                Icons.visibility_off,
+                                color: Colors.grey,
+                              ),
+                            ),
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.only(right: 10.w, bottom: 15.h),
                 ),

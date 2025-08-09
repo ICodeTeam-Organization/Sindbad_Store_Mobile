@@ -32,7 +32,7 @@ class OrderBodyDetails extends StatelessWidget {
   // @override
   @override
   Widget build(BuildContext context) {
-    context.read<OrderDetailsCubit>().fetchOrderDetails(idPackage);
+    context.read<OrderDetailsCubit>().fetchOrderDetails(idOrder);
     return BlocBuilder<OrderDetailsCubit, OrderDetailsState>(
       builder: (context, state) {
         return Container(
@@ -48,7 +48,7 @@ class OrderBodyDetails extends StatelessWidget {
               TopInfoOrder(
                 orderNumber: orderNumbers ?? '',
                 billNumber: billNumbers ?? '',
-                color: orderColors!,
+                color: orderColors ?? Colors.white,
               ),
               SizedBox(
                 height: 10.h,
