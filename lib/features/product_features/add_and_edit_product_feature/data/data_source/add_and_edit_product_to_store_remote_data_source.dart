@@ -138,10 +138,14 @@ class AddProductToStoreRemoteDataSourceImpl
     required int pageNumber,
     required int pageSize,
   }) async {
+    String? token = await getToken();
     final Map<String, dynamic> data = await apiService.get(
         endPoint:
             // "Categories/GetCategoriesWithFilter?filterType=$filterType&pageSize=$pageSize&pageNumber=$pageNumber");
-            "Category/GetCategoriesWithFilter?filterType=$filterType&pageSize=$pageSize&pageNumber=$pageNumber");
+            "Category/GetCategoriesWithFilter?filterType=$filterType&pageSize=$pageSize&pageNumber=$pageNumber",
+            headers: {
+              'Authorization': 'Bearer $token'
+            });
 
     // change Data from JSON to DartModel
     List<MainCategoryEntity> changeToDartModel(List<dynamic> data) {
@@ -159,10 +163,14 @@ class AddProductToStoreRemoteDataSourceImpl
   // =============================  for get Brands  ==================================
   @override
   Future<List<BrandEntity>> getBrandsByMainCategoryId(
+    
       {required int? mainCategoryId}) async {
+    String? token = await getToken();
     if (mainCategoryId == null) {
       final Map<String, dynamic> data =
-          await apiService.get(endPoint: "Brands");
+          await apiService.get(endPoint: "Brands",headers: {
+              'Authorization': 'Bearer $token'
+            });
       List<BrandEntity> changeToDartModel(List<dynamic> data) {
         List<BrandEntity> brandsEntity = data
             .map((datum) => Datum.fromJson(datum as Map<String, dynamic>))
@@ -175,7 +183,9 @@ class AddProductToStoreRemoteDataSourceImpl
       return brands;
     } else {
       final Map<String, dynamic> data = await apiService.get(
-          endPoint: "Brands/GetBrands?categoryId=$mainCategoryId");
+          endPoint: "Brands?categoryId=$mainCategoryId",headers: {
+              'Authorization': 'Bearer $token'
+            });
       List<BrandEntity> changeToDartModel(List<dynamic> data) {
         List<BrandEntity> brandsEntity = data
             .map((datum) => Datum.fromJson(datum as Map<String, dynamic>))
@@ -195,8 +205,11 @@ class AddProductToStoreRemoteDataSourceImpl
   @override
   Future<ProductDetailsEntity> getProductDetails(
       {required int productId}) async {
+    String? token = await getToken();
     final Map<String, dynamic> data =
-        await apiService.get(endPoint: "Products/GetProductDetails/$productId");
+        await apiService.get(endPoint: "Products/GetProductDetails/$productId",headers: {
+              'Authorization': 'Bearer $token'
+            });
 
     // change Data from JSON to DartModel
     ProductDetailsEntity productDetailsEntity =

@@ -51,10 +51,12 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
   @override
   Future<List<MainCategoryForViewEntity>> getMainCategoryForView(
       {required int pageNumber, required int pageSize}) async {
+    String? token = await getToken();
     final Map<String, dynamic> data = await apiService.get(
         endPoint:
             // "Categories/GetCategories?searchType=1&isBrief=true&pageNumber=$pageNumber&pageSize=$pageSize");
-            "Category?searchType=1&isBrief=true&pageNumber=$pageNumber&pageSize=$pageSize");
+            "Category?searchType=1&isBrief=true&pageNumber=$pageNumber&pageSize=$pageSize",
+            headers: {"Authorization": "BEARER $token"});
 
     // fun for change Data from JSON to DartModel
     List<MainCategoryForViewEntity> changeToDartModel(List<dynamic> data) {
