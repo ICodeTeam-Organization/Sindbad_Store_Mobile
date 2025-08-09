@@ -35,7 +35,7 @@ class _MyWidgetState extends State<buildTextField> {
   @override
   void initState() {
     super.initState();
-    isVisable = widget.visible ?? false; // تهيئة حالة الرؤية للحقول
+    isVisable = widget.visible ?? true; // تهيئة حالة الرؤية للحقول
   }
 
   @override
