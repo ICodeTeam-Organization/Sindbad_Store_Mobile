@@ -9,12 +9,8 @@ class AllOrderCubit extends Cubit<AllOrderState> {
         );
   final AllOrderUsecase allOrderUseCase;
   Future<void> fetchAllOrder({
-    required bool isUrgen,
-    required bool canceled,
-    required bool delevred,
-    required bool noInvoice,
-    required bool unpaied,
-    required bool paied,
+    required List<int> statuses,
+    required bool isUrgent,
     required int pageNumber,
     required int pageSize,
     // required String storeId,
@@ -30,12 +26,8 @@ class AllOrderCubit extends Cubit<AllOrderState> {
       }
       
     var result = await allOrderUseCase.execute(AllOrderParam(
-      isUrgen: isUrgen,
-      canceled: canceled,
-      delevred: delevred,
-      noInvoice: noInvoice,
-      unpaied: unpaied,
-      paied: paied,
+      statuses: statuses,
+      isUrgent: isUrgent,
       pageNumber: pageNumber,
       pageSize: pageSize,
       // storeId: storeId,

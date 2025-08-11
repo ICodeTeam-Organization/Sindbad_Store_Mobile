@@ -11,12 +11,8 @@ import '../entities/order_invoice_entity.dart';
 abstract class AllOrderRepo {
   //! All orders
   Future<Either<Failure, List<AllOrderEntity>>> fetchAllOrder({
-    required bool isUrgen,
-    required bool canceled,
-    required bool delevred,
-    required bool noInvoice,
-    required bool unpaied,
-    required bool paied,
+    required List<int> statuses,
+    required bool isUrgent,
     required int pageNumber,
     required int pageSize,
     // required String storeId,

@@ -18,12 +18,8 @@ import '../models/orders_details_model/orders_details_model.dart';
 abstract class AllOrderRemotDataSource {
   //! All Order
   Future<List<AllOrderEntity>> fetchAllOrder(
-    bool isUrgen,
-    bool canceled,
-    bool delevred,
-    bool noInvoice,
-    bool unpaied,
-    bool paied,
+    List<int> statuses,
+    bool isUrgent,
     int pageNumber,
     int pageSize,
     // String storeId,
@@ -118,33 +114,22 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
 
   @override
   Future<List<AllOrderEntity>> fetchAllOrder(
-    bool isUrgen,
-    bool canceled,
-    bool delevred,
-    bool noInvoice,
-    bool unpaied,
-    bool paied,
+    List<int> statuses,
+    bool isUrgent,
     int pageNumber,
     int pageSize,
     // String storeId,
     // String srearchKeyword,
   ) async {
     String? token = await getToken();
-    final decodeToken = JwtDecoder.decode(token!);
-    var data = await apiService.post(
-      data: {
-        'isUrgen': isUrgen,
-        'canceled': canceled,
-        'delevred': delevred,
-        'noInvoice': noInvoice,
-        'unpaied': unpaied,
-        'paied': paied,
-        'pageSize': pageSize,
-        'pageNumber': pageNumber,
-        'storeId': decodeToken['Id']
-        // 'search': srearchKeyword,
-      },
-      endPoint: 'Orders/Store/GetStoreOrders',
+    var endpoint = "Packages?owned=true";
+    endpoint += "&pageSize=$pageSize&pageNumber=$pageNumber";
+    endpoint += statuses.map((status) => "&statuses=$status").join();
+    if(isUrgent){
+      endpoint += "&isUrgent=$isUrgent";
+    }
+    var data = await apiService.get(
+      endPoint: endpoint,
       headers: {
         'Authorization': 'Bearer $token',
       },

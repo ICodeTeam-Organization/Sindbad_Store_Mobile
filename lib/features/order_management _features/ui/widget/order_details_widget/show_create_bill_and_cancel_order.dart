@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_tab_bar_widget.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/sub_custom_tab_bar.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_body.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_details_widget/radio_widget.dart';
@@ -270,27 +271,20 @@ class _ShowCreateBillAndCancelOrderState
 
   void refreshAfterCreateInvoice(BuildContext context) {
     int subTab = subTabController!.index;
+    int tab = tabController!.index;
     if (subTab == 0) {
       context.read<AllOrderCubit>().fetchAllOrder(
-            isUrgen: false,
-            canceled: false,
-            delevred: false,
-            noInvoice: false,
-            unpaied: false,
-            paied: false,
+            statuses: [2,3,4],
+            isUrgent: tab == 1,
             pageNumber: 1,
-            pageSize: 100,
+            pageSize: 10,
           );
     } else if (subTab == 1) {
       context.read<AllOrderCubit>().fetchAllOrder(
-            isUrgen: false,
-            canceled: false,
-            delevred: false,
-            noInvoice: true,
-            unpaied: false,
-            paied: false,
+            statuses: [2],
+            isUrgent: tab == 1,
             pageNumber: 1,
-            pageSize: 100,
+            pageSize: 10,
           );
     }
   }

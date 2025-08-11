@@ -37,12 +37,8 @@ class _UrgentNoPaidInfoOrderState extends State<UrgentNoPaidInfoOrder> {
     //       // srearchKeyword: ''
     //     );
     return OrdersListView(
-      isUrgen: true,
-      canceled: false,
-      delevred: false,
-      noInvoice: false,
-      unpaied: true,
-      paied: false,
+      statuses: [3],
+      isUrgent: true,
       pageSize: 10,
     );
   }

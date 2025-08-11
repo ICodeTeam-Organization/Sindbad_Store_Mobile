@@ -37,12 +37,8 @@ class _ShippingInfoOrderState extends State<ShippingInfoOrder> {
     //       // srearchKeyword: ''
     //     );
     return OrdersListView(
-      isUrgen: false,
-      canceled: false,
-      delevred: false,
-      noInvoice: false,
-      unpaied: false,
-      paied: true,
+      statuses: [4],
+      isUrgent: false,
       pageSize: 10,
     );
   }

@@ -38,12 +38,8 @@ class _BeforeTabViewsState extends State<BeforeTabViews> {
     //     );
 
     return OrdersListView(
-      isUrgen: false,
-      canceled: false,
-      delevred: true,
-      noInvoice: false,
-      unpaied: false,
-      paied: false,
+      statuses: [5,6,7],
+      isUrgent: false,
       pageSize: 10,
     );
   }

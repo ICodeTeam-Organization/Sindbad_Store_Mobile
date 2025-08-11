@@ -13,12 +13,8 @@ class AllOrderUsecase
   Future<Either<Failure, List<AllOrderEntity>>> execute(
       AllOrderParam params) async {
     return await allOrderRepo.fetchAllOrder(
-      isUrgen: params.isUrgen,
-      canceled: params.canceled,
-      delevred: params.delevred,
-      noInvoice: params.noInvoice,
-      unpaied: params.unpaied,
-      paied: params.paied,
+      statuses: params.statuses,
+      isUrgent: params.isUrgent,
       pageNumber: params.pageNumber,
       pageSize: params.pageSize,
       // storeId: params.storeId
@@ -28,24 +24,16 @@ class AllOrderUsecase
 }
 
 class AllOrderParam {
-  final bool isUrgen;
-  final bool canceled;
-  final bool delevred;
-  final bool noInvoice;
-  final bool unpaied;
-  final bool paied;
+  final List<int> statuses;
+  final bool isUrgent;
   final int pageNumber;
   final int pageSize;
   // final String storeId;
   // final String srearchKeyword;
 
   AllOrderParam({
-    required this.isUrgen,
-    required this.canceled,
-    required this.delevred,
-    required this.noInvoice,
-    required this.unpaied,
-    required this.paied,
+    required this.statuses,
+    required this.isUrgent,
     required this.pageNumber,
     required this.pageSize,
     // required this.storeId,

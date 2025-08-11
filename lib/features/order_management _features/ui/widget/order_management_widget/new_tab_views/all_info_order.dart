@@ -143,12 +143,8 @@ class AllInfoOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OrdersListView(
-      isUrgen: false,
-      canceled: false,
-      delevred: false,
-      noInvoice: false,
-      unpaied: false,
-      paied: false,
+      statuses: [2,3,4],
+      isUrgent: false,
       pageSize: 10,
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_tab_bar_widget.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/function/image_picker_function.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/shipping/shipping_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_body.dart';
@@ -271,29 +272,22 @@ class _ShowPrintAndShippingOrderState extends State<ShowPrintAndShippingOrder> {
 
   void refreshAfterShippingInvoice(BuildContext context) {
     int subTab = subTabController!.index;
+    int tab = tabController!.index;
     if (subTab == 0) {
       context.read<AllOrderCubit>().fetchAllOrder(
-            isUrgen: false,
-            canceled: false,
-            delevred: false,
-            noInvoice: false,
-            unpaied: false,
-            paied: false,
+            statuses: [2, 3, 4],
+            isUrgent: tab == 1,
             pageNumber: 1,
-            pageSize: 100,
+            pageSize: 10,
             // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
             // srearchKeyword: ''
           );
     } else if (subTab == 3) {
       context.read<AllOrderCubit>().fetchAllOrder(
-            isUrgen: false,
-            canceled: false,
-            delevred: false,
-            noInvoice: false,
-            unpaied: false,
-            paied: true,
+            statuses: [4],
+            isUrgent: tab == 1,
             pageNumber: 1,
-            pageSize: 100,
+            pageSize: 10,
             // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
             // srearchKeyword: ''
           );

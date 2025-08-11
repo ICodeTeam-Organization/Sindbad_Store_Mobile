@@ -39,12 +39,8 @@ class _UrgentShippingInfoOrderState extends State<UrgentShippingInfoOrder> {
     //     );
 
     return OrdersListView(
-      isUrgen: true,
-      canceled: false,
-      delevred: false,
-      noInvoice: false,
-      unpaied: false,
-      paied: true,
+      statuses: [4],
+      isUrgent: true,
       pageSize: 10,
     );
   }

@@ -10,12 +10,8 @@ typedef ItemBuilder = Widget Function(
     BuildContext context, int index, dynamic item);
 
 class OrdersListView extends StatefulWidget {
-  final bool isUrgen;
-  final bool canceled;
-  final bool delevred;
-  final bool noInvoice;
-  final bool unpaied;
-  final bool paied;
+  final List<int> statuses;
+  final bool isUrgent;
   // final int status;
   final int pageSize;
   // final bool isUrgent;
@@ -23,12 +19,8 @@ class OrdersListView extends StatefulWidget {
 
   const OrdersListView({
     super.key,
-    required this.isUrgen,
-    required this.canceled,
-    required this.delevred,
-    required this.noInvoice,
-    required this.unpaied,
-    required this.paied,
+    required this.statuses,
+    required this.isUrgent,
     // required this.status,
     required this.pageSize,
     // this.isUrgent = false,
@@ -72,12 +64,8 @@ class _OrdersListViewState extends State<OrdersListView> {
     //       widget.isUrgent,
     //     );
       await  context.read<AllOrderCubit>().fetchAllOrder(
-          isUrgen: widget.isUrgen,
-          canceled: widget.canceled,
-          delevred: widget.delevred,
-          noInvoice: widget.noInvoice,
-          unpaied: widget.unpaied,
-          paied: widget.paied,
+          statuses: widget.statuses,
+          isUrgent: widget.isUrgent,
           pageNumber: pageNumber,
           pageSize: widget.pageSize,
           // srearchKeyword: ''

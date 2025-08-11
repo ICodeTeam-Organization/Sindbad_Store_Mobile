@@ -38,12 +38,8 @@ class _UrgentNoBillInfoOrderState extends State<UrgentNoBillInfoOrder> {
     //     );
 
     return OrdersListView(
-      isUrgen: true,
-      canceled: false,
-      delevred: false,
-      noInvoice: true,
-      unpaied: false,
-      paied: false,
+      statuses: [2],
+      isUrgent: true,
       pageSize: 10,
     );
   }

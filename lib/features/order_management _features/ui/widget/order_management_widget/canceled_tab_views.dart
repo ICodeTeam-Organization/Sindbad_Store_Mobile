@@ -38,12 +38,8 @@ class _CanceledTabViewsState extends State<CanceledTabViews> {
     //     );
 
     return OrdersListView(
-      isUrgen: false,
-      canceled: true,
-      delevred: false,
-      noInvoice: false,
-      unpaied: false,
-      paied: false,
+      statuses: [8],
+      isUrgent: false,
       pageSize: 10,
     );
   }
