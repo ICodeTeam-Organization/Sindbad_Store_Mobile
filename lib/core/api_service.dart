@@ -290,13 +290,6 @@ class ApiService {
       } else {
         throw Exception('InvoiceNumber is required');
       }
-      // Add orderDetailsId
-      if (data.containsKey('packageId')) {
-        formData.fields
-            .add(MapEntry('packageId', data['packageId'].toString()));
-      } else {
-        throw Exception('packageId is required');
-      }
       // Add invoice Amount and amount
       if (data.containsKey('InvoiceAmount')) {
         formData.fields
