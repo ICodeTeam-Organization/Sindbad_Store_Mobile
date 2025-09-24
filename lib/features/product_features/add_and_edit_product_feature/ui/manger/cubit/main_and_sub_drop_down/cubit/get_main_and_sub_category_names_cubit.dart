@@ -13,10 +13,8 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
 
   final GetMainAndSubCategoryUseCase getMainAndSubCategoryUseCase;
 
-  List<MainCategoryEntity> mainAndSubCategories =
-      []; // to store main and sub categories
-  List<SubCategoryEntity> selectedSubCategories =
-      []; // to store just sub categories
+  List<CategoryEntity> mainCategories = []; // to store main and sub categories
+  List<CategoryEntity> subCategories = []; // to store just sub categories
 
   // for drop down category
 
@@ -29,7 +27,7 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
     GetMainAndSubCategoryParams params = GetMainAndSubCategoryParams(
         filterType: filterType, pageNumber: pageNumber, pageSize: pageSize);
 
-    Either<Failure, List<MainCategoryEntity>> result =
+    Either<Failure, List<CategoryEntity>> result =
         await getMainAndSubCategoryUseCase.execute(params);
 
     result.fold(
@@ -41,11 +39,16 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
     },
         // right
         (mainAndSubCategory) {
+      for (int i = 0; i < mainAndSubCategory.length; i++) {
+        if (mainAndSubCategory[i].categoryLevel == 1) {
+          mainCategories.add(mainAndSubCategory[i]);
+        }
+      }
       // to store in cubit class
-      mainAndSubCategories = mainAndSubCategory;
+      mainCategories = mainAndSubCategory;
       if (!isClosed) {
         emit(GetCategoryNamesSuccess(
-            categoryAndSubCategoryNames: mainAndSubCategory));
+            categoryAndSubCategoryNames: mainCategories));
       }
     });
   }
@@ -53,18 +56,10 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
   // هذي سويتها لصفحة الاضافة وماقدرت استخدمها في التعديل
   // عند اختيار فئة رئيسية، تحديث الفئات الفرعية
   void updateSubCategories(int selectedMainCategoryId) {
-    try {
-      final selectedMainCategory = mainAndSubCategories.firstWhere(
-        (category) => category.mainCategoryId == selectedMainCategoryId,
-      );
-      // selectedSubCategories = contains just sub categories for mainCategories specific by ID
-      selectedSubCategories = selectedMainCategory.subCategory;
-    } catch (e) {
-      selectedSubCategories = [];
+    for (int i = 0; i < mainCategories.length; i++) {
+      if (mainCategories[i].categoryParentId == selectedMainCategoryId) {
+        subCategories.add(mainCategories[i]);
+      }
     }
-
-    emit(GetCategoryNamesSuccess(
-      categoryAndSubCategoryNames: mainAndSubCategories,
-    ));
   }
 }

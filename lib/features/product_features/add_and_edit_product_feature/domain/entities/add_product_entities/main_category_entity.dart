@@ -1,12 +1,17 @@
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/sub_category_entity.dart';
+class CategoryEntity {
+  final int categoryId;
+  final String categoryName;
+  final String categoryImage;
+  final int categoryLevel;
+  final int categoryParentId;
+  final int categoryType;
 
-class MainCategoryEntity {
-  final int mainCategoryId;
-  final String mainCategoryName;
-  final List<SubCategoryEntity> subCategory;
-  MainCategoryEntity({
-    required this.mainCategoryId,
-    required this.mainCategoryName,
-    required this.subCategory,
+  CategoryEntity({
+    required this.categoryId,
+    required this.categoryName,
+    required this.categoryImage,
+    required this.categoryLevel,
+    required this.categoryParentId,
+    required this.categoryType,
   });
 }

@@ -37,7 +37,7 @@ class _UrgentAllInfoOrderState extends State<UrgentAllInfoOrder> {
     //       // srearchKeyword: ''
     //     );
     return OrdersListView(
-      statuses: [2,3,4],
+      statuses: [2, 3, 4],
       isUrgent: true,
       pageSize: 10,
     );

@@ -42,9 +42,8 @@ class CustomCardToAllDropDown extends StatelessWidget {
                 }
                 if (state is GetCategoryNamesSuccess) {
                   cubitAddProduct.selectedSubCategoryId =
-                      cubitCategories.selectedSubCategories.isNotEmpty
-                          ? cubitCategories
-                              .selectedSubCategories.first.subCategoryId
+                      cubitCategories.subCategories.isNotEmpty
+                          ? cubitCategories.subCategories.first.categoryId
                           : null;
 
                   return GetCategoryNamesSuccessWidget(

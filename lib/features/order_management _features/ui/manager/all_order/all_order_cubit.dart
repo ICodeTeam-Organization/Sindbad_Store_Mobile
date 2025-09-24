@@ -16,15 +16,16 @@ class AllOrderCubit extends Cubit<AllOrderState> {
     // required String storeId,
     // required String srearchKeyword,
   }) async {
-    if(pageNumber == 1){emit(
+    if (pageNumber == 1) {
+      emit(
         AllOrderLoading(),
       );
-      }else{
-        emit(
-          AllOrderPaginationLoadging(),
-        );
-      }
-      
+    } else {
+      emit(
+        AllOrderPaginationLoadging(),
+      );
+    }
+
     var result = await allOrderUseCase.execute(AllOrderParam(
       statuses: statuses,
       isUrgent: isUrgent,
@@ -35,15 +36,15 @@ class AllOrderCubit extends Cubit<AllOrderState> {
     ));
 
     result.fold((failuer) {
-      if(pageNumber == 1){
+      if (pageNumber == 1) {
         emit(
           AllOrderFailuer(errMessage: failuer.toString()),
         );
-    } else{
-      emit(
+      } else {
+        emit(
           AllOrderPaginationFaliure(errMessage: failuer.toString()),
         );
-    }
+      }
     }, (orders) {
       if (orders.isNotEmpty) {
         emit(

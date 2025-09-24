@@ -9,7 +9,7 @@ final class GetCategoryNamesInitial extends GetCategoryNamesState {}
 final class GetCategoryNamesLoading extends GetCategoryNamesState {}
 
 final class GetCategoryNamesSuccess extends GetCategoryNamesState {
-  final List<MainCategoryEntity> categoryAndSubCategoryNames;
+  final List<CategoryEntity> categoryAndSubCategoryNames;
 
   GetCategoryNamesSuccess({required this.categoryAndSubCategoryNames});
 }

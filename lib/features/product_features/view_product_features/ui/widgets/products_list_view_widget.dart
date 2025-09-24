@@ -19,7 +19,8 @@ import 'text_style_detials.dart';
 import 'two_button_inside_list_view_products.dart';
 
 class ProductsListView extends StatefulWidget {
-  final int storeProductsFilter; // 1 => all products, 2 => deactivate, 3 => activate
+  final int
+      storeProductsFilter; // 1 => all products, 2 => deactivate, 3 => activate
   const ProductsListView({super.key, required this.storeProductsFilter});
 
   @override
@@ -40,7 +41,8 @@ class _ProductsListViewState extends State<ProductsListView> {
           pageSize: _pageSize,
         );
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent - 200) {
         final cubit = context.read<GetStoreProductsWithFilterCubit>();
         if (cubit.state is GetStoreProductsWithFilterSuccess) {
           final currentState = cubit.state as GetStoreProductsWithFilterSuccess;
@@ -66,9 +68,11 @@ class _ProductsListViewState extends State<ProductsListView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GetStoreProductsWithFilterCubit, GetStoreProductsWithFilterState>(
+    return BlocBuilder<GetStoreProductsWithFilterCubit,
+        GetStoreProductsWithFilterState>(
       builder: (context, state) {
-        if (state is GetStoreProductsWithFilterInitial || state is GetStoreProductsWithFilterLoading) {
+        if (state is GetStoreProductsWithFilterInitial ||
+            state is GetStoreProductsWithFilterLoading) {
           return ShimmerForProductsWithFilter();
         } else if (state is GetStoreProductsWithFilterSuccess) {
           final List<ProductEntity> products = state.products;
@@ -77,7 +81,8 @@ class _ProductsListViewState extends State<ProductsListView> {
               : ListView.builder(
                   controller: _scrollController,
                   shrinkWrap: true,
-                  physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                  physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics()),
                   itemCount: products.length + (state.isLoadingMore ? 1 : 0),
                   itemBuilder: (context, index) {
                     if (index == products.length) {
@@ -91,8 +96,11 @@ class _ProductsListViewState extends State<ProductsListView> {
                     ProductEntity product = products[index];
                     bool isEven = index % 2 == 0;
                     return Container(
-                      margin: index + 1 == products.length ? EdgeInsets.only(bottom: 100.h) : null,
-                      padding: EdgeInsets.only(top: 26.h, bottom: 26.h, left: 10.w),
+                      margin: index + 1 == products.length
+                          ? EdgeInsets.only(bottom: 100.h)
+                          : null,
+                      padding:
+                          EdgeInsets.only(top: 26.h, bottom: 26.h, left: 10.w),
                       decoration: BoxDecoration(
                         color: isEven ? AppColors.background : Colors.white,
                         borderRadius: BorderRadius.circular(4.r),
@@ -100,15 +108,19 @@ class _ProductsListViewState extends State<ProductsListView> {
                       child: Row(
                         children: [
                           CheckBoxCustom(
-                            val: (context.read<GetStoreProductsWithFilterCubit>().state
-                                        as GetStoreProductsWithFilterSuccess)
-                                    .checkedStates[index],
+                            val: (context
+                                    .read<GetStoreProductsWithFilterCubit>()
+                                    .state as GetStoreProductsWithFilterSuccess)
+                                .checkedStates[index],
                             onChanged: (val) {
-                              context.read<GetStoreProductsWithFilterCubit>().updateCheckboxState(
-                                  index, val!, product.productId!);
+                              context
+                                  .read<GetStoreProductsWithFilterCubit>()
+                                  .updateCheckboxState(
+                                      index, val!, product.productId!);
                             },
                           ),
-                          ImageCardCustom(imageUrlNetwork: product.productImageUrl!),
+                          ImageCardCustom(
+                              imageUrlNetwork: product.productImageUrl!),
                           SizedBox(width: 10),
                           Expanded(
                             child: Column(
@@ -123,10 +135,14 @@ class _ProductsListViewState extends State<ProductsListView> {
                           SizedBox(width: 10.w),
                           TwoButtonInsideListViewProducts(
                             onTapEdit: () {
-                              context.read<ProductDetailsCubit>().getProductDetails(productId: product.productId!);
+                              context
+                                  .read<ProductDetailsCubit>()
+                                  .getProductDetails(
+                                      productId: product.productId!);
                               showGetProductDetailsDialog(
                                 contextParent: context,
-                                productDetailsCubit: context.read<ProductDetailsCubit>(),
+                                productDetailsCubit:
+                                    context.read<ProductDetailsCubit>(),
                               );
                             },
                             reactivate: widget.storeProductsFilter == 2,
@@ -135,14 +151,18 @@ class _ProductsListViewState extends State<ProductsListView> {
                                   ? showActivateOneOrMoreProductsDialog(
                                       contextParent: context,
                                       ids: [product.productId!],
-                                      storeProductsFilter: widget.storeProductsFilter,
-                                      activateProductsCubit: context.read<ActivateProductsByIdsCubit>(),
+                                      storeProductsFilter:
+                                          widget.storeProductsFilter,
+                                      activateProductsCubit: context
+                                          .read<ActivateProductsByIdsCubit>(),
                                     )
                                   : showDeleteProductDialog(
                                       contextParent: context,
                                       productId: product.productId!,
-                                      storeProductsFilter: widget.storeProductsFilter,
-                                      deleteProductCubit: context.read<DeleteProductByIdFromStoreCubit>(),
+                                      storeProductsFilter:
+                                          widget.storeProductsFilter,
+                                      deleteProductCubit: context.read<
+                                          DeleteProductByIdFromStoreCubit>(),
                                     );
                             },
                           ),

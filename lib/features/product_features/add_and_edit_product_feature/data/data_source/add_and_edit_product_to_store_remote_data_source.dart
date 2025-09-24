@@ -2,14 +2,16 @@ import 'dart:io';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sindbad_management_app/core/api_service.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/data/models/add_product_model.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/data/models/category_model/category_model.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/data/models/edit_product_model.dart';
+import 'package:sindbad_management_app/features/product_features/view_product_features/data/models/main_category_for_view_model/item.dart';
 import '../../domain/entities/add_product_entities/add_product_entity.dart';
 import '../../domain/entities/add_product_entities/brand_entity.dart';
 import '../../domain/entities/add_product_entities/main_category_entity.dart';
 import '../../domain/entities/edit_product_entities/edit_product_entity.dart';
 import '../../domain/entities/edit_product_entities/product_details_entity.dart';
 import '../models/brand_model/datum.dart';
-import '../models/main_and_sub_category_model/item.dart';
+import '../models/category_model/data.dart';
 import '../models/product_details_model/product_details_model.dart';
 
 abstract class AddAndEditProductToStoreRemoteDataSource {
@@ -52,7 +54,7 @@ abstract class AddAndEditProductToStoreRemoteDataSource {
     required List<String>? tags,
   });
 
-  Future<List<MainCategoryEntity>> getMainAndSubCategory({
+  Future<List<CategoryEntity>> getMainAndSubCategory({
     required int filterType,
     required int pageNumber,
     required int pageSize,
@@ -131,9 +133,30 @@ class AddProductToStoreRemoteDataSourceImpl
     return body;
   }
 
+  List<T> getListFromPagedResult<T>(
+      Map<String, dynamic> data, T Function(Map<String, dynamic>) fromJson) {
+    List<T> entities = [];
+
+    if (data['data']['items'] is List) {
+      for (var item in data['data']['items']) {
+        entities.add(fromJson(item));
+      }
+    } else if (data['message'] != null) {
+      // If data['data'] is not a list, add the message to the list
+      entities.add(fromJson(data));
+    }
+
+    return entities;
+  }
+
+  List<CategoryEntity> getCategorylist(Map<String, dynamic> data) {
+    return getListFromPagedResult(
+        data, (item) => CategoryModels.fromJson(item));
+  }
+
   // =========================  for get MainAndSubCategory  ===========================
   @override
-  Future<List<MainCategoryEntity>> getMainAndSubCategory({
+  Future<List<CategoryEntity>> getMainAndSubCategory({
     required int filterType,
     required int pageNumber,
     required int pageSize,
@@ -142,35 +165,24 @@ class AddProductToStoreRemoteDataSourceImpl
     final Map<String, dynamic> data = await apiService.get(
         endPoint:
             // "Categories/GetCategoriesWithFilter?filterType=$filterType&pageSize=$pageSize&pageNumber=$pageNumber");
-            "Category/GetCategoriesWithFilter?filterType=$filterType&pageSize=$pageSize&pageNumber=$pageNumber",
-            headers: {
-              'Authorization': 'Bearer $token'
-            });
+            "Categories?types=1&level=1&level=2&pageNumber=$pageNumber&pageSize=$pageSize",
+        headers: {'Authorization': 'Bearer $token'});
 
     // change Data from JSON to DartModel
-    List<MainCategoryEntity> changeToDartModel(List<dynamic> data) {
-      List<MainCategoryEntity> mainCategoryEntity = data
-          .map((item) => Item.fromJson(item as Map<String, dynamic>))
-          .toList();
-      return mainCategoryEntity;
-    }
 
-    List<MainCategoryEntity> mainAndSubCategories =
-        changeToDartModel(data['data']['items'] as List<dynamic>);
+    List<CategoryEntity> mainAndSubCategories = getCategorylist(data);
+
     return mainAndSubCategories;
   }
 
   // =============================  for get Brands  ==================================
   @override
   Future<List<BrandEntity>> getBrandsByMainCategoryId(
-    
       {required int? mainCategoryId}) async {
     String? token = await getToken();
     if (mainCategoryId == null) {
-      final Map<String, dynamic> data =
-          await apiService.get(endPoint: "Brands",headers: {
-              'Authorization': 'Bearer $token'
-            });
+      final Map<String, dynamic> data = await apiService
+          .get(endPoint: "Brands", headers: {'Authorization': 'Bearer $token'});
       List<BrandEntity> changeToDartModel(List<dynamic> data) {
         List<BrandEntity> brandsEntity = data
             .map((datum) => Datum.fromJson(datum as Map<String, dynamic>))
@@ -183,9 +195,8 @@ class AddProductToStoreRemoteDataSourceImpl
       return brands;
     } else {
       final Map<String, dynamic> data = await apiService.get(
-          endPoint: "Brands?categoryId=$mainCategoryId",headers: {
-              'Authorization': 'Bearer $token'
-            });
+          endPoint: "Brands?categoryId=$mainCategoryId",
+          headers: {'Authorization': 'Bearer $token'});
       List<BrandEntity> changeToDartModel(List<dynamic> data) {
         List<BrandEntity> brandsEntity = data
             .map((datum) => Datum.fromJson(datum as Map<String, dynamic>))
@@ -206,10 +217,9 @@ class AddProductToStoreRemoteDataSourceImpl
   Future<ProductDetailsEntity> getProductDetails(
       {required int productId}) async {
     String? token = await getToken();
-    final Map<String, dynamic> data =
-        await apiService.get(endPoint: "Products/GetProductDetails/$productId",headers: {
-              'Authorization': 'Bearer $token'
-            });
+    final Map<String, dynamic> data = await apiService.get(
+        endPoint: "Products/GetProductDetails/$productId",
+        headers: {'Authorization': 'Bearer $token'});
 
     // change Data from JSON to DartModel
     ProductDetailsEntity productDetailsEntity =

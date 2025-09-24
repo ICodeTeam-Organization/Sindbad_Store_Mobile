@@ -30,7 +30,7 @@ abstract class AddAndEditProductStoreRepo {
     required String shortDescription,
   });
 
-  Future<Either<Failure, List<MainCategoryEntity>>> getMainAndSubCategory({
+  Future<Either<Failure, List<CategoryEntity>>> getMainAndSubCategory({
     required int filterType,
     required int pageNumber,
     required int pageSize,

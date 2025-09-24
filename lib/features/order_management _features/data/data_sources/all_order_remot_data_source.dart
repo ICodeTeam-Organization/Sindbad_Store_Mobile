@@ -125,7 +125,7 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
     var endpoint = "Packages?owned=true";
     endpoint += "&pageSize=$pageSize&pageNumber=$pageNumber";
     endpoint += statuses.map((status) => "&statuses=$status").join();
-    if(isUrgent){
+    if (isUrgent) {
       endpoint += "&isUrgent=$isUrgent";
     }
     var data = await apiService.get(
@@ -150,8 +150,7 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
   ) async {
     String? token = await getToken();
     var data = await apiService.postRequestWithFileAndImage(
-        endPoint:
-            'Packages/$packageId/Invoice',
+        endPoint: 'Packages/$packageId/Invoice',
         headers: {
           'Authorization': 'Bearer $token',
         },
@@ -204,8 +203,7 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
       String phoneNumber) async {
     String? token = await getToken();
     var data = await apiService.postRequestWithFileAndImage(
-        endPoint:
-            'Packages/$packageId/Ship',
+        endPoint: 'Packages/$packageId/Ship',
         headers: {
           'Authorization': 'Bearer $token',
         },
@@ -250,6 +248,8 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
   }
 
   @override
+/*************  ✨ Windsurf Command ⭐  *************/
+/*******  26b88cd9-e0cd-451f-a616-d2014458a1aa  *******/
   Future<List<CompanyShippingEntity>> fetchCompanyShipping(
     int pageNumber,
     int pageSize,
@@ -257,7 +257,7 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
     String? token = await getToken();
     var data = await apiService.get(
       endPoint:
-          'ShippingCompanies?pageNumber=$pageNumber&pageSize=$pageSize',
+          'ShippingCompanies?pageNumber=$pageNumber&pageSize=$pageSize&isOfficial=true',
       headers: {
         'Authorization': 'Bearer $token',
       },

@@ -33,9 +33,11 @@ final class GetStoreProductsWithFilterSuccess
 
 /// for pagination
 
-final class GetStoreProductsWithFilterPaginationLoadging extends GetStoreProductsWithFilterState {}
+final class GetStoreProductsWithFilterPaginationLoadging
+    extends GetStoreProductsWithFilterState {}
 
-final class GetStoreProductsWithFilterPaginationFaliure extends GetStoreProductsWithFilterState {
+final class GetStoreProductsWithFilterPaginationFaliure
+    extends GetStoreProductsWithFilterState {
   final String errMessage;
 
   GetStoreProductsWithFilterPaginationFaliure({required this.errMessage});

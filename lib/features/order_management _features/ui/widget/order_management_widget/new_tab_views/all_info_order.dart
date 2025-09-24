@@ -143,7 +143,7 @@ class AllInfoOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OrdersListView(
-      statuses: [2,3,4],
+      statuses: [2, 3, 4],
       isUrgent: false,
       pageSize: 10,
     );

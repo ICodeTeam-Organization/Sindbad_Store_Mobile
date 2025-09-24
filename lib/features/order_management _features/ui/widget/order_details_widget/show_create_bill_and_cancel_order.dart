@@ -274,18 +274,18 @@ class _ShowCreateBillAndCancelOrderState
     int tab = tabController!.index;
     if (subTab == 0) {
       context.read<AllOrderCubit>().fetchAllOrder(
-            statuses: [2,3,4],
-            isUrgent: tab == 1,
-            pageNumber: 1,
-            pageSize: 10,
-          );
+        statuses: [2, 3, 4],
+        isUrgent: tab == 1,
+        pageNumber: 1,
+        pageSize: 10,
+      );
     } else if (subTab == 1) {
       context.read<AllOrderCubit>().fetchAllOrder(
-            statuses: [2],
-            isUrgent: tab == 1,
-            pageNumber: 1,
-            pageSize: 10,
-          );
+        statuses: [2],
+        isUrgent: tab == 1,
+        pageNumber: 1,
+        pageSize: 10,
+      );
     }
   }
 }

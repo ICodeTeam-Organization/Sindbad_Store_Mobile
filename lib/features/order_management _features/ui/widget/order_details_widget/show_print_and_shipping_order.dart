@@ -275,22 +275,22 @@ class _ShowPrintAndShippingOrderState extends State<ShowPrintAndShippingOrder> {
     int tab = tabController!.index;
     if (subTab == 0) {
       context.read<AllOrderCubit>().fetchAllOrder(
-            statuses: [2, 3, 4],
-            isUrgent: tab == 1,
-            pageNumber: 1,
-            pageSize: 10,
-            // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
-            // srearchKeyword: ''
-          );
+        statuses: [2, 3, 4],
+        isUrgent: tab == 1,
+        pageNumber: 1,
+        pageSize: 10,
+        // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
+        // srearchKeyword: ''
+      );
     } else if (subTab == 3) {
       context.read<AllOrderCubit>().fetchAllOrder(
-            statuses: [4],
-            isUrgent: tab == 1,
-            pageNumber: 1,
-            pageSize: 10,
-            // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
-            // srearchKeyword: ''
-          );
+        statuses: [4],
+        isUrgent: tab == 1,
+        pageNumber: 1,
+        pageSize: 10,
+        // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
+        // srearchKeyword: ''
+      );
     }
   }
 }

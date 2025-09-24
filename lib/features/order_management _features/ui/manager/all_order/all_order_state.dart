@@ -20,6 +20,7 @@ final class AllOrderSuccess extends AllOrderState {
 
   AllOrderSuccess({required this.orders});
 }
+
 /// for pagination
 
 final class AllOrderPaginationLoadging extends AllOrderState {}

@@ -9,6 +9,7 @@ import 'package:sindbad_management_app/features/order_management%20_features/ui/
 
 String? companyName;
 int? companyId;
+bool isLoadingMore = true;
 
 class DropDownWidget extends StatefulWidget {
   // const DropDownWidget({super.key, required this.onDataChange(String value)});
@@ -19,13 +20,31 @@ class DropDownWidget extends StatefulWidget {
   State<DropDownWidget> createState() => _DropDownWidgetState();
 }
 
+int pageNumber = 1;
+
 class _DropDownWidgetState extends State<DropDownWidget> {
+  ScrollController scrollController = ScrollController();
+  List<CompanyShippingEntity> companies = [
+    CompanyShippingEntity(comId: -1, comName: 'اخرى')
+  ];
   @override
   void initState() {
     context
         .read<CompanyShippingCubit>()
         .getCompanyShipping(pageNumber: 1, pageSize: 10);
+    scrollController.addListener(litiner);
     super.initState();
+  }
+
+  void litiner() {
+    if (isLoadingMore) {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        context
+            .read<CompanyShippingCubit>()
+            .getCompanyShipping(pageNumber: ++pageNumber, pageSize: 10);
+      }
+    }
   }
 
   @override
@@ -43,32 +62,31 @@ class _DropDownWidgetState extends State<DropDownWidget> {
         SizedBox(
           height: 5.h,
         ),
-        BlocBuilder<CompanyShippingCubit, CompanyShippingState>(
+        BlocConsumer<CompanyShippingCubit, CompanyShippingState>(
+          listener: (context, state) {
+            if (state is CompanyShippingSuccess) {
+              if (state.companyShippingEntity.length < 10) {
+                isLoadingMore = false;
+              }
+              companies.addAll(state.companyShippingEntity);
+            }
+          },
           builder: (context, state) {
             if (state is CompanyShippingSuccess) {
-              List<CompanyShippingEntity> companies =
-                  state.companyShippingEntity;
-
-              CompanyShippingEntity newCompany =
-                  CompanyShippingEntity(comId: -1, comName: 'اخرى');
-
               // if (!companies.contains(newCompany)) {
-              if (!companies.any((company) =>
-                  company.comId == newCompany.comId &&
-                  company.comName == newCompany.comName)) {
-                companies.add(newCompany);
-              }
 
               return CustomDropdown(
                 closedHeaderPadding: const EdgeInsets.all(7),
-                items: state.companyShippingEntity
-                    .map((company) => company.comName)
-                    .toList(),
+                itemsScrollController: scrollController,
+
+                items: companies.map((company) => company.comName).toList(),
                 // items: companies.map((company) => company.comName).toList(),
                 hintText: "",
                 onChanged: (value) {
                   companyName = value;
-                    int? comId = companies.firstWhere((company) => company.comName == value).comId;
+                  int? comId = companies
+                      .firstWhere((company) => company.comName == value)
+                      .comId;
                   // widget.onDataChange(value);
                   widget.onDataChange(comId);
                 },

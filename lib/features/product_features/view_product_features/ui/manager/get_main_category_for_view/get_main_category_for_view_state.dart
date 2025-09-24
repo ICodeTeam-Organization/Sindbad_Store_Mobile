@@ -23,9 +23,11 @@ final class GetMainCategoryForViewFailure extends GetMainCategoryForViewState {
 }
 
 // add states for pagination
-final class GetMainCategoryForViewPaginationLoading extends GetMainCategoryForViewState {}
+final class GetMainCategoryForViewPaginationLoading
+    extends GetMainCategoryForViewState {}
 
-final class GetMainCategoryForViewPaginationFailure extends GetMainCategoryForViewState {
+final class GetMainCategoryForViewPaginationFailure
+    extends GetMainCategoryForViewState {
   final String errMessage;
 
   GetMainCategoryForViewPaginationFailure({required this.errMessage});

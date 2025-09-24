@@ -38,7 +38,10 @@ class _CustomGetMainCategoryForViewSuccessWidgetState
       height: 50.h,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: widget.allCategory.length + (widget.isLoadingMore ? 1 : 0), // Add one for the loading indicator if loading more
+          itemCount: widget.allCategory.length +
+              (widget.isLoadingMore
+                  ? 1
+                  : 0), // Add one for the loading indicator if loading more
           physics: const BouncingScrollPhysics(
               parent: AlwaysScrollableScrollPhysics()),
           itemBuilder: (context, i) {

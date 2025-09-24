@@ -5,7 +5,8 @@ import '../../../domain/use_cases/get_products_by_filter_use_case.dart';
 
 part 'get_store_products_with_filter_state.dart';
 
-class GetStoreProductsWithFilterCubit extends Cubit<GetStoreProductsWithFilterState> {
+class GetStoreProductsWithFilterCubit
+    extends Cubit<GetStoreProductsWithFilterState> {
   GetStoreProductsWithFilterCubit(this.getProductsByFilterUseCase)
       : super(GetStoreProductsWithFilterInitial());
   final GetProductsByFilterUseCase getProductsByFilterUseCase;
@@ -20,7 +21,8 @@ class GetStoreProductsWithFilterCubit extends Cubit<GetStoreProductsWithFilterSt
   void updateCheckboxState(int index, bool value, int productId) {
     if (state is GetStoreProductsWithFilterSuccess) {
       final currentState = state as GetStoreProductsWithFilterSuccess;
-      final List<bool> updatedCheckedStates = List<bool>.from(currentState.checkedStates);
+      final List<bool> updatedCheckedStates =
+          List<bool>.from(currentState.checkedStates);
       updatedProductsSelected = List<int>.from(currentState.productsSelected);
       updatedCheckedStates[index] = value;
       value
@@ -57,7 +59,8 @@ class GetStoreProductsWithFilterCubit extends Cubit<GetStoreProductsWithFilterSt
     currentStoreProductsFilter = storeProductsFilter;
     currentMainCategoryId = categoryId;
 
-    var params = ProductsByFilterParams(storeProductsFilter, pageNumber, pageSize, categoryId);
+    var params = ProductsByFilterParams(
+        storeProductsFilter, pageNumber, pageSize, categoryId);
     var result = await getProductsByFilterUseCase.execute(params);
 
     result.fold(
@@ -76,11 +79,14 @@ class GetStoreProductsWithFilterCubit extends Cubit<GetStoreProductsWithFilterSt
       },
       (fetchedProducts) {
         if (pageNumber == 1) {
-          final List<bool> checkedStates = List<bool>.filled(fetchedProducts.length, false);
-          emit(GetStoreProductsWithFilterSuccess(fetchedProducts, checkedStates, []));
+          final List<bool> checkedStates =
+              List<bool>.filled(fetchedProducts.length, false);
+          emit(GetStoreProductsWithFilterSuccess(
+              fetchedProducts, checkedStates, []));
         } else if (state is GetStoreProductsWithFilterSuccess) {
           final current = state as GetStoreProductsWithFilterSuccess;
-          final List<ProductEntity> allProducts = List.from(current.products)..addAll(fetchedProducts);
+          final List<ProductEntity> allProducts = List.from(current.products)
+            ..addAll(fetchedProducts);
           final List<bool> newCheckedStates = List.from(current.checkedStates)
             ..addAll(List<bool>.filled(fetchedProducts.length, false));
           emit(GetStoreProductsWithFilterSuccess(

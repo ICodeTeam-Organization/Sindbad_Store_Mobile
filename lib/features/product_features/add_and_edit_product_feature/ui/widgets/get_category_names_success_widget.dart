@@ -8,7 +8,7 @@ import 'package:sindbad_management_app/features/product_features/add_and_edit_pr
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/custom_dropdown_widget.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/custom_dropdown_widget_for_state_cubit.dart';
 
-class GetCategoryNamesSuccessWidget extends StatelessWidget {
+class GetCategoryNamesSuccessWidget extends StatefulWidget {
   const GetCategoryNamesSuccessWidget({
     super.key,
     required this.mainAndSubCategories,
@@ -16,10 +16,17 @@ class GetCategoryNamesSuccessWidget extends StatelessWidget {
     required this.cubitAddProduct,
   });
 
-  final List<MainCategoryEntity> mainAndSubCategories;
+  final List<CategoryEntity> mainAndSubCategories;
   final GetCategoryNamesCubit cubitCategories;
   final AddProductToStoreCubit cubitAddProduct;
 
+  @override
+  State<GetCategoryNamesSuccessWidget> createState() =>
+      _GetCategoryNamesSuccessWidgetState();
+}
+
+class _GetCategoryNamesSuccessWidgetState
+    extends State<GetCategoryNamesSuccessWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -30,30 +37,32 @@ class GetCategoryNamesSuccessWidget extends StatelessWidget {
           textTitle: 'أختر الفئة',
           hintText: "قم بإختيار الفئة المناسبة",
           initialItem: null,
-          items: mainAndSubCategories.isNotEmpty
-              ? mainAndSubCategories
-                  .map((category) => category.mainCategoryName)
+          items: widget.mainAndSubCategories.isNotEmpty
+              ? widget.mainAndSubCategories
+                  .map((category) => category.categoryName)
                   .toList()
               : [],
           onChanged: (value) {
-            int selectedIndex = mainAndSubCategories
-                .indexWhere((category) => category.mainCategoryName == value);
+            int selectedIndex = widget.mainAndSubCategories
+                .indexWhere((category) => category.categoryName == value);
             if (selectedIndex != -1) {
               final int selectedMainCategoryId =
-                  mainAndSubCategories[selectedIndex].mainCategoryId;
+                  widget.mainAndSubCategories[selectedIndex].categoryId;
 
-              cubitCategories.updateSubCategories(
+              widget.cubitCategories.updateSubCategories(
                   selectedMainCategoryId); // refresh sub categories
               context
                   .read<GetBrandsByCategoryIdCubit>()
                   .getBrandsByMainCategoryId(
                       mainCategoryId: selectedMainCategoryId);
 
-              cubitAddProduct.selectedMainCategoryId =
-                  mainAndSubCategories[selectedIndex].mainCategoryId;
+              setState(() {
+                widget.cubitAddProduct.selectedMainCategoryId =
+                    widget.mainAndSubCategories[selectedIndex].categoryId;
 
-              cubitAddProduct.selectedSubCategoryId = null;
-              cubitAddProduct.selectedBrandId = null;
+                widget.cubitAddProduct.selectedSubCategoryId = null;
+                widget.cubitAddProduct.selectedBrandId = null;
+              });
             }
           },
         ),
@@ -61,25 +70,25 @@ class GetCategoryNamesSuccessWidget extends StatelessWidget {
 
         // =================  Sub Category ================
         CustomDropdownWidget(
-          enabled:
-              cubitAddProduct.selectedMainCategoryId == null ? false : true,
+          enabled: widget.cubitAddProduct.selectedMainCategoryId == null
+              ? false
+              : true,
           textTitle: 'أختر القسم',
           hintText: "إختر الفئة الأساسية أولا",
-          initialItem: cubitCategories.selectedSubCategories.isNotEmpty
-              ? cubitCategories
-                  .selectedSubCategories.first.subCategoryNameEntity
+          initialItem: widget.cubitCategories.subCategories.isNotEmpty
+              ? widget.cubitCategories.subCategories.first.categoryName
               : null,
-          items: cubitCategories.selectedSubCategories.isNotEmpty
-              ? cubitCategories.selectedSubCategories
-                  .map((subCategory) => subCategory.subCategoryNameEntity)
+          items: widget.cubitCategories.subCategories.isNotEmpty
+              ? widget.cubitCategories.subCategories
+                  .map((subCategory) => subCategory.categoryName)
                   .toList()
               : [],
           onChanged: (value) {
-            cubitAddProduct.selectedSubCategoryId = cubitCategories
-                .selectedSubCategories
-                .firstWhere((subCategories) =>
-                    subCategories.subCategoryNameEntity == value)
-                .subCategoryId;
+            widget.cubitAddProduct.selectedSubCategoryId = widget
+                .cubitCategories.subCategories
+                .firstWhere(
+                    (subCategories) => subCategories.categoryName == value)
+                .categoryId;
           },
         ),
         SizedBox(height: 10),
@@ -117,10 +126,10 @@ class GetCategoryNamesSuccessWidget extends StatelessWidget {
                           brandsWithNoFound.brandNameEntity == value);
 
                   if (selectedIndex > 0) {
-                    cubitAddProduct.selectedBrandId =
+                    widget.cubitAddProduct.selectedBrandId =
                         brandsWithNoFound[selectedIndex].brandId;
                   } else {
-                    cubitAddProduct.selectedBrandId = null;
+                    widget.cubitAddProduct.selectedBrandId = null;
                   }
                 },
               );

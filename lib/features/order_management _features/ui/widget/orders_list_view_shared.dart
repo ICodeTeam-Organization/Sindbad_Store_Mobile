@@ -63,7 +63,7 @@ class _OrdersListViewState extends State<OrdersListView> {
     //       pageNumber,
     //       widget.isUrgent,
     //     );
-      await  context.read<AllOrderCubit>().fetchAllOrder(
+    await context.read<AllOrderCubit>().fetchAllOrder(
           statuses: widget.statuses,
           isUrgent: widget.isUrgent,
           pageNumber: pageNumber,
@@ -146,23 +146,23 @@ class _OrdersListViewState extends State<OrdersListView> {
               if (index < orders.length) {
                 // return widget.itemBuilder(context, index, orders[index]);
                 return Column(
-                children: [
-                  OrderBody(
-                    billNumber: orders[index].orderBill,
-                    orderNumber: orders[index].orderNum,
-                    date: orders[index].orderDates,
-                    itemNumber: orders[index].productMount,
-                    paymentInfo: orders[index].payStatus,
-                    orderStatus: orders[index].orderStatuse,
-                    idOrder: orders[index].idOrder,
-                    idPackage:orders[index].idPackage,
-                  ),
-                  if (index == orders.length - 1)
-                    SizedBox(
-                      height: 120.h,
+                  children: [
+                    OrderBody(
+                      billNumber: orders[index].orderBill,
+                      orderNumber: orders[index].orderNum,
+                      date: orders[index].orderDates,
+                      itemNumber: orders[index].productMount,
+                      paymentInfo: orders[index].payStatus,
+                      orderStatus: orders[index].orderStatuse,
+                      idOrder: orders[index].idOrder,
+                      idPackage: orders[index].idPackage,
                     ),
-                ],
-              );
+                    if (index == orders.length - 1)
+                      SizedBox(
+                        height: 120.h,
+                      ),
+                  ],
+                );
               } else {
                 // Show a loading indicator at the bottom while fetching
                 return const Padding(

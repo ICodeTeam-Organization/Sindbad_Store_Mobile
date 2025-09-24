@@ -56,7 +56,7 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
         endPoint:
             // "Categories/GetCategories?searchType=1&isBrief=true&pageNumber=$pageNumber&pageSize=$pageSize");
             "Category?searchType=1&isBrief=true&pageNumber=$pageNumber&pageSize=$pageSize",
-            headers: {"Authorization": "BEARER $token"});
+        headers: {"Authorization": "BEARER $token"});
 
     // fun for change Data from JSON to DartModel
     List<MainCategoryForViewEntity> changeToDartModel(List<dynamic> data) {
@@ -102,7 +102,7 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
     required int? categoryId,
   }) async {
     String? token = await getToken();
-    final List<int> category = categoryId != null ? [categoryId] : []; 
+    final List<int> category = categoryId != null ? [categoryId] : [];
     final Map<String, dynamic> requestData;
     switch (storeProductsFilter) {
       case 0: // for all products

@@ -11,21 +11,27 @@ class ListMainCategoryForView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GetMainCategoryForViewCubit, GetMainCategoryForViewState>(
+    return BlocBuilder<GetMainCategoryForViewCubit,
+        GetMainCategoryForViewState>(
       builder: (context, state) {
         if (state is GetMainCategoryForViewSuccess) {
           final mainCategoryForViewEntity = state.mainCategoryForViewEntity;
           // Create "الكل" category as first chip
           final List<MainCategoryForViewEntity> allCategory = [
-            MainCategoryForViewEntity(mainCategoryId: 0000, mainCategoryName: "الكل")
+            MainCategoryForViewEntity(
+                mainCategoryId: 0000, mainCategoryName: "الكل")
           ];
           allCategory.addAll(mainCategoryForViewEntity);
 
           return NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification scrollInfo) {
-              if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
-                context.read<GetMainCategoryForViewCubit>().getMainCategoryForView(
-                    pageNumber: (allCategory.length ~/ 10) + 1, pageSize: 10);
+              if (scrollInfo.metrics.pixels ==
+                  scrollInfo.metrics.maxScrollExtent) {
+                context
+                    .read<GetMainCategoryForViewCubit>()
+                    .getMainCategoryForView(
+                        pageNumber: (allCategory.length ~/ 10) + 1,
+                        pageSize: 10);
               }
               return false;
             },

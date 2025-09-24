@@ -5,12 +5,12 @@ import '../../../../../core/use_cases/param_use_case.dart';
 import '../repos/add_and_edit_product_store_repo.dart';
 
 class GetMainAndSubCategoryUseCase extends UseCaseWithParam<
-    List<MainCategoryEntity>, GetMainAndSubCategoryParams> {
+    List<CategoryEntity>, GetMainAndSubCategoryParams> {
   final AddAndEditProductStoreRepo addProductStoreRepo;
 
   GetMainAndSubCategoryUseCase(this.addProductStoreRepo);
   @override
-  Future<Either<Failure, List<MainCategoryEntity>>> execute(
+  Future<Either<Failure, List<CategoryEntity>>> execute(
       GetMainAndSubCategoryParams params) async {
     return addProductStoreRepo.getMainAndSubCategory(
       filterType: params.filterType,
