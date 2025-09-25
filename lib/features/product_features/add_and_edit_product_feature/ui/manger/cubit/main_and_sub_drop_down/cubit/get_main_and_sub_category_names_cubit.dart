@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
 import '../../../../../../../../core/errors/failure.dart';
-import '../../../../../domain/entities/add_product_entities/sub_category_entity.dart';
 import '../../../../../domain/use_cases/get_main_and_sub_category_use_case.dart';
 part 'get_main_and_sub_category_names_state.dart';
 
