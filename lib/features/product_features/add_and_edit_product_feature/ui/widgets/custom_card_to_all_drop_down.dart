@@ -35,6 +35,7 @@ class CustomCardToAllDropDown extends StatelessWidget {
             // container Title
             SectionTitleWidget(title: 'نوع المنتج'),
             SizedBox(height: 20.h),
+
             BlocBuilder<GetCategoryNamesCubit, GetCategoryNamesState>(
               builder: (context, state) {
                 if (state is GetCategoryNamesLoading) {
@@ -55,7 +56,8 @@ class CustomCardToAllDropDown extends StatelessWidget {
                 if (state is GetCategoryNamesFailure) {
                   return const GetCategoryNamesFailureWidget();
                 }
-                return const GetCategoryNamesInitialWidget(); // in else or initial
+                return const GetCategoryNamesInitialWidget();
+                 // in else or initial
               },
             ),
           ],

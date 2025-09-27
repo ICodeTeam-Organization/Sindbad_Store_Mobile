@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/section_title_widget.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_shipping_widgets/drop_down_widget.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/brand_entity.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/sub_category_entity.dart';
@@ -40,17 +41,33 @@ class _CustomCardContainsAllDropDownEditScreenState
   late final cubitCategories = context.read<GetCategoryNamesCubit>();
   late final cubitEditProduct = context.read<EditProductFromStoreCubit>();
   List<CategoryEntity> subCategories = [];
+  late  ScrollController scrollController ;
 
   @override
   void initState() {
     super.initState();
+    // FIX: Initialize scroll controller FIRST
+    scrollController = ScrollController();
     context
         .read<GetCategoryNamesCubit>()
         .getMainAndSubCategory(filterType: 2, pageNumber: 1, pageSize: 100);
     context.read<GetBrandsByCategoryIdCubit>().getBrandsByMainCategoryId(
         mainCategoryId: widget.initialMainIdToProduct);
+          
+        scrollController.addListener(_scrollListener);
   }
-
+  
+  void _scrollListener(){
+     print('=== SCROLL DEBUG INFO ===');
+    // if(isLodingMore){
+      if(scrollController.position.pixels==scrollController.position.maxScrollExtent){
+        context.read<GetCategoryNamesCubit>().getMainAndSubCategory(filterType: 2, pageNumber: ++pageNumber, pageSize: 10);
+      // }
+    }
+  }
+List<CategoryEntity> categoryAndSubCategoryNames = [];
+int pageNumber = 1;
+bool isLodingMore=true;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -69,7 +86,10 @@ class _CustomCardContainsAllDropDownEditScreenState
           BlocConsumer<GetCategoryNamesCubit, GetCategoryNamesState>(
             listener: (context, state) {
               if (state is GetCategoryNamesSuccess) {
-                if (widget.initialSubIdToProduct == null) {}
+              if(state.categoryAndSubCategoryNames.length>10){
+                isLodingMore=false;
+              }
+              categoryAndSubCategoryNames.addAll(state.categoryAndSubCategoryNames);
               }
             },
             builder: (context, state) {
@@ -83,32 +103,33 @@ class _CustomCardContainsAllDropDownEditScreenState
                 );
               }
 
-              if (state is GetCategoryNamesSuccess) {
+              if (state is GetCategoryNamesSuccess|| state is GetCategoryNamesPaganiationLoading) {
                 return CustomDropdownWidget(
                     initialItem: cubitEditProduct.isInitialDropDown
                         ? widget.initialMainNameToProduct
                         : null,
+                        scrollController: scrollController,
                     textTitle: 'أختر الفئة',
                     hintText: "قم بإختيار الفئة المناسبة",
-                    items: state.categoryAndSubCategoryNames
+                    items: categoryAndSubCategoryNames
                         .map((category) => category.categoryName)
                         .toList(),
                     onChanged: (value) {
-                      int selectedIndex = state.categoryAndSubCategoryNames
+                      int selectedIndex = categoryAndSubCategoryNames
                           .indexWhere(
                               (category) => category.categoryName == value);
                       if (selectedIndex != -1) {
-                        widget.initialSubIdToProduct = state
-                            .categoryAndSubCategoryNames[selectedIndex]
+                        widget.initialSubIdToProduct = 
+                            categoryAndSubCategoryNames[selectedIndex]
                             .categoryId;
-                        widget.initialSubNameToProduct = state
-                            .categoryAndSubCategoryNames[selectedIndex]
+                        widget.initialSubNameToProduct = 
+                            categoryAndSubCategoryNames[selectedIndex]
                             .categoryName;
                         context
                             .read<GetBrandsByCategoryIdCubit>()
                             .getBrandsByMainCategoryId(
-                                mainCategoryId: state
-                                    .categoryAndSubCategoryNames[selectedIndex]
+                                mainCategoryId: 
+                                    categoryAndSubCategoryNames[selectedIndex]
                                     .categoryId);
                         context
                             .read<GetBrandsByCategoryIdCubit>()

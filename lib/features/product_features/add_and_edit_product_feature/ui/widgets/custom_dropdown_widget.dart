@@ -13,6 +13,7 @@ class CustomDropdownWidget extends StatelessWidget {
   final String? initialItem;
   final dynamic Function(String?) onChanged;
   final bool? isRequired;
+  final ScrollController? scrollController;
 
   const CustomDropdownWidget({
     super.key,
@@ -22,7 +23,7 @@ class CustomDropdownWidget extends StatelessWidget {
     required this.onChanged,
     this.enabled = true,
     this.initialItem,
-    this.isRequired,
+    this.isRequired, this.scrollController,
   });
 
   @override
@@ -49,6 +50,7 @@ class CustomDropdownWidget extends StatelessWidget {
             child: CustomDropdown<String>(
               enabled: enabled,
               hintText: hintText,
+              itemsScrollController: scrollController,
               items: items,
               initialItem: initialItem,
               decoration: CustomDropdownDecoration(

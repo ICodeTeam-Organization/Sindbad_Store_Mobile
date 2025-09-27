@@ -22,7 +22,11 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
     required int pageNumber,
     required int pageSize,
   }) async {
-    emit(GetCategoryNamesLoading());
+    if (pageNumber == 1) {
+  emit(GetCategoryNamesLoading());
+    } else {
+      emit(GetCategoryNamesPaganiationLoading());
+}
     GetMainAndSubCategoryParams params = GetMainAndSubCategoryParams(
         filterType: filterType, pageNumber: pageNumber, pageSize: pageSize);
 
@@ -32,9 +36,15 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
     result.fold(
         // left
         (failure) {
+
       if (!isClosed) {
-        emit(GetCategoryNamesFailure(errMessage: failure.message));
-      }
+        if (pageNumber == 1) {
+          emit(GetCategoryNamesFailure(errMessage: failure.message));
+        } else {
+          emit(GetCategoryNamesPaganiationFailer(errMessage: failure.message));
+        }
+}
+      
     },
         // right
         (mainAndSubCategory) {

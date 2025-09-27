@@ -33,7 +33,7 @@ class _AddProductScreenBodyState extends State<AddProductScreenBody> {
     context.read<GetCategoryNamesCubit>().getMainAndSubCategory(
         filterType: 2,
         pageNumber: 1,
-        pageSize: 100); // call fun fetch Main And Sub Category
+        pageSize: 10); // call fun fetch Main And Sub Category
 
     super.initState();
   }
