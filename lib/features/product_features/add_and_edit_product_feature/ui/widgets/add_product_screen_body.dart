@@ -30,10 +30,7 @@ class _AddProductScreenBodyState extends State<AddProductScreenBody> {
   void initState() {
     cubitAddProduct = context.read<AddProductToStoreCubit>();
     getCategoryNamesCubit = context.read<GetCategoryNamesCubit>();
-    context.read<GetCategoryNamesCubit>().getMainAndSubCategory(
-        filterType: 2,
-        pageNumber: 1,
-        pageSize: 10); // call fun fetch Main And Sub Category
+    context.read<GetCategoryNamesCubit>().getMainAndSubCategory(filterType: 2,pageNumber: 1,pageSize: 10); // call fun fetch Main And Sub Category
 
     super.initState();
   }

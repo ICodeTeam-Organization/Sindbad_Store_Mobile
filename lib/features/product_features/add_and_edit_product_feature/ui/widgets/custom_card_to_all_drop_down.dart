@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/styles/Colors.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/section_title_widget.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/brands_by_main_category_id/cubit/get_brands_by_category_id_cubit.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/get_category_names_failure_widget.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/get_category_names_initial_widget.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/get_category_names_loading_widget.dart';
@@ -42,9 +41,9 @@ class _CustomCardToAllDropDownState extends State<CustomCardToAllDropDown> {
     scrollerController.addListener(_scrollListener);
     print('[DEBUG] listener ADDED to controller: ${scrollerController.hashCode}');
 
-    context
-        .read<GetCategoryNamesCubit>()
-        .getMainAndSubCategory(filterType: 2, pageNumber: 1, pageSize: 10);
+    // context
+    //     .read<GetCategoryNamesCubit>()
+    //     .getMainAndSubCategory(filterType: 2, pageNumber: 1, pageSize: 10);
    
           
         
@@ -63,7 +62,7 @@ class _CustomCardToAllDropDownState extends State<CustomCardToAllDropDown> {
     // final pos = scrollController.position;
     //  print('=== SCROLL DEBUG INFO ===');
     // if(isLodingMore){
-    if(isLodingMore)
+    if(!isLodingMore)
 {
   return;
 }      if(scrollerController.position.pixels==scrollerController.position.maxScrollExtent){
@@ -91,13 +90,18 @@ class _CustomCardToAllDropDownState extends State<CustomCardToAllDropDown> {
 
             BlocConsumer<GetCategoryNamesCubit, GetCategoryNamesState>(
               listener: (context, state) {
-                if (state is GetCategoryNamesSuccess) {
-                  if(state.categoryAndSubCategoryNames.length<10){
-                    isLodingMore=false;
+                  if (state is GetCategoryNamesSuccess) {
+                    if (state.categoryAndSubCategoryNames.length < 10) {
+                      isLodingMore = false;
+                    }
+                    setState(() {
+                       mainCategories = [
+                          ...mainCategories,
+                          ...state.categoryAndSubCategoryNames,
+                        ];
+                    });
                   }
-                  mainCategories.addAll(state.categoryAndSubCategoryNames);
-                }
-              },
+                },
               builder: (context, state) {
                 if (state is GetCategoryNamesLoading) {
                   return const GetCategoryNamesLoadingWidget();
@@ -109,6 +113,7 @@ class _CustomCardToAllDropDownState extends State<CustomCardToAllDropDown> {
                           : null;
 
                   return GetCategoryNamesSuccessWidget(
+                      key: ValueKey(mainCategories.length), // 👈 forces rebuild when items change
                       mainAndSubCategories: mainCategories,
                       cubitCategories: widget.cubitCategories,
                       cubitAddProduct: widget.cubitAddProduct,
