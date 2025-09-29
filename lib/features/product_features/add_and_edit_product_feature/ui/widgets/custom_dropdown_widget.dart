@@ -23,7 +23,8 @@ class CustomDropdownWidget extends StatelessWidget {
     required this.onChanged,
     this.enabled = true,
     this.initialItem,
-    this.isRequired, this.scrollController,
+    this.isRequired,
+    this.scrollController
   });
 
   @override

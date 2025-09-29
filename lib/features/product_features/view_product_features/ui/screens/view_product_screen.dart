@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/use_cases/get_main_and_sub_category_use_case.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
 import 'package:sindbad_management_app/features/product_features/view_product_features/domain/use_cases/activate_products_by_ids_use_case.dart';
 import 'package:sindbad_management_app/features/product_features/view_product_features/domain/use_cases/disable_products_by_ids_use_case.dart';
 import '../../../../../core/setup_service_locator.dart';
@@ -33,10 +35,11 @@ class ViewProductScreen extends StatelessWidget {
         ),
       ),
       BlocProvider(
-        create: (context) =>
-            GetMainCategoryForViewCubit(GetMainCategoryForViewUseCase(
-          getit.get<ViewProductStoreRepoImpl>(),
-        )),
+        create: (context) => GetCategoryNamesCubit(
+          GetMainAndSubCategoryUseCase(
+            getit.get<AddAndEditProductStoreRepoImpl>(),
+          ),
+        ),
       ),
       BlocProvider(
         create: (context) =>

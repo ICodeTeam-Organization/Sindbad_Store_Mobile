@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
 import 'package:sindbad_management_app/features/product_features/view_product_features/domain/entities/main_category_for_view_entity.dart';
 import '../manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
 import 'sub_category_card_custom.dart';
@@ -13,7 +14,7 @@ class CustomGetMainCategoryForViewSuccessWidget extends StatefulWidget {
     required this.isLoadingMore,
   });
 
-  final List<MainCategoryForViewEntity> allCategory;
+  final List<CategoryEntity> allCategory;
   final int storeProductsFilter;
   final bool isLoadingMore;
 
@@ -50,15 +51,15 @@ class _CustomGetMainCategoryForViewSuccessWidgetState
             }
             final category = widget.allCategory[i];
             return ChipCustom(
-              title: category.mainCategoryName,
+              title: category.categoryName,
               isSelected: i == _selectedSubIndex,
               onTap: () {
                 cubitGetStoreProducts.getStoreProductsWitheFilter(
                     storeProductsFilter: widget.storeProductsFilter,
-                    categoryId: i == 0 ? null : category.mainCategoryId,
+                    categoryId: i == 0 ? null : category.categoryId,
                     pageNumber: 1,
                     pageSize: 100);
-                debugPrint("Selected Category: ${category.mainCategoryName}");
+                debugPrint("Selected Category: ${category.categoryName}");
                 setState(() {
                   _selectedSubIndex = i;
                 });

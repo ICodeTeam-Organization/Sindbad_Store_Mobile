@@ -14,11 +14,14 @@ class GetCategoryNamesSuccessWidget extends StatefulWidget {
     required this.mainAndSubCategories,
     required this.cubitCategories,
     required this.cubitAddProduct,
+    this.scrollerController,
   });
 
   final List<CategoryEntity> mainAndSubCategories;
   final GetCategoryNamesCubit cubitCategories;
   final AddProductToStoreCubit cubitAddProduct;
+  
+  final ScrollController? scrollerController;
 
   @override
   State<GetCategoryNamesSuccessWidget> createState() =>
@@ -37,6 +40,7 @@ class _GetCategoryNamesSuccessWidgetState
           textTitle: 'أختر الفئة',
           hintText: "قم بإختيار الفئة المناسبة",
           initialItem: null,
+          scrollController: widget.scrollerController,
           items: widget.mainAndSubCategories.isNotEmpty
               ? widget.mainAndSubCategories
                   .map((category) => category.categoryName)

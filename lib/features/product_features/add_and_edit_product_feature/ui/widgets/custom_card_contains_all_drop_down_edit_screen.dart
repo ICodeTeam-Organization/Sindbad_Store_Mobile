@@ -41,24 +41,36 @@ class _CustomCardContainsAllDropDownEditScreenState
   late final cubitCategories = context.read<GetCategoryNamesCubit>();
   late final cubitEditProduct = context.read<EditProductFromStoreCubit>();
   List<CategoryEntity> subCategories = [];
-  late  ScrollController scrollController ;
-
+  late final ScrollController scrollController ;
   @override
   void initState() {
     super.initState();
     // FIX: Initialize scroll controller FIRST
     scrollController = ScrollController();
+    
+
+    scrollController.addListener(_scrollListener);
+    print('[DEBUG] listener ADDED to controller: ${scrollController.hashCode}');
+
     context
         .read<GetCategoryNamesCubit>()
-        .getMainAndSubCategory(filterType: 2, pageNumber: 1, pageSize: 100);
+        .getMainAndSubCategory(filterType: 2, pageNumber: 1, pageSize: 10);
     context.read<GetBrandsByCategoryIdCubit>().getBrandsByMainCategoryId(
         mainCategoryId: widget.initialMainIdToProduct);
           
-        scrollController.addListener(_scrollListener);
+        
   }
-  
+    @override
+  void dispose() {
+    scrollController.removeListener(_scrollListener);
+    scrollController.dispose();
+    super.dispose();
+  }
   void _scrollListener(){
-     print('=== SCROLL DEBUG INFO ===');
+    
+    // if (!scrollController.hasClients) return;
+    // final pos = scrollController.position;
+    //  print('=== SCROLL DEBUG INFO ===');
     // if(isLodingMore){
       if(scrollController.position.pixels==scrollController.position.maxScrollExtent){
         context.read<GetCategoryNamesCubit>().getMainAndSubCategory(filterType: 2, pageNumber: ++pageNumber, pageSize: 10);
@@ -70,6 +82,7 @@ int pageNumber = 1;
 bool isLodingMore=true;
   @override
   Widget build(BuildContext context) {
+
     return Container(
       width: double.maxFinite,
       decoration: BoxDecoration(
@@ -104,6 +117,8 @@ bool isLodingMore=true;
               }
 
               if (state is GetCategoryNamesSuccess|| state is GetCategoryNamesPaganiationLoading) {
+                
+
                 return CustomDropdownWidget(
                     initialItem: cubitEditProduct.isInitialDropDown
                         ? widget.initialMainNameToProduct
