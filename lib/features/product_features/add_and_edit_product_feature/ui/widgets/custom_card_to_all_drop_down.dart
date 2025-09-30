@@ -88,45 +88,44 @@ class _CustomCardToAllDropDownState extends State<CustomCardToAllDropDown> {
             SectionTitleWidget(title: 'نوع المنتج'),
             SizedBox(height: 20.h),
 
-            BlocConsumer<GetCategoryNamesCubit, GetCategoryNamesState>(
+            BlocListener<GetCategoryNamesCubit, GetCategoryNamesState>(
               listener: (context, state) {
                   if (state is GetCategoryNamesSuccess) {
                     if (state.categoryAndSubCategoryNames.length < 10) {
                       isLodingMore = false;
                     }
                     setState(() {
-                       mainCategories = [
-                          ...mainCategories,
-                          ...state.categoryAndSubCategoryNames,
-                        ];
+                       mainCategories.addAll(state.categoryAndSubCategoryNames);
                     });
                   }
                 },
-              builder: (context, state) {
-                if (state is GetCategoryNamesLoading) {
-                  return const GetCategoryNamesLoadingWidget();
-                }
-                if (state is GetCategoryNamesSuccess || state is GetCategoryNamesPaganiationFailer || state is GetCategoryNamesPaganiationLoading) {
-                  widget.cubitAddProduct.selectedSubCategoryId =
-                      widget.cubitCategories.subCategories.isNotEmpty
-                          ? widget.cubitCategories.subCategories.first.categoryId
-                          : null;
-
-                  return GetCategoryNamesSuccessWidget(
-                      key: ValueKey(mainCategories.length), // 👈 forces rebuild when items change
+              child: 
+               GetCategoryNamesSuccessWidget(
+                      //key: const ValueKey('categories'), // 👈 stable key
                       mainAndSubCategories: mainCategories,
                       cubitCategories: widget.cubitCategories,
                       cubitAddProduct: widget.cubitAddProduct,
                       scrollerController: scrollerController,
-                      );
-                }
+                      )
+              // (context, state) {
+              //   if (state is GetCategoryNamesLoading) {
+              //     return const GetCategoryNamesLoadingWidget();
+              //   }
+              //   if (state is GetCategoryNamesSuccess || state is GetCategoryNamesPaganiationFailer || state is GetCategoryNamesPaganiationLoading) {
+              //     widget.cubitAddProduct.selectedSubCategoryId =
+              //         widget.cubitCategories.subCategories.isNotEmpty
+              //             ? widget.cubitCategories.subCategories.first.categoryId
+              //             : null;
 
-                if (state is GetCategoryNamesFailure) {
-                  return const GetCategoryNamesFailureWidget();
-                }
-                return const GetCategoryNamesInitialWidget();
-                 // in else or initial
-              },
+                  
+              //   }
+
+              //   if (state is GetCategoryNamesFailure) {
+              //     return const GetCategoryNamesFailureWidget();
+              //   }
+              //   return const GetCategoryNamesInitialWidget();
+              //    // in else or initial
+              // },
             ),
           ],
         ),
