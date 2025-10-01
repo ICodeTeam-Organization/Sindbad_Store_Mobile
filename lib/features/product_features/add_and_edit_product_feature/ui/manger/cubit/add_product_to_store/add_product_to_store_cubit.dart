@@ -34,6 +34,12 @@ class AddProductToStoreCubit extends Cubit<AddProductToStoreState> {
   List<TextEditingController> keys = [];
   List<TextEditingController> values = [];
 
+  //temp method for testing paganated dropdown list
+  void changeMainCategoryId(int? value) {
+    selectedMainCategoryId = value;
+    
+    emit(ChangeMainCategoryIdState(seleted: value != null));
+  }
   // for set Image variables = value
   void saveImageInCubit({required int boxNum, required File? file}) {
     switch (boxNum) {

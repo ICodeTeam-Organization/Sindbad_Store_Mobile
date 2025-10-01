@@ -44,50 +44,59 @@ class _GetCategoryNamesSuccessWidgetState
     return Column(
       children: [
           PaginatedDropdownList(
-            textTitle: "Categories",
-            hintText: "Select a category",
-            itemParser: (item) => item['name'] ?? 'Unknown', // Adjust based on your API response structure
+            textTitle: 'أختر الفئة',
+            hintText: "قم بإختيار الفئة المناسبة",
+            itemParser: (item) => item.name ?? 'غير معروف',
             fetchItems: (int page, int pageSize) async {
-             try {
-      final dio = Dio();
-      FlutterSecureStorage storage = const FlutterSecureStorage();
-      // Add headers to the request
-      dio.options.headers = {
-        'Authorization': 'Bearer ${storage.read(key: "token")}', // Add your auth token
-      };
-
-      final response = await dio.get(
-        'https://www.sindibad-back.com:82/api/Categories',
-        queryParameters: {
-          'types': 1,
-          'pageNumber': page,
-          'pageSize': pageSize,
-          'isOfficial': true,
-        },
-      );
-      
-      if (response.statusCode == 200) {
-        final jsonResponse = response.data;
-        
-        if (jsonResponse['success'] == true) {
-          final data = jsonResponse['data'];
-          final items = data['items'] as List<dynamic>?;
-          return items ?? [];
-        } else {
-          throw Exception('API Error: ${jsonResponse['message']}');
-        }
-      } else {
-        throw Exception('HTTP Error: ${response.statusCode}');
-      }
-    } catch (e) {
-      debugPrint('Error fetching categories: $e');
-      throw Exception('Failed to load categories: $e');
-    }
-              },
-            onChanged: (selectedValue) {
-              print("Selected: $selectedValue");
+              try {
+                final cubit = context.read<GetCategoryNamesCubit>();
+                
+                final result = await cubit.getMainAndSubCategoryDirectly(
+                  filterType: 1,
+                  pageNumber: page,
+                  pageSize: pageSize,
+                );
+                
+                if (result.isRight()) {
+                  final categories = result.getOrElse(() => []);
+                  print('Loaded ${categories.length} categories');
+                  return categories;
+                } else {
+                  final failure = result.fold((f) => f, (r) => null);
+                  print('Error: ${failure?.message}');
+                  return [];
+                }
+              } catch (e) {
+                print('Exception: $e');
+                return [];
+              }
             },
-            pageSize: 5, // Optional, defaults to 10
+            pageSize: 10,
+
+             onChanged: (value) {
+               final cubit = context.read<AddProductToStoreCubit>();
+               cubit.changeMainCategoryId(2);
+            // int selectedIndex = widget.mainAndSubCategories
+            //     .indexWhere((category) => category.categoryName == value);
+            // if (selectedIndex != -1) {
+            //   final int selectedMainCategoryId =
+            //       widget.mainAndSubCategories[selectedIndex].categoryId;
+
+            //   widget.cubitCategories.updateSubCategories(
+            //       selectedMainCategoryId); // refresh sub categories
+            //   context
+            //       .read<GetBrandsByCategoryIdCubit>()
+            //       .getBrandsByMainCategoryId(
+            //           mainCategoryId: selectedMainCategoryId);
+             // widget.cubitAddProduct.selectedMainCategoryId=2;
+               // widget.cubitAddProduct.selectedMainCategoryId =
+               // widget.mainAndSubCategories[selectedIndex].categoryId;
+
+              //  widget.cubitAddProduct.selectedSubCategoryId = null;
+              //  widget.cubitAddProduct.selectedBrandId = null;
+              
+            
+          },
           ),
         // =================  Main Category ================
     //    CustomDropdownWidget(
@@ -132,136 +141,90 @@ class _GetCategoryNamesSuccessWidgetState
     //         }
     //       },
     //     ),
-    //     SizedBox(height: 10),
+         SizedBox(height: 10),
 
     //     // =================  Sub Category ================
-    //     CustomDropdownWidget(
-    //       enabled: widget.cubitAddProduct.selectedMainCategoryId == null
-    //           ? false
-    //           : true,
-    //       textTitle: 'أختر القسم',
-    //       hintText: "إختر الفئة الأساسية أولا",
-    //       initialItem: widget.cubitCategories.subCategories.isNotEmpty
-    //           ? widget.cubitCategories.subCategories.first.categoryName
-    //           : null,
-    //       items: widget.cubitCategories.subCategories.isNotEmpty
-    //           ? widget.cubitCategories.subCategories
-    //               .map((subCategory) => subCategory.categoryName)
-    //               .toList()
-    //           : [],
-    //       onChanged: (value) {
-    //         widget.cubitAddProduct.selectedSubCategoryId = widget
-    //             .cubitCategories.subCategories
-    //             .firstWhere(
-    //                 (subCategories) => subCategories.categoryName == value)
-    //             .categoryId;
-    //       },
-    //     ),
-    //     SizedBox(height: 10),
-    //     // ===========================  for Brand  =======================
-    //     BlocBuilder<GetBrandsByCategoryIdCubit, GetBrandsByCategoryIdState>(
-    //       builder: (context, state) {
-    //         if (state is GetBrandsByCategoryIdInitial) {
-    //           return CustomDropdownWidgetForStateCubit(
-    //               textTitle: 'أختر اسم البراند',
-    //               isRequired: false,
-    //               hintText: "إختر الفئة الأساسية أولا");
-    //         }
-    //         if (state is GetBrandsByCategoryIdLoading) {
-    //           return CustomDropdownWidgetForStateCubit(
-    //               textTitle: 'أختر اسم البراند', hintText: "جاري التحميل...");
-    //         }
-    //         if (state is GetBrandsByCategoryIdSuccess) {
-    //           final List<BrandEntity> brandsWithNoFound = [
-    //             BrandEntity(brandId: 000, brandNameEntity: "لا يوجد")
-    //           ];
-    //           brandsWithNoFound.addAll(state.brands);
+        BlocBuilder<AddProductToStoreCubit, AddProductToStoreState>(
+  builder: (context, state) {
+    return  CustomDropdownWidget(
+              enabled:state is ChangeMainCategoryIdState ? state.seleted : false,
+              textTitle: 'أختر القسم',
+              hintText: "إختر الفئة الأساسية أولا",
+              initialItem: widget.cubitCategories.subCategories.isNotEmpty
+                  ? widget.cubitCategories.subCategories.first.categoryName
+                  : null,
+              items: widget.cubitCategories.subCategories.isNotEmpty
+                  ? widget.cubitCategories.subCategories
+                      .map((subCategory) => subCategory.categoryName)
+                      .toList()
+                  : [],
+              onChanged: (value) {
+                widget.cubitAddProduct.selectedSubCategoryId = widget
+                    .cubitCategories.subCategories
+                    .firstWhere(
+                        (subCategories) => subCategories.categoryName == value)
+                    .categoryId;
+              },
+            );
+          }
+        ),
+        SizedBox(height: 10),
+        // ===========================  for Brand  =======================
+        BlocBuilder<GetBrandsByCategoryIdCubit, GetBrandsByCategoryIdState>(
+          builder: (context, state) {
+            if (state is GetBrandsByCategoryIdInitial) {
+              return CustomDropdownWidgetForStateCubit(
+                  textTitle: 'أختر اسم البراند',
+                  isRequired: false,
+                  hintText: "إختر الفئة الأساسية أولا");
+            }
+            if (state is GetBrandsByCategoryIdLoading) {
+              return CustomDropdownWidgetForStateCubit(
+                  textTitle: 'أختر اسم البراند', hintText: "جاري التحميل...");
+            }
+            if (state is GetBrandsByCategoryIdSuccess) {
+              final List<BrandEntity> brandsWithNoFound = [
+                BrandEntity(brandId: 000, brandNameEntity: "لا يوجد")
+              ];
+              brandsWithNoFound.addAll(state.brands);
 
-    //           return CustomDropdownWidget(
-    //             enabled: true,
-    //             isRequired: false,
-    //             textTitle: 'أختر اسم البراند',
-    //             hintText: "قم بإختيار البراند المناسب",
-    //             initialItem: null,
-    //             items: brandsWithNoFound
-    //                 .map((category) => category.brandNameEntity)
-    //                 .toList(),
-    //             onChanged: (value) {
-    //               int selectedIndex = brandsWithNoFound.indexWhere(
-    //                   (brandsWithNoFound) =>
-    //                       brandsWithNoFound.brandNameEntity == value);
+              return CustomDropdownWidget(
+                enabled: true,
+                isRequired: false,
+                textTitle: 'أختر اسم البراند',
+                hintText: "قم بإختيار البراند المناسب",
+                initialItem: null,
+                items: brandsWithNoFound
+                    .map((category) => category.brandNameEntity)
+                    .toList(),
+                onChanged: (value) {
+                  int selectedIndex = brandsWithNoFound.indexWhere(
+                      (brandsWithNoFound) =>
+                          brandsWithNoFound.brandNameEntity == value);
 
-    //               if (selectedIndex > 0) {
-    //                 widget.cubitAddProduct.selectedBrandId =
-    //                     brandsWithNoFound[selectedIndex].brandId;
-    //               } else {
-    //                 widget.cubitAddProduct.selectedBrandId = null;
-    //               }
-    //             },
-    //           );
-    //         }
-    //         if (state is GetBrandsByCategoryIdFailure) {}
-    //         return CustomDropdownWidget(
-    //           enabled: false,
-    //           textTitle: 'أختر إسم البراند',
-    //           hintText: "قم بإختيار البراند المناسب",
-    //           items: [],
-    //           onChanged: (value) => null,
-    //         );
-    //       },
-    //     )
+                  if (selectedIndex > 0) {
+                    widget.cubitAddProduct.selectedBrandId =
+                        brandsWithNoFound[selectedIndex].brandId;
+                  } else {
+                    widget.cubitAddProduct.selectedBrandId = null;
+                  }
+                },
+              );
+            }
+            if (state is GetBrandsByCategoryIdFailure) {}
+            return CustomDropdownWidget(
+              enabled: false,
+              textTitle: 'أختر إسم البراند',
+              hintText: "قم بإختيار البراند المناسب",
+              items: [],
+              onChanged: (value) => null,
+            );
+          },
+        )
       
       ],
     );
   }
 
-  Future<List<dynamic>> fetchCategories() async {
-  try {
-    final response = await http.get(
-      Uri.parse('https://www.sindibad-back.com:82/api/Categories')
-          .replace(queryParameters: {
-        'types': '1',
-        'pageNumber': '1',
-        'pageSize': '10',
-        'isOfficial': 'true',
-        'parent': '1',
-        'ancestor': '1',
-      }),
-    );
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      
-      // Adjust this based on your actual API response structure
-      // Common patterns:
-      
-      // If the response is a direct list:
-      if (data is List) {
-        return data;
-      }
-      
-      // If the response has a 'data' field:
-      if (data is Map && data.containsKey('data')) {
-        return data['data'] is List ? data['data'] : [];
-      }
-      
-      // If the response has an 'items' field:
-      if (data is Map && data.containsKey('items')) {
-        return data['items'] is List ? data['items'] : [];
-      }
-      
-      // If the response has a 'results' field:
-      if (data is Map && data.containsKey('results')) {
-        return data['results'] is List ? data['results'] : [];
-      }
-      
-      // Fallback - return empty list if structure is unknown
-      return [];
-    } else {
-      throw Exception('Failed to load categories: ${response.statusCode}');
-    }
-  } catch (e) {
-    throw Exception('Failed to load categories: $e');
-  }
-}
+  
 }

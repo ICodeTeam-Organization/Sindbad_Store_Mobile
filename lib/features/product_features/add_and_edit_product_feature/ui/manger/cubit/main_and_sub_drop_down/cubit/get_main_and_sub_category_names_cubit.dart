@@ -14,6 +14,21 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
 
   List<CategoryEntity> mainCategories = []; // to store main and sub categories
   List<CategoryEntity> subCategories = []; // to store just sub categories
+  
+  // NEW METHOD: Get categories directly without state management
+  Future<Either<Failure, List<CategoryEntity>>> getMainAndSubCategoryDirectly({
+    required int filterType,
+    required int pageNumber,
+    required int pageSize,
+  }) async {
+    GetMainAndSubCategoryParams params = GetMainAndSubCategoryParams(
+        filterType: filterType, pageNumber: pageNumber, pageSize: pageSize);
+
+    Either<Failure, List<CategoryEntity>> result =
+        await getMainAndSubCategoryUseCase.execute(params);
+
+    return result;
+  }
 
   // for drop down category
 
