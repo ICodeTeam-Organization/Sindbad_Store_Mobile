@@ -8,10 +8,14 @@ import 'package:sindbad_management_app/core/styles/text_style.dart';
 /// - Loads next page as user scrolls
 /// - Shows a spinner at bottom while fetching more
 class PaginatedDropdownList extends StatefulWidget {
+  // Title text displayed above the dropdown
   final String textTitle;
+  // Hint text displayed when no item is selected
   final String hintText;
+  /// Whether the dropdown list is enabled
   final bool enabled;
   final String? initialItem;
+  /// Whether the field is required (shows asterisk if true)
   final bool? isRequired;
   final Function(String?) onChanged;
 
@@ -28,8 +32,18 @@ class PaginatedDropdownList extends StatefulWidget {
   /// Optional widget to display when there's an error
   final Widget? errorStateWidget;
 
+  //selected item colot
+  final Color selectedColor = AppColors.primary;
   /// Page size for pagination (default: 10)
   final int pageSize;
+  
+  /// no more items message
+  final String? noMoreItemsMessage;
+
+  /// error message
+  final String? errorMessage;
+  /// no Item message
+  final String? notItemMessage;
 
   const PaginatedDropdownList({
     Key? key,
@@ -37,13 +51,16 @@ class PaginatedDropdownList extends StatefulWidget {
     required this.hintText,
     required this.onChanged,
     required this.itemParser,
+    this.noMoreItemsMessage="No more items",
+    this.errorMessage="error occurred while fetching data",
+    this.notItemMessage="No items available",
     this.enabled = true,
     this.initialItem,
     this.isRequired,
     this.fetchItems,
     this.emptyStateWidget,
     this.errorStateWidget,
-    this.pageSize = 2,
+    this.pageSize = 10, 
   }) : super(key: key);
 
   @override
@@ -56,7 +73,6 @@ class _PaginatedDropdownListState extends State<PaginatedDropdownList> {
 
   List<String> _items = [];
   String? _selectedItem;
-
   bool _isOpen = false;
   bool _isLoading = false;
   bool _isLoadingMore = false;
@@ -172,6 +188,8 @@ class _PaginatedDropdownListState extends State<PaginatedDropdownList> {
   }
 
   void _showOverlay() {
+    // this method define the position of the dropdown list and show the list view as overlay
+    
     final overlay = Overlay.of(context);
     final renderBox = context.findRenderObject() as RenderBox?;
     final size = renderBox?.size ?? Size(400.w, 50.h);
@@ -191,7 +209,7 @@ class _PaginatedDropdownListState extends State<PaginatedDropdownList> {
                   child: CompositedTransformFollower(
                     link: _layerLink,
                     showWhenUnlinked: false,
-                    offset: Offset(0, size.height),
+                    offset: Offset(0, 45),
                     child: _buildDropdownContent(),
                   ),
                 ),
@@ -247,7 +265,7 @@ class _PaginatedDropdownListState extends State<PaginatedDropdownList> {
                 Icon(Icons.error_outline, color: Colors.red, size: 24.w),
                 SizedBox(height: 8.h),
                 Text(
-                  'Failed to load items',
+                  widget.errorMessage!,
                   style: KTextStyle.textStyle13.copyWith(color: Colors.red),
                   textAlign: TextAlign.center,
                 ),
@@ -270,7 +288,7 @@ class _PaginatedDropdownListState extends State<PaginatedDropdownList> {
             child: Padding(
               padding: EdgeInsets.all(16.w),
               child: Text(
-                'No items available',
+                widget.notItemMessage!,
                 style: KTextStyle.textStyle13.copyWith(color: AppColors.greyLight),
               ),
             ),
@@ -307,7 +325,7 @@ class _PaginatedDropdownListState extends State<PaginatedDropdownList> {
         title: Text(
           item,
           style: KTextStyle.textStyle13.copyWith(
-            color: isSelected ? AppColors.primary : Colors.black,
+            color: isSelected ? widget.selectedColor : Colors.black,
             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
           ),
         ),
@@ -340,7 +358,7 @@ class _PaginatedDropdownListState extends State<PaginatedDropdownList> {
       padding: EdgeInsets.all(16.w),
       child: Center(
         child: Text(
-          'No more items',
+          widget.noMoreItemsMessage!,
           style: KTextStyle.textStyle13.copyWith(
             color: AppColors.greyLight,
             fontStyle: FontStyle.italic,
@@ -381,13 +399,17 @@ class _PaginatedDropdownListState extends State<PaginatedDropdownList> {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         if (widget.textTitle.isNotEmpty) ...[
           Row(
+           
             children: [
+              
               Text(
                 widget.textTitle,
-                style: KTextStyle.textStyle13.copyWith(
+                style:
+                 KTextStyle.textStyle13.copyWith(
                   color: AppColors.greyLight,
                 ),
               ),
@@ -424,7 +446,7 @@ class _PaginatedDropdownListState extends State<PaginatedDropdownList> {
                   Expanded(
                     child: Text(
                       _selectedItem ?? widget.hintText,
-                      style: KTextStyle.textStyle13.copyWith(
+                      style: KTextStyle.textStyle18.copyWith(
                         color: _selectedItem != null
                             ? Colors.black
                             : AppColors.greyLight,

@@ -19,9 +19,17 @@ final class GetCategoryNamesFailure extends GetCategoryNamesState {
 
   GetCategoryNamesFailure({required this.errMessage});
 }
+
 final class GetCategoryNamesPaganiationLoading extends GetCategoryNamesState {}
+
 final class GetCategoryNamesPaganiationFailer extends GetCategoryNamesState {
   final String errMessage;
 
   GetCategoryNamesPaganiationFailer({required this.errMessage});
+}
+
+final class UpdateSubCategoryState extends GetCategoryNamesState {
+  final bool seleted;
+  final List<CategoryEntity> subCategories;
+  UpdateSubCategoryState({required this.subCategories, required this.seleted});
 }

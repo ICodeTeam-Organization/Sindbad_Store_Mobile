@@ -19,8 +19,3 @@ final class AddProductToStoreFailure extends AddProductToStoreState {
 
   AddProductToStoreFailure({required this.errMessage});
 }
-final class ChangeMainCategoryIdState extends AddProductToStoreState {
-  final bool seleted;
-
-  ChangeMainCategoryIdState({required this.seleted});
-}

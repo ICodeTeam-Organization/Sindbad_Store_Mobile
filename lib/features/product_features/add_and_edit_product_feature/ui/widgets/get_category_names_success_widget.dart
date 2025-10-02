@@ -26,7 +26,7 @@ class GetCategoryNamesSuccessWidget extends StatefulWidget {
   final List<CategoryEntity> mainAndSubCategories;
   final GetCategoryNamesCubit cubitCategories;
   final AddProductToStoreCubit cubitAddProduct;
-  
+
   final ScrollController? scrollerController;
 
   @override
@@ -36,138 +36,183 @@ class GetCategoryNamesSuccessWidget extends StatefulWidget {
 
 class _GetCategoryNamesSuccessWidgetState
     extends State<GetCategoryNamesSuccessWidget> {
-      
-
-
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-          PaginatedDropdownList(
-            textTitle: 'أختر الفئة',
-            hintText: "قم بإختيار الفئة المناسبة",
-            itemParser: (item) => item.name ?? 'غير معروف',
-            fetchItems: (int page, int pageSize) async {
-              try {
-                final cubit = context.read<GetCategoryNamesCubit>();
-                
-                final result = await cubit.getMainAndSubCategoryDirectly(
-                  filterType: 1,
-                  pageNumber: page,
-                  pageSize: pageSize,
-                );
-                
-                if (result.isRight()) {
-                  final categories = result.getOrElse(() => []);
-                  print('Loaded ${categories.length} categories');
-                  return categories;
-                } else {
-                  final failure = result.fold((f) => f, (r) => null);
-                  print('Error: ${failure?.message}');
-                  return [];
-                }
-              } catch (e) {
-                print('Exception: $e');
+        // =================  Main Category ================
+        PaginatedDropdownList(
+          textTitle: 'أختر الفئة',
+          hintText: "قم بإختيار الفئة المناسبة",
+          itemParser: (item) => item.name ?? 'غير معروف',
+          noMoreItemsMessage: "لا يوجد المزيد من الفئات",
+          notItemMessage: "لا يوجد فئات",
+          errorMessage: "حدث خطأ ما",
+          fetchItems: (int page, int pageSize) async {
+            try {
+              final cubit = context.read<GetCategoryNamesCubit>();
+
+              final result = await cubit.getMainAndSubCategoryDirectly(
+                filterType: 1,
+                pageNumber: page,
+                pageSize: pageSize,
+              );
+
+              if (result.isRight()) {
+                final categories = result.getOrElse(() => []);
+                print('Loaded ${categories.length} categories');
+                return categories;
+              } else {
+                final failure = result.fold((f) => f, (r) => null);
+                print('Error: ${failure?.message}');
                 return [];
               }
-            },
-            pageSize: 10,
-
-             onChanged: (value) {
-               final cubit = context.read<AddProductToStoreCubit>();
-               cubit.changeMainCategoryId(2);
-            // int selectedIndex = widget.mainAndSubCategories
-            //     .indexWhere((category) => category.categoryName == value);
-            // if (selectedIndex != -1) {
-            //   final int selectedMainCategoryId =
-            //       widget.mainAndSubCategories[selectedIndex].categoryId;
-
-            //   widget.cubitCategories.updateSubCategories(
-            //       selectedMainCategoryId); // refresh sub categories
-            //   context
-            //       .read<GetBrandsByCategoryIdCubit>()
-            //       .getBrandsByMainCategoryId(
-            //           mainCategoryId: selectedMainCategoryId);
-             // widget.cubitAddProduct.selectedMainCategoryId=2;
-               // widget.cubitAddProduct.selectedMainCategoryId =
-               // widget.mainAndSubCategories[selectedIndex].categoryId;
-
-              //  widget.cubitAddProduct.selectedSubCategoryId = null;
-              //  widget.cubitAddProduct.selectedBrandId = null;
-              
-            
+            } catch (e) {
+              print('Exception: $e');
+              return [];
+            }
           },
-          ),
-        // =================  Main Category ================
-    //    CustomDropdownWidget(
-    //       enabled: true,
-    //       textTitle: 'أختر الفئة',
-    //       hintText: "قم بإختيار الفئة المناسبة",
-    //       initialItem: widget.cubitAddProduct.selectedMainCategoryId != null
-    // ? widget.mainAndSubCategories
-    //     .firstWhere(
-    //       (c) => c.categoryId == widget.cubitAddProduct.selectedMainCategoryId,
-    //       orElse: () => widget.mainAndSubCategories.first,
-    //     )
-    //     .categoryName
-    // : null,
-    //       scrollController: widget.scrollerController,
-    //       items: widget.mainAndSubCategories.isNotEmpty
-    //           ? widget.mainAndSubCategories
-    //               .map((category) => category.categoryName)
-    //               .toList()
-    //           : [],
-    //       onChanged: (value) {
-    //         int selectedIndex = widget.mainAndSubCategories
-    //             .indexWhere((category) => category.categoryName == value);
-    //         if (selectedIndex != -1) {
-    //           final int selectedMainCategoryId =
-    //               widget.mainAndSubCategories[selectedIndex].categoryId;
+          pageSize: 10,
+          onChanged: (value) {
+            //  context.read<GetCategoryNamesCubit>().updateSubCategories(2);
 
-    //           widget.cubitCategories.updateSubCategories(
-    //               selectedMainCategoryId); // refresh sub categories
-    //           context
-    //               .read<GetBrandsByCategoryIdCubit>()
-    //               .getBrandsByMainCategoryId(
-    //                   mainCategoryId: selectedMainCategoryId);
+            int selectedIndex = widget.mainAndSubCategories
+                .indexWhere((category) => category.categoryName == value);
+            if (selectedIndex != -1) {
+              final int selectedMainCategoryId =
+                  widget.mainAndSubCategories[selectedIndex].categoryId;
 
-    //           setState(() {
-    //             widget.cubitAddProduct.selectedMainCategoryId =
-    //                 widget.mainAndSubCategories[selectedIndex].categoryId;
+              widget.cubitCategories.updateSubCategories(
+                  selectedMainCategoryId); // refresh sub categories
+              context
+                  .read<GetBrandsByCategoryIdCubit>()
+                  .getBrandsByMainCategoryId(
+                      mainCategoryId: selectedMainCategoryId);
+              widget.cubitAddProduct.selectedMainCategoryId = 2;
+              widget.cubitAddProduct.selectedMainCategoryId =
+                  widget.mainAndSubCategories[selectedIndex].categoryId;
 
-    //             widget.cubitAddProduct.selectedSubCategoryId = null;
-    //             widget.cubitAddProduct.selectedBrandId = null;
-    //           });
-    //         }
-    //       },
-    //     ),
-         SizedBox(height: 10),
-
-    //     // =================  Sub Category ================
-        BlocBuilder<AddProductToStoreCubit, AddProductToStoreState>(
-  builder: (context, state) {
-    return  CustomDropdownWidget(
-              enabled:state is ChangeMainCategoryIdState ? state.seleted : false,
-              textTitle: 'أختر القسم',
-              hintText: "إختر الفئة الأساسية أولا",
-              initialItem: widget.cubitCategories.subCategories.isNotEmpty
-                  ? widget.cubitCategories.subCategories.first.categoryName
-                  : null,
-              items: widget.cubitCategories.subCategories.isNotEmpty
-                  ? widget.cubitCategories.subCategories
-                      .map((subCategory) => subCategory.categoryName)
-                      .toList()
-                  : [],
-              onChanged: (value) {
-                widget.cubitAddProduct.selectedSubCategoryId = widget
-                    .cubitCategories.subCategories
-                    .firstWhere(
-                        (subCategories) => subCategories.categoryName == value)
-                    .categoryId;
-              },
-            );
-          }
+              //  final cubit = context.read<AddProductToStoreCubit>();
+              //  cubit.changeMainCategoryId(2);
+              // widget.cubitAddProduct.selectedSubCategoryId = null;
+              // widget.cubitAddProduct.selectedBrandId = null;
+            }
+          },
         ),
+
+        //    CustomDropdownWidget(
+        //       enabled: true,
+        //       textTitle: 'أختر الفئة',
+        //       hintText: "قم بإختيار الفئة المناسبة",
+        //       initialItem: widget.cubitAddProduct.selectedMainCategoryId != null
+        // ? widget.mainAndSubCategories
+        //     .firstWhere(
+        //       (c) => c.categoryId == widget.cubitAddProduct.selectedMainCategoryId,
+        //       orElse: () => widget.mainAndSubCategories.first,
+        //     )
+        //     .categoryName
+        // : null,
+        //       scrollController: widget.scrollerController,
+        //       items: widget.mainAndSubCategories.isNotEmpty
+        //           ? widget.mainAndSubCategories
+        //               .map((category) => category.categoryName)
+        //               .toList()
+        //           : [],
+        //       onChanged: (value) {
+        //         int selectedIndex = widget.mainAndSubCategories
+        //             .indexWhere((category) => category.categoryName == value);
+        //         if (selectedIndex != -1) {
+        //           final int selectedMainCategoryId =
+        //               widget.mainAndSubCategories[selectedIndex].categoryId;
+
+        //           widget.cubitCategories.updateSubCategories(
+        //               selectedMainCategoryId); // refresh sub categories
+        //           context
+        //               .read<GetBrandsByCategoryIdCubit>()
+        //               .getBrandsByMainCategoryId(
+        //                   mainCategoryId: selectedMainCategoryId);
+
+        //           setState(() {
+        //             widget.cubitAddProduct.selectedMainCategoryId =
+        //                 widget.mainAndSubCategories[selectedIndex].categoryId;
+
+        //             widget.cubitAddProduct.selectedSubCategoryId = null;
+        //             widget.cubitAddProduct.selectedBrandId = null;
+        //           });
+        //         }
+        //       },
+        //     ),
+        SizedBox(height: 10),
+
+        //     // =================  Sub Category ================
+        BlocBuilder<GetCategoryNamesCubit, GetCategoryNamesState>(
+          builder: (context, state) {
+            if (state is UpdateSubCategoryState) {
+              return CustomDropdownWidget(
+                enabled: true,
+                textTitle: 'أختر القسم',
+                hintText: "إختر الفئة الأساسية أولا",
+                items: state.subCategories
+                    .map((subCategory) => subCategory.categoryName)
+                    .toList(),
+                onChanged: (value) {
+                  // get category id directly from cubit
+                  // final selected = categoryCubit.subCategories.firstWhere(
+                  //   (subCategory) => subCategory.categoryName == value,
+                  // );
+
+                  // widget.cubitAddProduct.selectedSubCategoryId = selected.categoryId;
+                },
+              );
+            } else {
+              return CustomDropdownWidget(
+                enabled: false,
+                textTitle: 'أختر القسم',
+                hintText: "إختر الفئة الأساسية أولا",
+                items: [],
+                onChanged: (value) {
+                  // get category id directly from cubit
+                  // final selected = categoryCubit.subCategories.firstWhere(
+                  //   (subCategory) => subCategory.categoryName == value,
+                  // );
+
+                  // widget.cubitAddProduct.selectedSubCategoryId = selected.categoryId;
+                },
+              );
+            }
+          },
+        ),
+
+        // BlocBuilder<AddProductToStoreCubit, AddProductToStoreState>(
+        //     builder: (context, state) {
+        //   return CustomDropdownWidget(
+        //     enabled: state is ChangeMainCategoryIdState ? state.seleted : false,
+        //     textTitle: 'أختر القسم',
+        //     hintText: "إختر الفئة الأساسية أولا",
+        //     // initialItem: widget.cubitCategories.subCategories.isNotEmpty
+        //     //     ? widget.cubitCategories.subCategories.first.categoryName
+        //     //     : null,
+        //     // items: widget.cubitCategories.subCategories.isNotEmpty
+        //     //     ? widget.cubitCategories.subCategories
+        //     //         .map((subCategory) => subCategory.categoryName)
+        //     //         .toList()
+        //     //     : [],
+        //     items: state is ChangeMainCategoryIdState
+        //         ? state.subCategories.isNotEmpty
+        //             ? state.subCategories
+        //                 .map((subCategory) => subCategory.categoryName)
+        //                 .toList()
+        //             : []
+        //         : [],
+        //     onChanged: (value) {
+        //       widget.cubitAddProduct.selectedSubCategoryId = widget
+        //           .cubitCategories.subCategories
+        //           .firstWhere(
+        //               (subCategories) => subCategories.categoryName == value)
+        //           .categoryId;
+        //     },
+        //   );
+        // }),
         SizedBox(height: 10),
         // ===========================  for Brand  =======================
         BlocBuilder<GetBrandsByCategoryIdCubit, GetBrandsByCategoryIdState>(
@@ -221,10 +266,7 @@ class _GetCategoryNamesSuccessWidgetState
             );
           },
         )
-      
       ],
     );
   }
-
-  
 }

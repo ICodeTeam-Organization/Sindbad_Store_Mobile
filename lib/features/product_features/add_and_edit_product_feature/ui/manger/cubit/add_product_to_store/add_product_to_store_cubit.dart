@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/add_product_entity.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
 import '../../../../../../../core/errors/failure.dart';
 import '../../../../domain/use_cases/add_product_to_store_use_case.dart';
 part 'add_product_to_store_state.dart';
@@ -35,11 +36,12 @@ class AddProductToStoreCubit extends Cubit<AddProductToStoreState> {
   List<TextEditingController> values = [];
 
   //temp method for testing paganated dropdown list
-  void changeMainCategoryId(int? value) {
-    selectedMainCategoryId = value;
-    
-    emit(ChangeMainCategoryIdState(seleted: value != null));
-  }
+  // void changeMainCategoryId(int? value) {
+  //   selectedMainCategoryId = value;
+
+  //   emit(ChangeMainCategoryIdState(seleted: value != null, subCategories: []));
+  // }
+
   // for set Image variables = value
   void saveImageInCubit({required int boxNum, required File? file}) {
     switch (boxNum) {
