@@ -64,6 +64,9 @@ dependencies:
   equatable: ^2.0.7
   device_preview: ^1.2.0
   jwt_decoder: ^2.0.1
+  # hive storage
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -77,6 +80,9 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
+  # hive generator fot the models.
+  hive_generator: ^2.0.1
+  build_runner: ^2.9.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
