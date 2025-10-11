@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sindbad_management_app/core/utils/currancy.dart';
 import 'package:sindbad_management_app/core/utils/route.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/repo/auth_repo_impl.dart';
@@ -42,6 +43,7 @@ import 'package:sindbad_management_app/features/order_management%20_features/ui/
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/invoice/order_invoice_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/order_details/order_details_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/shipping/shipping_cubit.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
 import 'core/setup_service_locator.dart';
 import 'core/simple_bloc_observer.dart';
 import 'features/order_management _features/domain/usecases/order_details_usecase.dart';
@@ -53,7 +55,7 @@ import 'features/order_management _features/ui/manager/button_disable/button_dis
 //   @override
 //   HttpClient createHttpClient(SecurityContext? context) {
 //     return super.createHttpClient(context)
-//       ..badCertificateCallback =
+//h       ..badCertificateCallback =
 //           (X509Certificate cert, String host, int port) => true;
 //   }
 // }
@@ -62,6 +64,9 @@ void main() async {
   // HttpOverrides.global = MyhttpsOverride();
   WidgetsFlutterBinding.ensureInitialized();
   setupServiceLocator();
+  await Hive.initFlutter();
+  await Hive.openBox<CategoryEntity>('categotyBox');
+  Hive.registerAdapter(CategoryEntityAdapter());
   Bloc.observer = SimpleBlocObserver();
   await Currancy.initCurrency();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])

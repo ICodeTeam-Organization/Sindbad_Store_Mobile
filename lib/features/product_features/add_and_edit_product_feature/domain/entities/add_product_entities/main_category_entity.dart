@@ -1,9 +1,19 @@
-class CategoryEntity {
+import 'package:hive/hive.dart';
+part 'main_category_entity.g.dart';
+
+@HiveType(typeId: 0)
+class CategoryEntity extends HiveObject {
+  @HiveField(0)
   final int categoryId;
+  @HiveField(1)
   final String categoryName;
+  @HiveField(2)
   final String categoryImage;
+  @HiveField(3)
   final int categoryLevel;
+  @HiveField(4)
   final int categoryParentId;
+  @HiveField(5)
   final int categoryType;
 
   CategoryEntity({

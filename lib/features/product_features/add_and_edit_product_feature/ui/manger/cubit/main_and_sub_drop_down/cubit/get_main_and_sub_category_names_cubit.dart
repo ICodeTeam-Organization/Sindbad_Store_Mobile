@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
 import '../../../../../../../../core/errors/failure.dart';
 import '../../../../../domain/use_cases/get_main_and_sub_category_use_case.dart';
@@ -16,6 +17,7 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
   List<CategoryEntity> subCategories = []; // to store just sub categories
 
   // for drop down category
+  var categoryBox = Hive.box<CategoryEntity>('categotyBox');
 
   Future<void> getMainAndSubCategory({
     required int filterType,
@@ -23,10 +25,10 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
     required int pageSize,
   }) async {
     if (pageNumber == 1) {
-  emit(GetCategoryNamesLoading());
+      emit(GetCategoryNamesLoading());
     } else {
       emit(GetCategoryNamesPaganiationLoading());
-}
+    }
     GetMainAndSubCategoryParams params = GetMainAndSubCategoryParams(
         filterType: filterType, pageNumber: pageNumber, pageSize: pageSize);
 
@@ -36,15 +38,13 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
     result.fold(
         // left
         (failure) {
-
       if (!isClosed) {
         if (pageNumber == 1) {
           emit(GetCategoryNamesFailure(errMessage: failure.message));
         } else {
           emit(GetCategoryNamesPaganiationFailer(errMessage: failure.message));
         }
-}
-      
+      }
     },
         // right
         (mainAndSubCategory) {
@@ -53,11 +53,12 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
           mainCategories.add(mainAndSubCategory[i]);
         }
       }
+      categoryBox.addAll(mainCategories);
       // to store in cubit class
       mainCategories = mainAndSubCategory;
       if (!isClosed) {
         emit(GetCategoryNamesSuccess(
-            categoryAndSubCategoryNames: mainCategories));
+            categoryAndSubCategoryNames: categoryBox.values.toList()));
       }
     });
   }
