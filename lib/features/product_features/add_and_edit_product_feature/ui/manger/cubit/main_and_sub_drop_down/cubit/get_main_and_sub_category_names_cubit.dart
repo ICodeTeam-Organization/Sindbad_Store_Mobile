@@ -24,6 +24,26 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
     required int pageNumber,
     required int pageSize,
   }) async {
+    // if hive box does not Empty,get the date form it
+    //other wide fetch from api
+    if (categoryBox.isNotEmpty) {
+      fetchDataFromHive();
+      return;
+    } else {
+      // fetch from api and sote them in the hive box, so the next time will be fetched from the Hve box
+      await fetchDataFromApi(pageNumber, filterType, pageSize);
+    }
+  }
+
+  void fetchDataFromHive() {
+    mainCategories = categoryBox.values.toList();
+
+    emit(GetCategoryNamesSuccess(
+        categoryAndSubCategoryNames: categoryBox.values.toList()));
+  }
+
+  Future<void> fetchDataFromApi(
+      int pageNumber, int filterType, int pageSize) async {
     if (pageNumber == 1) {
       emit(GetCategoryNamesLoading());
     } else {
