@@ -21,6 +21,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+
+    //since here eaf the categories ftom the API amd store them in the local
+    //storage,
     context.read<GetCategoryNamesCubit>().getMainAndSubCategory();
 
     // Wait until the widget is mounted and built
@@ -30,20 +33,65 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _initApp() async {
+    //this method fethc the token from the local storage and if exisit
+    // nagivate the user to the Root widget, else it nagive the user to the
+    //login mehtod
     const storage = FlutterSecureStorage();
     bool hasToken = await storage.containsKey(key: 'token') ?? false;
-
-    if (hasToken) {
-      context.go(AppRouter.storeRouters.root);
-    } else {
-      context.go(AppRouter.storeRouters.signIn);
+    // await Future.delayed(Duration(seconds: 10));
+    if (mounted) {
+      if (hasToken) {
+        context.go(AppRouter.storeRouters.root);
+      } else {
+        context.go(AppRouter.storeRouters.signIn);
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: CircularProgressIndicator()),
+      backgroundColor: const Color(0xFFFF746B),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            // Centered content (image + text)
+            Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Replace with your asset path
+                  Image.asset(
+                    'assets/splahs_screen.png',
+                    width: 180,
+                    height: 180,
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'مالك المحل',
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // Progress indicator at bottom center
+            const Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 40),
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
