@@ -41,33 +41,33 @@ class _CustomCardContainsAllDropDownEditScreenState
   late final cubitCategories = context.read<GetCategoryNamesCubit>();
   late final cubitEditProduct = context.read<EditProductFromStoreCubit>();
   List<CategoryEntity> subCategories = [];
-  late  ScrollController scrollController ;
+  late ScrollController scrollController;
 
   @override
   void initState() {
     super.initState();
     // FIX: Initialize scroll controller FIRST
     scrollController = ScrollController();
-    context
-        .read<GetCategoryNamesCubit>()
-        .getMainAndSubCategory(filterType: 2, pageNumber: 1, pageSize: 100);
+    context.read<GetCategoryNamesCubit>().getMainAndSubCategory();
     context.read<GetBrandsByCategoryIdCubit>().getBrandsByMainCategoryId(
         mainCategoryId: widget.initialMainIdToProduct);
-          
-        scrollController.addListener(_scrollListener);
+
+    scrollController.addListener(_scrollListener);
   }
-  
-  void _scrollListener(){
-     print('=== SCROLL DEBUG INFO ===');
+
+  void _scrollListener() {
+    print('=== SCROLL DEBUG INFO ===');
     // if(isLodingMore){
-      if(scrollController.position.pixels==scrollController.position.maxScrollExtent){
-        context.read<GetCategoryNamesCubit>().getMainAndSubCategory(filterType: 2, pageNumber: ++pageNumber, pageSize: 10);
+    if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
+      context.read<GetCategoryNamesCubit>().getMainAndSubCategory();
       // }
     }
   }
-List<CategoryEntity> categoryAndSubCategoryNames = [];
-int pageNumber = 1;
-bool isLodingMore=true;
+
+  List<CategoryEntity> categoryAndSubCategoryNames = [];
+  int pageNumber = 1;
+  bool isLodingMore = true;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -86,10 +86,11 @@ bool isLodingMore=true;
           BlocConsumer<GetCategoryNamesCubit, GetCategoryNamesState>(
             listener: (context, state) {
               if (state is GetCategoryNamesSuccess) {
-              if(state.categoryAndSubCategoryNames.length>10){
-                isLodingMore=false;
-              }
-              categoryAndSubCategoryNames.addAll(state.categoryAndSubCategoryNames);
+                if (state.categoryAndSubCategoryNames.length > 10) {
+                  isLodingMore = false;
+                }
+                categoryAndSubCategoryNames
+                    .addAll(state.categoryAndSubCategoryNames);
               }
             },
             builder: (context, state) {
@@ -103,34 +104,35 @@ bool isLodingMore=true;
                 );
               }
 
-              if (state is GetCategoryNamesSuccess|| state is GetCategoryNamesPaganiationLoading) {
+              if (state is GetCategoryNamesSuccess ||
+                  state is GetCategoryNamesPaganiationLoading) {
                 return CustomDropdownWidget(
                     initialItem: cubitEditProduct.isInitialDropDown
                         ? widget.initialMainNameToProduct
                         : null,
-                        scrollController: scrollController,
+                    scrollController: scrollController,
                     textTitle: 'أختر الفئة',
                     hintText: "قم بإختيار الفئة المناسبة",
                     items: categoryAndSubCategoryNames
                         .map((category) => category.categoryName)
                         .toList(),
                     onChanged: (value) {
-                      int selectedIndex = categoryAndSubCategoryNames
-                          .indexWhere(
+                      int selectedIndex =
+                          categoryAndSubCategoryNames.indexWhere(
                               (category) => category.categoryName == value);
                       if (selectedIndex != -1) {
-                        widget.initialSubIdToProduct = 
+                        widget.initialSubIdToProduct =
                             categoryAndSubCategoryNames[selectedIndex]
-                            .categoryId;
-                        widget.initialSubNameToProduct = 
+                                .categoryId;
+                        widget.initialSubNameToProduct =
                             categoryAndSubCategoryNames[selectedIndex]
-                            .categoryName;
+                                .categoryName;
                         context
                             .read<GetBrandsByCategoryIdCubit>()
                             .getBrandsByMainCategoryId(
-                                mainCategoryId: 
+                                mainCategoryId:
                                     categoryAndSubCategoryNames[selectedIndex]
-                                    .categoryId);
+                                        .categoryId);
                         context
                             .read<GetBrandsByCategoryIdCubit>()
                             .getBrandsByMainCategoryId(

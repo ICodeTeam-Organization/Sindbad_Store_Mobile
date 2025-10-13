@@ -9,7 +9,7 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/screens/add_product_screen.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/screen/chnage_passsowrd_screen.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/screen/profile_sacreen.dart';
-import 'package:sindbad_management_app/splahs_screen.dart';
+import 'package:sindbad_management_app/core/shared_widgets/splahs_screen.dart';
 import '../../features/order_management _features/ui/screen/order_details.dart';
 import '../../features/product_features/add_and_edit_product_feature/ui/screens/edit_product_screen.dart';
 import '../../features/root.dart';
@@ -20,7 +20,7 @@ class StoreRouters {
   String kNewOffer = '/newOffer';
   String kUpdateOffer = '/updateOffer';
 
-  String signIn = '/';
+  String signIn = '/singin';
   String details = '/details';
   String notifiction = '/notifiction';
   ///////////////////////////////////////////////////
@@ -46,29 +46,28 @@ class StoreRouters {
 }
 
 abstract class AppRouter {
-  static const signIn = '/';
+  //static const signIn = '/';
   static StoreRouters storeRouters = StoreRouters();
   static final router = GoRouter(
     routes: [
       // Store Routes
-      // GoRoute(
-      //   path: AppRouter.storeRouters.signIn,
-      //   builder: (context, state) {
-      //     FlutterSecureStorage storage = const FlutterSecureStorage();
-      //     return FutureBuilder<bool>(
-      //       future: storage.containsKey(key: 'token'),
-      //       builder: (context, snapshot) {
-      //         if (snapshot.connectionState == ConnectionState.waiting) {
-      //           return const SizedBox.shrink(); // or a loading indicator
-      //         }
-      //         if (snapshot.hasData && snapshot.data == true) {
-      //           return const Root();
-      //         }
-      //         return const Login();
-      //       },
-      //     );
-      //   },
-      // ),
+      GoRoute(
+        path: AppRouter.storeRouters.signIn,
+        builder: (context, state) {
+          // FlutterSecureStorage storage = const FlutterSecureStorage();
+          // return FutureBuilder<bool>(
+          //   future: storage.containsKey(key: 'token'),
+          //   builder: (context, snapshot) {
+          //     if (snapshot.connectionState == ConnectionState.waiting) {
+          //       return const SizedBox.shrink(); // or a loading indicator
+          //     }
+          //     if (snapshot.hasData && snapshot.data == true) {
+          //   return const Root();
+          //}
+          return const Login();
+        },
+      ),
+
       GoRoute(
         path: '/',
         builder: (context, state) {

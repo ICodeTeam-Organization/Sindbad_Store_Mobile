@@ -12,22 +12,10 @@ class GetMainAndSubCategoryUseCase extends UseCaseWithParam<
   @override
   Future<Either<Failure, List<CategoryEntity>>> execute(
       GetMainAndSubCategoryParams params) async {
-    return addProductStoreRepo.getMainAndSubCategory(
-      filterType: params.filterType,
-      pageNumber: params.pageNumber,
-      pageSize: params.pageSize,
-    );
+    return addProductStoreRepo.getMainAndSubCategory();
   }
 }
 
 class GetMainAndSubCategoryParams {
-  final int filterType;
-  final int pageNumber;
-  final int pageSize;
-
-  GetMainAndSubCategoryParams({
-    required this.filterType,
-    required this.pageNumber,
-    required this.pageSize,
-  });
+  GetMainAndSubCategoryParams();
 }

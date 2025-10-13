@@ -19,11 +19,7 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
   // for drop down category
   var categoryBox = Hive.box<CategoryEntity>('categotyBox');
 
-  Future<void> getMainAndSubCategory({
-    required int filterType,
-    required int pageNumber,
-    required int pageSize,
-  }) async {
+  Future<void> getMainAndSubCategory() async {
     // if hive box does not Empty,get the date form it
     //other wide fetch from api
     if (categoryBox.isNotEmpty) {
@@ -31,7 +27,7 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
       return;
     } else {
       // fetch from api and sote them in the hive box, so the next time will be fetched from the Hve box
-      await fetchDataFromApi(pageNumber, filterType, pageSize);
+      await fetchDataFromApi();
     }
   }
 
@@ -42,15 +38,13 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
         categoryAndSubCategoryNames: categoryBox.values.toList()));
   }
 
-  Future<void> fetchDataFromApi(
-      int pageNumber, int filterType, int pageSize) async {
-    if (pageNumber == 1) {
-      emit(GetCategoryNamesLoading());
-    } else {
-      emit(GetCategoryNamesPaganiationLoading());
-    }
-    GetMainAndSubCategoryParams params = GetMainAndSubCategoryParams(
-        filterType: filterType, pageNumber: pageNumber, pageSize: pageSize);
+  Future<void> fetchDataFromApi() async {
+    // if (pageNumber == 1) {
+    emit(GetCategoryNamesLoading());
+    // } else {
+    //   emit(GetCategoryNamesPaganiationLoading());
+    // }
+    GetMainAndSubCategoryParams params = GetMainAndSubCategoryParams();
 
     Either<Failure, List<CategoryEntity>> result =
         await getMainAndSubCategoryUseCase.execute(params);
@@ -59,11 +53,7 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
         // left
         (failure) {
       if (!isClosed) {
-        if (pageNumber == 1) {
-          emit(GetCategoryNamesFailure(errMessage: failure.message));
-        } else {
-          emit(GetCategoryNamesPaganiationFailer(errMessage: failure.message));
-        }
+        emit(GetCategoryNamesFailure(errMessage: failure.message));
       }
     },
         // right

@@ -19,7 +19,9 @@ final class GetCategoryNamesFailure extends GetCategoryNamesState {
 
   GetCategoryNamesFailure({required this.errMessage});
 }
+
 final class GetCategoryNamesPaganiationLoading extends GetCategoryNamesState {}
+
 final class GetCategoryNamesPaganiationFailer extends GetCategoryNamesState {
   final String errMessage;
 

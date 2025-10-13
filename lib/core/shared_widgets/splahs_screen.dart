@@ -21,26 +21,22 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    context
-        .read<GetCategoryNamesCubit>()
-        .getMainAndSubCategory(filterType: 1, pageNumber: 1, pageSize: 1000);
-    _initApp();
+    context.read<GetCategoryNamesCubit>().getMainAndSubCategory();
+
+    // Wait until the widget is mounted and built
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initApp();
+    });
   }
 
   Future<void> _initApp() async {
     const storage = FlutterSecureStorage();
     bool hasToken = await storage.containsKey(key: 'token') ?? false;
 
-    // Navigate using your Router instead of Navigator 1.0
     if (hasToken) {
-      // Example for GoRouter:
-      context.go(
-        AppRouter.storeRouters.root,
-      );
+      context.go(AppRouter.storeRouters.root);
     } else {
-      context.go(
-        AppRouter.storeRouters.signIn,
-      );
+      context.go(AppRouter.storeRouters.signIn);
     }
   }
 
