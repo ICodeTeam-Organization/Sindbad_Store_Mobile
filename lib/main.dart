@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -43,7 +44,10 @@ import 'package:sindbad_management_app/features/order_management%20_features/ui/
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/invoice/order_invoice_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/order_details/order_details_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/shipping/shipping_cubit.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/data/repos/add_and_edit_product_store_repo_impl.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/use_cases/get_main_and_sub_category_use_case.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
 import 'core/setup_service_locator.dart';
 import 'core/simple_bloc_observer.dart';
 import 'features/order_management _features/domain/usecases/order_details_usecase.dart';
@@ -62,13 +66,20 @@ import 'features/order_management _features/ui/manager/button_disable/button_dis
 
 void main() async {
   // HttpOverrides.global = MyhttpsOverride();
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   setupServiceLocator();
+  // Initialize Hive and open the box
   await Hive.initFlutter();
-  await Hive.openBox<CategoryEntity>('categotyBox');
+  // Register the adapter this line should be
+  // the first befire any open Box mehtod
   Hive.registerAdapter(CategoryEntityAdapter());
+  await Hive.openBox<CategoryEntity>('categotyBox');
   Bloc.observer = SimpleBlocObserver();
   await Currancy.initCurrency();
+
+  //splahs screen
+
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(
@@ -82,8 +93,35 @@ void main() async {
           );
 }
 
-class SindbadManagementApp extends StatelessWidget {
+class SindbadManagementApp extends StatefulWidget {
   const SindbadManagementApp({super.key});
+
+  @override
+  State<SindbadManagementApp> createState() => _SindbadManagementAppState();
+}
+
+class _SindbadManagementAppState extends State<SindbadManagementApp> {
+  @override
+  void initState() {
+    super.initState();
+    // initialization();
+  }
+
+  // void initialization() async {
+  //   try {
+  //     var myAppModel = getit.get<GetCategoryNamesCubit>();
+  //     await myAppModel.getMainAndSubCategory(
+  //       filterType: 1,
+  //       pageNumber: 1,
+  //       pageSize: 10,
+  //     );
+  //     debugPrint(myAppModel.mainCategories.length.toString());
+  //   } catch (e) {
+  //     debugPrint('Initialization error: $e');
+  //   } finally {
+  //     FlutterNativeSplash.remove();
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -189,11 +227,11 @@ class SindbadManagementApp extends StatelessWidget {
         //           addProductStoreRepo: getit.get<AddProductStoreRepoImpl>(),
         //         ))),
         // BlocProvider(create: (context) => AddImageToProductAddCubit()),
-        // BlocProvider(
-        //     create: (context) =>
-        //         GetCategoryNamesCubit(GetMainAndSubCategoryUseCase(
-        //           getit.get<AddProductStoreRepoImpl>(),
-        //         ))),
+        BlocProvider(
+            create: (context) =>
+                GetCategoryNamesCubit(GetMainAndSubCategoryUseCase(
+                  getit.get<AddAndEditProductStoreRepoImpl>(),
+                ))),
         // BlocProvider(
         //     create: (context) =>
         //         GetBrandsByCategoryIdCubit(GetBrandsByMainCategoryIdUseCase(
