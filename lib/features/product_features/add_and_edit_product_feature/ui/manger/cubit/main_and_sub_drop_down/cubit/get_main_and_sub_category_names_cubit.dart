@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
 import '../../../../../../../../core/errors/failure.dart';
@@ -12,6 +13,7 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
       : super(GetCategoryNamesInitial());
 
   final GetMainAndSubCategoryUseCase getMainAndSubCategoryUseCase;
+  final FlutterSecureStorage storage = FlutterSecureStorage();
 
   List<CategoryEntity> mainCategories = []; // to store main and sub categories
   List<CategoryEntity> subCategories = []; // to store just sub categories
@@ -31,6 +33,10 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
     }
   }
 
+  Future<String?> getRequestDate() async {
+    return await storage.read(key: 'updatedAt');
+  }
+
   void fetchDataFromHive() {
     mainCategories = categoryBox.values.toList();
 
@@ -39,15 +45,21 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
   }
 
   Future<void> fetchDataFromApi() async {
-    // if (pageNumber == 1) {
     emit(GetCategoryNamesLoading());
+
+    //check if there are any update at stored in the storage
+    String? lastRequestDate = await getRequestDate();
+    Either<Failure, List<CategoryEntity>> result;
+    if (lastRequestDate == null) {
+      result = await getMainAndSubCategoryUseCase.execute(null);
+    } else {
+      result = await getMainAndSubCategoryUseCase.execute(lastRequestDate);
+    }
+    // if (pageNumber == 1) {
     // } else {
     //   emit(GetCategoryNamesPaganiationLoading());
     // }
-    GetMainAndSubCategoryParams params = GetMainAndSubCategoryParams();
-
-    Either<Failure, List<CategoryEntity>> result =
-        await getMainAndSubCategoryUseCase.execute(params);
+    //
 
     result.fold(
         // left
@@ -63,7 +75,9 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
           mainCategories.add(mainAndSubCategory[i]);
         }
       }
-      categoryBox.addAll(mainCategories);
+
+      // add dara to the Hive storage
+      savetoHive(mainCategories);
       // to store in cubit class
       mainCategories = mainAndSubCategory;
       if (!isClosed) {
@@ -71,6 +85,10 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
             categoryAndSubCategoryNames: categoryBox.values.toList()));
       }
     });
+  }
+
+  void savetoHive(List<CategoryEntity> mainCategories) {
+    categoryBox.addAll(mainCategories);
   }
 
   // هذي سويتها لصفحة الاضافة وماقدرت استخدمها في التعديل

@@ -54,7 +54,7 @@ abstract class AddAndEditProductToStoreRemoteDataSource {
     required List<String>? tags,
   });
 
-  Future<List<CategoryEntity>> getMainAndSubCategory({DateTime? updatedAt});
+  Future<List<CategoryEntity>> getMainAndSubCategory({String? updatedAt});
   Future<List<BrandEntity>> getBrandsByMainCategoryId({
     required int? mainCategoryId,
   });
@@ -72,6 +72,11 @@ class AddProductToStoreRemoteDataSourceImpl
 
   Future<String?> getToken() async {
     return await secureStorage.read(key: 'token');
+  }
+
+  Future<void> saveRequest() async {
+    return await secureStorage.write(
+        key: 'updatedAt', value: DateTime.now().toString());
   }
 
   @override
@@ -153,7 +158,7 @@ class AddProductToStoreRemoteDataSourceImpl
   // =========================  for get MainAndSubCategory  ===========================
   @override
   Future<List<CategoryEntity>> getMainAndSubCategory(
-      {DateTime? updatedAt}) async {
+      {String? updatedAt}) async {
     String? token = await getToken();
     final Map<String, dynamic> data;
     if (updatedAt == null) {
@@ -162,12 +167,15 @@ class AddProductToStoreRemoteDataSourceImpl
               // "Categories/GetCategoriesWithFilter?filterType=$filterType&pageSize=$pageSize&pageNumber=$pageNumber");
               "Categories?types=1&level=1&level=2",
           headers: {'Authorization': 'Bearer $token'});
+      // current sending request
+      saveRequest();
     } else {
       data = await apiService.get(
           endPoint:
               // "Categories/GetCategoriesWithFilter?filterType=$filterType&pageSize=$pageSize&pageNumber=$pageNumber");
               "Categories?types=1&level=1&level=2&?updatedAt$updatedAt",
           headers: {'Authorization': 'Bearer $token'});
+      print(data);
     }
 
     // change Data from JSON to DartModel

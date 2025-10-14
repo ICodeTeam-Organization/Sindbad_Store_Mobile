@@ -23,6 +23,7 @@ class CategoryEntityAdapter extends TypeAdapter<CategoryEntity> {
       categoryLevel: fields[3] as int,
       categoryParentId: fields[4] as int,
       categoryType: fields[5] as int,
+      isDeleted: fields[6] ?? false,
     );
   }
 
@@ -41,7 +42,9 @@ class CategoryEntityAdapter extends TypeAdapter<CategoryEntity> {
       ..writeByte(4)
       ..write(obj.categoryParentId)
       ..writeByte(5)
-      ..write(obj.categoryType);
+      ..write(obj.categoryType)
+      ..writeByte(6)
+      ..write(obj.isDeleted);
   }
 
   @override

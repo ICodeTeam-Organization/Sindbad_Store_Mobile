@@ -54,16 +54,6 @@ abstract class AppRouter {
       GoRoute(
         path: AppRouter.storeRouters.signIn,
         builder: (context, state) {
-          // FlutterSecureStorage storage = const FlutterSecureStorage();
-          // return FutureBuilder<bool>(
-          //   future: storage.containsKey(key: 'token'),
-          //   builder: (context, snapshot) {
-          //     if (snapshot.connectionState == ConnectionState.waiting) {
-          //       return const SizedBox.shrink(); // or a loading indicator
-          //     }
-          //     if (snapshot.hasData && snapshot.data == true) {
-          //   return const Root();
-          //}
           return const Login();
         },
       ),

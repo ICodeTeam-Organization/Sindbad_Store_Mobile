@@ -8,6 +8,7 @@ class CategoryModels extends CategoryEntity {
   bool? isOfficial;
   int? parentId;
   int? type;
+  bool? isDelete;
 
   CategoryModels({
     this.id,
@@ -17,13 +18,15 @@ class CategoryModels extends CategoryEntity {
     this.isOfficial,
     this.parentId,
     this.type,
+    this.isDelete,
   }) : super(
             categoryId: id ?? 0,
             categoryName: name ?? '',
             categoryImage: imageUrl ?? '',
             categoryLevel: level ?? 0,
             categoryParentId: parentId ?? 0,
-            categoryType: type ?? 0);
+            categoryType: type ?? 0,
+            isDeleted: isDelete ?? false);
 
   factory CategoryModels.fromJson(Map<String, dynamic> json) => CategoryModels(
         id: json['id'] as int?,
@@ -33,6 +36,7 @@ class CategoryModels extends CategoryEntity {
         isOfficial: json['isOfficial'] as bool?,
         parentId: json['parentId'] as int?,
         type: json['type'] as int?,
+        isDelete: json['isDeleted'] as bool?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -43,5 +47,6 @@ class CategoryModels extends CategoryEntity {
         'isOfficial': isOfficial,
         'parentId': parentId,
         'type': type,
+        'isDeleted': isDelete
       };
 }

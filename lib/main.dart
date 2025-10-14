@@ -66,8 +66,7 @@ import 'features/order_management _features/ui/manager/button_disable/button_dis
 
 void main() async {
   // HttpOverrides.global = MyhttpsOverride();
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  WidgetsFlutterBinding.ensureInitialized();
   setupServiceLocator();
   // Initialize Hive and open the box
   await Hive.initFlutter();

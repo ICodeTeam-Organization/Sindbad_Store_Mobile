@@ -104,8 +104,7 @@ class _CustomCardContainsAllDropDownEditScreenState
                 );
               }
 
-              if (state is GetCategoryNamesSuccess ||
-                  state is GetCategoryNamesPaganiationLoading) {
+              if (state is GetCategoryNamesSuccess) {
                 return CustomDropdownWidget(
                     initialItem: cubitEditProduct.isInitialDropDown
                         ? widget.initialMainNameToProduct

@@ -15,6 +15,8 @@ class CategoryEntity extends HiveObject {
   final int categoryParentId;
   @HiveField(5)
   final int categoryType;
+  @HiveField(6)
+  final bool isDeleted;
 
   CategoryEntity({
     required this.categoryId,
@@ -23,5 +25,6 @@ class CategoryEntity extends HiveObject {
     required this.categoryLevel,
     required this.categoryParentId,
     required this.categoryType,
+    required this.isDeleted,
   });
 }

@@ -70,10 +70,11 @@ class AddAndEditProductStoreRepoImpl extends AddAndEditProductStoreRepo {
   }
 
   @override
-  Future<Either<Failure, List<CategoryEntity>>> getMainAndSubCategory() async {
+  Future<Either<Failure, List<CategoryEntity>>> getMainAndSubCategory(
+      String? updatedAt) async {
     try {
       var data = await addAndEditProductToStoreRemoteDataSource
-          .getMainAndSubCategory();
+          .getMainAndSubCategory(updatedAt: updatedAt);
       return right(data);
     } catch (e) {
       if (e is DioException) {
