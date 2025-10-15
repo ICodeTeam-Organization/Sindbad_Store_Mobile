@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
     const storage = FlutterSecureStorage();
     bool hasToken = await storage.containsKey(key: 'token') ?? false;
 
-    await Future.delayed(const Duration(seconds: 10));
+    //await Future.delayed(const Duration(seconds: 100));
 
     if (mounted) {
       if (hasToken) {
@@ -52,10 +52,20 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Image.asset(
-                    'assets/splahs_screen.png',
-                    width: 180,
-                    height: 180,
+                  Container(
+                    height: 176,
+                    width: 176,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(70)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Image.asset(
+                        'assets/splahs_screen_loading.png',
+                        width: 50,
+                        height: 100.65,
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 20),
                   const Text(
