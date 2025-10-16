@@ -5,6 +5,7 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 // import 'order_management _features/ui/screen/order_management_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/screens/view_offer_screen.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/screen/order_management_screen.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
 import 'product_features/view_product_features/ui/screens/view_product_screen.dart';
 
 class Root extends StatefulWidget {
@@ -17,6 +18,15 @@ class Root extends StatefulWidget {
 class _RootState extends State<Root> {
   /// The current index of the selected item or page.
   /// Initialized to 0 by default.
+  ///
+  @override
+  void initState() {
+    super.initState();
+    print("initState Called");
+
+    context.read<GetCategoryNamesCubit>().fetchDataFromApi();
+  }
+
   int myIndex = 0;
 
   List<Widget> widgetList = [

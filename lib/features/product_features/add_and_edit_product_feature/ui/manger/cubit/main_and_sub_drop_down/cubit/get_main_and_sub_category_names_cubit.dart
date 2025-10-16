@@ -77,7 +77,7 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
       }
 
       // add dara to the Hive storage
-      savetoHive(mainCategories);
+      savetoHive(mainAndSubCategory);
       // to store in cubit class
       mainCategories = mainAndSubCategory;
       if (!isClosed) {
@@ -87,8 +87,10 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
     });
   }
 
-  void savetoHive(List<CategoryEntity> mainCategories) {
-    categoryBox.addAll(mainCategories);
+  void savetoHive(List<CategoryEntity> newData) {
+    print(categoryBox.values.toList());
+    print(newData);
+    categoryBox.addAll(newData);
   }
 
   // هذي سويتها لصفحة الاضافة وماقدرت استخدمها في التعديل

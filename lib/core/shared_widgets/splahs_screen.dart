@@ -17,9 +17,6 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    // Fetch categories from API and store locally
-    context.read<GetCategoryNamesCubit>().fetchDataFromApi();
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _initApp();
     });
