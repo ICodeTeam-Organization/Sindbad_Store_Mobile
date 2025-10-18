@@ -77,7 +77,7 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
       }
 
       // add dara to the Hive storage
-      savetoHive(mainAndSubCategory);
+      saveToHive(mainAndSubCategory);
       // to store in cubit class
       mainCategories = mainAndSubCategory;
       if (!isClosed) {
@@ -87,10 +87,31 @@ class GetCategoryNamesCubit extends Cubit<GetCategoryNamesState> {
     });
   }
 
-  void savetoHive(List<CategoryEntity> newData) {
-    print(categoryBox.values.toList());
-    print(newData);
-    categoryBox.addAll(newData);
+  void saveToHive(List<CategoryEntity> newData) {
+    final box = categoryBox;
+
+    for (final newCat in newData) {
+      // find key for an existing item that has the same categoryId
+      dynamic foundKey;
+      for (final key in box.keys) {
+        final item = box.get(key);
+        if (item != null && item.categoryId == newCat.categoryId) {
+          foundKey = key;
+          break;
+        }
+      }
+
+      if (foundKey == null) {
+        // not found -> add using categoryId as key (recommended)
+        // This avoids auto-generated keys and makes future updates simpler.
+        box.put(newCat.categoryId, newCat);
+      } else {
+        // found -> replace the stored object with the new immutable object
+        box.put(foundKey, newCat);
+      }
+    }
+
+    print('Hive update complete. total: ${box.values.length}');
   }
 
   // هذي سويتها لصفحة الاضافة وماقدرت استخدمها في التعديل

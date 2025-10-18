@@ -76,7 +76,7 @@ class AddProductToStoreRemoteDataSourceImpl
 
   Future<void> saveRequest() async {
     return await secureStorage.write(
-        key: 'updatedAt', value: DateTime.now().toString());
+        key: 'updatedAt', value: DateTime.now().toUtc().toString());
   }
 
   @override
@@ -167,19 +167,18 @@ class AddProductToStoreRemoteDataSourceImpl
               // "Categories/GetCategoriesWithFilter?filterType=$filterType&pageSize=$pageSize&pageNumber=$pageNumber");
               "Categories?types=1&level=1&level=2",
           headers: {'Authorization': 'Bearer $token'});
-      // current sending request
-      saveRequest();
     } else {
       data = await apiService.get(
           endPoint:
-              // "Categories/GetCategoriesWithFilter?filterType=$filterType&pageSize=$pageSize&pageNumber=$pageNumber");
-              "Categories?types=1&level=1&level=2&?updatedAt$updatedAt",
+              // "Categories?types=1&level=1&level=2&updatedAt=2025-10-18%2007%3A48%3A14.768144",
+              "Categories?types=1&level=1&level=2&updatedAt=$updatedAt",
           headers: {'Authorization': 'Bearer $token'});
       print(data);
     }
+    // current sending request
+    saveRequest();
 
     // change Data from JSON to DartModel
-
     List<CategoryEntity> mainAndSubCategories = getCategorylist(data);
 
     return mainAndSubCategories;
