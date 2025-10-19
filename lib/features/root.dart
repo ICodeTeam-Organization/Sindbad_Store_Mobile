@@ -22,8 +22,9 @@ class _RootState extends State<Root> {
   @override
   void initState() {
     super.initState();
-    print("initState Called");
 
+    /// initilization the categories in the cubit
+    /// this line invoke fetchDataFromApi methof from the category cubit
     context.read<GetCategoryNamesCubit>().fetchDataFromApi();
   }
 
