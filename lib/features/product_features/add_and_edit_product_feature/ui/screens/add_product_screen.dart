@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sindbad_management_app/core/setup_service_locator.dart';
+import 'package:sindbad_management_app/injection_container.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/add_product_screen_body.dart';
 import '../../data/repos/add_and_edit_product_store_repo_impl.dart';
 import '../../domain/use_cases/add_product_to_store_use_case.dart';

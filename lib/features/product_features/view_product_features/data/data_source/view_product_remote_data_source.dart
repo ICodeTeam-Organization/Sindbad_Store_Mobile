@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:sindbad_management_app/features/product_features/view_product_features/data/data_source/products_endpoint_parameters.dart';
 import 'package:sindbad_management_app/features/product_features/view_product_features/domain/entities/delete_entity_product.dart';
 import '../../../../../core/api_service.dart';
 import '../../domain/entities/activate_products_entity.dart';
@@ -127,39 +128,40 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
     //String? token = await getToken();
     String? storeId = await extractStoreIdFromToken();
 
-    final List<int> category = categoryId != null ? [categoryId] : [];
+    // Handle categories properly - only include if categoryId is not null
+    final List<int>? categories = categoryId != null ? [categoryId] : null;
     final Map<String, dynamic> requestData;
     switch (storeProductsFilter) {
       case 0: // for all products
-        requestData = {
-          "pageNumber": pageNumber,
-          "pageSize": pageSize,
-          "store": storeId
-        };
+        requestData = ProductsEndpointParameters.buildQueryParameters(
+            store: storeId,
+            pageNumber: pageNumber,
+            pageSize: pageSize,
+            categories: categories);
         break;
       case 1: // for products hasOffer
-        requestData = {
-          "hasOffer": true,
-          "pageNumber": pageNumber,
-          "pageSize": pageSize,
-          "store": storeId
-        };
+        requestData = ProductsEndpointParameters.buildQueryParameters(
+            hasOffer: true,
+            store: storeId,
+            pageNumber: pageNumber,
+            pageSize: pageSize,
+            categories: categories);
         break;
       case 2: // for products isDeleted
-        requestData = {
-          "isActive": false,
-          "pageNumber": pageNumber,
-          "pageSize": pageSize,
-          "store": storeId
-        };
+        requestData = ProductsEndpointParameters.buildQueryParameters(
+            isActive: false,
+            store: storeId,
+            pageNumber: pageNumber,
+            pageSize: pageSize,
+            categories: categories);
         break;
       default:
         throw Exception("Invalid storeProductsFilter value");
     }
     // Add common query parameters
-
+    // Map<String, dynamic> query1 = ProductsEndpointParameters.buildQueryParameters();
     var data = await apiService.get(
-      endPoint: "Products?desc=false&own=false",
+      endPoint: "Products",
       queryParameters: requestData,
     );
     List<ProductEntity> products = getAllProductsByFilter(data);

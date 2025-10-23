@@ -3,11 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sindbad_management_app/config/locales_config.dart';
 import 'package:sindbad_management_app/core/utils/currancy.dart';
 import 'package:sindbad_management_app/core/utils/route.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/repo/auth_repo_impl.dart';
@@ -48,7 +47,7 @@ import 'package:sindbad_management_app/features/product_features/add_and_edit_pr
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/use_cases/get_main_and_sub_category_use_case.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
-import 'core/setup_service_locator.dart';
+import 'injection_container.dart';
 import 'core/simple_bloc_observer.dart';
 import 'features/order_management _features/domain/usecases/order_details_usecase.dart';
 import 'features/order_management _features/domain/usecases/order_shipping_usecase.dart';
@@ -67,18 +66,18 @@ import 'features/order_management _features/ui/manager/button_disable/button_dis
 void main() async {
   // HttpOverrides.global = MyhttpsOverride();
   WidgetsFlutterBinding.ensureInitialized();
-  setupServiceLocator();
+  initializationContainer();
   // Initialize Hive and open the box
   await Hive.initFlutter();
-  // Register the adapter this line should be
-  // the first befire any open Box mehtod
+
+  /// Register the adapter this line should be,
+  /// the first before any open Box mehtod
   Hive.registerAdapter(CategoryEntityAdapter());
   await Hive.openBox<CategoryEntity>('categotyBox');
   Bloc.observer = SimpleBlocObserver();
   await Currancy.initCurrency();
 
   //splahs screen
-
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(
@@ -126,6 +125,7 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        ///block provider instance.
         BlocProvider(
             create: (context) => OfferDetailsCubit(GetOfferDetailsUseCase(
                   getit<ViewOfferRepoImpl>(),
@@ -257,15 +257,9 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
             scaffoldBackgroundColor:
                 const Color(0xfffffbfb), // Set default background color
           ),
-          localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [
-            Locale('ar', 'AR'), // Arabic, no country code
-          ],
-          locale: const Locale('ar', 'AR'),
+          localizationsDelegates: LocalesConfig.localizationsDelegates,
+          supportedLocales: LocalesConfig.supportedLocales,
+          locale: LocalesConfig.defaultLocale,
           debugShowCheckedModeBanner: false,
         ),
       ),

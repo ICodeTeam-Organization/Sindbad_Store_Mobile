@@ -36,17 +36,17 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 
 // import 'package:test_order_life_cycle/features/delivery/Receive_Parcels/data/data_source/remote/receive_parcels_remote_data_source.dart';
 
-import '../features/order_management _features/data/repos_impl/all_order_repo_impl.dart';
-import '../features/order_management _features/data/data_sources/all_order_remot_data_source.dart';
-import '../features/product_features/add_and_edit_product_feature/data/data_source/add_and_edit_product_to_store_remote_data_source.dart';
-import '../features/product_features/view_product_features/data/repos/view_product_store_repo_impl.dart';
-import '../features/profile_feature/data/data_source/profile_data_source.dart';
-import '../features/profile_feature/data/repo/profile_repo_impl.dart';
-import 'api_service.dart';
+import 'features/order_management _features/data/repos_impl/all_order_repo_impl.dart';
+import 'features/order_management _features/data/data_sources/all_order_remot_data_source.dart';
+import 'features/product_features/add_and_edit_product_feature/data/data_source/add_and_edit_product_to_store_remote_data_source.dart';
+import 'features/product_features/view_product_features/data/repos/view_product_store_repo_impl.dart';
+import 'features/profile_feature/data/data_source/profile_data_source.dart';
+import 'features/profile_feature/data/repo/profile_repo_impl.dart';
+import 'core/api_service.dart';
 
 final getit = GetIt.instance;
 
-void setupServiceLocator() {
+void initializationContainer() {
   getit.registerSingleton<ApiService>(ApiService(Dio()));
 
   getit.registerSingleton<FlutterSecureStorage>(

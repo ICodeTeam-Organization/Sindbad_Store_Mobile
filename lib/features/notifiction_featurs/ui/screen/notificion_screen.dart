@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sindbad_management_app/core/setup_service_locator.dart';
+import 'package:sindbad_management_app/injection_container.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/data/repo/notifiction_repo_impl.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/domin/use_case/get_notifiction_use_case.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/domin/use_case/read_notificton_use_case.dart';
