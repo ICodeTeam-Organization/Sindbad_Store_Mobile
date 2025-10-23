@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:sindbad_management_app/features/product_features/view_product_features/domain/entities/delete_entity_product.dart';
 import '../../../../../core/api_service.dart';
 import '../../domain/entities/activate_products_entity.dart';
@@ -45,6 +48,26 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
 
   Future<String?> getToken() async {
     return await flutterSecureStorage.read(key: 'token');
+  }
+
+  Future<String?> extractStoreIdFromToken() async {
+    // Read the token
+    final token = await flutterSecureStorage.read(key: 'token');
+    if (token == null || token.isEmpty) {
+      throw Exception("No token found in secure storage");
+    }
+
+    // Decode the token
+    final decodedToken = JwtDecoder.decode(token);
+
+    // Check for storeId or Id key
+    final storeId = decodedToken["storeId"] ?? decodedToken["Id"];
+    if (storeId == null) {
+      throw Exception("Token does not contain a store ID");
+    }
+
+    // Convert to string (JWT fields may not always be strings)
+    return storeId.toString();
   }
 
   // =====================  for Main Category For View  ======================
@@ -101,46 +124,44 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
     required int pageSize,
     required int? categoryId,
   }) async {
-    String? token = await getToken();
+    //String? token = await getToken();
+    String? storeId = await extractStoreIdFromToken();
+
     final List<int> category = categoryId != null ? [categoryId] : [];
     final Map<String, dynamic> requestData;
     switch (storeProductsFilter) {
       case 0: // for all products
         requestData = {
-          "categories":
-              // categoryId, // if categoryId = null  will return all products
-              category, // if categoryId = null  will return all products
           "pageNumber": pageNumber,
-          "pageSize": pageSize
+          "pageSize": pageSize,
+          "store": storeId
         };
         break;
       case 1: // for products hasOffer
         requestData = {
           "hasOffer": true,
-          "categories":
-              // categoryId, // if categoryId = null  will return all products offers
-              category, // if categoryId = null  will return all products offers
           "pageNumber": pageNumber,
-          "pageSize": pageSize
+          "pageSize": pageSize,
+          "store": storeId
         };
         break;
       case 2: // for products isDeleted
         requestData = {
-          "isDisable": true,
-          "categories":
-              // categoryId, // if categoryId = null  will return all products offers
-              category, // if categoryId = null  will return all products offers
+          "isActive": false,
           "pageNumber": pageNumber,
-          "pageSize": pageSize
+          "pageSize": pageSize,
+          "store": storeId
         };
         break;
       default:
         throw Exception("Invalid storeProductsFilter value");
     }
-    var data = await apiService.post(
-        endPoint: "Products/GetProductsWitheFilter?returnDtoName=1",
-        data: requestData,
-        headers: {"Authorization": "BEARER $token"});
+    // Add common query parameters
+
+    var data = await apiService.get(
+      endPoint: "Products?desc=false&own=false",
+      queryParameters: requestData,
+    );
     List<ProductEntity> products = getAllProductsByFilter(data);
     return products;
   }
