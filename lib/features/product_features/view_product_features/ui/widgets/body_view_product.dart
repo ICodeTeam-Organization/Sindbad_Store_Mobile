@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/use_cases/get_main_and_sub_category_use_case.dart';
+import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
 import 'package:sindbad_management_app/features/product_features/view_product_features/ui/widgets/list_main_category_for_view.dart';
 import '../../../../../core/shared_widgets/new_widgets/custom_app_bar.dart';
 import '../../../../../core/shared_widgets/new_widgets/custom_tab_bar_widget.dart';
@@ -36,6 +38,7 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
     super.initState();
     initCubitGetStoreProducts();
     initCubitDisableProducts();
+    // context.read<GetCategoryNamesCubit>().fetchDataFromHive();
     context.read<GetMainCategoryForViewCubit>().getMainCategoryForView(
         pageNumber: 1, pageSize: 10); // for get Main category
   }
