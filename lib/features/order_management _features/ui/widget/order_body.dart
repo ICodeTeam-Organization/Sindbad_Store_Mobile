@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sindbad_management_app/core/utils/route.dart';
-import '../../../../core/styles/Colors.dart';
-import '../../../../core/styles/text_style.dart';
+import 'package:sindbad_management_app/config/routers/route.dart';
+import 'package:sindbad_management_app/config/routers/routers_names.dart';
+import '../../../../config/styles/Colors.dart';
+import '../../../../config/styles/text_style.dart';
 import 'order_management_widget/bottom_info_order.dart';
 import 'order_management_widget/top_info_order.dart';
 
@@ -73,7 +74,7 @@ class OrderBody extends StatelessWidget {
         paymentInfos = paymentInfo;
         orderStatuss = orderStatus;
         orderColors = orderColor;
-        context.push(AppRouter.storeRouters.details, extra: idPackage);
+        context.push(AppRoutes.details, extra: idPackage);
       },
       child: Container(
         margin: EdgeInsets.all(5),

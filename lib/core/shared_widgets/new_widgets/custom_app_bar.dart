@@ -3,11 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sindbad_management_app/core/styles/text_style.dart';
-import 'package:sindbad_management_app/core/utils/route.dart';
+import 'package:sindbad_management_app/config/routers/routers_names.dart';
+import 'package:sindbad_management_app/config/styles/text_style.dart';
+import 'package:sindbad_management_app/config/routers/route.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/ui/cubit/notifiction_cubit/unread_notifiction_cubit.dart';
 
-import '../../styles/Colors.dart';
+import '../../../config/styles/Colors.dart';
 
 class CustomAppBar extends StatefulWidget {
   final String tital;
@@ -80,7 +81,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                           child: InkWell(
                             onTap: widget.onSearchPressed ??
                                 () => GoRouter.of(context)
-                                    .push(AppRouter.storeRouters.kprofile),
+                                    .push(AppRoutes.profile),
                             child: Icon(Icons.person_outline,
                                 size: 30.w, color: AppColors.blackDark),
                           )),
@@ -93,7 +94,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                           child: InkWell(
                             onTap: widget.onSearchPressed ??
                                 () => GoRouter.of(context)
-                                    .push(AppRouter.storeRouters.notifiction),
+                                    .push(AppRoutes.notification),
                             child: BlocConsumer<UnreadNotifictionCubit,
                                 UnreadNotifictionState>(
                               listener: (context, state) {

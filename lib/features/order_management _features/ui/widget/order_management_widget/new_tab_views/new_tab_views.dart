@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../../../core/shared_widgets/new_widgets/sub_custom_tab_bar.dart';
-import '../../../../../../core/styles/text_style.dart';
+import '../../../../../../config/styles/text_style.dart';
 import 'shipping_info_order.dart';
 import 'all_info_order.dart';
 import 'no_bill_info_order.dart';

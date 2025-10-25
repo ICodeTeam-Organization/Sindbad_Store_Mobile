@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../../core/styles/Colors.dart';
-import '../../../../../core/styles/text_style.dart';
-import '../../../../../core/utils/route.dart';
+import 'package:sindbad_management_app/config/routers/routers_names.dart';
+import '../../../../../config/styles/Colors.dart';
+import '../../../../../config/styles/text_style.dart';
+import '../../../../../config/routers/route.dart';
 import '../../../add_and_edit_product_feature/ui/manger/cubit/ProductDetails/product_details_cubit.dart';
 import '../../../add_and_edit_product_feature/ui/screens/edit_product_screen.dart';
 import '../../domain/entities/product_entity.dart';
@@ -309,7 +310,7 @@ void showGetProductDetailsDialog({
               if (state is ProductDetailsSuccess) {
                 Navigator.of(dialogContext, rootNavigator: true).pop();
                 contextParent.push(
-                  AppRouter.storeRouters.kStoreEditProduct,
+                  AppRoutes.editProduct,
                   extra: EditProductExtraData(
                     productDetails: state.productDetailsEntity,
                     onSuccess: () {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sindbad_management_app/core/styles/Colors.dart';
-import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/config/styles/Colors.dart';
+import 'package:sindbad_management_app/config/styles/text_style.dart';
 
 class RemainingNoticeWidget extends StatelessWidget {
   final dynamic remainingDays;

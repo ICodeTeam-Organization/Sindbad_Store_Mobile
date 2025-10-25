@@ -8,7 +8,7 @@ import 'package:sindbad_management_app/core/shared_widgets/new_widgets/sub_custo
 import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_body.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_details_widget/radio_widget.dart';
 import '../../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
-import '../../../../../core/styles/Colors.dart';
+import '../../../../../config/styles/Colors.dart';
 import '../../function/image_picker_function.dart';
 import '../../manager/all_order/all_order_cubit.dart';
 import '../../manager/cancel/cancel_cubit.dart';

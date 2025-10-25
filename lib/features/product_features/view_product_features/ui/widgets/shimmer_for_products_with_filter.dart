@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../../../../core/styles/Colors.dart';
+import '../../../../../config/styles/Colors.dart';
 
 class ShimmerForProductsWithFilter extends StatelessWidget {
   const ShimmerForProductsWithFilter({

@@ -2,8 +2,8 @@ import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sindbad_management_app/core/styles/Colors.dart';
-import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/config/styles/Colors.dart';
+import 'package:sindbad_management_app/config/styles/text_style.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/company_shipping_entity.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/company_shipping/cubit/company_shipping_cubit.dart';
 

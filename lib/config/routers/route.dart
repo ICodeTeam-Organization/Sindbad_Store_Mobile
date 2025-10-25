@@ -1,6 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/widgets.dart';
+import 'package:sindbad_management_app/config/routers/routers_names.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/screens/login.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/ui/screen/notificion_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/new_offer_screen.dart';
@@ -14,45 +15,12 @@ import '../../features/order_management _features/ui/screen/order_details.dart';
 import '../../features/product_features/add_and_edit_product_feature/ui/screens/edit_product_screen.dart';
 import '../../features/root.dart';
 
-class StoreRouters {
-  String root = '/root';
-  String kOfferDetails = '/offerDetails';
-  String kNewOffer = '/newOffer';
-  String kUpdateOffer = '/updateOffer';
-
-  String signIn = '/singin';
-  String details = '/details';
-  String notifiction = '/notifiction';
-  ///////////////////////////////////////////////////
-
-// [qais + salem + abduallah] => give the screen router names a meanful name
-// for example : kStoreViewProducts not kStoreProducts and so on
-
-  String kStoreHome = '/store/home';
-  String kStoreAddProduct = '/store/addProduct';
-  String kStoreEditProduct = '/store/editProduct';
-  String kStoreOrderProcessing = '/store/orderProcessing';
-  String kStoreProducts = '/store/products';
-  String kStoreSearchProduct = '/store/searchProduct';
-  String kStoreOffer = '/store/offer';
-  String kStoreStopProduct = '/store/stopProduct';
-  String kStoreOfferProduct = '/store/offerProduct';
-  String kStoreStoppedProduct = '/store/stoppedProduct';
-  String kStoreExcelFile = '/store/excelFile';
-  String kStoreReport = '/store/report';
-  String kprofile = '/profile';
-  String kchangePassword = '/changePassword';
-  String ksplashScreen = '/splashScreen';
-}
-
 abstract class AppRouter {
-  //static const signIn = '/';
-  static StoreRouters storeRouters = StoreRouters();
   static final router = GoRouter(
     routes: [
       // Store Routes
       GoRoute(
-        path: AppRouter.storeRouters.signIn,
+        path: AppRoutes.signIn,
         builder: (context, state) {
           return const Login();
         },
@@ -65,15 +33,15 @@ abstract class AppRouter {
         },
       ),
       GoRoute(
-        path: AppRouter.storeRouters.root,
+        path: AppRoutes.root,
         builder: (context, state) => const Root(),
       ),
       GoRoute(
-        path: AppRouter.storeRouters.kNewOffer,
+        path: AppRoutes.newOffer,
         builder: (context, state) => const NewOfferScreen(),
       ),
       GoRoute(
-        path: AppRouter.storeRouters.kUpdateOffer,
+        path: AppRoutes.updateOffer,
         builder: (context, state) {
           final List<dynamic> args = state.extra as List<dynamic>;
           final int offerHeadId = args[0]; // The second parameter in the list
@@ -84,7 +52,7 @@ abstract class AppRouter {
       ),
 
       GoRoute(
-        path: AppRouter.storeRouters.kStoreAddProduct,
+        path: AppRoutes.addProduct,
         builder: (context, state) {
           final onSuccessCallback = state.extra as VoidCallback?;
 
@@ -94,7 +62,7 @@ abstract class AppRouter {
         },
       ),
       GoRoute(
-        path: AppRouter.storeRouters.kStoreEditProduct,
+        path: AppRoutes.editProduct,
         builder: (context, state) {
           final extraData = state.extra as EditProductExtraData;
           return EditProductScreen(
@@ -105,7 +73,7 @@ abstract class AppRouter {
       ),
 
       GoRoute(
-        path: AppRouter.storeRouters.kOfferDetails,
+        path: AppRoutes.offerDetails,
         builder: (context, state) {
           final List<dynamic> args = state.extra as List<dynamic>;
           final int offerId = args[0];
@@ -131,7 +99,7 @@ abstract class AppRouter {
       //   },
       // ),
       GoRoute(
-          path: AppRouter.storeRouters.details,
+          path: AppRoutes.details,
           builder: (context, state) {
             final orderId = state.extra as int;
             final packageId = state.extra as int;
@@ -153,18 +121,18 @@ abstract class AppRouter {
             );
           }),
       GoRoute(
-          path: AppRouter.storeRouters.notifiction,
+          path: AppRoutes.notification,
           builder: (context, state) {
             return const NotificionScreen();
           }),
 
       GoRoute(
-          path: AppRouter.storeRouters.kprofile,
+          path: AppRoutes.profile,
           builder: (context, state) {
             return const ProfileScreen();
           }),
       GoRoute(
-          path: AppRouter.storeRouters.kchangePassword,
+          path: AppRoutes.changePassword,
           builder: (context, state) {
             return const ChnagePasssowrdScreen();
           }),

@@ -6,7 +6,7 @@ import 'package:sindbad_management_app/features/product_features/add_and_edit_pr
 import 'package:sindbad_management_app/features/product_features/view_product_features/ui/widgets/list_main_category_for_view.dart';
 import '../../../../../core/shared_widgets/new_widgets/custom_app_bar.dart';
 import '../../../../../core/shared_widgets/new_widgets/custom_tab_bar_widget.dart';
-import '../../../../../core/styles/Colors.dart';
+import '../../../../../config/styles/Colors.dart';
 import '../manager/activate_products/activate_products_by_ids_cubit.dart';
 import '../manager/disable_products/disable_products_by_ids_cubit.dart';
 import '../manager/get_main_category_for_view/get_main_category_for_view_cubit.dart';

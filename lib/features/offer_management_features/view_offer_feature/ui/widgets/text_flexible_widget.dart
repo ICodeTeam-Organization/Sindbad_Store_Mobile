@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/config/styles/text_style.dart';
 
 class TextFlexibleWidget extends StatelessWidget {
   final String title;

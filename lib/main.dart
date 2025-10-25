@@ -8,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sindbad_management_app/config/locales_config.dart';
 import 'package:sindbad_management_app/core/utils/currancy.dart';
-import 'package:sindbad_management_app/core/utils/route.dart';
+import 'package:sindbad_management_app/config/routers/route.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/repo/auth_repo_impl.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/usecase/sign_in_use_case.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit_cubit.dart';
@@ -104,22 +104,6 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
     super.initState();
     // initialization();
   }
-
-  // void initialization() async {
-  //   try {
-  //     var myAppModel = getit.get<GetCategoryNamesCubit>();
-  //     await myAppModel.getMainAndSubCategory(
-  //       filterType: 1,
-  //       pageNumber: 1,
-  //       pageSize: 10,
-  //     );
-  //     debugPrint(myAppModel.mainCategories.length.toString());
-  //   } catch (e) {
-  //     debugPrint('Initialization error: $e');
-  //   } finally {
-  //     FlutterNativeSplash.remove();
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
-import '../../../../../core/styles/Colors.dart';
-import '../../../../../core/styles/text_style.dart';
+import '../../../../../config/styles/Colors.dart';
+import '../../../../../config/styles/text_style.dart';
 import 'build_info_row_add.dart';
 
 TextEditingController printConroller = TextEditingController();

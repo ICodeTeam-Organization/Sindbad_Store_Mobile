@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/config/routers/routers_names.dart';
+import 'package:sindbad_management_app/config/styles/text_style.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/domin/entity/nottifction_entity.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/ui/cubit/nutifiction_cubit/notifiction_cubit.dart';
 
-import '../../../../core/utils/route.dart';
+import '../../../../config/routers/route.dart';
 import '../cubit/read_notifction_cubit/read_notifiction_cubit.dart';
 
 class NottifictionItem extends StatefulWidget {
@@ -130,8 +131,7 @@ class _NotifictionTileWidgetState extends State<NotifictionTileWidget> {
         context
             .read<ReadNotifictionCubit>()
             .readNotifiction(widget.notifictionList.notifictionId);
-        context.push(AppRouter.storeRouters.details,
-            extra: widget.notifictionList.orderId);
+        context.push(AppRoutes.details, extra: widget.notifictionList.orderId);
         // context
         //     .read<UnreadNotifictionCubit>()
         //     .getUnreadNotifiction(widget.notifictionList.notifictionId);

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sindbad_management_app/config/routers/routers_names.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_app_bar.dart';
-import 'package:sindbad_management_app/core/styles/Colors.dart';
-import 'package:sindbad_management_app/core/utils/route.dart';
+import 'package:sindbad_management_app/config/styles/Colors.dart';
+import 'package:sindbad_management_app/config/routers/route.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/widget/profile_button_widget.dart';
 
 class ProfileBody extends StatefulWidget {
@@ -76,8 +77,7 @@ class _ProfileBodyState extends State<ProfileBody> {
                   title: 'تغيير كلمة المرور',
                   icon: Icons.lock,
                   onTap: () {
-                    GoRouter.of(context)
-                        .push(AppRouter.storeRouters.kchangePassword);
+                    GoRouter.of(context).push(AppRoutes.changePassword);
                   }),
               SizedBox(
                 height: 10,
@@ -103,7 +103,7 @@ class _ProfileBodyState extends State<ProfileBody> {
                   icon: Icons.logout,
                   onTap: () {
                     storage.delete(key: 'token');
-                    GoRouter.of(context).go(AppRouter.storeRouters.signIn);
+                    GoRouter.of(context).go(AppRoutes.signIn);
                   }),
             ],
           ),
