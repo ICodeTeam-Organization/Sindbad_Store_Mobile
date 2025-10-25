@@ -107,7 +107,7 @@ class _LoginState extends State<Login> {
                                   key: KeyName.country,
                                   value: state.user.userCuntry);
                               Currancy.initCurrency();
-                              GoRouter.of(context).go(AppRoutes.details);
+                              GoRouter.of(context).go(AppRoutes.root);
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
