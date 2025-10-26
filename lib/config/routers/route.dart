@@ -22,7 +22,7 @@ abstract class AppRouter {
       GoRoute(
         path: AppRoutes.signIn,
         builder: (context, state) {
-          return const Login();
+          return Login();
         },
       ),
 

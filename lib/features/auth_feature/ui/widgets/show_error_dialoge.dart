@@ -29,8 +29,11 @@ class ShowErrorDialoge extends StatelessWidget {
           content: Text(
             errorMessage,
             style: TextStyle(fontSize: 16),
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.right,
           ),
+          actionsAlignment:
+              MainAxisAlignment.start, // ✅ This pushes the button to the right
+
           actions: [
             TextButton(
               onPressed: () {

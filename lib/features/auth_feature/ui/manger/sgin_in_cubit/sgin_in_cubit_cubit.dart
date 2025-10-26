@@ -27,8 +27,7 @@ class SignInCubitCubit extends Cubit<SignInCubitState> {
         if (userData.isSuccess == true) {
           emit(SignInCubitSuccess(userData));
         } else {
-          emit(SignInCubitFailure(
-              'Sorry, Phone Number or The Password is Wrong'));
+          emit(SignInCubitFailure('عفوا, رقم الهاتف او كلمة المرور غير صحيحة'));
         }
       });
     } catch (e) {
