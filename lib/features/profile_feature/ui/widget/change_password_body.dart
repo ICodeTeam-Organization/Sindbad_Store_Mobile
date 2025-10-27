@@ -16,6 +16,9 @@ class ChangePasswordBody extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
+          SizedBox(
+            height: 25,
+          ),
           CustomAppBar(tital: "تغيير كلمة المرور", isSearch: false),
           SizedBox(height: 40),
           CustomTextFormWidget(

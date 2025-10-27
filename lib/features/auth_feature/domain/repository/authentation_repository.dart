@@ -3,7 +3,7 @@ import 'package:sindbad_management_app/core/errors/failure.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/entity/reset_password_entity.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/entity/sign_in_entity.dart';
 
-abstract class AuthRepo {
+abstract class AuthentationRepository {
   Future<Either<Failure, SignInEntity>> signIn(
       String phoneNumber, String password);
   Future<Either<Failure, ResetPasswordEntity>> resetPassword(

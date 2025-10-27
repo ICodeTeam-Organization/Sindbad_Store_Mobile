@@ -2,7 +2,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
-import 'package:sindbad_management_app/features/auth_feature/ui/screens/login.dart';
+import 'package:sindbad_management_app/features/auth_feature/ui/screens/login_screen.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/ui/screen/notificion_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/new_offer_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/update_offer_screen.dart';
@@ -22,7 +22,7 @@ abstract class AppRouter {
       GoRoute(
         path: AppRoutes.signIn,
         builder: (context, state) {
-          return Login();
+          return LoginPage();
         },
       ),
 

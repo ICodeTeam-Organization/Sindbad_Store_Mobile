@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
+import 'package:sindbad_management_app/features/auth_feature/domain/entity/reset_password_params.dart';
 
 import '../../../../core/errors/failure.dart';
 import '../../domain/entity/reset_password_entity.dart';

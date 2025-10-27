@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
+import 'package:sindbad_management_app/core/shared_widgets/dialogs/confirm_dialog.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
 import 'package:sindbad_management_app/config/routers/route.dart';
@@ -102,8 +103,16 @@ class _ProfileBodyState extends State<ProfileBody> {
                   title: ' تسجيل الخروج',
                   icon: Icons.logout,
                   onTap: () {
-                    storage.delete(key: 'token');
-                    GoRouter.of(context).go(AppRoutes.signIn);
+                    showConfirmDialog(
+                            context: context,
+                            title: "تسجيل الخروج",
+                            message: "هل انت متأكد من تسجيل الخروج؟")
+                        .then((confirmed) {
+                      if (confirmed ?? false) {
+                        storage.delete(key: 'token');
+                        GoRouter.of(context).go(AppRoutes.signIn);
+                      }
+                    });
                   }),
             ],
           ),

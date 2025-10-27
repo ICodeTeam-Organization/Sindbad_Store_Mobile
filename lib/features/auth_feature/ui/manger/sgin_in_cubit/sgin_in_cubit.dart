@@ -8,17 +8,19 @@ import 'package:sindbad_management_app/core/errors/failure.dart';
 import 'package:sindbad_management_app/core/utils/currancy.dart';
 import 'package:sindbad_management_app/core/utils/key_name.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/entity/sign_in_entity.dart';
+import 'package:sindbad_management_app/features/auth_feature/domain/entity/singin_params.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/usecase/sign_in_use_case.dart';
+import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit_state.dart';
 
-part 'sgin_in_cubit_state.dart';
-
-class SignInCubitCubit extends Cubit<SignInCubitState> {
+class SignInCubit extends Cubit<SigninState> {
   final SignInUseCase signInUseCase;
+  FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
-  SignInCubitCubit(this.signInUseCase) : super(SignInCubitInitial());
+  SignInCubit(this.signInUseCase) : super(SigninInitial());
 
   Future<void> signIn(String phone, String password) async {
-    emit(SignInCubitLoading());
+    //emeting loadng state
+    emit(SigninLoadInProgress());
 
     try {
       var params = SignInParams(phone, password);
@@ -26,22 +28,29 @@ class SignInCubitCubit extends Cubit<SignInCubitState> {
 
       result.fold(
           // left
-          (failure) => emit(SignInCubitFailure(failure.message)),
+          (failure) => emit(SigninLoadFailure(failure.message)),
           // right
           (userData) {
         if (userData.isSuccess == true) {
-          emit(SignInCubitSuccess(userData));
+          if (userData.userRoles[0] == "Store") {
+            secureStorage.write(
+                key: KeyName.country, value: userData.userCuntry);
+            Currancy.initCurrency();
+            emit(SigninCubitSuccess());
+          } else {
+            emit(SigninLoadFailure("ليس لديك الصلاحيه لاستخدم هذا التطبيق"));
+          }
         } else {
-          emit(SignInCubitFailure('عفوا, رقم الهاتف او كلمة المرور غير صحيحة'));
+          emit(SigninLoadFailure('عفوا, رقم الهاتف او كلمة المرور غير صحيحة'));
         }
       });
     } catch (e) {
       // new
       if (e is DioException) {
         ServerFailure failure = ServerFailure.fromDioError(e);
-        emit(SignInCubitFailure(failure.message));
+        emit(SigninLoadFailure(failure.message));
       } else {
-        emit(SignInCubitFailure(e.toString()));
+        emit(SigninLoadFailure(e.toString()));
       }
     }
   }
