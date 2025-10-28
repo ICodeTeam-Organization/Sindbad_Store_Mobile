@@ -46,7 +46,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       String currentPassword, String newPassword) async {
     String? token = await getToken();
 
-    var data = await apiService.put(endPoint: "Auth/ChangePassword", data: {
+    var data = await apiService.put(endPoint: "Auth/Password", data: {
       'currentPassword': currentPassword,
       'newPassword': newPassword,
     }, headers: {

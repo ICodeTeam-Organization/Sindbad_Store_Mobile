@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+
 import 'package:sindbad_management_app/config/locales_config.dart';
 import 'package:sindbad_management_app/core/utils/currancy.dart';
 import 'package:sindbad_management_app/core/utils/route.dart';
@@ -53,6 +53,7 @@ import 'features/order_management _features/domain/usecases/order_details_usecas
 import 'features/order_management _features/domain/usecases/order_shipping_usecase.dart';
 import 'features/order_management _features/ui/manager/all_order/all_order_cubit.dart';
 import 'features/order_management _features/ui/manager/button_disable/button_disable_cubit.dart';
+import 'package:hive/hive.dart';
 
 // class MyhttpsOverride extends HttpOverrides {
 //   @override

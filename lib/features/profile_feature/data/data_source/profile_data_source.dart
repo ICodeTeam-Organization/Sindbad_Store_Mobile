@@ -1,9 +1,9 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:sindbad_management_app/features/profile_feature/data/model/profile_model/profile_model.dart';
 
 import '../../../../core/api_service.dart';
 import '../../domin/entity/edit_profile_entity.dart';
 import '../../domin/entity/get_profile_data_entity.dart';
-import '../model/profile_model.dart';
 import '../model/update_profiel_model.dart';
 
 abstract class ProfileDataSource {
@@ -31,9 +31,10 @@ class ProfileDataSourceImpl implements ProfileDataSource {
   @override
   Future<GetProfileDataEntity> getProfileData() async {
     String? token = await secureStorage.read(key: 'token');
-    var data = await apiService.get(
-        endPoint: 'Customer/profile',
-        headers: {'Authorization': 'Bearer $token'});
-    return ProfileModel.fromJson(data.values.last);
+    var data = await apiService
+        .get(endPoint: 'Salesmen', headers: {'Authorization': 'Bearer $token'});
+    GetProfileDataEntity profileData =
+        ProfileModel.fromJson(data['data']['items'][0]);
+    return profileData;
   }
 }
