@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sindbad_management_app/core/utils/route.dart';
-import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
+import 'package:sindbad_management_app/config/routers/routers_names.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -24,15 +22,15 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _initApp() async {
     const storage = FlutterSecureStorage();
-    bool hasToken = await storage.containsKey(key: 'token') ?? false;
+    bool hasToken = await storage.containsKey(key: 'token');
 
     //await Future.delayed(const Duration(seconds: 100));
 
     if (mounted) {
       if (hasToken) {
-        context.go(AppRouter.storeRouters.root);
+        context.go(AppRoutes.root);
       } else {
-        context.go(AppRouter.storeRouters.signIn);
+        context.go(AppRoutes.signIn);
       }
     }
   }

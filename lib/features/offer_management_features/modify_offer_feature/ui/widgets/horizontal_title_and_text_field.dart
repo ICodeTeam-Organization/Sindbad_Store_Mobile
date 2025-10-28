@@ -111,7 +111,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
-import 'package:sindbad_management_app/core/styles/Colors.dart';
+import 'package:sindbad_management_app/config/styles/Colors.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/required_text.dart';
 
 class HorizontalTitleAndTextField extends StatefulWidget {

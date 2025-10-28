@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sindbad_management_app/core/styles/Colors.dart';
-import '../../../../../core/styles/text_style.dart';
+import 'package:sindbad_management_app/config/styles/Colors.dart';
+import '../../../../../config/styles/text_style.dart';
 
 class TopInfoOrder extends StatelessWidget {
   const TopInfoOrder({

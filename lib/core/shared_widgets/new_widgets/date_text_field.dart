@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
-import 'package:sindbad_management_app/core/styles/text_style.dart';
-import '../../styles/Colors.dart';
+import 'package:sindbad_management_app/config/styles/text_style.dart';
+import '../../../config/styles/Colors.dart';
 
 class DateTextField extends StatefulWidget {
   const DateTextField(

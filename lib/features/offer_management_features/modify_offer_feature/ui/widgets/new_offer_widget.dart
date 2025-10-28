@@ -3,8 +3,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:sindbad_management_app/core/styles/Colors.dart';
-import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/config/styles/Colors.dart';
+import 'package:sindbad_management_app/config/styles/text_style.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/entities/offer_products_entity.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/add_offer_cubit/add_offer_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/offer_default_value_widget.dart';
@@ -245,6 +245,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                       builder: (context) => CustomSelectItemDialog(
                         selectedItems: selectedItems,
                         onConfirm: onItemsSelected,
+                        listProductForUpdate: [],
                       ),
                     );
 

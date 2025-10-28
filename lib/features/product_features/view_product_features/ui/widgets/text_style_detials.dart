@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../core/styles/Colors.dart';
+import '../../../../../config/styles/Colors.dart';
 
 class TextStyleTitleDataProductBold extends StatelessWidget {
   const TextStyleTitleDataProductBold({

@@ -64,11 +64,24 @@ class _MyWidgetState extends State<buildTextField> {
             Expanded(
               child: TextFormField(
                 obscureText: !isVisable,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'هذا الحقل مطلوب';
+                  }
+                  return null;
+                },
+
                 controller: widget.controller,
                 focusNode: _focusNode, // ربط FocusNode هنا
                 textAlign: TextAlign.start,
                 keyboardType: widget.type ?? TextInputType.phone,
                 decoration: InputDecoration(
+                  errorStyle: TextStyle(
+                    color: Colors.red, // لون الخط
+                    fontSize: 12.sp, // حجم الخط
+                    fontWeight: FontWeight.w600, // سمك الخط
+                    height: 1.2,
+                  ),
                   hintText: widget.hinttext,
                   suffixIcon: widget.visible == null
                       ? null

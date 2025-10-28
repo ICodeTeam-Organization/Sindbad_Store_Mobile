@@ -3,7 +3,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sindbad_management_app/core/styles/Colors.dart';
+import 'package:sindbad_management_app/config/styles/Colors.dart';
 import '../manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
 import '../manger/cubit/edit_product_from_store/edit_product_from_store_cubit.dart';
 import 'after_selected_image_for_add_and_edit_screen.dart';

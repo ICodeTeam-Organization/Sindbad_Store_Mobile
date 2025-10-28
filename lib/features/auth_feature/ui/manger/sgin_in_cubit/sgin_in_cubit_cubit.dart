@@ -1,7 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:go_router/go_router.dart';
 import 'package:meta/meta.dart';
+import 'package:sindbad_management_app/config/routers/routers_names.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
+import 'package:sindbad_management_app/core/utils/currancy.dart';
+import 'package:sindbad_management_app/core/utils/key_name.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/entity/sign_in_entity.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/usecase/sign_in_use_case.dart';
 
@@ -27,8 +32,7 @@ class SignInCubitCubit extends Cubit<SignInCubitState> {
         if (userData.isSuccess == true) {
           emit(SignInCubitSuccess(userData));
         } else {
-          emit(SignInCubitFailure(
-              'Sorry, Phone Number or The Password is Wrong'));
+          emit(SignInCubitFailure('عفوا, رقم الهاتف او كلمة المرور غير صحيحة'));
         }
       });
     } catch (e) {

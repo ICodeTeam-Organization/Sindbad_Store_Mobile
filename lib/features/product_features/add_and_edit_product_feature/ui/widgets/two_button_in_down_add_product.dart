@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/shared_widgets/new_widgets/store_primary_button.dart';
-import '../../../../../core/styles/Colors.dart';
+import '../../../../../config/styles/Colors.dart';
 import '../manger/cubit/attribute_product/attribute_product_cubit.dart';
 import '../manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
 
