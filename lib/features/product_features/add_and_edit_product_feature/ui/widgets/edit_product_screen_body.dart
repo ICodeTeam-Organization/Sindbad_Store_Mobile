@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_app_bar.dart';
+import 'package:sindbad_management_app/core/swidgets/new_widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/custom_card_product_images_for_add_and_edit_product.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/custom_card_product_info_for_edit_product.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/two_button_in_down_for_edit_product.dart';

@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/config/routers/route.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
-import '../../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
+import '../../../../../core/swidgets/new_widgets/store_primary_button.dart';
 import '../../../../../config/styles/Colors.dart';
 import '../manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
 

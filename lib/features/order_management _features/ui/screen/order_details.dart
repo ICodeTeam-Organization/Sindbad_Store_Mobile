@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../injection_container.dart';
-import '../../../../core/shared_widgets/new_widgets/custom_app_bar.dart';
+import '../../../../core/swidgets/new_widgets/custom_app_bar.dart';
 import '../../data/repos_impl/all_order_repo_impl.dart';
 import '../../domain/usecases/order_details_usecase.dart';
 import '../manager/order_details/order_details_cubit.dart';

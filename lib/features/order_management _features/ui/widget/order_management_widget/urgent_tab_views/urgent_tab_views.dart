@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../../../core/shared_widgets/new_widgets/sub_custom_tab_bar.dart';
+import '../../../../../../core/swidgets/new_widgets/sub_custom_tab_bar.dart';
 import '../../../../../../config/styles/text_style.dart';
 import 'urgent_all_info_order.dart';
 import 'urgent_no_bill_info_order.dart';

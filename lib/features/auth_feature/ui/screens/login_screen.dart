@@ -39,8 +39,8 @@ class _LoginPageState extends State<LoginPage> {
       child: Scaffold(
         body: GestureDetector(
           onTap: () {
-            //يختفي الكيبورد لمن تظغط في أي مكان خارج الحقول
-            // FocusScope.of(context).requestFocus(FocusNode());
+            // يختفي الكيبورد لمن تظغط في أي مكان خارج الحقول
+            FocusScope.of(context).requestFocus(FocusNode());
           },
           child: SingleChildScrollView(
             child: BlocProvider(
@@ -50,72 +50,82 @@ class _LoginPageState extends State<LoginPage> {
                     key: _formKey,
                     child: Column(
                       children: [
-                        SizedBox(
-                          height: 105,
-                        ),
-                        Image.asset(
-                          height: 105,
-                          width: 105,
-                          "assets/login_image.png",
-                        ),
-                        Text(
-                          "تسجيل الدخول",
-                          style: TextStyle(
-                            color: Color(0xff231f20),
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 10.h),
-                        Text(
-                          "أهلاً بك من جديد، لقد افتقدناك.",
-                          style: TextStyle(
-                            color: Color(0xff000000),
-                            fontSize: 15,
-                          ),
-                        ),
+                        SizedBox(height: 105),
+                        _buildTitleSection(),
                         SizedBox(height: 40.h),
-                        _buildUserNameTextFormFeildNew(),
+                        _buildUserNameTextFormFeild(),
                         SizedBox(height: 25.h),
-                        _buildPasswordTextFormFeildNew(),
+                        _buildPasswordTextFormFeild(),
                         _buildForgetPasswordText(),
                         SizedBox(height: 20.h),
                         _buildLoginButton(),
                         SizedBox(height: 15.h),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "ليس لديك حساب؟ ",
-                              style: TextStyle(
-                                color: Color(0xff000000),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                // GoRouter.of(context)
-                                //     .go(AppRoutes.registerPage);
-                              },
-                              child: Text(
-                                "إنشاء حساب",
-                                style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  decorationColor: Color(0xffFF746B),
-                                  color: Color(0xffFF746B),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        _buildForgetpasswordText(),
                       ],
                     ))),
           ),
         ),
       ),
+    );
+  }
+
+  Column _buildTitleSection() {
+    return Column(
+      children: [
+        Image.asset(
+          height: 105,
+          width: 105,
+          "assets/login_image.png",
+        ),
+        Text(
+          "تسجيل الدخول",
+          style: TextStyle(
+            color: Color(0xff231f20),
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 10.h),
+        Text(
+          "أهلاً بك من جديد، لقد افتقدناك.",
+          style: TextStyle(
+            color: Color(0xff000000),
+            fontSize: 15,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row _buildForgetpasswordText() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          "ليس لديك حساب؟ ",
+          style: TextStyle(
+            color: Color(0xff000000),
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            // GoRouter.of(context)
+            //     .go(AppRoutes.registerPage);
+          },
+          child: Text(
+            "إنشاء حساب",
+            style: TextStyle(
+              decoration: TextDecoration.underline,
+              decorationColor: Color(0xffFF746B),
+              color: Color(0xffFF746B),
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -199,61 +209,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  SizedBox _buildPasswordTextFormFeild() {
-    return SizedBox(
-      width: 380.w,
-      child: TextFormField(
-        obscureText: obscureText,
-        controller: passwordController,
-        keyboardType: TextInputType.text,
-        decoration: InputDecoration(
-          suffixIcon: obscureText
-              ? InkWell(
-                  onTap: () {
-                    setState(() {
-                      obscureText = !obscureText; // تغيير حالة الرؤية
-                    });
-                  },
-                  child: Icon(
-                    Icons.visibility,
-                    color: Colors.grey,
-                  ))
-              : InkWell(
-                  onTap: () {
-                    setState(() {
-                      obscureText = !obscureText; // تغيير حالة الرؤية
-                    });
-                  },
-                  child: Icon(
-                    Icons.visibility_off,
-                    color: Colors.grey,
-                  ),
-                ),
-          hintText: "كلمة المرور",
-          filled: true,
-          fillColor: Colors.white,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(
-              color: Color(0xffDDDDDD),
-              width: 1.2,
-            ),
-          ),
-          contentPadding:
-              EdgeInsets.symmetric(vertical: 14.h, horizontal: 12.w),
-        ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'يرجى إدخال كلمة المرور';
-          }
-
-          return null;
-        },
-      ),
-    );
-  }
-
-  Column _buildPasswordTextFormFeildNew() {
+  Column _buildPasswordTextFormFeild() {
     return Column(
       children: [
         Align(
@@ -323,42 +279,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  SizedBox _buildUserNameTextFormFeild() {
-    return SizedBox(
-      width: 380.w,
-      child: TextFormField(
-        controller: phoneNumberController,
-        keyboardType: TextInputType.phone,
-        decoration: InputDecoration(
-          hintText: "رقم الجوال",
-          filled: true,
-          fillColor: Colors.white,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(
-              color: Color(0xffDDDDDD),
-              width: 1.2,
-            ),
-          ),
-          contentPadding:
-              EdgeInsets.symmetric(vertical: 14.h, horizontal: 12.w),
-        ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'يرجى إدخال رقم الجوال';
-          }
-          // تحقق من صحة رقم الجوال (مثال بسيط)
-          // final phoneRegExp = RegExp(r'^\+?\d{7,15}$');
-          // if (!phoneRegExp.hasMatch(value)) {
-          //   return 'يرجى إدخال رقم جوال صالح';
-          // }
-          return null;
-        },
-      ),
-    );
-  }
-
-  Column _buildUserNameTextFormFeildNew() {
+  Column _buildUserNameTextFormFeild() {
     return Column(
       children: [
         Align(
