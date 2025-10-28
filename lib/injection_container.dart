@@ -1,9 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:sindbad_management_app/core/secure_storage.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/data_source/auth_remote_data_source.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/data_source/auth_remote_data_soure_imp.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/repository/authentation_repository_imp.dart';
+import 'package:sindbad_management_app/features/auth_feature/domain/repository/authentation_repository.dart';
+import 'package:sindbad_management_app/features/auth_feature/domain/usecase/sign_in_use_case.dart';
+import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/data/remote_data/notifiction_remote_data_source.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/data/repo/notifiction_repo_impl.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/data/repos/add_and_edit_product_store_repo_impl.dart';
@@ -23,16 +27,26 @@ import 'core/api_service.dart';
 final getit = GetIt.instance;
 
 void initializationContainer() {
-  getit.registerSingleton<ApiService>(ApiService(Dio()));
+  //this is temp for the login cubit to do it correctly
+  getit.registerSingleton<ApiService>(ApiService());
+  getit.registerSingleton<FlutterSecureStorage>(FlutterSecureStorage());
+  //cubits
+  //data source
+  getit.registerSingleton<AuthRemoteDataSource>(AuthRemoteDataSourceImpl());
+  //repositories
+  getit.registerSingleton<AuthentationRepository>(
+      AuthentationRepositoryImp(getit()));
 
-  getit.registerSingleton<FlutterSecureStorage>(
-    const FlutterSecureStorage(),
-  );
-  getit.registerSingleton<AuthentationRepositoryImp>(AuthentationRepositoryImp(
-      authRemoteDataSource: AuthRemoteDataSourceImpl(
-    getit.get<ApiService>(),
-    getit.get<FlutterSecureStorage>(),
-  )));
+  //use case
+  getit.registerSingleton<SignInUseCase>(SignInUseCase(getit()));
+
+  getit.registerFactory<SignInCubit>(() => SignInCubit(getit()));
+
+  // getit.registerSingleton<AuthentationRepositoryImp>(AuthentationRepositoryImp(
+  //     authRemoteDataSource: AuthRemoteDataSourceImpl(
+  //   getit.get<ApiService>(),
+  //   getit.get<FlutterSecureStorage>(),
+  // )));
   getit.registerSingleton<AllOrderRepoImpl>(AllOrderRepoImpl(
     AllOrderRemotDataSourceImpl(
       getit.get<ApiService>(),

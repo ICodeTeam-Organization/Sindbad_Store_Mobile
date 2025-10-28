@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/adapters.dart';
 
 import 'package:sindbad_management_app/config/locales_config.dart';
 import 'package:sindbad_management_app/core/utils/currancy.dart';
@@ -111,6 +112,10 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
     return MultiBlocProvider(
       providers: [
         ///block provider instance.
+        BlocProvider(
+          create: (_) => SignInCubit(getit()),
+        ),
+
         BlocProvider(
             create: (context) => OfferDetailsCubit(GetOfferDetailsUseCase(
                   getit<ViewOfferRepoImpl>(),

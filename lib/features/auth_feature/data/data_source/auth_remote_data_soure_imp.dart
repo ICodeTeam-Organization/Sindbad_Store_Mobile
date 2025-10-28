@@ -8,10 +8,11 @@ import 'package:sindbad_management_app/features/auth_feature/domain/entity/reset
 import 'package:sindbad_management_app/features/auth_feature/domain/entity/sign_in_entity.dart';
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  final ApiService apiService;
-  final FlutterSecureStorage secureStorage;
-  AuthRemoteDataSourceImpl(this.apiService, this.secureStorage);
-
+  FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+  final ApiService apiService = ApiService();
+  // final FlutterSecureStorage secureStorage;
+  AuthRemoteDataSourceImpl();
+  //getit.get<ApiService>(),
   // get Token Function
   Future<String?> getToken() async {
     return await secureStorage.read(key: 'token');
