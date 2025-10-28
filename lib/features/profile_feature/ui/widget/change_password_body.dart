@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sindbad_management_app/core/shared_widgets/new_widgets/custom_app_bar.dart';
-import 'package:sindbad_management_app/core/shared_widgets/new_widgets/store_primary_button.dart';
+import 'package:sindbad_management_app/core/swidgets/new_widgets/custom_app_bar.dart';
+import 'package:sindbad_management_app/core/swidgets/new_widgets/store_primary_button.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/reset_password_cubit/reset_password_cubit_cubit.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/widgets/custom_text_form_widget.dart';
 
@@ -16,6 +16,9 @@ class ChangePasswordBody extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
+          SizedBox(
+            height: 25,
+          ),
           CustomAppBar(tital: "تغيير كلمة المرور", isSearch: false),
           SizedBox(height: 40),
           CustomTextFormWidget(

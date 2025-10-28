@@ -3,14 +3,14 @@ import 'package:dio/dio.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/data_source/auth_remote_data_source.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/entity/sign_in_entity.dart';
-import 'package:sindbad_management_app/features/auth_feature/domain/repo/auth_repo.dart';
+import 'package:sindbad_management_app/features/auth_feature/domain/repository/authentation_repository.dart';
 
 import '../../domain/entity/reset_password_entity.dart';
 
-class AuthRepoImpl extends AuthRepo {
+class AuthentationRepositoryImp extends AuthentationRepository {
   final AuthRemoteDataSource authRemoteDataSource;
 
-  AuthRepoImpl({required this.authRemoteDataSource});
+  AuthentationRepositoryImp({required this.authRemoteDataSource});
 
 // Generic PostData function
   Future<Either<Failure, T>> postData<T>(
@@ -33,6 +33,7 @@ class AuthRepoImpl extends AuthRepo {
     return postData(() => authRemoteDataSource.signIn(phoneNumber, password));
   }
 
+  @override
   Future<Either<Failure, ResetPasswordEntity>> resetPassword(
       String currentPassword, String newPassword) async {
     return postData(

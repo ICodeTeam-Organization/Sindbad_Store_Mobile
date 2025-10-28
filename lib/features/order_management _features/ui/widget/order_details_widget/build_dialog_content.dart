@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/function/image_picker_function.dart';
-import '../../../../../core/shared_widgets/new_widgets/date_text_field.dart';
-import '../../../../../core/shared_widgets/new_widgets/store_primary_button.dart';
+import '../../../../../core/swidgets/new_widgets/date_text_field.dart';
+import '../../../../../core/swidgets/new_widgets/store_primary_button.dart';
 import 'build_image_section.dart';
 import 'build_info_row.dart';
 import 'radio_widget.dart';

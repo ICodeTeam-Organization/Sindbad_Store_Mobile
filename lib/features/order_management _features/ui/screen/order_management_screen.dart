@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/shared_widgets/new_widgets/custom_app_bar.dart';
-import '../../../../core/shared_widgets/new_widgets/custom_tab_bar_widget.dart';
+import '../../../../core/swidgets/new_widgets/custom_app_bar.dart';
+import '../../../../core/swidgets/new_widgets/custom_tab_bar_widget.dart';
 import '../../../../config/styles/text_style.dart';
 import '../widget/order_management_widget/before_tab_views.dart';
 import '../widget/order_management_widget/canceled_tab_views.dart';

@@ -2,7 +2,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
-import 'package:sindbad_management_app/features/auth_feature/ui/screens/login.dart';
+import 'package:sindbad_management_app/features/auth_feature/ui/screens/login_screen.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/ui/screen/notificion_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/new_offer_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/update_offer_screen.dart';
@@ -10,7 +10,7 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/screens/add_product_screen.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/screen/chnage_passsowrd_screen.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/screen/profile_sacreen.dart';
-import 'package:sindbad_management_app/core/shared_widgets/splahs_screen.dart';
+import 'package:sindbad_management_app/core/swidgets/splahs_screen.dart';
 import '../../features/order_management _features/ui/screen/order_details.dart';
 import '../../features/product_features/add_and_edit_product_feature/ui/screens/edit_product_screen.dart';
 import '../../features/root.dart';
@@ -22,7 +22,7 @@ abstract class AppRouter {
       GoRoute(
         path: AppRoutes.signIn,
         builder: (context, state) {
-          return Login();
+          return LoginPage();
         },
       ),
 

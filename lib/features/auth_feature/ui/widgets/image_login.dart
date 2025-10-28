@@ -15,13 +15,13 @@ class ImageLogin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
         width: double.infinity,
         child: Column(
             mainAxisAlignment: mainAxisAlignment,
             crossAxisAlignment: crossAxisAlignment,
             children: [
-              Container(
+              SizedBox(
                 width: width.w,
                 child: Image.asset(
                   images,

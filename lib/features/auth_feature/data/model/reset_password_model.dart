@@ -1,4 +1,4 @@
-import '../../../domain/entity/reset_password_entity.dart';
+import '../../domain/entity/reset_password_entity.dart';
 
 class ResetPasswordModel extends ResetPasswordEntity {
   bool? success;

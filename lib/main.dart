@@ -9,9 +9,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sindbad_management_app/config/locales_config.dart';
 import 'package:sindbad_management_app/core/utils/currancy.dart';
 import 'package:sindbad_management_app/config/routers/route.dart';
-import 'package:sindbad_management_app/features/auth_feature/data/repo/auth_repo_impl.dart';
+import 'package:sindbad_management_app/features/auth_feature/data/repository/authentation_repository_imp.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/usecase/sign_in_use_case.dart';
-import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit_cubit.dart';
+import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/data/repo/notifiction_repo_impl.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/domin/use_case/get_unread_notiftion.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/ui/cubit/notifiction_cubit/unread_notifiction_cubit.dart';
@@ -154,8 +154,8 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
           )),
         ),
         BlocProvider(
-            create: (context) => SignInCubitCubit(SignInUseCase(
-                  getit.get<AuthRepoImpl>(),
+            create: (context) => SignInCubit(SignInUseCase(
+                  getit.get<AuthentationRepositoryImp>(),
                 ))),
         BlocProvider(
             create: (context) => AllOrderCubit(AllOrderUsecase(
