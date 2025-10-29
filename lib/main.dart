@@ -48,6 +48,7 @@ import 'package:sindbad_management_app/features/product_features/add_and_edit_pr
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/use_cases/get_main_and_sub_category_use_case.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
+import 'package:sindbad_management_app/features/product_features/view_product_features/ui/manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
 import 'injection_container.dart';
 import 'core/simple_bloc_observer.dart';
 import 'features/order_management _features/domain/usecases/order_details_usecase.dart';
@@ -115,7 +116,12 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
         BlocProvider(
           create: (_) => SignInCubit(getit()),
         ),
-
+        BlocProvider(
+            create: (_) => AllOrderCubit(
+                  getit(),
+                )),
+        BlocProvider(create: (_) => GetStoreProductsWithFilterCubit(getit())),
+        /////
         BlocProvider(
             create: (context) => OfferDetailsCubit(GetOfferDetailsUseCase(
                   getit<ViewOfferRepoImpl>(),
@@ -158,14 +164,7 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
             getit<NewOfferRepoImpl>(),
           )),
         ),
-        BlocProvider(
-            create: (context) => SignInCubit(SignInUseCase(
-                  getit.get<AuthentationRepositoryImp>(),
-                ))),
-        BlocProvider(
-            create: (context) => AllOrderCubit(AllOrderUsecase(
-                  getit.get<AllOrderRepoImpl>(),
-                ))),
+
         BlocProvider(
             create: (context) => OrderDetailsCubit(OrderDetailsUsecase(
                   getit.get<AllOrderRepoImpl>(),

@@ -23,14 +23,14 @@ class BodyViewProductScreen extends StatefulWidget {
 }
 
 class BodyViewProductScreenState extends State<BodyViewProductScreen> {
-  late GetStoreProductsWithFilterCubit cubitGetStoreProducts;
-  late DisableProductsByIdsCubit cubitDisableProducts;
-  initCubitGetStoreProducts() {
-    cubitGetStoreProducts = context.read<GetStoreProductsWithFilterCubit>();
+  //  GetStoreProductsWithFilterCubit cubitGetStoreProducts;
+  //  DisableProductsByIdsCubit cubitDisableProducts;
+  void initCubitGetStoreProducts() {
+    context.read<GetStoreProductsWithFilterCubit>();
   }
 
-  initCubitDisableProducts() {
-    cubitDisableProducts = context.read<DisableProductsByIdsCubit>();
+  void initCubitDisableProducts() {
+    context.read<DisableProductsByIdsCubit>();
   }
 
   @override
@@ -91,14 +91,19 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
                 GetStoreProductsWithFilterState>(
               builder: (context, state) {
                 return TwoButtonInRow(
-                  anyProductsSelected:
-                      cubitGetStoreProducts.updatedProductsSelected.isEmpty,
+                  anyProductsSelected: context
+                      .read<GetStoreProductsWithFilterCubit>()
+                      .updatedProductsSelected
+                      .isEmpty,
                   onTapLeft: () {
                     showDisableOneOrMoreProductsDialog(
                       parentContext: context,
                       storeProductsFilter: tabIndex,
-                      ids: cubitGetStoreProducts.updatedProductsSelected,
-                      cubitDisableProducts: cubitDisableProducts,
+                      ids: context
+                          .read<GetStoreProductsWithFilterCubit>()
+                          .updatedProductsSelected,
+                      cubitDisableProducts:
+                          context.read<DisableProductsByIdsCubit>(),
                     );
                   },
                 );
@@ -122,14 +127,19 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
                 GetStoreProductsWithFilterState>(
               builder: (context, state) {
                 return TwoButtonInRow(
-                  anyProductsSelected:
-                      cubitGetStoreProducts.updatedProductsSelected.isEmpty,
+                  anyProductsSelected: context
+                      .read<GetStoreProductsWithFilterCubit>()
+                      .updatedProductsSelected
+                      .isEmpty,
                   onTapLeft: () {
                     showDisableOneOrMoreProductsDialog(
                       parentContext: context,
                       storeProductsFilter: tabIndex,
-                      ids: cubitGetStoreProducts.updatedProductsSelected,
-                      cubitDisableProducts: cubitDisableProducts,
+                      ids: context
+                          .read<GetStoreProductsWithFilterCubit>()
+                          .updatedProductsSelected,
+                      cubitDisableProducts:
+                          context.read<DisableProductsByIdsCubit>(),
                     );
                   },
                 );
@@ -151,12 +161,16 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
               builder: (context, state) {
                 return TwoButtonInRow(
                   titleLeft: "إعادة تنشيط",
-                  anyProductsSelected:
-                      cubitGetStoreProducts.updatedProductsSelected.isEmpty,
+                  anyProductsSelected: context
+                      .read<GetStoreProductsWithFilterCubit>()
+                      .updatedProductsSelected
+                      .isEmpty,
                   onTapLeft: () {
                     showActivateOneOrMoreProductsDialog(
                       contextParent: context,
-                      ids: cubitGetStoreProducts.updatedProductsSelected,
+                      ids: context
+                          .read<GetStoreProductsWithFilterCubit>()
+                          .updatedProductsSelected,
                       storeProductsFilter: tabIndex,
                       activateProductsCubit:
                           context.read<ActivateProductsByIdsCubit>(),
