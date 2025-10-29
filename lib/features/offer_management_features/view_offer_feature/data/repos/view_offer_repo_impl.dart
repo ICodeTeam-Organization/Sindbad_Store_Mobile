@@ -8,7 +8,7 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/repo/view_offer_repo.dart';
 
 class ViewOfferRepoImpl extends ViewOfferRepo {
-  final ViewOfferRemotDataSource viewOfferRemotDataSource;
+  final ViewOfferRemotDataSourceImpl viewOfferRemotDataSource;
 
   ViewOfferRepoImpl(this.viewOfferRemotDataSource);
 

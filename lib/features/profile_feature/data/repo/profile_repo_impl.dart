@@ -8,9 +8,9 @@ import '../../domin/repo/profile_repo.dart';
 import '../data_source/profile_data_source.dart';
 
 class ProfileRepoImpl extends ProfileRepo {
-  final ProfileDataSource profileDataSource;
+  final ProfileDataSourceImpl profileDataSource;
 
-  ProfileRepoImpl({required this.profileDataSource});
+  ProfileRepoImpl(this.profileDataSource);
   Future<Either<Failure, T>> fetchData<T>(
       Future<T> Function() fetchFunction) async {
     try {

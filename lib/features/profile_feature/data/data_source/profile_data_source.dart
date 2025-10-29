@@ -16,7 +16,7 @@ class ProfileDataSourceImpl implements ProfileDataSource {
   FlutterSecureStorage secureStorage = const FlutterSecureStorage();
   final ApiService apiService;
 
-  ProfileDataSourceImpl({required this.apiService});
+  ProfileDataSourceImpl(this.apiService);
   @override
   Future<EditProfileEntity> editProfile(
       String name, String email, String phone, String telePhone) async {

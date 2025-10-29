@@ -10,7 +10,7 @@ import 'package:sindbad_management_app/features/offer_management_features/modify
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/repo/new_offer_repo.dart';
 
 class NewOfferRepoImpl extends NewOfferRepo {
-  final NewOfferRemotDataSource newOfferRemotDataSource;
+  final NewOfferRemotDataSourceImpl newOfferRemotDataSource;
 
   NewOfferRepoImpl(this.newOfferRemotDataSource);
 

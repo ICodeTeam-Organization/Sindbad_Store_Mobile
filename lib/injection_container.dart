@@ -49,6 +49,15 @@ void initializationContainer() {
       ViewProductRemoteDataSourceImpl(getit(), getit()));
   getit.registerSingleton<AddProductToStoreRemoteDataSourceImpl>(
       AddProductToStoreRemoteDataSourceImpl(getit(), getit()));
+  getit.registerSingleton<ViewOfferRemotDataSourceImpl>(
+      ViewOfferRemotDataSourceImpl(getit(), getit()));
+  getit.registerSingleton<NewOfferRemotDataSourceImpl>(
+      NewOfferRemotDataSourceImpl(getit(), getit()));
+  getit.registerSingleton<NotifictionRemoteDataSourceImpl>(
+      NotifictionRemoteDataSourceImpl(getit()));
+  getit
+      .registerSingleton<ProfileDataSourceImpl>(ProfileDataSourceImpl(getit()));
+
   // ----------------
   //  Repositories
   // ----------------
@@ -59,6 +68,10 @@ void initializationContainer() {
   getit.registerSingleton<ViewProductRepoImpl>(ViewProductRepoImpl(getit()));
   getit.registerSingleton<AddAndEditProductStoreRepoImpl>(
       AddAndEditProductStoreRepoImpl(getit()));
+  getit.registerSingleton<ViewOfferRepoImpl>(ViewOfferRepoImpl(getit()));
+  getit.registerSingleton<NewOfferRepoImpl>(NewOfferRepoImpl(getit()));
+  getit.registerSingleton<NotifictionRepoImpl>(NotifictionRepoImpl(getit()));
+  getit.registerSingleton<ProfileRepoImpl>(ProfileRepoImpl(getit()));
 
   // ----------------
   //  Use Cases
@@ -96,18 +109,18 @@ void initializationContainer() {
   // bagar for add pruduct page
 
   /////////////
-  getit.registerSingleton<ViewOfferRepoImpl>(
-    ViewOfferRepoImpl(
-      ViewOfferRemotDataSourceImpl(getit(), getit()),
-    ),
-  );
-  getit.registerSingleton<NewOfferRepoImpl>(
-    NewOfferRepoImpl(
-      NewOfferRemotDataSourceImpl(getit(), getit()),
-    ),
-  );
-  getit.registerSingleton<NotifictionRepoImpl>(NotifictionRepoImpl(
-      notifictionRemoteDataSource: NotifictionRemoteDataSourceImpl(getit())));
-  getit.registerSingleton<ProfileRepoImpl>(ProfileRepoImpl(
-      profileDataSource: ProfileDataSourceImpl(apiService: getit())));
+  // getit.registerSingleton<ViewOfferRepoImpl>(
+  //   ViewOfferRepoImpl(
+  //     ViewOfferRemotDataSourceImpl(getit(), getit()),
+  //   ),
+  // );
+
+  // getit.registerSingleton<NewOfferRepoImpl>(
+  //   NewOfferRepoImpl(
+  //     NewOfferRemotDataSourceImpl(getit(), getit()),
+  //   ),
+  // );
+
+  // getit.registerSingleton<ProfileRepoImpl>(ProfileRepoImpl(
+  //     profileDataSource: ProfileDataSourceImpl(apiService: getit())));
 }
