@@ -47,6 +47,8 @@ void initializationContainer() {
       AllOrderRemotDataSourceImpl(getit(), getit()));
   getit.registerSingleton<ViewProductRemoteDataSource>(
       ViewProductRemoteDataSourceImpl(getit(), getit()));
+  getit.registerSingleton<AddProductToStoreRemoteDataSourceImpl>(
+      AddProductToStoreRemoteDataSourceImpl(getit(), getit()));
   // ----------------
   //  Repositories
   // ----------------
@@ -55,6 +57,8 @@ void initializationContainer() {
 
   getit.registerSingleton<AllOrderRepo>(AllOrderRepoImpl(getit()));
   getit.registerSingleton<ViewProductRepoImpl>(ViewProductRepoImpl(getit()));
+  getit.registerSingleton<AddAndEditProductStoreRepoImpl>(
+      AddAndEditProductStoreRepoImpl(getit()));
 
   // ----------------
   //  Use Cases
@@ -90,10 +94,8 @@ void initializationContainer() {
   // );
 
   // bagar for add pruduct page
-  getit.registerSingleton<AddAndEditProductStoreRepoImpl>(
-      AddAndEditProductStoreRepoImpl(
-          addAndEditProductToStoreRemoteDataSource:
-              AddProductToStoreRemoteDataSourceImpl(getit(), getit())));
+
+  /////////////
   getit.registerSingleton<ViewOfferRepoImpl>(
     ViewOfferRepoImpl(
       ViewOfferRemotDataSourceImpl(getit(), getit()),
