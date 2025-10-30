@@ -8,8 +8,8 @@ import 'package:sindbad_management_app/features/notifiction_featurs/domin/entity
 import 'package:sindbad_management_app/features/notifiction_featurs/domin/repo/notifiction_repo.dart';
 
 class NotifictionRepoImpl extends NotifictionRepo {
-  final NotifictionRemoteDataSource notifictionRemoteDataSource;
-  NotifictionRepoImpl({required this.notifictionRemoteDataSource});
+  final NotifictionRemoteDataSourceImpl notifictionRemoteDataSource;
+  NotifictionRepoImpl(this.notifictionRemoteDataSource);
   Future<Either<Failure, List<T>>> fetchData<T>(
       Future<List<T>> Function() fetchFunction) async {
     try {

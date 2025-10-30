@@ -11,6 +11,7 @@ import 'package:sindbad_management_app/features/product_features/add_and_edit_pr
 import 'package:sindbad_management_app/features/profile_feature/ui/screen/chnage_passsowrd_screen.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/screen/profile_sacreen.dart';
 import 'package:sindbad_management_app/core/swidgets/splahs_screen.dart';
+import 'package:sindbad_management_app/features/profile_feature/ui/widget/profile_body.dart';
 import '../../features/order_management _features/ui/screen/order_details.dart';
 import '../../features/product_features/add_and_edit_product_feature/ui/screens/edit_product_screen.dart';
 import '../../features/root.dart';

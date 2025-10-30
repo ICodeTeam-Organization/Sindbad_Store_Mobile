@@ -44,8 +44,7 @@ class _LoginPageState extends State<LoginPage> {
           },
           child: SingleChildScrollView(
             child: BlocProvider(
-                create: (context) => SignInCubit(
-                    SignInUseCase(getit.get<AuthentationRepositoryImp>())),
+                create: (_) => getit<SignInCubit>(),
                 child: Form(
                     key: _formKey,
                     child: Column(

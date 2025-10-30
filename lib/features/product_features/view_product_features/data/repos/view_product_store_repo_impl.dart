@@ -9,10 +9,10 @@ import 'package:sindbad_management_app/features/product_features/view_product_fe
 import '../../domain/repos/view_product_store_repo.dart';
 import '../data_source/view_product_remote_data_source.dart';
 
-class ViewProductStoreRepoImpl extends ViewProductRepo {
+class ViewProductRepoImpl extends ViewProductRepo {
   final ViewProductRemoteDataSource viewProductRemoteDataSource;
 
-  ViewProductStoreRepoImpl({required this.viewProductRemoteDataSource});
+  ViewProductRepoImpl(this.viewProductRemoteDataSource);
 
   // ===================  for Main Category For View  ====================
   @override

@@ -11,11 +11,10 @@ import '../../domain/repos/add_and_edit_product_store_repo.dart';
 import '../data_source/add_and_edit_product_to_store_remote_data_source.dart';
 
 class AddAndEditProductStoreRepoImpl extends AddAndEditProductStoreRepo {
-  final AddAndEditProductToStoreRemoteDataSource
+  final AddProductToStoreRemoteDataSourceImpl
       addAndEditProductToStoreRemoteDataSource;
 
-  AddAndEditProductStoreRepoImpl(
-      {required this.addAndEditProductToStoreRemoteDataSource});
+  AddAndEditProductStoreRepoImpl(this.addAndEditProductToStoreRemoteDataSource);
   // Generic PostData function
   Future<Either<Failure, T>> postOneData<T>(
       Future<T> Function() postDataFunction) async {

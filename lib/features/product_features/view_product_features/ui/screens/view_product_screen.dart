@@ -28,33 +28,33 @@ class ViewProductScreen extends StatelessWidget {
       BlocProvider(
         create: (context) => GetStoreProductsWithFilterCubit(
           GetProductsByFilterUseCase(
-            getit.get<ViewProductStoreRepoImpl>(),
+            getit.get<ViewProductRepoImpl>(),
           ),
         ),
       ),
       BlocProvider(
         create: (context) =>
             GetMainCategoryForViewCubit(GetMainCategoryForViewUseCase(
-          getit.get<ViewProductStoreRepoImpl>(),
+          getit.get<ViewProductRepoImpl>(),
         )),
       ),
       BlocProvider(
         create: (context) =>
             DisableProductsByIdsCubit(DisableProductsByIdsUseCase(
-          getit.get<ViewProductStoreRepoImpl>(),
+          getit.get<ViewProductRepoImpl>(),
         )),
       ),
       BlocProvider(
         create: (context) => DeleteProductByIdFromStoreCubit(
           DeleteProductByIdUseCase(
-            getit.get<ViewProductStoreRepoImpl>(),
+            getit.get<ViewProductRepoImpl>(),
           ),
         ),
       ),
       BlocProvider(
           create: (context) =>
               ActivateProductsByIdsCubit(ActivateProductsByIdsUseCase(
-                getit.get<ViewProductStoreRepoImpl>(),
+                getit.get<ViewProductRepoImpl>(),
               ))),
       BlocProvider(
           create: (context) =>

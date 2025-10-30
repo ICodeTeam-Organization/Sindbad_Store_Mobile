@@ -6,10 +6,10 @@ import 'package:dio/dio.dart';
 import 'errors/failure.dart';
 
 class ApiService {
-  final Dio _dio;
+  final Dio _dio = Dio();
   final baseUrl = "https://www.sindibad-back.com:82/api/";
 
-  ApiService(this._dio);
+  ApiService();
   // {
   //   _dio.options.headers['Content-Type'] = 'application/json';
   // }

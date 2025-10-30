@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/data_source/auth_remote_data_source.dart';
+import 'package:sindbad_management_app/features/auth_feature/data/data_source/auth_remote_data_soure_imp.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/entity/sign_in_entity.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/repository/authentation_repository.dart';
 
@@ -10,7 +11,7 @@ import '../../domain/entity/reset_password_entity.dart';
 class AuthentationRepositoryImp extends AuthentationRepository {
   final AuthRemoteDataSource authRemoteDataSource;
 
-  AuthentationRepositoryImp({required this.authRemoteDataSource});
+  AuthentationRepositoryImp(this.authRemoteDataSource);
 
 // Generic PostData function
   Future<Either<Failure, T>> postData<T>(

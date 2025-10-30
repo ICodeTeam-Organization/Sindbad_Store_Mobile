@@ -3,19 +3,20 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
 import 'package:sindbad_management_app/core/dialogs/confirm_dialog.dart';
+import 'package:sindbad_management_app/core/dialogs/delete_confirm_dialog.dart';
 import 'package:sindbad_management_app/core/swidgets/new_widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
 import 'package:sindbad_management_app/config/routers/route.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/widget/profile_button_widget.dart';
 
-class ProfileBody extends StatefulWidget {
-  const ProfileBody({super.key});
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
 
   @override
-  State<ProfileBody> createState() => _ProfileBodyState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileBodyState extends State<ProfileBody> {
+class _ProfileScreenState extends State<ProfileScreen> {
   bool isSwitched = false;
   final FlutterSecureStorage storage = const FlutterSecureStorage();
   @override
