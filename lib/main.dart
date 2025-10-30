@@ -49,6 +49,9 @@ import 'package:sindbad_management_app/features/product_features/add_and_edit_pr
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/use_cases/get_main_and_sub_category_use_case.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
 import 'package:sindbad_management_app/features/product_features/view_product_features/ui/manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
+import 'package:sindbad_management_app/features/profile_feature/data/repo/profile_repo_impl.dart';
+import 'package:sindbad_management_app/features/profile_feature/domin/usecase/get_profile_data_usecase.dart';
+import 'package:sindbad_management_app/features/profile_feature/ui/cubit/get_profile_cubit/get_profile_cubit.dart';
 import 'injection_container.dart';
 import 'core/simple_bloc_observer.dart';
 import 'features/order_management _features/domain/usecases/order_details_usecase.dart';
@@ -121,7 +124,7 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
                   getit(),
                 )),
         BlocProvider(create: (_) => GetStoreProductsWithFilterCubit(getit())),
-        /////
+
         BlocProvider(
             create: (context) => OfferDetailsCubit(GetOfferDetailsUseCase(
                   getit<ViewOfferRepoImpl>(),
@@ -145,10 +148,13 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
             getit<ViewOfferRepoImpl>(),
           )),
         ),
-        // BlocProvider(
-        //   create: (context) => StatusOfferCubit(),
-        //   child: ViewOfferBody(),
-        // ),
+        /////
+        BlocProvider(
+          create: (context) => GetProfileCubit(
+              GetProfileDataUsecase(getit.get<ProfileRepoImpl>())),
+        ),
+
+        ///
         BlocProvider(
           create: (context) => UpdateOfferCubit(UpdateOfferUseCase(
             getit<NewOfferRepoImpl>(),
@@ -190,43 +196,12 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
           create: (context) => UnreadNotifictionCubit(GetUnreadNotiftionUseCase(
               notifictionRepo: getit.get<NotifictionRepoImpl>())),
         ),
-        // BlocProvider(
-        //     create: (context) => OrderDetailsCubit(OrderDetailsUsecase(
-        //           getit.get<AllOrderRepoImpl>(),
-        //         ))),
-        // BlocProvider(create: (context) => RefreshPageCubit()),
-        // BlocProvider(
-        //     create: (context) => OrderInvoiceCubit(OrderInvoiceUsecase(
-        //           allOrderRepo: getit.get<AllOrderRepoImpl>(),
-        //         ))),
-        // BlocProvider(
-        //     create: (context) => ShippingCubit(OrderShippingUsecase(
-        //           allOrderRepo: getit.get<AllOrderRepoImpl>(),
-        //         ))),
-        // BlocProvider(
-        //     create: (context) => CancelCubit(OrderCancelUsecase(
-        //           allOrderRepo: getit.get<AllOrderRepoImpl>(),
-        //         ))),
 
-        // //for add product
-        // BlocProvider(
-        //     create: (context) =>
-        //         AddProductToStoreCubit(AddProductToStoreUseCase(
-        //           addProductStoreRepo: getit.get<AddProductStoreRepoImpl>(),
-        //         ))),
-        // BlocProvider(create: (context) => AddImageToProductAddCubit()),
         BlocProvider(
             create: (context) =>
                 GetCategoryNamesCubit(GetMainAndSubCategoryUseCase(
                   getit.get<AddAndEditProductStoreRepoImpl>(),
                 ))),
-        // BlocProvider(
-        //     create: (context) =>
-        //         GetBrandsByCategoryIdCubit(GetBrandsByMainCategoryIdUseCase(
-        //           getit.get<AddProductStoreRepoImpl>(),
-        //         ))),
-        // BlocProvider(create: (context) => AddAttributeProductDartCubit()),
-        // //
       ],
       child: ScreenUtilInit(
         designSize: const Size(428, 1000),

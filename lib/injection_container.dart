@@ -61,7 +61,7 @@ void initializationContainer() {
   // ----------------
   //  Repositories
   // ----------------
-  getit.registerSingleton<AuthentationRepository>(
+  getit.registerSingleton<AuthentationRepositoryImp>(
       AuthentationRepositoryImp(getit()));
 
   getit.registerSingleton<AllOrderRepo>(AllOrderRepoImpl(getit()));
