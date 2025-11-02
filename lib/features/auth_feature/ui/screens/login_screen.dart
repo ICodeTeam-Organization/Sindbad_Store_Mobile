@@ -5,13 +5,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit_state.dart';
+import 'package:sindbad_management_app/features/auth_feature/ui/widgets/show_error_dialoge.dart';
 import 'package:sindbad_management_app/injection_container.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/repository/authentation_repository_imp.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/usecase/sign_in_use_case.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/widgets/image_login.dart';
-import 'package:sindbad_management_app/features/auth_feature/ui/widgets/show_error_dialoge.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                         SizedBox(height: 20.h),
                         _buildLoginButton(),
                         SizedBox(height: 15.h),
-                        _buildForgetpasswordText(),
+                        //  _buildRegisterText(),
                       ],
                     ))),
           ),
@@ -96,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Row _buildForgetpasswordText() {
+  Row _buildRegisterText() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -128,19 +128,22 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Align _buildForgetPasswordText() {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: Padding(
-        padding: const EdgeInsets.only(right: 15, top: 10),
-        child: Text("نسيت كلمة المرور؟",
-            style: TextStyle(
-              decoration: TextDecoration.underline,
-              decorationColor: Color(0xffFF746B),
-              color: Color(0xffFF746B),
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-            )),
+  GestureDetector _buildForgetPasswordText() {
+    return GestureDetector(
+      onTap: () => GoRouter.of(context).go(AppRoutes.forgetPassword),
+      child: Align(
+        alignment: Alignment.centerRight,
+        child: Padding(
+          padding: const EdgeInsets.only(right: 15, top: 10),
+          child: Text("نسيت كلمة المرور؟",
+              style: TextStyle(
+                decoration: TextDecoration.underline,
+                decorationColor: Color(0xffFF746B),
+                color: Color(0xffFF746B),
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              )),
+        ),
       ),
     );
   }

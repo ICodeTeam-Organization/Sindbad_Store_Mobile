@@ -6,13 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/adapters.dart';
-
 import 'package:sindbad_management_app/config/locales_config.dart';
 import 'package:sindbad_management_app/core/utils/currancy.dart';
 import 'package:sindbad_management_app/config/routers/route.dart';
-import 'package:sindbad_management_app/features/auth_feature/data/repository/authentation_repository_imp.dart';
-import 'package:sindbad_management_app/features/auth_feature/domain/usecase/sign_in_use_case.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit.dart';
+import 'package:sindbad_management_app/features/profile_feature/ui/cubit/reset_password_cubit/reset_password_cubit.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/data/repo/notifiction_repo_impl.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/domin/use_case/get_unread_notiftion.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/ui/cubit/notifiction_cubit/unread_notifiction_cubit.dart';
@@ -35,7 +33,6 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_cubit/offer_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_details_cubit/offer_details_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/data/repos_impl/all_order_repo_impl.dart';
-import 'package:sindbad_management_app/features/order_management%20_features/domain/usecases/all_order_usecase.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/usecases/company_shipping_usecase.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/usecases/order_cancel_usecase.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/usecases/order_invoice_usecasse.dart';
@@ -49,8 +46,6 @@ import 'package:sindbad_management_app/features/product_features/add_and_edit_pr
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/domain/use_cases/get_main_and_sub_category_use_case.dart';
 import 'package:sindbad_management_app/features/product_features/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
 import 'package:sindbad_management_app/features/product_features/view_product_features/ui/manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
-import 'package:sindbad_management_app/features/profile_feature/data/repo/profile_repo_impl.dart';
-import 'package:sindbad_management_app/features/profile_feature/domin/usecase/get_profile_data_usecase.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/get_profile_cubit/get_profile_cubit.dart';
 import 'injection_container.dart';
 import 'core/simple_bloc_observer.dart';
@@ -124,6 +119,12 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
                   getit(),
                 )),
         BlocProvider(create: (_) => GetStoreProductsWithFilterCubit(getit())),
+        BlocProvider(
+          create: (_) => GetProfileCubit(getit()),
+        ),
+        BlocProvider(
+          create: (_) => ResetPasswordCubit(getit()),
+        ),
 
         BlocProvider(
             create: (context) => OfferDetailsCubit(GetOfferDetailsUseCase(
@@ -149,10 +150,6 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
           )),
         ),
         /////
-        BlocProvider(
-          create: (context) => GetProfileCubit(
-              GetProfileDataUsecase(getit.get<ProfileRepoImpl>())),
-        ),
 
         ///
         BlocProvider(

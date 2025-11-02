@@ -32,7 +32,7 @@ class ProfileDataSourceImpl implements ProfileDataSource {
   Future<GetProfileDataEntity> getProfileData() async {
     String? token = await secureStorage.read(key: 'token');
     var data = await apiService
-        .get(endPoint: 'Salesmen', headers: {'Authorization': 'Bearer $token'});
+        .get(endPoint: 'Stores', headers: {'Authorization': 'Bearer $token'});
     GetProfileDataEntity profileData =
         ProfileModel.fromJson(data['data']['items'][0]);
     return profileData;

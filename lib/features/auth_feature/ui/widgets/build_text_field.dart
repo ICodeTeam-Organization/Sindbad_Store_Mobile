@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class buildTextField extends StatefulWidget {
+class BuildTextField extends StatefulWidget {
   final String hinttext;
   final TextEditingController controller;
   final bool? visible;
   final TextInputType? type;
 
-  const buildTextField({
+  const BuildTextField({
     super.key,
     required this.hinttext,
     required this.controller,
@@ -16,10 +16,10 @@ class buildTextField extends StatefulWidget {
   });
 
   @override
-  State<buildTextField> createState() => _MyWidgetState();
+  State<BuildTextField> createState() => _MyWidgetState();
 }
 
-class _MyWidgetState extends State<buildTextField> {
+class _MyWidgetState extends State<BuildTextField> {
   String selectedCountryCode = "+967"; // المفتاح الافتراضي
   String selectedFlag = "🇾🇪"; // العلم الافتراضي
   late bool isVisable; // حالة الرؤية للحقول

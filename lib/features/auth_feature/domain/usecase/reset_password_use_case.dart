@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:sindbad_management_app/features/auth_feature/data/repository/authentation_repository_imp.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/entity/reset_password_params.dart';
 
 import '../../../../core/errors/failure.dart';
@@ -8,7 +9,7 @@ import '../repository/authentation_repository.dart';
 
 class ResetPasswordUseCase
     extends UseCaseWithParam<ResetPasswordEntity, ResetPasswordParams> {
-  final AuthentationRepository authRepo;
+  final AuthentationRepositoryImp authRepo;
 
   ResetPasswordUseCase(this.authRepo);
 

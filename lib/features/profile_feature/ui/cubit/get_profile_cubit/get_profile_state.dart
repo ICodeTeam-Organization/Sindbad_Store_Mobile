@@ -5,14 +5,22 @@ sealed class GetProfileState {}
 
 final class GetProfileInitial extends GetProfileState {}
 
-class GetProfileLoading extends GetProfileState {}
+class GetProfileLoadInProgress extends GetProfileState {}
 
-class GetProfileSuccess extends GetProfileState {
+class GetProfileLoadSuccess extends GetProfileState {
   final GetProfileDataEntity profileModel;
-  GetProfileSuccess(this.profileModel);
+  GetProfileLoadSuccess(this.profileModel);
 }
 
-class GetProfileFailure extends GetProfileState {
+class GetProfileLoadFailure extends GetProfileState {
   final String error;
-  GetProfileFailure(this.error);
+  GetProfileLoadFailure(this.error);
 }
+
+
+/// --- IGNORE ---
+/// sealed class CounterState {}
+// final class CounterInitial extends CounterState {}
+// final class CounterLoadInProgress extends CounterState {}
+// final class CounterLoadSuccess extends CounterState {}
+// final class CounterLoadFailure extends CounterState {}

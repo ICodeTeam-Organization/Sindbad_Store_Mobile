@@ -11,12 +11,12 @@ class GetProfileCubit extends Cubit<GetProfileState> {
   GetProfileCubit(this.getProfileDataUsecase) : super(GetProfileInitial());
 
   Future<void> getProfile() async {
-    emit(GetProfileLoading());
+    emit(GetProfileLoadInProgress());
     final result = await getProfileDataUsecase.execute();
     result.fold((failure) {
-      emit(GetProfileFailure(failure.message));
+      emit(GetProfileLoadFailure(failure.message));
     }, (getProfileDataEntity) {
-      emit(GetProfileSuccess(getProfileDataEntity));
+      emit(GetProfileLoadSuccess(getProfileDataEntity));
     });
   }
 }

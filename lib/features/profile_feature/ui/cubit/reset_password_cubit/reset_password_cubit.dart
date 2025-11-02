@@ -3,19 +3,18 @@ import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/entity/reset_password_params.dart';
 
-import '../../../../core/errors/failure.dart';
-import '../../domain/entity/reset_password_entity.dart';
-import '../../domain/usecase/reset_password_use_case.dart';
+import '../../../../../core/errors/failure.dart';
+import '../../../../auth_feature/domain/entity/reset_password_entity.dart';
+import '../../../../auth_feature/domain/usecase/reset_password_use_case.dart';
 
 part 'reset_password_cubit_state.dart';
 
-class ResetPasswordCubitCubit extends Cubit<ResetPasswordCubitState> {
+class ResetPasswordCubit extends Cubit<ResetPasswordState> {
   final ResetPasswordUseCase resetPasswordUseCase;
-  ResetPasswordCubitCubit(this.resetPasswordUseCase)
-      : super(ResetPasswordCubitInitial());
+  ResetPasswordCubit(this.resetPasswordUseCase) : super(ResetPasswordInitial());
 
   Future<void> resetPassword(String currentPassword, String newPassword) async {
-    emit(ResetPasswordCubitLoading());
+    emit(ResetPasswordLoadInProgress());
 
     try {
       var params = ResetPasswordParams(currentPassword, newPassword);
@@ -23,20 +22,20 @@ class ResetPasswordCubitCubit extends Cubit<ResetPasswordCubitState> {
 
       result.fold(
           // left
-          (failure) => emit(ResetPasswordCubitFailure(failure.message)),
+          (failure) => emit(ResetPasswordLoadFailure(failure.message)),
           // right
           (userPassword) {
         if (userPassword.isSuccess == true) {
-          emit(ResetPasswordCubitSuccess(userPassword));
+          emit(ResetPasswordLoadSuccess(userPassword));
         }
       });
     } catch (e) {
       // new
       if (e is DioException) {
         ServerFailure failure = ServerFailure.fromDioError(e);
-        emit(ResetPasswordCubitFailure(failure.message));
+        emit(ResetPasswordLoadFailure(failure.message));
       } else {
-        emit(ResetPasswordCubitFailure(e.toString()));
+        emit(ResetPasswordLoadFailure(e.toString()));
       }
     }
   }
