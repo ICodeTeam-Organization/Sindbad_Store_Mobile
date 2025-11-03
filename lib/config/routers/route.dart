@@ -2,7 +2,9 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/screens/forget_password_screen.dart';
+import 'package:sindbad_management_app/features/auth_feature/ui/screens/confirm_password_screen.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/screens/login_screen.dart';
+import 'package:sindbad_management_app/features/auth_feature/ui/screens/reset_password_screen.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/ui/screen/notificion_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/new_offer_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/update_offer_screen.dart';
@@ -29,6 +31,19 @@ abstract class AppRouter {
         path: AppRoutes.forgetPassword,
         builder: (context, state) {
           return ForgetPasswordScreen();
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.confirmPassword,
+        builder: (context, state) {
+          final phoneNumber = state.extra as String;
+          return ConfirmPasswordScreen(phoneNumber: phoneNumber);
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.resetPassword,
+        builder: (context, state) {
+          return ResetPasswordScreen();
         },
       ),
 

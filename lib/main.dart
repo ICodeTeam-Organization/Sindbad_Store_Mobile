@@ -211,9 +211,7 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
           ///////////////////////////////////////
           routerConfig: AppRouter.router,
           theme: ThemeData(
-            textTheme: GoogleFonts.cairoTextTheme(
-              Theme.of(context).textTheme,
-            ),
+            fontFamily: GoogleFonts.cairo().fontFamily,
             useMaterial3: false,
             scaffoldBackgroundColor:
                 const Color(0xfffffbfb), // Set default background color

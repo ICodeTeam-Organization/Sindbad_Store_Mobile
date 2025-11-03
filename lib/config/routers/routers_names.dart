@@ -1,4 +1,4 @@
-import 'package:sindbad_management_app/features/auth_feature/ui/screens/forget_password_screen.dart';
+import 'package:sindbad_management_app/features/auth_feature/ui/screens/confirm_password_screen.dart';
 
 abstract class AppRoutes {
   // Auth & Core
@@ -7,6 +7,8 @@ abstract class AppRoutes {
   static const root = '/root';
   static const details = '/details';
   static const forgetPassword = '/forgetPassword';
+  static const confirmPassword = '/cofirmPassword';
+  static const resetPassword = '/resetPassword';
 
   // Offer Management
   static const offerDetails = '/offerDetails';

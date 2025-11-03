@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:sindbad_management_app/config/routers/routers_names.dart';
 import 'package:sindbad_management_app/core/swidgets/new_widgets/custom_app_bar.dart';
+import 'package:sindbad_management_app/core/widgets/arrow_back_button_widget.dart';
 
 class ForgetPasswordScreen extends StatelessWidget {
   const ForgetPasswordScreen({super.key});
@@ -11,14 +14,14 @@ class ForgetPasswordScreen extends StatelessWidget {
       body: Column(
         children: [
           SizedBox(
-            height: 15,
+            height: 60,
           ),
-          CustomAppBar(tital: 'تغيير كلمة السر', isSearch: false),
+          ArrowBackButtonWidget(),
           SizedBox(
             height: 40,
           ),
           Text(
-            'رقم الموبايل',
+            'التحقق من هاتفك',
             style: TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.w700,
@@ -27,13 +30,16 @@ class ForgetPasswordScreen extends StatelessWidget {
           SizedBox(
             height: 30,
           ),
-          Text('الرجاء ادخال رقم هاتفك للتحقق من حسابك'),
+          Text('الرجاء إدخال رقم هاتفك للتحقق من حسابك'),
           SizedBox(
             height: 30,
           ),
           _buildUserNameTextFormFeild(),
           SizedBox(
             height: 40,
+          ),
+          SizedBox(
+            height: 10,
           ),
           Container(
             width: 380.w,
@@ -52,6 +58,9 @@ class ForgetPasswordScreen extends StatelessWidget {
                 ),
               ),
               onPressed: () {
+                GoRouter.of(context)
+                    .push(AppRoutes.confirmPassword, extra: '05xxxxxxxx');
+
                 // if (_formKey.currentState!.validate()) {
                 //   context.read<SignInCubit>().signIn(
                 //         phoneNumberController.text,
@@ -69,18 +78,6 @@ class ForgetPasswordScreen extends StatelessWidget {
   Column _buildUserNameTextFormFeild() {
     return Column(
       children: [
-        Align(
-          alignment: Alignment.centerRight,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 8.0, right: 15),
-            child: Text("رقم الجوال",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                )),
-          ),
-        ),
         SizedBox(
           width: 380.w,
           child: TextFormField(

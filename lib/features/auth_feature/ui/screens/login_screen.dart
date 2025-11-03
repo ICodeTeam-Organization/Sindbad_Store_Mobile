@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
 
   GestureDetector _buildForgetPasswordText() {
     return GestureDetector(
-      onTap: () => GoRouter.of(context).go(AppRoutes.forgetPassword),
+      onTap: () => GoRouter.of(context).push(AppRoutes.forgetPassword),
       child: Align(
         alignment: Alignment.centerRight,
         child: Padding(

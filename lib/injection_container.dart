@@ -1,11 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
-import 'package:sindbad_management_app/core/secure_storage.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/data_source/auth_remote_data_source.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/data_source/auth_remote_data_soure_imp.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/repository/authentation_repository_imp.dart';
-import 'package:sindbad_management_app/features/auth_feature/domain/repository/authentation_repository.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/usecase/reset_password_use_case.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/usecase/sign_in_use_case.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit.dart';
@@ -22,7 +19,6 @@ import 'package:sindbad_management_app/features/offer_management_features/modify
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/data/repos/new_offer_repo_impl.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/data_source/remote/view_offer_remot_data_source.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/repos/View_offer_repo_impl.dart';
-import 'package:sindbad_management_app/features/product_features/view_product_features/domain/repos/view_product_store_repo.dart';
 import 'package:sindbad_management_app/features/product_features/view_product_features/domain/use_cases/get_products_by_filter_use_case.dart';
 import 'package:sindbad_management_app/features/product_features/view_product_features/ui/manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/get_profile_cubit/get_profile_cubit.dart';
