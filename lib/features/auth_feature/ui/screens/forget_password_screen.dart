@@ -1,12 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
-import 'package:sindbad_management_app/core/swidgets/new_widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/core/widgets/arrow_back_button_widget.dart';
+import 'package:sindbad_management_app/core/widgets/password_feild_widget.dart';
+import 'package:sindbad_management_app/core/widgets/phone_feild_widget.dart';
+import 'package:sindbad_management_app/core/widgets/submit_button_widget.dart';
+import 'package:sindbad_management_app/features/auth_feature/ui/manger/forget_password_cubit.dart/forget_password_cubit.dart';
+import 'package:sindbad_management_app/features/auth_feature/ui/manger/forget_password_cubit.dart/forget_password_cubit_state.dart';
 
-class ForgetPasswordScreen extends StatelessWidget {
+class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
+
+  @override
+  State<ForgetPasswordScreen> createState() => _ForgetPasswordScreenState();
+}
+
+class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
+  final phoneNumberController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmController = TextEditingController();
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  bool cofirmObscureText = false;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +35,7 @@ class ForgetPasswordScreen extends StatelessWidget {
           ),
           ArrowBackButtonWidget(),
           SizedBox(
-            height: 40,
+            height: 20,
           ),
           Text(
             'التحقق من هاتفك',
@@ -28,89 +45,98 @@ class ForgetPasswordScreen extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 30,
+            height: 10,
           ),
           Text('الرجاء إدخال رقم هاتفك للتحقق من حسابك'),
           SizedBox(
             height: 30,
           ),
-          _buildUserNameTextFormFeild(),
+          Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                PhoneFeildWidget(phoneNumberController: phoneNumberController),
+                SizedBox(
+                  height: 15,
+                ),
+                PasswordFieldWidget(
+                  controller: passwordController,
+                  label: "كلمة المرور الجديدة",
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'يرجى إدخال كلمة المرور';
+                    }
+                    if (value.length < 6) {
+                      return 'يجب أن تكون كلمة المرور 6 أحرف على الأقل';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                PasswordFieldWidget(
+                  controller: confirmController,
+                  label: "تأكيد كلمة المرور",
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "يرجى إدخال تأكيد كلمة المرور";
+                    }
+                    if (value != passwordController.text) {
+                      return "كلمة المرور غير متطابقة";
+                    }
+                    return null;
+                  },
+                ),
+                // _buildConfirmPasswordTextFormFeild(),
+              ],
+            ),
+          ),
           SizedBox(
             height: 40,
           ),
           SizedBox(
             height: 10,
           ),
-          Container(
-            width: 380.w,
-            height: 47.h,
-            decoration: BoxDecoration(
-              color: Color(0xffFF746B),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: MaterialButton(
-              child: Text(
-                "ارسال الرمز",
-                style: TextStyle(
-                  color: Color(0xffffffff),
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              onPressed: () {
-                GoRouter.of(context)
-                    .push(AppRoutes.confirmPassword, extra: '05xxxxxxxx');
-
-                // if (_formKey.currentState!.validate()) {
-                //   context.read<SignInCubit>().signIn(
-                //         phoneNumberController.text,
-                //         passwordController.text,
-                //       );
-                // }
-              },
-            ),
+          BlocConsumer<ForgetPasswordCubit, ForgetPasswordCubitState>(
+            builder: (context, state) {
+              if (state is ForgetPasswordLoadInProgress) {
+                return SubmetButtonWidget(
+                  isActive: true,
+                  text: "ارسال الرمز",
+                  isLoading: true,
+                );
+              } else if (state is ForgetPasswordLoadSuccess) {
+                GoRouter.of(context).push(AppRoutes.confirmPassword,
+                    extra: phoneNumberController.text);
+              }
+              return SubmetButtonWidget(
+                isActive: true,
+                text: "ارسال الرمز",
+                isLoading: false,
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    BlocProvider.of<ForgetPasswordCubit>(context)
+                        .foregetPassword(phoneNumberController.text,
+                            passwordController.text);
+                  }
+                },
+              );
+            },
+            listener: (context, state) {
+              if (state is ForgetPasswordLoadSuccess) {
+                GoRouter.of(context).push(AppRoutes.confirmPassword,
+                    extra: phoneNumberController.text);
+              } else if (state is ForgetPasswordLoadFailure) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                      content: Text('حدث خطأ ما. يرجى المحاولة مرة أخرى.')),
+                );
+              }
+            },
           )
         ],
       ),
-    );
-  }
-
-  Column _buildUserNameTextFormFeild() {
-    return Column(
-      children: [
-        SizedBox(
-          width: 380.w,
-          child: TextFormField(
-            //    controller: phoneNumberController,
-            keyboardType: TextInputType.phone,
-            decoration: InputDecoration(
-              hintText: "5xxxxxxxxxx",
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                //  borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(
-                  color: Color(0xffDDDDDD),
-                  width: 1,
-                ),
-              ),
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 10.h, horizontal: 12.w),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'يرجى إدخال رقم الجوال';
-              }
-              // تحقق من صحة رقم الجوال (مثال بسيط)
-              // final phoneRegExp = RegExp(r'^\+?\d{7,15}$');
-              // if (!phoneRegExp.hasMatch(value)) {
-              //   return 'يرجى إدخال رقم جوال صالح';
-              // }
-              return null;
-            },
-          ),
-        ),
-      ],
     );
   }
 }

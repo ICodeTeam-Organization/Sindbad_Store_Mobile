@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
 import 'package:sindbad_management_app/core/swidgets/new_widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/core/widgets/arrow_back_button_widget.dart';
+import 'package:sindbad_management_app/core/widgets/submit_button_widget.dart';
 
 class ConfirmPasswordScreen extends StatelessWidget {
   final String phoneNumber;
@@ -89,6 +90,7 @@ class ConfirmPasswordScreen extends StatelessWidget {
             height: 10,
           ),
           SubmetButtonWidget(
+            isLoading: true,
             isActive: true,
             text: 'ارسال الرمز',
           )
@@ -145,44 +147,6 @@ class ConfirmPasswordScreen extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class SubmetButtonWidget extends StatelessWidget {
-  final bool isActive;
-  final VoidCallback? onPressed;
-  final String text;
-
-  const SubmetButtonWidget({
-    super.key,
-    required this.isActive,
-    this.onPressed,
-    required this.text,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 380.w,
-      height: 47.h,
-      decoration: BoxDecoration(
-        color: !isActive
-            ? Color(0xffffffff)
-            : Color(0xffFF746B), //Color(0xffFF746B),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: MaterialButton(
-        child: Text(
-          text,
-          style: TextStyle(
-            color: isActive ? Color(0xffffffff) : Color(0xff636773),
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        onPressed: isActive ? onPressed : null,
-      ),
     );
   }
 }

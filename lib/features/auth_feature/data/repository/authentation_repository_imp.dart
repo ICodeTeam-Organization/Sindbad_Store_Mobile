@@ -1,8 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
+import 'package:sindbad_management_app/core/models/responsive_model.dart';
+import 'package:sindbad_management_app/core/resources/data_state.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/data_source/auth_remote_data_source.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/data_source/auth_remote_data_soure_imp.dart';
+import 'package:sindbad_management_app/features/auth_feature/data/model/data.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/entity/sign_in_entity.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/repository/authentation_repository.dart';
 
@@ -39,5 +43,25 @@ class AuthentationRepositoryImp extends AuthentationRepository {
       String currentPassword, String newPassword) async {
     return postData(
         () => authRemoteDataSource.resetPassword(currentPassword, newPassword));
+  }
+
+  @override
+  Future<Either<DataFailed, DataSuccess>> foregetPassword(
+      String phoneNumber, String newPassword) async {
+    try {
+      ResponseModel response =
+          await authRemoteDataSource.foregetPassword(phoneNumber, newPassword);
+      if (response.message.isNotEmpty) {
+        debugPrint("Reset Password Message: ${response.message}");
+        return Right(DataSuccess(response.message));
+      }
+      if (response != null) {
+        return Right(DataSuccess(response));
+      } else {
+        return Left(DataFailed("Failed to reset password"));
+      }
+    } catch (e) {
+      return Left(DataFailed(e.toString()));
+    }
   }
 }
