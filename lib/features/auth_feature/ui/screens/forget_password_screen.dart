@@ -28,114 +28,132 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(
-            height: 60,
-          ),
-          ArrowBackButtonWidget(),
-          SizedBox(
-            height: 20,
-          ),
-          Text(
-            'التحقق من هاتفك',
-            style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text('الرجاء إدخال رقم هاتفك للتحقق من حسابك'),
-          SizedBox(
-            height: 30,
-          ),
-          Form(
-            key: _formKey,
+      resizeToAvoidBottomInset: true, // important
+      body: SingleChildScrollView(
+        // The magic happens with these properties
+        padding: const EdgeInsets.symmetric(
+          horizontal: 24,
+          vertical: 40,
+        ),
+        child: ConstrainedBox(
+          constraints:
+              BoxConstraints(minHeight: MediaQuery.of(context).size.height),
+          child: IntrinsicHeight(
             child: Column(
               children: [
-                PhoneFeildWidget(phoneNumberController: phoneNumberController),
                 SizedBox(
-                  height: 15,
+                  height: 60,
                 ),
-                PasswordFieldWidget(
-                  controller: passwordController,
-                  label: "كلمة المرور الجديدة",
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'يرجى إدخال كلمة المرور';
-                    }
-                    if (value.length < 6) {
-                      return 'يجب أن تكون كلمة المرور 6 أحرف على الأقل';
-                    }
-                    return null;
-                  },
+                ArrowBackButtonWidget(),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'التحقق من هاتفك',
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 SizedBox(
-                  height: 15,
+                  height: 10,
                 ),
-                PasswordFieldWidget(
-                  controller: confirmController,
-                  label: "تأكيد كلمة المرور",
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "يرجى إدخال تأكيد كلمة المرور";
+                Text('الرجاء إدخال رقم هاتفك للتحقق من حسابك'),
+                SizedBox(
+                  height: 30,
+                ),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      PhoneFeildWidget(
+                          phoneNumberController: phoneNumberController),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      PasswordFieldWidget(
+                        controller: passwordController,
+                        label: "كلمة المرور الجديدة",
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'يرجى إدخال كلمة المرور';
+                          }
+                          final pattern = RegExp(
+                              r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{9,20}$');
+                          if (!pattern.hasMatch(value)) {
+                            return 'يجب أن تكون كلمة المرور بين 9 و 20 حرفاً، وتحتوي على أحرف وأرقام فقط';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      PasswordFieldWidget(
+                        controller: confirmController,
+                        label: "تأكيد كلمة المرور",
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "يرجى إدخال تأكيد كلمة المرور";
+                          }
+                          if (value != passwordController.text) {
+                            return "كلمة المرور غير متطابقة";
+                          }
+                          return null;
+                        },
+                      ),
+                      // _buildConfirmPasswordTextFormFeild(),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                BlocConsumer<ForgetPasswordCubit, ForgetPasswordCubitState>(
+                  builder: (context, state) {
+                    if (state is ForgetPasswordLoadInProgress) {
+                      return SubmetButtonWidget(
+                        isActive: true,
+                        text: "ارسال الرمز",
+                        isLoading: true,
+                      );
+                    } else if (state is ForgetPasswordLoadSuccess) {
+                      GoRouter.of(context).push(AppRoutes.confirmPassword,
+                          extra: phoneNumberController.text);
                     }
-                    if (value != passwordController.text) {
-                      return "كلمة المرور غير متطابقة";
-                    }
-                    return null;
+                    return SubmetButtonWidget(
+                      isActive: true,
+                      text: "ارسال الرمز",
+                      isLoading: false,
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          BlocProvider.of<ForgetPasswordCubit>(context)
+                              .foregetPassword(phoneNumberController.text,
+                                  passwordController.text);
+                        }
+                      },
+                    );
                   },
-                ),
-                // _buildConfirmPasswordTextFormFeild(),
+                  listener: (context, state) {
+                    if (state is ForgetPasswordLoadSuccess) {
+                      GoRouter.of(context).push(AppRoutes.confirmPassword,
+                          extra: phoneNumberController.text);
+                    } else if (state is ForgetPasswordLoadFailure) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                            content:
+                                Text('حدث خطأ ما. يرجى المحاولة مرة أخرى.')),
+                      );
+                    }
+                  },
+                )
               ],
             ),
           ),
-          SizedBox(
-            height: 40,
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          BlocConsumer<ForgetPasswordCubit, ForgetPasswordCubitState>(
-            builder: (context, state) {
-              if (state is ForgetPasswordLoadInProgress) {
-                return SubmetButtonWidget(
-                  isActive: true,
-                  text: "ارسال الرمز",
-                  isLoading: true,
-                );
-              } else if (state is ForgetPasswordLoadSuccess) {
-                GoRouter.of(context).push(AppRoutes.confirmPassword,
-                    extra: phoneNumberController.text);
-              }
-              return SubmetButtonWidget(
-                isActive: true,
-                text: "ارسال الرمز",
-                isLoading: false,
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    BlocProvider.of<ForgetPasswordCubit>(context)
-                        .foregetPassword(phoneNumberController.text,
-                            passwordController.text);
-                  }
-                },
-              );
-            },
-            listener: (context, state) {
-              if (state is ForgetPasswordLoadSuccess) {
-                GoRouter.of(context).push(AppRoutes.confirmPassword,
-                    extra: phoneNumberController.text);
-              } else if (state is ForgetPasswordLoadFailure) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                      content: Text('حدث خطأ ما. يرجى المحاولة مرة أخرى.')),
-                );
-              }
-            },
-          )
-        ],
+        ),
       ),
     );
   }
