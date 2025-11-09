@@ -156,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
             if (state is SigninLoadFailure) {
               // سويت دايلوج اذا كلمة سر خطا او رقم جوال
               ShowErrorDialoge.showErrorDialog(context, state.errorMessage);
-            } else if (state is SigninCubitSuccess) {
+            } else if (state is SigninSuccess) {
               GoRouter.of(context).go(AppRoutes.root);
             }
           },

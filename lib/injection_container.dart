@@ -3,9 +3,11 @@ import 'package:get_it/get_it.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/data_source/auth_remote_data_source.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/data_source/auth_remote_data_soure_imp.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/repository/authentation_repository_imp.dart';
+import 'package:sindbad_management_app/features/auth_feature/domain/usecase/confirm_password_use_case.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/usecase/forget_password_use_case.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/usecase/reset_password_use_case.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/usecase/sign_in_use_case.dart';
+import 'package:sindbad_management_app/features/auth_feature/ui/manger/confirm_password_cubit/confirm_password_cubit.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/forget_password_cubit.dart/forget_password_cubit.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit.dart';
 import 'package:sindbad_management_app/features/profile_feature/domin/usecase/get_profile_data_usecase.dart';
@@ -87,6 +89,8 @@ void initializationContainer() {
   getit.registerSingleton<ResetPasswordUseCase>(ResetPasswordUseCase(getit()));
   getit
       .registerSingleton<GetProfileDataUsecase>(GetProfileDataUsecase(getit()));
+  getit.registerSingleton<ConfirmPasswordUseCase>(
+      ConfirmPasswordUseCase(getit()));
 
   // ----------------
   //  Cubits
@@ -99,4 +103,6 @@ void initializationContainer() {
   getit.registerFactory<ResetPasswordCubit>(() => ResetPasswordCubit(getit()));
   getit
       .registerFactory<ForgetPasswordCubit>(() => ForgetPasswordCubit(getit()));
+  getit.registerFactory<ConfirmPasswordCubit>(
+      () => ConfirmPasswordCubit(getit()));
 }

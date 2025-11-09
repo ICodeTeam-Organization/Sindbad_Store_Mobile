@@ -9,6 +9,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:sindbad_management_app/config/locales_config.dart';
 import 'package:sindbad_management_app/core/utils/currancy.dart';
 import 'package:sindbad_management_app/config/routers/route.dart';
+import 'package:sindbad_management_app/features/auth_feature/ui/manger/confirm_password_cubit/confirm_password_cubit.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/forget_password_cubit.dart/forget_password_cubit.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/reset_password_cubit/reset_password_cubit.dart';
@@ -128,6 +129,9 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
         ),
         BlocProvider(
           create: (_) => ForgetPasswordCubit(getit()),
+        ),
+        BlocProvider(
+          create: (_) => ConfirmPasswordCubit(getit()),
         ),
 
         BlocProvider(

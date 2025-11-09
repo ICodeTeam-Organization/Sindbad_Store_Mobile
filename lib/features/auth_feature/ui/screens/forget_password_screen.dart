@@ -24,6 +24,14 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool cofirmObscureText = false;
+  @override
+  void dispose() {
+    // Clean up controllers
+    phoneNumberController.dispose();
+    passwordController.dispose();
+    confirmController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +102,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                         label: "تأكيد كلمة المرور",
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return "يرجى إدخال تأكيد كلمة المرور";
+                            return "يرجى تأكيد كلمة المرور";
                           }
                           if (value != passwordController.text) {
                             return "كلمة المرور غير متطابقة";
@@ -102,7 +110,6 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                           return null;
                         },
                       ),
-                      // _buildConfirmPasswordTextFormFeild(),
                     ],
                   ),
                 ),
@@ -112,7 +119,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 SizedBox(
                   height: 10,
                 ),
-                BlocConsumer<ForgetPasswordCubit, ForgetPasswordCubitState>(
+                BlocConsumer<ForgetPasswordCubit, ForgetPasswordState>(
                   builder: (context, state) {
                     if (state is ForgetPasswordLoadInProgress) {
                       return SubmetButtonWidget(
@@ -120,9 +127,6 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                         text: "ارسال الرمز",
                         isLoading: true,
                       );
-                    } else if (state is ForgetPasswordLoadSuccess) {
-                      GoRouter.of(context).push(AppRoutes.confirmPassword,
-                          extra: phoneNumberController.text);
                     }
                     return SubmetButtonWidget(
                       isActive: true,
@@ -130,6 +134,11 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                       isLoading: false,
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content:
+                                    Text('تم ارسال كود التحقق’الى رقم هاتفك')),
+                          );
                           BlocProvider.of<ForgetPasswordCubit>(context)
                               .foregetPassword(phoneNumberController.text,
                                   passwordController.text);
@@ -142,6 +151,10 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                       GoRouter.of(context).push(AppRoutes.confirmPassword,
                           extra: phoneNumberController.text);
                     } else if (state is ForgetPasswordLoadFailure) {
+                      ///temp line for testing , this should be deleted when production
+                      GoRouter.of(context).push(AppRoutes.confirmPassword,
+                          extra: phoneNumberController.text);
+
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                             content:

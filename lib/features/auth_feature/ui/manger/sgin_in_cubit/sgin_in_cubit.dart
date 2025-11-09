@@ -36,7 +36,7 @@ class SignInCubit extends Cubit<SigninState> {
             secureStorage.write(
                 key: KeyName.country, value: userData.userCuntry);
             Currancy.initCurrency();
-            emit(SigninCubitSuccess());
+            emit(SigninSuccess());
           } else {
             emit(SigninLoadFailure("ليس لديك الصلاحيه لاستخدم هذا التطبيق"));
           }

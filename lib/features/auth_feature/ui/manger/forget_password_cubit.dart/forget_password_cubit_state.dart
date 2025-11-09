@@ -1,9 +1,13 @@
-sealed class ForgetPasswordCubitState {}
+sealed class ForgetPasswordState {}
 
-final class ForgetPasswordInitial extends ForgetPasswordCubitState {}
+final class ForgetPasswordInitial extends ForgetPasswordState {}
 
-final class ForgetPasswordLoadInProgress extends ForgetPasswordCubitState {}
+final class ForgetPasswordLoadInProgress extends ForgetPasswordState {}
 
-final class ForgetPasswordLoadSuccess extends ForgetPasswordCubitState {}
+final class ForgetPasswordLoadSuccess extends ForgetPasswordState {}
 
-final class ForgetPasswordLoadFailure extends ForgetPasswordCubitState {}
+final class ForgetPasswordLoadFailure extends ForgetPasswordState {
+  final String errorMessage;
+
+  ForgetPasswordLoadFailure(this.errorMessage);
+}

@@ -43,6 +43,15 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
             controller: widget.controller,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
+              errorMaxLines: 2, // Allows error text to span up to 3 lines
+              errorStyle: TextStyle(
+                color: Colors.redAccent,
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                height: 1.2,
+
+                // spacing between lines
+              ),
               suffixIcon: obscureText
                   ? InkWell(
                       onTap: () {

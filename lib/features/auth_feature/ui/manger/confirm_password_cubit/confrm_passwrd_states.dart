@@ -1,19 +1,19 @@
 import 'package:sindbad_management_app/features/auth_feature/domain/entity/sign_in_entity.dart';
 
-sealed class SigninState {}
+sealed class ConfirmPasswordState {}
 
-final class SigninInitial extends SigninState {}
+final class ConfirmPasswordInitial extends ConfirmPasswordState {}
 
-class SigninLoadInProgress extends SigninState {}
+class ConfirmPasswordLoadInProgress extends ConfirmPasswordState {}
 
-class SigninSuccess extends SigninState {
-  SigninSuccess();
+class ConfirmPasswordSuccess extends ConfirmPasswordState {
+  ConfirmPasswordSuccess();
 }
 
-class SigninLoadFailure extends SigninState {
+class ConfirmPasswordLoadFailure extends ConfirmPasswordState {
   final String errorMessage;
 
-  SigninLoadFailure(this.errorMessage);
+  ConfirmPasswordLoadFailure(this.errorMessage);
 }
 /// --- IGNORE ---
 /// sealed class CounterState {}
