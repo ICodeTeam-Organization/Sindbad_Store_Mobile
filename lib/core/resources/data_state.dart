@@ -1,3 +1,5 @@
+import 'package:sindbad_management_app/core/models/response_error.dart';
+
 abstract class DataState<T> {
   final T? data;
   final String? message;
@@ -9,5 +11,7 @@ class DataSuccess<T> extends DataState<T> {
 }
 
 class DataFailed<T> extends DataState<T> {
-  DataFailed(String? message) : super(message: message);
+  final T? error;
+
+  DataFailed(this.error) : super(message: error.toString());
 }

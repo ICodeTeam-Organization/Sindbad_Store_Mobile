@@ -10,7 +10,8 @@ class ConfirmPasswordUseCase extends UseCase<DataState, ConfrimPasswordParans> {
   ConfirmPasswordUseCase(this.authRepo);
 
   @override
-  Future<Either<DataFailed, DataState>> execute(ConfrimPasswordParans params) {
-    return authRepo.foregetPassword(params.phoneNumber, params.code);
+  Future<Either<DataFailed, DataSuccess>> execute(
+      ConfrimPasswordParans params) {
+    return authRepo.confirmCode(params.phoneNumber, params.code);
   }
 }

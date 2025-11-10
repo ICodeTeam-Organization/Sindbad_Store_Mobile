@@ -8,4 +8,5 @@ abstract class AuthRemoteDataSource {
   Future<ResetPasswordEntity> resetPassword(
       String currentPassword, String newPassword);
   Future<ResponseModel> foregetPassword(String phoneNumber, String newPassword);
+  Future<ResponseModel> confirmCode(String phoneNumber, String code);
 }

@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
+import 'package:sindbad_management_app/core/models/response_error.dart';
 import 'package:sindbad_management_app/core/models/responsive_model.dart';
 import 'package:sindbad_management_app/core/resources/data_state.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/data_source/auth_remote_data_source.dart';
@@ -58,10 +59,30 @@ class AuthentationRepositoryImp extends AuthentationRepository {
       if (response != null) {
         return Right(DataSuccess(response));
       } else {
-        return Left(DataFailed("Failed to reset password"));
+        return Left(DataFailed<String>("Unknow error"));
       }
     } catch (e) {
-      return Left(DataFailed(e.toString()));
+      return Left(DataFailed<String>(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<DataFailed, DataSuccess>> confirmCode(
+      String phoneNumber, String code) async {
+    try {
+      ResponseModel response =
+          await authRemoteDataSource.confirmCode(phoneNumber, code);
+      if (response.message.isNotEmpty) {
+        debugPrint("Code Password Message: ${response.message}");
+        return Right(DataSuccess(response.message));
+      }
+      if (response != null) {
+        return Right(DataSuccess(response));
+      } else {
+        return Left(DataFailed<String>("Unknow error"));
+      }
+    } catch (e) {
+      return Left(DataFailed(e));
     }
   }
 }

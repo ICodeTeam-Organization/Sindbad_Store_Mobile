@@ -1,3 +1,4 @@
+import 'package:sindbad_management_app/core/models/response_error.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/entity/sign_in_entity.dart';
 
 sealed class ConfirmPasswordState {}
@@ -10,10 +11,10 @@ class ConfirmPasswordSuccess extends ConfirmPasswordState {
   ConfirmPasswordSuccess();
 }
 
-class ConfirmPasswordLoadFailure extends ConfirmPasswordState {
-  final String errorMessage;
+class ConfirmPasswordLoadFailure<T> extends ConfirmPasswordState {
+  final T? error;
 
-  ConfirmPasswordLoadFailure(this.errorMessage);
+  ConfirmPasswordLoadFailure(this.error);
 }
 /// --- IGNORE ---
 /// sealed class CounterState {}

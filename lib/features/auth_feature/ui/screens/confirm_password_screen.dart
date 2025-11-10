@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
+import 'package:sindbad_management_app/core/models/response_error.dart';
 import 'package:sindbad_management_app/core/widgets/arrow_back_button_widget.dart';
 import 'package:sindbad_management_app/core/widgets/submit_button_widget.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/confirm_password_cubit/confirm_password_cubit.dart';
@@ -257,10 +258,20 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
             },
             listener: (context, state) {
               if (state is ConfirmPasswordLoadFailure) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                      content: Text('حدث خطأ ما. يرجى المحاولة مرة أخرى.')),
-                );
+                if (state.error is ResponseError) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        content: Text(state.error.validationErrors.toString())),
+                  );
+                } else {
+                  print(state.error!.validationErrors);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        content:
+                            Text(state.error!.validationErrors.values.first)),
+                  );
+                }
+
                 // GoRouter.of(context).push(AppRoutes.confirmPassword,
                 //     extra: phoneNumberController.text);
               } else if (state is ConfirmPasswordSuccess) {

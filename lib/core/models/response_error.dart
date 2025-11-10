@@ -1,6 +1,6 @@
 class ResponseError {
   final String message;
-  final Map<String, String> validationErrors;
+  final Map<String, String>? validationErrors;
 
   ResponseError({
     required this.message,

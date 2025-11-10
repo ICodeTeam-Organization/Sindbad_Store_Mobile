@@ -11,4 +11,6 @@ abstract class AuthentationRepository {
       String currentPassword, String newPassword);
   Future<Either<DataFailed, DataState>> foregetPassword(
       String currentPassword, String newPassword);
+  Future<Either<DataFailed, DataState>> confirmCode(
+      String phoneNumber, String code);
 }
