@@ -55,16 +55,6 @@ import 'features/order_management _features/domain/usecases/order_details_usecas
 import 'features/order_management _features/domain/usecases/order_shipping_usecase.dart';
 import 'features/order_management _features/ui/manager/all_order/all_order_cubit.dart';
 import 'features/order_management _features/ui/manager/button_disable/button_disable_cubit.dart';
-import 'package:hive/hive.dart';
-
-// class MyhttpsOverride extends HttpOverrides {
-//   @override
-//   HttpClient createHttpClient(SecurityContext? context) {
-//     return super.createHttpClient(context)
-//h       ..badCertificateCallback =
-//           (X509Certificate cert, String host, int port) => true;
-//   }
-// }
 
 void main() async {
   // HttpOverrides.global = MyhttpsOverride();
