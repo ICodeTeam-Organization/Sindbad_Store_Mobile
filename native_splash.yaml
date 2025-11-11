@@ -1,0 +1,28 @@
+# file: flutter_native_splash.yaml
+flutter_native_splash:
+  # Background color (light mode)
+  color: "#F2F3F4"
+
+  # Splash image (centered)
+  # NOTE: the package normally expects PNG images for the splash `image` parameter.
+  # You're using splash_screen_12.jpg — see the note below.
+  #image: assets/retangle_splahs_screen_12_temp.png
+  #background_image_android: assets/splash_screen_background.png
+  # Keep image centered on all platforms
+  # Stretch the image to fill the screen
+  android_gravity: center
+  ios_content_mode: scaleToFill
+  web_image_mode: stretch
+
+  # Android 12+ specific (use same image for the Android 12 splash icon)
+  android_12:
+    color: "#F2F3F4"
+    #image: assets/retangle_splahs_screen_12.png
+    # optional: if you want an icon background color (not required)
+    #background_image_android: assets/retangle_splahs_screen_12.png.png
+    
+
+  # enable/disable platforms if needed (defaults are true)
+  # android: true
+  # ios: true
+  # web: true

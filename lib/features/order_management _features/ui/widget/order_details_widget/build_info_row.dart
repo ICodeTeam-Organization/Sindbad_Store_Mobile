@@ -1,0 +1,58 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../config/styles/Colors.dart';
+import '../../../../../config/styles/text_style.dart';
+
+class BuildInfoRow extends StatelessWidget {
+  const BuildInfoRow(
+      {super.key,
+      required this.title,
+      required this.controller,
+      this.keyboardType = TextInputType.number});
+  final String title;
+  final TextInputType? keyboardType;
+  final TextEditingController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 5.h),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 90.w,
+            child: Text(
+              title,
+              style:
+                  KTextStyle.textStyle12.copyWith(fontWeight: FontWeight.w500),
+            ),
+          ),
+          // Spacer(),
+          Expanded(
+            child: SizedBox(
+              // width: 200.w,
+              height: 48.h,
+              child: TextField(
+                keyboardType: keyboardType,
+                controller: controller,
+                decoration: InputDecoration(
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 5.h, horizontal: 10.w),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: AppColors.grey,
+                      width: 1.w,
+                    ),
+                  ),
+                ),
+                style: KTextStyle.textStyle12
+                    .copyWith(fontWeight: FontWeight.w500),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sindbad_management_app/core/styles/Colors.dart';
-import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/config/styles/Colors.dart';
+import 'package:sindbad_management_app/config/styles/text_style.dart';
 import 'package:sindbad_management_app/core/widgets/custom_primary_button_widget.dart';
 
 class KImagePickerFunction extends StatefulWidget {
@@ -14,7 +14,7 @@ class KImagePickerFunction extends StatefulWidget {
 }
 
 class _KImagePickerFunctionState extends State<KImagePickerFunction> {
-  File ? selectedImage;
+  File? selectedImage;
 
   @override
   Widget build(BuildContext context) {
@@ -26,46 +26,48 @@ class _KImagePickerFunctionState extends State<KImagePickerFunction> {
           icon: Icons.camera_alt,
           title: "إلتقاط",
         ),
-        SizedBox(height: 10.h,),
+        SizedBox(
+          height: 10.h,
+        ),
         CustomIMageButton(
           onTap: () => pickImageFromGalary(),
           icon: Icons.image_rounded,
           title: "المعرض",
         ),
-          
-          // /////////
-          // IconButton(
-          // onPressed: (){
-          //   pickImageFromGalary();
-          // },
-          // ////////////////////
-          
-          // icon: const Icon(Icons.image_rounded)),
 
-          selectedImage != null ? Image.file(selectedImage!) : const Text(""),
-          KCustomPrimaryButtonWidget(buttonName: "تاكيد", onPressed: (){})
+        // /////////
+        // IconButton(
+        // onPressed: (){
+        //   pickImageFromGalary();
+        // },
+        // ////////////////////
+
+        // icon: const Icon(Icons.image_rounded)),
+
+        selectedImage != null ? Image.file(selectedImage!) : const Text(""),
+        KCustomPrimaryButtonWidget(buttonName: "تاكيد", onPressed: () {})
       ],
     );
-      
   }
-  Future pickImageFromCamera ()async{
-    final returnImage = await ImagePicker().pickImage(source: ImageSource.camera);
-    if(returnImage==null)return;
+
+  Future pickImageFromCamera() async {
+    final returnImage =
+        await ImagePicker().pickImage(source: ImageSource.camera);
+    if (returnImage == null) return;
     setState(() {
       selectedImage = File(returnImage.path);
     });
   }
 
-   Future pickImageFromGalary ()async{
-    final returnImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if(returnImage==null)return;
+  Future pickImageFromGalary() async {
+    final returnImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (returnImage == null) return;
     setState(() {
       selectedImage = File(returnImage.path);
     });
   }
 }
-
-
 
 class CustomIMageButton extends StatelessWidget {
   final VoidCallback onTap;

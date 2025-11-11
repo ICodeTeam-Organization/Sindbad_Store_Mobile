@@ -19,7 +19,7 @@
 //                     // const StoreTextTitleDialogWidget(textDialog: "طباعة العنوان",)
 //                     Text(
 //                       "طباعة العنوان",
-//                     style: 
+//                     style:
 //                     KTextStyle.secondaryTitle.copyWith(color: AppColors.greyLight))
 //                     // TextStyle(color:Colors.grey,fontSize: 14.sp, fontWeight: FontWeight.w700),);
 //                   ],
@@ -51,7 +51,7 @@
 //                         child:
 //                         // const StoreTextInfoDialogWidget(textDialog: "1",) ,
 //                         Text("1",
-//                         style: 
+//                         style:
 //                         // TextStyle(color:Colors.grey,fontSize: 14.sp, fontWeight: FontWeight.w700),
 //                         KTextStyle.primaryTitle.copyWith(color: AppColors.greyLight)
 //                         ),
@@ -62,10 +62,10 @@
 //                   Row(
 //                     mainAxisAlignment: MainAxisAlignment.end,
 //                     children: [
-                       
+
 //                       // StoreTextTitleDialogWidget(textDialog: "الطابعة  ",),
 //                       Text("الطابعة",
-//                       style: 
+//                       style:
 //                       // TextStyle(color:Colors.grey,fontSize: 14.sp, fontWeight: FontWeight.w700),
 //                       KTextStyle.primaryTitle.copyWith(color: AppColors.greyLight)
 //                       ),
@@ -83,17 +83,17 @@
 //                         child:
 //                         // const StoreTextInfoDialogWidget(textDialog: "",) ,
 //                          Text("",
-//                       style: 
+//                       style:
 //                       KTextStyle.primaryTitle.copyWith(color: AppColors.greyLight)
 //                       ),
 //                       )
 //                     ],
 //                   ),
 //                   /////////////////////////////////////////////////////////////
-                  
+
 //                   ],
 //               ),
-              
+
 //             ),
 //             ),
 //             actions: [
@@ -111,7 +111,6 @@
 //                       child: const Text("طباعة")),
 //                   ),
 //                   /////////////////////////////////////////////////////////
-                  
 
 //                   InkWell(
 //                     child: Container(
@@ -127,22 +126,20 @@
 //                       child: const Text("مشاركة ملف pdf")),
 //                   ),
 //             ],
-            
+
 //             );
 //   }
 // }
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sindbad_management_app/core/styles/Colors.dart';
-import 'package:sindbad_management_app/core/styles/text_style.dart';
+import 'package:sindbad_management_app/config/styles/Colors.dart';
+import 'package:sindbad_management_app/config/styles/text_style.dart';
 
 class KCustomPrintDialogWidget extends StatelessWidget {
   final int numberOfCopies;
   final String printName;
-  const KCustomPrintDialogWidget({
-    super.key, 
-    required this.numberOfCopies, 
-    required this.printName});
+  const KCustomPrintDialogWidget(
+      {super.key, required this.numberOfCopies, required this.printName});
 
   @override
   Widget build(BuildContext context) {
@@ -179,9 +176,11 @@ class KCustomPrintDialogWidget extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            _buildInfoRow("عدد النسخ",numberOfCopies.toString()),
-            SizedBox(height: 10.h,),
-            _buildInfoRow("الطابعة",printName),
+            _buildInfoRow("عدد النسخ", numberOfCopies.toString()),
+            SizedBox(
+              height: 10.h,
+            ),
+            _buildInfoRow("الطابعة", printName),
           ],
         ),
       ),
@@ -209,22 +208,25 @@ class KCustomPrintDialogWidget extends StatelessWidget {
         //   ),
         //   child: StoreTextInfoDialogWidget(textDialog: info),
         // ),
-        SizedBox(width: 8.h,),
+        SizedBox(
+          width: 8.h,
+        ),
         SizedBox(
           width: 160.w,
           child: TextField(
-              controller: TextEditingController(text: info),
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 10.w),
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: AppColors.backgroundColor,
-                    width: 2.w,
-                  ),
+            controller: TextEditingController(text: info),
+            decoration: InputDecoration(
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 5.h, horizontal: 10.w),
+              border: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: AppColors.backgroundColor,
+                  width: 2.w,
                 ),
               ),
-              style: KTextStyle.secondaryTitle.copyWith(color: AppColors.black),
             ),
+            style: KTextStyle.secondaryTitle.copyWith(color: AppColors.black),
+          ),
         ),
       ],
     );
@@ -238,8 +240,7 @@ class KCustomPrintDialogWidget extends StatelessWidget {
   }
 
   Widget _buildActionButton(String text) {
-    return 
-    InkWell(
+    return InkWell(
       child: Container(
         width: 115.w,
         height: 36.h,

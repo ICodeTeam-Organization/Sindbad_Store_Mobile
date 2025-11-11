@@ -1,0 +1,99 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:sindbad_management_app/config/styles/text_style.dart';
+import '../../../../../config/styles/Colors.dart';
+
+int? parcels = 1;
+
+class BuildInfoRowAdd extends StatefulWidget {
+  const BuildInfoRowAdd({super.key, required this.title});
+
+  final String? title;
+
+  @override
+  State<BuildInfoRowAdd> createState() => _BuildInfoRowAddState();
+}
+
+class _BuildInfoRowAddState extends State<BuildInfoRowAdd> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 5.h),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            widget.title!,
+            style: KTextStyle.textStyle13,
+          ),
+          SizedBox(
+            width: 20.w,
+          ),
+          DecoratedBox(
+            decoration: BoxDecoration(
+                border: Border.all(color: AppColors.grey),
+                borderRadius: BorderRadius.circular(100.r)),
+            child: SizedBox(
+              width: 35.w,
+              height: 38.h,
+              child: IconButton(
+                iconSize: 20,
+                padding: EdgeInsets.zero,
+                onPressed: () {
+                  setState(() {
+                    parcels = (parcels! + 1);
+                  });
+                },
+                icon: SvgPicture.asset('assets/plus.svg'),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 20.w,
+          ),
+          SizedBox(
+            width: 48.w,
+            height: 52.h,
+            child: DecoratedBox(
+                decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.grey),
+                    borderRadius: BorderRadius.circular(12.r)),
+                child: Center(
+                  child: Text(
+                    '$parcels',
+                    style: KTextStyle.textStyle12,
+                  ),
+                )),
+          ),
+          SizedBox(
+            width: 20.w,
+          ),
+          DecoratedBox(
+            decoration: BoxDecoration(
+                border: Border.all(color: AppColors.grey),
+                borderRadius: BorderRadius.circular(100.r)),
+            child: SizedBox(
+              width: 35.w,
+              height: 38.h,
+              child: IconButton(
+                iconSize: 20,
+                padding: EdgeInsets.zero,
+                onPressed: () {
+                  setState(() {
+                    if (parcels == 1) {
+                      parcels == 1;
+                    } else {
+                      parcels = (parcels! - 1);
+                    }
+                  });
+                },
+                icon: SvgPicture.asset('assets/minus.svg'),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

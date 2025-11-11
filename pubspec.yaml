@@ -2,7 +2,7 @@ name: sindbad_management_app
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.4.3 <4.0.0'
+  sdk: ">=3.4.3 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -31,17 +31,52 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
-  buttons_tabbar: 
+  flutter_native_splash: ^2.4.6
+  buttons_tabbar:
   flutter_screenutil:
   flutter_svg:
   google_fonts:
   image_picker: ^1.1.2
-  go_router: ^14.2.8
-  
+  go_router: ^16.2.4
+  dartz: ^0.10.1
+  dio: ^5.7.0
+  flutter_secure_storage: ^9.2.2
+  get_it: ^8.0.2
+  flutter_bloc: ^9.1.1
+  animated_segmented_tab_control: ^2.0.0
+  svg_flutter: ^0.0.1
+  barcode_widget: ^2.0.4
+  intl: ^0.20.2
+  dotted_border: ^2.1.0
+  animated_custom_dropdown:
+  # open_file: ^3.5.10
+  # pdf: ^3.11.1
+  # printing: ^5.13.4
+  share_plus: ^11.0.0
+  shimmer: ^3.0.0
+
+  open_file:
+  path_provider:
+  pdf:
+  printing:
+  equatable: ^2.0.7
+  device_preview: ^1.2.0
+  jwt_decoder: ^2.0.1
+  # hive storage
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  animated_splash_screen: ^1.3.0
+  ### for automatic updates
+  package_info_plus: ^9.0.0
+  permission_handler: ^12.0.1 #
+  flutter_file_downloader: ^2.1.0
+  flutter_downloader: ^1.11.8 #
+  device_info_plus: ^11.2.2 #
+
+
 
 dev_dependencies:
   flutter_test:
@@ -54,20 +89,27 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^3.0.0
+  flutter_lints: ^6.0.0
+  # hive generator fot
+  hive_generator: ^2.0.1
+  build_runner: ^2.4.13
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
   assets:
     - assets/
+    - assets/images/
+    - assets/svgs/
+    - assets/fonts/
+    - assets/icons/
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -85,17 +127,13 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
+  fonts:
+    - family: Cairo
+      fonts:
+        - asset: assets/fonts/Cairo-Black.ttf
+        - asset: assets/fonts/Cairo-Bold.ttf
+          style: italic
+    
+  
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
