@@ -1,0 +1,86 @@
+name: Build APK and Publish Release
+
+on:
+  push:
+    tags:
+      - 'v*' # Trigger on new version tags (e.g., v1.0.0)
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  build:
+    # This should be at the top of your job
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out your code
+      - uses: actions/checkout@v4
+
+      # Step 2: Set up Flutter with the EXACT version
+      - uses: subosito/flutter-action@v2
+        with:
+          # This is the crucial line
+          flutter-version: '3.32.5'
+          channel: 'stable'
+          cache: true # Keep this for faster builds
+
+      # Step 3: Get dependencies (this will now succeed)
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Step 4: Run your build
+      - name: Build APK
+        run: flutter build apk --release
+
+      - name: Find APK file
+        id: find_apk
+        run: |
+          APK_PATH=$(find build -name "*.apk" | head -n 1)
+          if [ -f "$APK_PATH" ]; then
+            echo "APK_PATH=$APK_PATH" >> $GITHUB_OUTPUT
+          else
+            echo "Could not find APK file" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: ${{ steps.find_apk.outputs.APK_PATH }}
+
+  publish-release:
+    name: Publish Release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Grant write permission for GITHUB_TOKEN to create releases
+
+    steps:
+      - name: Get tag name
+        id: get_tag
+        run: |
+          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            echo "tag_name=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            # For workflow_dispatch, if no tag is provided as input, use a default
+            # You might want to add an input for tag_name in workflow_dispatch
+            echo "tag_name=manual-release-${{ github.run_number }}" >> $GITHUB_OUTPUT
+          else
+            # Fallback for other triggers, or if not a tag push
+            echo "tag_name=untagged-release-${{ github.run_number }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Download APK artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: app-release
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.get_tag.outputs.tag_name }}
+          name: Release ${{ steps.get_tag.outputs.tag_name }}
+          body: "Automated release for version ${{ steps.get_tag.outputs.tag_name }}"
+          files: app-release.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
