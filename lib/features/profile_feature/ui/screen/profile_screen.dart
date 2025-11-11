@@ -143,18 +143,18 @@ class _ProfileBodyState extends State<ProfileBody> {
                                             .isAvailableUpdate(currentVersion);
 
                                     if (isUpdateAvailable) {
+                                      Release _lastRelease =
+                                          await gitHubApiService
+                                              .getLatestRelease();
+                                      showReleaseInfoDialog(context,
+                                          release: _lastRelease);
+                                    } else {
                                       showOkDialog(
                                         context: context,
                                         title: "تحديث التطبيق",
                                         message:
                                             "لا توجد تحديثات متاحة، أنت تستخدم النسخة الأحدث",
                                       );
-                                    } else {
-                                      Release _lastRelease =
-                                          await gitHubApiService
-                                              .getLatestRelease();
-                                      showReleaseInfoDialog(context,
-                                          release: _lastRelease);
                                     }
                                   } catch (e) {
                                     showErrorDialog(

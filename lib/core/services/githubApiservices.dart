@@ -75,7 +75,9 @@ class GitHubApiService {
         debugPrint('Current Version: $cleanCurrentVersion');
         debugPrint('Latest Version: $latestVersion');
 
-        return _isVersionLower(cleanCurrentVersion, latestVersion);
+        bool temp = _isVersionLower(cleanCurrentVersion, latestVersion);
+        debugPrint(temp.toString());
+        return temp;
       } else {
         throw Exception('Failed to load releases: ${response.statusCode}');
       }
@@ -87,23 +89,28 @@ class GitHubApiService {
 
 // Helper function to compare semantic versions
   bool _isVersionLower(String current, String latest) {
-    final currentParts = current.replaceAll(RegExp(r'[^0-9.]'), '').split('.');
-    final latestParts = latest.replaceAll(RegExp(r'[^0-9.]'), '').split('.');
+    // Remove non-numeric characters and compare as padded strings
+    final currentClean = current.replaceAll(RegExp(r'[^0-9.]'), '');
+    final latestClean = latest.replaceAll(RegExp(r'[^0-9.]'), '');
 
-    final length = currentParts.length > latestParts.length
+    // Split and compare each part
+    final currentParts = currentClean.split('.');
+    final latestParts = latestClean.split('.');
+
+    final maxLength = currentParts.length > latestParts.length
         ? currentParts.length
         : latestParts.length;
 
-    for (var i = 0; i < length; i++) {
-      final currentVal =
+    for (var i = 0; i < maxLength; i++) {
+      final currentNum =
           i < currentParts.length ? int.parse(currentParts[i]) : 0;
-      final latestVal = i < latestParts.length ? int.parse(latestParts[i]) : 0;
+      final latestNum = i < latestParts.length ? int.parse(latestParts[i]) : 0;
 
-      if (currentVal < latestVal) return true;
-      if (currentVal > latestVal) return false;
+      if (currentNum != latestNum) {
+        return currentNum < latestNum;
+      }
     }
-
-    return false; // Versions are equal
+    return false;
   }
 
   Future<Release> getLatestRelease() async {
