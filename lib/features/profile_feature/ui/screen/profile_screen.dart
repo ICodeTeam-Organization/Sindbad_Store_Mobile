@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
+import 'package:sindbad_management_app/core/dialogs/ErrorDialog.dart';
+import 'package:sindbad_management_app/core/dialogs/okey_dialog.dart';
+import 'package:sindbad_management_app/core/dialogs/release_dialog_info.dart';
+import 'package:sindbad_management_app/core/resources/release.dart';
+import 'package:sindbad_management_app/core/services/githubApiservices.dart';
 import 'package:sindbad_management_app/core/swidgets/new_widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/features/profile_feature/domin/entity/get_profile_data_entity.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/get_profile_cubit/get_profile_cubit.dart';
@@ -19,6 +25,8 @@ class ProfileBody extends StatefulWidget {
 class _ProfileBodyState extends State<ProfileBody> {
   bool isSwitched = false;
   final FlutterSecureStorage storage = const FlutterSecureStorage();
+  final GitHubApiService gitHubApiService = GitHubApiService();
+
   List<String> category = [];
 
   @override
@@ -114,7 +122,51 @@ class _ProfileBodyState extends State<ProfileBody> {
                               ),
 
                               const SizedBox(height: 10),
+                              //Updates
+                              _buildActionButton(
+                                'تحميل اخر اصدار',
+                                () async {
+                                  try {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content:
+                                            Text('جاري التحقق من التحديثات...'),
+                                        behavior: SnackBarBehavior.floating,
+                                      ),
+                                    );
 
+                                    final packageInfo =
+                                        await PackageInfo.fromPlatform();
+                                    final currentVersion = packageInfo.version;
+                                    final isUpdateAvailable =
+                                        await gitHubApiService
+                                            .isAvailableUpdate(currentVersion);
+
+                                    if (isUpdateAvailable) {
+                                      showOkDialog(
+                                        context: context,
+                                        title: "تحديث التطبيق",
+                                        message:
+                                            "لا توجد تحديثات متاحة، أنت تستخدم النسخة الأحدث",
+                                      );
+                                    } else {
+                                      Release _lastRelease =
+                                          await gitHubApiService
+                                              .getLatestRelease();
+                                      showReleaseInfoDialog(context,
+                                          release: _lastRelease);
+                                    }
+                                  } catch (e) {
+                                    showErrorDialog(
+                                      context: context,
+                                      title: "خطأ",
+                                      description:
+                                          "حدث خطأ أثناء التحقق من التحديثات: ${e.toString()}",
+                                    );
+                                  }
+                                },
+                                textColor: Colors.red,
+                              ),
                               // Logout
                               _buildActionButton(
                                 'تسجيل الخروج',

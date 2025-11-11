@@ -131,10 +131,5 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         validationErrors: {},
       );
     }
-    // Unknown error
-    // throw ResponseError(
-    //   message: "Unexpected error occurred",
-    //   validationErrors: {},
-    // );
   }
 }
