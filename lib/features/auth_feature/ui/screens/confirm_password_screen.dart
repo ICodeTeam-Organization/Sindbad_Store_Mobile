@@ -258,19 +258,22 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
             },
             listener: (context, state) {
               if (state is ConfirmPasswordLoadFailure) {
-                if (state.error is ResponseError) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                        content: Text(state.error.validationErrors.toString())),
-                  );
-                } else {
-                  print(state.error!.validationErrors);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                        content:
-                            Text(state.error!.validationErrors.values.first)),
-                  );
-                }
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(state.error.toString())),
+                );
+                //   if (state.error is ResponseError) {
+                //     ScaffoldMessenger.of(context).showSnackBar(
+                //       SnackBar(
+                //           content: Text(state.error.validationErrors.toString())),
+                //     );
+                //   } else {
+                // //    print(state.error!.validationErrors);
+                //     ScaffoldMessenger.of(context).showSnackBar(
+                //       SnackBar(
+                //           content:
+                //               Text(state.error!.validationErrors.values.first)),
+                //     );
+                //   }
 
                 // GoRouter.of(context).push(AppRoutes.confirmPassword,
                 //     extra: phoneNumberController.text);

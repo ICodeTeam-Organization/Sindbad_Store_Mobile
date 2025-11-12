@@ -5,7 +5,7 @@ import 'package:sindbad_management_app/core/resources/release.dart';
 
 class GitHubApiService {
   final String baseUrl =
-      "https://api.github.com/repos/ICodeTeam-Organization/Sindbad_Market_Mobile/releases/latest";
+      "https://api.github.com/repos/ICodeTeam-Organization/Sindbad_Store_Mobile/releases/latest";
   final String githubToken =
       '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';
   GitHubApiService();

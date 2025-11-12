@@ -5,13 +5,13 @@ import 'package:sindbad_management_app/features/auth_feature/data/repository/aut
 import 'package:sindbad_management_app/features/auth_feature/domain/entity/confrim_password_parans.dart';
 
 class ConfirmPasswordUseCase extends UseCase<DataState, ConfrimPasswordParans> {
-  final AuthentationRepositoryImp authRepo;
+  final AuthentationRepositoryImp _authentationRepository;
 
-  ConfirmPasswordUseCase(this.authRepo);
+  ConfirmPasswordUseCase(this._authentationRepository);
 
   @override
   Future<Either<DataFailed, DataSuccess>> execute(
       ConfrimPasswordParans params) {
-    return authRepo.confirmCode(params.phoneNumber, params.code);
+    return _authentationRepository.confirmCode(params.phoneNumber, params.code);
   }
 }

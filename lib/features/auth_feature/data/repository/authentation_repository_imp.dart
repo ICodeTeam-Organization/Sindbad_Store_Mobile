@@ -74,13 +74,9 @@ class AuthentationRepositoryImp extends AuthentationRepository {
           await authRemoteDataSource.confirmCode(phoneNumber, code);
       if (response.message.isNotEmpty) {
         debugPrint("Code Password Message: ${response.message}");
-        return Right(DataSuccess(response.message));
       }
-      if (response != null) {
-        return Right(DataSuccess(response));
-      } else {
-        return Left(DataFailed<String>("Unknow error"));
-      }
+
+      return Right(DataSuccess<ResponseModel>(response));
     } catch (e) {
       return Left(DataFailed(e));
     }

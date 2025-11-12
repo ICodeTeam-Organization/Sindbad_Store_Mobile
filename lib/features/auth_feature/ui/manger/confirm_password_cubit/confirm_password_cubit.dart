@@ -21,16 +21,12 @@ class ConfirmPasswordCubit extends Cubit<ConfirmPasswordState> {
 
     String code = codeNo1 + codeNo2 + codeNo3 + codeNo4 + codeNo5 + codeNo6;
     final result = await _confirmPasswordUseCase
-        .execute(ConfrimPasswordParans(code, phoneNumber));
+        .execute(ConfrimPasswordParans(phoneNumber, code));
     // emit(ConfirmPasswordSuccess());
     result.fold((failure) {
       //emiting error state
-      if (failure.error is ResponseError) {
-        ResponseError error = failure.error;
-        emit(ConfirmPasswordLoadFailure(error));
-      } else {
-        emit(ConfirmPasswordLoadFailure(failure.error));
-      }
+
+      emit(ConfirmPasswordLoadFailure(failure.error));
     }, (dataState) {
       //emiting success state
       emit(ConfirmPasswordSuccess());
