@@ -8,29 +8,42 @@ on:
 
 jobs:
   build:
-    # This should be at the top of your job
     runs-on: ubuntu-latest
 
     steps:
       # Step 1: Check out your code
       - uses: actions/checkout@v4
 
-      # Step 2: Set up Flutter with the EXACT version
+      # Step 2: Set up Flutter with the EXACT version from your local machine
       - uses: subosito/flutter-action@v2
         with:
-          # This is the crucial line
-          flutter-version: '3.32.5'
+          flutter-version: '3.35.7'  # Updated to match your local version
           channel: 'stable'
-          cache: true # Keep this for faster builds
+          cache: true
 
-      # Step 3: Get dependencies (this will now succeed)
+      # Step 3: Verify Flutter version
+      - name: Verify Flutter version
+        run: flutter --version
+
+      # Step 4: Debug file structure (to identify the missing file issue)
+      - name: Debug file structure
+        run: |
+          echo "=== Checking view_offer related files ==="
+          find . -name "*view_offer*" -type f
+          echo "=== Checking the specific directory ==="
+          ls -la lib/features/offer_management_features/view_offer_feature/data/repos/ || echo "Directory not found"
+          echo "=== Checking for any repo impl files ==="
+          find lib/features -name "*repo*impl*" -type f
+
+      # Step 5: Get dependencies
       - name: Install dependencies
         run: flutter pub get
 
-      # Step 4: Run your build
+      # Step 6: Build APK
       - name: Build APK
         run: flutter build apk --release
 
+      # Step 7: Find APK file
       - name: Find APK file
         id: find_apk
         run: |
@@ -42,6 +55,7 @@ jobs:
             exit 1
           fi
 
+      # Step 8: Upload APK artifact
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
@@ -53,7 +67,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Grant write permission for GITHUB_TOKEN to create releases
+      contents: write
 
     steps:
       - name: Get tag name
@@ -62,11 +76,8 @@ jobs:
           if [[ "${{ github.ref }}" == refs/tags/* ]]; then
             echo "tag_name=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
           elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            # For workflow_dispatch, if no tag is provided as input, use a default
-            # You might want to add an input for tag_name in workflow_dispatch
             echo "tag_name=manual-release-${{ github.run_number }}" >> $GITHUB_OUTPUT
           else
-            # Fallback for other triggers, or if not a tag push
             echo "tag_name=untagged-release-${{ github.run_number }}" >> $GITHUB_OUTPUT
           fi
 
