@@ -8,40 +8,47 @@ on:
 
 jobs:
   build:
-    # This should be at the top of your job
-    runs-on: ubuntu-latest
+    # Changed to Windows 11 to match your local environment
+    runs-on: windows-latest  # Windows Server 2022 (includes Windows 11 environment)
 
     steps:
       # Step 1: Check out your code
       - uses: actions/checkout@v4
 
-      # Step 2: Set up Flutter with the EXACT version
+      # Step 2: Set up Flutter
       - uses: subosito/flutter-action@v2
         with:
-          # This is the crucial line
-          flutter-version: '3.32.5'
+          flutter-version: '3.35.7'  # Your local version
           channel: 'stable'
-          cache: true # Keep this for faster builds
+          cache: true
 
-      # Step 3: Get dependencies (this will now succeed)
+      # Step 3: Verify Flutter environment
+      - name: Verify Flutter environment
+        run: |
+          flutter --version
+          flutter doctor
+
+      # Step 4: Install dependencies
       - name: Install dependencies
         run: flutter pub get
 
-      # Step 4: Run your build
+      # Step 5: Build APK
       - name: Build APK
         run: flutter build apk --release
 
+      # Step 6: Find APK file
       - name: Find APK file
         id: find_apk
         run: |
-          APK_PATH=$(find build -name "*.apk" | head -n 1)
-          if [ -f "$APK_PATH" ]; then
-            echo "APK_PATH=$APK_PATH" >> $GITHUB_OUTPUT
-          else
-            echo "Could not find APK file" >> $GITHUB_OUTPUT
+          $apk = Get-ChildItem -Path "build" -Filter "*.apk" -Recurse | Select-Object -First 1
+          if ($apk) {
+            echo "APK_PATH=$($apk.FullName)" >> $env:GITHUB_OUTPUT
+          } else {
+            echo "Could not find APK file" >> $env:GITHUB_OUTPUT
             exit 1
-          fi
+          }
 
+      # Step 7: Upload APK artifact
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
@@ -51,9 +58,9 @@ jobs:
   publish-release:
     name: Publish Release
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Keep this as ubuntu for release publishing (faster)
     permissions:
-      contents: write # Grant write permission for GITHUB_TOKEN to create releases
+      contents: write
 
     steps:
       - name: Get tag name
@@ -62,11 +69,8 @@ jobs:
           if [[ "${{ github.ref }}" == refs/tags/* ]]; then
             echo "tag_name=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
           elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            # For workflow_dispatch, if no tag is provided as input, use a default
-            # You might want to add an input for tag_name in workflow_dispatch
             echo "tag_name=manual-release-${{ github.run_number }}" >> $GITHUB_OUTPUT
           else
-            # Fallback for other triggers, or if not a tag push
             echo "tag_name=untagged-release-${{ github.run_number }}" >> $GITHUB_OUTPUT
           fi
 
