@@ -15,7 +15,7 @@ class GitHubApiService {
       Uri.parse(baseUrl),
       headers: {
         'Accept': 'application/vnd.github.v3+json',
-        'Authorization': 'Bearer $githubToken',
+        // 'Authorization': 'Bearer $githubToken',
       },
     );
 
@@ -41,7 +41,7 @@ class GitHubApiService {
         Uri.parse(baseUrl),
         headers: {
           'Accept': 'application/vnd.github.v3+json',
-          'Authorization': 'token $githubToken',
+          // 'Authorization': 'token $githubToken',
         },
       );
 
@@ -119,7 +119,7 @@ class GitHubApiService {
         Uri.parse(baseUrl),
         headers: {
           'Accept': 'application/vnd.github.v3+json',
-          'Authorization': 'token $githubToken',
+          // 'Authorization': 'token $githubToken',
         },
       );
 
@@ -169,7 +169,7 @@ class GitHubApiService {
       Uri.parse(baseUrl),
       headers: {
         'Accept': 'application/vnd.github.v3+json',
-        'Authorization': 'token $githubToken',
+        // 'Authorization': 'token $githubToken',
       },
     );
 
@@ -203,7 +203,7 @@ class GitHubApiService {
             Uri.parse(asset['browser_download_url'] as String),
           )..headers.addAll({
               'Accept': 'application/vnd.github.v3+json',
-              'Authorization': 'token $githubToken',
+              // 'Authorization': 'token $githubToken',
             });
           return request;
         }
