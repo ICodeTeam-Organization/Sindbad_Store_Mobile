@@ -29,27 +29,22 @@ class OrderManagementScreen extends StatelessWidget {
                   length: 4,
                   tabs: [
                     Tab(
-                      child: Text(
-                        'الجديدة',
-                        textAlign:
-                            TextAlign.center, // matches text-align: center
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 12,
-                          height: 1.0,
-                          letterSpacing: 0.27,
-                          // color: Colors.white,
-                        ),
-                      ),
+                      child: Text('الجديدة',
+                          textAlign:
+                              TextAlign.center, // matches text-align: center
+                          style: TextTheme.of(context).titleMedium),
                     ),
                     Tab(
-                      child: Text('المستعجلة', style: KTextStyle.textStyle16),
+                      child: Text('المستعجلة',
+                          style: TextTheme.of(context).titleMedium),
                     ),
                     Tab(
-                      child: Text('السابقة', style: KTextStyle.textStyle16),
+                      child: Text('السابقة',
+                          style: TextTheme.of(context).titleMedium),
                     ),
                     Tab(
-                      child: Text('الملغية', style: KTextStyle.textStyle16),
+                      child: Text('الملغية',
+                          style: TextTheme.of(context).titleMedium),
                     ),
                   ],
                   tabViews: [

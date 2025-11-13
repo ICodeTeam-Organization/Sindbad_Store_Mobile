@@ -68,6 +68,12 @@ class _SubCustomTabBarState extends State<SubCustomTabBar>
               child: TabBar(
                 controller: subTabController,
                 padding: EdgeInsets.zero,
+                labelPadding: EdgeInsets.zero,
+
+                // labelPadding: EdgeInsets.symmetric(
+                //     vertical: 8.h, horizontal: 5.w), // ⬅️ add this
+                // tabAlignment: TabAlignment.fill,
+
                 labelStyle: KTextStyle.textStyle16,
                 dividerColor: Colors.transparent,
                 indicatorColor: widget.indicatorColor,
@@ -76,15 +82,17 @@ class _SubCustomTabBarState extends State<SubCustomTabBar>
                 unselectedLabelColor: widget.unselectedLabelColor,
                 tabs: widget.tabs,
                 indicator: BoxDecoration(
-                  border: Border.all(color: AppColors.primary, width: 1.5.w),
                   color: Colors.transparent,
                   borderRadius:
                       BorderRadius.circular(SubCustomTabBar._borderRadius.r),
+                  border: Border.all(color: AppColors.primary, width: 1.w),
                 ),
                 indicatorSize: TabBarIndicatorSize.tab,
-                indicatorPadding: EdgeInsets.symmetric(
-                    horizontal: SubCustomTabBar._indicatorPadding.h,
-                    vertical: SubCustomTabBar._indicatorPadding.w),
+                indicatorPadding: EdgeInsets.zero, // remove extra space
+
+                // indicatorPadding: EdgeInsets.symmetric(
+                //     horizontal: SubCustomTabBar._indicatorPadding.h,
+                //     vertical: SubCustomTabBar._indicatorPadding.w),
               ),
             ),
             SizedBox(

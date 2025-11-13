@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/swidgets/new_widgets/sub_custom_tab_bar.dart';
 import '../../../../../../config/styles/text_style.dart';
 import 'shipping_info_order.dart';
@@ -16,37 +17,32 @@ class NewTabViews extends StatelessWidget {
     return SubCustomTabBar(
       length: 4,
       tabs: [
-        Tab(
-          child: Text(
-            'الكل',
-            style: KTextStyle.textStyle14.copyWith(fontWeight: FontWeight.w500),
+        SizedBox(
+          height: 38.h,
+          width: 58.82.w,
+          child: Tab(
+            child: Text(
+              'الكل',
+              style: Theme.of(context).textTheme.titleMedium!,
+            ),
           ),
         ),
         Tab(
-          child: Stack(
-            alignment: Alignment.centerRight,
-            children: [
-              Positioned(
-                width: 110,
-                child: Text(
-                  'بدون فاتورة',
-                  style: KTextStyle.textStyle14
-                      .copyWith(fontWeight: FontWeight.w500),
-                ),
-              ),
-            ],
+          child: Text(
+            'بدون فاتورة',
+            style: Theme.of(context).textTheme.titleMedium!,
           ),
         ),
         Tab(
           child: Text(
             'لم تسدد',
-            style: KTextStyle.textStyle14.copyWith(fontWeight: FontWeight.w500),
+            style: Theme.of(context).textTheme.titleMedium!,
           ),
         ),
         Tab(
           child: Text(
             'للشحن',
-            style: KTextStyle.textStyle14.copyWith(fontWeight: FontWeight.w500),
+            style: Theme.of(context).textTheme.titleMedium!,
           ),
         ),
       ],
