@@ -27,8 +27,8 @@ class BottomInfoOrder extends StatelessWidget {
               children: [
                 SvgPicture.asset(
                   "assets/alarm.svg",
-                  width: 30.w,
-                  height: 30.h,
+                  width: 24,
+                  height: 24,
                 ),
                 SizedBox(
                   width: 10.w,
@@ -54,14 +54,14 @@ class BottomInfoOrder extends StatelessWidget {
                       alignment: Alignment.bottomCenter,
                       child: SvgPicture.asset(
                         "assets/Bag.svg",
-                        width: 40.w,
-                        height: 40.h,
+                        width: 24,
+                        height: 24,
                       ),
                     ),
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Text(
-                        itemNumber,
+                        5.toString(),
                         style: KTextStyle.textStyle12.copyWith(
                           color: AppColors.white,
                         ),

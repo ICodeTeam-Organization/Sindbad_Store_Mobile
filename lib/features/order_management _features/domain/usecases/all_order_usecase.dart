@@ -7,7 +7,7 @@ import '../repos/all_order_repo.dart';
 
 class AllOrderUsecase
     extends UseCaseWithParam<List<AllOrderEntity>, AllOrderParam> {
-  final AllOrderRepo allOrderRepo;
+  final AllOrderRepoImpl allOrderRepo;
 
   AllOrderUsecase(this.allOrderRepo);
   @override

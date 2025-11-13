@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -96,7 +97,7 @@ class OrderBody extends StatelessWidget {
             ),
             BottomInfoOrder(date: date, itemNumber: itemNumber),
             Container(
-              padding: EdgeInsets.only(right: 35.w),
+              padding: EdgeInsets.only(right: 35.w, bottom: 10.w),
               child: Row(
                 children: [
                   Text('بيانات السداد : ', style: KTextStyle.textStyle12),

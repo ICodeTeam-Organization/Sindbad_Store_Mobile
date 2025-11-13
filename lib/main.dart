@@ -7,6 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:sindbad_management_app/config/locales_config.dart';
+import 'package:sindbad_management_app/config/themes/dark_theme.dart';
+import 'package:sindbad_management_app/config/themes/light_theme.dart';
 import 'package:sindbad_management_app/core/utils/currancy.dart';
 import 'package:sindbad_management_app/config/routers/route.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/confirm_password_cubit/confirm_password_cubit.dart';
@@ -205,12 +207,9 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
           builder: DevicePreview.appBuilder,
           ///////////////////////////////////////
           routerConfig: AppRouter.router,
-          theme: ThemeData(
-            fontFamily: GoogleFonts.cairo().fontFamily,
-            useMaterial3: false,
-            scaffoldBackgroundColor:
-                const Color(0xfffffbfb), // Set default background color
-          ),
+          theme: LightTheme.theme,
+          darkTheme: DarkTheme.theme,
+          themeMode: ThemeMode.system, // Auto switch based on system
           localizationsDelegates: LocalesConfig.localizationsDelegates,
           supportedLocales: LocalesConfig.supportedLocales,
           locale: LocalesConfig.defaultLocale,

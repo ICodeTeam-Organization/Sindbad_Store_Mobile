@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 abstract class KTextStyle {
   // Text styles with font size 20
   static TextStyle textStyle20 =
       TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w500);
-  static TextStyle textStyle16 =
-      TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500);
+  static TextStyle textStyle16 = TextStyle(
+      fontSize: 16.sp,
+      fontFamily: GoogleFonts.cairo().fontFamily,
+      fontWeight: FontWeight.w500);
 
   static TextStyle textStyle18 =
       TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w500);

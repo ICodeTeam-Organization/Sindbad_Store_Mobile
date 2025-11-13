@@ -68,7 +68,7 @@ void initializationContainer() {
   getit.registerSingleton<AuthentationRepositoryImp>(
       AuthentationRepositoryImp(getit()));
 
-  getit.registerSingleton<AllOrderRepo>(AllOrderRepoImpl(getit()));
+  getit.registerSingleton<AllOrderRepoImpl>(AllOrderRepoImpl(getit()));
   getit.registerSingleton<ViewProductRepoImpl>(ViewProductRepoImpl(getit()));
   getit.registerSingleton<AddAndEditProductStoreRepoImpl>(
       AddAndEditProductStoreRepoImpl(getit()));

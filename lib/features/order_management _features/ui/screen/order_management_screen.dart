@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/swidgets/new_widgets/custom_app_bar.dart';
 import '../../../../core/swidgets/new_widgets/custom_tab_bar_widget.dart';
 import '../../../../config/styles/text_style.dart';
@@ -28,7 +29,18 @@ class OrderManagementScreen extends StatelessWidget {
                   length: 4,
                   tabs: [
                     Tab(
-                      child: Text('الجديدة', style: KTextStyle.textStyle16),
+                      child: Text(
+                        'الجديدة',
+                        textAlign:
+                            TextAlign.center, // matches text-align: center
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 12,
+                          height: 1.0,
+                          letterSpacing: 0.27,
+                          // color: Colors.white,
+                        ),
+                      ),
                     ),
                     Tab(
                       child: Text('المستعجلة', style: KTextStyle.textStyle16),

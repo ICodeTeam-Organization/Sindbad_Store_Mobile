@@ -51,7 +51,7 @@ class _CustomTabBarWidgetState extends State<CustomTabBarWidget>
     with SingleTickerProviderStateMixin {
   @override
   void initState() {
-    tabController = TabController(length: widget.length, vsync: this);
+    //  tabController = TabController(length: widget.length, vsync: this);
     super.initState();
   }
 
@@ -71,7 +71,7 @@ class _CustomTabBarWidgetState extends State<CustomTabBarWidget>
               child: SizedBox(
                 height: 60.h,
                 child: TabBar(
-                  controller: tabController,
+                  //  controller: tabController,
                   labelStyle: KTextStyle.textStyle16
                       .copyWith(fontWeight: FontWeight.bold),
                   dividerColor: Colors.transparent,
@@ -102,7 +102,7 @@ class _CustomTabBarWidgetState extends State<CustomTabBarWidget>
             fit: FlexFit.loose,
             child: SizedBox(
               child: TabBarView(
-                controller: tabController,
+                // controller: tabController,
                 children: widget.tabViews,
               ),
             ),

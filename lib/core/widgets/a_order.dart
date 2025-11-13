@@ -45,7 +45,7 @@ class _KOrdersWidgetState extends State<KOrdersWidget> {
               //   width: 10.w,
               // ),
               Text(
-                "رقم الطلب:",
+                "رقم الطلب:<",
                 style:
                     KTextStyle.textStyle12.copyWith(color: AppColors.greyHint),
               ),
