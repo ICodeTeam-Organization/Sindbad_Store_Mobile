@@ -18,7 +18,7 @@ class TopInfoOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 62.h,
+      height: 100.h,
       padding: EdgeInsets.only(top: 7),
       decoration: BoxDecoration(
           border: Border(
@@ -28,8 +28,11 @@ class TopInfoOrder extends StatelessWidget {
           borderRadius: BorderRadius.circular(16.r)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Column(
+            mainAxisAlignment: MainAxisAlignment.center, // ✅ add this
+
             children: [
               Text(
                 'رقم الطلب',

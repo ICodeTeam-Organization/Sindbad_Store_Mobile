@@ -82,9 +82,9 @@ class OrderBody extends StatelessWidget {
           border: Border.all(color: AppColors.grey),
           borderRadius: BorderRadius.circular(16.r),
         ),
-        height: 140.h,
         width: 380.w,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             TopInfoOrder(
               orderNumber: orderNumber,

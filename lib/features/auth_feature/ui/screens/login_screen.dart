@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit_state.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/widgets/show_error_dialoge.dart';
@@ -205,6 +206,24 @@ class _LoginPageState extends State<LoginPage> {
                 },
               ),
             );
+          },
+        ),
+        SizedBox(
+          height: 30,
+        )
+        // Expanded(child: SizedBox()),
+        ,
+        FutureBuilder(
+          future: PackageInfo.fromPlatform(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasData) {
+                return Text("v" + snapshot.data!.version);
+              } else {
+                return Text("فشل في عرض نسخه التطبيق");
+              }
+            }
+            return SizedBox(height: 20, child: CircularProgressIndicator());
           },
         )
       ],
