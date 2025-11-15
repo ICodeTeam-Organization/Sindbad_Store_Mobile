@@ -57,7 +57,7 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
             Expanded(
               child: CustomTabBarWidget(
                 tabs: [
-                  Tab(text: "جميع المنتجات"),
+                  Tab(text: "الكل"),
                   Tab(text: "منتجات عليها عروض"),
                   Tab(text: "منتجات موقوفة"),
                 ],

@@ -15,15 +15,8 @@ class SubCustomTabBar extends StatefulWidget {
   final Color unselectedLabelColor;
   final double height;
 
-  // Constants for repeated values
   static const double _borderRadius = 25.0;
-  static const double _indicatorPadding = 5.0;
   static const double _sizedBoxHeight = 5.0;
-
-  /// Creates a custom tab bar widget.
-  ///
-  /// The [tabs] and [tabViews] lists must have the same length.
-  /// The [length] parameter must match the number of tabs and tab views.
 
   const SubCustomTabBar({
     super.key,
@@ -53,63 +46,101 @@ class _SubCustomTabBarState extends State<SubCustomTabBar>
   }
 
   @override
+  void dispose() {
+    subTabController?.dispose();
+    subTabController = null;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: widget.length,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.w),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            DecoratedBox(
-              decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(25.r)),
-              child: TabBar(
-                controller: subTabController,
-                padding: EdgeInsets.zero,
-                labelPadding: EdgeInsets.zero,
-
-                // labelPadding: EdgeInsets.symmetric(
-                //     vertical: 8.h, horizontal: 5.w), // ⬅️ add this
-                // tabAlignment: TabAlignment.fill,
-
-                labelStyle: KTextStyle.textStyle16,
-                dividerColor: Colors.transparent,
-                indicatorColor: widget.indicatorColor,
-                indicatorWeight: widget.indicatorWeight.w,
-                labelColor: widget.labelColor,
-                unselectedLabelColor: widget.unselectedLabelColor,
-                tabs: widget.tabs,
-                indicator: BoxDecoration(
-                  color: Colors.transparent,
-                  borderRadius:
-                      BorderRadius.circular(SubCustomTabBar._borderRadius.r),
-                  border: Border.all(color: AppColors.primary, width: 1.w),
-                ),
-                indicatorSize: TabBarIndicatorSize.tab,
-                indicatorPadding: EdgeInsets.zero, // remove extra space
-
-                // indicatorPadding: EdgeInsets.symmetric(
-                //     horizontal: SubCustomTabBar._indicatorPadding.h,
-                //     vertical: SubCustomTabBar._indicatorPadding.w),
-              ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(25.r),
             ),
-            SizedBox(
-              height: SubCustomTabBar._sizedBoxHeight.h,
+            child: TabBar(
+              controller: subTabController,
+              padding: EdgeInsets.zero,
+              labelPadding: EdgeInsets.zero,
+              labelStyle: KTextStyle.textStyle16,
+              dividerColor: Colors.transparent,
+
+              // text colors
+              labelColor: widget.labelColor,
+              unselectedLabelColor: widget.unselectedLabelColor,
+
+              // we disable TabBar's default indicator
+              indicator: const BoxDecoration(),
+              indicatorSize: TabBarIndicatorSize.tab,
+              indicatorPadding: EdgeInsets.zero,
+
+              tabs: List.generate(widget.tabs.length, (index) {
+                return _AlwaysBorderTab(
+                  index: index,
+                  child: widget.tabs[index],
+                  //    borderRadius: SubCustomTabBar._borderRadius.r,
+                  controller: subTabController!,
+                );
+              }),
             ),
-            Flexible(
-              fit: FlexFit.loose,
-              child: SizedBox(
-                child: TabBarView(
-                  controller: subTabController,
-                  children: widget.tabViews,
-                ),
-              ),
+          ),
+          SizedBox(height: SubCustomTabBar._sizedBoxHeight.h),
+          Flexible(
+            fit: FlexFit.loose,
+            child: TabBarView(
+              controller: subTabController,
+              children: widget.tabViews,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
+    );
+  }
+}
+
+class _AlwaysBorderTab extends StatelessWidget {
+  final Widget child;
+  final int index;
+  // final double borderRadius;
+  final TabController controller;
+
+  const _AlwaysBorderTab({
+    required this.child,
+    required this.index,
+    //  required this.borderRadius,
+    required this.controller,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: controller.animation ?? controller,
+      builder: (context, _) {
+        final int selectedIndex =
+            (controller.animation?.value ?? controller.index).round();
+
+        final bool isSelected = selectedIndex == index;
+
+        return Container(
+          margin: EdgeInsets.symmetric(horizontal: 1), // <-- spacing
+          padding: EdgeInsets.symmetric(horizontal: 13),
+          decoration: BoxDecoration(
+            color: Colors.transparent, // no background
+            borderRadius: BorderRadius.circular(25),
+            border: Border.all(
+              color: isSelected ? AppColors.primary : Color(0xffD9D9D9),
+              width: 1.w,
+            ),
+          ),
+          child: child,
+        );
+      },
     );
   }
 }
