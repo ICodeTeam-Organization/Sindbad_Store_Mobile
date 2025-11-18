@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Release version (e.g., 1.3.2)"
+        description: "Release version (e.g., v1.3.2)"
         required: false
         default: ""
 
@@ -80,8 +80,9 @@ jobs:
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" && -n "${{ github.event.inputs.version }}" ]]; then
             echo "tag_name=v${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
-          elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
-            echo "tag_name=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          elif [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            tag_name="${GITHUB_REF#refs/tags/}"
+            echo "tag_name=$tag_name" >> $GITHUB_OUTPUT
           else
             echo "tag_name=v${{ github.run_number }}" >> $GITHUB_OUTPUT
           fi
