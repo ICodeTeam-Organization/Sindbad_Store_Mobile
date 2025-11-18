@@ -1,17 +1,18 @@
 import 'package:dartz/dartz.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/all_order_entity.dart';
 
-abstract class OrdersState {}
+sealed class OrdersState {}
 
 class OrdersInitial extends OrdersState {}
 
-class OrdersLoading extends OrdersState {}
+class OrdersLoadInProgress extends OrdersState {}
 
-class OrdersLoaded extends OrdersState {
-  final List<Order> orders;
-  OrdersLoaded(this.orders);
+class OrdersLoadSuccess extends OrdersState {
+  final List<AllOrderEntity> orders;
+  OrdersLoadSuccess(this.orders);
 }
 
-class OrdersError extends OrdersState {
+class OrdersLoadFailure extends OrdersState {
   final String message;
-  OrdersError(this.message);
+  OrdersLoadFailure(this.message);
 }

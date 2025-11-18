@@ -11,6 +11,7 @@ import 'package:sindbad_management_app/features/auth_feature/ui/manger/confirm_p
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/forget_password_cubit.dart/forget_password_cubit.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/data/data_sources/all_order_remot_data_source_imp.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/all_order/temp_cubit.dart';
 import 'package:sindbad_management_app/features/profile_feature/domin/usecase/get_profile_data_usecase.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/reset_password_cubit/reset_password_cubit.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/data/remote_data/notifiction_remote_data_source.dart';
@@ -97,6 +98,7 @@ void initializationContainer() {
   //  Cubits
   // ----------------
   getit.registerFactory<SignInCubit>(() => SignInCubit(getit()));
+  getit.registerFactory<OrdersCubit>(() => OrdersCubit(getit()));
   getit.registerFactory<GetProfileCubit>(() => GetProfileCubit(getit()));
   getit.registerFactory<AllOrderCubit>(() => AllOrderCubit(getit()));
   getit.registerFactory<GetStoreProductsWithFilterCubit>(

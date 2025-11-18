@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/all_order/all_order_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/all_order/all_order_state.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/all_order/temp_cubit.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/all_order/temp_cubit_states.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_body.dart';
 import 'package:sindbad_management_app/features/product_features/view_product_features/domain/entities/main_category_for_view_entity.dart';
 import 'package:sindbad_management_app/features/product_features/view_product_features/ui/widgets/custom_get_main_category_for_view_success_widget.dart';
@@ -21,89 +23,52 @@ class NewTabViews extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TempTabBarForTest(),
-
-        // Expanded must wrap the FutureBuilder
-        Expanded(
-          child: FutureBuilder(
-            future: context.read<AllOrderCubit>().fetchAllOrder(
-              statuses: [2, 3, 4],
-              isUrgent: false,
-              pageSize: 10,
-              pageNumber: 10,
-            ),
-            builder: (context, asyncSnapshot) {
-              if (asyncSnapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (asyncSnapshot.hasError) {
-                return Center(child: Text("Error: ${asyncSnapshot.error}"));
+        TempTabBarForTest<String>(
+          items: ["الكل", "بدون فاتورة", "لم تسدد", "للشحن"],
+          onChange: (value) {
+            context.read<OrdersCubit>().fetchOrders(value);
+          },
+        ),
+        BlocConsumer<OrdersCubit, OrdersState>(
+          builder: (context, state) {
+            if (state is OrdersLoadInProgress) {
+              return CircularProgressIndicator();
+            }
+            if (state is OrdersLoadSuccess) {
+              if (state.orders.isEmpty) {
+                return Placeholder();
               } else {
-                // Data loaded
-                return ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return OrderBody(
-                      billNumber: "1",
-                      orderNumber: "123",
-                      date: "345",
-                      itemNumber: "12",
-                      paymentInfo: "346",
-                      orderStatus: "4",
-                      idOrder: 1,
-                      idPackage: 3,
-                    );
-                  },
+                return Expanded(
+                  child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount: 6,
+                    itemBuilder: (context, index) => ListTile(
+                      title: Container(
+                        color: Colors.white,
+                        height: 130.h,
+                        width: MediaQuery.of(context).size.width,
+                      ),
+                    ),
+                  ),
                 );
               }
-            },
-          ),
+            }
+            return CircularProgressIndicator();
+          },
+          listener: (context, state) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("helping"),
+                backgroundColor: Colors.red,
+              ),
+            );
+          },
         ),
+        // Expanded must wrap the FutureBuilder
       ],
     );
   }
 }
-
-// SubCustomTabBar(
-//   length: 4,
-//   tabs: [
-//     Tab(
-//       child: Text(
-//         'الكل',
-//         style:
-//             Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 12),
-//       ),
-//     ),
-//     Tab(
-//       child: Text(
-//         'بدون فاتورة',
-//         maxLines: 2,
-//         style: Theme.of(context).textTheme.titleMedium!,
-//       ),
-//     ),
-//     Tab(
-//       child: Text(
-//         'لم تسدد',
-//         style: Theme.of(context).textTheme.titleMedium!,
-//       ),
-//     ),
-//     Tab(
-//       child: Text(
-//         'للشحن',
-//         style: Theme.of(context).textTheme.titleMedium!,
-//       ),
-//     ),
-//   ],
-//   tabViews: [
-//     //All TabViews
-//  AllInfoOrder(),
-//     //NoBill TabViews
-//     NoBillInfoOrder(),
-//     //NotPaid TabViews
-//     NoPaidInfoOrder(),
-//     //Shipping TabViews
-//     ShippingInfoOrder(),
-//   ],
-// ),
 
 class OrdersListView extends StatefulWidget {
   final List<int> statuses;
@@ -256,24 +221,32 @@ class _OrdersListViewState extends State<OrdersListView> {
 
 /// A combined widget for testing main categories as a horizontal scrollable tab bar.
 /// Works with static data.
-class TempTabBarForTest extends StatefulWidget {
-  const TempTabBarForTest({super.key});
+class TempTabBarForTest<T> extends StatefulWidget {
+  final List<T> items; // Dynamic items (String, int, or model)
+  final Function(T value) onChange; // Callback when an item is selected
+  final String Function(T item)? labelBuilder; // Optional label extractor
+  final int initialIndex;
+
+  const TempTabBarForTest({
+    super.key,
+    required this.items,
+    required this.onChange,
+    this.labelBuilder,
+    this.initialIndex = 0,
+  });
 
   @override
-  State<TempTabBarForTest> createState() => _TempTabBarForTestState();
+  State<TempTabBarForTest<T>> createState() => _TempTabBarForTestState<T>();
 }
 
-class _TempTabBarForTestState extends State<TempTabBarForTest> {
-  int _selectedSubIndex = 0;
+class _TempTabBarForTestState<T> extends State<TempTabBarForTest<T>> {
+  late int _selectedIndex;
 
-  // Static categories for testing
-  final List<MainCategoryForViewEntity> allCategory = [
-    MainCategoryForViewEntity(mainCategoryId: 0, mainCategoryName: "الكل"),
-    MainCategoryForViewEntity(
-        mainCategoryId: 1, mainCategoryName: 'بدون فاتورة'),
-    MainCategoryForViewEntity(mainCategoryId: 2, mainCategoryName: 'لم تسدد'),
-    MainCategoryForViewEntity(mainCategoryId: 3, mainCategoryName: 'للشحن'),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.initialIndex;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -281,20 +254,24 @@ class _TempTabBarForTestState extends State<TempTabBarForTest> {
       height: 50.h,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: allCategory.length,
+        itemCount: widget.items.length,
         physics: const BouncingScrollPhysics(
-            parent: AlwaysScrollableScrollPhysics()),
+          parent: AlwaysScrollableScrollPhysics(),
+        ),
         itemBuilder: (context, i) {
-          final category = allCategory[i];
+          final item = widget.items[i];
+
+          // If the item is an object, allow a custom label builder
+          final label = widget.labelBuilder != null
+              ? widget.labelBuilder!(item)
+              : item.toString();
+
           return ChipCustom(
-            title: category.mainCategoryName,
-            isSelected: i == _selectedSubIndex,
+            title: label,
+            isSelected: i == _selectedIndex,
             onTap: () {
-              // For testing, we just print the selected category
-              debugPrint("Selected Category: ${category.mainCategoryName}");
-              setState(() {
-                _selectedSubIndex = i;
-              });
+              setState(() => _selectedIndex = i);
+              widget.onChange(item);
             },
           );
         },
@@ -302,3 +279,46 @@ class _TempTabBarForTestState extends State<TempTabBarForTest> {
     );
   }
 }
+
+
+// SubCustomTabBar(
+//   length: 4,
+//   tabs: [
+//     Tab(
+//       child: Text(
+//         'الكل',
+//         style:
+//             Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 12),
+//       ),
+//     ),
+//     Tab(
+//       child: Text(
+//         'بدون فاتورة',
+//         maxLines: 2,
+//         style: Theme.of(context).textTheme.titleMedium!,
+//       ),
+//     ),
+//     Tab(
+//       child: Text(
+//         'لم تسدد',
+//         style: Theme.of(context).textTheme.titleMedium!,
+//       ),
+//     ),
+//     Tab(
+//       child: Text(
+//         'للشحن',
+//         style: Theme.of(context).textTheme.titleMedium!,
+//       ),
+//     ),
+//   ],
+//   tabViews: [
+//     //All TabViews
+  // AllInfoOrder(),
+//     //NoBill TabViews
+//     NoBillInfoOrder(),
+//     //NotPaid TabViews
+//     NoPaidInfoOrder(),
+//     //Shipping TabViews
+//     ShippingInfoOrder(),
+//   ],
+// ),
