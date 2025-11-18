@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/entities_states.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/all_order/all_order_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/all_order/all_order_state.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/all_order/temp_cubit.dart';
@@ -24,45 +25,84 @@ class NewTabViews extends StatelessWidget {
     return Column(
       children: [
         TempTabBarForTest<String>(
-          items: ["الكل", "بدون فاتورة", "لم تسدد", "للشحن"],
+          items: [
+            PackageStatus.all.displayName,
+            PackageStatus.notApprovedYet.displayName,
+            PackageStatus.packageConfirmedByYemeniAccountant.displayName,
+            PackageStatus.packageInvoiceCreated.displayName,
+            PackageStatus.packageInvoicePaidByTheSaudiAccountant.displayName,
+            PackageStatus.packageShippedFromStore.displayName,
+            PackageStatus.packageReceivedToDeliveryMan.displayName,
+            PackageStatus.packageDeliveredToCustomer.displayName,
+            PackageStatus.canceled.displayName,
+          ],
           onChange: (value) {
-            context.read<OrdersCubit>().fetchOrders(value);
+            context
+                .read<OrdersCubit>()
+                .fetchOrders(PackageStatusExtension.idFromDisplayName(value));
           },
         ),
-        BlocConsumer<OrdersCubit, OrdersState>(
-          builder: (context, state) {
-            if (state is OrdersLoadInProgress) {
-              return CircularProgressIndicator();
-            }
-            if (state is OrdersLoadSuccess) {
-              if (state.orders.isEmpty) {
-                return Placeholder();
-              } else {
-                return Expanded(
-                  child: ListView.builder(
-                    padding: EdgeInsets.zero,
-                    itemCount: 6,
-                    itemBuilder: (context, index) => ListTile(
-                      title: Container(
-                        color: Colors.white,
-                        height: 130.h,
-                        width: MediaQuery.of(context).size.width,
-                      ),
-                    ),
-                  ),
-                );
+        Expanded(
+          child: BlocConsumer<OrdersCubit, OrdersState>(
+            builder: (context, state) {
+              if (state is OrdersLoadInProgress) {
+                return Center(
+                    child: SizedBox(
+                        height: 35,
+                        width: 35,
+                        child: CircularProgressIndicator()));
               }
-            }
-            return CircularProgressIndicator();
-          },
-          listener: (context, state) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text("helping"),
-                backgroundColor: Colors.red,
-              ),
-            );
-          },
+              if (state is OrdersLoadSuccess) {
+                if (state.orders.isEmpty) {
+                  return Center(child: Text("لا توجد بيانات"));
+                } else {
+                  return ListView.builder(
+                    //  controller: _scrollController,
+                    itemCount: state.orders.length,
+                    itemBuilder: (context, index) {
+                      if (index < state.orders.length) {
+                        return Column(
+                          children: [
+                            OrderBody(
+                              billNumber: state.orders[index].orderBill,
+                              orderNumber: state.orders[index].orderNum,
+                              date: state.orders[index].orderDates,
+                              itemNumber: state.orders[index].productMount,
+                              paymentInfo: state.orders[index].payStatus,
+                              orderStatus: state.orders[index].orderStatuse,
+                              idOrder: state.orders[index].idOrder,
+                              idPackage: state.orders[index].idPackage,
+                            ),
+                            if (index == state.orders.length - 1)
+                              SizedBox(height: 120.h),
+                          ],
+                        );
+                      } else {
+                        return Center(
+                            child: SizedBox(
+                                height: 35,
+                                width: 35,
+                                child: CircularProgressIndicator()));
+                      }
+                    },
+                  );
+                }
+              }
+              return Center(
+                  child: SizedBox(
+                      height: 35,
+                      width: 35,
+                      child: CircularProgressIndicator()));
+            },
+            listener: (context, state) {
+              // ScaffoldMessenger.of(context).showSnackBar(
+              //   SnackBar(
+              //     content: Text("helping"),
+              //     backgroundColor: Colors.red,
+              //   ),
+              // );
+            },
+          ),
         ),
         // Expanded must wrap the FutureBuilder
       ],

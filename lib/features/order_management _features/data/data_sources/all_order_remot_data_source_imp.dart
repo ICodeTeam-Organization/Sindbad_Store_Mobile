@@ -74,7 +74,7 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
   ) async {
     String? token = await getToken();
     var endpoint = "Packages?owned=true";
-    endpoint += "&pageSize=$pageSize&pageNumber=$pageNumber";
+    endpoint += "&pageSize=$pageSize&pageNumber=1";
     endpoint += statuses.map((status) => "&statuses=$status").join();
     if (isUrgent) {
       endpoint += "&isUrgent=$isUrgent";

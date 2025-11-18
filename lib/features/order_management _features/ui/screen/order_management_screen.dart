@@ -49,7 +49,7 @@ class OrderManagementScreen extends StatelessWidget {
                   ],
                   tabViews: [
                     //New tabViews
-                    NewTabViews(),
+                    Expanded(child: NewTabViews()),
                     //Urgent TabViews
                     UrgentTabViews(),
                     //Before TabViews
