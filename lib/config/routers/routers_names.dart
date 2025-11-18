@@ -1,4 +1,5 @@
 import 'package:sindbad_management_app/features/auth_feature/ui/screens/confirm_password_screen.dart';
+import 'package:sindbad_management_app/features/excell/pages/add_page.dart';
 
 abstract class AppRoutes {
   // Auth & Core
@@ -17,6 +18,7 @@ abstract class AppRoutes {
 
   // Order Management
   static const orderDetails = '/orderDetails';
+  static const addExcelPage = '/addExcelPage';
 
   // Product Management
   static const addProduct = '/store/addProduct';
