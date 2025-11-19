@@ -87,6 +87,10 @@ class NewTabViews extends StatelessWidget {
                     },
                   );
                 }
+              } else if (state is OrdersLoadFailure) {
+                return Center(
+                    child: SizedBox(
+                        height: 35, width: 35, child: Text(state.message)));
               }
               return Center(
                   child: SizedBox(
