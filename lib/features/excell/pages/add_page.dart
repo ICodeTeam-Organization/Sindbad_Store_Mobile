@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class AddExcelPage extends StatefulWidget {
-  const AddExcelPage({Key? key}) : super(key: key);
+  const AddExcelPage({super.key});
 
   @override
   State<AddExcelPage> createState() => _AddExcelPageState();
@@ -84,7 +84,6 @@ class _AddExcelPageState extends State<AddExcelPage> {
         appBar: AppBar(
           title: const Text('اضافة منتجات عبر الإكسيل'),
           centerTitle: true,
-          backgroundColor: Colors.blueGrey,
         ),
         body: Container(
           color: const Color(0xFFEEEEEE), // خلفية رمادية eee
