@@ -53,8 +53,7 @@ class TwoButtonInRow extends StatelessWidget {
                     pageSize: 100,
                   );
               context.push(
-                AppRoutes.addExcelPage,
-                //   AppRoutes.addProduct,
+                AppRoutes.addProduct,
               );
             },
           ),

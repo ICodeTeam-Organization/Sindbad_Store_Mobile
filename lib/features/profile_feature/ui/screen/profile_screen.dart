@@ -99,7 +99,14 @@ class _ProfileBodyState extends State<ProfileBody> {
                                   );
                                 },
                               ),
-
+                              _buildActionButton(
+                                'اضافة المنتجات عبر الاكسيل',
+                                () {
+                                  GoRouter.of(context).push(
+                                    AppRoutes.addExcelPage,
+                                  );
+                                },
+                              ),
                               const SizedBox(height: 10),
 
                               // Pay Later Switch
