@@ -5,6 +5,7 @@ import 'package:sindbad_management_app/features/auth_feature/ui/screens/forget_p
 import 'package:sindbad_management_app/features/auth_feature/ui/screens/confirm_password_screen.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/screens/login_screen.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/screens/reset_password_screen.dart';
+import 'package:sindbad_management_app/features/excell/pages/add_page.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/ui/screen/notificion_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/new_offer_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/update_offer_screen.dart';
@@ -25,6 +26,12 @@ abstract class AppRouter {
         path: AppRoutes.signIn,
         builder: (context, state) {
           return LoginPage();
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.addExcelPage,
+        builder: (context, state) {
+          return AddExcelPage();
         },
       ),
       GoRoute(
