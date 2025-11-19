@@ -3,11 +3,11 @@ name: Build APK and Publish Release
 on:
   push:
     tags:
-      - 'v*' # Trigger on new version tags (e.g., v1.0.0)
+      - 'v*'
   workflow_dispatch:
     inputs:
       version:
-        description: "Release version (e.g., v1.3.2)"
+        description: "Release version (e.g., 1.3.2)"
         required: false
         default: ""
 
@@ -39,25 +39,34 @@ jobs:
         id: rename_apk
         shell: pwsh
         run: |
+          # Find the APK
           $apk = Get-ChildItem -Path "build" -Filter "*.apk" -Recurse | Select-Object -First 1
           if (-not $apk) {
-            echo "Could not find APK file" >> $env:GITHUB_OUTPUT
+            Write-Host "Could not find APK file"
             exit 1
           }
 
           # Determine version tag
           if ("${{ github.event.inputs.version }}") {
+            # Manual release version
             $version = "v${{ github.event.inputs.version }}"
-          } elseif ("${{ github.ref }}" -like "refs/tags/*") {
-            $version = "${{ github.ref#refs/tags/ }}"
-          } else {
+          }
+          elseif ("${{ github.ref }}" -like "refs/tags/*") {
+            # Extract tag name from refs/tags/v1.2.3
+            $ref = "${{ github.ref }}"
+            $version = $ref.Replace("refs/tags/", "")
+          }
+          else {
+            # Fallback version
             $version = "v${{ github.run_number }}"
           }
 
+          # Rename APK
           $newName = "store-$version.apk"
           $newPath = Join-Path $apk.DirectoryName $newName
-          Rename-Item $apk.FullName $newPath
+          Rename-Item $apk.FullName $newPath -Force
 
+          # Export outputs
           echo "APK_PATH=$newPath" >> $env:GITHUB_OUTPUT
           echo "VERSION=$version" >> $env:GITHUB_OUTPUT
 
