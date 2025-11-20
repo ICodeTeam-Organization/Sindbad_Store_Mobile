@@ -36,34 +36,32 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: GestureDetector(
-          onTap: () {
-            // يختفي الكيبورد لمن تظغط في أي مكان خارج الحقول
-            FocusScope.of(context).requestFocus(FocusNode());
-          },
-          child: SingleChildScrollView(
-            child: BlocProvider(
-                create: (_) => getit<SignInCubit>(),
-                child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        SizedBox(height: 105),
-                        _buildTitleSection(),
-                        SizedBox(height: 40.h),
-                        _buildUserNameTextFormFeild(),
-                        SizedBox(height: 25.h),
-                        _buildPasswordTextFormFeild(),
-                        _buildForgetPasswordText(),
-                        SizedBox(height: 20.h),
-                        _buildLoginButton(),
-                        SizedBox(height: 15.h),
-                        //  _buildRegisterText(),
-                      ],
-                    ))),
-          ),
+    return Scaffold(
+      body: GestureDetector(
+        onTap: () {
+          // يختفي الكيبورد لمن تظغط في أي مكان خارج الحقول
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: SingleChildScrollView(
+          child: BlocProvider(
+              create: (_) => getit<SignInCubit>(),
+              child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      SizedBox(height: 105),
+                      _buildTitleSection(),
+                      SizedBox(height: 40.h),
+                      _buildUserNameTextFormFeild(),
+                      SizedBox(height: 25.h),
+                      _buildPasswordTextFormFeild(),
+                      _buildForgetPasswordText(),
+                      SizedBox(height: 20.h),
+                      _buildLoginButton(),
+                      SizedBox(height: 15.h),
+                      //  _buildRegisterText(),
+                    ],
+                  ))),
         ),
       ),
     );
@@ -155,6 +153,8 @@ class _LoginPageState extends State<LoginPage> {
         BlocConsumer<SignInCubit, SigninState>(
           listener: (context, state) {
             if (state is SigninLoadFailure) {
+              GoRouter.of(context).go(AppRoutes.root);
+
               // سويت دايلوج اذا كلمة سر خطا او رقم جوال
               ShowErrorDialoge.showErrorDialog(context, state.errorMessage);
             } else if (state is SigninSuccess) {

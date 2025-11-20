@@ -27,6 +27,12 @@ class _ProfileBodyState extends State<ProfileBody> {
   final FlutterSecureStorage storage = const FlutterSecureStorage();
   final GitHubApiService gitHubApiService = GitHubApiService();
 
+  GetProfileDataEntity profile = GetProfileDataEntity(
+      userEmail: '',
+      userName: '',
+      userPhoneNumber: '',
+      userCuntry: 4,
+      userCategory: []);
   List<String> category = [];
 
   @override
@@ -48,163 +54,230 @@ class _ProfileBodyState extends State<ProfileBody> {
     return Scaffold(
       //  CustomAppBar(tital: "تغيير كلمة المرور", isSearch: false),
 
-      body: BlocBuilder<GetProfileCubit, GetProfileState>(
-        builder: (context, state) {
-          if (state is GetProfileLoadInProgress) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is GetProfileLoadFailure) {
-            return Center(child: Text(state.error));
-          } else if (state is GetProfileLoadSuccess) {
-            final profile = state.profileModel;
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Column(
+            children: [
+              CustomAppBar(tital: 'الملف الشخصي', isSearch: false),
 
-            return SingleChildScrollView(
-              child: SafeArea(
-                child: Column(
-                  children: [
-                    CustomAppBar(tital: 'الملف الشخصي', isSearch: false),
+              const SizedBox(height: 20),
+              // Profile Header
+              // Collection-if
 
-                    const SizedBox(height: 20),
-                    // Profile Header
-                    _buildTitle(profile),
-                    const SizedBox(height: 20),
-                    Column(
+              _buildTitle(),
+
+              const SizedBox(height: 20),
+              Column(
+                children: [
+                  // Info Section
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
                       children: [
-                        // Info Section
-                        Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 16),
-                          padding: const EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
+                        //Phone Number
+                        if (context.watch<GetProfileCubit>().state
+                            is GetProfileLoadSuccess)
+                          InfoRow(
+                            value: 'رقم الجوال',
+                            label: (context.watch<GetProfileCubit>().state
+                                    as GetProfileLoadSuccess)
+                                .profileModel
+                                .userPhoneNumber,
                           ),
-                          child: Column(
-                            children: [
-                              InfoRow(
-                                value: 'رقم الجوال',
-                                label: profile.userPhoneNumber,
-                              ),
-                              InfoRow(
-                                value: 'البريد الإلكتروني',
-                                label: profile.userEmail,
-                              ),
-                              const InfoRow(value: 'الدولة', label: 'السعودية'),
-                              const SizedBox(height: 10),
 
-                              // Change Password
-                              _buildActionButton(
-                                'تغيير كلمة المرور',
-                                () {
-                                  GoRouter.of(context).push(
-                                    AppRoutes.changePassword,
-                                  );
-                                },
-                              ),
-                              _buildActionButton(
-                                'اضافة المنتجات عبر الاكسيل',
-                                () {
-                                  GoRouter.of(context).push(
-                                    AppRoutes.addExcelPage,
-                                  );
-                                },
-                              ),
-                              const SizedBox(height: 10),
+                        if (context.watch<GetProfileCubit>().state
+                            is GetProfileLoadInProgress)
+                          InfoRow(
+                            isLoading: true,
+                            value: 'رقم الجوال',
+                            label: "",
+                          ),
+                        if (context.watch<GetProfileCubit>().state
+                            is GetProfileLoadFailure)
+                          InfoRow(
+                            value: 'رقم الجوال',
+                            label: (context.watch<GetProfileCubit>().state
+                                    as GetProfileLoadFailure)
+                                .error,
+                          ),
 
-                              // Pay Later Switch
-                              _buildActionButton(
-                                'الدفع الآجل الافتراضي',
-                                null,
-                                switchWidget: Switch.adaptive(
-                                  activeColor: AppColors.primary,
-                                  value: isSwitched,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      isSwitched = value;
-                                    });
-                                    storage.write(
-                                      key: 'pay',
-                                      value: value ? '1' : '2',
-                                    );
-                                  },
-                                ),
-                              ),
+                        // email
+                        if (context.watch<GetProfileCubit>().state
+                            is GetProfileLoadSuccess)
+                          InfoRow(
+                            value: 'البريد الإلكتروني',
+                            label: (context.watch<GetProfileCubit>().state
+                                    as GetProfileLoadSuccess)
+                                .profileModel
+                                .userEmail,
+                          ),
 
-                              const SizedBox(height: 10),
-                              //Updates
-                              _buildActionButton(
-                                'تحميل اخر اصدار',
-                                () async {
-                                  try {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content:
-                                            Text('جاري التحقق من التحديثات...'),
-                                        behavior: SnackBarBehavior.floating,
-                                      ),
-                                    );
+                        if (context.watch<GetProfileCubit>().state
+                            is GetProfileLoadInProgress)
+                          InfoRow(
+                            isLoading: true,
+                            value: 'البريد الإلكتروني',
+                            label: "",
+                          ),
+                        if (context.watch<GetProfileCubit>().state
+                            is GetProfileLoadFailure)
+                          InfoRow(
+                            value: 'البريد الإلكتروني',
+                            label: (context.watch<GetProfileCubit>().state
+                                    as GetProfileLoadFailure)
+                                .error,
+                          ),
 
-                                    final packageInfo =
-                                        await PackageInfo.fromPlatform();
-                                    final currentVersion = packageInfo.version;
-                                    final isUpdateAvailable =
-                                        await gitHubApiService
-                                            .isAvailableUpdate(currentVersion);
+                        // Country
 
-                                    if (isUpdateAvailable) {
-                                      Release _lastRelease =
-                                          await gitHubApiService
-                                              .getLatestRelease();
-                                      showReleaseInfoDialog(context,
-                                          release: _lastRelease);
-                                    } else {
-                                      showOkDialog(
-                                        context: context,
-                                        title: "تحديث التطبيق",
-                                        message:
-                                            "لا توجد تحديثات متاحة، أنت تستخدم النسخة الأحدث",
-                                      );
-                                    }
-                                  } catch (e) {
-                                    showErrorDialog(
-                                      context: context,
-                                      title: "خطأ",
-                                      description:
-                                          "حدث خطأ أثناء التحقق من التحديثات: ${e.toString()}",
-                                    );
-                                  }
-                                },
-                                textColor: Colors.red,
-                              ),
-                              // Logout
-                              _buildActionButton(
-                                'تسجيل الخروج',
-                                () async {
-                                  await storage.delete(key: 'token');
-                                  if (context.mounted) {
-                                    GoRouter.of(context).go(
-                                      AppRoutes.signIn,
-                                    );
-                                  }
-                                },
-                                textColor: Colors.red,
-                              ),
-                            ],
+                        if (context.watch<GetProfileCubit>().state
+                            is GetProfileLoadSuccess)
+                          InfoRow(
+                            value: 'الدولة',
+                            label: (context.watch<GetProfileCubit>().state
+                                            as GetProfileLoadSuccess)
+                                        .profileModel
+                                        .userCuntry ==
+                                    1
+                                ? "السعودية"
+                                : "",
+                          ),
+
+                        if (context.watch<GetProfileCubit>().state
+                            is GetProfileLoadInProgress)
+                          InfoRow(
+                            isLoading: true,
+                            value: 'الدولة',
+                            label: "",
+                          ),
+                        if (context.watch<GetProfileCubit>().state
+                            is GetProfileLoadFailure)
+                          InfoRow(
+                            value: 'الدولة',
+                            label: (context.watch<GetProfileCubit>().state
+                                    as GetProfileLoadFailure)
+                                .error,
+                          ),
+
+                        const SizedBox(height: 10),
+
+                        // Change Password
+                        _buildActionButton(
+                          'تغيير كلمة المرور',
+                          () {
+                            GoRouter.of(context).push(
+                              AppRoutes.changePassword,
+                            );
+                          },
+                        ),
+                        _buildActionButton(
+                          'اضافة المنتجات عبر الاكسيل',
+                          () {
+                            GoRouter.of(context).push(
+                              AppRoutes.addExcelPage,
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 10),
+
+                        // Pay Later Switch
+                        _buildActionButton(
+                          'الدفع الآجل الافتراضي',
+                          null,
+                          switchWidget: Switch.adaptive(
+                            activeColor: AppColors.primary,
+                            value: isSwitched,
+                            onChanged: (value) {
+                              setState(() {
+                                isSwitched = value;
+                              });
+                              storage.write(
+                                key: 'pay',
+                                value: value ? '1' : '2',
+                              );
+                            },
                           ),
                         ),
 
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 10),
+                        //Updates
+                        _buildActionButton(
+                          'تحميل اخر اصدار',
+                          () async {
+                            try {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('جاري التحقق من التحديثات...'),
+                                  behavior: SnackBarBehavior.floating,
+                                ),
+                              );
+
+                              final packageInfo =
+                                  await PackageInfo.fromPlatform();
+                              final currentVersion = packageInfo.version;
+                              final isUpdateAvailable = await gitHubApiService
+                                  .isAvailableUpdate(currentVersion);
+
+                              if (isUpdateAvailable) {
+                                Release _lastRelease =
+                                    await gitHubApiService.getLatestRelease();
+                                showReleaseInfoDialog(context,
+                                    release: _lastRelease);
+                              } else {
+                                showOkDialog(
+                                  context: context,
+                                  title: "تحديث التطبيق",
+                                  message:
+                                      "لا توجد تحديثات متاحة، أنت تستخدم النسخة الأحدث",
+                                );
+                              }
+                            } catch (e) {
+                              showErrorDialog(
+                                context: context,
+                                title: "خطأ",
+                                description:
+                                    "حدث خطأ أثناء التحقق من التحديثات: ${e.toString()}",
+                              );
+                            }
+                          },
+                          textColor: Colors.red,
+                        ),
+                        // Logout
+                        _buildActionButton(
+                          'تسجيل الخروج',
+                          () async {
+                            await storage.delete(key: 'token');
+                            if (context.mounted) {
+                              GoRouter.of(context).go(
+                                AppRoutes.signIn,
+                              );
+                            }
+                          },
+                          textColor: Colors.red,
+                        ),
                       ],
                     ),
+                  ),
 
-                    // Categories Section
-                    _buildCategory(),
-                  ],
-                ),
+                  const SizedBox(height: 20),
+                ],
               ),
-            );
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
-        },
+
+              // Categories Section
+              _buildCategory(),
+            ],
+          ),
+        ),
+        //   );
+        // } else {
+        //   return const Center(child: CircularProgressIndicator());
+        // }
+        // },
       ),
     );
   }
@@ -254,7 +327,7 @@ class _ProfileBodyState extends State<ProfileBody> {
     );
   }
 
-  Column _buildTitle(GetProfileDataEntity profile) {
+  Column _buildTitle() {
     return Column(
       children: [
         CircleAvatar(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/card_message_widget.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/entities_states.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/all_order/all_order_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/all_order/all_order_state.dart';
@@ -89,8 +90,16 @@ class NewTabViews extends StatelessWidget {
                 }
               } else if (state is OrdersLoadFailure) {
                 return Center(
-                    child: SizedBox(
-                        height: 35, width: 35, child: Text(state.message)));
+                  child: CardMesssageWidget(
+                    logo: Image.asset(
+                      'assets/image_loading.png',
+                      height: 80.h,
+                      width: 80.w,
+                    ),
+                    title: 'هناك خطأ الرجاء المحاولة لاحقاً',
+                    subTitle: state.message,
+                  ),
+                );
               }
               return Center(
                   child: SizedBox(
