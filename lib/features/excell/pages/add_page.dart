@@ -1,5 +1,13 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:open_file/open_file.dart';
 import 'package:sindbad_management_app/features/excell/pages/manager/excell_operationclass.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AddExcelPage extends StatefulWidget {
   const AddExcelPage({super.key});
@@ -9,6 +17,7 @@ class AddExcelPage extends StatefulWidget {
 }
 
 class _AddExcelPageState extends State<AddExcelPage> {
+  FilePickerResult? file = null;
   final List<ExcellOperation> operation = [
     ExcellOperation(operationName: "أضافة", operations: [
       Operation(
@@ -95,6 +104,46 @@ class _AddExcelPageState extends State<AddExcelPage> {
   ExcellOperation? selectedOperationGroup;
   Operation? selectedOperation;
   bool processing = false;
+  // ---------------- FIXED METHODS ---------------- //
+
+  Future<File?> downloadFile(String url, String name) async {
+    try {
+      final appStorage = await getApplicationDocumentsDirectory();
+      final file = File("${appStorage.path}/$name");
+
+      final response = await Dio().get(
+        url,
+        options: Options(
+          responseType: ResponseType.bytes,
+          followRedirects: true,
+        ),
+      );
+
+      final raf = file.openSync(mode: FileMode.write);
+      raf.writeFromSync(response.data);
+      await raf.close();
+
+      return file;
+    } catch (e) {
+      print("Download error: $e");
+      return null;
+    }
+  }
+
+  Future openAndDownloadFile(String url, String filename) async {
+    final file = await downloadFile(url, filename);
+
+    if (file == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("فشل تحميل الملف")),
+      );
+      // OpenFile.open(file!.path);
+      return;
+    }
+
+    print("Path: ${file.path}");
+    OpenFile.open(file.path);
+  }
 
   Future<void> _downloadTemplate() async {
     // Download logic here
@@ -115,7 +164,6 @@ class _AddExcelPageState extends State<AddExcelPage> {
     setState(() {
       processing = true;
     });
-
     await Future.delayed(const Duration(seconds: 2));
 
     setState(() {
@@ -214,6 +262,7 @@ class _AddExcelPageState extends State<AddExcelPage> {
                         ),
                         const SizedBox(height: 18),
                         // Download Template Button
+
                         ConstrainedBox(
                           constraints: const BoxConstraints(
                             minWidth: 84,
@@ -223,7 +272,9 @@ class _AddExcelPageState extends State<AddExcelPage> {
                             width: 326,
                             height: 48,
                             child: ElevatedButton(
-                              onPressed: _downloadTemplate,
+                              onPressed: () => openAndDownloadFile(
+                                  "https://rr4---sn-8pxuuxa-nbo6l.googlevideo.com/videoplayback?expire=1763758348&ei=rHwgabnRDqHfssUPq_fX6Q4&ip=2402%3A800%3A62a7%3A9598%3A8d6f%3A3073%3A52ea%3A6033&id=o-ADuGQKHzJjKqmEWP13z8ZhkSjyZKg0oMOk0LCnwf5lsP&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&met=1763736748%2C&mh=IU&mm=31%2C26&mn=sn-8pxuuxa-nbo6l%2Csn-oguelnsr&ms=au%2Conr&mv=m&mvi=4&pl=48&rms=au%2Cau&initcwndbps=1835000&bui=AdEuB5RN2nFhoiurMU3sZPADAdEPMfbA2IlY1MSMl-S6x1deQLSShEkpWGZNztAT4oNMWbAoAEn5ffO7&vprv=1&svpuc=1&mime=video%2Fmp4&ns=6-LbATzX969cYuIQmLjjzooQ&rqh=1&cnr=14&ratebypass=yes&dur=207.330&lmt=1748025761834695&mt=1763736329&fvip=1&lmw=1&fexp=51557447%2C51565115%2C51565681%2C51580970&c=TVHTML5&sefc=1&txp=4538534&n=E5X_Puhfu7cE7w&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cvprv%2Csvpuc%2Cmime%2Cns%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&lsparams=cps%2Cmet%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRQIgOfZIJs9dLZTcsOowgD0D_V9m88rhF2dW6gZRmOmW8HwCIQDaFeBcLCSOOkvaNcEEyRQ6-6wd445pQ4cutaUAOp0cuQ%3D%3D&sig=AJfQdSswRgIhALZpG2TGEJlZevjw6QnpAPZRfR_xnMs9CCbDzKTRuHDfAiEAuB1h0bNloJdzDMV2zwcq0IJRw35fBsCOCU_krHAEfVM%3D&title=%D8%B0%D9%83%D8%B1%D9%8A%D9%86%D8%A7%20%7C%7C%20%23%D9%85%D9%88%D8%B3%D9%89_%D8%A7%D9%84%D8%B9%D9%85%D9%8A%D8%B1%D8%A9%20%20%23%D8%B0%D9%83%D8%B1%D9%8A%D9%86%D8%A7",
+                                  "temp.mp4"),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF093456),
                                 padding:
@@ -256,6 +307,60 @@ class _AddExcelPageState extends State<AddExcelPage> {
                           ),
                         ),
                         const SizedBox(height: 12),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            "اختر ملف الإكسل:",
+                            style: TextStyle(
+                              fontFamily: 'Cairo',
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        InkWell(
+                          onTap: () async {
+                            file = await FilePicker.platform.pickFiles(
+                              type: FileType.custom,
+                              allowedExtensions: ['xlsx', 'xls'],
+                            );
+                            if (file == null) return;
+                            setState(() {});
+                            OpenFile.open(file!.files.first.path);
+                          },
+                          child: Container(
+                            height: 48,
+                            width: 326,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Color(0xffF2F3F4))),
+                            child: Row(
+                              children: [
+                                if (file != null) Text(file!.files.first.name),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: Color(0xffF2F3F4),
+                                      border:
+                                          Border.all(color: Color(0xffF2F3F4))),
+                                  height: 48,
+                                  width: 93,
+                                  child: Center(child: Text("اختر الملف")),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Align(
+                            alignment: AlignmentGeometry.centerRight,
+                            child: Text(
+                              "الامتدادات المسموحة: .xlsx., .xls",
+                              style: TextStyle(
+                                fontFamily: 'Cairo',
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                              ),
+                            )),
+                        const SizedBox(height: 20),
                         // Upload & Execute Button
                         ConstrainedBox(
                           constraints: const BoxConstraints(
