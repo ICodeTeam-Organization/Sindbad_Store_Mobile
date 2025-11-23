@@ -19,11 +19,18 @@ abstract class AllOrderRemotDataSource {
   //! All Order
   Future<List<AllOrderEntity>> fetchAllOrder(
     List<int> statuses,
-    bool isUrgent,
+    bool? isUrgent,
     int pageNumber,
     int pageSize,
     // String storeId,
     // String srearchKeyword,
+  );
+  //! All Order
+  Future<List<AllOrderEntity>> fetchNewOrders(
+    List<int> statuses,
+    bool? isUrgent,
+    int pageNumber,
+    int pageSize,
   );
 
   //! Order Deatails

@@ -66,7 +66,7 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
   @override
   Future<List<AllOrderEntity>> fetchAllOrder(
     List<int> statuses,
-    bool isUrgent,
+    bool? isUrgent,
     int pageNumber,
     int pageSize,
     // String storeId,
@@ -76,7 +76,33 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
     var endpoint = "Packages?owned=true";
     endpoint += "&pageSize=$pageSize&pageNumber=1";
     endpoint += statuses.map((status) => "&statuses=$status").join();
-    if (isUrgent) {
+    if (isUrgent != null && isUrgent) {
+      endpoint += "&isUrgent=$isUrgent";
+    }
+    var data = await apiService.get(
+      endPoint: endpoint,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+    List<AllOrderEntity> orders = getAllOrderList(data);
+    return orders;
+  }
+
+  @override
+  Future<List<AllOrderEntity>> fetchNewOrders(
+    List<int> statuses,
+    bool? isUrgent,
+    int pageNumber,
+    int pageSize,
+    // String storeId,
+    // String srearchKeyword,
+  ) async {
+    String? token = await getToken();
+    var endpoint = "Packages?owned=true";
+    endpoint += "&pageSize=$pageSize&pageNumber=1";
+    endpoint += statuses.map((status) => "&statuses=$status").join();
+    if (isUrgent != null && isUrgent) {
       endpoint += "&isUrgent=$isUrgent";
     }
     var data = await apiService.get(

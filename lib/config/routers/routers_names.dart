@@ -1,5 +1,5 @@
 import 'package:sindbad_management_app/features/auth_feature/ui/screens/confirm_password_screen.dart';
-import 'package:sindbad_management_app/features/excell/pages/add_page.dart';
+import 'package:sindbad_management_app/features/profile_feature/ui/screen/excell_page.dart';
 
 abstract class AppRoutes {
   // Auth & Core

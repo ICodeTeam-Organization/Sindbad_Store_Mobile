@@ -2,26 +2,26 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/entities_states.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/usecases/all_order_usecase.dart';
-import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/all_order/temp_cubit_states.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/all_order/new_orders_cubit_states.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/all_order/urgent_order_cubit_states.dart';
 
-class OrdersCubit extends Cubit<OrdersState> {
-  final AllOrderUsecase allOrderUseCase;
+class UrgentOrderCubit extends Cubit<UrgentOrderState> {
+  final NewOrderUsecase allOrderUseCase;
 
-  OrdersCubit(this.allOrderUseCase) : super(OrdersInitial());
+  UrgentOrderCubit(this.allOrderUseCase) : super(UrgentOrdersInitial());
 
   void fetchOrders(int status) async {
-    emit(OrdersLoadInProgress());
+    emit(UrgentOrdersLoadInProgress());
 
     await Future.delayed(const Duration(seconds: 1));
 
     List<int> statusList;
 
     // If user selected "Call"
-    const int callStatus = 0; // or whatever ID you use for "Call"
 
     if (status == PackageStatus.all) {
       // Fetch all statuses
-      statusList = [1, 2, 3, 4, 5, 6, 7];
+      statusList = [2, 3, 4];
     } else {
       // Fetch only the selected status
       statusList = [status];
@@ -37,8 +37,8 @@ class OrdersCubit extends Cubit<OrdersState> {
     );
 
     result.fold(
-      (failure) => emit(OrdersLoadFailure(failure.toString())),
-      (orders) => emit(OrdersLoadSuccess(orders)),
+      (failure) => emit(UrgentOrdersLoadFailure(failure.toString())),
+      (orders) => emit(UrgentOrdersLoadSuccess(orders)),
     );
   }
 }

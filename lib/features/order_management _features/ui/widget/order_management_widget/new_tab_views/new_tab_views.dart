@@ -6,17 +6,10 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/entities_states.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/all_order/all_order_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/all_order/all_order_state.dart';
-import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/all_order/temp_cubit.dart';
-import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/all_order/temp_cubit_states.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/all_order/new_orders_cubit.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/all_order/new_orders_cubit_states.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/widget/order_body.dart';
-import 'package:sindbad_management_app/features/product_features/view_product_features/domain/entities/main_category_for_view_entity.dart';
-import 'package:sindbad_management_app/features/product_features/view_product_features/ui/widgets/custom_get_main_category_for_view_success_widget.dart';
 import 'package:sindbad_management_app/features/product_features/view_product_features/ui/widgets/sub_category_card_custom.dart';
-import '../../../../../../core/swidgets/new_widgets/sub_custom_tab_bar.dart';
-import 'shipping_info_order.dart';
-import 'all_info_order.dart';
-import 'no_bill_info_order.dart';
-import 'no_paid_info_order.dart';
 
 class NewTabViews extends StatelessWidget {
   const NewTabViews({super.key});
@@ -28,37 +21,41 @@ class NewTabViews extends StatelessWidget {
         TempTabBarForTest<String>(
           items: [
             PackageStatus.all.displayName,
-            PackageStatus.notApprovedYet.displayName,
             PackageStatus.packageConfirmedByYemeniAccountant.displayName,
             PackageStatus.packageInvoiceCreated.displayName,
-            PackageStatus.packageInvoicePaidByTheSaudiAccountant.displayName,
             PackageStatus.packageShippedFromStore.displayName,
-            PackageStatus.packageReceivedToDeliveryMan.displayName,
-            PackageStatus.packageDeliveredToCustomer.displayName,
-            PackageStatus.canceled.displayName,
           ],
           onChange: (value) {
             context
-                .read<OrdersCubit>()
+                .read<NewOrdersCubit>()
                 .fetchOrders(PackageStatusExtension.idFromDisplayName(value));
           },
         ),
         Expanded(
-          child: BlocConsumer<OrdersCubit, OrdersState>(
+          child: BlocConsumer<NewOrdersCubit, NewOrdersState>(
             builder: (context, state) {
-              if (state is OrdersLoadInProgress) {
+              if (state is NewOrdersLoadInProgress) {
                 return Center(
                     child: SizedBox(
                         height: 35,
                         width: 35,
                         child: CircularProgressIndicator()));
               }
-              if (state is OrdersLoadSuccess) {
+              if (state is NewOrdersLoadSuccess) {
                 if (state.orders.isEmpty) {
-                  return Center(child: Text("لا توجد بيانات"));
+                  return Center(
+                    child: CardMesssageWidget(
+                      logo: Image.asset(
+                        'assets/images/no_data.png',
+                        height: 80.h,
+                        width: 80.w,
+                      ),
+                      title: 'توجد بيانات حاليا',
+                      subTitle: "لا توجد بيانات",
+                    ),
+                  );
                 } else {
                   return ListView.builder(
-                    //  controller: _scrollController,
                     itemCount: state.orders.length,
                     itemBuilder: (context, index) {
                       if (index < state.orders.length) {
@@ -88,7 +85,7 @@ class NewTabViews extends StatelessWidget {
                     },
                   );
                 }
-              } else if (state is OrdersLoadFailure) {
+              } else if (state is NewOrdersLoadFailure) {
                 return Center(
                   child: CardMesssageWidget(
                     logo: Image.asset(

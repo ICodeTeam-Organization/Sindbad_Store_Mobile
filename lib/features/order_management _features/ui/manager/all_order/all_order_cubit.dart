@@ -7,7 +7,7 @@ class AllOrderCubit extends Cubit<AllOrderState> {
       : super(
           AllOrderInitial(),
         );
-  final AllOrderUsecase allOrderUseCase;
+  final NewOrderUsecase allOrderUseCase;
   Future<void> fetchAllOrder({
     required List<int> statuses,
     required bool isUrgent,

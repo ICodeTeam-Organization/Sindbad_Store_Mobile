@@ -52,7 +52,7 @@ class AllOrderRepoImpl extends AllOrderRepo {
   @override
   Future<Either<Failure, List<AllOrderEntity>>> fetchAllOrder({
     required List<int> statuses,
-    required bool isUrgent,
+    bool? isUrgent,
     required int pageNumber,
     required int pageSize,
     // required String storeId,

@@ -11,3 +11,7 @@ abstract class UseCaseWithParam<type, params> {
 abstract class UseCase<type, params> {
   Future<Either<DataFailed, DataState>> execute(params params);
 }
+
+abstract class MyUseCase<SuccessType, Params> {
+  Future<Either<DataFailed, DataSuccess<SuccessType>>> call({Params params});
+}

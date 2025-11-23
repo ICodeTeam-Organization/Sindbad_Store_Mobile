@@ -1,6 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
-import 'package:sindbad_management_app/core/services/excell_api_services.dart';
+import 'package:sindbad_management_app/features/profile_feature/data/data_source/excell_api_services.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/data_source/auth_remote_data_source.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/data_source/auth_remote_data_soure_imp.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/repository/authentation_repository_imp.dart';
@@ -12,8 +12,12 @@ import 'package:sindbad_management_app/features/auth_feature/ui/manger/confirm_p
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/forget_password_cubit.dart/forget_password_cubit.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/data/data_sources/all_order_remot_data_source_imp.dart';
-import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/all_order/temp_cubit.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/all_order/new_orders_cubit.dart';
+import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/all_order/urgent_order_cubit.dart';
+import 'package:sindbad_management_app/features/profile_feature/data/repo/exell_repository.dart';
+import 'package:sindbad_management_app/features/profile_feature/domin/usecase/download_dll_files_use_case.dart';
 import 'package:sindbad_management_app/features/profile_feature/domin/usecase/get_profile_data_usecase.dart';
+import 'package:sindbad_management_app/features/profile_feature/ui/cubit/excell_cubit/excell_cubt.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/reset_password_cubit/reset_password_cubit.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/data/remote_data/notifiction_remote_data_source.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/data/repo/notifiction_repo_impl.dart';
@@ -45,7 +49,7 @@ void initializationContainer() {
   getit.registerSingleton<FlutterSecureStorage>(FlutterSecureStorage());
   getit.registerSingleton<ApiService>(ApiService());
   getit.registerSingleton<BulkService>(
-      BulkService("https://sindibad-back.com:84/"));
+      BulkService("https://sindibad-back.com:84/", getit()));
 
   // ----------------
   //  Data Sources
@@ -71,6 +75,7 @@ void initializationContainer() {
   // ----------------
   getit.registerSingleton<AuthentationRepositoryImp>(
       AuthentationRepositoryImp(getit()));
+  getit.registerSingleton<ExcellRepositoryImpl>(ExcellRepositoryImpl(getit()));
 
   getit.registerSingleton<AllOrderRepoImpl>(AllOrderRepoImpl(getit()));
   getit.registerSingleton<ViewProductRepoImpl>(ViewProductRepoImpl(getit()));
@@ -85,9 +90,11 @@ void initializationContainer() {
   //  Use Cases
   // ----------------
   getit.registerSingleton<SignInUseCase>(SignInUseCase(getit()));
+  getit.registerSingleton<DownloadAllFilesUseCase>(
+      DownloadAllFilesUseCase(getit()));
   getit
       .registerSingleton<ForgetPasswordUseCase>(ForgetPasswordUseCase(getit()));
-  getit.registerSingleton<AllOrderUsecase>(AllOrderUsecase(getit()));
+  getit.registerSingleton<NewOrderUsecase>(NewOrderUsecase(getit()));
   getit.registerSingleton<GetProductsByFilterUseCase>(
       GetProductsByFilterUseCase(getit()));
   getit.registerSingleton<ResetPasswordUseCase>(ResetPasswordUseCase(getit()));
@@ -100,7 +107,8 @@ void initializationContainer() {
   //  Cubits
   // ----------------
   getit.registerFactory<SignInCubit>(() => SignInCubit(getit()));
-  getit.registerFactory<OrdersCubit>(() => OrdersCubit(getit()));
+  getit.registerFactory<ExcelCubit>(() => ExcelCubit(getit()));
+  getit.registerFactory<NewOrdersCubit>(() => NewOrdersCubit(getit()));
   getit.registerFactory<GetProfileCubit>(() => GetProfileCubit(getit()));
   getit.registerFactory<AllOrderCubit>(() => AllOrderCubit(getit()));
   getit.registerFactory<GetStoreProductsWithFilterCubit>(
@@ -110,4 +118,5 @@ void initializationContainer() {
       .registerFactory<ForgetPasswordCubit>(() => ForgetPasswordCubit(getit()));
   getit.registerFactory<ConfirmPasswordCubit>(
       () => ConfirmPasswordCubit(getit()));
+  getit.registerFactory<UrgentOrderCubit>(() => UrgentOrderCubit(getit()));
 }
