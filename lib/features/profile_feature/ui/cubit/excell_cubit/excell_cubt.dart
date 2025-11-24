@@ -14,10 +14,10 @@ class ExcelCubit extends Cubit<ExcelState> {
 
     result.fold(
       (failure) {
-        emit(ExcellLoadFailure("failure.message"));
+        emit(ExcellLoadFailure(failure.error));
       },
       (success) {
-        emit(ExcellLoadSuccess(success.data!.first));
+        emit(ExcellLoadSuccess(success.data!));
       },
     );
   }

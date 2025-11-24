@@ -170,7 +170,7 @@ class _AddExcelPageState extends State<AddExcelPage> {
   }
 
   void showDownloadSnackBar(BuildContext context, String filePath) async {
-    final dir = await getApplicationDocumentsDirectory();
+    // final dir = await getApplicationDocumentsDirectory();
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -201,7 +201,7 @@ class _AddExcelPageState extends State<AddExcelPage> {
           label: "فتح المجلد",
           textColor: Colors.tealAccent,
           onPressed: () {
-            OpenFile.open(dir.path); // يفتح المجلد
+            OpenFile.open(filePath); // يفتح المجلد
           },
         ),
       ),
@@ -218,14 +218,12 @@ class _AddExcelPageState extends State<AddExcelPage> {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text("جاري تنزيل الملفات")),
             );
-          }
-          // else if (state is ExcellLoadFailure) {
-          //   ScaffoldMessenger.of(context).showSnackBar(
-          //     const SnackBar(content: Text("حدث خطأ عند التحميل")),
-          //   );
-          // }
-          else if (state is ExcellLoadFailure) {
-            showDownloadSnackBar(context, "");
+          } else if (state is ExcellLoadSuccess) {
+            showDownloadSnackBar(context, state.directoryPath);
+          } else if (state is ExcellLoadFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("حدث خطأ عند التحميل: ${state.message}")),
+            );
           }
         },
         child: Scaffold(

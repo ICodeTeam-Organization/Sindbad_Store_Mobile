@@ -7,12 +7,14 @@ import 'package:sindbad_management_app/features/profile_feature/data/model/file_
 class BulkService {
   final String baseUrl;
   final FlutterSecureStorage secureStorage;
-  // final Dio dio;
+  final Dio dio;
+
   Future<String?> getToken() async {
     return await secureStorage.read(key: 'token');
   }
 
-  BulkService(this.baseUrl, this.secureStorage);
+  BulkService(this.baseUrl, this.secureStorage, this.dio);
+
   Future<List<FileModel>> getFilesNames() async {
     String? token = await getToken();
     try {
@@ -23,15 +25,41 @@ class BulkService {
 
       final body = json.encode("GET_TO_DOWN_FILES");
 
-      final response = await Dio().post(
-        'https://sindibad-back.com:84/api/GetUserToDownFilesList',
+      final response = await dio.post(
+        '${baseUrl}api/GetUserToDownFilesList',
         data: body,
         options: Options(headers: headers),
       );
 
       if (response.statusCode == 200) {
+        print("DEBUG: Response Type: ${response.data.runtimeType}");
+        print("DEBUG: Response Data: ${response.data}");
+
+        List<dynamic> listData;
+        if (response.data is List) {
+          listData = response.data;
+        } else if (response.data is Map<String, dynamic>) {
+          // Attempt to find the list if it's wrapped
+          // Common keys: 'data', 'result', 'value', 'items'
+          final mapData = response.data as Map<String, dynamic>;
+          if (mapData.containsKey('data') && mapData['data'] is List) {
+            listData = mapData['data'];
+          } else if (mapData.containsKey('result') &&
+              mapData['result'] is List) {
+            listData = mapData['result'];
+          } else if (mapData.containsKey('value') && mapData['value'] is List) {
+            listData = mapData['value'];
+          } else {
+            throw Exception(
+                "Response is a Map but couldn't find a List inside. Keys: ${mapData.keys}");
+          }
+        } else {
+          throw Exception(
+              "Unexpected response type: ${response.data.runtimeType}");
+        }
+
         final List<FileModel> files =
-            response.data.map((json) => FileModel.fromJson(json)).toList();
+            listData.map((json) => FileModel.fromJson(json)).toList();
         return files; // SUCCESS
       } else {
         throw Exception(
@@ -59,8 +87,8 @@ class BulkService {
 
       final body = json.encode("GET_TO_DOWN_FILES");
 
-      final response = await Dio().post(
-        'https://sindibad-back.com:84/BulkDownload/$fileName',
+      final response = await dio.post(
+        '${baseUrl}BulkDownload/$fileName',
         data: body,
         options: Options(
           headers: headers,
@@ -69,7 +97,7 @@ class BulkService {
       );
 
       if (response.statusCode == 200) {
-        return response.data; // raw bytes
+        return (response.data as List<dynamic>).cast<int>(); // raw bytes
       } else {
         throw Exception(
           "Request failed | Status Code: ${response.statusCode} | Message: ${response.statusMessage}",

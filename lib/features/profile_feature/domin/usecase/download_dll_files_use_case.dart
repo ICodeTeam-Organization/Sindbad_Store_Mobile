@@ -6,31 +6,28 @@ import 'package:sindbad_management_app/core/use_cases/param_use_case.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/model/file_model.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/repo/exell_repository.dart';
 
-class DownloadAllFilesUseCase extends MyUseCase<List<String>, void> {
+class DownloadAllFilesUseCase extends MyUseCase<String, void> {
   final ExcellRepositoryImpl excellRepositoryImpl;
 
   DownloadAllFilesUseCase(this.excellRepositoryImpl);
 
   @override
-  Future<Either<DataFailed, DataSuccess<List<String>>>> call(
-      {void params}) async {
+  Future<Either<DataFailed, DataSuccess<String>>> call({void params}) async {
     try {
       final List<FileModel> files = await excellRepositoryImpl.getFilesNames();
-      final List<String> savedPaths = [];
+      String savedDirectory = "";
 
       for (var file in files) {
         if (file.strTField.isEmpty) continue;
 
         final bytes = await excellRepositoryImpl.downloadFile(file.strTField);
-        final savedPath = await excellRepositoryImpl.saveFileLocally(
+        savedDirectory = await excellRepositoryImpl.saveFileLocally(
           bytes,
           file.strTField.split('/').last,
         );
-
-        savedPaths.add(savedPath);
       }
 
-      return Right(DataSuccess(savedPaths));
+      return Right(DataSuccess(savedDirectory));
     } catch (e) {
       return Left(DataFailed("Failed: $e"));
     }

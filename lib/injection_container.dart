@@ -1,4 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/data_source/excell_api_services.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/data_source/auth_remote_data_source.dart';
@@ -48,8 +49,9 @@ void initializationContainer() {
   // ----------------
   getit.registerSingleton<FlutterSecureStorage>(FlutterSecureStorage());
   getit.registerSingleton<ApiService>(ApiService());
+  getit.registerSingleton<Dio>(Dio());
   getit.registerSingleton<BulkService>(
-      BulkService("https://sindibad-back.com:84/", getit()));
+      BulkService("https://sindibad-back.com:84/", getit(), getit()));
 
   // ----------------
   //  Data Sources
