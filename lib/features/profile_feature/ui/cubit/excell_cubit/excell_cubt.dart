@@ -21,4 +21,34 @@ class ExcelCubit extends Cubit<ExcelState> {
       },
     );
   }
+
+  Future<void> downloadFile(String fileName) async {
+    emit(ExcellLoadInProgress());
+
+    final result = await _downloadAllFilesUseCase();
+
+    result.fold(
+      (failure) {
+        emit(ExcellLoadFailure(failure.error));
+      },
+      (success) {
+        emit(ExcellLoadSuccess(success.data!));
+      },
+    );
+  }
+
+  Future<void> uploadFile(String fileName) async {
+    emit(ExcellLoadInProgress());
+
+    final result = await _downloadAllFilesUseCase();
+
+    result.fold(
+      (failure) {
+        emit(ExcellLoadFailure(failure.error));
+      },
+      (success) {
+        emit(ExcellLoadSuccess(success.data!));
+      },
+    );
+  }
 }

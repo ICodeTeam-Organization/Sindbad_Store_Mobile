@@ -3,8 +3,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:open_file/open_file.dart';
 import 'package:sindbad_management_app/features/profile_feature/domin/entity/excell_operationclass.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/excell_cubit/excell_cubt.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/excell_cubit/excell_states.dart';
@@ -148,7 +148,7 @@ class _AddExcelPageState extends State<AddExcelPage> {
     }
 
     print("Path: ${file.path}");
-    OpenFile.open(file.path);
+    OpenFilex.open(file.path);
   }
 
   Future<void> _uploadAndExecute() async {
@@ -200,8 +200,8 @@ class _AddExcelPageState extends State<AddExcelPage> {
         action: SnackBarAction(
           label: "فتح المجلد",
           textColor: Colors.tealAccent,
-          onPressed: () {
-            OpenFile.open(filePath); // يفتح المجلد
+          onPressed: () async {
+            await OpenFilex.open("/storage/emulated/0/Download/Sindbad/");
           },
         ),
       ),
@@ -251,7 +251,7 @@ class _AddExcelPageState extends State<AddExcelPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "قم اولاً بتحميل النماذج :",
+                        "تحميل النماذج :",
                         style: TextStyle(
                           fontFamily: 'Cairo',
                           fontWeight: FontWeight.w700,
@@ -280,10 +280,21 @@ class _AddExcelPageState extends State<AddExcelPage> {
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                const Icon(
-                                  Icons.download,
-                                  color: Colors.white,
-                                ),
+                                if (context.watch<ExcelCubit>().state
+                                    is ExcellLoadInProgress)
+                                  const SizedBox(
+                                    height: 16,
+                                    width: 16,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                else
+                                  const Icon(
+                                    Icons.download,
+                                    color: Colors.white,
+                                  ),
                                 const SizedBox(width: 8),
                                 Flexible(
                                   child: Text(
@@ -434,7 +445,10 @@ class _AddExcelPageState extends State<AddExcelPage> {
                                   );
                               if (file == null) return;
                               setState(() {});
-                              OpenFile.open(file!.files.first.path);
+                              final filePath = file!.files.first.path;
+                              if (filePath != null) {
+                                OpenFilex.open(filePath);
+                              }
                             },
                             child: Container(
                               height: 48,
