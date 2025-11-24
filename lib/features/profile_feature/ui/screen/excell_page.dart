@@ -174,13 +174,13 @@ class _AddExcelPageState extends State<AddExcelPage> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        behavior: SnackBarBehavior.floating, // يجعلها تطفو فوق
-        backgroundColor: Colors.blueGrey.shade900, // لون داكن جميل
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.blueGrey.shade900,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14), // الحواف
+          borderRadius: BorderRadius.circular(14),
         ),
-        margin: const EdgeInsets.all(12), // مسافة عن الأطراف
-        duration: const Duration(seconds: 6), // مدة الظهور
+        margin: const EdgeInsets.all(12),
+        duration: const Duration(seconds: 6),
         content: Row(
           children: [
             const Icon(Icons.check_circle, color: Colors.greenAccent, size: 28),

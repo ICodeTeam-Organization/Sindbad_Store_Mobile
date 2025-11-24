@@ -4,7 +4,11 @@ class ExcellInitial extends ExcelState {}
 
 class ExcellLoadInProgress extends ExcelState {}
 
-class ExcellLoadSuccess extends ExcelState {}
+class ExcellLoadSuccess extends ExcelState {
+  final String directoryPath;
+
+  ExcellLoadSuccess(this.directoryPath);
+}
 
 class ExcellLoadFailure extends ExcelState {
   final String message;

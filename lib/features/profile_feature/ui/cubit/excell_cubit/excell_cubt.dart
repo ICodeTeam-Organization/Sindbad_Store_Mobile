@@ -17,7 +17,7 @@ class ExcelCubit extends Cubit<ExcelState> {
         emit(ExcellLoadFailure("failure.message"));
       },
       (success) {
-        emit(ExcellLoadSuccess());
+        emit(ExcellLoadSuccess(success.data!.first));
       },
     );
   }

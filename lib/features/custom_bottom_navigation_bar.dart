@@ -40,9 +40,11 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Container(
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
                       width: 70.w,
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: isSelected ? AppColors.primary : AppColors.white,
                         borderRadius: BorderRadius.circular(15.r),
@@ -58,8 +60,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
                                 ? AppColors.white
                                 : AppColors.primary,
                           ),
-                          Text(
-                            item.label,
+                          AnimatedDefaultTextStyle(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
                             style: isSelected
                                 ? KTextStyle.textStyle12.copyWith(
                                     color: AppColors.white,
@@ -67,6 +70,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
                                 : KTextStyle.textStyle12.copyWith(
                                     color: AppColors.greyDark,
                                   ),
+                            child: Text(
+                              item.label,
+                            ),
                           ),
                         ],
                       ),
