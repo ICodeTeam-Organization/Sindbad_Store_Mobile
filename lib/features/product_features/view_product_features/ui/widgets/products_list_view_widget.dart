@@ -125,7 +125,7 @@ class _ProductsListViewState extends State<ProductsListView> {
                           SizedBox(width: 10),
                           Expanded(
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   product.productName ?? '',
