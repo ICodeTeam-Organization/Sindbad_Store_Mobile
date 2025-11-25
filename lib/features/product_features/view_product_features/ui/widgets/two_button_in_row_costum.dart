@@ -11,7 +11,7 @@ import '../manager/get_store_products_with_filter/get_store_products_with_filter
 class TwoButtonInRow extends StatelessWidget {
   const TwoButtonInRow({
     super.key,
-    this.titleRight = "إضافة منتج",
+    this.titleRight = "إضافة منتجات",
     this.titleLeft = "إيقاف منتج",
     required this.onTapLeft,
     required this.anyProductsSelected,
@@ -33,10 +33,10 @@ class TwoButtonInRow extends StatelessWidget {
           StorePrimaryButton(
             disabled: !anyProductsSelected,
             title: titleRight,
-            icon: Icons.add_circle_outline_rounded,
+            svgIconPath: 'assets/svgs/add.svg',
             buttonColor: AppColors.primary,
-            height: 55.h,
-            width: 150.w,
+            height: 32.h,
+            width: 126.w,
             onTap: () {
               // for refresh the store products after add new product
               context
@@ -62,8 +62,8 @@ class TwoButtonInRow extends StatelessWidget {
             title: titleLeft,
             icon: Icons.refresh,
             buttonColor: AppColors.primary,
-            height: 55.h,
-            width: 150.w,
+            height: 32.h,
+            width: 126.w,
             onTap: onTapLeft,
           )
         ],

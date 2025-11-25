@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../config/styles/Colors.dart';
 import '../../../config/styles/text_style.dart';
@@ -13,8 +14,9 @@ class StorePrimaryButton extends StatefulWidget {
       this.disabled,
       this.height = 44,
       this.title = '',
-      this.width = 370,
+      this.width = 140,
       this.icon,
+      this.svgIconPath,
       this.textColor = AppColors.white,
       this.buttonColor = AppColors.primary});
 
@@ -25,6 +27,7 @@ class StorePrimaryButton extends StatefulWidget {
   String? title;
   GestureTapCallback? onTap;
   IconData? icon;
+  String? svgIconPath;
   Color? buttonColor;
   Color? textColor;
 
@@ -55,8 +58,8 @@ class _StorePrimaryButtonState extends State<StorePrimaryButton> {
 
       child: Container(
         alignment: Alignment.center,
-        width: widget.width,
-        height: widget.height,
+        width: 140,
+        height: 40,
         decoration: BoxDecoration(
           color:
               widget.disabled == true ? AppColors.greyHint : widget.buttonColor,
@@ -75,15 +78,28 @@ class _StorePrimaryButtonState extends State<StorePrimaryButton> {
             : Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  if (widget.icon != null)
+                  if (widget.svgIconPath != null)
+                    SvgPicture.asset(
+                      widget.svgIconPath!,
+                      width: StorePrimaryButton._iconSize.w,
+                      height: StorePrimaryButton._iconSize.w,
+                      colorFilter: ColorFilter.mode(
+                        AppColors.white,
+                        BlendMode.srcIn,
+                      ),
+                    )
+                  else if (widget.icon != null)
                     Icon(
                       widget.icon,
                       color: AppColors.white,
                       size: StorePrimaryButton._iconSize.w,
                     ),
                   Text(widget.title ?? '',
-                      style: KTextStyle.textStyle14
-                          .copyWith(color: widget.textColor)),
+                      textAlign: TextAlign.center,
+                      // matches text-align: center
+                      style: TextTheme.of(context)
+                          .titleSmall!
+                          .copyWith(color: Colors.white))
                 ],
               ),
       ),

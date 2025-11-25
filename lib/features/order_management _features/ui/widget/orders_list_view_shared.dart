@@ -31,12 +31,16 @@ class OrdersListView extends StatefulWidget {
   State<OrdersListView> createState() => _OrdersListViewState();
 }
 
-class _OrdersListViewState extends State<OrdersListView> {
+class _OrdersListViewState extends State<OrdersListView>
+    with TickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
 
   bool isFetching = false;
   int pageNumber = 1;
   List<dynamic> orders = [];
+
+  // Track which items have been animated
+  final Set<int> _animatedIndices = {};
 
   @override
   void initState() {
@@ -144,24 +148,33 @@ class _OrdersListViewState extends State<OrdersListView> {
             itemCount: orders.length + (isFetching ? 1 : 0),
             itemBuilder: (context, index) {
               if (index < orders.length) {
-                // return widget.itemBuilder(context, index, orders[index]);
-                return Column(
-                  children: [
-                    OrderBody(
-                      billNumber: orders[index].orderBill,
-                      orderNumber: orders[index].orderNum,
-                      date: orders[index].orderDates,
-                      itemNumber: orders[index].productMount,
-                      paymentInfo: orders[index].payStatus,
-                      orderStatus: orders[index].orderStatuse,
-                      idOrder: orders[index].idOrder,
-                      idPackage: orders[index].idPackage,
-                    ),
-                    if (index == orders.length - 1)
-                      SizedBox(
-                        height: 120.h,
+                // Mark this index as needing animation
+                final shouldAnimate = !_animatedIndices.contains(index);
+                if (shouldAnimate) {
+                  _animatedIndices.add(index);
+                }
+
+                return AnimatedOrderItem(
+                  index: index,
+                  animate: shouldAnimate,
+                  child: Column(
+                    children: [
+                      OrderBody(
+                        billNumber: orders[index].orderBill,
+                        orderNumber: orders[index].orderNum,
+                        date: orders[index].orderDates,
+                        itemNumber: orders[index].productMount,
+                        paymentInfo: orders[index].payStatus,
+                        orderStatus: orders[index].orderStatuse,
+                        idOrder: orders[index].idOrder,
+                        idPackage: orders[index].idPackage,
                       ),
-                  ],
+                      if (index == orders.length - 1)
+                        SizedBox(
+                          height: 120.h,
+                        ),
+                    ],
+                  ),
                 );
               } else {
                 // Show a loading indicator at the bottom while fetching
@@ -174,6 +187,84 @@ class _OrdersListViewState extends State<OrdersListView> {
           ),
         );
       },
+    );
+  }
+}
+
+/// Widget that animates each order item with a smooth fade-in and slide-up effect
+class AnimatedOrderItem extends StatefulWidget {
+  final int index;
+  final Widget child;
+  final bool animate;
+
+  const AnimatedOrderItem({
+    super.key,
+    required this.index,
+    required this.child,
+    this.animate = true,
+  });
+
+  @override
+  State<AnimatedOrderItem> createState() => _AnimatedOrderItemState();
+}
+
+class _AnimatedOrderItemState extends State<AnimatedOrderItem>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _fadeAnimation;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 600),
+      vsync: this,
+    );
+
+    _fadeAnimation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOut,
+    );
+
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 0.15),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOutCubic,
+    ));
+
+    if (widget.animate) {
+      // Stagger animation based on index for a cascading effect
+      // Limit to first 10 items to avoid long delays
+      final delay = (widget.index % 10) * 80;
+      Future.delayed(Duration(milliseconds: delay), () {
+        if (mounted) {
+          _controller.forward();
+        }
+      });
+    } else {
+      // If not animating, go straight to the end state
+      _controller.value = 1.0;
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: _fadeAnimation,
+      child: SlideTransition(
+        position: _slideAnimation,
+        child: widget.child,
+      ),
     );
   }
 }

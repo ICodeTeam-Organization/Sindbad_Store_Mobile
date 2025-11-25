@@ -125,11 +125,25 @@ class _ProductsListViewState extends State<ProductsListView> {
                           SizedBox(width: 10),
                           Expanded(
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                Text(product.productName!,
-                                    style: KTextStyle.textStyle18),
+                                Text(
+                                  product.productName ?? '',
+                                  textAlign: TextAlign.right,
+                                  style: TextTheme.of(context).titleMedium,
+                                ),
                                 SizedBox(height: 4.h),
+                                Text(
+                                  'رقم المنتج: ${product.productId ?? ''}',
+                                  textAlign: TextAlign.right,
+                                  style: TextTheme.of(context).bodySmall,
+                                ),
+                                SizedBox(height: 2.h),
+                                Text(
+                                  'السعر: ${product.productPrice ?? ''} ريال',
+                                  textAlign: TextAlign.right,
+                                  style: TextTheme.of(context).bodySmall,
+                                ),
                               ],
                             ),
                           ),

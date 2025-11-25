@@ -44,35 +44,50 @@ class BodyViewProductScreenState extends State<BodyViewProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            CustomAppBar(
-              tital: "المنتجات",
-              isBack: false,
+      body: Column(
+        children: [
+          CustomAppBar(
+            tital: "المنتجات",
+            isBack: false,
+          ),
+          SizedBox(height: 10.h),
+          Expanded(
+            child: CustomTabBarWidget(
+              tabs: [
+                Tab(
+                  // text: "الكل",
+                  child: Text('جميع المنتجات',
+                      textAlign: TextAlign.center, // matches text-align: center
+                      style: TextTheme.of(context).titleMedium),
+                ),
+                Tab(
+                    //text: "منتجات عليها عروض"
+
+                    child: Text("منتجات عليها عروض",
+                        textAlign:
+                            TextAlign.center, // matches text-align: center
+                        style: TextTheme.of(context).titleMedium)),
+                Tab(
+                    //text: "منتجات موقوفة",
+
+                    child: Text("منتجات موقوفة",
+                        textAlign:
+                            TextAlign.center, // matches text-align: center
+                        style: TextTheme.of(context).titleMedium)),
+              ],
+              tabViews: [
+                _buildTabView(0, context),
+                _buildTabView(1, context),
+                _buildTabView(2, context),
+              ],
+              length: 3,
+              indicatorColor: AppColors.primary,
+              indicatorWeight: 0.0.w,
+              labelColor: AppColors.black,
+              unselectedLabelColor: AppColors.black,
             ),
-            SizedBox(height: 10.h),
-            Expanded(
-              child: CustomTabBarWidget(
-                tabs: [
-                  Tab(text: "الكل"),
-                  Tab(text: "منتجات عليها عروض"),
-                  Tab(text: "منتجات موقوفة"),
-                ],
-                tabViews: [
-                  _buildTabView(0, context),
-                  _buildTabView(1, context),
-                  _buildTabView(2, context),
-                ],
-                length: 3,
-                indicatorColor: AppColors.primary,
-                indicatorWeight: 0.0.w,
-                labelColor: AppColors.black,
-                unselectedLabelColor: AppColors.black,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
