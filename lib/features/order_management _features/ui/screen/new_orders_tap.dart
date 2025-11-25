@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/card_message_widget.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/domain/entities/entities_states.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/all_order/all_order_cubit.dart';
 import 'package:sindbad_management_app/features/order_management%20_features/ui/manager/all_order/all_order_state.dart';
@@ -52,14 +51,45 @@ class _NewTabViewsState extends State<NewTabViews> {
               if (state is NewOrdersLoadSuccess) {
                 if (state.orders.isEmpty) {
                   return Center(
-                    child: CardMesssageWidget(
-                      logo: Image.asset(
-                        'assets/images/no_data.png',
-                        height: 80.h,
-                        width: 80.w,
+                    child: Padding(
+                      padding: const EdgeInsets.all(30.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey.shade300),
+                          borderRadius: BorderRadius.circular(25.r),
+                          color: Colors.white,
+                        ),
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/no_data.png',
+                              height: 80.h,
+                              width: 80.w,
+                            ),
+                            SizedBox(height: 10.h),
+                            Text(
+                              'توجد بيانات حاليا',
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(height: 5.h),
+                            Text(
+                              "لا توجد بيانات",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      title: 'توجد بيانات حاليا',
-                      subTitle: "لا توجد بيانات",
                     ),
                   );
                 } else {
@@ -105,14 +135,46 @@ class _NewTabViewsState extends State<NewTabViews> {
                 }
               } else if (state is NewOrdersLoadFailure) {
                 return Center(
-                  child: CardMesssageWidget(
-                    logo: Image.asset(
-                      'assets/image_loading.png',
-                      height: 80.h,
-                      width: 80.w,
+                  child: Padding(
+                    padding: const EdgeInsets.all(30.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey.shade300),
+                        borderRadius: BorderRadius.circular(25.r),
+                        color: Colors.white,
+                      ),
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/image_loading.png',
+                            height: 80.h,
+                            width: 80.w,
+                          ),
+                          SizedBox(height: 10.h),
+                          Text(
+                            'هناك خطأ الرجاء المحاولة لاحقاً',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          SizedBox(height: 5.h),
+                          Text(
+                            state.message,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    title: 'هناك خطأ الرجاء المحاولة لاحقاً',
-                    subTitle: state.message,
                   ),
                 );
               }
