@@ -91,6 +91,22 @@ class _CustomTabBarWidgetState extends State<CustomTabBarWidget>
                   indicatorPadding: EdgeInsets.symmetric(
                       horizontal: CustomTabBarWidget._indicatorPadding.h,
                       vertical: CustomTabBarWidget._indicatorPadding.w),
+                  // Circular splash effect for tap feedback
+                  splashFactory: InkSparkle.splashFactory,
+                  splashBorderRadius:
+                      BorderRadius.circular(CustomTabBarWidget._borderRadius.r),
+                  // Custom overlay color for tap/hover states
+                  // overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                  //   (Set<MaterialState> states) {
+                  //     if (states.contains(MaterialState.pressed)) {
+                  //       return Colors.white.withOpacity(0.1);
+                  //     }
+                  //     if (states.contains(MaterialState.hovered)) {
+                  //       return Colors.white.withOpacity(0.05);
+                  //     }
+                  //     return null;
+                  //   },
+                  // ),
                 ),
               ),
             ),

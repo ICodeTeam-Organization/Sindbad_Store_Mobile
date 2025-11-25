@@ -4,10 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/swidgets/new_widgets/custom_app_bar.dart';
 import '../../../../core/swidgets/new_widgets/custom_tab_bar_widget.dart';
 import '../../../../config/styles/text_style.dart';
-import '../widget/order_management_widget/before_tab_views.dart';
-import '../widget/order_management_widget/canceled_tab_views.dart';
-import '../widget/order_management_widget/new_tab_views/new_tab_views.dart';
-import '../widget/order_management_widget/urgent_tab_views/urgent_tab_views.dart';
+import 'before_tab_views.dart';
+import 'canceled_tab_views.dart';
+import 'new_orders_tap.dart';
+import 'urgent_tab_views/urgent_tab_views.dart';
 
 class OrderManagementScreen extends StatelessWidget {
   const OrderManagementScreen({super.key});

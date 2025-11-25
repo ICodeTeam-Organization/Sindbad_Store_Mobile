@@ -103,6 +103,8 @@ class _OrdersListViewState extends State<OrdersListView>
           setState(() {
             if (pageNumber == 1) {
               orders = state.orders;
+              // Clear animated indices on refresh to trigger animations
+              _animatedIndices.clear();
             } else {
               orders.addAll(state.orders);
             }
