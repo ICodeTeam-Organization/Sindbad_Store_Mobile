@@ -13,7 +13,7 @@ import 'package:sindbad_management_app/config/routers/route.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/confirm_password_cubit/confirm_password_cubit.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/forget_password_cubit.dart/forget_password_cubit.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit.dart';
-import 'package:sindbad_management_app/features/orders_features/ui/manager/all_order/new_orders_cubit.dart';
+import 'package:sindbad_management_app/features/orders_features/ui/manager/all_order/orders_cubit.dart';
 import 'package:sindbad_management_app/features/orders_features/ui/manager/all_order/urgent_order_cubit.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/excell_cubit/excell_cubt.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/reset_password_cubit/reset_password_cubit.dart';
@@ -126,11 +126,11 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
           create: (_) => ConfirmPasswordCubit(getit()),
         ),
         BlocProvider(
-          create: (_) => NewOrdersCubit(getit()),
+          create: (_) => OrdersCubit(getit()),
         ),
-        BlocProvider(
-          create: (_) => UrgentOrderCubit(getit()),
-        ),
+        // BlocProvider(
+        //   create: (_) => UrgentOrderCubit(getit()),
+        // ),
 
         BlocProvider(
             create: (context) => OfferDetailsCubit(GetOfferDetailsUseCase(

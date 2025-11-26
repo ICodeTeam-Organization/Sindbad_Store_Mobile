@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/features/orders_features/ui/manager/order_details/order_details_cubit.dart';
 import '../../../../config/styles/Colors.dart';
 import '../../../../config/styles/text_style.dart';
-import 'order_management_widget/bottom_info_order.dart';
-import 'order_management_widget/top_info_order.dart';
+import '../widget/order_management_widget/bottom_info_order.dart';
+import '../widget/order_management_widget/top_info_order.dart';
 import 'order_body.dart';
 
 class OrderBodyDetails extends StatelessWidget {

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:sindbad_management_app/features/orders_features/ui/manager/all_order/all_order_cubit.dart';
-import 'package:sindbad_management_app/features/orders_features/ui/manager/all_order/all_order_state.dart';
+import 'package:sindbad_management_app/features/orders_features/ui/manager/all_order/orders_cubit.dart';
+import 'package:sindbad_management_app/features/orders_features/ui/manager/all_order/orders_cubit_states.dart';
+import 'package:sindbad_management_app/features/orders_features/ui/screen/no_data_widget.dart';
 import 'package:sindbad_management_app/features/orders_features/ui/widget/order_body.dart';
 
 typedef ItemBuilder = Widget Function(
@@ -60,19 +61,11 @@ class _OrdersListViewState extends State<OrdersListView>
     if (isFetching) return;
     setState(() => isFetching = true);
 
-    // Fetch the next page regardless of item count.
-    // await context.read<MndHomeCubitCubit>().showOrderProduct(
-    //       widget.status,
-    //       widget.pageSize,
-    //       pageNumber,
-    //       widget.isUrgent,
-    //     );
-    await context.read<AllOrderCubit>().fetchAllOrder(
-          statuses: widget.statuses,
-          isUrgent: widget.isUrgent,
-          pageNumber: pageNumber,
-          pageSize: widget.pageSize,
-          // srearchKeyword: ''
+    await context.read<OrdersCubit>().fetchAllOrders(
+          widget.statuses,
+          widget.isUrgent,
+          pageNumber,
+          widget.pageSize,
         );
 
     setState(() => isFetching = false);
@@ -97,9 +90,9 @@ class _OrdersListViewState extends State<OrdersListView>
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AllOrderCubit, AllOrderState>(
+    return BlocConsumer<OrdersCubit, OrdersState>(
       listener: (context, state) {
-        if (state is AllOrderSuccess) {
+        if (state is OrdersLoadSuccess) {
           setState(() {
             if (pageNumber == 1) {
               orders = state.orders;
@@ -109,16 +102,15 @@ class _OrdersListViewState extends State<OrdersListView>
               orders.addAll(state.orders);
             }
           });
-        } else if (state is AllOrderFailuer) {
+        } else if (state is OrdersLoadFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: Text(state.errMessage), backgroundColor: Colors.red),
+            SnackBar(content: Text(state.message), backgroundColor: Colors.red),
           );
         }
       },
       builder: (context, state) {
         // Use the Shimmer loading when the initial page is loading.
-        if (state is AllOrderLoading && pageNumber == 1) {
+        if (state is OrdersLoadInProgress && pageNumber == 1) {
           return Shimmer.fromColors(
             baseColor: Colors.grey[300]!,
             highlightColor: Colors.grey[100]!,
@@ -138,10 +130,7 @@ class _OrdersListViewState extends State<OrdersListView>
           );
         }
         if (orders.isEmpty) {
-          return const Center(
-            child: Text("لا توجد طلبات",
-                style: TextStyle(fontSize: 18, color: Colors.grey)),
-          );
+          return NoDataWidget();
         }
         return RefreshIndicator(
           onRefresh: () => _fetchOrders(isRefresh: true),

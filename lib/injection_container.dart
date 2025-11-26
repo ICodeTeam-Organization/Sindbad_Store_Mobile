@@ -13,7 +13,7 @@ import 'package:sindbad_management_app/features/auth_feature/ui/manger/confirm_p
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/forget_password_cubit.dart/forget_password_cubit.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit.dart';
 import 'package:sindbad_management_app/features/orders_features/data/data_sources/all_order_remot_data_source_imp.dart';
-import 'package:sindbad_management_app/features/orders_features/ui/manager/all_order/new_orders_cubit.dart';
+import 'package:sindbad_management_app/features/orders_features/ui/manager/all_order/orders_cubit.dart';
 import 'package:sindbad_management_app/features/orders_features/ui/manager/all_order/urgent_order_cubit.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/repo/exell_repository.dart';
 import 'package:sindbad_management_app/features/profile_feature/domin/usecase/download_dll_files_use_case.dart';
@@ -110,7 +110,7 @@ void initializationContainer() {
   // ----------------
   getit.registerFactory<SignInCubit>(() => SignInCubit(getit()));
   getit.registerFactory<ExcelCubit>(() => ExcelCubit(getit()));
-  getit.registerFactory<NewOrdersCubit>(() => NewOrdersCubit(getit()));
+  getit.registerFactory<OrdersCubit>(() => OrdersCubit(getit()));
   getit.registerFactory<GetProfileCubit>(() => GetProfileCubit(getit()));
   getit.registerFactory<AllOrderCubit>(() => AllOrderCubit(getit()));
   getit.registerFactory<GetStoreProductsWithFilterCubit>(
@@ -120,5 +120,5 @@ void initializationContainer() {
       .registerFactory<ForgetPasswordCubit>(() => ForgetPasswordCubit(getit()));
   getit.registerFactory<ConfirmPasswordCubit>(
       () => ConfirmPasswordCubit(getit()));
-  getit.registerFactory<UrgentOrderCubit>(() => UrgentOrderCubit(getit()));
+  // getit.registerFactory<UrgentOrderCubit>(() => UrgentOrderCubit(getit()));
 }
