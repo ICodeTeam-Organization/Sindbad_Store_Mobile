@@ -9,10 +9,12 @@ import '../../../add_and_edit_product_feature/ui/manger/cubit/ProductDetails/pro
 import '../../data/repos/view_product_store_repo_impl.dart';
 import '../../domain/use_cases/delete_product_by_id_use_case.dart';
 import '../../domain/use_cases/get_main_category_for_view_use_case.dart';
+import '../../domain/use_cases/get_products_by_filter_use_case.dart';
 import '../manager/activate_products/activate_products_by_ids_cubit.dart';
 import '../manager/delete_product_by_id_from_store/delete_product_by_id_from_store_cubit.dart';
 import '../manager/disable_products/disable_products_by_ids_cubit.dart';
 import '../manager/get_main_category_for_view/get_main_category_for_view_cubit.dart';
+import '../manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
 import '../widgets/body_view_product.dart';
 
 class ViewProductScreen extends StatelessWidget {
@@ -23,7 +25,13 @@ class ViewProductScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(providers: [
-      // GetStoreProductsWithFilterCubit is already provided in main.dart (root widget)
+      BlocProvider(
+        create: (context) => GetStoreProductsWithFilterCubit(
+          GetProductsByFilterUseCase(
+            getit.get<ViewProductRepoImpl>(),
+          ),
+        ),
+      ),
       BlocProvider(
         create: (context) =>
             GetMainCategoryForViewCubit(GetMainCategoryForViewUseCase(
