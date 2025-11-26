@@ -1,0 +1,137 @@
+import 'dart:io';
+import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
+import 'package:sindbad_management_app/features/orders_feature/domain/entities/company_shipping_entity.dart';
+import 'package:sindbad_management_app/features/orders_feature/domain/entities/order_cancel_entity.dart';
+import 'package:sindbad_management_app/features/orders_feature/domain/entities/order_detalis_entity.dart';
+import 'package:sindbad_management_app/features/orders_feature/domain/entities/order_invoice_entity.dart';
+import 'package:sindbad_management_app/features/orders_feature/domain/entities/order_shipping_entity.dart';
+import '../../../../core/errors/failure.dart';
+import '../../domain/entities/all_order_entity.dart';
+import '../../domain/repos/all_order_repo.dart';
+import '../data_sources/all_order_remot_data_source.dart';
+
+class AllOrderRepoImpl extends AllOrderRepo {
+  final AllOrderRemotDataSource allOrderRemotDataSource;
+
+  AllOrderRepoImpl(
+    this.allOrderRemotDataSource,
+  );
+
+  //! basic fetch list Entity function
+  Future<Either<Failure, List<T>>> fetchData<T>(
+      Future<List<T>> Function() fetchFunction) async {
+    try {
+      var data = await fetchFunction();
+      return right(data);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      } else {
+        return left(ServerFailure(e.toString()));
+      }
+    }
+  }
+
+  //! basic fetch Entity function
+  Future<Either<Failure, T>> fetchDataOrder<T>(
+      Future<T> Function() postDataFunction) async {
+    try {
+      var dataPosted = await postDataFunction();
+      return right(dataPosted);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      } else {
+        return left(ServerFailure(e.toString()));
+      }
+    }
+  }
+
+  //!All Order
+  @override
+  Future<Either<Failure, List<AllOrderEntity>>> fetchAllOrder({
+    required List<int> statuses,
+    bool? isUrgent,
+    required int pageNumber,
+    required int pageSize,
+    // required String storeId,
+    // required String searchKeyword,
+  }) {
+    return fetchData(() => allOrderRemotDataSource.fetchAllOrder(
+          statuses,
+          isUrgent,
+          pageNumber,
+          pageSize,
+          // storeId,
+          // searchKeyword,
+        ));
+  }
+
+  //! Order Details
+  @override
+  Future<Either<Failure, List<OrderDetailsEntity>>> fetchOrderDetails(
+      {required int packageId}) {
+    return fetchData(
+        () => allOrderRemotDataSource.fetchOrderDetails(packageId));
+  }
+
+  //! Create Invoice
+  @override
+  Future<Either<Failure, OrderInvoiceEntity>> fetchOrderInvoice(
+      {required int? packageId,
+      required String invoiceNumber,
+      required num? invoiceAmount,
+      required int invoiceType,
+      required File invoiceImage,
+      required DateTime invoiceDate}) {
+    return fetchDataOrder(() => allOrderRemotDataSource.fetchOrderInvoice(
+        packageId,
+        invoiceAmount,
+        invoiceImage,
+        invoiceNumber,
+        invoiceDate,
+        invoiceType));
+  }
+
+  //! Shipping Invoice
+  @override
+  Future<Either<Failure, OrderShippingEntity>> fetchOrderShipping(
+      {required int packageId,
+      required DateTime invoiceDate,
+      required int shippingNumber,
+      required String shippingCompany,
+      required File shippingImages,
+      required int numberParcels,
+      required int shippingCompniesId,
+      required String phoneNumber}) {
+    return fetchDataOrder(() => allOrderRemotDataSource.fetchOrderShipping(
+        packageId,
+        invoiceDate,
+        shippingNumber,
+        shippingCompany,
+        shippingImages,
+        numberParcels,
+        shippingCompniesId,
+        phoneNumber));
+  }
+
+  //! Order Cancel
+  @override
+  Future<Either<Failure, OrderCancelEntity>> fetchOrderCancel(
+      {required int orderId,
+      required bool orderCancel,
+      required String reasonCancel}) {
+    return fetchDataOrder(() => allOrderRemotDataSource.fetchOrderCancel(
+        orderId, orderCancel, reasonCancel));
+  }
+
+  @override
+  Future<Either<Failure, List<CompanyShippingEntity>>> fetchCompanyShipping({
+    required int pageNumber,
+    required int pageSize,
+  }) {
+    return fetchData(() =>
+        allOrderRemotDataSource.fetchCompanyShipping(pageNumber, pageSize));
+  }
+}
