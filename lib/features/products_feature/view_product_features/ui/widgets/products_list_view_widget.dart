@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
-import 'package:sindbad_management_app/features/orders_feature/ui/widget/no_data_widget.dart';
+import 'package:sindbad_management_app/core/swidgets/no_data_widget.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import '../../../../../config/styles/Colors.dart';
 import '../../../../../config/styles/text_style.dart';
-import '../../../../../config/routers/route.dart';
 import '../../../add_and_edit_product_feature/ui/manger/cubit/ProductDetails/product_details_cubit.dart';
 import '../../../add_and_edit_product_feature/ui/screens/edit_product_screen.dart';
 import '../../domain/entities/product_entity.dart';
@@ -17,7 +17,6 @@ import 'check_box_custom.dart';
 import 'custom_show_dialog_for_view_widget.dart';
 import 'image_card_custom.dart';
 import 'shimmer_for_products_with_filter.dart';
-import 'text_style_detials.dart';
 import 'two_button_inside_list_view_products.dart';
 
 class ProductsListView extends StatefulWidget {
@@ -80,117 +79,134 @@ class _ProductsListViewState extends State<ProductsListView> {
           final List<ProductEntity> products = state.products;
           return products.isEmpty
               ? NoDataWidget()
-              : ListView.builder(
-                  controller: _scrollController,
-                  shrinkWrap: true,
-                  physics: const BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics()),
-                  itemCount: products.length + (state.isLoadingMore ? 1 : 0),
-                  itemBuilder: (context, index) {
-                    if (index == products.length) {
-                      return Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
-                    }
-                    ProductEntity product = products[index];
-                    bool isEven = index % 2 == 0;
-                    return Container(
-                      margin: index + 1 == products.length
-                          ? EdgeInsets.only(bottom: 100.h)
-                          : null,
-                      padding:
-                          EdgeInsets.only(top: 26.h, bottom: 26.h, left: 10.w),
-                      decoration: BoxDecoration(
-                        color: isEven ? AppColors.background : Colors.white,
-                        borderRadius: BorderRadius.circular(4.r),
-                      ),
-                      child: Row(
-                        children: [
-                          CheckBoxCustom(
-                            val: (context
-                                    .read<GetStoreProductsWithFilterCubit>()
-                                    .state as GetStoreProductsWithFilterSuccess)
-                                .checkedStates[index],
-                            onChanged: (val) {
-                              context
-                                  .read<GetStoreProductsWithFilterCubit>()
-                                  .updateCheckboxState(
-                                      index, val!, product.productId!);
-                            },
+              : AnimationLimiter(
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics()),
+                    itemCount: products.length + (state.isLoadingMore ? 1 : 0),
+                    itemBuilder: (context, index) {
+                      if (index == products.length) {
+                        return Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: CircularProgressIndicator(),
                           ),
-                          ImageCardCustom(
-                              imageUrlNetwork: product.productImageUrl!),
-                          SizedBox(width: 10),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  product.productName ?? '',
-                                  textAlign: TextAlign.right,
-                                  style: TextTheme.of(context).titleMedium,
-                                ),
-                                SizedBox(height: 4.h),
-                                Text(
-                                  'رقم المنتج: ${product.productId ?? ''}',
-                                  textAlign: TextAlign.right,
-                                  style: TextTheme.of(context).bodySmall,
-                                ),
-                                SizedBox(height: 2.h),
-                                Text(
-                                  'السعر: ${product.productPrice ?? ''} ريال',
-                                  textAlign: TextAlign.right,
-                                  style: TextTheme.of(context).bodySmall,
-                                ),
-                              ],
+                        );
+                      }
+                      ProductEntity product = products[index];
+                      bool isEven = index % 2 == 0;
+
+                      return AnimationConfiguration.staggeredList(
+                        position: index,
+                        duration: const Duration(milliseconds: 375),
+                        child: SlideAnimation(
+                          verticalOffset: 50.0,
+                          child: FadeInAnimation(
+                            child: Container(
+                              margin: index + 1 == products.length
+                                  ? EdgeInsets.only(bottom: 100.h)
+                                  : null,
+                              padding: EdgeInsets.only(
+                                  top: 26.h, bottom: 26.h, left: 10.w),
+                              decoration: BoxDecoration(
+                                color: isEven
+                                    ? AppColors.background
+                                    : Colors.white,
+                                borderRadius: BorderRadius.circular(4.r),
+                              ),
+                              child: Row(
+                                children: [
+                                  CheckBoxCustom(
+                                    val: state.checkedStates[index],
+                                    onChanged: (val) {
+                                      context
+                                          .read<
+                                              GetStoreProductsWithFilterCubit>()
+                                          .updateCheckboxState(
+                                              index, val!, product.productId!);
+                                    },
+                                  ),
+                                  ImageCardCustom(
+                                      imageUrlNetwork:
+                                          product.productImageUrl!),
+                                  SizedBox(width: 10),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          product.productName ?? '',
+                                          textAlign: TextAlign.right,
+                                          style:
+                                              TextTheme.of(context).titleMedium,
+                                        ),
+                                        SizedBox(height: 4.h),
+                                        Text(
+                                          'رقم المنتج: ${product.productId ?? ''}',
+                                          textAlign: TextAlign.right,
+                                          style:
+                                              TextTheme.of(context).bodySmall,
+                                        ),
+                                        SizedBox(height: 2.h),
+                                        Text(
+                                          'السعر: ${product.productPrice ?? ''} ريال',
+                                          textAlign: TextAlign.right,
+                                          style:
+                                              TextTheme.of(context).bodySmall,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: 10.w),
+                                  TwoButtonInsideListViewProducts(
+                                    onTapEdit: () {
+                                      context
+                                          .read<ProductDetailsCubit>()
+                                          .getProductDetails(
+                                              productId: product.productId!);
+                                      showGetProductDetailsDialog(
+                                        contextParent: context,
+                                        productDetailsCubit:
+                                            context.read<ProductDetailsCubit>(),
+                                      );
+                                    },
+                                    reactivate: widget.storeProductsFilter == 2,
+                                    onTapDeleteOrReactivate: () {
+                                      widget.storeProductsFilter == 2
+                                          ? showActivateOneOrMoreProductsDialog(
+                                              contextParent: context,
+                                              ids: [product.productId!],
+                                              storeProductsFilter:
+                                                  widget.storeProductsFilter,
+                                              activateProductsCubit: context.read<
+                                                  ActivateProductsByIdsCubit>(),
+                                            )
+                                          : showDeleteProductDialog(
+                                              contextParent: context,
+                                              productId: product.productId!,
+                                              storeProductsFilter:
+                                                  widget.storeProductsFilter,
+                                              deleteProductCubit: context.read<
+                                                  DeleteProductByIdFromStoreCubit>(),
+                                            );
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                          SizedBox(width: 10.w),
-                          TwoButtonInsideListViewProducts(
-                            onTapEdit: () {
-                              context
-                                  .read<ProductDetailsCubit>()
-                                  .getProductDetails(
-                                      productId: product.productId!);
-                              showGetProductDetailsDialog(
-                                contextParent: context,
-                                productDetailsCubit:
-                                    context.read<ProductDetailsCubit>(),
-                              );
-                            },
-                            reactivate: widget.storeProductsFilter == 2,
-                            onTapDeleteOrReactivate: () {
-                              widget.storeProductsFilter == 2
-                                  ? showActivateOneOrMoreProductsDialog(
-                                      contextParent: context,
-                                      ids: [product.productId!],
-                                      storeProductsFilter:
-                                          widget.storeProductsFilter,
-                                      activateProductsCubit: context
-                                          .read<ActivateProductsByIdsCubit>(),
-                                    )
-                                  : showDeleteProductDialog(
-                                      contextParent: context,
-                                      productId: product.productId!,
-                                      storeProductsFilter:
-                                          widget.storeProductsFilter,
-                                      deleteProductCubit: context.read<
-                                          DeleteProductByIdFromStoreCubit>(),
-                                    );
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  },
+                        ),
+                      );
+                    },
+                  ),
                 );
         } else if (state is GetStoreProductsWithFilterFailure) {
-          return Center(child: Text(state.errMessage));
+          return ErrorWidget(state.errMessage);
         } else {
-          return Center(child: Text("هناك خطأ ما..."));
+          return ErrorWidget("هناك خطأ ما...");
         }
       },
     );

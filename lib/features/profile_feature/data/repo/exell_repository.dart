@@ -1,13 +1,10 @@
 import 'dart:io';
 
-import 'package:dartz/dartz.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:sindbad_management_app/core/resources/data_state.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/data_source/excell_api_services.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/model/file_model.dart';
 import 'package:sindbad_management_app/features/profile_feature/domin/repo/excell_repository.dart';
-import 'package:sindbad_management_app/features/profile_feature/domin/usecase/download_dll_files_use_case.dart';
 
 class ExcellRepositoryImpl extends ExcellRepository {
   final BulkService ExcellServices;

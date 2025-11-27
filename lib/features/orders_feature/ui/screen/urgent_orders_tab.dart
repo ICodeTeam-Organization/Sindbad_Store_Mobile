@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:sindbad_management_app/core/swidgets/no_data_widget.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/card_message_widget.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/entities/entities_states.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/all_order/all_order_cubit.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/all_order/all_order_state.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/all_order/order%20cubit/orders_cubit.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/all_order/order%20cubit/orders_cubit_states.dart';
-import 'package:sindbad_management_app/features/orders_feature/ui/widget/no_data_widget.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/widget/order_body.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/widget/package_status_filterBar.dart';
 

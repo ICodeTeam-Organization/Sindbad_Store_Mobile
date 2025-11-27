@@ -18,11 +18,19 @@ class ApiService {
       {required String endPoint,
       Map<String, String>? headers,
       Map<String, dynamic>? queryParameters}) async {
-    var response = await _dio.get('$baseUrl$endPoint',
-        options: Options(headers: headers), queryParameters: queryParameters);
-    print(response.data);
-
-    return response.data;
+    final url = '$baseUrl$endPoint';
+    try {
+      print('GET -> $url');
+      if (queryParameters != null) print('Query: $queryParameters');
+      var response = await _dio.get(url,
+          options: Options(headers: headers), queryParameters: queryParameters);
+      print('GET $url [${response.statusCode}] -> ${response.data}');
+      return response.data;
+    } catch (e, s) {
+      print('GET $url failed: $e');
+      print(s);
+      rethrow;
+    }
   }
 
   Future<Map<String, dynamic>> post(

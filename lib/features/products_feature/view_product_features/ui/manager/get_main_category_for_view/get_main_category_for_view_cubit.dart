@@ -40,37 +40,60 @@ class GetMainCategoryForViewCubit extends Cubit<GetMainCategoryForViewState> {
     Either<Failure, List<MainCategoryForViewEntity>> result =
         await getMainCategoryForViewUseCase.execute(params);
 
-    // Convert list of CategoryEntity → list of MainCategoryForViewEntity
+    // If API returns data, use it and persist into Hive. Otherwise fall back to Hive box.
+    result.fold(
+      (failure) {
+        // On failure: if first page, emit failure; otherwise keep old data
+        if (pageNumber == 1) {
+          // Try to read from Hive box as a fallback
+          if (categoryBox.isNotEmpty) {
+            _allCategories = categoryBox.values
+                .map((category) =>
+                    MainCategoryForViewEntity.fromCategoryEntity(category))
+                .toList();
+            emit(GetMainCategoryForViewSuccess(
+                mainCategoryForViewEntity: _allCategories));
+          } else {
+            emit(GetMainCategoryForViewFailure(errMessage: failure.message));
+          }
+        } else {
+          emit(GetMainCategoryForViewSuccess(
+              mainCategoryForViewEntity: _allCategories));
+        }
+      },
+      (mainCategoryForView) async {
+        // On success: update local list and persist into Hive
+        if (pageNumber == 1) {
+          _allCategories = mainCategoryForView;
+        } else {
+          _allCategories.addAll(mainCategoryForView);
+        }
 
-    _allCategories = categoryBox.values
-        .map((category) =>
-            MainCategoryForViewEntity.fromCategoryEntity(category))
-        .toList();
-    emit(GetMainCategoryForViewSuccess(
-        mainCategoryForViewEntity: _allCategories));
+        // Persist categories into Hive for other features that expect them
+        try {
+          // Clear existing and add fresh categories
+          await categoryBox.clear();
+          final categoryEntities = mainCategoryForView.map(
+            (c) => CategoryEntity(
+              categoryId: c.mainCategoryId,
+              categoryName: c.mainCategoryName,
+              categoryImage: '',
+              categoryLevel: 0,
+              categoryParentId: 0,
+              categoryType: 0,
+              isDeleted: false,
+            ),
+          );
+          await categoryBox.addAll(categoryEntities);
+        } catch (e) {
+          // Ignore persistence errors but keep using API data
+          print('Failed to persist categories to Hive: $e');
+        }
 
-    // result.fold(
-    //   // On failure
-    //   (failure) {
-    //     if (pageNumber == 1) {
-    //       emit(GetMainCategoryForViewFailure(errMessage: failure.message));
-    //     } else {
-    //       // For pagination failure, keep the old data without loading flag
-    //       emit(GetMainCategoryForViewSuccess(
-    //           mainCategoryForViewEntity: _allCategories));
-    //     }
-    //   },
-    //   // On success
-    //   (mainCategoryForView) {
-    //     if (pageNumber == 1) {
-    //       _allCategories = mainCategoryForView;
-    //     } else {
-    //       _allCategories.addAll(mainCategoryForView);
-    //     }
-    //     emit(GetMainCategoryForViewSuccess(
-    //         mainCategoryForViewEntity: _allCategories));
-    //   },
-    // );
+        emit(GetMainCategoryForViewSuccess(
+            mainCategoryForViewEntity: _allCategories));
+      },
+    );
 
     _isFetching = false;
   }

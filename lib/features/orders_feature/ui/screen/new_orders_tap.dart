@@ -7,7 +7,7 @@ import 'package:sindbad_management_app/features/orders_feature/ui/manager/all_or
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/all_order/all_order_state.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/all_order/order%20cubit/orders_cubit.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/all_order/order%20cubit/orders_cubit_states.dart';
-import 'package:sindbad_management_app/features/orders_feature/ui/widget/no_data_widget.dart';
+import 'package:sindbad_management_app/core/swidgets/no_data_widget.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/screen/temp_widget/animated_order_item.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/widget/order_body.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/widget/package_status_filterBar.dart';
@@ -95,49 +95,7 @@ class _NewTabViewsState extends State<NewTabViews> {
                   );
                 }
               } else if (state is OrdersLoadFailure) {
-                return Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey.shade300),
-                        borderRadius: BorderRadius.circular(25.r),
-                        color: Colors.white,
-                      ),
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/image_loading.png',
-                            height: 80.h,
-                            width: 80.w,
-                          ),
-                          SizedBox(height: 10.h),
-                          Text(
-                            'هناك خطأ الرجاء المحاولة لاحقاً',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          SizedBox(height: 5.h),
-                          Text(
-                            state.message,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 12.sp,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
+                return ErrorWidget(message: state.message);
               }
               return Center(
                   child: SizedBox(
@@ -156,6 +114,62 @@ class _NewTabViewsState extends State<NewTabViews> {
           ),
         ),
       ],
+    );
+  }
+}
+
+class ErrorWidget extends StatelessWidget {
+  const ErrorWidget({
+    super.key,
+    required this.message,
+  });
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(30.0),
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey.shade300),
+            borderRadius: BorderRadius.circular(25.r),
+            color: Colors.white,
+          ),
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/image_loading.png',
+                height: 80.h,
+                width: 80.w,
+              ),
+              SizedBox(height: 10.h),
+              Text(
+                'هناك خطأ الرجاء المحاولة لاحقاً',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              SizedBox(height: 5.h),
+              Text(
+                message,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  color: Colors.grey,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

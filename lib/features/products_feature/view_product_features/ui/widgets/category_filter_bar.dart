@@ -5,9 +5,9 @@ import '../manager/get_main_category_for_view/get_main_category_for_view_cubit.d
 import 'custom_get_main_category_for_view_success_widget.dart';
 import 'shimmer_for_main_category_for_view.dart';
 
-class ListMainCategoryForView extends StatelessWidget {
+class CategoryFilterBar extends StatelessWidget {
   final int storeProductsFilter;
-  const ListMainCategoryForView({super.key, required this.storeProductsFilter});
+  const CategoryFilterBar({super.key, required this.storeProductsFilter});
 
   @override
   Widget build(BuildContext context) {

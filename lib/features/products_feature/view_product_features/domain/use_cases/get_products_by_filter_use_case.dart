@@ -3,7 +3,6 @@ import 'package:sindbad_management_app/core/errors/failure.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/data/repos/view_product_store_repo_impl.dart';
 import '../../../../../core/use_cases/param_use_case.dart';
 import '../entities/product_entity.dart';
-import '../repos/view_product_store_repo.dart';
 
 class GetProductsByFilterUseCase
     extends UseCaseWithParam<List<ProductEntity>, ProductsByFilterParams> {

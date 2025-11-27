@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/action_button_widget.dart';
 
-import 'button_custom.dart';
-
 class TwoButtonInsideListViewProducts extends StatelessWidget {
   const TwoButtonInsideListViewProducts({
     super.key,
