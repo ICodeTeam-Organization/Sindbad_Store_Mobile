@@ -3,11 +3,11 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failure.dart';
 import '../../../../core/use_cases/param_use_case.dart';
 import '../entity/edit_profile_entity.dart';
-import '../repo/profile_repo.dart';
+import '../repo/profile_repository.dart';
 
 class EditProfileUsecase
     extends UseCaseWithParam<EditProfileEntity, UpdateProfileParams> {
-  final ProfileRepo profileRepo;
+  final ProfileRepository profileRepo;
 
   EditProfileUsecase({required this.profileRepo});
   @override

@@ -6,6 +6,7 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/screens/view_offer_screen.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/screen/temp_widget/orders_tabbar_widget.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
+import 'package:sindbad_management_app/features/reports_offer_index.dart';
 import 'products_feature/view_product_features/ui/screens/view_product_screen.dart';
 
 class Root extends StatefulWidget {
@@ -34,7 +35,7 @@ class _RootState extends State<Root> {
     OrderManagementWidget(),
     ViewProductScreen(),
     ViewOfferScreen(),
-    Center(child: Text('التقارير')),
+    ViewReportsScreen(),
   ];
   @override
   Widget build(BuildContext context) {

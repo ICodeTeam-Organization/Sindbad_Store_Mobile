@@ -50,7 +50,7 @@ import 'package:sindbad_management_app/features/products_feature/add_and_edit_pr
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/use_cases/get_main_and_sub_category_use_case.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
-import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/manager/products_cubit/products_cubit.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/get_profile_cubit/get_profile_cubit.dart';
 import 'injection_container.dart';
 import 'core/simple_bloc_observer.dart';
@@ -111,7 +111,7 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
         ),
         BlocProvider(create: (_) => AllOrderCubit(getit())),
         BlocProvider(create: (_) => ExcelCubit(getit())),
-        BlocProvider(create: (_) => GetStoreProductsWithFilterCubit(getit())),
+        BlocProvider(create: (_) => ProductsCubit(getit())),
         BlocProvider(
           create: (_) => GetProfileCubit(getit()),
         ),
@@ -217,7 +217,7 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
           routerConfig: AppRouter.router,
           theme: LightTheme.theme,
           darkTheme: DarkTheme.theme,
-          themeMode: ThemeMode.system, // Auto switch based on system
+          themeMode: ThemeMode.light, // Auto switch based on system
           localizationsDelegates: LocalesConfig.localizationsDelegates,
           supportedLocales: LocalesConfig.supportedLocales,
           locale: LocalesConfig.defaultLocale,

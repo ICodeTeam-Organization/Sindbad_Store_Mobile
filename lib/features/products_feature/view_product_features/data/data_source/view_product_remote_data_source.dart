@@ -1,9 +1,11 @@
 import 'dart:math';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/data/data_source/products_endpoint_parameters.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/data/data_source/view_product_remote_datasource.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/delete_entity_product.dart';
 import '../../../../../core/api_service.dart';
 import '../../domain/entities/activate_products_entity.dart';
@@ -16,36 +18,11 @@ import '../models/disable_products_model/disable_products_model.dart';
 import '../models/main_category_for_view_model/item.dart';
 import '../models/product_model/product_model.dart';
 
-abstract class ViewProductRemoteDataSource {
-  // for get MainCategory
-  Future<List<MainCategoryForViewEntity>> getMainCategoryForView({
-    required int pageNumber,
-    required int pageSize,
-  });
-
-  Future<List<ProductEntity>> getProductsByFilter({
-    required int storeProductsFilter,
-    required int pageNumber,
-    required int pageSize,
-    required int? categoryId,
-  });
-  Future<DeleteProductEntity> deleteProductById({
-    required int productId,
-  });
-
-  // for disable Products By [Ids]
-  Future<DisableProductsEntity> disableProductsByIds({required List<int> ids});
-
-  // for ActivateProducts By [Ids]
-  Future<ActivateProductsEntity> activateProductsByIds(
-      {required List<int> ids});
-}
-
-class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
+class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
   final ApiService apiService;
   final FlutterSecureStorage flutterSecureStorage;
 
-  ViewProductRemoteDataSourceImpl(this.apiService, this.flutterSecureStorage);
+  ProductRemoteDataSourceImpl(this.apiService, this.flutterSecureStorage);
 
   Future<String?> getToken() async {
     return await flutterSecureStorage.read(key: 'token');
@@ -86,7 +63,8 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
     final Map<String, dynamic> data = await apiService.get(
         endPoint:
             // "Categories/GetCategories?searchType=1&isBrief=true&pageNumber=$pageNumber&pageSize=$pageSize");
-            "Category?searchType=1&isBrief=true&pageNumber=$pageNumber&pageSize=$pageSize",
+            //   "Category?type=1&isBrief=true&pageNumber=$pageNumber&pageSize=$pageSize",
+            "api/Categories",
         headers: headers);
 
     // fun for change Data from JSON to DartModel
@@ -130,37 +108,40 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
     required int storeProductsFilter,
     required int pageNumber,
     required int pageSize,
-    required int? categoryId,
+    required List<int>? categoryId,
   }) async {
     //String? token = await getToken();
     String? storeId = await extractStoreIdFromToken();
 
     // Handle categories properly - only include if categoryId is not null
-    final List<int>? categories = categoryId != null ? [categoryId] : null;
+    // final List<int>? categories = categoryId != null ? [categoryId] : null;
     final Map<String, dynamic> requestData;
     switch (storeProductsFilter) {
       case 0: // for all products
         requestData = ProductsEndpointParameters.buildQueryParameters(
-            store: storeId,
-            pageNumber: pageNumber,
-            pageSize: pageSize,
-            categories: categories);
+          store: storeId,
+          pageNumber: pageNumber,
+          pageSize: pageSize,
+          //  categories: categories
+        );
         break;
       case 1: // for products hasOffer
         requestData = ProductsEndpointParameters.buildQueryParameters(
-            hasOffer: true,
-            store: storeId,
-            pageNumber: pageNumber,
-            pageSize: pageSize,
-            categories: categories);
+          hasOffer: true,
+          store: storeId,
+          pageNumber: pageNumber,
+          pageSize: pageSize,
+          //   categories: categories
+        );
         break;
       case 2: // for products isDeleted
         requestData = ProductsEndpointParameters.buildQueryParameters(
-            isActive: false,
-            store: storeId,
-            pageNumber: pageNumber,
-            pageSize: pageSize,
-            categories: categories);
+          isActive: false,
+          store: storeId,
+          pageNumber: pageNumber,
+          pageSize: pageSize,
+          // categories: categories
+        );
         break;
       default:
         throw Exception("Invalid storeProductsFilter value");
@@ -216,5 +197,59 @@ class ViewProductRemoteDataSourceImpl extends ViewProductRemoteDataSource {
     ActivateProductsEntity responseActivateProducts =
         ActivateProductsModel.fromJson(response);
     return responseActivateProducts;
+  }
+
+  @override
+  Future<List<ProductEntity>> getAllProducts(
+      int pageNumber, int pageSize, List<int>? categoryId) async {
+    try {
+      final response = await apiService.get(
+        endPoint: "Products",
+      );
+
+      // Validate response structure
+      if (response == null) {
+        throw DioException(
+          requestOptions: RequestOptions(path: "Products"),
+          message: "Empty response from server",
+          type: DioExceptionType.unknown,
+        );
+      }
+
+      // Handle backend-level errors: success = false
+      if (response is Map &&
+          response.containsKey('success') &&
+          response['success'] == false) {
+        throw DioException(
+          requestOptions: RequestOptions(path: "Products"),
+          message: response['message'] ?? "Backend returned an error",
+          type: DioExceptionType.badResponse,
+          response: Response(
+            requestOptions: RequestOptions(path: "Products"),
+            data: response,
+            statusCode: 400,
+          ),
+        );
+      }
+
+      final items = response['data']?['items'];
+      if (items == null || items is! List) {
+        throw DioException(
+          requestOptions: RequestOptions(path: "Products"),
+          message: "Invalid JSON: items missing or not a list",
+          type: DioExceptionType.badResponse,
+        );
+      }
+
+      return items.map((e) => ProductModel.fromJson(e)).toList();
+    } on DioException {
+      rethrow; // Pass Dio errors up the chain without wrapping
+    } catch (e) {
+      throw DioException(
+        requestOptions: RequestOptions(path: "Products"),
+        message: "Unexpected error: $e",
+        type: DioExceptionType.unknown,
+      );
+    }
   }
 }

@@ -12,7 +12,7 @@ import '../../../add_and_edit_product_feature/ui/screens/edit_product_screen.dar
 import '../../domain/entities/product_entity.dart';
 import '../manager/activate_products/activate_products_by_ids_cubit.dart';
 import '../manager/delete_product_by_id_from_store/delete_product_by_id_from_store_cubit.dart';
-import '../manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
+import '../manager/products_cubit/products_cubit.dart';
 import 'check_box_custom.dart';
 import 'custom_show_dialog_for_view_widget.dart';
 import 'image_card_custom.dart';
@@ -29,59 +29,57 @@ class ProductsListView extends StatefulWidget {
 }
 
 class _ProductsListViewState extends State<ProductsListView> {
-  final ScrollController _scrollController = ScrollController();
+  // final ScrollController _scrollController = ScrollController();
   final int _pageSize = 10;
 
   @override
   void initState() {
     super.initState();
     // Trigger the initial fetch
-    context.read<GetStoreProductsWithFilterCubit>().getStoreProductsWitheFilter(
-          storeProductsFilter: widget.storeProductsFilter,
-          pageNumber: 1,
-          pageSize: _pageSize,
-        );
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent - 200) {
-        final cubit = context.read<GetStoreProductsWithFilterCubit>();
-        if (cubit.state is GetStoreProductsWithFilterSuccess) {
-          final currentState = cubit.state as GetStoreProductsWithFilterSuccess;
-          if (!currentState.isLoadingMore) {
-            final nextPage = (currentState.products.length ~/ _pageSize) + 1;
-            cubit.getStoreProductsWitheFilter(
-              storeProductsFilter: widget.storeProductsFilter,
-              pageNumber: nextPage,
-              pageSize: _pageSize,
-              categoryId: cubit.currentMainCategoryId,
-            );
-          }
-        }
-      }
-    });
+    // context.read<ProductsCubit>().getProducts(
+    //       storeProductsFilter: widget.storeProductsFilter,
+    //       pageNumber: 1,
+    //       pageSize: _pageSize,
+    //     );
+    // _scrollController.addListener(() {
+    //   if (_scrollController.position.pixels >=
+    //       _scrollController.position.maxScrollExtent - 200) {
+    //     final cubit = context.read<ProductsCubit>();
+    //     if (cubit.state is ProductsLoadSuccess) {
+    //       final currentState = cubit.state as ProductsLoadSuccess;
+    //       if (!currentState.isLoadingMore) {
+    //         final nextPage = (currentState.products.length ~/ _pageSize) + 1;
+    //         cubit.getProducts(
+    //           storeProductsFilter: widget.storeProductsFilter,
+    //           pageNumber: nextPage,
+    //           pageSize: _pageSize,
+    //           categoryId: cubit.currentMainCategoryId,
+    //         );
+    //       }
+    //     }
+    //   }
+    // });
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    // _scrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GetStoreProductsWithFilterCubit,
-        GetStoreProductsWithFilterState>(
+    return BlocBuilder<ProductsCubit, ProductsState>(
       builder: (context, state) {
-        if (state is GetStoreProductsWithFilterInitial ||
-            state is GetStoreProductsWithFilterLoading) {
+        if (state is ProductsInitial || state is ProductsLoadInProgress) {
           return ShimmerForProductsWithFilter();
-        } else if (state is GetStoreProductsWithFilterSuccess) {
+        } else if (state is ProductsLoadSuccess) {
           final List<ProductEntity> products = state.products;
           return products.isEmpty
               ? NoDataWidget()
               : AnimationLimiter(
                   child: ListView.builder(
-                    controller: _scrollController,
+                    //  controller: _scrollController,
                     shrinkWrap: true,
                     physics: const BouncingScrollPhysics(
                         parent: AlwaysScrollableScrollPhysics()),
@@ -121,16 +119,14 @@ class _ProductsListViewState extends State<ProductsListView> {
                                   CheckBoxCustom(
                                     val: state.checkedStates[index],
                                     onChanged: (val) {
-                                      context
-                                          .read<
-                                              GetStoreProductsWithFilterCubit>()
-                                          .updateCheckboxState(
-                                              index, val!, product.productId!);
+                                      // context
+                                      //     .read<ProductsCubit>()
+                                      //     .updateCheckboxState(
+                                      //         index, val!, product.id!);
                                     },
                                   ),
                                   ImageCardCustom(
-                                      imageUrlNetwork:
-                                          product.productImageUrl!),
+                                      imageUrlNetwork: product.imageUrl),
                                   SizedBox(width: 10),
                                   Expanded(
                                     child: Column(
@@ -138,21 +134,21 @@ class _ProductsListViewState extends State<ProductsListView> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          product.productName ?? '',
+                                          product.name ?? '',
                                           textAlign: TextAlign.right,
                                           style:
                                               TextTheme.of(context).titleMedium,
                                         ),
                                         SizedBox(height: 4.h),
                                         Text(
-                                          'رقم المنتج: ${product.productId ?? ''}',
+                                          'رقم المنتج: ${product.number ?? ''}',
                                           textAlign: TextAlign.right,
                                           style:
                                               TextTheme.of(context).bodySmall,
                                         ),
                                         SizedBox(height: 2.h),
                                         Text(
-                                          'السعر: ${product.productPrice ?? ''} ريال',
+                                          'السعر: ${product.price ?? ''} ريال',
                                           textAlign: TextAlign.right,
                                           style:
                                               TextTheme.of(context).bodySmall,
@@ -166,7 +162,7 @@ class _ProductsListViewState extends State<ProductsListView> {
                                       context
                                           .read<ProductDetailsCubit>()
                                           .getProductDetails(
-                                              productId: product.productId!);
+                                              productId: product.id!);
                                       showGetProductDetailsDialog(
                                         contextParent: context,
                                         productDetailsCubit:
@@ -178,7 +174,7 @@ class _ProductsListViewState extends State<ProductsListView> {
                                       widget.storeProductsFilter == 2
                                           ? showActivateOneOrMoreProductsDialog(
                                               contextParent: context,
-                                              ids: [product.productId!],
+                                              ids: [product.id!],
                                               storeProductsFilter:
                                                   widget.storeProductsFilter,
                                               activateProductsCubit: context.read<
@@ -186,7 +182,7 @@ class _ProductsListViewState extends State<ProductsListView> {
                                             )
                                           : showDeleteProductDialog(
                                               contextParent: context,
-                                              productId: product.productId!,
+                                              productId: product.id!,
                                               storeProductsFilter:
                                                   widget.storeProductsFilter,
                                               deleteProductCubit: context.read<
@@ -203,7 +199,7 @@ class _ProductsListViewState extends State<ProductsListView> {
                     },
                   ),
                 );
-        } else if (state is GetStoreProductsWithFilterFailure) {
+        } else if (state is ProductsLoadFailure) {
           return ErrorWidget(state.errMessage);
         } else {
           return ErrorWidget("هناك خطأ ما...");
@@ -234,12 +230,10 @@ void showDeleteProductDialog({
               );
               Navigator.of(dialogContext, rootNavigator: true)
                   .pop(); // Close dialog
-              contextParent
-                  .read<GetStoreProductsWithFilterCubit>()
-                  .getStoreProductsWitheFilter(
+              contextParent.read<ProductsCubit>().getStoreProductsWitheFilter(
                     storeProductsFilter: storeProductsFilter,
                     categoryId: contextParent
-                        .read<GetStoreProductsWithFilterCubit>()
+                        .read<ProductsCubit>()
                         .currentMainCategoryId,
                     pageNumber: 1,
                     pageSize: 100,
@@ -288,12 +282,10 @@ void showActivateOneOrMoreProductsDialog({
               );
               Navigator.of(dialogContext, rootNavigator: true)
                   .pop(); // Close dialog
-              contextParent
-                  .read<GetStoreProductsWithFilterCubit>()
-                  .getStoreProductsWitheFilter(
+              contextParent.read<ProductsCubit>().getStoreProductsWitheFilter(
                     storeProductsFilter: storeProductsFilter,
                     categoryId: contextParent
-                        .read<GetStoreProductsWithFilterCubit>()
+                        .read<ProductsCubit>()
                         .currentMainCategoryId,
                     pageNumber: 1,
                     pageSize: 100,
@@ -346,7 +338,7 @@ void showGetProductDetailsDialog({
                     productDetails: state.productDetailsEntity,
                     onSuccess: () {
                       final cubitGetStoreProducts =
-                          contextParent.read<GetStoreProductsWithFilterCubit>();
+                          contextParent.read<ProductsCubit>();
                       cubitGetStoreProducts.getStoreProductsWitheFilter(
                         storeProductsFilter:
                             cubitGetStoreProducts.currentStoreProductsFilter ??

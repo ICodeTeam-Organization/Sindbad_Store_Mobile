@@ -15,7 +15,9 @@ import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_c
 import 'package:sindbad_management_app/features/orders_feature/data/data_sources/all_order_remot_data_source_imp.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/all_order/order%20cubit/orders_cubit.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/all_order/urgent_order_cubit.dart';
+import 'package:sindbad_management_app/features/profile_feature/data/data_source/store_data_source_impl.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/repo/exell_repository.dart';
+import 'package:sindbad_management_app/features/profile_feature/domin/entity/store_category_entity.dart';
 import 'package:sindbad_management_app/features/profile_feature/domin/usecase/download_dll_files_use_case.dart';
 import 'package:sindbad_management_app/features/profile_feature/domin/usecase/get_profile_data_usecase.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/excell_cubit/excell_cubt.dart';
@@ -30,15 +32,15 @@ import 'package:sindbad_management_app/features/offer_management_features/modify
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/data/repos/new_offer_repo_impl.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/data_source/remote/view_offer_remot_data_source.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/repos/View_offer_repo_impl.dart';
-import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/get_products_by_filter_use_case.dart';
-import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/get_products_usecase.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/manager/products_cubit/products_cubit.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/get_profile_cubit/get_profile_cubit.dart';
 import 'features/orders_feature/data/repos_impl/all_order_repo_impl.dart';
 import 'features/orders_feature/data/data_sources/all_order_remot_data_source.dart';
 import 'features/products_feature/add_and_edit_product_feature/data/data_source/add_and_edit_product_to_store_remote_data_source.dart';
-import 'features/products_feature/view_product_features/data/repos/view_product_store_repo_impl.dart';
+import 'features/products_feature/view_product_features/data/repos/product_repository_impl.dart';
 import 'features/profile_feature/data/data_source/profile_data_source.dart';
-import 'features/profile_feature/data/repo/profile_repo_impl.dart';
+import 'features/profile_feature/data/repo/profile_repository_impl.dart';
 import 'core/api_service.dart';
 
 final getit = GetIt.instance;
@@ -59,8 +61,8 @@ void initializationContainer() {
   getit.registerSingleton<AuthRemoteDataSource>(AuthRemoteDataSourceImpl());
   getit.registerSingleton<AllOrderRemotDataSource>(
       AllOrderRemotDataSourceImpl(getit(), getit()));
-  getit.registerSingleton<ViewProductRemoteDataSource>(
-      ViewProductRemoteDataSourceImpl(getit(), getit()));
+  getit.registerSingleton<ProductRemoteDataSourceImpl>(
+      ProductRemoteDataSourceImpl(getit(), getit()));
   getit.registerSingleton<AddProductToStoreRemoteDataSourceImpl>(
       AddProductToStoreRemoteDataSourceImpl(getit(), getit()));
   getit.registerSingleton<ViewOfferRemotDataSourceImpl>(
@@ -71,6 +73,7 @@ void initializationContainer() {
       NotifictionRemoteDataSourceImpl(getit()));
   getit
       .registerSingleton<ProfileDataSourceImpl>(ProfileDataSourceImpl(getit()));
+  getit.registerSingleton<StoreDataSourceImpl>(StoreDataSourceImpl(getit()));
 
   // ----------------
   //  Repositories
@@ -80,13 +83,15 @@ void initializationContainer() {
   getit.registerSingleton<ExcellRepositoryImpl>(ExcellRepositoryImpl(getit()));
 
   getit.registerSingleton<AllOrderRepoImpl>(AllOrderRepoImpl(getit()));
-  getit.registerSingleton<ViewProductRepoImpl>(ViewProductRepoImpl(getit()));
+  getit.registerSingleton<ProductRepositoryImpl>(
+      ProductRepositoryImpl(getit(), getit()));
   getit.registerSingleton<AddAndEditProductStoreRepoImpl>(
       AddAndEditProductStoreRepoImpl(getit()));
   getit.registerSingleton<ViewOfferRepoImpl>(ViewOfferRepoImpl(getit()));
   getit.registerSingleton<NewOfferRepoImpl>(NewOfferRepoImpl(getit()));
   getit.registerSingleton<NotifictionRepoImpl>(NotifictionRepoImpl(getit()));
-  getit.registerSingleton<ProfileRepoImpl>(ProfileRepoImpl(getit()));
+  getit.registerSingleton<ProfileRepositoryImple>(
+      ProfileRepositoryImple(getit()));
 
   // ----------------
   //  Use Cases
@@ -97,8 +102,7 @@ void initializationContainer() {
   getit
       .registerSingleton<ForgetPasswordUseCase>(ForgetPasswordUseCase(getit()));
   getit.registerSingleton<NewOrderUsecase>(NewOrderUsecase(getit()));
-  getit.registerSingleton<GetProductsByFilterUseCase>(
-      GetProductsByFilterUseCase(getit()));
+  getit.registerSingleton<GetProductsUseCase>(GetProductsUseCase(getit()));
   getit.registerSingleton<ResetPasswordUseCase>(ResetPasswordUseCase(getit()));
   getit
       .registerSingleton<GetProfileDataUsecase>(GetProfileDataUsecase(getit()));
@@ -113,8 +117,7 @@ void initializationContainer() {
   getit.registerFactory<OrdersCubit>(() => OrdersCubit(getit()));
   getit.registerFactory<GetProfileCubit>(() => GetProfileCubit(getit()));
   getit.registerFactory<AllOrderCubit>(() => AllOrderCubit(getit()));
-  getit.registerFactory<GetStoreProductsWithFilterCubit>(
-      () => GetStoreProductsWithFilterCubit(getit()));
+  getit.registerFactory<ProductsCubit>(() => ProductsCubit(getit()));
   getit.registerFactory<ResetPasswordCubit>(() => ResetPasswordCubit(getit()));
   getit
       .registerFactory<ForgetPasswordCubit>(() => ForgetPasswordCubit(getit()));

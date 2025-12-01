@@ -1,18 +1,34 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/data/data_source/view_product_remote_data_source.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/data/data_source/view_product_remote_datasource.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/activate_products_entity.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/delete_entity_product.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/disable_products_entity.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/main_category_for_view_entity.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/product_entity.dart';
-import '../../domain/repos/view_product_store_repo.dart';
-import '../data_source/view_product_remote_data_source.dart';
+import 'package:sindbad_management_app/features/profile_feature/data/data_source/store_data_source_impl.dart';
+import 'package:sindbad_management_app/features/profile_feature/data/model/store_category_model.dart';
+import '../../domain/repos/product_store_repository.dart';
 
-class ViewProductRepoImpl extends ViewProductRepo {
-  final ViewProductRemoteDataSource viewProductRemoteDataSource;
-
-  ViewProductRepoImpl(this.viewProductRemoteDataSource);
+class ProductRepositoryImpl extends ProductRepository {
+  final ProductRemoteDataSourceImpl productRemoteDataSource;
+  final StoreDataSourceImpl storeDataSource;
+  ProductRepositoryImpl(this.productRemoteDataSource, this.storeDataSource);
+  @override
+  Future<Either<Failure, List<StoreCategoryModel>>> getStoreCategory() async {
+    try {
+      var data = await storeDataSource.getStoreCategories();
+      return right(data);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      } else {
+        return left(ServerFailure(e.toString()));
+      }
+    }
+  }
 
   // ===================  for Main Category For View  ====================
   @override
@@ -20,7 +36,7 @@ class ViewProductRepoImpl extends ViewProductRepo {
       getMainCategoryForView(
           {required int pageNumber, required int pageSize}) async {
     try {
-      var data = await viewProductRemoteDataSource.getMainCategoryForView(
+      var data = await productRemoteDataSource.getMainCategoryForView(
         pageNumber: pageNumber,
         pageSize: pageSize,
       );
@@ -42,11 +58,11 @@ class ViewProductRepoImpl extends ViewProductRepo {
     required int? categoryId,
   }) async {
     try {
-      var data = await viewProductRemoteDataSource.getProductsByFilter(
+      var data = await productRemoteDataSource.getProductsByFilter(
         storeProductsFilter: storeProductsFilter,
         pageNumber: pageNumber,
         pageSize: pageSize,
-        categoryId: categoryId,
+        categoryId: [],
       );
       return right(data);
     } catch (e) {
@@ -59,10 +75,28 @@ class ViewProductRepoImpl extends ViewProductRepo {
   }
 
   @override
+  Future<Either<Failure, List<ProductEntity>>> getAllProducts(
+      int pageNumber, int pageSize, int? categoryId) async {
+    try {
+      final products = await productRemoteDataSource.getAllProducts(
+        pageNumber,
+        pageSize,
+        categoryId != null ? [categoryId] : null,
+      );
+
+      return right(products);
+    } on DioException catch (dioError) {
+      return left(ServerFailure.fromDioError(dioError));
+    } catch (e) {
+      return left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
   Future<Either<Failure, DeleteProductEntity>> deleteProductById(
       {required int productId}) async {
     try {
-      var data = await viewProductRemoteDataSource.deleteProductById(
+      var data = await productRemoteDataSource.deleteProductById(
         productId: productId,
       );
       return right(data);
@@ -81,7 +115,7 @@ class ViewProductRepoImpl extends ViewProductRepo {
       {required List<int> ids}) async {
     try {
       var response =
-          await viewProductRemoteDataSource.disableProductsByIds(ids: ids);
+          await productRemoteDataSource.disableProductsByIds(ids: ids);
       return right(response);
     } catch (e) {
       if (e is DioException) {
@@ -98,7 +132,7 @@ class ViewProductRepoImpl extends ViewProductRepo {
       {required List<int> ids}) async {
     try {
       var response =
-          await viewProductRemoteDataSource.activateProductsByIds(ids: ids);
+          await productRemoteDataSource.activateProductsByIds(ids: ids);
       return right(response);
     } catch (e) {
       if (e is DioException) {

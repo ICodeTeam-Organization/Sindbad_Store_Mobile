@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/activate_products_by_ids_use_case.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/disable_products_by_ids_use_case.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/screens/all_products_tap.dart';
 import '../../../../../injection_container.dart';
 import '../../../../../core/swidgets/new_widgets/custom_app_bar.dart';
 import '../../../../../core/swidgets/new_widgets/custom_tab_bar_widget.dart';
@@ -10,15 +11,15 @@ import '../../../../../config/styles/Colors.dart';
 import '../../../add_and_edit_product_feature/data/repos/add_and_edit_product_store_repo_impl.dart';
 import '../../../add_and_edit_product_feature/domain/use_cases/get_product_details_to_store_use_case.dart';
 import '../../../add_and_edit_product_feature/ui/manger/cubit/ProductDetails/product_details_cubit.dart';
-import '../../data/repos/view_product_store_repo_impl.dart';
+import '../../data/repos/product_repository_impl.dart';
 import '../../domain/use_cases/delete_product_by_id_use_case.dart';
-import '../../domain/use_cases/get_main_category_for_view_use_case.dart';
-import '../../domain/use_cases/get_products_by_filter_use_case.dart';
+import '../../domain/use_cases/get_main_category_use_case.dart';
+import '../../domain/use_cases/get_products_usecase.dart';
 import '../manager/activate_products/activate_products_by_ids_cubit.dart';
 import '../manager/delete_product_by_id_from_store/delete_product_by_id_from_store_cubit.dart';
 import '../manager/disable_products/disable_products_by_ids_cubit.dart';
-import '../manager/get_main_category_for_view/get_main_category_for_view_cubit.dart';
-import '../manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
+import '../manager/get_category_cubit/get_category_cubit.dart';
+import '../manager/products_cubit/products_cubit.dart';
 import '../widgets/category_filter_bar.dart';
 import '../widgets/custom_show_dialog_for_view_widget.dart';
 import '../widgets/products_list_view_widget.dart';
@@ -34,35 +35,34 @@ class ViewProductScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => GetStoreProductsWithFilterCubit(
-            GetProductsByFilterUseCase(
-              getit.get<ViewProductRepoImpl>(),
+          create: (context) => ProductsCubit(
+            GetProductsUseCase(
+              getit.get<ProductRepositoryImpl>(),
             ),
           ),
         ),
         BlocProvider(
-          create: (context) =>
-              GetMainCategoryForViewCubit(GetMainCategoryForViewUseCase(
-            getit.get<ViewProductRepoImpl>(),
+          create: (context) => GetCategory(GetMainCategoryUseCase(
+            getit.get<ProductRepositoryImpl>(),
           )),
         ),
         BlocProvider(
           create: (context) =>
               DisableProductsByIdsCubit(DisableProductsByIdsUseCase(
-            getit.get<ViewProductRepoImpl>(),
+            getit.get<ProductRepositoryImpl>(),
           )),
         ),
         BlocProvider(
           create: (context) => DeleteProductByIdFromStoreCubit(
             DeleteProductByIdUseCase(
-              getit.get<ViewProductRepoImpl>(),
+              getit.get<ProductRepositoryImpl>(),
             ),
           ),
         ),
         BlocProvider(
             create: (context) =>
                 ActivateProductsByIdsCubit(ActivateProductsByIdsUseCase(
-                  getit.get<ViewProductRepoImpl>(),
+                  getit.get<ProductRepositoryImpl>(),
                 ))),
         BlocProvider(
             create: (context) =>
@@ -87,9 +87,9 @@ class _ViewProductBodyState extends State<_ViewProductBody> {
   void initState() {
     super.initState();
     // Initialize the main category cubit - now the BLoCs are available
-    context
-        .read<GetMainCategoryForViewCubit>()
-        .getMainCategoryForView(pageNumber: 1, pageSize: 10);
+    // context
+    //     .read<GetMainCategoryForViewCubit>()
+    //     .getMainCategoryForView(pageNumber: 1, pageSize: 10);
   }
 
   @override
@@ -120,7 +120,7 @@ class _ViewProductBodyState extends State<_ViewProductBody> {
                         style: TextTheme.of(context).titleMedium)),
               ],
               tabViews: [
-                buildAllProductsTap(context, 0),
+                AllProductsTap(),
                 buildOfferProductsTap(context, 1),
                 buildStoppedProductsTap(context, 2),
               ],
@@ -136,67 +136,57 @@ class _ViewProductBodyState extends State<_ViewProductBody> {
     );
   }
 
-  /// Builds the view for all products tab
-  Widget buildAllProductsTap(BuildContext context, int tabIndex) {
-    return Column(
-      children: [
-        CategoryFilterBar(
-          storeProductsFilter: tabIndex,
-        ),
-        BlocBuilder<GetStoreProductsWithFilterCubit,
-            GetStoreProductsWithFilterState>(
-          builder: (context, state) {
-            return TwoButtonInRow(
-              anyProductsSelected: context
-                  .read<GetStoreProductsWithFilterCubit>()
-                  .updatedProductsSelected
-                  .isEmpty,
-              onTapLeft: () {
-                showDisableOneOrMoreProductsDialog(
-                  parentContext: context,
-                  storeProductsFilter: tabIndex,
-                  ids: context
-                      .read<GetStoreProductsWithFilterCubit>()
-                      .updatedProductsSelected,
-                  cubitDisableProducts:
-                      context.read<DisableProductsByIdsCubit>(),
-                );
-              },
-            );
-          },
-        ),
-        SizedBox(height: 15.h),
-        Expanded(
-          child: ProductsListView(
-            storeProductsFilter: tabIndex,
-          ),
-        ),
-      ],
-    );
-  }
+  // /// Builds the view for all products t"Yab
+  // Widget buildAllProductsTap(BuildContext context, int tabIndex) {
+  //   return Column(
+  //     children: [
+  //       CategoryFilterBarTemp(
+  //         storeProductsFilter: tabIndex,
+  //       ),
+  //       BlocBuilder<ProductsCubit, ProductsState>(
+  //         builder: (context, state) {
+  //           return TwoButtonInRow(
+  //             anyProductsSelected:
+  //                 context.read<ProductsCubit>().updatedProductsSelected.isEmpty,
+  //             onTapLeft: () {
+  //               showDisableOneOrMoreProductsDialog(
+  //                 parentContext: context,
+  //                 storeProductsFilter: tabIndex,
+  //                 ids: context.read<ProductsCubit>().updatedProductsSelected,
+  //                 cubitDisableProducts:
+  //                     context.read<DisableProductsByIdsCubit>(),
+  //               );
+  //             },
+  //           );
+  //         },
+  //       ),
+  //       SizedBox(height: 15.h),
+  //       Expanded(
+  //         child: ProductsListView(
+  //           storeProductsFilter: tabIndex,
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
-  /// Builds the view for products with offers tab
+  // /// Builds the view for products with offers tab
   Widget buildOfferProductsTap(BuildContext context, int tabIndex) {
     return Column(
       children: [
-        CategoryFilterBar(
-          storeProductsFilter: tabIndex,
-        ),
-        BlocBuilder<GetStoreProductsWithFilterCubit,
-            GetStoreProductsWithFilterState>(
+        // CategoryFilterBarTemp(
+        //   storeProductsFilter: tabIndex,
+        // ),
+        BlocBuilder<ProductsCubit, ProductsState>(
           builder: (context, state) {
             return TwoButtonInRow(
-              anyProductsSelected: context
-                  .read<GetStoreProductsWithFilterCubit>()
-                  .updatedProductsSelected
-                  .isEmpty,
+              anyProductsSelected:
+                  context.read<ProductsCubit>().updatedProductsSelected.isEmpty,
               onTapLeft: () {
                 showDisableOneOrMoreProductsDialog(
                   parentContext: context,
                   storeProductsFilter: tabIndex,
-                  ids: context
-                      .read<GetStoreProductsWithFilterCubit>()
-                      .updatedProductsSelected,
+                  ids: context.read<ProductsCubit>().updatedProductsSelected,
                   cubitDisableProducts:
                       context.read<DisableProductsByIdsCubit>(),
                 );
@@ -218,21 +208,16 @@ class _ViewProductBodyState extends State<_ViewProductBody> {
   Widget buildStoppedProductsTap(BuildContext context, int tabIndex) {
     return Column(
       children: [
-        BlocBuilder<GetStoreProductsWithFilterCubit,
-            GetStoreProductsWithFilterState>(
+        BlocBuilder<ProductsCubit, ProductsState>(
           builder: (context, state) {
             return TwoButtonInRow(
               titleLeft: "إعادة تنشيط",
-              anyProductsSelected: context
-                  .read<GetStoreProductsWithFilterCubit>()
-                  .updatedProductsSelected
-                  .isEmpty,
+              anyProductsSelected:
+                  context.read<ProductsCubit>().updatedProductsSelected.isEmpty,
               onTapLeft: () {
                 showActivateOneOrMoreProductsDialog(
                   contextParent: context,
-                  ids: context
-                      .read<GetStoreProductsWithFilterCubit>()
-                      .updatedProductsSelected,
+                  ids: context.read<ProductsCubit>().updatedProductsSelected,
                   storeProductsFilter: tabIndex,
                   activateProductsCubit:
                       context.read<ActivateProductsByIdsCubit>(),
@@ -271,12 +256,10 @@ void showDisableOneOrMoreProductsDialog({
                 SnackBar(content: Text('تم إيقاف المنتجات بنجاح!')),
               );
               Navigator.of(dialogContext, rootNavigator: true).pop();
-              parentContext
-                  .read<GetStoreProductsWithFilterCubit>()
-                  .getStoreProductsWitheFilter(
+              parentContext.read<ProductsCubit>().getStoreProductsWitheFilter(
                     storeProductsFilter: storeProductsFilter,
                     categoryId: parentContext
-                        .read<GetStoreProductsWithFilterCubit>()
+                        .read<ProductsCubit>()
                         .currentMainCategoryId,
                     pageNumber: 1,
                     pageSize: 100,
@@ -323,12 +306,10 @@ void showActivateOneOrMoreProductsDialog({
                 SnackBar(content: Text('تم إعادة تنشيط المنتج بنجاح!')),
               );
               Navigator.of(dialogContext, rootNavigator: true).pop();
-              contextParent
-                  .read<GetStoreProductsWithFilterCubit>()
-                  .getStoreProductsWitheFilter(
+              contextParent.read<ProductsCubit>().getStoreProductsWitheFilter(
                     storeProductsFilter: storeProductsFilter,
                     categoryId: contextParent
-                        .read<GetStoreProductsWithFilterCubit>()
+                        .read<ProductsCubit>()
                         .currentMainCategoryId,
                     pageNumber: 1,
                     pageSize: 100,

@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
 import '../../../../../core/swidgets/new_widgets/store_primary_button.dart';
 import '../../../../../config/styles/Colors.dart';
-import '../manager/get_store_products_with_filter/get_store_products_with_filter_cubit.dart';
+import '../manager/products_cubit/products_cubit.dart';
 
 class TwoButtonInRow extends StatelessWidget {
   const TwoButtonInRow({
@@ -38,16 +38,13 @@ class TwoButtonInRow extends StatelessWidget {
             width: 126.w,
             onTap: () {
               // for refresh the store products after add new product
-              context
-                  .read<GetStoreProductsWithFilterCubit>()
-                  .getStoreProductsWitheFilter(
+              context.read<ProductsCubit>().getStoreProductsWitheFilter(
                     storeProductsFilter: context
-                            .read<GetStoreProductsWithFilterCubit>()
+                            .read<ProductsCubit>()
                             .currentStoreProductsFilter ??
                         0,
-                    categoryId: context
-                        .read<GetStoreProductsWithFilterCubit>()
-                        .currentMainCategoryId,
+                    categoryId:
+                        context.read<ProductsCubit>().currentMainCategoryId,
                     pageNumber: 1,
                     pageSize: 100,
                   );

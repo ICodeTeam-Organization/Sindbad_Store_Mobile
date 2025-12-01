@@ -2,11 +2,11 @@ import 'package:dartz/dartz.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/delete_entity_product.dart';
 import '../../../../../core/use_cases/param_use_case.dart';
-import '../repos/view_product_store_repo.dart';
+import '../repos/product_store_repository.dart';
 
 class DeleteProductByIdUseCase
     extends UseCaseWithParam<DeleteProductEntity, DeleteProductByIdPara> {
-  final ViewProductRepo viewProductRepo;
+  final ProductRepository viewProductRepo;
 
   DeleteProductByIdUseCase(this.viewProductRepo);
   @override
