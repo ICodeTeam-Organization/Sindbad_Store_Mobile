@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/section_title_widget.dart';
+import 'package:sindbad_management_app/features/offers_feature/modify_offer_feature/ui/widgets/section_title_widget.dart';
 import '../manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
 import 'custom_text_form_widget.dart';
 

@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/data/repos/product_repository_impl.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/get_main_category_paramers.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/model/store_category_model.dart';
 import '../../../../../core/errors/failure.dart';
@@ -7,7 +8,7 @@ import '../repos/product_store_repository.dart';
 
 class GetMainCategoryUseCase
     extends UseCaseWithParam<List<StoreCategoryModel>, MainCategoryParams> {
-  final ProductRepository productRepository;
+  final ProductRepositoryImpl productRepository;
   // final ProductRepository productRepository;
 
   GetMainCategoryUseCase(this.productRepository);

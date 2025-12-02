@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/card_message_widget.dart';
+import 'package:sindbad_management_app/features/offers_feature/view_offer_feature/ui/widgets/card_message_widget.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/entities/entities_states.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/all_order/all_order_cubit.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/all_order/all_order_state.dart';

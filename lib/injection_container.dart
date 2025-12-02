@@ -1,6 +1,13 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:sindbad_management_app/features/offers_feature/view_offer_feature/data/repos/view_offer_repo_impl.dart';
+import 'package:sindbad_management_app/features/offers_feature/view_offer_feature/ui/manager/offer_cubit/offer_cubit.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/get_main_category_use_case.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/manager/get_category_cubit/get_category_cubit.dart';
+import 'package:sindbad_management_app/features/offers_feature/view_offer_feature/domain/usecases/get_offer_use_case.dart';
+import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/use_cases/get_main_and_sub_category_use_case.dart';
+import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/data_source/excell_api_services.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/data_source/auth_remote_data_source.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/data_source/auth_remote_data_soure_imp.dart';
@@ -14,10 +21,8 @@ import 'package:sindbad_management_app/features/auth_feature/ui/manger/forget_pa
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit.dart';
 import 'package:sindbad_management_app/features/orders_feature/data/data_sources/all_order_remot_data_source_imp.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/all_order/order%20cubit/orders_cubit.dart';
-import 'package:sindbad_management_app/features/orders_feature/ui/manager/all_order/urgent_order_cubit.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/data_source/store_data_source_impl.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/repo/exell_repository.dart';
-import 'package:sindbad_management_app/features/profile_feature/domin/entity/store_category_entity.dart';
 import 'package:sindbad_management_app/features/profile_feature/domin/usecase/download_dll_files_use_case.dart';
 import 'package:sindbad_management_app/features/profile_feature/domin/usecase/get_profile_data_usecase.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/excell_cubit/excell_cubt.dart';
@@ -28,10 +33,9 @@ import 'package:sindbad_management_app/features/orders_feature/domain/usecases/a
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/all_order/all_order_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/data/repos/add_and_edit_product_store_repo_impl.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/data/data_source/view_product_remote_data_source.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/data/data_source/remote/new_offer_remot_data_source.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/data/repos/new_offer_repo_impl.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/data_source/remote/view_offer_remot_data_source.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/repos/View_offer_repo_impl.dart';
+import 'package:sindbad_management_app/features/offers_feature/modify_offer_feature/data/data_source/remote/new_offer_remot_data_source.dart';
+import 'package:sindbad_management_app/features/offers_feature/modify_offer_feature/data/repos/new_offer_repo_impl.dart';
+import 'package:sindbad_management_app/features/offers_feature/view_offer_feature/data/data_source/remote/view_offer_remot_data_source.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/get_products_usecase.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/manager/products_cubit/products_cubit.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/get_profile_cubit/get_profile_cubit.dart';
@@ -99,6 +103,9 @@ void initializationContainer() {
   getit.registerSingleton<SignInUseCase>(SignInUseCase(getit()));
   getit.registerSingleton<DownloadAllFilesUseCase>(
       DownloadAllFilesUseCase(getit()));
+  getit.registerSingleton<GetOfferUseCase>(GetOfferUseCase(getit()));
+  getit.registerSingleton<GetMainAndSubCategoryUseCase>(
+      GetMainAndSubCategoryUseCase(getit()));
   getit
       .registerSingleton<ForgetPasswordUseCase>(ForgetPasswordUseCase(getit()));
   getit.registerSingleton<NewOrderUsecase>(NewOrderUsecase(getit()));
@@ -108,7 +115,8 @@ void initializationContainer() {
       .registerSingleton<GetProfileDataUsecase>(GetProfileDataUsecase(getit()));
   getit.registerSingleton<ConfirmPasswordUseCase>(
       ConfirmPasswordUseCase(getit()));
-
+  getit.registerSingleton<GetMainCategoryUseCase>(
+      GetMainCategoryUseCase(getit()));
   // ----------------
   //  Cubits
   // ----------------
@@ -123,5 +131,9 @@ void initializationContainer() {
       .registerFactory<ForgetPasswordCubit>(() => ForgetPasswordCubit(getit()));
   getit.registerFactory<ConfirmPasswordCubit>(
       () => ConfirmPasswordCubit(getit()));
+  getit.registerFactory<GetCategory>(() => GetCategory(getit()));
+  getit.registerFactory<OfferCubit>(() => OfferCubit(getit()));
+  getit.registerFactory<GetCategoryNamesCubit>(
+      () => GetCategoryNamesCubit(getit()));
   // getit.registerFactory<UrgentOrderCubit>(() => UrgentOrderCubit(getit()));
 }

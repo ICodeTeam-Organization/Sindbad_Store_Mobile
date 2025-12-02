@@ -10,6 +10,8 @@ class ProductsCubit extends Cubit<ProductsState> {
   ProductsCubit(this.getProductsUseCase) : super(ProductsInitial());
   final GetProductsUseCase getProductsUseCase;
 
+  List<ProductEntity> allProducts = [];
+
   List<int> updatedProductsSelected = [];
 
   // used for refreshing the list
@@ -32,7 +34,6 @@ class ProductsCubit extends Cubit<ProductsState> {
         currentState.products,
         updatedCheckedStates,
         updatedProductsSelected,
-        isLoadingMore: false,
       ));
     }
   }
@@ -44,17 +45,9 @@ class ProductsCubit extends Cubit<ProductsState> {
     int? categoryId,
   }) async {
     if (pageNumber == 1) {
-      emit(ProductsLoadInProgress());
-    } else if (state is ProductsLoadSuccess) {
-      // show loading indicator while paginating
-      final current = state as ProductsLoadSuccess;
-      emit(ProductsLoadSuccess(
-        current.products,
-        current.checkedStates,
-        current.productsSelected,
-        isLoadingMore: true,
-      ));
+      allProducts.clear();
     }
+    emit(ProductsLoadInProgress());
     currentStoreProductsFilter = storeProductsFilter;
     currentMainCategoryId = categoryId;
 
@@ -65,34 +58,25 @@ class ProductsCubit extends Cubit<ProductsState> {
       (failure) {
         if (pageNumber == 1) {
           emit(ProductsLoadFailure(failure.message));
-        } else if (state is ProductsLoadSuccess) {
-          final current = state as ProductsLoadSuccess;
+        } else {
           emit(ProductsLoadSuccess(
-            current.products,
-            current.checkedStates,
-            current.productsSelected,
-            isLoadingMore: false,
+            allProducts,
+            List<bool>.filled(allProducts.length, false),
+            [],
           ));
         }
       },
       (fetchedProducts) {
         if (pageNumber == 1) {
-          final List<bool> checkedStates =
-              List<bool>.filled(fetchedProducts.length, false);
-          emit(ProductsLoadSuccess(fetchedProducts, checkedStates, []));
-        } else if (state is ProductsLoadSuccess) {
-          final current = state as ProductsLoadSuccess;
-          final List<ProductEntity> allProducts = List.from(current.products)
-            ..addAll(fetchedProducts);
-          final List<bool> newCheckedStates = List.from(current.checkedStates)
-            ..addAll(List<bool>.filled(fetchedProducts.length, false));
-          emit(ProductsLoadSuccess(
-            allProducts,
-            newCheckedStates,
-            current.productsSelected,
-            isLoadingMore: false,
-          ));
+          allProducts = fetchedProducts;
+        } else {
+          allProducts.addAll(fetchedProducts);
         }
+        emit(ProductsLoadSuccess(
+          allProducts,
+          List<bool>.filled(allProducts.length, false),
+          [],
+        ));
       },
     );
   }
@@ -103,35 +87,35 @@ class ProductsCubit extends Cubit<ProductsState> {
     int? categoryId,
   ) async {
     emit(ProductsLoadInProgress());
+
+    if (pageNumber == 1) {
+      allProducts.clear();
+    }
+
     var params = ProductsParams(pageNumber, pageSize, 0);
     var result = await getProductsUseCase.execute(params);
 
-    // final List<ProductEntity> dummyProducts = List.generate(
-    //   10,
-    //   (index) => ProductEntity(
-    //     productId: index + 1,
-    //     productName: 'Product ${index + 1}',
-    //     productNumber: 'P-${1000 + index}',
-    //     productPrice: 100 + (index * 10),
-    //     productImageUrl: 'https://via.placeholder.com/150',
-    //   ),
-    // );
-
-    // final List<bool> checkedStates =
-    //     List<bool>.filled(dummyProducts.length, false);
     result.fold((failure) {
-      // if (pageNumber == 1) {
-      //   emit(ProductsLoadFailure(failure.message));
-      // } else if (state is ProductsLoadSuccess) {
-      //   final current = state as ProductsLoadSuccess;
-      emit(ProductsLoadFailure(failure.message));
-      //  }
+      if (pageNumber == 1) {
+        emit(ProductsLoadFailure(failure.message));
+      } else {
+        emit(ProductsLoadSuccess(
+          allProducts,
+          List<bool>.filled(allProducts.length, false),
+          [],
+        ));
+      }
     }, (fetchedProducts) {
+      if (pageNumber == 1) {
+        allProducts = fetchedProducts;
+      } else {
+        allProducts.addAll(fetchedProducts);
+      }
+
       emit(ProductsLoadSuccess(
-        fetchedProducts,
-        List<bool>.filled(fetchedProducts.length, false),
+        allProducts,
+        List<bool>.filled(allProducts.length, false),
         [],
-        isLoadingMore: false,
       ));
     });
   }

@@ -83,7 +83,7 @@ class _ProductsListViewState extends State<ProductsListView> {
                     shrinkWrap: true,
                     physics: const BouncingScrollPhysics(
                         parent: AlwaysScrollableScrollPhysics()),
-                    itemCount: products.length + (state.isLoadingMore ? 1 : 0),
+                    itemCount: products.length,
                     itemBuilder: (context, index) {
                       if (index == products.length) {
                         return Center(

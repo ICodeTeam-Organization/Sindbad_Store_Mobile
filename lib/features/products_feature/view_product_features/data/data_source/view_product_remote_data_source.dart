@@ -204,7 +204,7 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
       int pageNumber, int pageSize, List<int>? categoryId) async {
     try {
       final response = await apiService.get(
-        endPoint: "Products",
+        endPoint: "Products?pageNumber=$pageNumber&pageSize=$pageSize",
       );
 
       // Validate response structure

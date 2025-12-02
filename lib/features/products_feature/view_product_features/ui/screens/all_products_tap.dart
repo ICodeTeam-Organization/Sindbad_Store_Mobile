@@ -5,20 +5,15 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:sindbad_management_app/core/swidgets/new_widgets/store_primary_button.dart';
 import 'package:sindbad_management_app/core/swidgets/no_data_widget.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/product_entity.dart';
-import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/screens/view_product_screen.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/widgets/general_filter_bar.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/widgets/product_card_widget.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/widgets/shimmer_for_products_with_filter.dart';
-import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/widgets/two_button_in_row_costum.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/model/store_category_model.dart';
-import '../manager/disable_products/disable_products_by_ids_cubit.dart';
 import '../manager/get_category_cubit/get_category_cubit.dart';
 import '../manager/products_cubit/products_cubit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
-import '../../../../../core/swidgets/new_widgets/store_primary_button.dart';
 import '../../../../../config/styles/Colors.dart';
-import '../manager/products_cubit/products_cubit.dart';
 
 class AllProductsTap extends StatefulWidget {
   const AllProductsTap({
@@ -30,13 +25,36 @@ class AllProductsTap extends StatefulWidget {
 }
 
 class _AllProductsTapState extends State<AllProductsTap> {
+  final ScrollController _scrollController = ScrollController();
+  int _pageNumber = 1;
+
   @override
   void initState() {
     super.initState();
-    // context
-    //     .read<GetMainCategoryForViewCubit>()
-    //     .getMainCategory(pageNumber: 1, pageSize: 10);
-    context.read<ProductsCubit>().getProducts(1, 10, null);
+    _scrollController.addListener(_onScroll);
+    context.read<ProductsCubit>().getProducts(_pageNumber, 10, null);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    // Debug print to check scroll values
+    // print('Pixels: ${_scrollController.position.pixels}, Max: ${_scrollController.position.maxScrollExtent}');
+
+    // Check if we are near the bottom (within 50 pixels)
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 50) {
+      final state = context.read<ProductsCubit>().state;
+      if (state is ProductsLoadSuccess) {
+        _pageNumber++;
+        print('Fetching page $_pageNumber');
+        context.read<ProductsCubit>().getProducts(_pageNumber, 10, null);
+      }
+    }
   }
 
   @override
@@ -91,43 +109,30 @@ class _AllProductsTapState extends State<AllProductsTap> {
             ],
           ),
         ),
-        // BlocBuilder<ProductsCubit, ProductsState>(
-        //   builder: (context, state) {
-        //     return TwoButtonInRow(
-        //       anyProductsSelected:
-        //           context.read<ProductsCubit>().updatedProductsSelected.isEmpty,
-        //       onTapLeft: () {
-        //         // showDisableOneOrMoreProductsDialog(
-        //         //   parentContext: context,
-        //         //   storeProductsFilter: 0,
-        //         //   ids: context.read<ProductsCubit>().updatedProductsSelected,
-        //         //   cubitDisableProducts:
-        //         //       context.read<DisableProductsByIdsCubit>(),
-        //         // );
-        //       },
-        //     );
-        //   },
-        // ),
+
         SizedBox(height: 15.h),
         Expanded(
           child: BlocBuilder<ProductsCubit, ProductsState>(
               builder: (context, state) {
-            if (state is ProductsInitial || state is ProductsLoadInProgress) {
+            final allProducts = context.read<ProductsCubit>().allProducts;
+
+            if (state is ProductsInitial ||
+                (state is ProductsLoadInProgress && allProducts.isEmpty)) {
               return ShimmerForProductsWithFilter();
-            } else if (state is ProductsLoadSuccess) {
-              final List<ProductEntity> products = state.products;
-              return products.isEmpty
+            } else if (state is ProductsLoadSuccess ||
+                (state is ProductsLoadInProgress && allProducts.isNotEmpty)) {
+              return allProducts.isEmpty
                   ? NoDataWidget()
                   : AnimationLimiter(
                       child: ListView.builder(
-                        //controller: _scrollController,
+                        controller: _scrollController,
                         shrinkWrap: true,
                         physics: const BouncingScrollPhysics(
                             parent: AlwaysScrollableScrollPhysics()),
-                        itemCount:
-                            products.length + (state.isLoadingMore ? 1 : 0),
+                        itemCount: allProducts.length +
+                            (state is ProductsLoadInProgress ? 1 : 0),
                         itemBuilder: (context, index) {
-                          if (index == products.length) {
+                          if (index == allProducts.length) {
                             return Center(
                               child: Padding(
                                 padding: EdgeInsets.all(8.0),
@@ -135,11 +140,11 @@ class _AllProductsTapState extends State<AllProductsTap> {
                               ),
                             );
                           }
-                          ProductEntity product = products[index];
+                          ProductEntity product = allProducts[index];
                           bool isEven = index % 2 == 0;
 
                           return ProductCardWidget(
-                              products: products,
+                              products: allProducts,
                               isEven: isEven,
                               product: product);
                         },
