@@ -42,9 +42,6 @@ class _AllProductsTapState extends State<AllProductsTap> {
   }
 
   void _onScroll() {
-    // Debug print to check scroll values
-    // print('Pixels: ${_scrollController.position.pixels}, Max: ${_scrollController.position.maxScrollExtent}');
-
     // Check if we are near the bottom (within 50 pixels)
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent - 50) {

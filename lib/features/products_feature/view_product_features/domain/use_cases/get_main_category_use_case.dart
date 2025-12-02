@@ -15,6 +15,9 @@ class GetMainCategoryUseCase
   @override
   Future<Either<Failure, List<StoreCategoryModel>>> execute(
       MainCategoryParams params) async {
-    return productRepository.getStoreCategory();
+    return productRepository.getCategories(
+      params.pageNumber,
+      params.pageSize,
+    );
   }
 }

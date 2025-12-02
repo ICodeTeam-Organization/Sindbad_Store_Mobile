@@ -11,6 +11,7 @@ import 'package:sindbad_management_app/features/products_feature/view_product_fe
 import 'package:sindbad_management_app/features/profile_feature/data/data_source/store_data_source_impl.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/model/store_category_model.dart';
 import '../../domain/repos/product_store_repository.dart';
+import 'package:hive/hive.dart';
 
 class ProductRepositoryImpl extends ProductRepository {
   final ProductRemoteDataSourceImpl productRemoteDataSource;
@@ -28,6 +29,42 @@ class ProductRepositoryImpl extends ProductRepository {
         return left(ServerFailure(e.toString()));
       }
     }
+  }
+
+  // New method: getCategories with pagination and local cache
+  @override
+  Future<Either<Failure, List<StoreCategoryModel>>> getCategories(
+    int pageNumber,
+    int pageSize,
+  ) async {
+    const String boxName = 'categoryBox';
+    final box = await Hive.openBox<List<dynamic>>(boxName);
+    final String cacheKey = 'page_${pageNumber}_size_$pageSize';
+
+    // Try local cache first
+    if (box.containsKey(cacheKey)) {
+      final cached = box.get(cacheKey) as List<dynamic>;
+      return right(cached.cast<StoreCategoryModel>());
+    }
+
+    // Fallback to remote source (fetch all categories)
+    final remoteResult = await getStoreCategory();
+    return remoteResult.fold(
+      (failure) => left(failure),
+      (allCategories) {
+        final start = (pageNumber - 1) * pageSize;
+        if (start >= allCategories.length) {
+          box.put(cacheKey, []);
+          return right(<StoreCategoryModel>[]);
+        }
+        final end = (start + pageSize) > allCategories.length
+            ? allCategories.length
+            : start + pageSize;
+        final pageData = allCategories.sublist(start, end);
+        box.put(cacheKey, pageData);
+        return right(pageData);
+      },
+    );
   }
 
   // ===================  for Main Category For View  ====================
