@@ -33,10 +33,7 @@ class ProductsTabContent extends StatelessWidget {
             builder: (context, state) {
               return TwoButtonInRow(
                 titleLeft: leftButtonTitle,
-                anyProductsSelected: context
-                    .read<ProductsCubit>()
-                    .updatedProductsSelected
-                    .isEmpty,
+                anyProductsSelected: true,
                 onTapLeft: onTapLeft,
               );
             },

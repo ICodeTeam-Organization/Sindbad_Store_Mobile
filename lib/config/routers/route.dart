@@ -8,9 +8,9 @@ import 'package:sindbad_management_app/features/auth_feature/ui/screens/reset_pa
 import 'package:sindbad_management_app/features/orders_feature/ui/screen/temp_widget/order_details.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/screen/excell_page.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/ui/screen/notificion_screen.dart';
-import 'package:sindbad_management_app/features/offers_feature/modify_offer_feature/ui/screens/new_offer_screen.dart';
-import 'package:sindbad_management_app/features/offers_feature/modify_offer_feature/ui/screens/update_offer_screen.dart';
-import 'package:sindbad_management_app/features/offers_feature/view_offer_feature/ui/screens/view_offer_details_screen.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/new_offer_screen.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/update_offer_screen.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/screens/view_offer_details_screen.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/screens/add_product_screen.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/screen/change_passsowrd_screen.dart';
 import 'package:sindbad_management_app/core/swidgets/splahs_screen.dart';
@@ -18,7 +18,7 @@ import 'package:sindbad_management_app/features/profile_feature/ui/screen/profil
 import '../../features/products_feature/add_and_edit_product_feature/ui/screens/edit_product_screen.dart';
 import '../../features/root.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sindbad_management_app/features/offers_feature/view_offer_feature/ui/manager/offer_cubit/offer_cubit.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_cubit/offer_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
 import 'package:sindbad_management_app/injection_container.dart';
 

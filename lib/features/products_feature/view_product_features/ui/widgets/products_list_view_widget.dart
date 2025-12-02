@@ -74,6 +74,126 @@ class _ProductsListViewState extends State<ProductsListView> {
         if (state is ProductsInitial || state is ProductsLoadInProgress) {
           return ShimmerForProductsWithFilter();
         } else if (state is ProductsLoadSuccess) {
+          if (state.selectedProducts.isNotEmpty) {
+            final List<ProductEntity> selectedProducts = state.selectedProducts;
+
+            return AnimationLimiter(
+              child: ListView.builder(
+                //  controller: _scrollController,
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
+                itemCount: selectedProducts.length,
+                itemBuilder: (context, index) {
+                  if (index == selectedProducts.length) {
+                    return Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+                  ProductEntity product = selectedProducts[index];
+                  bool isEven = index % 2 == 0;
+
+                  return AnimationConfiguration.staggeredList(
+                    position: index,
+                    duration: const Duration(milliseconds: 375),
+                    child: SlideAnimation(
+                      verticalOffset: 50.0,
+                      child: FadeInAnimation(
+                        child: Container(
+                          margin: index + 1 == selectedProducts.length
+                              ? EdgeInsets.only(bottom: 100.h)
+                              : null,
+                          padding: EdgeInsets.only(
+                              top: 26.h, bottom: 26.h, left: 10.w),
+                          decoration: BoxDecoration(
+                            color: isEven ? AppColors.background : Colors.white,
+                            borderRadius: BorderRadius.circular(4.r),
+                          ),
+                          child: Row(
+                            children: [
+                              CheckBoxCustom(
+                                val: true,
+                                onChanged: (val) {
+                                  // context
+                                  //     .read<ProductsCubit>()
+                                  //     .updateCheckboxState(
+                                  //         index, val!, product.id!);
+                                },
+                              ),
+                              ImageCardCustom(
+                                  imageUrlNetwork: product.imageUrl),
+                              SizedBox(width: 10),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      product.name ?? '',
+                                      textAlign: TextAlign.right,
+                                      style: TextTheme.of(context).titleMedium,
+                                    ),
+                                    SizedBox(height: 4.h),
+                                    Text(
+                                      'رقم المنتج: ${product.number ?? ''}',
+                                      textAlign: TextAlign.right,
+                                      style: TextTheme.of(context).bodySmall,
+                                    ),
+                                    SizedBox(height: 2.h),
+                                    Text(
+                                      'السعر: ${product.price ?? ''} ريال',
+                                      textAlign: TextAlign.right,
+                                      style: TextTheme.of(context).bodySmall,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(width: 10.w),
+                              TwoButtonInsideListViewProducts(
+                                onTapEdit: () {
+                                  context
+                                      .read<ProductDetailsCubit>()
+                                      .getProductDetails(
+                                          productId: product.id!);
+                                  showGetProductDetailsDialog(
+                                    contextParent: context,
+                                    productDetailsCubit:
+                                        context.read<ProductDetailsCubit>(),
+                                  );
+                                },
+                                reactivate: widget.storeProductsFilter == 2,
+                                onTapDeleteOrReactivate: () {
+                                  widget.storeProductsFilter == 2
+                                      ? showActivateOneOrMoreProductsDialog(
+                                          contextParent: context,
+                                          ids: [product.id!],
+                                          storeProductsFilter:
+                                              widget.storeProductsFilter,
+                                          activateProductsCubit: context.read<
+                                              ActivateProductsByIdsCubit>(),
+                                        )
+                                      : showDeleteProductDialog(
+                                          contextParent: context,
+                                          productId: product.id!,
+                                          storeProductsFilter:
+                                              widget.storeProductsFilter,
+                                          deleteProductCubit: context.read<
+                                              DeleteProductByIdFromStoreCubit>(),
+                                        );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            );
+          }
           final List<ProductEntity> products = state.products;
           return products.isEmpty
               ? NoDataWidget()
@@ -117,7 +237,7 @@ class _ProductsListViewState extends State<ProductsListView> {
                               child: Row(
                                 children: [
                                   CheckBoxCustom(
-                                    val: state.checkedStates[index],
+                                    val: false,
                                     onChanged: (val) {
                                       // context
                                       //     .read<ProductsCubit>()

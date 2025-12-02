@@ -111,7 +111,7 @@ class _AllProductsTapState extends State<AllProductsTap> {
         Expanded(
           child: BlocBuilder<ProductsCubit, ProductsState>(
               builder: (context, state) {
-            final allProducts = context.read<ProductsCubit>().allProducts;
+            final allProducts = context.read<ProductsCubit>().products;
 
             if (state is ProductsInitial ||
                 (state is ProductsLoadInProgress && allProducts.isEmpty)) {

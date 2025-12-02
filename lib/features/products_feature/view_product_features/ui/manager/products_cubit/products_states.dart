@@ -15,13 +15,11 @@ final class ProductsLoadFailure extends ProductsState {
 
 final class ProductsLoadSuccess extends ProductsState {
   final List<ProductEntity> products;
-  final List<bool> checkedStates; // [states for Check boxes]
-  final List<int> productsSelected; // [IDs for products selected]
+  final List<ProductEntity> selectedProducts; // [states for Check boxes]
 
   ProductsLoadSuccess(
     this.products,
-    this.checkedStates,
-    this.productsSelected,
+    this.selectedProducts,
   );
 }
 

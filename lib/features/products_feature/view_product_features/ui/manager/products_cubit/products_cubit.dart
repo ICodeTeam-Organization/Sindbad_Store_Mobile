@@ -10,32 +10,54 @@ class ProductsCubit extends Cubit<ProductsState> {
   ProductsCubit(this.getProductsUseCase) : super(ProductsInitial());
   final GetProductsUseCase getProductsUseCase;
 
-  List<ProductEntity> allProducts = [];
+  List<ProductEntity> products = [];
+  List<ProductEntity> selectedProducts = [];
 
-  List<int> updatedProductsSelected = [];
+  // List<int> updatedProductsSelected = [];
 
   // used for refreshing the list
   int? currentStoreProductsFilter;
   int? currentMainCategoryId;
 
   // fun to refresh checkbox state
-  void updateCheckboxState(int index, bool value, int productId) {
-    if (state is ProductsLoadSuccess) {
-      final currentState = state as ProductsLoadSuccess;
-      final List<bool> updatedCheckedStates =
-          List<bool>.from(currentState.checkedStates);
-      updatedProductsSelected = List<int>.from(currentState.productsSelected);
-      updatedCheckedStates[index] = value;
-      value
-          ? updatedProductsSelected.add(productId)
-          : updatedProductsSelected.remove(productId);
-      debugPrint('==== After checkbox update: $updatedProductsSelected');
-      emit(ProductsLoadSuccess(
-        currentState.products,
-        updatedCheckedStates,
-        updatedProductsSelected,
-      ));
-    }
+  // void updateCheckboxState1(int index, bool value, int productId) {
+  //   if (state is ProductsLoadSuccess) {
+  //     final currentState = state as ProductsLoadSuccess;
+  //     final List<bool> updatedCheckedStates =
+  //         List<bool>.from(currentState.checkedStates);
+  //     updatedProductsSelected = List<int>.from(currentState.productsSelected);
+  //     updatedCheckedStates[index] = value;
+  //     value
+  //         ? updatedProductsSelected.add(productId)
+  //         : updatedProductsSelected.remove(productId);
+  //     debugPrint('==== After checkbox update: $updatedProductsSelected');
+  //     emit(ProductsLoadSuccess(
+  //       currentState.products,
+  //       updatedCheckedStates,
+  //       updatedProductsSelected,
+  //     ));
+  //   }
+  // }
+  void updateCheckboxState(int id) {
+    selectedProducts.add(products.firstWhere((element) => element.id == id));
+    emit(ProductsLoadSuccess(products, selectedProducts));
+
+    // if (state is ProductsLoadSuccess) {
+    //   final currentState = state as ProductsLoadSuccess;
+    //   final List<bool> updatedCheckedStates =
+    //       List<bool>.from(currentState.checkedStates);
+    //   updatedProductsSelected = List<int>.from(currentState.productsSelected);
+    //   updatedCheckedStates[index] = value;
+    //   value
+    //       ? updatedProductsSelected.add(productId)
+    //       : updatedProductsSelected.remove(productId);
+    //   debugPrint('==== After checkbox update: $updatedProductsSelected');
+    //   emit(ProductsLoadSuccess(
+    //     currentState.products,
+    //     updatedCheckedStates,
+    //     updatedProductsSelected,
+    //   ));
+    // }
   }
 
   Future<void> getStoreProductsWitheFilter({
@@ -44,41 +66,41 @@ class ProductsCubit extends Cubit<ProductsState> {
     required int pageSize,
     int? categoryId,
   }) async {
-    if (pageNumber == 1) {
-      allProducts.clear();
-    }
-    emit(ProductsLoadInProgress());
-    currentStoreProductsFilter = storeProductsFilter;
-    currentMainCategoryId = categoryId;
+    // if (pageNumber == 1) {
+    //   products.clear();
+    // }
+    // emit(ProductsLoadInProgress());
+    // currentStoreProductsFilter = storeProductsFilter;
+    // currentMainCategoryId = categoryId;
 
-    var params = ProductsParams(storeProductsFilter, pageNumber, pageSize);
-    var result = await getProductsUseCase.execute(params);
+    // var params = ProductsParams(storeProductsFilter, pageNumber, pageSize);
+    // var result = await getProductsUseCase.execute(params);
 
-    result.fold(
-      (failure) {
-        if (pageNumber == 1) {
-          emit(ProductsLoadFailure(failure.message));
-        } else {
-          emit(ProductsLoadSuccess(
-            allProducts,
-            List<bool>.filled(allProducts.length, false),
-            [],
-          ));
-        }
-      },
-      (fetchedProducts) {
-        if (pageNumber == 1) {
-          allProducts = fetchedProducts;
-        } else {
-          allProducts.addAll(fetchedProducts);
-        }
-        emit(ProductsLoadSuccess(
-          allProducts,
-          List<bool>.filled(allProducts.length, false),
-          [],
-        ));
-      },
-    );
+    // result.fold(
+    //   (failure) {
+    //     if (pageNumber == 1) {
+    //       emit(ProductsLoadFailure(failure.message));
+    //     } else {
+    //       emit(ProductsLoadSuccess(
+    //         products,
+    //         List<bool>.filled(products.length, false),
+    //         [],
+    //       ));
+    //     }
+    //   },
+    //   (fetchedProducts) {
+    //     if (pageNumber == 1) {
+    //       products = fetchedProducts;
+    //     } else {
+    //       products.addAll(fetchedProducts);
+    //     }
+    //     emit(ProductsLoadSuccess(
+    //       products,
+    //       List<bool>.filled(products.length, false),
+    //       [],
+    //     ));
+    //   },
+    // );
   }
 
   Future<void> getProducts(
@@ -89,7 +111,7 @@ class ProductsCubit extends Cubit<ProductsState> {
     emit(ProductsLoadInProgress());
 
     if (pageNumber == 1) {
-      allProducts.clear();
+      products.clear();
     }
 
     var params = ProductsParams(pageNumber, pageSize, 0);
@@ -100,21 +122,19 @@ class ProductsCubit extends Cubit<ProductsState> {
         emit(ProductsLoadFailure(failure.message));
       } else {
         emit(ProductsLoadSuccess(
-          allProducts,
-          List<bool>.filled(allProducts.length, false),
+          products,
           [],
         ));
       }
     }, (fetchedProducts) {
       if (pageNumber == 1) {
-        allProducts = fetchedProducts;
+        products = fetchedProducts;
       } else {
-        allProducts.addAll(fetchedProducts);
+        products.addAll(fetchedProducts);
       }
 
       emit(ProductsLoadSuccess(
-        allProducts,
-        List<bool>.filled(allProducts.length, false),
+        products,
         [],
       ));
     });
