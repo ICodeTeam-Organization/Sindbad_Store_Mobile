@@ -62,7 +62,7 @@ class _StorePrimaryButtonState extends State<StorePrimaryButton> {
         height: 40,
         decoration: BoxDecoration(
           color:
-              widget.disabled == true ? Color(0xFFF2F3F4) : widget.buttonColor,
+              widget.disabled == true ? Color(0xFFD9D9D9) : widget.buttonColor,
           borderRadius: BorderRadiusDirectional.circular(
               StorePrimaryButton._borderRadius.r),
         ),
