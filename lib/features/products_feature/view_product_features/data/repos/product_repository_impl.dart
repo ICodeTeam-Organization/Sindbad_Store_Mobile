@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
-import 'package:sindbad_management_app/features/products_feature/view_product_features/data/data_source/view_product_remote_data_source.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/data/data_source/view_product_remote_data_source_impl.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/data/data_source/view_product_remote_datasource.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/activate_products_entity.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/delete_entity_product.dart';
@@ -149,10 +149,9 @@ class ProductRepositoryImpl extends ProductRepository {
   // ===================  for Disable Products  ====================
   @override
   Future<Either<Failure, DisableProductsEntity>> disableProductsByIds(
-      {required List<int> ids}) async {
+      List<int> ids) async {
     try {
-      var response =
-          await productRemoteDataSource.disableProductsByIds(ids: ids);
+      var response = await productRemoteDataSource.disableProductsByIds(ids);
       return right(response);
     } catch (e) {
       if (e is DioException) {

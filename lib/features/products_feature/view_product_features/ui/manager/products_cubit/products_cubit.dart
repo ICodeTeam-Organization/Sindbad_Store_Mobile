@@ -1,14 +1,17 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/get_products_parames.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/disable_products_by_ids_use_case.dart';
 import '../../../domain/entities/product_entity.dart';
 import '../../../domain/use_cases/get_products_usecase.dart';
 
 part 'products_states.dart';
 
 class ProductsCubit extends Cubit<ProductsState> {
-  ProductsCubit(this.getProductsUseCase) : super(ProductsInitial());
+  ProductsCubit(this.getProductsUseCase, this._disableProductsUseCase)
+      : super(ProductsInitial());
   final GetProductsUseCase getProductsUseCase;
+  final DisableProductsUseCase _disableProductsUseCase;
 
   List<ProductEntity> products = [];
   List<ProductEntity> selectedProducts = [];
@@ -19,25 +22,25 @@ class ProductsCubit extends Cubit<ProductsState> {
   int? currentStoreProductsFilter;
   int? currentMainCategoryId;
 
-  // fun to refresh checkbox state
-  // void updateCheckboxState1(int index, bool value, int productId) {
-  //   if (state is ProductsLoadSuccess) {
-  //     final currentState = state as ProductsLoadSuccess;
-  //     final List<bool> updatedCheckedStates =
-  //         List<bool>.from(currentState.checkedStates);
-  //     updatedProductsSelected = List<int>.from(currentState.productsSelected);
-  //     updatedCheckedStates[index] = value;
-  //     value
-  //         ? updatedProductsSelected.add(productId)
-  //         : updatedProductsSelected.remove(productId);
-  //     debugPrint('==== After checkbox update: $updatedProductsSelected');
-  //     emit(ProductsLoadSuccess(
-  //       currentState.products,
-  //       updatedCheckedStates,
-  //       updatedProductsSelected,
-  //     ));
-  //   }
-  // }
+  Future<void> stopSelectedProducts() async {
+    // emit(ProductsLoadInProgress());
+
+    var result = await _disableProductsUseCase
+        .execute(selectedProducts.map((e) => e.id).toList());
+
+    result.fold((failure) {
+      // On failure, keep selected products and emit error
+      emit(ProductsLoadFailure(failure.message));
+    }, (disableResponse) {
+      // On success, clear selected products and emit success
+      selectedProducts.clear();
+      emit(ProductsLoadSuccess(
+        products,
+        selectedProducts,
+      ));
+    });
+  }
+
   void addSelectedProduct(int id) {
     final product = products.firstWhere((e) => e.id == id);
     selectedProducts.add(product);
@@ -139,3 +142,29 @@ class ProductsCubit extends Cubit<ProductsState> {
     });
   }
 }
+
+//     var result = await getProductsUseCase.execute(params);
+
+//     result.fold((failure) {
+//       if (pageNumber == 1) {
+//         emit(ProductsLoadFailure(failure.message));
+//       } else {
+//         emit(ProductsLoadSuccess(
+//           products,
+//           [],
+//         ));
+//       }
+//     }, (fetchedProducts) {
+//       if (pageNumber == 1) {
+//         products = fetchedProducts;
+//       } else {
+//         products.addAll(fetchedProducts);
+//       }
+
+//       emit(ProductsLoadSuccess(
+//         products,
+//         [],
+//       ));
+//     });
+//   }
+// }

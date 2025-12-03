@@ -171,8 +171,7 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
   }
 
   @override
-  Future<DisableProductsEntity> disableProductsByIds(
-      {required List<int> ids}) async {
+  Future<DisableProductsEntity> disableProductsByIds(List<int> ids) async {
     String? token = await getToken();
     var response = await apiService.patchForDisableOrActivateProductsOnly(
       endPoint: "Products/DisableProducts",

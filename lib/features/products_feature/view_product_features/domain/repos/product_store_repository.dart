@@ -34,7 +34,7 @@ abstract class ProductRepository {
 
   // for disable Products By [Ids]
   Future<Either<Failure, DisableProductsEntity>> disableProductsByIds(
-      {required List<int> ids});
+      List<int> ids);
 
   // for ActivateProducts By [Ids]
   Future<Either<Failure, ActivateProductsEntity>> activateProductsByIds(

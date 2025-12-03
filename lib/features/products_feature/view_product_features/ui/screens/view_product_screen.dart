@@ -194,55 +194,55 @@ class _ViewProductBodyState extends State<_ViewProductBody> {
   // }
 }
 
-void showDisableOneOrMoreProductsDialog({
-  required BuildContext parentContext,
-  required int storeProductsFilter,
-  required List<int> ids,
-  required DisableProductsByIdsCubit cubitDisableProducts,
-}) {
-  showDialog(
-    context: parentContext,
-    builder: (BuildContext dialogContext) {
-      return BlocProvider.value(
-        value: cubitDisableProducts,
-        child:
-            BlocConsumer<DisableProductsByIdsCubit, DisableProductsByIdsState>(
-          listener: (dialogContext, state) {
-            if (state is DisableProductsByIdsSuccess) {
-              ScaffoldMessenger.of(parentContext).showSnackBar(
-                SnackBar(content: Text('تم إيقاف المنتجات بنجاح!')),
-              );
-              Navigator.of(dialogContext, rootNavigator: true).pop();
-              parentContext.read<ProductsCubit>().getStoreProductsWitheFilter(
-                    storeProductsFilter: storeProductsFilter,
-                    categoryId: parentContext
-                        .read<ProductsCubit>()
-                        .currentMainCategoryId,
-                    pageNumber: 1,
-                    pageSize: 100,
-                  );
-            } else if (state is DisableProductsByIdsFailure) {
-              ScaffoldMessenger.of(parentContext).showSnackBar(
-                SnackBar(content: Text(state.errMessage)),
-              );
-            }
-          },
-          builder: (dialogContext, state) {
-            return CustomShowDialogForViewWidget(
-              title: 'هل انت متأكد من إيقاف المنتجات؟',
-              subtitle: 'عدد المنتجات التي تريد إيقافها : ${ids.length}',
-              isLoading: state is DisableProductsByIdsLoading,
-              onConfirm: () =>
-                  cubitDisableProducts.disableProductsByIds(ids: ids),
-              confirmText: "إيقاف",
-              cancelText: 'إلغاء',
-            );
-          },
-        ),
-      );
-    },
-  );
-}
+// void showDisableOneOrMoreProductsDialog({
+//   required BuildContext parentContext,
+//   required int storeProductsFilter,
+//   required List<int> ids,
+//  // required DisableProductsByIdsCubit cubitDisableProducts,
+// }) {
+//   showDialog(
+//     context: parentContext,
+//     builder: (BuildContext dialogContext) {
+//       return BlocProvider.value(
+//      //   value: cubitDisableProducts,
+//         child:
+//             BlocConsumer<DisableProductsByIdsCubit, DisableProductsByIdsState>(
+//           listener: (dialogContext, state) {
+//             if (state is DisableProductsByIdsSuccess) {
+//               ScaffoldMessenger.of(parentContext).showSnackBar(
+//                 SnackBar(content: Text('تم إيقاف المنتجات بنجاح!')),
+//               );
+//               Navigator.of(dialogContext, rootNavigator: true).pop();
+//               parentContext.read<ProductsCubit>().getStoreProductsWitheFilter(
+//                     storeProductsFilter: storeProductsFilter,
+//                     categoryId: parentContext
+//                         .read<ProductsCubit>()
+//                         .currentMainCategoryId,
+//                     pageNumber: 1,
+//                     pageSize: 100,
+//                   );
+//             } else if (state is DisableProductsByIdsFailure) {
+//               ScaffoldMessenger.of(parentContext).showSnackBar(
+//                 SnackBar(content: Text(state.errMessage)),
+//               );
+//             }
+//           },
+//           builder: (dialogContext, state) {
+//             return CustomShowDialogForViewWidget(
+//               title: 'هل انت متأكد من إيقاف المنتجات؟',
+//               subtitle: 'عدد المنتجات التي تريد إيقافها : ${ids.length}',
+//               isLoading: state is DisableProductsByIdsLoading,
+//               onConfirm: () =>
+//                   cubitDisableProducts.disableProductsByIds(ids: ids),
+//               confirmText: "إيقاف",
+//               cancelText: 'إلغاء',
+//             );
+//           },
+//         ),
+//       );
+//     },
+//   );
+// }
 
 void showActivateOneOrMoreProductsDialog({
   required BuildContext contextParent,

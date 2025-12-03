@@ -27,7 +27,7 @@ abstract class ProductRemoteDataSource {
   });
 
   // for disable Products By [Ids]
-  Future<DisableProductsEntity> disableProductsByIds({required List<int> ids});
+  Future<DisableProductsEntity> disableProductsByIds(List<int> ids);
 
   // for ActivateProducts By [Ids]
   Future<ActivateProductsEntity> activateProductsByIds(

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:sindbad_management_app/core/dialogs/ErrorDialog.dart';
+import 'package:sindbad_management_app/core/dialogs/stopped_dialog.dart';
 import 'package:sindbad_management_app/core/swidgets/new_widgets/store_primary_button.dart';
 import 'package:sindbad_management_app/core/swidgets/no_data_widget.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/product_entity.dart';
@@ -95,13 +97,25 @@ class _AllProductsTapState extends State<AllProductsTap> {
                 },
               ),
               StorePrimaryButton(
-                // disabled: anyProductsSelected,
+                disabled: context.select(
+                    (ProductsCubit cubit) => cubit.selectedProducts.isEmpty),
                 title: "ايقاف منتجات",
                 icon: Icons.refresh,
                 buttonColor: Color(0xFFD9D9D9),
                 height: 32.h,
                 width: 126.w,
-                onTap: () {},
+                onTap: () {
+                  // final selectedProducts =
+                  //     context.read<ProductsCubit>().selectedProducts;
+                  // if (selectedProducts.isEmpty) return;
+
+                  showProductSelectionDialog(
+                      context: context,
+                      products: context.read<ProductsCubit>().selectedProducts,
+                      onConfirm: () {
+                        context.read<ProductsCubit>().stopSelectedProducts();
+                      });
+                },
               )
             ],
           ),
@@ -109,69 +123,80 @@ class _AllProductsTapState extends State<AllProductsTap> {
 
         SizedBox(height: 15.h),
         Expanded(
-          child: BlocBuilder<ProductsCubit, ProductsState>(
-              builder: (context, state) {
-            final cubit = context.read<ProductsCubit>();
-            final allProducts = cubit.products;
-            final selectedProducts = cubit.selectedProducts;
+          child: BlocConsumer<ProductsCubit, ProductsState>(
+            buildWhen: (previous, current) => current is! ProductsLoadFailure,
+            builder: (context, state) {
+              final cubit = context.read<ProductsCubit>();
+              final allProducts = cubit.products;
+              final selectedProducts = cubit.selectedProducts;
 
-            // keep selected items first (preserve order from selectedProducts),
-            // then append the unselected items
-            final selectedList = selectedProducts.toList();
-            final unselectedList = allProducts
-                .where((p) => !selectedProducts.any((s) => s.id == p.id))
-                .toList();
+              // keep selected items first (preserve order from selectedProducts),
+              // then append the unselected items
+              final selectedList = selectedProducts.toList();
+              final unselectedList = allProducts
+                  .where((p) => !selectedProducts.any((s) => s.id == p.id))
+                  .toList();
 
-            final displayProducts = [...selectedList, ...unselectedList];
+              final displayProducts = [...selectedList, ...unselectedList];
 
-            if (state is ProductsInitial ||
-                (state is ProductsLoadInProgress && allProducts.isEmpty)) {
-              return ShimmerForProductsWithFilter();
-            } else if (state is ProductsLoadSuccess ||
-                (state is ProductsLoadInProgress && allProducts.isNotEmpty)) {
-              return displayProducts.isEmpty
-                  ? NoDataWidget()
-                  : AnimationLimiter(
-                      child: ListView.builder(
-                        controller: _scrollController,
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(
-                            parent: AlwaysScrollableScrollPhysics()),
-                        itemCount: displayProducts.length +
-                            (state is ProductsLoadInProgress ? 1 : 0),
-                        itemBuilder: (context, index) {
-                          // loading footer
-                          if (index == displayProducts.length) {
-                            return const Center(
-                              child: Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: CircularProgressIndicator(),
-                              ),
+              if (state is ProductsInitial ||
+                  (state is ProductsLoadInProgress && allProducts.isEmpty)) {
+                return ShimmerForProductsWithFilter();
+              } else if (state is ProductsLoadSuccess ||
+                  (state is ProductsLoadInProgress && allProducts.isNotEmpty)) {
+                return displayProducts.isEmpty
+                    ? NoDataWidget()
+                    : AnimationLimiter(
+                        child: ListView.builder(
+                          controller: _scrollController,
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(
+                              parent: AlwaysScrollableScrollPhysics()),
+                          itemCount: displayProducts.length +
+                              (state is ProductsLoadInProgress ? 1 : 0),
+                          itemBuilder: (context, index) {
+                            // loading footer
+                            if (index == displayProducts.length) {
+                              return const Center(
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: CircularProgressIndicator(),
+                                ),
+                              );
+                            }
+
+                            final product = displayProducts[index];
+                            final isEven = index % 2 == 0;
+
+                            // mark selected if product exists in selectedProducts
+                            final isSelected =
+                                selectedProducts.any((s) => s.id == product.id);
+
+                            return ProductCardWidget(
+                              products: displayProducts,
+                              isEven: isEven,
+                              product: product,
+                              selected: isSelected, // NEW: pass selection flag
                             );
-                          }
-
-                          final product = displayProducts[index];
-                          final isEven = index % 2 == 0;
-
-                          // mark selected if product exists in selectedProducts
-                          final isSelected =
-                              selectedProducts.any((s) => s.id == product.id);
-
-                          return ProductCardWidget(
-                            products: displayProducts,
-                            isEven: isEven,
-                            product: product,
-                            selected: isSelected, // NEW: pass selection flag
-                          );
-                        },
-                      ),
-                    );
-            } else if (state is ProductsLoadFailure) {
-              return ErrorWidget(state.errMessage);
-            } else {
-              return ErrorWidget("هناك خطأ ما...");
-            }
-          }),
+                          },
+                        ),
+                      );
+              } else if (state is ProductsLoadFailure) {
+                return ErrorWidget(state.errMessage);
+              } else {
+                return ErrorWidget("هناك خطأ ما...");
+              }
+            },
+            listener: (BuildContext context, ProductsState state) {
+              if (state is ProductsLoadFailure) {
+                showErrorDialog(
+                    context: context,
+                    title: "خطأ",
+                    description: state.errMessage,
+                    buttonText: "حسنا");
+              }
+            },
+          ),
         )
       ],
     );

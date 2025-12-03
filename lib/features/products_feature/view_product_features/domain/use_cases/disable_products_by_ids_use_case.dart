@@ -1,23 +1,18 @@
 import 'package:dartz/dartz.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
 import 'package:sindbad_management_app/core/use_cases/param_use_case.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/data/repos/product_repository_impl.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/repos/product_store_repository.dart';
 import '../entities/disable_products_entity.dart';
 
-class DisableProductsByIdsUseCase
-    extends UseCaseWithParam<DisableProductsEntity, DisableProductsParams> {
-  final ProductRepository viewProductRepo;
+class DisableProductsUseCase
+    extends UseCaseWithParam<DisableProductsEntity, List<int>> {
+  final ProductRepositoryImpl productRepository;
 
-  DisableProductsByIdsUseCase(this.viewProductRepo);
+  DisableProductsUseCase(this.productRepository);
   @override
   Future<Either<Failure, DisableProductsEntity>> execute(
-      DisableProductsParams params) async {
-    return viewProductRepo.disableProductsByIds(ids: params.ids);
+      List<int> productsIds) async {
+    return productRepository.disableProductsByIds(productsIds);
   }
-}
-
-class DisableProductsParams {
-  final List<int> ids;
-
-  DisableProductsParams({required this.ids});
 }
