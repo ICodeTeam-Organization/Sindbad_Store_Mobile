@@ -15,11 +15,13 @@ class ProductCardWidget extends StatelessWidget {
     required this.products,
     required this.isEven,
     required this.product,
+    this.selected = false,
   });
 
   final List<ProductEntity> products;
   final bool isEven;
   final ProductEntity product;
+  final bool selected;
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +43,11 @@ class ProductCardWidget extends StatelessWidget {
             child: Row(
               children: [
                 CheckBoxCustom(
-                  val: false, //state.checkedStates[index],
+                  val: selected, //state.checkedStates[index],
                   onChanged: (val) {
                     context
                         .read<ProductsCubit>()
-                        .updateCheckboxState(product.id);
+                        .toggleProductSelection(product.id);
                   },
                 ),
                 ImageCardCustom(imageUrlNetwork: product.imageUrl!),

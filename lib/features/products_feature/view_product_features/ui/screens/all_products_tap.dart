@@ -111,14 +111,25 @@ class _AllProductsTapState extends State<AllProductsTap> {
         Expanded(
           child: BlocBuilder<ProductsCubit, ProductsState>(
               builder: (context, state) {
-            final allProducts = context.read<ProductsCubit>().products;
+            final cubit = context.read<ProductsCubit>();
+            final allProducts = cubit.products;
+            final selectedProducts = cubit.selectedProducts;
+
+            // keep selected items first (preserve order from selectedProducts),
+            // then append the unselected items
+            final selectedList = selectedProducts.toList();
+            final unselectedList = allProducts
+                .where((p) => !selectedProducts.any((s) => s.id == p.id))
+                .toList();
+
+            final displayProducts = [...selectedList, ...unselectedList];
 
             if (state is ProductsInitial ||
                 (state is ProductsLoadInProgress && allProducts.isEmpty)) {
               return ShimmerForProductsWithFilter();
             } else if (state is ProductsLoadSuccess ||
                 (state is ProductsLoadInProgress && allProducts.isNotEmpty)) {
-              return allProducts.isEmpty
+              return displayProducts.isEmpty
                   ? NoDataWidget()
                   : AnimationLimiter(
                       child: ListView.builder(
@@ -126,24 +137,32 @@ class _AllProductsTapState extends State<AllProductsTap> {
                         shrinkWrap: true,
                         physics: const BouncingScrollPhysics(
                             parent: AlwaysScrollableScrollPhysics()),
-                        itemCount: allProducts.length +
+                        itemCount: displayProducts.length +
                             (state is ProductsLoadInProgress ? 1 : 0),
                         itemBuilder: (context, index) {
-                          if (index == allProducts.length) {
-                            return Center(
+                          // loading footer
+                          if (index == displayProducts.length) {
+                            return const Center(
                               child: Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: CircularProgressIndicator(),
                               ),
                             );
                           }
-                          ProductEntity product = allProducts[index];
-                          bool isEven = index % 2 == 0;
+
+                          final product = displayProducts[index];
+                          final isEven = index % 2 == 0;
+
+                          // mark selected if product exists in selectedProducts
+                          final isSelected =
+                              selectedProducts.any((s) => s.id == product.id);
 
                           return ProductCardWidget(
-                              products: allProducts,
-                              isEven: isEven,
-                              product: product);
+                            products: displayProducts,
+                            isEven: isEven,
+                            product: product,
+                            selected: isSelected, // NEW: pass selection flag
+                          );
                         },
                       ),
                     );
@@ -153,7 +172,7 @@ class _AllProductsTapState extends State<AllProductsTap> {
               return ErrorWidget("هناك خطأ ما...");
             }
           }),
-        ),
+        )
       ],
     );
   }

@@ -38,26 +38,25 @@ class ProductsCubit extends Cubit<ProductsState> {
   //     ));
   //   }
   // }
-  void updateCheckboxState(int id) {
-    selectedProducts.add(products.firstWhere((element) => element.id == id));
-    emit(ProductsLoadSuccess(products, selectedProducts));
+  void addSelectedProduct(int id) {
+    final product = products.firstWhere((e) => e.id == id);
+    selectedProducts.add(product);
+  }
 
-    // if (state is ProductsLoadSuccess) {
-    //   final currentState = state as ProductsLoadSuccess;
-    //   final List<bool> updatedCheckedStates =
-    //       List<bool>.from(currentState.checkedStates);
-    //   updatedProductsSelected = List<int>.from(currentState.productsSelected);
-    //   updatedCheckedStates[index] = value;
-    //   value
-    //       ? updatedProductsSelected.add(productId)
-    //       : updatedProductsSelected.remove(productId);
-    //   debugPrint('==== After checkbox update: $updatedProductsSelected');
-    //   emit(ProductsLoadSuccess(
-    //     currentState.products,
-    //     updatedCheckedStates,
-    //     updatedProductsSelected,
-    //   ));
-    // }
+  void removeSelectedProduct(int id) {
+    selectedProducts.removeWhere((e) => e.id == id);
+  }
+
+  void toggleProductSelection(int id) {
+    final isSelected = selectedProducts.any((e) => e.id == id);
+
+    if (isSelected) {
+      removeSelectedProduct(id);
+    } else {
+      addSelectedProduct(id);
+    }
+
+    emit(ProductsLoadSuccess(products, selectedProducts));
   }
 
   Future<void> getStoreProductsWitheFilter({
