@@ -31,7 +31,6 @@ class StorePrimaryButton extends StatefulWidget {
   Color? buttonColor;
   Color? textColor;
 
-  // Constants for repeated values
   static const double _borderRadius = 8.0;
   static const double _iconSize = 24.0;
 
@@ -50,12 +49,6 @@ class _StorePrimaryButtonState extends State<StorePrimaryButton> {
       onTap: widget.disabled == true || widget.isLoading == true
           ? null
           : widget.onTap,
-
-      /// [qais] => Don't use the {Container} here because it is a heavy widget.
-      /// Instead, use the Alignment widget to align stuff and use the SizedBox
-      /// widget within it to specify the width and height and Use the BoxDecoration widget
-      /// within it to handle the decoration.
-
       child: Container(
         alignment: Alignment.center,
         width: 140,

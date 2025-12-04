@@ -6,12 +6,13 @@ import 'package:sindbad_management_app/features/auth_feature/ui/screens/confirm_
 import 'package:sindbad_management_app/features/auth_feature/ui/screens/login_screen.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/screens/reset_password_screen.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/screen/temp_widget/order_details.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/screens/add_product_screen_body.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/screen/excell_page.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/ui/screen/notificion_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/new_offer_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/update_offer_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/screens/view_offer_details_screen.dart';
-import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/screens/add_product_screen.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/screens/add_product_screen.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/screen/change_passsowrd_screen.dart';
 import 'package:sindbad_management_app/core/swidgets/splahs_screen.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/screen/profile_screen.dart';
@@ -98,7 +99,7 @@ abstract class AppRouter {
         builder: (context, state) {
           final onSuccessCallback = state.extra as VoidCallback?;
 
-          return AddProductScreen(
+          return AddProductScreenBody(
             onSuccessCallback: onSuccessCallback,
           );
         },

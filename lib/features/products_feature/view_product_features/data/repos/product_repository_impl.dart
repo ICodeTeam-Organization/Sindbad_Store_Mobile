@@ -5,7 +5,7 @@ import 'package:sindbad_management_app/features/products_feature/view_product_fe
 import 'package:sindbad_management_app/features/products_feature/view_product_features/data/data_source/view_product_remote_datasource.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/activate_products_entity.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/delete_entity_product.dart';
-import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/disable_products_entity.dart';
+
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/main_category_for_view_entity.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/product_entity.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/data_source/store_data_source_impl.dart';
@@ -148,8 +148,7 @@ class ProductRepositoryImpl extends ProductRepository {
 
   // ===================  for Disable Products  ====================
   @override
-  Future<Either<Failure, DisableProductsEntity>> disableProductsByIds(
-      List<int> ids) async {
+  Future<Either<Failure, bool>> disableProductsByIds(List<int> ids) async {
     try {
       var response = await productRemoteDataSource.disableProductsByIds(ids);
       return right(response);

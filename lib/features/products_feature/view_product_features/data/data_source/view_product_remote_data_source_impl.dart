@@ -171,16 +171,113 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
   }
 
   @override
-  Future<DisableProductsEntity> disableProductsByIds(List<int> ids) async {
-    String? token = await getToken();
-    var response = await apiService.patchForDisableOrActivateProductsOnly(
-      endPoint: "Products/DisableProducts",
-      data: ids,
-      headers: {"Authorization": "BEARER $token"},
-    );
-    DisableProductsEntity responseDisableProducts =
-        DisableProductsModel.fromJson(response);
-    return responseDisableProducts;
+  Future<bool> disableProductsByIds(List<int> ids) async {
+    try {
+      if (ids.isEmpty) {
+        throw ArgumentError('Product IDs list cannot be empty');
+      }
+
+      final String? token = await getToken();
+
+      if (token == null || token.isEmpty) {
+        throw DioException(
+          requestOptions: RequestOptions(path: ''),
+          error: 'Authentication token is missing or invalid',
+        );
+      }
+
+      final dio = Dio(); // Or use your existing Dio instance if you have one
+      final response = await dio.patch(
+        'https://www.sindibad-back.com:82/api/Products/DisableProducts', // Add your base URL
+        data: ids,
+        options: Options(
+          headers: {"Authorization": "BEARER $token"},
+        ),
+      );
+
+      print(response.data);
+
+      final responseData = response.data;
+
+      if (responseData['success'] == true) {
+        return true;
+      } else {
+        final errorMessage = responseData['error'] ??
+            responseData['message'] ??
+            'Failed to disable products';
+
+        throw DioException(
+          requestOptions: response.requestOptions,
+          response: response,
+          error: errorMessage,
+          type: DioExceptionType.badResponse,
+        );
+      }
+    } on DioException catch (e) {
+      // Handle Dio-specific exceptions
+      switch (e.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.sendTimeout:
+        case DioExceptionType.receiveTimeout:
+          throw DioException(
+            requestOptions: e.requestOptions,
+            error: 'Request timeout. Please try again.',
+            type: e.type,
+          );
+        case DioExceptionType.badCertificate:
+          throw DioException(
+            requestOptions: e.requestOptions,
+            error: 'SSL certificate error. Please check your connection.',
+            type: e.type,
+          );
+        case DioExceptionType.badResponse:
+          // Extract error from response if available
+          final errorData = e.response?.data;
+          final errorMessage = errorData is Map
+              ? errorData['error'] ??
+                  errorData['message'] ??
+                  e.error?.toString() ??
+                  'Server error occurred'
+              : e.error?.toString() ?? 'Server error occurred';
+
+          throw DioException(
+            requestOptions: e.requestOptions,
+            response: e.response,
+            error: errorMessage,
+            type: e.type,
+          );
+        case DioExceptionType.cancel:
+          throw DioException(
+            requestOptions: e.requestOptions,
+            error: 'Request was cancelled',
+            type: e.type,
+          );
+        case DioExceptionType.connectionError:
+          throw DioException(
+            requestOptions: e.requestOptions,
+            error: 'No internet connection. Please check your network.',
+            type: e.type,
+          );
+        case DioExceptionType.unknown:
+          throw DioException(
+            requestOptions: e.requestOptions,
+            error: 'Network error: ${e.error}',
+            type: e.type,
+          );
+      }
+    } catch (e) {
+      // Handle non-Dio exceptions
+      if (e is ArgumentError) {
+        rethrow; // Re-throw argument errors as-is
+      }
+
+      // Wrap other non-Dio exceptions in DioException
+      throw DioException(
+        requestOptions: RequestOptions(path: 'Products/DisableProducts'),
+        error: 'Failed to disable products: $e',
+        type: DioExceptionType.unknown,
+      );
+    }
   }
 
   // for ActivateProducts By [Ids]

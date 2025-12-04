@@ -15,7 +15,13 @@ class GetCategory extends Cubit<GetCategoryState> {
   GetCategory(this.getMainCategoryUseCase) : super(GetCategoryInitial());
 
   final GetMainCategoryUseCase getMainCategoryUseCase;
-  List<StoreCategoryModel> _allCategories = [];
+  List<StoreCategoryModel> _allCategories = [
+    StoreCategoryModel(
+      id: 0,
+      categoryName: 'الكل',
+      categoryImageUrl: '',
+    )
+  ];
   // bool _isFetching = false;
 
   // Future<void> getMainCategoryForView({
@@ -98,39 +104,42 @@ class GetCategory extends Cubit<GetCategoryState> {
   //   _isFetching = false;
   // }
 
-  Future<List<StoreCategoryModel>> getMainCategory(
+  Future<void> getMainCategory(
     int pageNumber,
     int pageSize,
   ) async {
-    if (pageNumber == 1) {
-      emit(GetCategoryLoadInProgress());
-    }
+    emit(GetCategoryLoadInProgress());
+    await Future.delayed(const Duration(seconds: 2));
+    emit(GetCategoryLoadSuccess(_allCategories));
+    // if (pageNumber == 1) {
+    //   emit(GetCategoryLoadInProgress());
+    //   // Reset list to just "ALL" when refreshing
+    //   _allCategories = [
+    //     StoreCategoryModel(
+    //       id: 0,
+    //       categoryName: 'الكل',
+    //       categoryImageUrl: '',
+    //     )
+    //   ];
+    // }
 
-    MainCategoryParams params =
-        MainCategoryParams(pageNumber: pageNumber, pageSize: pageSize);
+    // MainCategoryParams params =
+    //     MainCategoryParams(pageNumber: pageNumber, pageSize: pageSize);
 
-    var result = await getMainCategoryUseCase.execute(params);
-    List<StoreCategoryModel> resultList = [];
+    // if (pageNumber > 1) {
+    //   emit(GetCategoryLoadSuccess(_allCategories, isLoading: true));
+    // }
 
-    result.fold(
-      (failure) {
-        emit(GetCategoryLoadFailure(failure.message));
-      },
-      (categories) {
-        if (pageNumber == 1) {
-          _allCategories = categories;
-        } else {
-          _allCategories.addAll(categories);
-        }
-        resultList = categories;
-        emit(GetCategoryLoadSuccess(_allCategories));
-      },
-    );
-    resultList.add(StoreCategoryModel(
-      id: 0,
-      categoryName: 'الكل',
-      categoryImageUrl: '',
-    ));
-    return resultList;
+    // var result = await getMainCategoryUseCase.execute(params);
+
+    // result.fold(
+    //   (failure) {
+    //     emit(GetCategoryLoadFailure(failure.message));
+    //   },
+    //   (categories) {
+    //     _allCategories.addAll(categories);
+    //     emit(GetCategoryLoadSuccess(_allCategories, isLoading: false));
+    //   },
+    // );
   }
 }

@@ -6,10 +6,10 @@ import 'package:sindbad_management_app/core/dialogs/ErrorDialog.dart';
 import 'package:sindbad_management_app/core/dialogs/stopped_dialog.dart';
 import 'package:sindbad_management_app/core/swidgets/new_widgets/store_primary_button.dart';
 import 'package:sindbad_management_app/core/swidgets/no_data_widget.dart';
-import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/product_entity.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/widgets/general_filter_bar.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/widgets/product_card_widget.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/widgets/shimmer_for_products_with_filter.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/widgets/shimmer_product_item.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/model/store_category_model.dart';
 import '../manager/get_category_cubit/get_category_cubit.dart';
 import '../manager/products_cubit/products_cubit.dart';
@@ -35,6 +35,7 @@ class _AllProductsTapState extends State<AllProductsTap> {
     super.initState();
     _scrollController.addListener(_onScroll);
     context.read<ProductsCubit>().getProducts(_pageNumber, 10, null);
+    context.read<GetCategory>().getMainCategory(1, 10);
   }
 
   @override
@@ -60,23 +61,52 @@ class _AllProductsTapState extends State<AllProductsTap> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        GenericFilterBar<StoreCategoryModel>(
-          onChanged: (int? categoryId) {
-            // context.read<ProductsCubit>().getStoreProductsWitheFilter(
-            //     storeProductsFilter: 0,
-            //     categoryId: categoryId,
-            //     pageNumber: 1,
-            //     pageSize: 10);
+        BlocBuilder<GetCategory, GetCategoryState>(
+          builder: (context, state) {
+            if (state is GetCategoryLoadInProgress) {
+              return GenericFilterBar<StoreCategoryModel>(
+                items: const [],
+                isLoading: true,
+                getName: (item) => item.categoryName,
+                getId: (item) => item.id,
+                selectedId: 0,
+              );
+            }
+
+            if (state is GetCategoryLoadSuccess) {
+              return GenericFilterBar<StoreCategoryModel>(
+                items: state.categoryies,
+                isLoading: false,
+                onChanged: (int? categoryId) {
+                  // context.read<ProductsCubit>().getStoreProductsWitheFilter(
+                  //     storeProductsFilter: 0,
+                  //     categoryId: categoryId,
+                  //     pageNumber: 1,
+                  //     pageSize: 10);
+                },
+                onLoadMore: () {
+                  final cubit = context.read<GetCategory>();
+                  // Calculate next page based on current items count
+                  // Assuming page size is 10
+                  int nextPage = (state.categoryies.length ~/ 10) + 1;
+                  cubit.getMainCategory(nextPage, 10);
+                },
+                getName: (item) => item.categoryName,
+                getId: (item) => item.id,
+                selectedId: 0,
+              );
+            }
+
+            // Default/initial state
+            return GenericFilterBar<StoreCategoryModel>(
+              items: const [],
+              isLoading: false,
+              getName: (item) => item.categoryName,
+              getId: (item) => item.id,
+              selectedId: 0,
+            );
           },
-          dataFetcher: (int page, int size) =>
-              context.read<GetCategory>().getMainCategory(1, 10),
-          getName: (item) => item.categoryName,
-          getId: (item) => item.id,
-          selectedId: 0,
         ),
-        // CategoryFilterBarTemp(
-        //   storeProductsFilter: 2,
-        // ),
         Padding(
           padding:
               EdgeInsets.only(top: 10.h, left: 15.w, right: 15.w, bottom: 5.h),
@@ -120,7 +150,6 @@ class _AllProductsTapState extends State<AllProductsTap> {
             ],
           ),
         ),
-
         SizedBox(height: 15.h),
         Expanded(
           child: BlocConsumer<ProductsCubit, ProductsState>(
@@ -153,14 +182,14 @@ class _AllProductsTapState extends State<AllProductsTap> {
                           physics: const BouncingScrollPhysics(
                               parent: AlwaysScrollableScrollPhysics()),
                           itemCount: displayProducts.length +
-                              (state is ProductsLoadInProgress ? 1 : 0),
+                              (state is ProductsLoadInProgress ? 3 : 0),
                           itemBuilder: (context, index) {
                             // loading footer
-                            if (index == displayProducts.length) {
+                            if (index >= displayProducts.length) {
                               return const Center(
                                 child: Padding(
                                   padding: EdgeInsets.all(8.0),
-                                  child: CircularProgressIndicator(),
+                                  child: ShimmerProductItem(),
                                 ),
                               );
                             }

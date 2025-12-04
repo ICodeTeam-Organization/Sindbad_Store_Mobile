@@ -37,25 +37,58 @@ class _OfferedProdutsTapState extends State<OfferedProdutsTap> {
     //     .read<GetMainCategoryForViewCubit>()
     //     .getMainCategory(pageNumber: 1, pageSize: 10);
     context.read<ProductsCubit>().getProducts(1, 10, null);
+    context.read<GetCategory>().getMainCategory(1, 10);
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        GenericFilterBar<StoreCategoryModel>(
-          onChanged: (int? categoryId) {
-            // context.read<ProductsCubit>().getStoreProductsWitheFilter(
-            //     storeProductsFilter: 0,
-            //     categoryId: categoryId,
-            //     pageNumber: 1,
-            //     pageSize: 10);
+        BlocBuilder<GetCategory, GetCategoryState>(
+          builder: (context, state) {
+            if (state is GetCategoryLoadInProgress) {
+              return GenericFilterBar<StoreCategoryModel>(
+                items: const [],
+                isLoading: true,
+                getName: (item) => item.categoryName,
+                getId: (item) => item.id,
+                selectedId: 0,
+              );
+            }
+
+            if (state is GetCategoryLoadSuccess) {
+              return GenericFilterBar<StoreCategoryModel>(
+                items: state.categoryies,
+                isLoading: false,
+                onChanged: (int? categoryId) {
+                  // context.read<ProductsCubit>().getStoreProductsWitheFilter(
+                  //     storeProductsFilter: 0,
+                  //     categoryId: categoryId,
+                  //     pageNumber: 1,
+                  //     pageSize: 10);
+                },
+                onLoadMore: () {
+                  final cubit = context.read<GetCategory>();
+                  // Calculate next page based on current items count
+                  // Assuming page size is 10
+                  int nextPage = (state.categoryies.length ~/ 10) + 1;
+                  cubit.getMainCategory(nextPage, 10);
+                },
+                getName: (item) => item.categoryName,
+                getId: (item) => item.id,
+                selectedId: 0,
+              );
+            }
+
+            // Default/initial state
+            return GenericFilterBar<StoreCategoryModel>(
+              items: const [],
+              isLoading: false,
+              getName: (item) => item.categoryName,
+              getId: (item) => item.id,
+              selectedId: 0,
+            );
           },
-          dataFetcher: (int page, int size) =>
-              context.read<GetCategory>().getMainCategory(1, 10),
-          getName: (item) => item.categoryName,
-          getId: (item) => item.id,
-          selectedId: 0,
         ),
         // CategoryFilterBarTemp(
         //   storeProductsFilter: 2,

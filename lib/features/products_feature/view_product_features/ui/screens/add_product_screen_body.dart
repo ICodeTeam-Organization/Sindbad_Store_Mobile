@@ -6,9 +6,9 @@ import 'package:sindbad_management_app/features/products_feature/add_and_edit_pr
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/widgets/custom_card_to_all_drop_down.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/widgets/custom_card_to_all_text_fields.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/widgets/two_button_in_down_add_product.dart';
-import '../manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
-import '../manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
-import 'custom_card_product_images_for_add_and_edit_product.dart';
+import '../../../add_and_edit_product_feature/ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
+import '../../../add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
+import '../../../add_and_edit_product_feature/ui/widgets/custom_card_product_images_for_add_and_edit_product.dart';
 
 class AddProductScreenBody extends StatefulWidget {
   const AddProductScreenBody({
@@ -57,7 +57,7 @@ class _AddProductScreenBodyState extends State<AddProductScreenBody> {
           isSearch: false,
           tital: 'إضافة منتج',
         ),
-        SizedBox(height: 40.h),
+        SizedBox(height: 10.h),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.0.w),
           child: Center(

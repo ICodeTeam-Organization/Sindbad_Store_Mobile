@@ -68,41 +68,39 @@ class ProductsCubit extends Cubit<ProductsState> {
     required int pageSize,
     int? categoryId,
   }) async {
-    // if (pageNumber == 1) {
-    //   products.clear();
-    // }
-    // emit(ProductsLoadInProgress());
-    // currentStoreProductsFilter = storeProductsFilter;
-    // currentMainCategoryId = categoryId;
+    if (pageNumber == 1) {
+      products.clear();
+    }
+    emit(ProductsLoadInProgress());
+    currentStoreProductsFilter = storeProductsFilter;
+    currentMainCategoryId = categoryId;
 
-    // var params = ProductsParams(storeProductsFilter, pageNumber, pageSize);
-    // var result = await getProductsUseCase.execute(params);
+    var params = ProductsParams(pageNumber, pageSize, categoryId);
+    var result = await getProductsUseCase.execute(params);
 
-    // result.fold(
-    //   (failure) {
-    //     if (pageNumber == 1) {
-    //       emit(ProductsLoadFailure(failure.message));
-    //     } else {
-    //       emit(ProductsLoadSuccess(
-    //         products,
-    //         List<bool>.filled(products.length, false),
-    //         [],
-    //       ));
-    //     }
-    //   },
-    //   (fetchedProducts) {
-    //     if (pageNumber == 1) {
-    //       products = fetchedProducts;
-    //     } else {
-    //       products.addAll(fetchedProducts);
-    //     }
-    //     emit(ProductsLoadSuccess(
-    //       products,
-    //       List<bool>.filled(products.length, false),
-    //       [],
-    //     ));
-    //   },
-    // );
+    result.fold(
+      (failure) {
+        if (pageNumber == 1) {
+          emit(ProductsLoadFailure(failure.message));
+        } else {
+          emit(ProductsLoadSuccess(
+            products,
+            selectedProducts,
+          ));
+        }
+      },
+      (fetchedProducts) {
+        if (pageNumber == 1) {
+          products = fetchedProducts;
+        } else {
+          products.addAll(fetchedProducts);
+        }
+        emit(ProductsLoadSuccess(
+          products,
+          selectedProducts,
+        ));
+      },
+    );
   }
 
   Future<void> getProducts(
