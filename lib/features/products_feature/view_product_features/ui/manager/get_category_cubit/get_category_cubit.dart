@@ -109,37 +109,37 @@ class GetCategory extends Cubit<GetCategoryState> {
     int pageSize,
   ) async {
     emit(GetCategoryLoadInProgress());
-    await Future.delayed(const Duration(seconds: 2));
+    //  await Future.delayed(const Duration(seconds: 2));
     emit(GetCategoryLoadSuccess(_allCategories));
-    // if (pageNumber == 1) {
-    //   emit(GetCategoryLoadInProgress());
-    //   // Reset list to just "ALL" when refreshing
-    //   _allCategories = [
-    //     StoreCategoryModel(
-    //       id: 0,
-    //       categoryName: 'الكل',
-    //       categoryImageUrl: '',
-    //     )
-    //   ];
-    // }
+    if (pageNumber == 1) {
+      emit(GetCategoryLoadInProgress());
+      // Reset list to just "ALL" when refreshing
+      _allCategories = [
+        StoreCategoryModel(
+          id: 0,
+          categoryName: 'الكل',
+          categoryImageUrl: '',
+        )
+      ];
+    }
 
-    // MainCategoryParams params =
-    //     MainCategoryParams(pageNumber: pageNumber, pageSize: pageSize);
+    MainCategoryParams params =
+        MainCategoryParams(pageNumber: pageNumber, pageSize: pageSize);
 
-    // if (pageNumber > 1) {
-    //   emit(GetCategoryLoadSuccess(_allCategories, isLoading: true));
-    // }
+    if (pageNumber > 1) {
+      emit(GetCategoryLoadSuccess(_allCategories));
+    }
 
-    // var result = await getMainCategoryUseCase.execute(params);
+    var result = await getMainCategoryUseCase.execute(params);
 
-    // result.fold(
-    //   (failure) {
-    //     emit(GetCategoryLoadFailure(failure.message));
-    //   },
-    //   (categories) {
-    //     _allCategories.addAll(categories);
-    //     emit(GetCategoryLoadSuccess(_allCategories, isLoading: false));
-    //   },
-    // );
+    result.fold(
+      (failure) {
+        emit(GetCategoryLoadFailure(failure.message));
+      },
+      (categories) {
+        _allCategories.addAll(categories);
+        emit(GetCategoryLoadSuccess(_allCategories));
+      },
+    );
   }
 }
