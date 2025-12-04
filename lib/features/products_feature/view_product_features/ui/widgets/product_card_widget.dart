@@ -16,12 +16,14 @@ class ProductCardWidget extends StatelessWidget {
     required this.isEven,
     required this.product,
     this.selected = false,
+    this.onToggleSelection,
   });
 
   final List<ProductEntity> products;
   final bool isEven;
   final ProductEntity product;
   final bool selected;
+  final void Function(int productId)? onToggleSelection;
 
   @override
   Widget build(BuildContext context) {
@@ -43,11 +45,16 @@ class ProductCardWidget extends StatelessWidget {
             child: Row(
               children: [
                 CheckBoxCustom(
-                  val: selected, //state.checkedStates[index],
+                  val: selected,
                   onChanged: (val) {
-                    context
-                        .read<ProductsCubit>()
-                        .toggleProductSelection(product.id);
+                    if (onToggleSelection != null) {
+                      onToggleSelection!(product.id);
+                    } else {
+                      // Fallback to legacy method
+                      context
+                          .read<ProductsCubit>()
+                          .toggleProductSelection(product.id);
+                    }
                   },
                 ),
                 ImageCardCustom(imageUrlNetwork: product.imageUrl!),

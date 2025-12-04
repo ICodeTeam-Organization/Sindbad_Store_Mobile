@@ -79,7 +79,7 @@ class _ViewProductBodyState extends State<_ViewProductBody> {
               tabViews: [
                 AllProductsTap(),
                 OfferedProdutsTap(),
-                StopedProductsTap(),
+                StoppedProductsTap(),
               ],
               length: 3,
               indicatorColor: AppColors.primary,

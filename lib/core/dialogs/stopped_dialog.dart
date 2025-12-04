@@ -76,7 +76,7 @@ class _ProductSelectionDialogState extends State<ProductSelectionDialog> {
             // Header
             Container(
               decoration: const BoxDecoration(
-                color: Color(0xffFF8674),
+                color: Color(0xffFF746B),
                 borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
               ),
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
@@ -106,23 +106,23 @@ class _ProductSelectionDialogState extends State<ProductSelectionDialog> {
             const SizedBox(height: 12),
 
             // Search Bar
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: TextField(
-                controller: searchController,
-                textAlign: TextAlign.right,
-                decoration: InputDecoration(
-                  hintText: "بحث عن رقم المنتج او اسمه",
-                  prefixIcon: const Icon(Icons.search),
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                onChanged: filter,
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 16),
+            //   child: TextField(
+            //     controller: searchController,
+            //     textAlign: TextAlign.right,
+            //     decoration: InputDecoration(
+            //       hintText: "بحث عن رقم المنتج او اسمه",
+            //       prefixIcon: const Icon(Icons.search),
+            //       contentPadding:
+            //           const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            //       border: OutlineInputBorder(
+            //         borderRadius: BorderRadius.circular(12),
+            //       ),
+            //     ),
+            //     onChanged: filter,
+            //   ),
+            // ),
 
             const SizedBox(height: 16),
 
@@ -209,7 +209,7 @@ class _ProductSelectionDialogState extends State<ProductSelectionDialog> {
                         Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xffFF8674),
+                        backgroundColor: const Color(0xffFF746B),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
                         ),
@@ -228,7 +228,7 @@ class _ProductSelectionDialogState extends State<ProductSelectionDialog> {
                     child: ElevatedButton(
                       onPressed: () => Navigator.pop(context),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.grey,
+                        backgroundColor: const Color(0xff979797),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
                         ),
