@@ -84,47 +84,47 @@ class _CustomCardToAllTextFieldsState extends State<CustomCardToAllTextFields> {
               width: 400.w,
               height: 130.h,
             ),
-            CustomTextFormWidget(
-              textController:
-                  widget.cubitAddProduct.descriptionProductController,
-              text: 'وصف المنتج',
-              width: 400.w,
-              height: 200.h,
-              maxLines: 5, // Allow multiple lines
-              keyboardType: TextInputType.multiline,
-              isRequired: false,
-            ),
+            // CustomTextFormWidget(
+            //   textController:
+            //       widget.cubitAddProduct.descriptionProductController,
+            //   text: 'وصف المنتج',
+            //   width: 400.w,
+            //   height: 200.h,
+            //   maxLines: 5, // Allow multiple lines
+            //   keyboardType: TextInputType.multiline,
+            //   isRequired: false,
+            // ),
 
-            CustomTextFormWidget(
-              textController: null,
-              onFieldSubmitted: (value) {
-                if (value.isNotEmpty) {
-                  setState(() {
-                    widget.tags.add(value);
-                  });
-                }
-              },
-              text: 'صفات المنتج',
-              width: 400.w,
-              height: 65.h,
-              keyboardType: TextInputType.number,
-              isRequired: false,
-            ),
-            SizedBox(height: 20.h),
-            Wrap(
-              spacing: 8.0, // Spacing between tags
-              runSpacing: 4.0, // Spacing between lines
-              children: widget.tags.map((tag) {
-                return Chip(
-                  label: Text(tag),
-                  onDeleted: () {
-                    setState(() {
-                      widget.tags.remove(tag);
-                    });
-                  },
-                );
-              }).toList(),
-            ),
+            // CustomTextFormWidget(
+            //   textController: null,
+            //   onFieldSubmitted: (value) {
+            //     if (value.isNotEmpty) {
+            //       setState(() {
+            //         widget.tags.add(value);
+            //       });
+            //     }
+            //   },
+            //   text: 'صفات المنتج',
+            //   width: 400.w,
+            //   height: 65.h,
+            //   keyboardType: TextInputType.number,
+            //   isRequired: false,
+            // ),
+            // SizedBox(height: 20.h),
+            // Wrap(
+            //   spacing: 8.0, // Spacing between tags
+            //   runSpacing: 4.0, // Spacing between lines
+            //   children: widget.tags.map((tag) {
+            //     return Chip(
+            //       label: Text(tag),
+            //       onDeleted: () {
+            //         setState(() {
+            //           widget.tags.remove(tag);
+            //         });
+            //       },
+            //     );
+            //   }).toList(),
+            // ),
           ],
         ),
       ),

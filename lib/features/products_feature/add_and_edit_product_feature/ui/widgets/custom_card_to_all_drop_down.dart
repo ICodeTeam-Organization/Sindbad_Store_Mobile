@@ -41,21 +41,21 @@ class CustomCardToAllDropDown extends StatelessWidget {
                 if (state is GetCategoryNamesLoading) {
                   return const GetCategoryNamesLoadingWidget();
                 }
-                if (state is GetCategoryNamesSuccess) {
-                  cubitAddProduct.selectedSubCategoryId =
-                      cubitCategories.subCategories.isNotEmpty
-                          ? cubitCategories.subCategories.first.categoryId
-                          : null;
+                // if (state is GetCategoryNamesSuccess) {
+                //   cubitAddProduct.selectedSubCategoryId =
+                //       cubitCategories.subCategories.isNotEmpty
+                //           ? cubitCategories.subCategories.first.categoryId
+                //           : null;
 
-                  return GetCategoryNamesSuccessWidget(
-                      mainAndSubCategories: state.categoryAndSubCategoryNames,
-                      cubitCategories: cubitCategories,
-                      cubitAddProduct: cubitAddProduct);
-                }
+                //   return GetCategoryNamesSuccessWidget(
+                //       mainAndSubCategories: state.categoryAndSubCategoryNames,
+                //       cubitCategories: cubitCategories,
+                //       cubitAddProduct: cubitAddProduct);
+                // }
 
-                if (state is GetCategoryNamesFailure) {
-                  return const GetCategoryNamesFailureWidget();
-                }
+                // if (state is GetCategoryNamesFailure) {
+                //   return const GetCategoryNamesFailureWidget();
+                // }
                 return const GetCategoryNamesInitialWidget();
                 // in else or initial
               },

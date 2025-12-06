@@ -9,10 +9,10 @@ import '../../../../../core/swidgets/new_widgets/custom_tab_bar_widget.dart';
 import '../../../../../config/styles/Colors.dart';
 import '../manager/activate_products/activate_products_by_ids_cubit.dart';
 import '../manager/products_cubit/products_cubit.dart';
-import '../widgets/custom_show_dialog_for_view_widget.dart';
+import 'custom_show_dialog_for_view_widget.dart';
 
-class ViewProductScreen extends StatelessWidget {
-  const ViewProductScreen({
+class ProductsTabBatWidget extends StatelessWidget {
+  const ProductsTabBatWidget({
     super.key,
   });
 

@@ -66,7 +66,7 @@ class CustomCardToAllAttributesFields extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      context.read<AttributeProductCubit>().addField();
+                      //  context.read<AttributeProductCubit>().addField();
                     },
                     child: const SizedBox(
                       child: Row(

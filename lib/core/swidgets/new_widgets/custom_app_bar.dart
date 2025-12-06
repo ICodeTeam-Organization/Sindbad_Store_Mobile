@@ -39,74 +39,90 @@ class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
     int count = 0;
-    return Container(
+    return Material(
       color: AppColors.white,
-      height: 75.h,
-      width: double.infinity.w,
-      child: Stack(
-        children: [
-          widget.isBack == true
-              ? Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                      padding: const EdgeInsets.only(right: 15),
-                      child: InkWell(
-                        onTap: widget.onBackPressed ??
-                            () => Navigator.of(context).pop(),
-                        child: SvgPicture.asset(
-                          "assets/back_appbar.svg",
-                          width: 40.w,
-                          height: 40.w,
-                        ),
-                      )),
-                )
-              : SizedBox(),
-          Center(
-            child: Text(
-              widget.tital,
-              style: KTextStyle.textStyle20.copyWith(
-                color: AppColors.blackDark,
+      child: Container(
+        height: 75.h,
+        width: double.infinity.w,
+        child: Stack(
+          children: [
+            widget.isBack == true
+                ? Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                        padding: const EdgeInsets.only(right: 15),
+                        child: InkWell(
+                          onTap: widget.onBackPressed ??
+                              () => Navigator.of(context).pop(),
+                          child: SvgPicture.asset(
+                            "assets/back_appbar.svg",
+                            width: 40.w,
+                            height: 40.w,
+                          ),
+                        )),
+                  )
+                : SizedBox(),
+            Center(
+              child: Text(
+                widget.tital,
+                style: KTextStyle.textStyle20.copyWith(
+                  color: AppColors.blackDark,
+                ),
               ),
             ),
-          ),
-          widget.isSearch == true
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                          padding: const EdgeInsets.only(right: 15),
-                          child: InkWell(
-                            onTap: widget.onSearchPressed ??
-                                () => GoRouter.of(context)
-                                    .push(AppRoutes.profile),
-                            child: Icon(Icons.person_outline,
-                                size: 30.w, color: AppColors.blackDark),
-                          )),
-                    ),
-                    SizedBox(width: 10),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                          padding: const EdgeInsets.only(left: 15),
-                          child: InkWell(
-                            onTap: widget.onSearchPressed ??
-                                () => GoRouter.of(context)
-                                    .push(AppRoutes.notification),
-                            child: BlocConsumer<UnreadNotifictionCubit,
-                                UnreadNotifictionState>(
-                              listener: (context, state) {
-                                if (state is UnreadNotifictionSuccess) {
-                                  count = 0;
-                                  for (var element
-                                      in state.getUnreadNotifiction) {
-                                    count += element.totalUnreadCount ?? 0;
+            widget.isSearch == true
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                            padding: const EdgeInsets.only(right: 15),
+                            child: InkWell(
+                              onTap: widget.onSearchPressed ??
+                                  () => GoRouter.of(context)
+                                      .push(AppRoutes.profile),
+                              child: Icon(Icons.person_outline,
+                                  size: 30.w, color: AppColors.blackDark),
+                            )),
+                      ),
+                      SizedBox(width: 10),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                            padding: const EdgeInsets.only(left: 15),
+                            child: InkWell(
+                              onTap: widget.onSearchPressed ??
+                                  () => GoRouter.of(context)
+                                      .push(AppRoutes.notification),
+                              child: BlocConsumer<UnreadNotifictionCubit,
+                                  UnreadNotifictionState>(
+                                listener: (context, state) {
+                                  if (state is UnreadNotifictionSuccess) {
+                                    count = 0;
+                                    for (var element
+                                        in state.getUnreadNotifiction) {
+                                      count += element.totalUnreadCount ?? 0;
+                                    }
                                   }
-                                }
-                              },
-                              builder: (context, state) {
-                                if (state is UnreadNotifictionSuccess) {
+                                },
+                                builder: (context, state) {
+                                  if (state is UnreadNotifictionSuccess) {
+                                    return count > 0
+                                        ? Badge(
+                                            label: count > 99
+                                                ? Text('99+')
+                                                : Text(count.toString()),
+                                            backgroundColor: Colors.red,
+                                            child: Icon(
+                                                Icons.notifications_none,
+                                                size: 30.w,
+                                                color: AppColors.blackDark),
+                                          )
+                                        : Icon(Icons.notifications_none,
+                                            size: 30.w,
+                                            color: AppColors.blackDark);
+                                  }
                                   return count > 0
                                       ? Badge(
                                           label: count > 99
@@ -120,27 +136,15 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                       : Icon(Icons.notifications_none,
                                           size: 30.w,
                                           color: AppColors.blackDark);
-                                }
-                                return count > 0
-                                    ? Badge(
-                                        label: count > 99
-                                            ? Text('99+')
-                                            : Text(count.toString()),
-                                        backgroundColor: Colors.red,
-                                        child: Icon(Icons.notifications_none,
-                                            size: 30.w,
-                                            color: AppColors.blackDark),
-                                      )
-                                    : Icon(Icons.notifications_none,
-                                        size: 30.w, color: AppColors.blackDark);
-                              },
-                            ),
-                          )),
-                    ),
-                  ],
-                )
-              : SizedBox(),
-        ],
+                                },
+                              ),
+                            )),
+                      ),
+                    ],
+                  )
+                : SizedBox(),
+          ],
+        ),
       ),
     );
   }

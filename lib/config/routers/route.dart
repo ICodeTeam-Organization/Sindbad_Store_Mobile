@@ -6,7 +6,7 @@ import 'package:sindbad_management_app/features/auth_feature/ui/screens/confirm_
 import 'package:sindbad_management_app/features/auth_feature/ui/screens/login_screen.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/screens/reset_password_screen.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/screen/temp_widget/order_details.dart';
-import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/screens/add_product_screen_body.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/screens/add_product_page.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/screen/excell_page.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/ui/screen/notificion_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/new_offer_screen.dart';
@@ -96,11 +96,7 @@ abstract class AppRouter {
       GoRoute(
         path: AppRoutes.addProduct,
         builder: (context, state) {
-          final onSuccessCallback = state.extra as VoidCallback?;
-
-          return AddProductScreenBody(
-            onSuccessCallback: onSuccessCallback,
-          );
+          return AddProductPage();
         },
       ),
       GoRoute(

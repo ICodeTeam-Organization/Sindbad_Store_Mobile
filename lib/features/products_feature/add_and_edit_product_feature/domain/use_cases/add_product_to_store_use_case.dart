@@ -1,15 +1,16 @@
 import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
+import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/data/repos/add_and_edit_product_store_repo_impl.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/repos/add_and_edit_product_store_repo.dart';
 import '../../../../../core/use_cases/param_use_case.dart';
 import '../entities/add_product_entities/add_product_entity.dart';
 
 class AddProductToStoreUseCase
     extends UseCaseWithParam<AddProductEntity, AddProductToStoreParams> {
-  final AddAndEditProductStoreRepo addProductStoreRepo;
+  final AddAndEditProductStoreRepoImpl addProductStoreRepo;
 
-  AddProductToStoreUseCase({required this.addProductStoreRepo});
+  AddProductToStoreUseCase(this.addProductStoreRepo);
   @override
   Future<Either<Failure, AddProductEntity>> execute(
       AddProductToStoreParams params) {
