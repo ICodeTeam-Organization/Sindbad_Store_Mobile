@@ -1,11 +1,6 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
-import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/model/store_category_model.dart';
 
-import '../../../../../../core/errors/failure.dart';
-import '../../../domain/entities/main_category_for_view_entity.dart';
 import '../../../domain/entities/get_main_category_paramers.dart';
 import '../../../domain/use_cases/get_main_category_use_case.dart';
 

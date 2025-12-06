@@ -1,5 +1,6 @@
 class ViewOfferFunctions {
-  static offerActiveTitleButton(bool isActive, String isActiveTitleButton) {
+  static void offerActiveTitleButton(
+      bool isActive, String isActiveTitleButton) {
     if (isActive == true) {
       isActiveTitleButton = 'ايقاف عرض';
     } else {
@@ -7,7 +8,7 @@ class ViewOfferFunctions {
     }
   }
 
-  static offerTypetitle(
+  static void offerTypetitle(
     String typeName,
     String offerTypeTitle,
     num discountRate,
@@ -21,7 +22,7 @@ class ViewOfferFunctions {
     }
   }
 
-  static calculateRemainigDays(
+  static void calculateRemainigDays(
     DateTime endOffer,
     bool isRemainingDays,
     int result,
@@ -44,7 +45,7 @@ class ViewOfferFunctions {
     }
   }
 
-  static specialCasesInRemainigDays(
+  static void specialCasesInRemainigDays(
     int result,
     String specialCase,
     dynamic remainingDays,

@@ -4,7 +4,6 @@ import 'package:sindbad_management_app/features/products_feature/view_product_fe
 import 'package:sindbad_management_app/features/profile_feature/data/model/store_category_model.dart';
 import '../../../../../core/errors/failure.dart';
 import '../../../../../core/use_cases/param_use_case.dart';
-import '../repos/product_store_repository.dart';
 
 class GetMainCategoryUseCase
     extends UseCaseWithParam<List<StoreCategoryModel>, MainCategoryParams> {

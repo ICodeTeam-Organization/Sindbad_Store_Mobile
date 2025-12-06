@@ -190,6 +190,7 @@ class _AllProductsTapState extends State<AllProductsTap> {
               // if (selectedProducts.isEmpty) return;
 
               showProductSelectionDialog(
+                  title: "ايقاف المنتجات",
                   context: context,
                   products: context.read<ProductsCubit>().selectedProducts,
                   onConfirm: () {

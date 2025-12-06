@@ -1,23 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
 import 'package:sindbad_management_app/core/use_cases/param_use_case.dart';
-import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/repos/product_store_repository.dart';
-import '../entities/activate_products_entity.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/data/repos/product_repository_impl.dart';
 
-class ActivateProductsByIdsUseCase
-    extends UseCaseWithParam<ActivateProductsEntity, ActivateProductsParams> {
-  final ProductRepository viewProductRepo;
+class ActivateProductsUseCase extends UseCaseWithParam<bool, List<int>> {
+  final ProductRepositoryImpl productRepository;
 
-  ActivateProductsByIdsUseCase(this.viewProductRepo);
+  ActivateProductsUseCase(this.productRepository);
   @override
-  Future<Either<Failure, ActivateProductsEntity>> execute(
-      ActivateProductsParams params) async {
-    return viewProductRepo.activateProductsByIds(ids: params.ids);
+  Future<Either<Failure, bool>> execute(List<int> params) async {
+    return productRepository.activateProducts(params);
   }
-}
-
-class ActivateProductsParams {
-  final List<int> ids;
-
-  ActivateProductsParams({required this.ids});
 }

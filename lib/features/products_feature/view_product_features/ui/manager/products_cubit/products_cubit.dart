@@ -1,6 +1,6 @@
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/get_products_parames.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/activate_products_by_ids_use_case.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/disable_products_by_ids_use_case.dart';
 import '../../../domain/entities/product_entity.dart';
 import '../../../domain/use_cases/get_products_usecase.dart';
@@ -8,10 +8,12 @@ import '../../../domain/use_cases/get_products_usecase.dart';
 part 'products_states.dart';
 
 class ProductsCubit extends Cubit<ProductsState> {
-  ProductsCubit(this.getProductsUseCase, this._disableProductsUseCase)
+  ProductsCubit(this.getProductsUseCase, this._disableProductsUseCase,
+      this._activateProductsUseCase)
       : super(ProductsInitial());
   final GetProductsUseCase getProductsUseCase;
   final DisableProductsUseCase _disableProductsUseCase;
+  final ActivateProductsUseCase _activateProductsUseCase;
 
   // Separate lists for each tab
   List<ProductEntity> allProducts = [];
@@ -39,6 +41,21 @@ class ProductsCubit extends Cubit<ProductsState> {
       emit(ProductsLoadFailure(failure.message));
     }, (disableResponse) {
       selectedProducts.clear();
+      emit(ProductsLoadSuccess(
+        products,
+        selectedProducts,
+      ));
+    });
+  }
+
+  Future<void> activateSelectedProducts() async {
+    var result = await _activateProductsUseCase
+        .execute(selectedStoppedProducts.map((e) => e.id).toList());
+
+    result.fold((failure) {
+      emit(ProductsLoadFailure(failure.message));
+    }, (disableResponse) {
+      selectedStoppedProducts.clear();
       emit(ProductsLoadSuccess(
         products,
         selectedProducts,

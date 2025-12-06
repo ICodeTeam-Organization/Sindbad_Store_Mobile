@@ -5,6 +5,7 @@ void showProductSelectionDialog({
   required BuildContext context,
   required List<ProductEntity> products,
   required VoidCallback onConfirm,
+  required String title,
 }) {
   showDialog(
     context: context,
@@ -13,6 +14,7 @@ void showProductSelectionDialog({
       return ProductSelectionDialog(
         products: products,
         onConfirm: onConfirm,
+        title: title,
       );
     },
   );
@@ -21,11 +23,13 @@ void showProductSelectionDialog({
 class ProductSelectionDialog extends StatefulWidget {
   final List<ProductEntity> products;
   final VoidCallback onConfirm;
+  final String title;
 
   const ProductSelectionDialog({
     super.key,
     required this.products,
     required this.onConfirm,
+    required this.title,
   });
 
   @override
@@ -83,8 +87,8 @@ class _ProductSelectionDialogState extends State<ProductSelectionDialog> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    "ايقاف المنتجات",
+                  Text(
+                    widget.title,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -149,16 +153,15 @@ class _ProductSelectionDialogState extends State<ProductSelectionDialog> {
                         // Product info
                         Row(
                           children: [
-                            if (product.imageUrl != null)
-                              Image.network(
-                                product.imageUrl!,
-                                width: 45,
-                                height: 45,
-                                errorBuilder: (_, __, ___) => const Icon(
-                                  Icons.image_not_supported,
-                                  size: 40,
-                                ),
+                            Image.network(
+                              product.imageUrl!,
+                              width: 45,
+                              height: 45,
+                              errorBuilder: (_, __, ___) => const Icon(
+                                Icons.image_not_supported,
+                                size: 40,
                               ),
+                            ),
                             const SizedBox(width: 12),
                             Text(
                               product.name ?? "",

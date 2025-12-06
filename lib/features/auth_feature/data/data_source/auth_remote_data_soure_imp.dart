@@ -37,7 +37,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     SignInEntity userVerification = SignInModel.fromJson(data);
 
-    if (userVerification.isSuccess == true && userVerification.token != null) {
+    if (userVerification.isSuccess == true) {
       await secureStorage.write(key: 'token', value: userVerification.token);
     }
 

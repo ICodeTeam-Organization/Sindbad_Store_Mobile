@@ -1,6 +1,4 @@
-import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/activate_products_entity.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/delete_entity_product.dart';
-import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/disable_products_entity.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/main_category_for_view_entity.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/product_entity.dart';
 
@@ -30,6 +28,5 @@ abstract class ProductRemoteDataSource {
   Future<bool> disableProductsByIds(List<int> ids);
 
   // for ActivateProducts By [Ids]
-  Future<ActivateProductsEntity> activateProductsByIds(
-      {required List<int> ids});
+  Future<bool> activateProductsByIds(List<int> ids);
 }

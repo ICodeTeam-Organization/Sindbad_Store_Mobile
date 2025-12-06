@@ -83,9 +83,9 @@ class _SubCustomTabBarState extends State<SubCustomTabBar>
               tabs: List.generate(widget.tabs.length, (index) {
                 return _AlwaysBorderTab(
                   index: index,
-                  child: widget.tabs[index],
                   //    borderRadius: SubCustomTabBar._borderRadius.r,
                   controller: subTabController!,
+                  child: widget.tabs[index],
                 );
               }),
             ),

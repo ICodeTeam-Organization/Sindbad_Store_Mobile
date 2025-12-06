@@ -56,11 +56,7 @@ class AuthentationRepositoryImp extends AuthentationRepository {
         debugPrint("Reset Password Message: ${response.message}");
         return Right(DataSuccess(response.message));
       }
-      if (response != null) {
-        return Right(DataSuccess(response));
-      } else {
-        return Left(DataFailed<String>("Unknow error"));
-      }
+      return Right(DataSuccess(response));
     } catch (e) {
       return Left(DataFailed<String>(e.toString()));
     }

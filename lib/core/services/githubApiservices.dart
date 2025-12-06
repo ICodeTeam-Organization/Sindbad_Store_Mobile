@@ -53,7 +53,7 @@ class GitHubApiService {
 
         if (responseData is List) {
           // Multiple releases returned
-          releases = (responseData as List)
+          releases = (responseData)
               .map((item) => Release.fromJson(item as Map<String, dynamic>))
               .toList();
         } else if (responseData is Map) {

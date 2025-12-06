@@ -50,7 +50,7 @@ class AllOrderCubit extends Cubit<AllOrderState> {
     final orderStatuses = ['2', '3', '4', '5', '6'];
     final payStatuses = ['Paid', 'Unpaid', 'Refunded', 'Partial'];
 
-    final List<AllOrderEntity> _orders = List.generate(orderCount, (index) {
+    final List<AllOrderEntity> orders = List.generate(orderCount, (index) {
       final orderId = random.nextInt(10000) + 1;
       final packageId = random.nextInt(5000) + 100;
       final productCount = random.nextInt(25) + 1;
@@ -82,7 +82,7 @@ class AllOrderCubit extends Cubit<AllOrderState> {
         );
       }
     }, (orders) {
-      emit(AllOrderSuccess(orders: _orders));
+      emit(AllOrderSuccess(orders: orders));
     });
   }
 }

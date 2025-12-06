@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/main_category_for_view_entity.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/model/store_category_model.dart';
 import '../manager/products_cubit/products_cubit.dart';
 import 'sub_category_card_custom.dart';

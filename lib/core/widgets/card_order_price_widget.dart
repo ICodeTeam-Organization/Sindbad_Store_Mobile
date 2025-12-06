@@ -11,6 +11,7 @@ class KCardOrderPriceWidget extends StatefulWidget {
   final String Details;
 
   const KCardOrderPriceWidget({
+    super.key,
     required this.orderAmount,
     required this.orderImage,
     required this.orderNumber,

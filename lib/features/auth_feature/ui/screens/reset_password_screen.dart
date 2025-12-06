@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sindbad_management_app/core/swidgets/new_widgets/store_primary_button.dart';
 import 'package:sindbad_management_app/core/widgets/arrow_back_button_widget.dart';
 import 'package:sindbad_management_app/core/widgets/submit_button_widget.dart';
-import 'package:sindbad_management_app/features/auth_feature/ui/screens/confirm_password_screen.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/widgets/custom_text_form_widget.dart';
-import 'package:sindbad_management_app/features/profile_feature/ui/cubit/reset_password_cubit/reset_password_cubit.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
   const ResetPasswordScreen({super.key});

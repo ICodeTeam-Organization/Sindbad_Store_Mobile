@@ -14,6 +14,7 @@ class KCardInfoPriceWidget extends StatelessWidget {
 
   final bool isShow;
   const KCardInfoPriceWidget({
+    super.key,
     this.isShow = true,
     required this.orderAmount,
     required this.Price,

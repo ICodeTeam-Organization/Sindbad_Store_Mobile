@@ -5,14 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/data/data_source/products_endpoint_parameters.dart';
-import 'package:sindbad_management_app/features/products_feature/view_product_features/data/data_source/view_product_remote_datasource.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/data/data_source/product_remote_datasource.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/delete_entity_product.dart';
 import '../../../../../core/api_service.dart';
-import '../../domain/entities/activate_products_entity.dart';
 import '../../domain/entities/disable_products_entity.dart';
 import '../../domain/entities/main_category_for_view_entity.dart';
 import '../../domain/entities/product_entity.dart';
-import '../models/activate_products_model/activate_products_model.dart';
 import '../models/delete_product_model.dart';
 import '../models/disable_products_model/disable_products_model.dart';
 import '../models/main_category_for_view_model/item.dart';
@@ -186,12 +184,16 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
         );
       }
 
-      final dio = Dio(); // Or use your existing Dio instance if you have one
+      final dio = Dio();
       final response = await dio.patch(
-        'https://www.sindibad-back.com:82/api/Products/DisableProducts', // Add your base URL
+        'https://www.sindibad-back.com:82/api/Products/DisableProducts',
         data: ids,
         options: Options(
-          headers: {"Authorization": "BEARER $token"},
+          headers: {
+            "Authorization": "BEARER $token",
+            "Content-Type": "application/json",
+            "accept": "text/plain",
+          },
         ),
       );
 
@@ -282,17 +284,113 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
 
   // for ActivateProducts By [Ids]
   @override
-  Future<ActivateProductsEntity> activateProductsByIds(
-      {required List<int> ids}) async {
-    String? token = await getToken();
-    var response = await apiService.patchForDisableOrActivateProductsOnly(
-      endPoint: "Products/ActivateProducts",
-      data: ids,
-      headers: {"Authorization": "BEARER $token"},
-    );
-    ActivateProductsEntity responseActivateProducts =
-        ActivateProductsModel.fromJson(response);
-    return responseActivateProducts;
+  Future<bool> activateProductsByIds(List<int> ids) async {
+    try {
+      if (ids.isEmpty) {
+        throw ArgumentError('Product IDs list cannot be empty');
+      }
+
+      final String? token = await getToken();
+
+      if (token == null || token.isEmpty) {
+        throw DioException(
+          requestOptions: RequestOptions(path: ''),
+          error: 'Authentication token is missing or invalid',
+        );
+      }
+
+      final dio = Dio();
+      final response = await dio.patch(
+        'https://www.sindibad-back.com:82/api/Products/ActivateProducts',
+        data: ids,
+        options: Options(
+          headers: {
+            "Authorization": "BEARER $token",
+            "Content-Type": "application/json",
+            "accept": "text/plain",
+          },
+        ),
+      );
+
+      print(response.data);
+
+      final responseData = response.data;
+
+      if (responseData['success'] == true) {
+        return true;
+      } else {
+        final errorMessage = responseData['error'] ??
+            responseData['message'] ??
+            'Failed to activate products';
+
+        throw DioException(
+          requestOptions: response.requestOptions,
+          response: response,
+          error: errorMessage,
+          type: DioExceptionType.badResponse,
+        );
+      }
+    } on DioException catch (e) {
+      switch (e.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.sendTimeout:
+        case DioExceptionType.receiveTimeout:
+          throw DioException(
+            requestOptions: e.requestOptions,
+            error: 'Request timeout. Please try again.',
+            type: e.type,
+          );
+        case DioExceptionType.badCertificate:
+          throw DioException(
+            requestOptions: e.requestOptions,
+            error: 'SSL certificate error. Please check your connection.',
+            type: e.type,
+          );
+        case DioExceptionType.badResponse:
+          final errorData = e.response?.data;
+          final errorMessage = errorData is Map
+              ? errorData['error'] ??
+                  errorData['message'] ??
+                  e.error?.toString() ??
+                  'Server error occurred'
+              : e.error?.toString() ?? 'Server error occurred';
+
+          throw DioException(
+            requestOptions: e.requestOptions,
+            response: e.response,
+            error: errorMessage,
+            type: e.type,
+          );
+        case DioExceptionType.cancel:
+          throw DioException(
+            requestOptions: e.requestOptions,
+            error: 'Request was cancelled',
+            type: e.type,
+          );
+        case DioExceptionType.connectionError:
+          throw DioException(
+            requestOptions: e.requestOptions,
+            error: 'No internet connection. Please check your network.',
+            type: e.type,
+          );
+        case DioExceptionType.unknown:
+          throw DioException(
+            requestOptions: e.requestOptions,
+            error: 'Network error: ${e.error}',
+            type: e.type,
+          );
+      }
+    } catch (e) {
+      if (e is ArgumentError) {
+        rethrow;
+      }
+
+      throw DioException(
+        requestOptions: RequestOptions(path: 'Products/ActivateProducts'),
+        error: 'Failed to activate products: $e',
+        type: DioExceptionType.unknown,
+      );
+    }
   }
 
   @override
@@ -303,19 +401,8 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
         endPoint: "Products?pageNumber=$pageNumber&pageSize=$pageSize",
       );
 
-      // Validate response structure
-      if (response == null) {
-        throw DioException(
-          requestOptions: RequestOptions(path: "Products"),
-          message: "Empty response from server",
-          type: DioExceptionType.unknown,
-        );
-      }
-
       // Handle backend-level errors: success = false
-      if (response is Map &&
-          response.containsKey('success') &&
-          response['success'] == false) {
+      if (response.containsKey('success') && response['success'] == false) {
         throw DioException(
           requestOptions: RequestOptions(path: "Products"),
           message: response['message'] ?? "Backend returned an error",

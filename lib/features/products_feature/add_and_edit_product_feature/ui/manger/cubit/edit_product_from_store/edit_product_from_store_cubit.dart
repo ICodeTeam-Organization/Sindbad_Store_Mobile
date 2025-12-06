@@ -135,9 +135,7 @@ class EditProductFromStoreCubit extends Cubit<EditProductFromStoreState> {
       oldPrice: oldPriceController != null
           ? num.tryParse(oldPriceController.text)
           : null,
-      shortDescription: shortDescriptionProductController != null
-          ? shortDescriptionProductController.text
-          : null,
+      shortDescription: shortDescriptionProductController?.text,
 
       tags: tags,
       mainCategoryId:

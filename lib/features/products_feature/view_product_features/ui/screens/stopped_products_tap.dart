@@ -35,7 +35,6 @@ class _StoppedProductsTapState extends State<StoppedProductsTap> {
     super.initState();
     _scrollController.addListener(_onScroll);
     context.read<ProductsCubit>().getStoppedProducts(_pageNumber, 10, null);
-    context.read<GetCategory>().getMainCategory(1, 10);
   }
 
   @override
@@ -61,7 +60,6 @@ class _StoppedProductsTapState extends State<StoppedProductsTap> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        buildCategoryFilterBar(),
         SizedBox(height: 10.h),
         _buildActionsButtons(context),
         SizedBox(height: 15.h),
@@ -185,12 +183,13 @@ class _StoppedProductsTapState extends State<StoppedProductsTap> {
             width: 126.w,
             onTap: () {
               showProductSelectionDialog(
+                  title: "إعادة تنشيط المنتجات",
                   context: context,
                   products:
                       context.read<ProductsCubit>().selectedStoppedProducts,
                   onConfirm: () {
                     // TODO: Add activateSelectedProducts method
-                    context.read<ProductsCubit>().stopSelectedProducts();
+                    context.read<ProductsCubit>().activateSelectedProducts();
                   });
             },
           )

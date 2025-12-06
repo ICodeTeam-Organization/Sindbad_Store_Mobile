@@ -1,23 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/activate_products_by_ids_use_case.dart';
-import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/disable_products_by_ids_use_case.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/screens/all_products_tap.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/screens/offered_produts_tap.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/screens/stopped_products_tap.dart';
-import '../../../../../injection_container.dart';
 import '../../../../../core/swidgets/new_widgets/custom_app_bar.dart';
 import '../../../../../core/swidgets/new_widgets/custom_tab_bar_widget.dart';
 import '../../../../../config/styles/Colors.dart';
-import '../../../add_and_edit_product_feature/data/repos/add_and_edit_product_store_repo_impl.dart';
-import '../../../add_and_edit_product_feature/domain/use_cases/get_product_details_to_store_use_case.dart';
-import '../../../add_and_edit_product_feature/ui/manger/cubit/ProductDetails/product_details_cubit.dart';
-import '../../data/repos/product_repository_impl.dart';
-import '../../domain/use_cases/delete_product_by_id_use_case.dart';
 import '../manager/activate_products/activate_products_by_ids_cubit.dart';
-import '../manager/delete_product_by_id_from_store/delete_product_by_id_from_store_cubit.dart';
-import '../manager/disable_products/disable_products_by_ids_cubit.dart';
 import '../manager/products_cubit/products_cubit.dart';
 import '../widgets/custom_show_dialog_for_view_widget.dart';
 
@@ -244,59 +234,58 @@ class _ViewProductBodyState extends State<_ViewProductBody> {
 //   );
 // }
 
-void showActivateOneOrMoreProductsDialog({
-  required BuildContext contextParent,
-  required List<int> ids,
-  required int storeProductsFilter,
-  required ActivateProductsByIdsCubit activateProductsCubit,
-}) {
-  showDialog(
-    context: contextParent,
-    builder: (BuildContext dialogContext) {
-      return BlocProvider.value(
-        value: activateProductsCubit,
-        child: BlocConsumer<ActivateProductsByIdsCubit,
-            ActivateProductsByIdsState>(
-          listener: (dialogContext, state) {
-            if (state is ActivateProductsByIdsSuccess) {
-              ScaffoldMessenger.of(contextParent).showSnackBar(
-                SnackBar(content: Text('تم إعادة تنشيط المنتج بنجاح!')),
-              );
-              Navigator.of(dialogContext, rootNavigator: true).pop();
-              contextParent.read<ProductsCubit>().getStoreProductsWitheFilter(
-                    storeProductsFilter: storeProductsFilter,
-                    categoryId: contextParent
-                        .read<ProductsCubit>()
-                        .currentMainCategoryId,
-                    pageNumber: 1,
-                    pageSize: 100,
-                  );
-            } else if (state is ActivateProductsByIdsFailure) {
-              ScaffoldMessenger.of(contextParent).showSnackBar(
-                SnackBar(content: Text(state.errMessage)),
-              );
-            }
-          },
-          builder: (dialogContext, state) {
-            return CustomShowDialogForViewWidget(
-              title: ids.length > 1
-                  ? 'هل انت متأكد من إعادة تنشيط المنتجات؟'
-                  : 'إعادة تنشيط المنتج',
-              subtitle: ids.length > 1
-                  ? 'عدد المنتجات التي تريد تنشطيها : ${ids.length}'
-                  : 'هل تريد بالتأكيد إعادة تنشيط هذا المنتج؟',
-              isLoading: state is ActivateProductsByIdsLoading,
-              onConfirm: () =>
-                  activateProductsCubit.activateProductsByIds(ids: ids),
-              confirmText: 'إعادة تنشيط',
-              cancelText: 'إلغاء',
-            );
-          },
-        ),
-      );
-    },
-  );
-}
+// void showActivateOneOrMoreProductsDialog({
+//   required BuildContext contextParent,
+//   required List<int> ids,
+//   required int storeProductsFilter,
+//   required ActivateProductsByIdsCubit activateProductsCubit,
+// }) {
+//   showDialog(
+//     context: contextParent,
+//     builder: (BuildContext dialogContext) {
+//       return BlocProvider.value(
+//         value: activateProductsCubit,
+//         child: BlocConsumer<ActivateProductsByIdsCubit,
+//             ActivateProductsByIdsState>(
+//           listener: (dialogContext, state) {
+//             if (state is ActivateProductsByIdsSuccess) {
+//               ScaffoldMessenger.of(contextParent).showSnackBar(
+//                 SnackBar(content: Text('تم إعادة تنشيط المنتج بنجاح!')),
+//               );
+//               Navigator.of(dialogContext, rootNavigator: true).pop();
+//               contextParent.read<ProductsCubit>().getStoreProductsWitheFilter(
+//                     storeProductsFilter: storeProductsFilter,
+//                     categoryId: contextParent
+//                         .read<ProductsCubit>()
+//                         .currentMainCategoryId,
+//                     pageNumber: 1,
+//                     pageSize: 100,
+//                   );
+//             } else if (state is ActivateProductsByIdsFailure) {
+//               ScaffoldMessenger.of(contextParent).showSnackBar(
+//                 SnackBar(content: Text(state.errMessage)),
+//               );
+//             }
+//           },
+//           builder: (dialogContext, state) {
+//             return CustomShowDialogForViewWidget(
+//               title: ids.length > 1
+//                   ? 'هل انت متأكد من إعادة تنشيط المنتجات؟'
+//                   : 'إعادة تنشيط المنتج',
+//               subtitle: ids.length > 1
+//                   ? 'عدد المنتجات التي تريد تنشطيها : ${ids.length}'
+//                   : 'هل تريد بالتأكيد إعادة تنشيط هذا المنتج؟',
+//               isLoading: state is ActivateProductsByIdsLoading,
+//               onConfirm: () => activateProductsCubit.activateProductsByIds(ids),
+//               confirmText: 'إعادة تنشيط',
+//               cancelText: 'إلغاء',
+//             );
+//           },
+//         ),
+//       );
+//     },
+//   );
+// }
 
 
 // BlocProvider(

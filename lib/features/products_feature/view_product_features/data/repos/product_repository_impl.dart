@@ -1,9 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
-import 'package:sindbad_management_app/features/products_feature/view_product_features/data/data_source/view_product_remote_data_source_impl.dart';
-import 'package:sindbad_management_app/features/products_feature/view_product_features/data/data_source/view_product_remote_datasource.dart';
-import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/activate_products_entity.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/data/data_source/product_remote_data_source_impl.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/delete_entity_product.dart';
 
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/main_category_for_view_entity.dart';
@@ -163,11 +161,9 @@ class ProductRepositoryImpl extends ProductRepository {
 
   // ===================  for Activate Products  ====================
   @override
-  Future<Either<Failure, ActivateProductsEntity>> activateProductsByIds(
-      {required List<int> ids}) async {
+  Future<Either<Failure, bool>> activateProducts(List<int> ids) async {
     try {
-      var response =
-          await productRemoteDataSource.activateProductsByIds(ids: ids);
+      var response = await productRemoteDataSource.activateProductsByIds(ids);
       return right(response);
     } catch (e) {
       if (e is DioException) {

@@ -32,7 +32,7 @@ class MidOrderDetails extends StatelessWidget {
           '$productPrice',
           style: KTextStyle.textStyle16.copyWith(color: AppColors.primary),
         ),
-        Text('${Currancy.currency}'),
+        Text(Currancy.currency),
         Spacer(),
         Text('الاجمالي'),
         Container(

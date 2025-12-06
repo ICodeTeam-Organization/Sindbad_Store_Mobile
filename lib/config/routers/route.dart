@@ -12,7 +12,6 @@ import 'package:sindbad_management_app/features/notifiction_featurs/ui/screen/no
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/new_offer_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/update_offer_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/screens/view_offer_details_screen.dart';
-import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/screens/add_product_screen.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/screen/change_passsowrd_screen.dart';
 import 'package:sindbad_management_app/core/swidgets/splahs_screen.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/screen/profile_screen.dart';

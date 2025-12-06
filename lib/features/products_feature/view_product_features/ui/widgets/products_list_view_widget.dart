@@ -1,514 +1,488 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:sindbad_management_app/config/routers/routers_names.dart';
-import 'package:sindbad_management_app/core/swidgets/no_data_widget.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import '../../../../../config/styles/Colors.dart';
-import '../../../../../config/styles/text_style.dart';
-import '../../../add_and_edit_product_feature/ui/manger/cubit/ProductDetails/product_details_cubit.dart';
-import '../../../add_and_edit_product_feature/ui/screens/edit_product_screen.dart';
-import '../../domain/entities/product_entity.dart';
-import '../manager/activate_products/activate_products_by_ids_cubit.dart';
-import '../manager/delete_product_by_id_from_store/delete_product_by_id_from_store_cubit.dart';
-import '../manager/products_cubit/products_cubit.dart';
-import 'check_box_custom.dart';
-import 'custom_show_dialog_for_view_widget.dart';
-import 'image_card_custom.dart';
-import 'shimmer_for_products_with_filter.dart';
-import 'two_button_inside_list_view_products.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:go_router/go_router.dart';
+// import 'package:sindbad_management_app/config/routers/routers_names.dart';
+// import 'package:sindbad_management_app/core/swidgets/no_data_widget.dart';
+// import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+// import '../../../../../config/styles/Colors.dart';
+// import '../../../../../config/styles/text_style.dart';
+// import '../../../add_and_edit_product_feature/ui/manger/cubit/ProductDetails/product_details_cubit.dart';
+// import '../../../add_and_edit_product_feature/ui/screens/edit_product_screen.dart';
+// import '../../domain/entities/product_entity.dart';
+// import '../manager/activate_products/activate_products_by_ids_cubit.dart';
+// import '../manager/delete_product_by_id_from_store/delete_product_by_id_from_store_cubit.dart';
+// import '../manager/products_cubit/products_cubit.dart';
+// import 'check_box_custom.dart';
+// import 'custom_show_dialog_for_view_widget.dart';
+// import 'image_card_custom.dart';
+// import 'shimmer_for_products_with_filter.dart';
+// import 'two_button_inside_list_view_products.dart';
 
-class ProductsListView extends StatefulWidget {
-  final int
-      storeProductsFilter; // 1 => all products, 2 => deactivate, 3 => activate
-  const ProductsListView({super.key, required this.storeProductsFilter});
+// class ProductsListView extends StatefulWidget {
+//   final int
+//       storeProductsFilter; // 1 => all products, 2 => deactivate, 3 => activate
+//   const ProductsListView({super.key, required this.storeProductsFilter});
 
-  @override
-  State<ProductsListView> createState() => _ProductsListViewState();
-}
+//   @override
+//   State<ProductsListView> createState() => _ProductsListViewState();
+// }
 
-class _ProductsListViewState extends State<ProductsListView> {
-  // final ScrollController _scrollController = ScrollController();
-  final int _pageSize = 10;
+// class _ProductsListViewState extends State<ProductsListView> {
+//   final int _pageSize = 10;
 
-  @override
-  void initState() {
-    super.initState();
-    // Trigger the initial fetch
-    // context.read<ProductsCubit>().getProducts(
-    //       storeProductsFilter: widget.storeProductsFilter,
-    //       pageNumber: 1,
-    //       pageSize: _pageSize,
-    //     );
-    // _scrollController.addListener(() {
-    //   if (_scrollController.position.pixels >=
-    //       _scrollController.position.maxScrollExtent - 200) {
-    //     final cubit = context.read<ProductsCubit>();
-    //     if (cubit.state is ProductsLoadSuccess) {
-    //       final currentState = cubit.state as ProductsLoadSuccess;
-    //       if (!currentState.isLoadingMore) {
-    //         final nextPage = (currentState.products.length ~/ _pageSize) + 1;
-    //         cubit.getProducts(
-    //           storeProductsFilter: widget.storeProductsFilter,
-    //           pageNumber: nextPage,
-    //           pageSize: _pageSize,
-    //           categoryId: cubit.currentMainCategoryId,
-    //         );
-    //       }
-    //     }
-    //   }
-    // });
-  }
+//   @override
+//   void initState() {
+//     super.initState();
 
-  @override
-  void dispose() {
-    // _scrollController.dispose();
-    super.dispose();
-  }
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<ProductsCubit, ProductsState>(
-      builder: (context, state) {
-        if (state is ProductsInitial || state is ProductsLoadInProgress) {
-          return ShimmerForProductsWithFilter();
-        } else if (state is ProductsLoadSuccess) {
-          if (state.selectedProducts.isNotEmpty) {
-            final List<ProductEntity> selectedProducts = state.selectedProducts;
+//   @override
+//   void dispose() {
+//     // _scrollController.dispose();
+//     super.dispose();
+//   }
 
-            return AnimationLimiter(
-              child: ListView.builder(
-                //  controller: _scrollController,
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics()),
-                itemCount: selectedProducts.length,
-                itemBuilder: (context, index) {
-                  if (index == selectedProducts.length) {
-                    return Center(
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  }
-                  ProductEntity product = selectedProducts[index];
-                  bool isEven = index % 2 == 0;
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocBuilder<ProductsCubit, ProductsState>(
+//       builder: (context, state) {
+//         if (state is ProductsInitial || state is ProductsLoadInProgress) {
+//           return ShimmerForProductsWithFilter();
+//         } else if (state is ProductsLoadSuccess) {
+//           if (state.selectedProducts.isNotEmpty) {
+//             final List<ProductEntity> selectedProducts = state.selectedProducts;
 
-                  return AnimationConfiguration.staggeredList(
-                    position: index,
-                    duration: const Duration(milliseconds: 375),
-                    child: SlideAnimation(
-                      verticalOffset: 50.0,
-                      child: FadeInAnimation(
-                        child: Container(
-                          margin: index + 1 == selectedProducts.length
-                              ? EdgeInsets.only(bottom: 100.h)
-                              : null,
-                          padding: EdgeInsets.only(
-                              top: 26.h, bottom: 26.h, left: 10.w),
-                          decoration: BoxDecoration(
-                            color: isEven ? AppColors.background : Colors.white,
-                            borderRadius: BorderRadius.circular(4.r),
-                          ),
-                          child: Row(
-                            children: [
-                              CheckBoxCustom(
-                                val: true,
-                                onChanged: (val) {
-                                  // context
-                                  //     .read<ProductsCubit>()
-                                  //     .updateCheckboxState(
-                                  //         index, val!, product.id!);
-                                },
-                              ),
-                              ImageCardCustom(
-                                  imageUrlNetwork: product.imageUrl),
-                              SizedBox(width: 10),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      product.name ?? '',
-                                      textAlign: TextAlign.right,
-                                      style: TextTheme.of(context).titleMedium,
-                                    ),
-                                    SizedBox(height: 4.h),
-                                    Text(
-                                      'رقم المنتج: ${product.number ?? ''}',
-                                      textAlign: TextAlign.right,
-                                      style: TextTheme.of(context).bodySmall,
-                                    ),
-                                    SizedBox(height: 2.h),
-                                    Text(
-                                      'السعر: ${product.price ?? ''} ريال',
-                                      textAlign: TextAlign.right,
-                                      style: TextTheme.of(context).bodySmall,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width: 10.w),
-                              TwoButtonInsideListViewProducts(
-                                onTapEdit: () {
-                                  context
-                                      .read<ProductDetailsCubit>()
-                                      .getProductDetails(
-                                          productId: product.id!);
-                                  showGetProductDetailsDialog(
-                                    contextParent: context,
-                                    productDetailsCubit:
-                                        context.read<ProductDetailsCubit>(),
-                                  );
-                                },
-                                reactivate: widget.storeProductsFilter == 2,
-                                onTapDeleteOrReactivate: () {
-                                  widget.storeProductsFilter == 2
-                                      ? showActivateOneOrMoreProductsDialog(
-                                          contextParent: context,
-                                          ids: [product.id!],
-                                          storeProductsFilter:
-                                              widget.storeProductsFilter,
-                                          activateProductsCubit: context.read<
-                                              ActivateProductsByIdsCubit>(),
-                                        )
-                                      : showDeleteProductDialog(
-                                          contextParent: context,
-                                          productId: product.id!,
-                                          storeProductsFilter:
-                                              widget.storeProductsFilter,
-                                          deleteProductCubit: context.read<
-                                              DeleteProductByIdFromStoreCubit>(),
-                                        );
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            );
-          }
-          final List<ProductEntity> products = state.products;
-          return products.isEmpty
-              ? NoDataWidget()
-              : AnimationLimiter(
-                  child: ListView.builder(
-                    //  controller: _scrollController,
-                    shrinkWrap: true,
-                    physics: const BouncingScrollPhysics(
-                        parent: AlwaysScrollableScrollPhysics()),
-                    itemCount: products.length,
-                    itemBuilder: (context, index) {
-                      if (index == products.length) {
-                        return Center(
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: CircularProgressIndicator(),
-                          ),
-                        );
-                      }
-                      ProductEntity product = products[index];
-                      bool isEven = index % 2 == 0;
+//             return AnimationLimiter(
+//               child: ListView.builder(
+//                 //  controller: _scrollController,
+//                 shrinkWrap: true,
+//                 physics: const BouncingScrollPhysics(
+//                     parent: AlwaysScrollableScrollPhysics()),
+//                 itemCount: selectedProducts.length,
+//                 itemBuilder: (context, index) {
+//                   if (index == selectedProducts.length) {
+//                     return Center(
+//                       child: Padding(
+//                         padding: EdgeInsets.all(8.0),
+//                         child: CircularProgressIndicator(),
+//                       ),
+//                     );
+//                   }
+//                   ProductEntity product = selectedProducts[index];
+//                   bool isEven = index % 2 == 0;
 
-                      return AnimationConfiguration.staggeredList(
-                        position: index,
-                        duration: const Duration(milliseconds: 375),
-                        child: SlideAnimation(
-                          verticalOffset: 50.0,
-                          child: FadeInAnimation(
-                            child: Container(
-                              margin: index + 1 == products.length
-                                  ? EdgeInsets.only(bottom: 100.h)
-                                  : null,
-                              padding: EdgeInsets.only(
-                                  top: 26.h, bottom: 26.h, left: 10.w),
-                              decoration: BoxDecoration(
-                                color: isEven
-                                    ? AppColors.background
-                                    : Colors.white,
-                                borderRadius: BorderRadius.circular(4.r),
-                              ),
-                              child: Row(
-                                children: [
-                                  CheckBoxCustom(
-                                    val: false,
-                                    onChanged: (val) {
-                                      // context
-                                      //     .read<ProductsCubit>()
-                                      //     .updateCheckboxState(
-                                      //         index, val!, product.id!);
-                                    },
-                                  ),
-                                  ImageCardCustom(
-                                      imageUrlNetwork: product.imageUrl),
-                                  SizedBox(width: 10),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          product.name ?? '',
-                                          textAlign: TextAlign.right,
-                                          style:
-                                              TextTheme.of(context).titleMedium,
-                                        ),
-                                        SizedBox(height: 4.h),
-                                        Text(
-                                          'رقم المنتج: ${product.number ?? ''}',
-                                          textAlign: TextAlign.right,
-                                          style:
-                                              TextTheme.of(context).bodySmall,
-                                        ),
-                                        SizedBox(height: 2.h),
-                                        Text(
-                                          'السعر: ${product.price ?? ''} ريال',
-                                          textAlign: TextAlign.right,
-                                          style:
-                                              TextTheme.of(context).bodySmall,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(width: 10.w),
-                                  TwoButtonInsideListViewProducts(
-                                    onTapEdit: () {
-                                      context
-                                          .read<ProductDetailsCubit>()
-                                          .getProductDetails(
-                                              productId: product.id!);
-                                      showGetProductDetailsDialog(
-                                        contextParent: context,
-                                        productDetailsCubit:
-                                            context.read<ProductDetailsCubit>(),
-                                      );
-                                    },
-                                    reactivate: widget.storeProductsFilter == 2,
-                                    onTapDeleteOrReactivate: () {
-                                      widget.storeProductsFilter == 2
-                                          ? showActivateOneOrMoreProductsDialog(
-                                              contextParent: context,
-                                              ids: [product.id!],
-                                              storeProductsFilter:
-                                                  widget.storeProductsFilter,
-                                              activateProductsCubit: context.read<
-                                                  ActivateProductsByIdsCubit>(),
-                                            )
-                                          : showDeleteProductDialog(
-                                              contextParent: context,
-                                              productId: product.id!,
-                                              storeProductsFilter:
-                                                  widget.storeProductsFilter,
-                                              deleteProductCubit: context.read<
-                                                  DeleteProductByIdFromStoreCubit>(),
-                                            );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                );
-        } else if (state is ProductsLoadFailure) {
-          return ErrorWidget(state.errMessage);
-        } else {
-          return ErrorWidget("هناك خطأ ما...");
-        }
-      },
-    );
-  }
-}
+//                   return AnimationConfiguration.staggeredList(
+//                     position: index,
+//                     duration: const Duration(milliseconds: 375),
+//                     child: SlideAnimation(
+//                       verticalOffset: 50.0,
+//                       child: FadeInAnimation(
+//                         child: Container(
+//                           margin: index + 1 == selectedProducts.length
+//                               ? EdgeInsets.only(bottom: 100.h)
+//                               : null,
+//                           padding: EdgeInsets.only(
+//                               top: 26.h, bottom: 26.h, left: 10.w),
+//                           decoration: BoxDecoration(
+//                             color: isEven ? AppColors.background : Colors.white,
+//                             borderRadius: BorderRadius.circular(4.r),
+//                           ),
+//                           child: Row(
+//                             children: [
+//                               CheckBoxCustom(
+//                                 val: true,
+//                                 onChanged: (val) {
+//                                   // context
+//                                   //     .read<ProductsCubit>()
+//                                   //     .updateCheckboxState(
+//                                   //         index, val!, product.id!);
+//                                 },
+//                               ),
+//                               ImageCardCustom(
+//                                   imageUrlNetwork: product.imageUrl),
+//                               SizedBox(width: 10),
+//                               Expanded(
+//                                 child: Column(
+//                                   crossAxisAlignment: CrossAxisAlignment.start,
+//                                   children: [
+//                                     Text(
+//                                       product.name ?? '',
+//                                       textAlign: TextAlign.right,
+//                                       style: TextTheme.of(context).titleMedium,
+//                                     ),
+//                                     SizedBox(height: 4.h),
+//                                     Text(
+//                                       'رقم المنتج: ${product.number ?? ''}',
+//                                       textAlign: TextAlign.right,
+//                                       style: TextTheme.of(context).bodySmall,
+//                                     ),
+//                                     SizedBox(height: 2.h),
+//                                     Text(
+//                                       'السعر: ${product.price ?? ''} ريال',
+//                                       textAlign: TextAlign.right,
+//                                       style: TextTheme.of(context).bodySmall,
+//                                     ),
+//                                   ],
+//                                 ),
+//                               ),
+//                               SizedBox(width: 10.w),
+//                               TwoButtonInsideListViewProducts(
+//                                 onTapEdit: () {
+//                                   context
+//                                       .read<ProductDetailsCubit>()
+//                                       .getProductDetails(productId: product.id);
+//                                   showGetProductDetailsDialog(
+//                                     contextParent: context,
+//                                     productDetailsCubit:
+//                                         context.read<ProductDetailsCubit>(),
+//                                   );
+//                                 },
+//                                 reactivate: widget.storeProductsFilter == 2,
+//                                 onTapDeleteOrReactivate: () {
+//                                   widget.storeProductsFilter == 2
+//                                       ? showActivateOneOrMoreProductsDialog(
+//                                           contextParent: context,
+//                                           ids: [product.id],
+//                                           storeProductsFilter:
+//                                               widget.storeProductsFilter,
+//                                           activateProductsCubit: context.read<
+//                                               ActivateProductsByIdsCubit>(),
+//                                         )
+//                                       : showDeleteProductDialog(
+//                                           contextParent: context,
+//                                           productId: product.id,
+//                                           storeProductsFilter:
+//                                               widget.storeProductsFilter,
+//                                           deleteProductCubit: context.read<
+//                                               DeleteProductByIdFromStoreCubit>(),
+//                                         );
+//                                 },
+//                               ),
+//                             ],
+//                           ),
+//                         ),
+//                       ),
+//                     ),
+//                   );
+//                 },
+//               ),
+//             );
+//           }
+//           final List<ProductEntity> products = state.products;
+//           return products.isEmpty
+//               ? NoDataWidget()
+//               : AnimationLimiter(
+//                   child: ListView.builder(
+//                     //  controller: _scrollController,
+//                     shrinkWrap: true,
+//                     physics: const BouncingScrollPhysics(
+//                         parent: AlwaysScrollableScrollPhysics()),
+//                     itemCount: products.length,
+//                     itemBuilder: (context, index) {
+//                       if (index == products.length) {
+//                         return Center(
+//                           child: Padding(
+//                             padding: EdgeInsets.all(8.0),
+//                             child: CircularProgressIndicator(),
+//                           ),
+//                         );
+//                       }
+//                       ProductEntity product = products[index];
+//                       bool isEven = index % 2 == 0;
 
-void showDeleteProductDialog({
-  required BuildContext contextParent,
-  required int productId,
-  required int storeProductsFilter,
-  required DeleteProductByIdFromStoreCubit
-      deleteProductCubit, // Add this parameter
-}) {
-  showDialog(
-    context: contextParent,
-    builder: (BuildContext dialogContext) {
-      return BlocProvider.value(
-        value: deleteProductCubit, // Provide the cubit explicitly
-        child: BlocConsumer<DeleteProductByIdFromStoreCubit,
-            DeleteProductByIdFromStoreState>(
-          listener: (dialogContext, state) {
-            if (state is DeleteProductByIdFromStoreSuccess) {
-              ScaffoldMessenger.of(contextParent).showSnackBar(
-                SnackBar(content: Text('تم حذف المنتج بنجاح!')),
-              );
-              Navigator.of(dialogContext, rootNavigator: true)
-                  .pop(); // Close dialog
-              contextParent.read<ProductsCubit>().getStoreProductsWitheFilter(
-                    storeProductsFilter: storeProductsFilter,
-                    categoryId: contextParent
-                        .read<ProductsCubit>()
-                        .currentMainCategoryId,
-                    pageNumber: 1,
-                    pageSize: 100,
-                  );
-            } else if (state is DeleteProductByIdFromStoreFailure) {
-              ScaffoldMessenger.of(dialogContext).showSnackBar(
-                SnackBar(content: Text(state.errMessage)),
-              );
-            }
-          },
-          builder: (dialogContext, state) {
-            return CustomShowDialogForViewWidget(
-              title: 'حذف المنتج',
-              subtitle: 'هل تريد بالتأكيد حذف هذا المنتج؟',
-              isLoading: state is DeleteProductByIdFromStoreLoading,
-              onConfirm: () =>
-                  deleteProductCubit.deleteProductById(productId: productId),
-              confirmText: 'حذف',
-              cancelText: 'إلغاء',
-            );
-          },
-        ),
-      );
-    },
-  );
-}
+//                       return AnimationConfiguration.staggeredList(
+//                         position: index,
+//                         duration: const Duration(milliseconds: 375),
+//                         child: SlideAnimation(
+//                           verticalOffset: 50.0,
+//                           child: FadeInAnimation(
+//                             child: Container(
+//                               margin: index + 1 == products.length
+//                                   ? EdgeInsets.only(bottom: 100.h)
+//                                   : null,
+//                               padding: EdgeInsets.only(
+//                                   top: 26.h, bottom: 26.h, left: 10.w),
+//                               decoration: BoxDecoration(
+//                                 color: isEven
+//                                     ? AppColors.background
+//                                     : Colors.white,
+//                                 borderRadius: BorderRadius.circular(4.r),
+//                               ),
+//                               child: Row(
+//                                 children: [
+//                                   CheckBoxCustom(
+//                                     val: false,
+//                                     onChanged: (val) {
+//                                       // context
+//                                       //     .read<ProductsCubit>()
+//                                       //     .updateCheckboxState(
+//                                       //         index, val!, product.id!);
+//                                     },
+//                                   ),
+//                                   ImageCardCustom(
+//                                       imageUrlNetwork: product.imageUrl),
+//                                   SizedBox(width: 10),
+//                                   Expanded(
+//                                     child: Column(
+//                                       crossAxisAlignment:
+//                                           CrossAxisAlignment.start,
+//                                       children: [
+//                                         Text(
+//                                           product.name ?? '',
+//                                           textAlign: TextAlign.right,
+//                                           style:
+//                                               TextTheme.of(context).titleMedium,
+//                                         ),
+//                                         SizedBox(height: 4.h),
+//                                         Text(
+//                                           'رقم المنتج: ${product.number ?? ''}',
+//                                           textAlign: TextAlign.right,
+//                                           style:
+//                                               TextTheme.of(context).bodySmall,
+//                                         ),
+//                                         SizedBox(height: 2.h),
+//                                         Text(
+//                                           'السعر: ${product.price ?? ''} ريال',
+//                                           textAlign: TextAlign.right,
+//                                           style:
+//                                               TextTheme.of(context).bodySmall,
+//                                         ),
+//                                       ],
+//                                     ),
+//                                   ),
+//                                   SizedBox(width: 10.w),
+//                                   TwoButtonInsideListViewProducts(
+//                                     onTapEdit: () {
+//                                       context
+//                                           .read<ProductDetailsCubit>()
+//                                           .getProductDetails(
+//                                               productId: product.id);
+//                                       showGetProductDetailsDialog(
+//                                         contextParent: context,
+//                                         productDetailsCubit:
+//                                             context.read<ProductDetailsCubit>(),
+//                                       );
+//                                     },
+//                                     reactivate: widget.storeProductsFilter == 2,
+//                                     onTapDeleteOrReactivate: () {
+//                                       widget.storeProductsFilter == 2
+//                                           ? showActivateOneOrMoreProductsDialog(
+//                                               contextParent: context,
+//                                               ids: [product.id],
+//                                               storeProductsFilter:
+//                                                   widget.storeProductsFilter,
+//                                               activateProductsCubit: context.read<
+//                                                   ActivateProductsByIdsCubit>(),
+//                                             )
+//                                           : showDeleteProductDialog(
+//                                               contextParent: context,
+//                                               productId: product.id,
+//                                               storeProductsFilter:
+//                                                   widget.storeProductsFilter,
+//                                               deleteProductCubit: context.read<
+//                                                   DeleteProductByIdFromStoreCubit>(),
+//                                             );
+//                                     },
+//                                   ),
+//                                 ],
+//                               ),
+//                             ),
+//                           ),
+//                         ),
+//                       );
+//                     },
+//                   ),
+//                 );
+//         } else if (state is ProductsLoadFailure) {
+//           return ErrorWidget(state.errMessage);
+//         } else {
+//           return ErrorWidget("هناك خطأ ما...");
+//         }
+//       },
+//     );
+//   }
+// }
 
-void showActivateOneOrMoreProductsDialog({
-  required BuildContext contextParent,
-  required List<int> ids,
-  required int storeProductsFilter,
-  required ActivateProductsByIdsCubit
-      activateProductsCubit, // Add this parameter
-}) {
-  showDialog(
-    context: contextParent,
-    builder: (BuildContext dialogContext) {
-      return BlocProvider.value(
-        value: activateProductsCubit, // Provide the cubit explicitly
-        child: BlocConsumer<ActivateProductsByIdsCubit,
-            ActivateProductsByIdsState>(
-          listener: (dialogContext, state) {
-            if (state is ActivateProductsByIdsSuccess) {
-              ScaffoldMessenger.of(contextParent).showSnackBar(
-                SnackBar(content: Text('تم إعادة تنشيط المنتج بنجاح!')),
-              );
-              Navigator.of(dialogContext, rootNavigator: true)
-                  .pop(); // Close dialog
-              contextParent.read<ProductsCubit>().getStoreProductsWitheFilter(
-                    storeProductsFilter: storeProductsFilter,
-                    categoryId: contextParent
-                        .read<ProductsCubit>()
-                        .currentMainCategoryId,
-                    pageNumber: 1,
-                    pageSize: 100,
-                  );
-            } else if (state is ActivateProductsByIdsFailure) {
-              ScaffoldMessenger.of(dialogContext).showSnackBar(
-                SnackBar(content: Text(state.errMessage)),
-              );
-            }
-          },
-          builder: (dialogContext, state) {
-            return CustomShowDialogForViewWidget(
-              title: ids.length > 1
-                  // ? 'هل انت متأكد من إيقاف المنتجات؟'
-                  ? 'هل انت متأكد من إعادة تنشيط المنتجات؟'
-                  : 'إعادة تنشيط المنتج',
-              subtitle: ids.length > 1
-                  // ? 'عدد المنتجات التي تريد إيقافها : ${ids.length}'
-                  ? 'عدد المنتجات التي تريد تنشطيها : ${ids.length}'
-                  : 'هل تريد بالتأكيد إعادة تنشيط هذا المنتج؟',
-              isLoading: state is ActivateProductsByIdsLoading,
-              onConfirm: () =>
-                  activateProductsCubit.activateProductsByIds(ids: ids),
-              confirmText: 'إعادة تنشيط',
-              cancelText: 'إلغاء',
-            );
-          },
-        ),
-      );
-    },
-  );
-}
+// void showDeleteProductDialog({
+//   required BuildContext contextParent,
+//   required int productId,
+//   required int storeProductsFilter,
+//   required DeleteProductByIdFromStoreCubit
+//       deleteProductCubit, // Add this parameter
+// }) {
+//   showDialog(
+//     context: contextParent,
+//     builder: (BuildContext dialogContext) {
+//       return BlocProvider.value(
+//         value: deleteProductCubit, // Provide the cubit explicitly
+//         child: BlocConsumer<DeleteProductByIdFromStoreCubit,
+//             DeleteProductByIdFromStoreState>(
+//           listener: (dialogContext, state) {
+//             if (state is DeleteProductByIdFromStoreSuccess) {
+//               ScaffoldMessenger.of(contextParent).showSnackBar(
+//                 SnackBar(content: Text('تم حذف المنتج بنجاح!')),
+//               );
+//               Navigator.of(dialogContext, rootNavigator: true)
+//                   .pop(); // Close dialog
+//               contextParent.read<ProductsCubit>().getStoreProductsWitheFilter(
+//                     storeProductsFilter: storeProductsFilter,
+//                     categoryId: contextParent
+//                         .read<ProductsCubit>()
+//                         .currentMainCategoryId,
+//                     pageNumber: 1,
+//                     pageSize: 100,
+//                   );
+//             } else if (state is DeleteProductByIdFromStoreFailure) {
+//               ScaffoldMessenger.of(dialogContext).showSnackBar(
+//                 SnackBar(content: Text(state.errMessage)),
+//               );
+//             }
+//           },
+//           builder: (dialogContext, state) {
+//             return CustomShowDialogForViewWidget(
+//               title: 'حذف المنتج',
+//               subtitle: 'هل تريد بالتأكيد حذف هذا المنتج؟',
+//               isLoading: state is DeleteProductByIdFromStoreLoading,
+//               onConfirm: () =>
+//                   deleteProductCubit.deleteProductById(productId: productId),
+//               confirmText: 'حذف',
+//               cancelText: 'إلغاء',
+//             );
+//           },
+//         ),
+//       );
+//     },
+//   );
+// }
 
-void showGetProductDetailsDialog({
-  required BuildContext contextParent,
-  required ProductDetailsCubit productDetailsCubit,
-}) {
-  showDialog(
-    context: contextParent,
-    builder: (BuildContext dialogContext) {
-      return BlocProvider.value(
-        value: productDetailsCubit,
-        child: BlocListener<ProductDetailsCubit, ProductDetailsState>(
-            listener: (dialogContext, state) {
-              if (state is ProductDetailsSuccess) {
-                Navigator.of(dialogContext, rootNavigator: true).pop();
-                contextParent.push(
-                  AppRoutes.editProduct,
-                  extra: EditProductExtraData(
-                    productDetails: state.productDetailsEntity,
-                    onSuccess: () {
-                      final cubitGetStoreProducts =
-                          contextParent.read<ProductsCubit>();
-                      cubitGetStoreProducts.getStoreProductsWitheFilter(
-                        storeProductsFilter:
-                            cubitGetStoreProducts.currentStoreProductsFilter ??
-                                0,
-                        categoryId: cubitGetStoreProducts.currentMainCategoryId,
-                        pageNumber: 1,
-                        pageSize: 100,
-                      );
-                    },
-                  ),
-                );
-              } else if (state is ProductDetailsFailure) {
-                Navigator.of(dialogContext, rootNavigator: true).pop();
-                debugPrint(
-                    "=============  فشل في جلب بيانات المنتج  ==============");
-                debugPrint(state.errMessage);
-                ScaffoldMessenger.of(dialogContext).showSnackBar(
-                  SnackBar(content: Text(state.errMessage)),
-                );
-              }
-            },
-            child: Dialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0), // Padding for content
-                child: Column(
-                  mainAxisSize: MainAxisSize
-                      .min, // Ensures the dialog sizes based on content
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 25.0,
-                      height: 25.0,
-                      child: CircularProgressIndicator(
-                        color: AppColors.primary,
-                      ),
-                    ),
-                    const SizedBox(height: 15),
-                    Text(
-                      "جاري جلب بيانات المنتج...",
-                      style: KTextStyle.textStyle18,
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
-            )),
-      );
-    },
-  );
-}
+// void showActivateOneOrMoreProductsDialog({
+//   required BuildContext contextParent,
+//   required List<int> ids,
+//   required int storeProductsFilter,
+//   required ActivateProductsByIdsCubit
+//       activateProductsCubit, // Add this parameter
+// }) {
+//   showDialog(
+//     context: contextParent,
+//     builder: (BuildContext dialogContext) {
+//       return BlocProvider.value(
+//         value: activateProductsCubit, // Provide the cubit explicitly
+//         child: BlocConsumer<ActivateProductsByIdsCubit,
+//             ActivateProductsByIdsState>(
+//           listener: (dialogContext, state) {
+//             if (state is ActivateProductsByIdsSuccess) {
+//               ScaffoldMessenger.of(contextParent).showSnackBar(
+//                 SnackBar(content: Text('تم إعادة تنشيط المنتج بنجاح!')),
+//               );
+//               Navigator.of(dialogContext, rootNavigator: true)
+//                   .pop(); // Close dialog
+//               contextParent.read<ProductsCubit>().getStoreProductsWitheFilter(
+//                     storeProductsFilter: storeProductsFilter,
+//                     categoryId: contextParent
+//                         .read<ProductsCubit>()
+//                         .currentMainCategoryId,
+//                     pageNumber: 1,
+//                     pageSize: 100,
+//                   );
+//             } else if (state is ActivateProductsByIdsFailure) {
+//               ScaffoldMessenger.of(dialogContext).showSnackBar(
+//                 SnackBar(content: Text(state.errMessage)),
+//               );
+//             }
+//           },
+//           builder: (dialogContext, state) {
+//             return CustomShowDialogForViewWidget(
+//               title: ids.length > 1
+//                   // ? 'هل انت متأكد من إيقاف المنتجات؟'
+//                   ? 'هل انت متأكد من إعادة تنشيط المنتجات؟'
+//                   : 'إعادة تنشيط المنتج',
+//               subtitle: ids.length > 1
+//                   // ? 'عدد المنتجات التي تريد إيقافها : ${ids.length}'
+//                   ? 'عدد المنتجات التي تريد تنشطيها : ${ids.length}'
+//                   : 'هل تريد بالتأكيد إعادة تنشيط هذا المنتج؟',
+//               isLoading: state is ActivateProductsByIdsLoading,
+//               onConfirm: () => activateProductsCubit.activateProductsByIds(ids),
+//               confirmText: 'إعادة تنشيط',
+//               cancelText: 'إلغاء',
+//             );
+//           },
+//         ),
+//       );
+//     },
+//   );
+// }
+
+// void showGetProductDetailsDialog({
+//   required BuildContext contextParent,
+//   required ProductDetailsCubit productDetailsCubit,
+// }) {
+//   showDialog(
+//     context: contextParent,
+//     builder: (BuildContext dialogContext) {
+//       return BlocProvider.value(
+//         value: productDetailsCubit,
+//         child: BlocListener<ProductDetailsCubit, ProductDetailsState>(
+//             listener: (dialogContext, state) {
+//               if (state is ProductDetailsSuccess) {
+//                 Navigator.of(dialogContext, rootNavigator: true).pop();
+//                 contextParent.push(
+//                   AppRoutes.editProduct,
+//                   extra: EditProductExtraData(
+//                     productDetails: state.productDetailsEntity,
+//                     onSuccess: () {
+//                       final cubitGetStoreProducts =
+//                           contextParent.read<ProductsCubit>();
+//                       cubitGetStoreProducts.getStoreProductsWitheFilter(
+//                         storeProductsFilter:
+//                             cubitGetStoreProducts.currentStoreProductsFilter ??
+//                                 0,
+//                         categoryId: cubitGetStoreProducts.currentMainCategoryId,
+//                         pageNumber: 1,
+//                         pageSize: 100,
+//                       );
+//                     },
+//                   ),
+//                 );
+//               } else if (state is ProductDetailsFailure) {
+//                 Navigator.of(dialogContext, rootNavigator: true).pop();
+//                 debugPrint(
+//                     "=============  فشل في جلب بيانات المنتج  ==============");
+//                 debugPrint(state.errMessage);
+//                 ScaffoldMessenger.of(dialogContext).showSnackBar(
+//                   SnackBar(content: Text(state.errMessage)),
+//                 );
+//               }
+//             },
+//             child: Dialog(
+//               shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.circular(12),
+//               ),
+//               child: Padding(
+//                 padding: const EdgeInsets.all(16.0), // Padding for content
+//                 child: Column(
+//                   mainAxisSize: MainAxisSize
+//                       .min, // Ensures the dialog sizes based on content
+//                   crossAxisAlignment: CrossAxisAlignment.center,
+//                   children: [
+//                     SizedBox(
+//                       width: 25.0,
+//                       height: 25.0,
+//                       child: CircularProgressIndicator(
+//                         color: AppColors.primary,
+//                       ),
+//                     ),
+//                     const SizedBox(height: 15),
+//                     Text(
+//                       "جاري جلب بيانات المنتج...",
+//                       style: KTextStyle.textStyle18,
+//                       textAlign: TextAlign.center,
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             )),
+//       );
+//     },
+//   );
+// }

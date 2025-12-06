@@ -5,7 +5,6 @@ import 'package:sindbad_management_app/features/auth_feature/domain/entity/reset
 import '../../../../core/errors/failure.dart';
 import '../../../../core/use_cases/param_use_case.dart';
 import '../entity/reset_password_entity.dart';
-import '../repository/authentation_repository.dart';
 
 class ResetPasswordUseCase
     extends UseCaseWithParam<ResetPasswordEntity, ResetPasswordParams> {

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dartz/dartz.dart';
 import 'package:sindbad_management_app/core/resources/data_state.dart';
 import 'package:sindbad_management_app/core/use_cases/param_use_case.dart';

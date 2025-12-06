@@ -22,7 +22,7 @@ class DeleteOfferCubit extends Cubit<DeleteOfferState> {
           (failure) => emit(DeleteOfferFailure(failure.message)),
           // right
           (delete) {
-        if (delete!.serverMessage ==
+        if (delete.serverMessage ==
             "OfferHead not found or you do not have permission to delete it") {
           emit(DeleteOfferFailure("منتج غير موجود"));
           //
@@ -44,5 +44,5 @@ class DeleteOfferCubit extends Cubit<DeleteOfferState> {
 }
 
 extension on Object {
-  get serverMessage => null;
+  Null get serverMessage => null;
 }

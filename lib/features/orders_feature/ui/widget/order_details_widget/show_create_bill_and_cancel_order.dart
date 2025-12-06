@@ -63,6 +63,7 @@ class _ShowCreateBillAndCancelOrderState
       // Return null if the input is invalid
       return null;
     }
+    return null;
   }
 
   @override
@@ -147,7 +148,6 @@ class _ShowCreateBillAndCancelOrderState
                               return;
                             }
                           }
-                          ;
                           DateTime? dateFormat =
                               convertToDateTime(dateController.text);
                           await context

@@ -57,7 +57,7 @@ class ProductCardWidget extends StatelessWidget {
                     }
                   },
                 ),
-                ImageCardCustom(imageUrlNetwork: product.imageUrl!),
+                ImageCardCustom(imageUrlNetwork: product.imageUrl),
                 SizedBox(width: 10),
                 Expanded(
                   child: Column(

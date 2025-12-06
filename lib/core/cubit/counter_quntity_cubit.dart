@@ -10,12 +10,12 @@ class CounterQuntityCubit extends Cubit<CounterQuntityState> {
     return BlocProvider.of(context);
   }
 
-  increceConter() {
+  void increceConter() {
     conter++;
     emit(CounterIncrementState());
   }
 
-  decreceConter() {
+  void decreceConter() {
     if (conter > 1) {
       conter--;
       emit(CounterDecrementState());

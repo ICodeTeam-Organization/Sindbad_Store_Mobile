@@ -17,7 +17,7 @@ class AddExcelPage extends StatefulWidget {
 }
 
 class _AddExcelPageState extends State<AddExcelPage> {
-  FilePickerResult? file = null;
+  FilePickerResult? file;
   final List<ExcellOperation> operation = [
     ExcellOperation(operationName: "أضافة", operations: [
       Operation(
@@ -333,7 +333,7 @@ class _AddExcelPageState extends State<AddExcelPage> {
                           const SizedBox(height: 10),
                           // First Dropdown
                           DropdownButtonFormField<ExcellOperation>(
-                            value: selectedOperationGroup,
+                            initialValue: selectedOperationGroup,
                             decoration: const InputDecoration(
                               labelText: 'عمليات المنتجات',
                               border: OutlineInputBorder(),
@@ -357,7 +357,7 @@ class _AddExcelPageState extends State<AddExcelPage> {
                           const SizedBox(height: 12),
                           // Second Dropdown (depends on first)
                           DropdownButtonFormField<Operation>(
-                            value: selectedOperation,
+                            initialValue: selectedOperation,
                             decoration: const InputDecoration(
                               labelText: 'اضافة / تعديل',
                               border: OutlineInputBorder(),

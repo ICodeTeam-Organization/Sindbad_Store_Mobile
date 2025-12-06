@@ -1,5 +1,3 @@
-import 'package:sindbad_management_app/core/models/response_error.dart';
-
 abstract class DataState<T> {
   final T? data;
   final String? message;

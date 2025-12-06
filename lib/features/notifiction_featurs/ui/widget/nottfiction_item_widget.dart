@@ -7,7 +7,6 @@ import 'package:sindbad_management_app/config/styles/text_style.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/domin/entity/nottifction_entity.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/ui/cubit/nutifiction_cubit/notifiction_cubit.dart';
 
-import '../../../../config/routers/route.dart';
 import '../cubit/read_notifction_cubit/read_notifiction_cubit.dart';
 
 class NottifictionItem extends StatefulWidget {

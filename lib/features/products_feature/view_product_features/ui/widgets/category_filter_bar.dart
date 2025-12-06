@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/model/store_category_model.dart';
-import '../../domain/entities/main_category_for_view_entity.dart';
 import '../manager/get_category_cubit/get_category_cubit.dart';
 import 'custom_get_main_category_for_view_success_widget.dart';
 import 'shimmer_for_main_category_for_view.dart';

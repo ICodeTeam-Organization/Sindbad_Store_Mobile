@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:sindbad_management_app/features/profile_feature/data/model/store_category_model.dart';
 
 import '../../../../core/errors/failure.dart';
 import '../../domin/entity/edit_profile_entity.dart';

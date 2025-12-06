@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../config/styles/Colors.dart';
-import '../../../config/styles/text_style.dart';
 
 // ignore: must_be_immutable
 class StorePrimaryButton extends StatefulWidget {

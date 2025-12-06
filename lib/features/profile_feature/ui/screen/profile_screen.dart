@@ -224,10 +224,10 @@ class _ProfileBodyState extends State<ProfileBody> {
                                   .isAvailableUpdate(currentVersion);
 
                               if (isUpdateAvailable) {
-                                Release _lastRelease =
+                                Release lastRelease =
                                     await gitHubApiService.getLatestRelease();
                                 showReleaseInfoDialog(context,
-                                    release: _lastRelease);
+                                    release: lastRelease);
                               } else {
                                 showOkDialog(
                                   context: context,

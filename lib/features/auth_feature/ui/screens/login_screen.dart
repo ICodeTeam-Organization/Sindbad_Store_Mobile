@@ -218,7 +218,7 @@ class _LoginPageState extends State<LoginPage> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasData) {
-                return Text("v" + snapshot.data!.version);
+                return Text("v${snapshot.data!.version}");
               } else {
                 return Text("فشل في عرض نسخه التطبيق");
               }

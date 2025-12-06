@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sindbad_management_app/core/models/response_error.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/entity/confrim_password_parans.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/usecase/confirm_password_use_case.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/confirm_password_cubit/confrm_passwrd_states.dart';
