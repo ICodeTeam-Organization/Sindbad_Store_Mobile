@@ -6,25 +6,24 @@ import '../../../../domain/use_cases/get_product_details_to_store_use_case.dart'
 part 'product_details_state.dart';
 
 class ProductDetailsCubit extends Cubit<ProductDetailsState> {
-  final GetProductDetailsToStoreUseCase getProductDetailsToStoreUseCase;
-  ProductDetailsCubit(this.getProductDetailsToStoreUseCase)
-      : super(ProductDetailsInitial());
+  // final GetProductDetailsToStoreUseCase getProductDetailsToStoreUseCase;
+  ProductDetailsCubit() : super(ProductDetailsInitial());
 
   void getProductDetails({required int productId}) async {
-    emit(ProductDetailsLoading());
-    GetProductDetailsToStoreParams params =
-        GetProductDetailsToStoreParams(productId: productId);
-    Either<Failure, ProductDetailsEntity> result =
-        await getProductDetailsToStoreUseCase.execute(params);
+    // emit(ProductDetailsLoading());
+    // GetProductDetailsToStoreParams params =
+    //     GetProductDetailsToStoreParams(productId: productId);
+    // Either<Failure, ProductDetailsEntity> result =
+    // await getProductDetailsToStoreUseCase.execute(params);
 
-    result.fold(
-        // left
-        (failure) {
-      emit(ProductDetailsFailure(errMessage: failure.message));
-    },
-        // right
-        (brands) {
-      emit(ProductDetailsSuccess(productDetailsEntity: brands));
-    });
+    // result.fold(
+    //     // left
+    //     (failure) {
+    //   emit(ProductDetailsFailure(errMessage: failure.message));
+    // },
+    //     // right
+    //     (brands) {
+    //   emit(ProductDetailsSuccess(productDetailsEntity: brands));
+    // });
   }
 }

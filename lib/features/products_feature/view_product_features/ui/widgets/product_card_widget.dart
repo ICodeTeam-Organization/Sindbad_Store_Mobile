@@ -3,10 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
+import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/ProductDetails/product_details_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/product_entity.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/manager/products_cubit/products_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/widgets/check_box_custom.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/widgets/image_card_custom.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/widgets/products_list_view_widget.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/widgets/two_button_inside_list_view_products.dart';
 
 class ProductCardWidget extends StatelessWidget {
@@ -86,13 +88,13 @@ class ProductCardWidget extends StatelessWidget {
                 SizedBox(width: 10.w),
                 TwoButtonInsideListViewProducts(
                   onTapEdit: () {
-                    // context
-                    //     .read<ProductDetailsCubit>()
-                    //     .getProductDetails(productId: product.productId!);
-                    // showGetProductDetailsDialog(
-                    //   contextParent: context,
-                    //   productDetailsCubit: context.read<ProductDetailsCubit>(),
-                    // );
+                    context
+                        .read<ProductDetailsCubit>()
+                        .getProductDetails(productId: product.id);
+                    showGetProductDetailsDialog(
+                      contextParent: context,
+                      productDetailsCubit: context.read<ProductDetailsCubit>(),
+                    );
                   },
                   //   reactivate: widget.storeProductsFilter == 2,
                   onTapDeleteOrReactivate: () {
