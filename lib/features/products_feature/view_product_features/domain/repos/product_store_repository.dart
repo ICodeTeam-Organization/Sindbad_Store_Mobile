@@ -26,9 +26,9 @@ abstract class ProductRepository {
     int? categoryIdesList,
   );
 
-  Future<Either<Failure, DeleteProductEntity>> deleteProductById({
-    required int productId,
-  });
+  Future<Either<Failure, DeleteProductEntity>> deleteProductById(
+    int productId,
+  );
 
   // for disable Products By [Ids]
   Future<Either<Failure, bool>> disableProductsByIds(List<int> ids);

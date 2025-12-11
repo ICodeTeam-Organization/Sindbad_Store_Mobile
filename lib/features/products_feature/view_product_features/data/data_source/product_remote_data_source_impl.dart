@@ -8,11 +8,9 @@ import 'package:sindbad_management_app/features/products_feature/view_product_fe
 import 'package:sindbad_management_app/features/products_feature/view_product_features/data/data_source/product_remote_datasource.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/delete_entity_product.dart';
 import '../../../../../core/api_service.dart';
-import '../../domain/entities/disable_products_entity.dart';
 import '../../domain/entities/main_category_for_view_entity.dart';
 import '../../domain/entities/product_entity.dart';
 import '../models/delete_product_model.dart';
-import '../models/disable_products_model/disable_products_model.dart';
 import '../models/main_category_for_view_model/item.dart';
 import '../models/product_model/product_model.dart';
 
@@ -156,8 +154,7 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
 
   // fun Delete product by ID
   @override
-  Future<DeleteProductEntity> deleteProductById(
-      {required int productId}) async {
+  Future<DeleteProductEntity> deleteProductById(int productId) async {
     String? token = await getToken();
     var data = await apiService.delete(
       endPoint: "Products/DeleteProduct?id=$productId",

@@ -20,9 +20,9 @@ abstract class ProductRemoteDataSource {
     int pageSize,
     List<int>? categoryIdList,
   );
-  Future<DeleteProductEntity> deleteProductById({
-    required int productId,
-  });
+  Future<DeleteProductEntity> deleteProductById(
+    int productId,
+  );
 
   // for disable Products By [Ids]
   Future<bool> disableProductsByIds(List<int> ids);

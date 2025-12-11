@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/get_products_parames.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/activate_products_by_ids_use_case.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/delete_product_use_case.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/disable_products_by_ids_use_case.dart';
 import '../../../domain/entities/product_entity.dart';
 import '../../../domain/use_cases/get_products_usecase.dart';
@@ -9,11 +10,12 @@ part 'products_states.dart';
 
 class ProductsCubit extends Cubit<ProductsState> {
   ProductsCubit(this.getProductsUseCase, this._disableProductsUseCase,
-      this._activateProductsUseCase)
+      this._activateProductsUseCase, this._deleteProductUseCase)
       : super(ProductsInitial());
   final GetProductsUseCase getProductsUseCase;
   final DisableProductsUseCase _disableProductsUseCase;
   final ActivateProductsUseCase _activateProductsUseCase;
+  final DeleteProductUseCase _deleteProductUseCase;
 
   // Separate lists for each tab
   List<ProductEntity> allProducts = [];
@@ -45,6 +47,24 @@ class ProductsCubit extends Cubit<ProductsState> {
         products,
         selectedProducts,
       ));
+    });
+  }
+
+  Future<void> deleteProduct(int productId) async {
+    emit(ProductsLoadInProgress());
+
+    var result = await _deleteProductUseCase.execute(productId);
+
+    result.fold((failure) {
+      emit(ProductsLoadFailure(failure.message));
+    }, (deleteResponse) {
+      // Remove the product from all lists
+      allProducts.removeWhere((e) => e.id == productId);
+      products.removeWhere((e) => e.id == productId);
+      offeredProducts.removeWhere((e) => e.id == productId);
+      stoppedProducts.removeWhere((e) => e.id == productId);
+
+      emit(ProductsLoadSuccess(products, selectedProducts));
     });
   }
 

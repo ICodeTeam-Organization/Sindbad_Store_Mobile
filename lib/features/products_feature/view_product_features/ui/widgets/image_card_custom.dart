@@ -13,12 +13,12 @@ class ImageCardCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 75.h,
-      width: 75.w,
+      height: 90.h,
+      width: 90.w,
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
           color: AppColors.white,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(12),
           border: Border.all(width: 1.5.r, color: AppColors.greyDark)),
       child: SizedBox(
           height: double.infinity,

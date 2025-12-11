@@ -3,12 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
+import 'package:sindbad_management_app/core/dialogs/delete_confirm_dialog.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/action_button_widget.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/menu_button_widget.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/ProductDetails/product_details_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/product_entity.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/manager/products_cubit/products_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/widgets/check_box_custom.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/widgets/image_card_custom.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/widgets/products_list_view_widget.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/widgets/show_get_product_details_dialog.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/widgets/two_button_inside_list_view_products.dart';
 
 class ProductCardWidget extends StatelessWidget {
@@ -68,56 +72,119 @@ class ProductCardWidget extends StatelessWidget {
                       Text(
                         product.name ?? '',
                         textAlign: TextAlign.right,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                         style: TextTheme.of(context).titleMedium,
                       ),
-                      SizedBox(height: 4.h),
+                      SizedBox(height: 10.h),
                       Text(
                         'رقم المنتج: ${product.number ?? ''}',
                         textAlign: TextAlign.right,
-                        style: TextTheme.of(context).bodySmall,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextTheme.of(context).bodySmall!.copyWith(
+                            fontWeight: FontWeight.normal,
+                            color: Color(0xff636773),
+                            fontSize: 12),
                       ),
-                      SizedBox(height: 2.h),
-                      Text(
-                        'السعر: ${product.price ?? ''} ريال',
+                      SizedBox(height: 10.h),
+                      RichText(
+                        overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.right,
-                        style: TextTheme.of(context).bodySmall,
+                        text: TextSpan(
+                          style: TextTheme.of(context).bodySmall!.copyWith(
+                              fontWeight: FontWeight.normal,
+                              color: Color(0xff636773),
+                              fontSize: 12),
+                          children: [
+                            TextSpan(text: 'السعر: '),
+                            TextSpan(
+                              text: '${product.price ?? ''}',
+                              style: TextStyle(color: Color(0xffFF746B)),
+                            ),
+                            TextSpan(text: ' ريال'),
+                          ],
+                        ),
                       ),
                     ],
                   ),
                 ),
                 SizedBox(width: 10.w),
-                TwoButtonInsideListViewProducts(
-                  onTapEdit: () {
-                    context
-                        .read<ProductDetailsCubit>()
-                        .getProductDetails(productId: product.id);
-                    showGetProductDetailsDialog(
-                      contextParent: context,
-                      productDetailsCubit: context.read<ProductDetailsCubit>(),
-                    );
-                  },
-                  //   reactivate: widget.storeProductsFilter == 2,
-                  onTapDeleteOrReactivate: () {
-                    // widget.storeProductsFilter == 2
-                    //     ? showActivateOneOrMoreProductsDialog(
-                    //         contextParent: context,
-                    //         ids: [product.productId!],
-                    //         storeProductsFilter:
-                    //             widget.storeProductsFilter,
-                    //         activateProductsCubit: context.read<
-                    //             ActivateProductsByIdsCubit>(),
-                    //       )
-                    //     : showDeleteProductDialog(
-                    //         contextParent: context,
-                    //         productId: product.productId!,
-                    //         storeProductsFilter:
-                    //             widget.storeProductsFilter,
-                    //         deleteProductCubit: context.read<
-                    //             DeleteProductByIdFromStoreCubit>(),
-                    //       );
-                  },
-                  reactivate: 0 == 2,
-                ),
+                Column(
+                  children: [
+                    MenuButtonWidget(
+                      title: 'تعديل',
+                      iconPath: "assets/update.svg",
+                      isSolid: false,
+                      onTap: () {
+                        context
+                            .read<ProductDetailsCubit>()
+                            .getProductDetails(productId: product.id);
+                        showGetProductDetailsDialog(
+                          contextParent: context,
+                          productDetailsCubit:
+                              context.read<ProductDetailsCubit>(),
+                        );
+                      },
+                    ),
+                    SizedBox(height: 5.h),
+                    MenuButtonWidget(
+                      title: 'حذف',
+                      iconPath: "assets/delete.svg",
+                      isSolid: false,
+                      onTap: () {
+                        showDeleteConfirmDialog(
+                          subtitle: 'سيتم حذف هذا المنتج بشكل نهائي',
+                          context: context,
+                          title: 'حذف المنتج',
+                          message: 'هل انت متأكد من حذف المنتج',
+                          onConfirm: () {
+                            context
+                                .read<ProductsCubit>()
+                                .deleteProduct(product.id);
+                          },
+                        );
+                      },
+                    )
+                    // ActionButtonWidget(
+                    //   title: 'تعديل المنتج',
+                    //   iconPath: "assets/update.svg",
+                    //   isSolid: false,
+                    //   onTap: () {},
+                    // ),
+                  ],
+                )
+                // TwoButtonInsideListViewProducts(
+                //   onTapEdit: () {
+                //     context
+                //         .read<ProductDetailsCubit>()
+                //         .getProductDetails(productId: product.id);
+                //     showGetProductDetailsDialog(
+                //       contextParent: context,
+                //       productDetailsCubit: context.read<ProductDetailsCubit>(),
+                //     );
+                //   },
+                //   reactivate: widget.storeProductsFilter == 2,
+                //  onTapDeleteOrReactivate: () {
+                // widget.storeProductsFilter == 2
+                //     ? showActivateOneOrMoreProductsDialog(
+                //         contextParent: context,
+                //         ids: [product.productId!],
+                //         storeProductsFilter:
+                //             widget.storeProductsFilter,
+                //         activateProductsCubit: context.read<
+                //             ActivateProductsByIdsCubit>(),
+                //       )
+                //     : showDeleteProductDialog(
+                //         contextParent: context,
+                //         productId: product.productId!,
+                //         storeProductsFilter:
+                //             widget.storeProductsFilter,
+                //         deleteProductCubit: context.read<
+                //             DeleteProductByIdFromStoreCubit>(),
+                //       );
+                //  },
+                //   reactivate: 0 == 2,
+                //  ),
               ],
             ),
           ),

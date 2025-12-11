@@ -27,6 +27,7 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_cubit/offer_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_details_cubit/offer_details_cubit.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/all_order/order%20cubit/orders_cubit.dart';
+import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/ProductDetails/product_details_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/attribute_product/attribute_product_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/manager/get_category_cubit/get_category_cubit.dart';
@@ -109,7 +110,8 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
         ),
         BlocProvider(create: (_) => AllOrderCubit(getit())),
         BlocProvider(create: (_) => ExcelCubit(getit())),
-        BlocProvider(create: (_) => ProductsCubit(getit(), getit(), getit())),
+        BlocProvider(
+            create: (_) => ProductsCubit(getit(), getit(), getit(), getit())),
         BlocProvider(
           create: (_) => GetProfileCubit(getit()),
         ),
@@ -129,6 +131,9 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
           create: (_) => GetCategory(getit()),
         ),
         BlocProvider(
+          create: (_) => ProductDetailsCubit(getit()),
+        ),
+        BlocProvider(
           create: (_) => OfferCubit(getit()),
         ),
         BlocProvider(
@@ -138,9 +143,9 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
           create: (_) => AttributeProductCubit(),
         ),
         BlocProvider(
-            create: (context) => OfferDetailsCubit(GetOfferDetailsUseCase(
-                  getit<ViewOfferRepo>(),
-                ))),
+          create: (_) => OfferDetailsCubit(getit()),
+        ),
+
         BlocProvider(
             create: (context) => OfferProductsCubit(GetOfferProductsUseCase(
                   getit<NewOfferRepoImpl>(),

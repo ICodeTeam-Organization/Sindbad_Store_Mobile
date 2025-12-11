@@ -8,6 +8,8 @@ Future<bool?> showDeleteConfirmDialog({
   required String message,
   String cancelText = 'الغاء',
   String okText = 'موافق',
+  required Function onConfirm,
+  String subtitle = '',
 }) {
   return showDialog<bool>(
     context: context,
@@ -53,7 +55,7 @@ Future<bool?> showDeleteConfirmDialog({
               ),
               SizedBox(height: 10.h),
               Text(
-                "يوجد بيانات مرتبطة بهذا المدخل",
+                subtitle,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 15.sp,
@@ -66,20 +68,15 @@ Future<bool?> showDeleteConfirmDialog({
                 children: [
                   Expanded(
                     child: OutlinedButton(
-                      onPressed: () => Navigator.pop(context, true),
+                      onPressed: () => onConfirm(),
                       style: OutlinedButton.styleFrom(
+                        padding: EdgeInsets.zero,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                         backgroundColor: Colors.red.withAlpha(20),
-                        side: BorderSide(color: Colors.white),
+                        side: BorderSide.none,
                       ),
-                      // style: ElevatedButton.styleFrom(
-                      //   backgroundColor: Color(0xFFDE3838).withAlpha(5),
-                      //   shape: RoundedRectangleBorder(
-                      //     borderRadius: BorderRadius.circular(12),
-                      //   ),
-                      // ),
                       child: Text("نعم, متابعة الحذف",
                           style: const TextStyle(
                             color: Color(0xFFDE3838),
@@ -91,11 +88,12 @@ Future<bool?> showDeleteConfirmDialog({
                     child: OutlinedButton(
                       onPressed: () => Navigator.pop(context, false),
                       style: OutlinedButton.styleFrom(
+                        padding: EdgeInsets.zero,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                         backgroundColor: Color(0xff00498B).withAlpha(20),
-                        side: BorderSide(color: Colors.white),
+                        side: BorderSide.none,
                       ),
                       child: Text("لا,إالغاء العملية",
                           style: TextStyle(color: const Color(0xff00498B))),

@@ -129,10 +129,10 @@ class ProductRepositoryImpl extends ProductRepository {
 
   @override
   Future<Either<Failure, DeleteProductEntity>> deleteProductById(
-      {required int productId}) async {
+      int productId) async {
     try {
       var data = await productRemoteDataSource.deleteProductById(
-        productId: productId,
+        productId,
       );
       return right(data);
     } catch (e) {

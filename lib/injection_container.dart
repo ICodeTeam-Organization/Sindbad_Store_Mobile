@@ -6,13 +6,17 @@ import 'package:sindbad_management_app/features/offer_management_features/modify
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/data_source/remote/view_offer_remot_data_source.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/repos/view_offer_repo_impl.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/usecases/get_offer_use_case.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/usecases/get_offer_details_use_case.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/repo/view_offer_repo.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_cubit/offer_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/use_cases/add_product_to_store_use_case.dart';
+import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/use_cases/get_product_details_to_store_use_case.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/ProductDetails/product_details_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/attribute_product/attribute_product_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/activate_products_by_ids_use_case.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/disable_products_by_ids_use_case.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/delete_product_use_case.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/get_main_category_use_case.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/manager/get_category_cubit/get_category_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/use_cases/get_main_and_sub_category_use_case.dart';
@@ -57,7 +61,7 @@ final getit = GetIt.instance;
 
 void initializationContainer() {
   // ----------------
-  //  Services
+  //  Servicesf
   // ----------------
   getit.registerSingleton<FlutterSecureStorage>(FlutterSecureStorage());
   getit.registerSingleton<ApiService>(ApiService());
@@ -110,6 +114,8 @@ void initializationContainer() {
   getit.registerSingleton<DownloadAllFilesUseCase>(
       DownloadAllFilesUseCase(getit()));
   getit.registerSingleton<GetOfferUseCase>(GetOfferUseCase(getit()));
+  getit.registerSingleton<GetOfferDetailsUseCase>(
+      GetOfferDetailsUseCase(getit()));
   getit.registerSingleton<GetMainAndSubCategoryUseCase>(
       GetMainAndSubCategoryUseCase(getit()));
   getit
@@ -129,6 +135,9 @@ void initializationContainer() {
       ActivateProductsUseCase(getit()));
   getit.registerSingleton<AddProductToStoreUseCase>(
       AddProductToStoreUseCase(getit()));
+  getit.registerSingleton<GetProductDetailsToStoreUseCase>(
+      GetProductDetailsToStoreUseCase(getit()));
+  getit.registerSingleton<DeleteProductUseCase>(DeleteProductUseCase(getit()));
   // ----------------
   //  Cubits
   // ----------------
@@ -138,7 +147,7 @@ void initializationContainer() {
   getit.registerFactory<GetProfileCubit>(() => GetProfileCubit(getit()));
   getit.registerFactory<AllOrderCubit>(() => AllOrderCubit(getit()));
   getit.registerFactory<ProductsCubit>(
-      () => ProductsCubit(getit(), getit(), getit()));
+      () => ProductsCubit(getit(), getit(), getit(), getit()));
   getit.registerFactory<ResetPasswordCubit>(() => ResetPasswordCubit(getit()));
   getit
       .registerFactory<ForgetPasswordCubit>(() => ForgetPasswordCubit(getit()));
@@ -151,6 +160,7 @@ void initializationContainer() {
   getit.registerFactory<AddProductToStoreCubit>(
       () => AddProductToStoreCubit(getit()));
   getit.registerFactory<AttributeProductCubit>(() => AttributeProductCubit());
-  getit.registerFactory<ProductDetailsCubit>(() => ProductDetailsCubit());
+  getit
+      .registerFactory<ProductDetailsCubit>(() => ProductDetailsCubit(getit()));
   // getit.registerFactory<UrgentOrderCubit>(() => UrgentOrderCubit(getit()));
 }
