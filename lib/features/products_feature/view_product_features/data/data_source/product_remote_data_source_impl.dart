@@ -471,18 +471,12 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
     String? token,
   }) async {
     try {
-      // Validate required arguments
+      // Validate required arguments (only truly required ones)
       if (name.isEmpty) {
         throw ArgumentError('Product name cannot be empty');
       }
-      if (description.isEmpty) {
-        throw ArgumentError('Product description cannot be empty');
-      }
       if (!mainImageFile.existsSync()) {
         throw ArgumentError('Main image file does not exist');
-      }
-      if (subCategoryIds.isEmpty) {
-        throw ArgumentError('SubCategoryIds list cannot be empty');
       }
 
       // Use provided token or get from storage
@@ -494,25 +488,24 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
         );
       }
 
-      // Prepare FormData for multipart file upload
+      // Prepare FormData for multipart file upload - matching successful curl request format
       final formData = FormData.fromMap({
         "Name": name,
         "Price": price,
-        "Description": description,
         "Number": number,
-        "StoreId": storeId,
-        "OfferId": offerId,
-        "Tags": tags,
-        "OldPrice": oldPrice,
-        "ProductDetails": shortDescription,
-        "BrandId": brandId == 000 ? null : brandId,
         "MainCategoryId": mainCategoryId,
-        "SubCategoryIds": subCategoryIds,
-        "newAttributes": newAttributes,
         "MainImage": await MultipartFile.fromFile(
           mainImageFile.path,
           filename: mainImageFile.path.split('/').last,
         ),
+        // Optional fields - only include if they have values
+        if (description.isNotEmpty) "Description": description,
+        if (storeId != null) "StoreId": storeId,
+        if (offerId != null) "OfferId": offerId,
+        if (oldPrice != null && oldPrice > 0) "OldPrice": oldPrice,
+        if (shortDescription != null && shortDescription.isNotEmpty)
+          "ProductDetails": shortDescription,
+        if (brandId != null && brandId != 0) "BrandId": brandId,
       });
 
       // Add additional images if any

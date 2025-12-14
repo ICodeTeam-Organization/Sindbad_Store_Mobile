@@ -5,11 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/swidgets/new_widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/section_title_widget.dart';
-import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/attribute_product/attribute_product_cubit.dart';
+import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/widgets/custom_dropdown_widget.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/widgets/custom_simple_text_form_field.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/widgets/custom_text_form_widget.dart';
 import 'package:sindbad_management_app/core/swidgets/new_widgets/store_primary_button.dart';
-import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/widgets/get_category_names_success_widget.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/manager/products_cubit/products_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/widgets/imagePicker.dart';
 import '../../../add_and_edit_product_feature/ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
@@ -31,7 +30,6 @@ class _AddProductPageState extends State<AddProductPage> {
 
   //Updated
   final TextEditingController nameProductController = TextEditingController();
-
   final TextEditingController numberProductController = TextEditingController();
   final TextEditingController priceProductController = TextEditingController();
   final TextEditingController oldPriceController = TextEditingController();
@@ -44,6 +42,11 @@ class _AddProductPageState extends State<AddProductPage> {
   final List<String> tags = [];
   List<TextEditingController> keys = [];
   List<TextEditingController> values = [];
+
+  // Dropdown selection state
+  int? mainCategoryId;
+  int? subCategoryId;
+  int? brandId;
 
   // Form key for validation
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -120,7 +123,7 @@ class _AddProductPageState extends State<AddProductPage> {
                                     text: 'رقم المنتج',
                                     width: 130.w,
                                     height: 65.h,
-                                    isRequired: false,
+                                    isRequired: true,
                                   ),
                                 ],
                               ),
@@ -231,11 +234,73 @@ class _AddProductPageState extends State<AddProductPage> {
                       ),
                       SizedBox(height: 26.h),
                       //  ================= for drop down =========
-                      GetCategoryNamesSuccessWidget(
-                        mainAndSubCategories: [],
-                        //  cubitCategories: cubitCategories,
-                        //    cubitAddProduct: cubitAddProduct
+                      CustomDropdownWidget(
+                        enabled: true,
+                        textTitle: 'أختر الفئة',
+                        hintText: "قم بإختيار الفئة المناسبة",
+                        initialItem: null,
+                        items: [],
+                        // TODO: Populate items from categories list
+                        // items: mainAndSubCategories.isNotEmpty
+                        //     ? mainAndSubCategories
+                        //         .map((category) => category.categoryName)
+                        //         .toList()
+                        //     : [],
+                        onChanged: (value) {
+                          setState(() {
+                            // TODO: Get the actual category ID from the selected value
+                            // mainCategoryId = mainAndSubCategories
+                            //     .firstWhere((cat) => cat.categoryName == value)
+                            //     .categoryId;
+
+                            // Reset dependent selections when main category changes
+                            subCategoryId = null;
+                            brandId = null;
+                          });
+                        },
                       ),
+                      SizedBox(height: 16.h),
+                      CustomDropdownWidget(
+                        enabled: mainCategoryId != null,
+                        textTitle: 'أختر القسم',
+                        hintText: mainCategoryId != null
+                            ? "قم بإختيار القسم المناسب"
+                            : "إختر الفئة الأساسية أولا",
+                        items: [],
+                        // TODO: Populate items from sub-categories list
+                        onChanged: (value) {
+                          setState(() {
+                            // TODO: Get the actual sub-category ID from the selected value
+                            // subCategoryId = subCategories
+                            //     .firstWhere((cat) => cat.categoryName == value)
+                            //     .categoryId;
+                          });
+                        },
+                      ),
+                      SizedBox(height: 16.h),
+                      CustomDropdownWidget(
+                        enabled: mainCategoryId != null,
+                        textTitle: 'أختر اسم البراند',
+                        hintText: mainCategoryId != null
+                            ? "قم بإختيار البراند المناسب"
+                            : "إختر الفئة الأساسية أولا",
+                        isRequired: false,
+                        items: [],
+                        // TODO: Populate items from brands list
+                        onChanged: (value) {
+                          setState(() {
+                            // TODO: Get the actual brand ID from the selected value
+                            // brandId = brands
+                            //     .firstWhere((brand) => brand.name == value)
+                            //     .id;
+                          });
+                        },
+                      ),
+                      // GetCategoryNamesSuccessWidget(
+                      //   mainAndSubCategories: [],
+                      //   //  cubitCategories: cubitCategories,
+                      //   //    cubitAddProduct: cubitAddProduct
+                      // ),
                       // CustomCardToAllDropDown(
                       //     // cubitAddProduct: cubitAddProduct,
                       //     // cubitCategories: getCategoryNamesCubit,
@@ -256,44 +321,40 @@ class _AddProductPageState extends State<AddProductPage> {
                               SectionTitleWidget(title: "خصائص المنتج"),
                               SizedBox(height: 20.h),
                               SizedBox(
-                                child: BlocBuilder<AttributeProductCubit,
-                                        AttributeProduct>(
-                                    builder: (context, state) {
-                                  return Column(
-                                    children: List.generate(state.keys.length,
-                                        (index) {
-                                      return Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 5.0.h),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            CustomSimpleTextFormField(
-                                              textController: state.keys[index],
-                                              hintText: 'خاصية',
-                                            ),
-                                            CustomSimpleTextFormField(
-                                              textController:
-                                                  state.values[index],
-                                              hintText: 'قيمة',
-                                            ),
-                                            IconButton(
-                                              icon: Icon(Icons.remove_circle,
-                                                  size: 20.sp),
-                                              onPressed: () {
-                                                context
-                                                    .read<
-                                                        AttributeProductCubit>()
-                                                    .removeField(index);
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    }),
-                                  );
-                                }),
+                                child: Column(
+                                  children: List.generate(keys.length, (index) {
+                                    return Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 5.0.h),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          CustomSimpleTextFormField(
+                                            textController: keys[index],
+                                            hintText: 'خاصية',
+                                          ),
+                                          CustomSimpleTextFormField(
+                                            textController: values[index],
+                                            hintText: 'قيمة',
+                                          ),
+                                          IconButton(
+                                            icon: Icon(Icons.remove_circle,
+                                                size: 20.sp),
+                                            onPressed: () {
+                                              setState(() {
+                                                keys[index].dispose();
+                                                values[index].dispose();
+                                                keys.removeAt(index);
+                                                values.removeAt(index);
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }),
+                                ),
                               ),
                               Center(
                                 child: Row(
@@ -301,7 +362,10 @@ class _AddProductPageState extends State<AddProductPage> {
                                   children: [
                                     InkWell(
                                       onTap: () {
-                                        // context.read<AttributeProductCubit>().addField();
+                                        setState(() {
+                                          keys.add(TextEditingController());
+                                          values.add(TextEditingController());
+                                        });
                                       },
                                       child: const SizedBox(
                                         child: Row(
@@ -359,6 +423,11 @@ class _AddProductPageState extends State<AddProductPage> {
                                     nameProductController.text,
                                     double.parse(priceProductController.text),
                                     numberProductController.text,
+                                    oldPriceController.text.isNotEmpty
+                                        ? double.parse(oldPriceController.text)
+                                        : 0,
+                                    shortDescriptionController.text,
+                                    mainImageProductFile!,
                                     [
                                       if (subOneImageProductFile != null)
                                         subOneImageProductFile!,
@@ -367,8 +436,9 @@ class _AddProductPageState extends State<AddProductPage> {
                                       if (subThreeImageProductFile != null)
                                         subThreeImageProductFile!,
                                     ],
-                                    mainImageProductFile!,
-                                    0,
+                                    mainCategoryId ?? 0,
+                                    subCategoryId,
+                                    brandId,
                                   );
                               // Form is valid, proceed with submission
                               // final cubit =

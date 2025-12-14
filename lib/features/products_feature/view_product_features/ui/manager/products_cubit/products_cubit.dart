@@ -62,24 +62,33 @@ class ProductsCubit extends Cubit<ProductsState> {
     });
   }
 
-  Future<void> addProduct(String name, double price, String number,
-      List<File> images, File mainImageFile, int mainCategoryId) async {
+  Future<void> addProduct(
+      String name,
+      double price,
+      String number,
+      double oldPrice,
+      String description,
+      File mainImageFile,
+      List<File> images,
+      int mainCategoryId,
+      int? subCategoryId,
+      int? brandId) async {
     emit(ProductsLoadInProgress());
 
     var result = await _addProductUseCase.execute(
       AddProductParams(
         name: name,
         price: price,
-        number: "200",
-        description: 'description',
-        oldPrice: 4500,
+        number: number,
+        description: description,
+        oldPrice: oldPrice,
         mainImageFile: mainImageFile,
         mainCategoryId: mainCategoryId,
-        subCategoryIds: [0],
+        subCategoryIds: subCategoryId != null ? [subCategoryId] : [],
         tags: [],
         storeId: null,
         offerId: null,
-        brandId: null,
+        brandId: brandId,
         images: images,
         newAttributes: [],
         shortDescription: '',
