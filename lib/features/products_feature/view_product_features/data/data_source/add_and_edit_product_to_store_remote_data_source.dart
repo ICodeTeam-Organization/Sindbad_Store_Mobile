@@ -3,14 +3,14 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sindbad_management_app/core/api_service.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/data/models/add_product_model.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/data/models/edit_product_model.dart';
-import '../../domain/entities/add_product_entities/add_product_entity.dart';
-import '../../domain/entities/add_product_entities/brand_entity.dart';
-import '../../domain/entities/add_product_entities/main_category_entity.dart';
-import '../../domain/entities/edit_product_entities/edit_product_entity.dart';
-import '../../domain/entities/edit_product_entities/product_details_entity.dart';
-import '../models/brand_model/datum.dart';
-import '../models/category_model/data.dart';
-import '../models/product_details_model/product_details_model.dart';
+import '../../../add_and_edit_product_feature/domain/entities/add_product_entities/add_product_entity.dart';
+import '../../../add_and_edit_product_feature/domain/entities/add_product_entities/brand_entity.dart';
+import '../../../add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
+import '../../../add_and_edit_product_feature/domain/entities/edit_product_entities/edit_product_entity.dart';
+import '../../../add_and_edit_product_feature/domain/entities/edit_product_entities/product_details_entity.dart';
+import '../../../add_and_edit_product_feature/data/models/brand_model/datum.dart';
+import '../../../add_and_edit_product_feature/data/models/category_model/data.dart';
+import '../../../add_and_edit_product_feature/data/models/product_details_model/product_details_model.dart';
 
 abstract class AddAndEditProductToStoreRemoteDataSource {
   Future<AddProductEntity> addProductToStore({

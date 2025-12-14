@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/entities/add_product_entities/brand_entity.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
-import '../../domain/repos/add_and_edit_product_store_repo.dart';
+import '../../../add_and_edit_product_feature/domain/repos/add_and_edit_product_store_repo.dart';
 import '../data_source/add_and_edit_product_to_store_remote_data_source.dart';
 
 class AddAndEditProductStoreRepoImpl extends AddAndEditProductStoreRepo {

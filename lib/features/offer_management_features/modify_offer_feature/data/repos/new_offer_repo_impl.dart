@@ -9,10 +9,10 @@ import 'package:sindbad_management_app/features/offer_management_features/modify
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/entities/update_offer_entity.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/repo/new_offer_repo.dart';
 
-class NewOfferRepoImpl extends NewOfferRepo {
+class NewOfferRepositoryImpl extends NewOfferRepo {
   final NewOfferRemotDataSourceImpl newOfferRemotDataSource;
 
-  NewOfferRepoImpl(this.newOfferRemotDataSource);
+  NewOfferRepositoryImpl(this.newOfferRemotDataSource);
 
   // basic fetch list Entity function
   Future<Either<Failure, List<T>>> fetchData<T>(

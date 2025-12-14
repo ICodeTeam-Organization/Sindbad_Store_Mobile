@@ -3,6 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/data/data_source/remote/new_offer_remot_data_source.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/data/repos/new_offer_repo_impl.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/usecases/get_offer_products_use_case.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/offer_products_cubit/offer_products_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/data_source/remote/view_offer_remot_data_source.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/repos/view_offer_repo_impl.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/usecases/get_offer_use_case.dart';
@@ -44,17 +46,36 @@ import 'package:sindbad_management_app/features/notifiction_featurs/data/remote_
 import 'package:sindbad_management_app/features/notifiction_featurs/data/repo/notifiction_repo_impl.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/usecases/all_order_usecase.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/all_order/all_order_cubit.dart';
-import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/data/repos/add_and_edit_product_store_repo_impl.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/data/repos/add_and_edit_product_store_repo_impl.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/data/data_source/product_remote_data_source_impl.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/get_products_usecase.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/manager/products_cubit/products_cubit.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/get_profile_cubit/get_profile_cubit.dart';
 import 'features/orders_feature/data/repos_impl/all_order_repo_impl.dart';
 import 'features/orders_feature/data/data_sources/all_order_remot_data_source.dart';
-import 'features/products_feature/add_and_edit_product_feature/data/data_source/add_and_edit_product_to_store_remote_data_source.dart';
+import 'features/products_feature/view_product_features/data/data_source/add_and_edit_product_to_store_remote_data_source.dart';
 import 'features/products_feature/view_product_features/data/repos/product_repository_impl.dart';
 import 'features/profile_feature/data/data_source/profile_data_source.dart';
 import 'features/profile_feature/data/repo/profile_repository_impl.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/usecases/add_offer_use_case.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/usecases/get_offer_data_use_case.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/usecases/update_offer_use_case.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/add_offer_cubit/add_offer_cubit.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/offer_data_cubit/offer_data_cubit.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/update_offer_cubit/update_offer_cubit.dart';
+import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_details_cubit/offer_details_cubit.dart';
+import 'package:sindbad_management_app/features/orders_feature/domain/usecases/order_details_usecase.dart';
+import 'package:sindbad_management_app/features/orders_feature/domain/usecases/order_invoice_usecasse.dart';
+import 'package:sindbad_management_app/features/orders_feature/domain/usecases/order_shipping_usecase.dart';
+import 'package:sindbad_management_app/features/orders_feature/domain/usecases/order_cancel_usecase.dart';
+import 'package:sindbad_management_app/features/orders_feature/domain/usecases/company_shipping_usecase.dart';
+import 'package:sindbad_management_app/features/orders_feature/ui/manager/order_details/order_details_cubit.dart';
+import 'package:sindbad_management_app/features/orders_feature/ui/manager/invoice/order_invoice_cubit.dart';
+import 'package:sindbad_management_app/features/orders_feature/ui/manager/shipping/shipping_cubit.dart';
+import 'package:sindbad_management_app/features/orders_feature/ui/manager/cancel/cancel_cubit.dart';
+import 'package:sindbad_management_app/features/orders_feature/ui/manager/company_shipping/cubit/company_shipping_cubit.dart';
+import 'package:sindbad_management_app/features/notifiction_featurs/domin/use_case/get_unread_notiftion.dart';
+import 'package:sindbad_management_app/features/notifiction_featurs/ui/cubit/notifiction_cubit/unread_notifiction_cubit.dart';
 import 'core/api_service.dart';
 
 final getit = GetIt.instance;
@@ -102,7 +123,8 @@ void initializationContainer() {
   getit.registerSingleton<AddAndEditProductStoreRepoImpl>(
       AddAndEditProductStoreRepoImpl(getit()));
   getit.registerSingleton<ViewOfferRepoImpl>(ViewOfferRepoImpl(getit()));
-  getit.registerSingleton<NewOfferRepoImpl>(NewOfferRepoImpl(getit()));
+  getit.registerSingleton<NewOfferRepositoryImpl>(
+      NewOfferRepositoryImpl(getit()));
   getit.registerSingleton<NotifictionRepoImpl>(NotifictionRepoImpl(getit()));
   getit.registerSingleton<ProfileRepositoryImple>(
       ProfileRepositoryImple(getit()));
@@ -111,6 +133,8 @@ void initializationContainer() {
   //  Use Cases
   // ----------------
   getit.registerSingleton<SignInUseCase>(SignInUseCase(getit()));
+  getit.registerSingleton<GetOfferProductsUseCase>(
+      GetOfferProductsUseCase(getit()));
   getit.registerSingleton<DownloadAllFilesUseCase>(
       DownloadAllFilesUseCase(getit()));
   getit.registerSingleton<GetOfferUseCase>(GetOfferUseCase(getit()));
@@ -142,6 +166,7 @@ void initializationContainer() {
   //  Cubits
   // ----------------
   getit.registerFactory<SignInCubit>(() => SignInCubit(getit()));
+  getit.registerFactory<OfferProductsCubit>(() => OfferProductsCubit(getit()));
   getit.registerFactory<ExcelCubit>(() => ExcelCubit(getit()));
   getit.registerFactory<OrdersCubit>(() => OrdersCubit(getit()));
   getit.registerFactory<GetProfileCubit>(() => GetProfileCubit(getit()));
@@ -162,5 +187,36 @@ void initializationContainer() {
   getit.registerFactory<AttributeProductCubit>(() => AttributeProductCubit());
   getit
       .registerFactory<ProductDetailsCubit>(() => ProductDetailsCubit(getit()));
-  // getit.registerFactory<UrgentOrderCubit>(() => UrgentOrderCubit(getit()));
+  // Use cases for offers
+  getit.registerSingleton<UpdateOfferUseCase>(UpdateOfferUseCase(getit()));
+  getit.registerSingleton<GetOfferDataUseCase>(GetOfferDataUseCase(getit()));
+  getit.registerSingleton<AddOfferUseCase>(AddOfferUseCase(getit()));
+  // Use cases for orders
+  getit.registerSingleton<OrderDetailsUsecase>(OrderDetailsUsecase(getit()));
+  getit.registerSingleton<OrderInvoiceUsecase>(
+      OrderInvoiceUsecase(allOrderRepo: getit()));
+  getit.registerSingleton<OrderShippingUsecase>(
+      OrderShippingUsecase(allOrderRepo: getit()));
+  getit.registerSingleton<OrderCancelUsecase>(
+      OrderCancelUsecase(allOrderRepo: getit()));
+  getit.registerSingleton<CompanyShippingUsecase>(
+      CompanyShippingUsecase(allOrderRepo: getit()));
+  // Use cases for notifications
+  getit.registerSingleton<GetUnreadNotiftionUseCase>(
+      GetUnreadNotiftionUseCase(notifictionRepo: getit()));
+  // Cubits for offers
+  getit.registerFactory<UpdateOfferCubit>(() => UpdateOfferCubit(getit()));
+  getit.registerFactory<OfferDataCubit>(() => OfferDataCubit(getit()));
+  getit.registerFactory<AddOfferCubit>(() => AddOfferCubit(getit()));
+  getit.registerFactory<OfferDetailsCubit>(() => OfferDetailsCubit(getit()));
+  // Cubits for orders
+  getit.registerFactory<OrderDetailsCubit>(() => OrderDetailsCubit(getit()));
+  getit.registerFactory<OrderInvoiceCubit>(() => OrderInvoiceCubit(getit()));
+  getit.registerFactory<ShippingCubit>(() => ShippingCubit(getit()));
+  getit.registerFactory<CancelCubit>(() => CancelCubit(getit()));
+  getit.registerFactory<CompanyShippingCubit>(
+      () => CompanyShippingCubit(getit()));
+  // Cubit for notifications
+  getit.registerFactory<UnreadNotifictionCubit>(
+      () => UnreadNotifictionCubit(getit()));
 }

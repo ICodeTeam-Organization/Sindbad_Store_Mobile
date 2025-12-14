@@ -13,11 +13,6 @@ import 'package:sindbad_management_app/config/routers/route.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/confirm_password_cubit/confirm_password_cubit.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/forget_password_cubit.dart/forget_password_cubit.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/data/repos/new_offer_repo_impl.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/usecases/add_offer_use_case.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/usecases/get_offer_data_use_case.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/usecases/get_offer_products_use_case.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/usecases/update_offer_use_case.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/add_offer_cubit/add_offer_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/offer_data_cubit/offer_data_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/offer_products_cubit/offer_products_cubit.dart';
@@ -31,28 +26,18 @@ import 'package:sindbad_management_app/features/products_feature/add_and_edit_pr
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/manager/get_category_cubit/get_category_cubit.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/excell_cubit/excell_cubt.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/reset_password_cubit/reset_password_cubit.dart';
-import 'package:sindbad_management_app/features/notifiction_featurs/data/repo/notifiction_repo_impl.dart';
-import 'package:sindbad_management_app/features/notifiction_featurs/domin/use_case/get_unread_notiftion.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/ui/cubit/notifiction_cubit/unread_notifiction_cubit.dart';
-import 'package:sindbad_management_app/features/orders_feature/data/repos_impl/all_order_repo_impl.dart';
-import 'package:sindbad_management_app/features/orders_feature/domain/usecases/company_shipping_usecase.dart';
-import 'package:sindbad_management_app/features/orders_feature/domain/usecases/order_cancel_usecase.dart';
-import 'package:sindbad_management_app/features/orders_feature/domain/usecases/order_invoice_usecasse.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/cancel/cancel_cubit.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/company_shipping/cubit/company_shipping_cubit.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/invoice/order_invoice_cubit.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/order_details/order_details_cubit.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/shipping/shipping_cubit.dart';
-import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/data/repos/add_and_edit_product_store_repo_impl.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
-import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/use_cases/get_main_and_sub_category_use_case.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/manager/products_cubit/products_cubit.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/get_profile_cubit/get_profile_cubit.dart';
 import 'injection_container.dart';
 import 'core/simple_bloc_observer.dart';
-import 'features/orders_feature/domain/usecases/order_details_usecase.dart';
-import 'features/orders_feature/domain/usecases/order_shipping_usecase.dart';
 import 'features/orders_feature/ui/manager/all_order/all_order_cubit.dart';
 import 'features/orders_feature/ui/manager/button_disable/button_disable_cubit.dart';
 
@@ -144,60 +129,40 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
         BlocProvider(
           create: (_) => OfferDetailsCubit(getit()),
         ),
-
         BlocProvider(
-            create: (context) => OfferProductsCubit(GetOfferProductsUseCase(
-                  getit<NewOfferRepoImpl>(),
-                ))),
-
-        ///
-        BlocProvider(
-          create: (context) => UpdateOfferCubit(UpdateOfferUseCase(
-            getit<NewOfferRepoImpl>(),
-          )),
+          create: (_) => OfferProductsCubit(getit()),
         ),
         BlocProvider(
-          create: (context) => OfferDataCubit(GetOfferDataUseCase(
-            getit<NewOfferRepoImpl>(),
-          )),
+          create: (_) => UpdateOfferCubit(getit()),
         ),
         BlocProvider(
-          create: (context) => AddOfferCubit(AddOfferUseCase(
-            getit<NewOfferRepoImpl>(),
-          )),
+          create: (_) => OfferDataCubit(getit()),
         ),
-
         BlocProvider(
-            create: (context) => OrderDetailsCubit(OrderDetailsUsecase(
-                  getit.get<AllOrderRepoImpl>(),
-                ))),
-        BlocProvider(create: (context) => ButtonDisableCubit()),
-        BlocProvider(
-            create: (context) => OrderInvoiceCubit(OrderInvoiceUsecase(
-                  allOrderRepo: getit.get<AllOrderRepoImpl>(),
-                ))),
-        BlocProvider(
-            create: (context) => ShippingCubit(OrderShippingUsecase(
-                  allOrderRepo: getit.get<AllOrderRepoImpl>(),
-                ))),
-        BlocProvider(
-            create: (context) => CancelCubit(OrderCancelUsecase(
-                  allOrderRepo: getit.get<AllOrderRepoImpl>(),
-                ))),
-        BlocProvider(
-            create: (context) => CompanyShippingCubit(CompanyShippingUsecase(
-                  allOrderRepo: getit.get<AllOrderRepoImpl>(),
-                ))),
-        BlocProvider(
-          create: (context) => UnreadNotifictionCubit(GetUnreadNotiftionUseCase(
-              notifictionRepo: getit.get<NotifictionRepoImpl>())),
+          create: (_) => AddOfferCubit(getit()),
         ),
-
         BlocProvider(
-            create: (context) =>
-                GetCategoryNamesCubit(GetMainAndSubCategoryUseCase(
-                  getit.get<AddAndEditProductStoreRepoImpl>(),
-                ))),
+          create: (_) => OrderDetailsCubit(getit()),
+        ),
+        BlocProvider(create: (_) => ButtonDisableCubit()),
+        BlocProvider(
+          create: (_) => OrderInvoiceCubit(getit()),
+        ),
+        BlocProvider(
+          create: (_) => ShippingCubit(getit()),
+        ),
+        BlocProvider(
+          create: (_) => CancelCubit(getit()),
+        ),
+        BlocProvider(
+          create: (_) => CompanyShippingCubit(getit()),
+        ),
+        BlocProvider(
+          create: (_) => UnreadNotifictionCubit(getit()),
+        ),
+        BlocProvider(
+          create: (_) => GetCategoryNamesCubit(getit()),
+        ),
       ],
       child: ScreenUtilInit(
         designSize: const Size(428, 1000),
