@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/add_products_parames.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/edit_product_from_store_params.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/edit_product_use_case.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/get_products_parames.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/activate_products_by_ids_use_case.dart';
@@ -349,7 +351,63 @@ class ProductsCubit extends Cubit<ProductsState> {
     await getAllProducts(pageNumber, pageSize, categoryId);
   }
 
-  Future<void> updateProduct() async {
-    // Delegate to getAllProducts
+  Future<void> updateProduct({
+    required int productId,
+    required double price,
+    required String description,
+    required File? mainImageFile,
+    required List<File>? images,
+    required List<String>? imagesUrl,
+    required int mainCategoryId,
+    required int? subCategoryId,
+    required int? brandId,
+    required List<TextEditingController> attributeKeys,
+    required List<TextEditingController> attributeValues,
+    double? oldPrice,
+    String? shortDescription,
+    List<String>? tags,
+  }) async {
+    emit(ProductsLoadInProgress());
+
+    // Build newAttributes from keys and values
+    final List<Map<String, String>> newAttributes = [];
+    for (int i = 0; i < attributeKeys.length; i++) {
+      if (attributeKeys[i].text.isNotEmpty &&
+          attributeValues[i].text.isNotEmpty) {
+        newAttributes.add({
+          "attributeName": attributeKeys[i].text,
+          "attributeValue": attributeValues[i].text,
+        });
+      }
+    }
+
+    var result = await _updateProductUseCase.execute(
+      EditProductFromStoreParams(
+        productId,
+        price,
+        description,
+        mainImageFile,
+        null, // storeId
+        null, // offerId
+        brandId,
+        mainCategoryId,
+        images,
+        imagesUrl,
+        subCategoryId != null ? [subCategoryId] : [],
+        newAttributes,
+        tags,
+        oldPrice,
+        shortDescription,
+      ),
+    );
+
+    result.fold((failure) {
+      emit(ProductsLoadFailure(failure.message));
+    }, (editResponse) {
+      emit(ProductsLoadSuccess(
+        products,
+        selectedProducts,
+      ));
+    });
   }
 }

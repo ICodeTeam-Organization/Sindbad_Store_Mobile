@@ -1,15 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/swidgets/new_widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/section_title_widget.dart';
-import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/attribute_product/attribute_product_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/ProductDetails/product_details_cubit.dart';
-import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/edit_product_from_store/edit_product_from_store_cubit.dart';
+import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/widgets/custom_dropdown_widget.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/widgets/custom_simple_text_form_field.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/widgets/custom_text_form_widget.dart';
 import 'package:sindbad_management_app/core/swidgets/new_widgets/store_primary_button.dart';
-import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/widgets/get_category_names_success_widget.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/manager/products_cubit/products_cubit.dart';
 import '../widgets/imagePicker.dart';
 
@@ -45,10 +45,34 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
   final TextEditingController shortDescriptionController =
       TextEditingController();
 
+  // Image files for product
+  File? mainImageProductFile;
+  File? subOneImageProductFile;
+  File? subTwoImageProductFile;
+  File? subThreeImageProductFile;
+
+  // Existing image URLs (for edit mode)
+  String? mainImageUrl;
+  String? subOneImageUrl;
+  String? subTwoImageUrl;
+  String? subThreeImageUrl;
+
   final List<String> tags = [];
+
+  // Attribute controllers
+  List<TextEditingController> keys = [];
+  List<TextEditingController> values = [];
+
+  // Dropdown selection state
+  int? mainCategoryId;
+  int? subCategoryId;
+  int? brandId;
 
   // Form key for validation
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  // Scroll controller for scrolling to top on validation error
+  final ScrollController _scrollController = ScrollController();
 
   // To track if controllers have been populated
   bool _isDataLoaded = false;
@@ -61,6 +85,14 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
     descriptionProductController.dispose();
     oldPriceController.dispose();
     shortDescriptionController.dispose();
+    _scrollController.dispose();
+    // Dispose attribute controllers
+    for (var controller in keys) {
+      controller.dispose();
+    }
+    for (var controller in values) {
+      controller.dispose();
+    }
     super.dispose();
   }
 
@@ -70,20 +102,24 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
       final product = state.productDetailsEntity;
       nameProductController.text = product.nameProduct ?? '';
       numberProductController.text = product.numberProduct ?? '';
-      priceProductController.text = product.priceProduct.toString() ?? '';
+      priceProductController.text = product.priceProduct.toString();
       descriptionProductController.text = product.descriptionProduct ?? '';
       oldPriceController.text = product.productOldPrice?.toString() ?? '';
       shortDescriptionController.text = product.productShortDescription ?? '';
 
-      // Set category and brand IDs in the edit cubit
-      //final editCubit = context.read<EditProductFromStoreCubit>();
-      //editCubit.selectedMainCategoryId = product.mainCategoryIdProduct;
-      //editCubit.selectedSubCategoryId = 0;
-      //editCubit.selectedBrandId = product.brandIdProduct;
+      // Set existing image URLs
+      mainImageUrl = product.mainImageUrlProduct;
 
-      // Save existing images URLs
+      // Set category and brand IDs
+      mainCategoryId = product.mainCategoryIdProduct;
+      // subCategoryId = product.subCategoryIdProduct;
+      brandId = product.brandIdProduct;
+
+      // Populate existing images URLs if available
       // if (product.images != null && product.images!.isNotEmpty) {
-      //   editCubit.saveBasicSubImages(basicSubImages: product.images!);
+      //   if (product.images!.length > 0) subOneImageUrl = product.images![0];
+      //   if (product.images!.length > 1) subTwoImageUrl = product.images![1];
+      //   if (product.images!.length > 2) subThreeImageUrl = product.images![2];
       // }
 
       _isDataLoaded = true;
@@ -116,6 +152,7 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
             return Form(
               key: _formKey,
               child: SingleChildScrollView(
+                controller: _scrollController,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -151,6 +188,7 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                                       text: 'أسم المنتج',
                                       height: 65.h,
                                       width: 400.w,
+                                      isRequired: true,
                                     ),
                                     SizedBox(height: 20.h),
                                     Row(
@@ -164,6 +202,7 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                                           text: 'السعر',
                                           width: 130.w,
                                           height: 65.h,
+                                          isRequired: true,
                                         ),
                                         SizedBox(width: 20.w),
                                         CustomTextFormWidget(
@@ -173,6 +212,7 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                                           text: 'رقم المنتج',
                                           width: 130.w,
                                           height: 65.h,
+                                          isRequired: true,
                                         ),
                                       ],
                                     ),
@@ -181,6 +221,8 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                                       keyboardType: TextInputType.number,
                                       textController: oldPriceController,
                                       text: 'السعر السابق',
+                                      width: 130.w,
+                                      height: 65.h,
                                       isRequired: false,
                                     ),
                                     SizedBox(height: 20.h),
@@ -198,7 +240,7 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                                       textController:
                                           descriptionProductController,
                                       text: 'الوصف الكامل',
-                                      isRequired: true,
+                                      isRequired: false,
                                       maxLines: 5,
                                       width: 400.w,
                                       height: 180.h,
@@ -225,82 +267,44 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                                     SectionTitleWidget(
                                         title: "تعديل صور المنتج"),
                                     SizedBox(height: 20.h),
-                                    // CustomBoxAddImageForAddAndEditProductScreen
-                                    //     .CustomBoxAddImageForAddAndEditProductScreen(
-                                    //   // cubitEditProduct: context
-                                    //   //     .read<EditProductFromStoreCubit>(),
-                                    //   boxNumber: 1,
-                                    //   initialImageUrl:
-                                    //       detailsState is ProductDetailsSuccess
-                                    //           ? detailsState
-                                    //               .productDetailsEntity
-                                    //               .mainImageUrlProduct
-                                    //           : null,
-                                    //   containerWidth: 400.w,
-                                    //   mainContainerHeight: 210.h,
-                                    //   upContainerHeight: 175.h,
-                                    //   downContainerHeight: 35.h,
-                                    //   onImageSelected: (value) {
-                                    //     //   context
-                                    //     //       .read<EditProductFromStoreCubit>()
-                                    //     //       .saveImageInCubit(
-                                    //     //           boxNum: 1, file: value);
-                                    //   },
-                                    // ),
+                                    ImagePacker.Add(
+                                      boxNumber: 1,
+                                      initialImageUrl: mainImageUrl,
+                                      containerWidth: 400.w,
+                                      mainContainerHeight: 210.h,
+                                      upContainerHeight: 175.h,
+                                      downContainerHeight: 35.h,
+                                      onImageSelected: (value) {
+                                        mainImageProductFile = value;
+                                      },
+                                    ),
                                     SizedBox(height: 25.h),
                                     // ========  for 3 Sub Images  =======
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        // CustomBoxAddImageForAddAndEditProductScreen
-                                        //     .CustomBoxAddImageForAddAndEditProductScreen(
-                                        //   // cubitEditProduct: context.read<
-                                        //   //     EditProductFromStoreCubit>(),
-                                        //   boxNumber: 2,
-                                        // //  initialImageUrl: context
-                                        //       // .read<EditProductFromStoreCubit>()
-                                        //       // .subOneImageProductUrl,
-                                        //   onImageSelected: (value) {
-                                        //     context
-                                        //         .read<
-                                        //             EditProductFromStoreCubit>()
-                                        //         .saveImageInCubit(
-                                        //             boxNum: 2, file: value);
-                                        //   },
-                                        // ),
-                                        // CustomBoxAddImageForAddAndEditProductScreen
-                                        //     .CustomBoxAddImageForAddAndEditProductScreen(
-                                        //   // cubitEditProduct: context.read<
-                                        //   //     EditProductFromStoreCubit>(),
-                                        //   boxNumber: 3,
-                                        //   // initialImageUrl: context
-                                        //   //     .read<EditProductFromStoreCubit>()
-                                        //   //     .subTwoImageProductUrl,
-                                        //   onImageSelected: (value) {
-                                        //     context
-                                        //         .read<
-                                        //             EditProductFromStoreCubit>()
-                                        //         .saveImageInCubit(
-                                        //             boxNum: 3, file: value);
-                                        //   },
-                                        //  ),
-                                        // CustomBoxAddImageForAddAndEditProductScreen
-                                        //     .CustomBoxAddImageForAddAndEditProductScreen(
-                                        //   // cubitEditProduct: context.read<
-                                        //   //     EditProductFromStoreCubit>(),
-                                        //   boxNumber: 4,
-                                        //   initialImageUrl: context
-                                        //       .read<EditProductFromStoreCubit>()
-                                        //       .subThreeImageProductUrl,
-                                        //   onImageSelected: (value) {
-                                        //     context
-                                        //         .read<
-                                        //             EditProductFromStoreCubit>()
-                                        //         .saveImageInCubit(
-                                        //             boxNum: 4, file: value);
-                                        //   },
-                                        // ),
+                                        ImagePacker.Add(
+                                          boxNumber: 2,
+                                          initialImageUrl: subOneImageUrl,
+                                          onImageSelected: (value) {
+                                            subOneImageProductFile = value;
+                                          },
+                                        ),
+                                        ImagePacker.Add(
+                                          boxNumber: 3,
+                                          initialImageUrl: subTwoImageUrl,
+                                          onImageSelected: (value) {
+                                            subTwoImageProductFile = value;
+                                          },
+                                        ),
+                                        ImagePacker.Add(
+                                          boxNumber: 4,
+                                          initialImageUrl: subThreeImageUrl,
+                                          onImageSelected: (value) {
+                                            subThreeImageProductFile = value;
+                                          },
+                                        ),
                                       ],
                                     ),
                                   ],
@@ -310,8 +314,52 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                             SizedBox(height: 26.h),
 
                             //  ================= for drop down =========
-                            GetCategoryNamesSuccessWidget(
-                              mainAndSubCategories: [],
+                            CustomDropdownWidget(
+                              enabled: true,
+                              textTitle: 'أختر الفئة',
+                              hintText: "قم بإختيار الفئة المناسبة",
+                              initialItem: null,
+                              items: [],
+                              // TODO: Populate items from categories list
+                              onChanged: (value) {
+                                setState(() {
+                                  // TODO: Get the actual category ID from the selected value
+                                  // Reset dependent selections when main category changes
+                                  subCategoryId = null;
+                                  brandId = null;
+                                });
+                              },
+                            ),
+                            SizedBox(height: 16.h),
+                            CustomDropdownWidget(
+                              enabled: mainCategoryId != null,
+                              textTitle: 'أختر القسم',
+                              hintText: mainCategoryId != null
+                                  ? "قم بإختيار القسم المناسب"
+                                  : "إختر الفئة الأساسية أولا",
+                              items: [],
+                              // TODO: Populate items from sub-categories list
+                              onChanged: (value) {
+                                setState(() {
+                                  // TODO: Get the actual sub-category ID from the selected value
+                                });
+                              },
+                            ),
+                            SizedBox(height: 16.h),
+                            CustomDropdownWidget(
+                              enabled: mainCategoryId != null,
+                              textTitle: 'أختر اسم البراند',
+                              hintText: mainCategoryId != null
+                                  ? "قم بإختيار البراند المناسب"
+                                  : "إختر الفئة الأساسية أولا",
+                              isRequired: false,
+                              items: [],
+                              // TODO: Populate items from brands list
+                              onChanged: (value) {
+                                setState(() {
+                                  // TODO: Get the actual brand ID from the selected value
+                                });
+                              },
                             ),
                             SizedBox(height: 26.h),
 
@@ -331,47 +379,43 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                                     SectionTitleWidget(title: "خصائص المنتج"),
                                     SizedBox(height: 20.h),
                                     SizedBox(
-                                      child: BlocBuilder<AttributeProductCubit,
-                                              AttributeProduct>(
-                                          builder: (context, state) {
-                                        return Column(
-                                          children: List.generate(
-                                              state.keys.length, (index) {
-                                            return Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 5.0.h),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  CustomSimpleTextFormField(
-                                                    textController:
-                                                        state.keys[index],
-                                                    hintText: 'خاصية',
-                                                  ),
-                                                  CustomSimpleTextFormField(
-                                                    textController:
-                                                        state.values[index],
-                                                    hintText: 'قيمة',
-                                                  ),
-                                                  IconButton(
-                                                    icon: Icon(
-                                                        Icons.remove_circle,
-                                                        size: 20.sp),
-                                                    onPressed: () {
-                                                      // context
-                                                      //     .read<
-                                                      //         AttributeProductCubit>()
-                                                      //     .removeField(index);
-                                                    },
-                                                  ),
-                                                ],
-                                              ),
-                                            );
-                                          }),
-                                        );
-                                      }),
+                                      child: Column(
+                                        children:
+                                            List.generate(keys.length, (index) {
+                                          return Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 5.0.h),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                CustomSimpleTextFormField(
+                                                  textController: keys[index],
+                                                  hintText: 'خاصية',
+                                                ),
+                                                CustomSimpleTextFormField(
+                                                  textController: values[index],
+                                                  hintText: 'قيمة',
+                                                ),
+                                                IconButton(
+                                                  icon: Icon(
+                                                      Icons.remove_circle,
+                                                      size: 20.sp),
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      keys[index].dispose();
+                                                      values[index].dispose();
+                                                      keys.removeAt(index);
+                                                      values.removeAt(index);
+                                                    });
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }),
+                                      ),
                                     ),
                                     Center(
                                       child: Row(
@@ -380,9 +424,12 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                                         children: [
                                           InkWell(
                                             onTap: () {
-                                              // context
-                                              //     .read<AttributeProductCubit>()
-                                              //     .addField();
+                                              setState(() {
+                                                keys.add(
+                                                    TextEditingController());
+                                                values.add(
+                                                    TextEditingController());
+                                              });
                                             },
                                             child: const SizedBox(
                                               child: Row(
@@ -416,64 +463,67 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           StorePrimaryButton(
-                            onTap: () =>
-                                context.read<ProductsCubit>().updateProduct(),
-                            title: "حفظ",
-                            width: 100.w,
-                            height: 50.h,
-                            buttonColor: Colors.grey,
-                          ),
-                          // BlocConsumer<EditProductFromStoreCubit,
-                          //     EditProductFromStoreState>(
-                          //   listener: (context, state) {
-                          //     if (state is EditProductFromStoreSuccess) {
-                          //       Navigator.of(context).pop();
-                          //       ScaffoldMessenger.of(context).showSnackBar(
-                          //         SnackBar(
-                          //             content: Text('تم تعديل المنتج بنجاح!')),
-                          //       );
-                          //     }
-                          //     if (state is EditProductFromStoreFailure) {
-                          //       ScaffoldMessenger.of(context).showSnackBar(
-                          //         SnackBar(
-                          //             content: Text(
-                          //                 'فشل في تعديل المنتج: ${state.errMessage}')),
-                          //       );
-                          //     }
-                          //   },
-                          //   builder: (context, state) {
-                          //     return StorePrimaryButton(
-                          //       isLoading: state is EditProductFromStoreLoading,
-                          //       onTap: () async {
-                          //         if (_formKey.currentState!.validate()) {
-                          //           final editCubit = context
-                          //               .read<EditProductFromStoreCubit>();
-                          //           final attributeState = context
-                          //               .read<AttributeProductCubit>()
-                          //               .state;
+                            onTap: () async {
+                              if (_formKey.currentState!.validate()) {
+                                // Collect existing image URLs
+                                final List<String> existingImageUrls = [
+                                  if (subOneImageUrl != null) subOneImageUrl!,
+                                  if (subTwoImageUrl != null) subTwoImageUrl!,
+                                  if (subThreeImageUrl != null)
+                                    subThreeImageUrl!,
+                                ];
 
-                          //           await editCubit.editProductFromStore(
-                          //             productId: widget.productId,
-                          //             priceProductController:
-                          //                 priceProductController,
-                          //             descriptionProductController:
-                          //                 descriptionProductController,
-                          //             keys: attributeState.keys,
-                          //             values: attributeState.values,
-                          //             oldPriceController: oldPriceController,
-                          //             shortDescriptionProductController:
-                          //                 shortDescriptionController,
-                          //             tags: tags,
-                          //           );
-                          //         }
-                          //       },
-                          //       title: "حفظ التعديلات",
-                          //       width: 280.w,
-                          //       height: 50.h,
-                          //       buttonColor: Color(0xFFFF746B),
-                          //     );
-                          //   },
-                          // ),
+                                // Collect new image files
+                                final List<File> newImageFiles = [
+                                  if (subOneImageProductFile != null)
+                                    subOneImageProductFile!,
+                                  if (subTwoImageProductFile != null)
+                                    subTwoImageProductFile!,
+                                  if (subThreeImageProductFile != null)
+                                    subThreeImageProductFile!,
+                                ];
+
+                                context.read<ProductsCubit>().updateProduct(
+                                      productId: widget.productId,
+                                      price: double.parse(
+                                          priceProductController.text),
+                                      description:
+                                          descriptionProductController.text,
+                                      mainImageFile: mainImageProductFile,
+                                      images: newImageFiles.isNotEmpty
+                                          ? newImageFiles
+                                          : null,
+                                      imagesUrl: existingImageUrls.isNotEmpty
+                                          ? existingImageUrls
+                                          : null,
+                                      mainCategoryId: mainCategoryId ?? 0,
+                                      subCategoryId: subCategoryId,
+                                      brandId: brandId,
+                                      attributeKeys: keys,
+                                      attributeValues: values,
+                                      oldPrice:
+                                          oldPriceController.text.isNotEmpty
+                                              ? double.parse(
+                                                  oldPriceController.text)
+                                              : null,
+                                      shortDescription:
+                                          shortDescriptionController.text,
+                                      tags: tags.isNotEmpty ? tags : null,
+                                    );
+                              } else {
+                                // Form is invalid, scroll to top to show errors
+                                _scrollController.animateTo(
+                                  0,
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeInOut,
+                                );
+                              }
+                            },
+                            title: "حفظ التعديلات",
+                            width: 280.w,
+                            height: 50.h,
+                            buttonColor: Color(0xFFFF746B),
+                          ),
                           SizedBox(width: 8.w),
                           StorePrimaryButton(
                             onTap: () => Navigator.of(context).pop(),
