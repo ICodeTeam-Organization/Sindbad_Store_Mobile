@@ -2,10 +2,11 @@ import 'package:dartz/dartz.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
 import 'package:sindbad_management_app/core/use_cases/param_use_case.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/entities/add_offer_entity.dart';
+import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/data/repos/new_offer_repo_impl.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/repo/new_offer_repo.dart';
 
 class AddOfferUseCase extends UseCaseWithParam<AddOfferEntity, AddOfferParams> {
-  final NewOfferRepo newOfferRepo;
+  final NewOfferRepositoryImpl newOfferRepo;
 
   AddOfferUseCase(this.newOfferRepo);
 

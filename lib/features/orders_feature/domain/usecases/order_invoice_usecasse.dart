@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:dartz/dartz.dart';
+import 'package:sindbad_management_app/features/orders_feature/data/repos_impl/all_order_repo_impl.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/entities/order_invoice_entity.dart';
 import '../../../../core/errors/failure.dart';
 import '../../../../core/use_cases/param_use_case.dart';
@@ -7,9 +8,9 @@ import '../repos/all_order_repo.dart';
 
 class OrderInvoiceUsecase
     extends UseCaseWithParam<OrderInvoiceEntity, OrderInvoiceParam> {
-  final AllOrderRepo allOrderRepo;
+  final AllOrderRepoImpl allOrderRepo;
 
-  OrderInvoiceUsecase({required this.allOrderRepo});
+  OrderInvoiceUsecase(this.allOrderRepo);
 
   @override
   Future<Either<Failure, OrderInvoiceEntity>> execute(

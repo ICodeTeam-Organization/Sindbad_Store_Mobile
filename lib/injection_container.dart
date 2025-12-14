@@ -193,17 +193,14 @@ void initializationContainer() {
   getit.registerSingleton<AddOfferUseCase>(AddOfferUseCase(getit()));
   // Use cases for orders
   getit.registerSingleton<OrderDetailsUsecase>(OrderDetailsUsecase(getit()));
-  getit.registerSingleton<OrderInvoiceUsecase>(
-      OrderInvoiceUsecase(allOrderRepo: getit()));
-  getit.registerSingleton<OrderShippingUsecase>(
-      OrderShippingUsecase(allOrderRepo: getit()));
-  getit.registerSingleton<OrderCancelUsecase>(
-      OrderCancelUsecase(allOrderRepo: getit()));
+  getit.registerSingleton<OrderInvoiceUsecase>(OrderInvoiceUsecase(getit()));
+  getit.registerSingleton<OrderShippingUsecase>(OrderShippingUsecase(getit()));
+  getit.registerSingleton<OrderCancelUsecase>(OrderCancelUsecase(getit()));
   getit.registerSingleton<CompanyShippingUsecase>(
-      CompanyShippingUsecase(allOrderRepo: getit()));
+      CompanyShippingUsecase(getit()));
   // Use cases for notifications
   getit.registerSingleton<GetUnreadNotiftionUseCase>(
-      GetUnreadNotiftionUseCase(notifictionRepo: getit()));
+      GetUnreadNotiftionUseCase(getit()));
   // Cubits for offers
   getit.registerFactory<UpdateOfferCubit>(() => UpdateOfferCubit(getit()));
   getit.registerFactory<OfferDataCubit>(() => OfferDataCubit(getit()));

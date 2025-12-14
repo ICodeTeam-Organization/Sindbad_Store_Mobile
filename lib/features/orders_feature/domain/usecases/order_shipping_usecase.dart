@@ -1,14 +1,16 @@
 import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
+import 'package:sindbad_management_app/features/orders_feature/data/repos_impl/all_order_repo_impl.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/entities/order_shipping_entity.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/repos/all_order_repo.dart';
 import '../../../../core/use_cases/param_use_case.dart';
 
 class OrderShippingUsecase
     extends UseCaseWithParam<OrderShippingEntity, OrderShippingParam> {
-  final AllOrderRepo allOrderRepo;
-  OrderShippingUsecase({required this.allOrderRepo});
+  final AllOrderRepoImpl allOrderRepo;
+
+  OrderShippingUsecase(this.allOrderRepo);
 
   @override
   Future<Either<Failure, OrderShippingEntity>> execute(
