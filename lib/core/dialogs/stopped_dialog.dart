@@ -154,7 +154,7 @@ class _ProductSelectionDialogState extends State<ProductSelectionDialog> {
                         Row(
                           children: [
                             Image.network(
-                              product.imageUrl!,
+                              product.imageUrl,
                               width: 45,
                               height: 45,
                               errorBuilder: (_, __, ___) => const Icon(

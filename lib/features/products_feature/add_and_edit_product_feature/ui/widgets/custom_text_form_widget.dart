@@ -15,6 +15,7 @@ class CustomTextFormWidget extends StatelessWidget {
   final TextInputType keyboardType;
   final Function(String)? onFieldSubmitted;
   final bool? isRequired;
+  final String? Function(String?)? validator;
 
   const CustomTextFormWidget({
     super.key,
@@ -28,61 +29,99 @@ class CustomTextFormWidget extends StatelessWidget {
     this.enabled = true,
     this.onFieldSubmitted,
     this.isRequired = true,
+    this.validator,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        isRequired == true
-            ? RequiredText(title: text)
-            : Text(
-                text,
-                style: KTextStyle.textStyle13.copyWith(
+    return SizedBox(
+      width: width.w,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Place label inside a Row and make the actual text expandable
+          // so it truncates instead of causing layout errors in unbounded contexts.
+          Row(
+            children: [
+              Expanded(
+                child: isRequired == true
+                    ? RequiredText(title: text)
+                    : Text(
+                        text,
+                        style: KTextStyle.textStyle13.copyWith(
+                          color: AppColors.greyLight,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                      ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10.0.h),
+          SizedBox(
+            width: width.w,
+            height: height.h,
+            child: TextFormField(
+              onFieldSubmitted: onFieldSubmitted,
+              enabled: enabled,
+              keyboardType: keyboardType,
+              validator: validator ??
+                  (isRequired == true
+                      ? (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'هذا الحقل مطلوب';
+                          }
+                          return null;
+                        }
+                      : null),
+              decoration: InputDecoration(
+                hintText: 'أكتب هنا...',
+                hintStyle: KTextStyle.textStyle12.copyWith(
                   color: AppColors.greyLight,
                 ),
-              ),
-        SizedBox(height: 10.0.h),
-        SizedBox(
-          width: width.w,
-          height: height.h,
-          child: TextFormField(
-            onFieldSubmitted: onFieldSubmitted,
-            enabled: enabled,
-            keyboardType: keyboardType,
-            decoration: InputDecoration(
-              hintText: 'أكتب هنا...',
-              hintStyle: KTextStyle.textStyle12.copyWith(
-                color: AppColors.greyLight,
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: AppColors.greyBorder,
-                  width: 1.0,
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: AppColors.greyBorder,
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(5.0),
                 ),
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              disabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: AppColors.greyBorder,
-                  width: 1.0,
+                disabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: AppColors.greyBorder,
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(5.0),
                 ),
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: AppColors.primary,
-                  width: 1.0,
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: AppColors.primary,
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(5.0),
                 ),
-                borderRadius: BorderRadius.circular(5.0),
+                errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.red,
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.red,
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
               ),
+              controller: textController,
+              maxLines: maxLines,
             ),
-            controller: textController,
-            maxLines: maxLines,
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

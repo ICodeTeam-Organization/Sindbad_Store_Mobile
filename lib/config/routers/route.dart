@@ -1,5 +1,4 @@
 import 'package:go_router/go_router.dart';
-import 'package:flutter/widgets.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/screens/forget_password_screen.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/screens/confirm_password_screen.dart';
@@ -7,6 +6,7 @@ import 'package:sindbad_management_app/features/auth_feature/ui/screens/login_sc
 import 'package:sindbad_management_app/features/auth_feature/ui/screens/reset_password_screen.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/screen/temp_widget/order_details.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/screens/add_product_page.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/screens/update_product_page.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/screen/excell_page.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/ui/screen/notificion_screen.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/screens/new_offer_screen.dart';
@@ -15,7 +15,6 @@ import 'package:sindbad_management_app/features/offer_management_features/view_o
 import 'package:sindbad_management_app/features/profile_feature/ui/screen/change_passsowrd_screen.dart';
 import 'package:sindbad_management_app/core/swidgets/splahs_screen.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/screen/profile_screen.dart';
-import '../../features/products_feature/add_and_edit_product_feature/ui/screens/edit_product_screen.dart';
 import '../../features/root.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_cubit/offer_cubit.dart';
@@ -102,10 +101,9 @@ abstract class AppRouter {
       GoRoute(
         path: AppRoutes.editProduct,
         builder: (context, state) {
-          final extraData = state.extra as EditProductExtraData;
-          return EditProductScreen(
-            productDetailsEntity: extraData.productDetails,
-            onSuccessCallback: extraData.onSuccess,
+          final extraData = state.extra as int;
+          return UpdateProductPage(
+            productId: extraData,
           );
         },
       ),

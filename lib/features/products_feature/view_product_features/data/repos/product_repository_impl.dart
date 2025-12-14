@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
@@ -8,13 +9,37 @@ import 'package:sindbad_management_app/features/products_feature/view_product_fe
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/product_entity.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/data_source/store_data_source_impl.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/model/store_category_model.dart';
+
+import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/entities/add_product_entities/add_product_entity.dart';
+import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/entities/edit_product_entities/edit_product_entity.dart';
+import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/entities/edit_product_entities/product_details_entity.dart';
 import '../../domain/repos/product_store_repository.dart';
 import 'package:hive/hive.dart';
 
 class ProductRepositoryImpl extends ProductRepository {
   final ProductRemoteDataSourceImpl productRemoteDataSource;
   final StoreDataSourceImpl storeDataSource;
-  ProductRepositoryImpl(this.productRemoteDataSource, this.storeDataSource);
+
+  ProductRepositoryImpl(
+    this.productRemoteDataSource,
+    this.storeDataSource,
+  );
+
+  // Generic PostData function
+  Future<Either<Failure, T>> postOneData<T>(
+      Future<T> Function() postDataFunction) async {
+    try {
+      var dataPosted = await postDataFunction();
+      return right(dataPosted);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      } else {
+        return left(ServerFailure(e.toString()));
+      }
+    }
+  }
+
   @override
   Future<Either<Failure, List<StoreCategoryModel>>> getStoreCategory() async {
     try {
@@ -164,6 +189,107 @@ class ProductRepositoryImpl extends ProductRepository {
   Future<Either<Failure, bool>> activateProducts(List<int> ids) async {
     try {
       var response = await productRemoteDataSource.activateProductsByIds(ids);
+      return right(response);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      } else {
+        return left(ServerFailure(e.toString()));
+      }
+    }
+  }
+
+  // ===================  Product CRUD Operations  ====================
+  @override
+  Future<Either<Failure, AddProductEntity>> addProductToStore({
+    required String name,
+    required num price,
+    required String description,
+    required File mainImageFile,
+    required String number,
+    required int mainCategoryId,
+    required List<int> subCategoryIds,
+    int? storeId,
+    int? offerId,
+    int? brandId,
+    List<File>? images,
+    List<Map<String, String>>? newAttributes,
+    List<String>? tags,
+    num? oldPrice,
+    String? shortDescription,
+  }) async {
+    return postOneData(() => productRemoteDataSource.addProductToStore(
+          name: name,
+          price: price,
+          description: description,
+          mainImageFile: mainImageFile,
+          number: number,
+          mainCategoryId: mainCategoryId,
+          subCategoryIds: subCategoryIds,
+          storeId: storeId,
+          offerId: offerId,
+          brandId: brandId,
+          images: images,
+          newAttributes: newAttributes,
+          tags: tags,
+          oldPrice: oldPrice,
+          shortDescription: shortDescription,
+        ));
+  }
+
+  @override
+  Future<Either<Failure, ProductDetailsEntity>> getProductDetails(
+      {required int productId}) async {
+    try {
+      ProductDetailsEntity data =
+          await productRemoteDataSource.getProductDetails(productId: productId);
+      return right(data);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      } else {
+        return left(ServerFailure(e.toString()));
+      }
+    }
+  }
+
+  @override
+  Future<Either<Failure, EditProductEntity>> editProductFromStore(
+    int id,
+    String description,
+    num price,
+    File? mainImageFile,
+    int? storeId,
+    int? offerId,
+    int? brandId,
+    int mainCategoryId,
+    List<File>? images,
+    List<String>? imagesUrl,
+    List<int> subCategoryIds,
+    List<Map<String, String>> newAttributes,
+    List<String>? tags,
+    num? oldPrice,
+    String? shortDescription,
+  ) async {
+    try {
+      EditProductEntity response =
+          await productRemoteDataSource.editProductFromStore(
+        id: id,
+        price: price,
+        description: description,
+        mainImageFile: mainImageFile,
+        storeId: storeId,
+        offerId: offerId,
+        brandId: brandId,
+        mainCategoryId: mainCategoryId,
+        images: images,
+        subCategoryIds: subCategoryIds,
+        imagesUrl: imagesUrl,
+        newAttributes: newAttributes,
+        tags: tags,
+        oldPrice: oldPrice,
+        shortDescription: shortDescription,
+      );
       return right(response);
     } catch (e) {
       if (e is DioException) {

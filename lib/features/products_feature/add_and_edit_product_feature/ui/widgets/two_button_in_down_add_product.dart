@@ -3,11 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/swidgets/new_widgets/store_primary_button.dart';
 import '../../../../../config/styles/Colors.dart';
-import '../manger/cubit/attribute_product/attribute_product_cubit.dart';
 import '../manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
 
 class TwoButtonInDownAddProduct extends StatelessWidget {
-  final AddProductToStoreCubit cubitAddProduct;
+//  final AddProductToStoreCubit cubitAddProduct;
   final VoidCallback? onSuccessCallback;
   final List<String> tags;
   final String shortDescription;
@@ -15,7 +14,7 @@ class TwoButtonInDownAddProduct extends StatelessWidget {
   const TwoButtonInDownAddProduct({
     super.key,
     this.onSuccessCallback,
-    required this.cubitAddProduct,
+    //  required this.cubitAddProduct,
     required this.tags,
     required this.shortDescription,
     required this.oldPrice,
@@ -100,17 +99,17 @@ class TwoButtonInDownAddProduct extends StatelessWidget {
             return StorePrimaryButton(
               isLoading: state is AddProductToStoreLoading,
               onTap: () async {
-                if (validateFields(context, cubitAddProduct)) {
-                  cubitAddProduct.keys =
-                      context.read<AttributeProductCubit>().state.keys;
-                  cubitAddProduct.values =
-                      context.read<AttributeProductCubit>().state.values;
-                  await cubitAddProduct.addProductToStore(
-                    tags,
-                    shortDescription,
-                    oldPrice,
-                  );
-                }
+                // if (validateFields(context, cubitAddProduct)) {
+                //   cubitAddProduct.keys =
+                //       context.read<AttributeProductCubit>().state.keys;
+                //   cubitAddProduct.values =
+                //       context.read<AttributeProductCubit>().state.values;
+                //   await cubitAddProduct.addProductToStore(
+                //     tags,
+                //     shortDescription,
+                //     oldPrice,
+                //   );
+                // }
               },
               title: "تأكيد",
               width: 200.w,

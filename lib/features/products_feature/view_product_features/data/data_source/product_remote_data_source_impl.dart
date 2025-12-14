@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +13,17 @@ import '../../domain/entities/product_entity.dart';
 import '../models/delete_product_model.dart';
 import '../models/main_category_for_view_model/item.dart';
 import '../models/product_model/product_model.dart';
+// Add/Edit Product imports
+import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/data/models/add_product_model.dart';
+import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/data/models/edit_product_model.dart';
+import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/entities/add_product_entities/add_product_entity.dart';
+import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/entities/add_product_entities/brand_entity.dart';
+import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
+import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/entities/edit_product_entities/edit_product_entity.dart';
+import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/entities/edit_product_entities/product_details_entity.dart';
+import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/data/models/brand_model/datum.dart';
+import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/data/models/category_model/data.dart';
+import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/data/models/product_details_model/product_details_model.dart';
 
 class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
   final ApiService apiService;
@@ -431,5 +442,323 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
         type: DioExceptionType.unknown,
       );
     }
+  }
+
+  // ==================== Add/Edit Product Methods ====================
+
+  Future<void> saveRequest() async {
+    return await flutterSecureStorage.write(
+        key: 'updatedAt', value: DateTime.now().toUtc().toString());
+  }
+
+  @override
+  Future<AddProductEntity> addProductToStore({
+    required String name,
+    required num price,
+    required String description,
+    required File mainImageFile,
+    required String number,
+    required int mainCategoryId,
+    required List<int> subCategoryIds,
+    int? storeId,
+    int? offerId,
+    int? brandId,
+    List<File>? images,
+    List<Map<String, String>>? newAttributes,
+    List<String>? tags,
+    num? oldPrice,
+    String? shortDescription,
+    String? token,
+  }) async {
+    try {
+      // Validate required arguments
+      if (name.isEmpty) {
+        throw ArgumentError('Product name cannot be empty');
+      }
+      if (description.isEmpty) {
+        throw ArgumentError('Product description cannot be empty');
+      }
+      if (!mainImageFile.existsSync()) {
+        throw ArgumentError('Main image file does not exist');
+      }
+      if (subCategoryIds.isEmpty) {
+        throw ArgumentError('SubCategoryIds list cannot be empty');
+      }
+
+      // Use provided token or get from storage
+      final String? authToken = token ?? await getToken();
+      if (authToken == null || authToken.isEmpty) {
+        throw DioException(
+          requestOptions: RequestOptions(path: ''),
+          error: 'Authentication token is missing or invalid',
+        );
+      }
+
+      // Prepare FormData for multipart file upload
+      final formData = FormData.fromMap({
+        "Name": name,
+        "Price": price,
+        "Description": description,
+        "Number": number,
+        "StoreId": storeId,
+        "OfferId": offerId,
+        "Tags": tags,
+        "OldPrice": oldPrice,
+        "ProductDetails": shortDescription,
+        "BrandId": brandId == 000 ? null : brandId,
+        "MainCategoryId": mainCategoryId,
+        "SubCategoryIds": subCategoryIds,
+        "newAttributes": newAttributes,
+        "MainImage": await MultipartFile.fromFile(
+          mainImageFile.path,
+          filename: mainImageFile.path.split('/').last,
+        ),
+      });
+
+      // Add additional images if any
+      if (images != null) {
+        for (int i = 0; i < images.length; i++) {
+          formData.files.add(MapEntry(
+            'Images',
+            await MultipartFile.fromFile(
+              images[i].path,
+              filename: images[i].path.split('/').last,
+            ),
+          ));
+        }
+      }
+
+      final dio = Dio();
+      final response = await dio.post(
+        'https://www.sindibad-back.com:82/api/Products/AddProduct',
+        data: formData,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $authToken",
+            "accept": "text/plain",
+          },
+        ),
+      );
+
+      final responseData = response.data;
+
+      if (responseData['success'] == true) {
+        AddProductEntity body = AddProductModel.fromJson(responseData);
+        return body;
+      } else {
+        final errorMessage = responseData['error'] ??
+            responseData['message'] ??
+            'Failed to add product';
+
+        throw DioException(
+          requestOptions: response.requestOptions,
+          response: response,
+          error: errorMessage,
+          type: DioExceptionType.badResponse,
+        );
+      }
+    } on DioException catch (e) {
+      // Handle Dio-specific exceptions
+      switch (e.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.sendTimeout:
+        case DioExceptionType.receiveTimeout:
+          throw DioException(
+            requestOptions: e.requestOptions,
+            error: 'Request timeout. Please try again.',
+            type: e.type,
+          );
+        case DioExceptionType.badCertificate:
+          throw DioException(
+            requestOptions: e.requestOptions,
+            error: 'SSL certificate error. Please check your connection.',
+            type: e.type,
+          );
+        case DioExceptionType.badResponse:
+          print(e.response?.data);
+          // Extract error from response if available
+          final errorData = e.response?.data;
+          final errorMessage = errorData is Map
+              ? errorData['error'] ??
+                  errorData['message'] ??
+                  e.error?.toString() ??
+                  'Server error occurred'
+              : e.error?.toString() ?? 'Server error occurred';
+
+          throw DioException(
+            requestOptions: e.requestOptions,
+            response: e.response,
+            error: errorMessage,
+            type: e.type,
+          );
+        case DioExceptionType.cancel:
+          throw DioException(
+            requestOptions: e.requestOptions,
+            error: 'Request was cancelled',
+            type: e.type,
+          );
+        case DioExceptionType.connectionError:
+          throw DioException(
+            requestOptions: e.requestOptions,
+            error: 'No internet connection. Please check your network.',
+            type: e.type,
+          );
+        case DioExceptionType.unknown:
+          throw DioException(
+            requestOptions: e.requestOptions,
+            error: 'Network error: ${e.error}',
+            type: e.type,
+          );
+      }
+    } catch (e) {
+      // Handle non-Dio exceptions
+      if (e is ArgumentError) {
+        rethrow; // Re-throw argument errors as-is
+      }
+
+      // Wrap other non-Dio exceptions in DioException
+      throw DioException(
+        requestOptions: RequestOptions(path: 'Products/AddProduct'),
+        error: 'Failed to add product: $e',
+        type: DioExceptionType.unknown,
+      );
+    }
+  }
+
+  @override
+  Future<EditProductEntity> editProductFromStore({
+    required int id,
+    required num price,
+    required String description,
+    required File? mainImageFile,
+    required int? storeId,
+    required int? offerId,
+    required int? brandId,
+    required int mainCategoryId,
+    required List<File>? images,
+    required List<String>? imagesUrl,
+    required List<int> subCategoryIds,
+    required List<Map<String, String>> newAttributes,
+    required num? oldPrice,
+    required String? shortDescription,
+    required List<String>? tags,
+  }) async {
+    String? token = await getToken();
+    final Map<String, dynamic> dataBody = {
+      "Price": price,
+      "Description": description,
+      "StoreId": storeId,
+      "BrandId": brandId,
+      "MainCategoryId": mainCategoryId,
+      "ImagesUrl": imagesUrl,
+      "SubCategoryIds": subCategoryIds,
+      "newAttributes": newAttributes,
+      "OldPrice": oldPrice,
+      "productDetails": shortDescription,
+      "Tags": tags,
+    };
+    final data = await apiService.putWithFilesForEditProduct(
+      endPoint: "Products/UpdateProduct?id=$id",
+      data: dataBody,
+      imageFile: mainImageFile,
+      imageFiles: images,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+    EditProductEntity body = EditProductModel.fromJson(data);
+
+    return body;
+  }
+
+  List<T> getListFromPagedResult<T>(
+      Map<String, dynamic> data, T Function(Map<String, dynamic>) fromJson) {
+    List<T> entities = [];
+
+    if (data['data']['items'] is List) {
+      for (var item in data['data']['items']) {
+        entities.add(fromJson(item));
+      }
+    } else if (data['message'] != null) {
+      entities.add(fromJson(data));
+    }
+
+    return entities;
+  }
+
+  List<CategoryEntity> getCategorylist(Map<String, dynamic> data) {
+    return getListFromPagedResult(
+        data, (item) => CategoryModels.fromJson(item));
+  }
+
+  @override
+  Future<List<CategoryEntity>> getMainAndSubCategory(
+      {String? updatedAt}) async {
+    String? token = await getToken();
+    final Map<String, dynamic> data;
+    if (updatedAt == null) {
+      data = await apiService.get(
+          endPoint: "Categories?types=1&level=1&level=2",
+          headers: {'Authorization': 'Bearer $token'});
+    } else {
+      data = await apiService.get(
+          endPoint: "Categories?types=1&level=1&level=2&updatedAt=$updatedAt",
+          headers: {'Authorization': 'Bearer $token'});
+      print(data);
+    }
+    saveRequest();
+
+    List<CategoryEntity> mainAndSubCategories = getCategorylist(data);
+
+    return mainAndSubCategories;
+  }
+
+  @override
+  Future<List<BrandEntity>> getBrandsByMainCategoryId({
+    required int? mainCategoryId,
+  }) async {
+    String? token = await getToken();
+    if (mainCategoryId == null) {
+      final Map<String, dynamic> data = await apiService
+          .get(endPoint: "Brands", headers: {'Authorization': 'Bearer $token'});
+      List<BrandEntity> changeToDartModel(List<dynamic> data) {
+        List<BrandEntity> brandsEntity = data
+            .map((datum) => Datum.fromJson(datum as Map<String, dynamic>))
+            .toList();
+        return brandsEntity;
+      }
+
+      List<BrandEntity> brands =
+          changeToDartModel(data['data'] as List<dynamic>);
+      return brands;
+    } else {
+      final Map<String, dynamic> data = await apiService.get(
+          endPoint: "Brands?categoryId=$mainCategoryId",
+          headers: {'Authorization': 'Bearer $token'});
+      List<BrandEntity> changeToDartModel(List<dynamic> data) {
+        List<BrandEntity> brandsEntity = data
+            .map((datum) => Datum.fromJson(datum as Map<String, dynamic>))
+            .toList();
+        return brandsEntity;
+      }
+
+      List<BrandEntity> brands =
+          changeToDartModel(data['data'] as List<dynamic>);
+      return brands;
+    }
+  }
+
+  @override
+  Future<ProductDetailsEntity> getProductDetails({
+    required int productId,
+  }) async {
+    String? token = await getToken();
+    final Map<String, dynamic> data = await apiService.get(
+        endPoint: "Products/GetProductDetails/$productId",
+        headers: {'Authorization': 'Bearer $token'});
+
+    ProductDetailsEntity productDetailsEntity =
+        ProductDetailsModel.fromJson(data["data"]);
+    return productDetailsEntity;
   }
 }

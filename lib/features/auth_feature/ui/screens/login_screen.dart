@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
@@ -9,10 +8,7 @@ import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_c
 import 'package:sindbad_management_app/features/auth_feature/ui/widgets/show_error_dialoge.dart';
 import 'package:sindbad_management_app/injection_container.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
-import 'package:sindbad_management_app/features/auth_feature/data/repository/authentation_repository_imp.dart';
-import 'package:sindbad_management_app/features/auth_feature/domain/usecase/sign_in_use_case.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit.dart';
-import 'package:sindbad_management_app/features/auth_feature/ui/widgets/image_login.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

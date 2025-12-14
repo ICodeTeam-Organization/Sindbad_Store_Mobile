@@ -3,15 +3,16 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/entities/add_product_entities/add_product_entity.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/add_products_parames.dart';
 import '../../../../../../../core/errors/failure.dart';
-import '../../../../domain/use_cases/add_product_to_store_use_case.dart';
+import '../../../../../view_product_features/domain/use_cases/add_product_use_case.dart';
 part 'add_product_to_store_state.dart';
 
 class AddProductToStoreCubit extends Cubit<AddProductToStoreState> {
   AddProductToStoreCubit(this.addProductToStoreUseCase)
       : super(AddProductToStoreInitial());
 
-  final AddProductToStoreUseCase addProductToStoreUseCase;
+  final AddProductUseCase addProductToStoreUseCase;
 
   // all controller for [ info product ] ==> add product page
   TextEditingController nameProductController = TextEditingController();
@@ -74,7 +75,7 @@ class AddProductToStoreCubit extends Cubit<AddProductToStoreState> {
   Future<void> addProductToStore(
       List<String> tags, String shortDescription, num oldPrice) async {
     emit(AddProductToStoreLoading()); // ======== emit ==========
-    AddProductToStoreParams params = AddProductToStoreParams(
+    AddProductParams params = AddProductParams(
       name: nameProductController.text,
       oldPrice: oldPrice,
       shortDescription: shortDescription,

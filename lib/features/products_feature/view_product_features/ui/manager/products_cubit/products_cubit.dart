@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/add_products_parames.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/edit_product_use_case.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/get_products_parames.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/activate_products_by_ids_use_case.dart';
+import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/add_product_use_case.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/delete_product_use_case.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/disable_products_by_ids_use_case.dart';
 import '../../../domain/entities/product_entity.dart';
@@ -9,13 +14,20 @@ import '../../../domain/use_cases/get_products_usecase.dart';
 part 'products_states.dart';
 
 class ProductsCubit extends Cubit<ProductsState> {
-  ProductsCubit(this.getProductsUseCase, this._disableProductsUseCase,
-      this._activateProductsUseCase, this._deleteProductUseCase)
+  ProductsCubit(
+      this.getProductsUseCase,
+      this._disableProductsUseCase,
+      this._activateProductsUseCase,
+      this._deleteProductUseCase,
+      this._addProductUseCase,
+      this._updateProductUseCase)
       : super(ProductsInitial());
   final GetProductsUseCase getProductsUseCase;
   final DisableProductsUseCase _disableProductsUseCase;
   final ActivateProductsUseCase _activateProductsUseCase;
   final DeleteProductUseCase _deleteProductUseCase;
+  final AddProductUseCase _addProductUseCase;
+  final EditProductUseCase _updateProductUseCase;
 
   // Separate lists for each tab
   List<ProductEntity> allProducts = [];
@@ -43,6 +55,45 @@ class ProductsCubit extends Cubit<ProductsState> {
       emit(ProductsLoadFailure(failure.message));
     }, (disableResponse) {
       selectedProducts.clear();
+      emit(ProductsLoadSuccess(
+        products,
+        selectedProducts,
+      ));
+    });
+  }
+
+  Future<void> addProduct(String name, double price, String number,
+      List<File> images, File mainImageFile, int mainCategoryId) async {
+    emit(ProductsLoadInProgress());
+
+    var result = await _addProductUseCase.execute(
+      AddProductParams(
+        name: name,
+        price: price,
+        number: "200",
+        description: 'description',
+        oldPrice: 4500,
+        mainImageFile: mainImageFile,
+        mainCategoryId: mainCategoryId,
+        subCategoryIds: [0],
+        tags: [],
+        storeId: null,
+        offerId: null,
+        brandId: null,
+        images: images,
+        newAttributes: [],
+        shortDescription: '',
+      ),
+    );
+// images:
+//       subCategoryIds: [selectedSubCategoryId!],
+//       newAttributes: [
+//         for (int i = 0; i < keys.length; i++)
+//           {"attributeName": keys[i].text, "attributeValue": values[i].text}
+//       ],
+    result.fold((failure) {
+      emit(ProductsLoadFailure(failure.message));
+    }, (addResponse) {
       emit(ProductsLoadSuccess(
         products,
         selectedProducts,
@@ -288,30 +339,8 @@ class ProductsCubit extends Cubit<ProductsState> {
     // Delegate to getAllProducts
     await getAllProducts(pageNumber, pageSize, categoryId);
   }
+
+  Future<void> updateProduct() async {
+    // Delegate to getAllProducts
+  }
 }
-
-//     var result = await getProductsUseCase.execute(params);
-
-//     result.fold((failure) {
-//       if (pageNumber == 1) {
-//         emit(ProductsLoadFailure(failure.message));
-//       } else {
-//         emit(ProductsLoadSuccess(
-//           products,
-//           [],
-//         ));
-//       }
-//     }, (fetchedProducts) {
-//       if (pageNumber == 1) {
-//         products = fetchedProducts;
-//       } else {
-//         products.addAll(fetchedProducts);
-//       }
-
-//       emit(ProductsLoadSuccess(
-//         products,
-//         [],
-//       ));
-//     });
-//   }
-// }

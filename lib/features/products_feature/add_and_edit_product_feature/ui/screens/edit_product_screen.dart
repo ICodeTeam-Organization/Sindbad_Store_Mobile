@@ -1,61 +1,60 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/use_cases/edit_product_from_store_use_case.dart';
-import '../../../../../injection_container.dart';
-import '../../data/repos/add_and_edit_product_store_repo_impl.dart';
-import '../../domain/entities/edit_product_entities/product_details_entity.dart';
-import '../../domain/use_cases/get_brands_by_main_category_id_use_case.dart';
-import '../../domain/use_cases/get_main_and_sub_category_use_case.dart';
-import '../manger/cubit/attribute_product/attribute_product_cubit.dart';
-import '../manger/cubit/brands_by_main_category_id/cubit/get_brands_by_category_id_cubit.dart';
-import '../manger/cubit/edit_product_from_store/edit_product_from_store_cubit.dart';
-import '../manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
-import '../manger/cubit/sub_category/sub_category_cubit.dart';
-import '../widgets/edit_product_screen_body.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/edit_product_use_case.dart';
+// import 'package:sindbad_management_app/features/products_feature/view_product_features/data/repos/product_repository_impl.dart';
+// import '../../../../../injection_container.dart';
+// import '../../data/repos/add_and_edit_product_store_repo_impl.dart';
+// import '../../domain/entities/edit_product_entities/product_details_entity.dart';
+// import '../../domain/use_cases/get_brands_by_main_category_id_use_case.dart';
+// import '../../domain/use_cases/get_main_and_sub_category_use_case.dart';
+// import '../manger/cubit/attribute_product/attribute_product_cubit.dart';
+// import '../manger/cubit/brands_by_main_category_id/cubit/get_brands_by_category_id_cubit.dart';
+// import '../manger/cubit/edit_product_from_store/edit_product_from_store_cubit.dart';
+// import '../manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
+// import '../manger/cubit/sub_category/sub_category_cubit.dart';
+// import '../widgets/edit_product_screen_body.dart';
 
-class EditProductScreen extends StatelessWidget {
-  final ProductDetailsEntity productDetailsEntity;
-  final VoidCallback? onSuccessCallback;
+// class EditProductScreen extends StatelessWidget {
+//   final ProductDetailsEntity productDetailsEntity;
+//   final VoidCallback? onSuccessCallback;
 
-  const EditProductScreen(
-      {super.key, required this.productDetailsEntity, this.onSuccessCallback});
+//   const EditProductScreen(
+//       {super.key, required this.productDetailsEntity, this.onSuccessCallback});
 
-  @override
-  Widget build(BuildContext context) {
-    return MultiBlocProvider(
-        providers: [
-          BlocProvider(
-              create: (context) =>
-                  GetCategoryNamesCubit(GetMainAndSubCategoryUseCase(
-                    getit.get<AddAndEditProductStoreRepoImpl>(),
-                  ))),
-          BlocProvider(
-              create: (context) =>
-                  EditProductFromStoreCubit(EditProductFromStoreUseCase(
-                    addAndEditProductStoreRepo:
-                        getit.get<AddAndEditProductStoreRepoImpl>(),
-                  ))),
-          BlocProvider(
-              create: (context) =>
-                  GetBrandsByCategoryIdCubit(GetBrandsByMainCategoryIdUseCase(
-                    getit.get<AddAndEditProductStoreRepoImpl>(),
-                  ))),
-          BlocProvider(create: (context) => SubCategoryCubit()),
-          BlocProvider(create: (context) => AttributeProductCubit()),
-        ],
-        child: EditProductScreenBody(
-          productDetailsEntity: productDetailsEntity,
-          onSuccessCallback: onSuccessCallback,
-        ));
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return MultiBlocProvider(
+//         providers: [
+//           BlocProvider(
+//               create: (context) =>
+//                   GetCategoryNamesCubit(GetMainAndSubCategoryUseCase(
+//                     getit.get<AddAndEditProductStoreRepoImpl>(),
+//                   ))),
+//           BlocProvider(
+//               create: (context) => EditProductFromStoreCubit(EditProductUseCase(
+//                     productRepository: getit.get<ProductRepositoryImpl>(),
+//                   ))),
+//           BlocProvider(
+//               create: (context) =>
+//                   GetBrandsByCategoryIdCubit(GetBrandsByMainCategoryIdUseCase(
+//                     getit.get<AddAndEditProductStoreRepoImpl>(),
+//                   ))),
+//           BlocProvider(create: (context) => SubCategoryCubit()),
+//           BlocProvider(create: (context) => AttributeProductCubit()),
+//         ],
+//         child: EditProductScreenBody(
+//           productDetailsEntity: productDetailsEntity,
+//           onSuccessCallback: onSuccessCallback,
+//         ));
+//   }
+// }
 
-class EditProductExtraData {
-  final ProductDetailsEntity productDetails;
-  final VoidCallback onSuccess;
+// class EditProductExtraData {
+//   final ProductDetailsEntity productDetails;
+//   final VoidCallback onSuccess;
 
-  EditProductExtraData({
-    required this.productDetails,
-    required this.onSuccess,
-  });
-}
+//   EditProductExtraData({
+//     required this.productDetails,
+//     required this.onSuccess,
+//   });
+// }

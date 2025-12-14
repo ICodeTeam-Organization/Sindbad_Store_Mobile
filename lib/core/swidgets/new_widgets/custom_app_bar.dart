@@ -41,7 +41,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
     int count = 0;
     return Material(
       color: AppColors.white,
-      child: Container(
+      child: SizedBox(
         height: 75.h,
         width: double.infinity.w,
         child: Stack(

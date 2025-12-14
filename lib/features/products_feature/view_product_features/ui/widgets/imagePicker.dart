@@ -4,19 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
-import '../manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
-import '../manger/cubit/edit_product_from_store/edit_product_from_store_cubit.dart';
-import 'after_selected_image_for_add_and_edit_screen.dart';
-import 'button_design_add_image_main_product_widget.dart';
-import 'design_for_title_under_image_widget.dart';
-import 'image_for_sub_images_widget.dart';
+import '../../../add_and_edit_product_feature/ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
+import '../../../add_and_edit_product_feature/ui/manger/cubit/edit_product_from_store/edit_product_from_store_cubit.dart';
+import '../../../add_and_edit_product_feature/ui/widgets/after_selected_image_for_add_and_edit_screen.dart';
+import '../../../add_and_edit_product_feature/ui/widgets/button_design_add_image_main_product_widget.dart';
+import '../../../add_and_edit_product_feature/ui/widgets/design_for_title_under_image_widget.dart';
+import '../../../add_and_edit_product_feature/ui/widgets/image_for_sub_images_widget.dart';
 
 // ignore: must_be_immutable
-class CustomBoxAddImageForAddAndEditProductScreen extends StatefulWidget {
+class ImagePacker extends StatefulWidget {
   final int boxNumber;
   final String? initialImageUrl;
-  final EditProductFromStoreCubit? cubitEditProduct;
-  final AddProductToStoreCubit? cubitAddProduct;
+  // final EditProductFromStoreCubit? cubitEditProduct;
+  //final AddProductToStoreCubit? cubitAddProduct;
   final double containerWidth;
   final double mainContainerHeight;
   final double upContainerHeight;
@@ -25,7 +25,7 @@ class CustomBoxAddImageForAddAndEditProductScreen extends StatefulWidget {
   final String titleUnderBox;
   final ValueChanged<File?> onImageSelected; // Callback function
 
-  const CustomBoxAddImageForAddAndEditProductScreen.CustomBoxAddImageForAddAndEditProductScreen({
+  const ImagePacker.Add({
     super.key,
     required this.boxNumber,
     required this.initialImageUrl,
@@ -36,17 +36,15 @@ class CustomBoxAddImageForAddAndEditProductScreen extends StatefulWidget {
     this.actionButtonText = "إضافة صورة",
     this.titleUnderBox = "صورة المنتج",
     required this.onImageSelected,
-    this.cubitEditProduct,
-    this.cubitAddProduct,
+    // this.cubitEditProduct,
+    // this.cubitAddProduct,
   });
 
   @override
-  State<CustomBoxAddImageForAddAndEditProductScreen> createState() =>
-      _CustomBoxAddImageForAddAndEditProductScreenState();
+  State<ImagePacker> createState() => _ImagePackerState();
 }
 
-class _CustomBoxAddImageForAddAndEditProductScreenState
-    extends State<CustomBoxAddImageForAddAndEditProductScreen> {
+class _ImagePackerState extends State<ImagePacker> {
   String? initialImageUrl;
   File? selectedImage;
   @override
@@ -102,14 +100,14 @@ class _CustomBoxAddImageForAddAndEditProductScreenState
 
                               setState(() {});
 
-                              if (widget.cubitEditProduct != null) {
-                                widget.cubitEditProduct!.deleteImageFromCubit(
-                                    boxNum: widget.boxNumber);
-                              }
-                              if (widget.cubitAddProduct != null) {
-                                widget.cubitAddProduct!.deleteImageFromCubit(
-                                    boxNum: widget.boxNumber);
-                              }
+                              // if (widget.cubitEditProduct != null) {
+                              //   widget.cubitEditProduct!.deleteImageFromCubit(
+                              //       boxNum: widget.boxNumber);
+                              // }
+                              // if (widget.cubitAddProduct != null) {
+                              //   widget.cubitAddProduct!.deleteImageFromCubit(
+                              //       boxNum: widget.boxNumber);
+                              // }
                             },
                           )
                         : widget.boxNumber == 1 // if == mainImage

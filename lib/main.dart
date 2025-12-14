@@ -22,8 +22,6 @@ import 'package:sindbad_management_app/features/offer_management_features/modify
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/offer_data_cubit/offer_data_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/offer_products_cubit/offer_products_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/update_offer_cubit/update_offer_cubit.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/repo/view_offer_repo.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/usecases/get_offer_details_use_case.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_cubit/offer_cubit.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_details_cubit/offer_details_cubit.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/all_order/order%20cubit/orders_cubit.dart';
@@ -111,7 +109,8 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
         BlocProvider(create: (_) => AllOrderCubit(getit())),
         BlocProvider(create: (_) => ExcelCubit(getit())),
         BlocProvider(
-            create: (_) => ProductsCubit(getit(), getit(), getit(), getit())),
+            create: (_) => ProductsCubit(
+                getit(), getit(), getit(), getit(), getit(), getit())),
         BlocProvider(
           create: (_) => GetProfileCubit(getit()),
         ),

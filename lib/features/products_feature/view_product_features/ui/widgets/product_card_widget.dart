@@ -2,18 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:go_router/go_router.dart';
+import 'package:sindbad_management_app/config/routers/routers_names.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
 import 'package:sindbad_management_app/core/dialogs/delete_confirm_dialog.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/action_button_widget.dart';
 import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/widgets/menu_button_widget.dart';
-import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/ProductDetails/product_details_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/product_entity.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/manager/products_cubit/products_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/widgets/check_box_custom.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/widgets/image_card_custom.dart';
-import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/widgets/products_list_view_widget.dart';
-import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/widgets/show_get_product_details_dialog.dart';
-import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/widgets/two_button_inside_list_view_products.dart';
 
 class ProductCardWidget extends StatelessWidget {
   const ProductCardWidget({
@@ -116,14 +113,15 @@ class ProductCardWidget extends StatelessWidget {
                       iconPath: "assets/update.svg",
                       isSolid: false,
                       onTap: () {
-                        context
-                            .read<ProductDetailsCubit>()
-                            .getProductDetails(productId: product.id);
-                        showGetProductDetailsDialog(
-                          contextParent: context,
-                          productDetailsCubit:
-                              context.read<ProductDetailsCubit>(),
-                        );
+                        context.push(AppRoutes.editProduct, extra: product.id);
+                        // context
+                        //     .read<ProductDetailsCubit>()
+                        //     .getProductDetails(productId: product.id);
+                        // showGetProductDetailsDialog(
+                        //   contextParent: context,
+                        //   productDetailsCubit:
+                        //       context.read<ProductDetailsCubit>(),
+                        // );
                       },
                     ),
                     SizedBox(height: 5.h),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/screens/all_products_tap.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/screens/offered_produts_tap.dart';
@@ -7,9 +6,6 @@ import 'package:sindbad_management_app/features/products_feature/view_product_fe
 import '../../../../../core/swidgets/new_widgets/custom_app_bar.dart';
 import '../../../../../core/swidgets/new_widgets/custom_tab_bar_widget.dart';
 import '../../../../../config/styles/Colors.dart';
-import '../manager/activate_products/activate_products_by_ids_cubit.dart';
-import '../manager/products_cubit/products_cubit.dart';
-import 'custom_show_dialog_for_view_widget.dart';
 
 class ProductsTabBatWidget extends StatelessWidget {
   const ProductsTabBatWidget({

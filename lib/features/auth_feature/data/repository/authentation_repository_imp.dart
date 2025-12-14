@@ -2,12 +2,9 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
-import 'package:sindbad_management_app/core/models/response_error.dart';
 import 'package:sindbad_management_app/core/models/responsive_model.dart';
 import 'package:sindbad_management_app/core/resources/data_state.dart';
 import 'package:sindbad_management_app/features/auth_feature/data/data_source/auth_remote_data_source.dart';
-import 'package:sindbad_management_app/features/auth_feature/data/data_source/auth_remote_data_soure_imp.dart';
-import 'package:sindbad_management_app/features/auth_feature/data/model/data.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/entity/sign_in_entity.dart';
 import 'package:sindbad_management_app/features/auth_feature/domain/repository/authentation_repository.dart';
 

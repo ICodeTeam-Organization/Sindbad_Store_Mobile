@@ -1,7 +1,12 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
 
 import 'package:sindbad_management_app/features/profile_feature/data/model/store_category_model.dart';
+import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/entities/add_product_entities/add_product_entity.dart';
+import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/entities/edit_product_entities/edit_product_entity.dart';
+import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/entities/edit_product_entities/product_details_entity.dart';
 import '../entities/delete_entity_product.dart';
 import '../entities/main_category_for_view_entity.dart';
 import '../entities/product_entity.dart';
@@ -40,4 +45,48 @@ abstract class ProductRepository {
     int pageNumber,
     int pageSize,
   );
+
+  // =================== Product CRUD Operations ===================
+  // Add product to store
+  Future<Either<Failure, AddProductEntity>> addProductToStore({
+    required String name,
+    required num price,
+    required String description,
+    required File mainImageFile,
+    required String number,
+    required int mainCategoryId,
+    required List<int> subCategoryIds,
+    int? storeId,
+    int? offerId,
+    int? brandId,
+    List<File>? images,
+    List<Map<String, String>>? newAttributes,
+    List<String>? tags,
+    num? oldPrice,
+    String? shortDescription,
+  });
+
+  // Edit product from store
+  Future<Either<Failure, EditProductEntity>> editProductFromStore(
+    int id,
+    String description,
+    num price,
+    File? mainImageFile,
+    int? storeId,
+    int? offerId,
+    int? brandId,
+    int mainCategoryId,
+    List<File>? images,
+    List<String>? imagesUrl,
+    List<int> subCategoryIds,
+    List<Map<String, String>> newAttributes,
+    List<String>? tags,
+    num? oldPrice,
+    String? shortDescription,
+  );
+
+  // Get product details
+  Future<Either<Failure, ProductDetailsEntity>> getProductDetails({
+    required int productId,
+  });
 }

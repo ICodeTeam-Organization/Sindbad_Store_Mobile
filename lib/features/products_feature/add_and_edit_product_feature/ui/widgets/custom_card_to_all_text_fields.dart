@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
 import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/widgets/section_title_widget.dart';
@@ -6,13 +7,13 @@ import '../manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
 import 'custom_text_form_widget.dart';
 
 class CustomCardToAllTextFields extends StatefulWidget {
-  final AddProductToStoreCubit cubitAddProduct;
+  // final AddProductToStoreCubit cubitAddProduct;
   final TextEditingController shortDescriptionController;
   final TextEditingController oldPriceController;
   final List<String> tags;
   const CustomCardToAllTextFields({
     super.key,
-    required this.cubitAddProduct,
+    // required this.cubitAddProduct,
     required this.shortDescriptionController,
     required this.oldPriceController,
     required this.tags,
@@ -41,7 +42,8 @@ class _CustomCardToAllTextFieldsState extends State<CustomCardToAllTextFields> {
             SectionTitleWidget(title: 'معلومات المنتج'),
             SizedBox(height: 20.h),
             CustomTextFormWidget(
-              textController: widget.cubitAddProduct.nameProductController,
+              textController:
+                  context.read<AddProductToStoreCubit>().nameProductController,
               text: 'أسم المنتج',
               height: 65.h,
               width: 400.w,
@@ -52,7 +54,9 @@ class _CustomCardToAllTextFieldsState extends State<CustomCardToAllTextFields> {
               children: [
                 CustomTextFormWidget(
                   keyboardType: TextInputType.number,
-                  textController: widget.cubitAddProduct.priceProductController,
+                  textController: context
+                      .read<AddProductToStoreCubit>()
+                      .priceProductController,
                   text: 'السعر',
                   width: 130.w,
                   height: 65.h,
@@ -60,8 +64,9 @@ class _CustomCardToAllTextFieldsState extends State<CustomCardToAllTextFields> {
                 SizedBox(width: 20.w),
                 CustomTextFormWidget(
                   keyboardType: TextInputType.number,
-                  textController:
-                      widget.cubitAddProduct.numberProductController,
+                  textController: context
+                      .read<AddProductToStoreCubit>()
+                      .numberProductController,
                   text: 'رقم المنتج',
                   width: 130.w,
                   height: 65.h,

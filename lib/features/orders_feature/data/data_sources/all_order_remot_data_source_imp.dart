@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:sindbad_management_app/features/orders_feature/data/data_sources/all_order_remot_data_source.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/entities/company_shipping_entity.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/entities/order_detalis_entity.dart';
