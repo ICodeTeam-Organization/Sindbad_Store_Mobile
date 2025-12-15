@@ -1,4 +1,4 @@
-import 'package:sindbad_management_app/features/offers_features/data/models/offer_data_model/offer_head_offer.dart';
+import 'package:sindbad_management_app/features/offers_features/data/models/offer_head_offer.dart';
 
 class OfferDataEntity {
   final int offerId;

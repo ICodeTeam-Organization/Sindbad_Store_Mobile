@@ -13,24 +13,27 @@ class OfferCubit extends Cubit<OfferState> {
   final AddOfferUseCase addOfferUseCase;
   OfferCubit(this.getOfferUseCase, this.addOfferUseCase)
       : super(OfferInitial());
-  Future<void> addOffer(
-    String offerTitle,
-    DateTime startOffer,
-    DateTime endOffer,
-    int countProducts,
-    int typeName,
-    // List<AddOfferDto>? listProduct,
-    List<Map<String, dynamic>>? listProduct,
-  ) async {
+  Future<void> addOffer({
+    required String name,
+    required String description,
+    required DateTime startDate,
+    required DateTime endDate,
+    required bool isActive,
+    required int numberOfOrders,
+    required int offerHeadType,
+    required List<Map<String, dynamic>> offerHeadOffers,
+  }) async {
     emit(OfferLoadInProgress());
 
     var params = AddOfferParams(
-      offerTitle,
-      startOffer,
-      endOffer,
-      countProducts,
-      typeName,
-      listProduct,
+      name: name,
+      description: description,
+      startDate: startDate,
+      endDate: endDate,
+      isActive: isActive,
+      numberOfOrders: numberOfOrders,
+      offerHeadType: offerHeadType,
+      offerHeadOffers: offerHeadOffers,
     );
     final result = await addOfferUseCase.execute(params);
 
@@ -39,11 +42,7 @@ class OfferCubit extends Cubit<OfferState> {
         (failure) => emit(OfferLoadFailuer(errMessage: failure.message)),
         // right
         (add) {
-      // if (add.serverMessage == "The addOfferHeadDto field is required.") {
-      //   emit(AddOfferFailure('احد الحقول المطلوبة فارغة'));
-      // } else {
-      //   emit(AddOfferSuccess("تم أضافة العرض بنجاح"));
-      // }
+      emit(OfferLoadSuccess([])); // or emit success with message
     });
   }
 

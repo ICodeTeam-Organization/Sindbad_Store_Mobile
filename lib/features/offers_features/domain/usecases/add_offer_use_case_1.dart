@@ -1,24 +1,25 @@
 import 'package:dartz/dartz.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
 import 'package:sindbad_management_app/core/use_cases/param_use_case.dart';
-import 'package:sindbad_management_app/features/offers_features/data/repos/new_offer_repo_impl.dart';
-import 'package:sindbad_management_app/features/offers_features/domain/entities/add_offer_entity.dart';
+import 'package:sindbad_management_app/features/offers_features/data/repos/offers_repository_impl.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/usecases/add_offer_usecase_1.dart';
 
-class AddOfferUseCase extends UseCaseWithParam<AddOfferEntity, AddOfferParams> {
-  final NewOfferRepositoryImpl newOfferRepo;
+class AddOfferUseCase extends UseCaseWithParam<bool, AddOfferParams> {
+  final OffersRepositoryImpl offersRepository;
 
-  AddOfferUseCase(this.newOfferRepo);
+  AddOfferUseCase(this.offersRepository);
 
   @override
-  Future<Either<Failure, AddOfferEntity>> execute(AddOfferParams params) {
-    return newOfferRepo.addOffer(
-      params.offerTitle,
-      params.startOffer,
-      params.endOffer,
-      params.countProducts,
-      params.typeName,
-      params.listProduct,
+  Future<Either<Failure, bool>> execute(AddOfferParams params) {
+    return offersRepository.addOffer(
+      name: params.name,
+      description: params.description,
+      startDate: params.startDate,
+      endDate: params.endDate,
+      isActive: params.isActive,
+      numberOfOrders: params.numberOfOrders,
+      offerHeadType: params.offerHeadType,
+      offerHeadOffers: params.offerHeadOffers,
     );
   }
 }

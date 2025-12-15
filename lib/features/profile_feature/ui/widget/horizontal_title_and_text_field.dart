@@ -270,3 +270,157 @@ class _HorizontalTitleAndTextFieldState
     );
   }
 }
+
+class NewHorizontalTitleAndTextField extends StatefulWidget {
+  final String title;
+  final TextEditingController info;
+  final bool isDate;
+  final String? initialValue;
+
+  const NewHorizontalTitleAndTextField({
+    super.key,
+    required this.title,
+    required this.info,
+    required this.isDate,
+    this.initialValue,
+  });
+
+  @override
+  State<NewHorizontalTitleAndTextField> createState() =>
+      _NewHorizontalTitleAndTextFieldState();
+}
+
+class _NewHorizontalTitleAndTextFieldState
+    extends State<NewHorizontalTitleAndTextField> {
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialValue != null && widget.info.text.isEmpty) {
+      widget.info.text = widget.initialValue!;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        RequiredText(title: widget.title),
+        SizedBox(
+          width: 40.h,
+        ),
+        Expanded(
+          child: InkWell(
+            onTap: widget.isDate
+                ? () async {
+                    DateTime? pickeddate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime(2100),
+                      builder: (BuildContext context, Widget? child) {
+                        return Theme(
+                          data: ThemeData.light().copyWith(
+                            colorScheme: ColorScheme.light(
+                              primary: AppColors.primary,
+                              onPrimary: AppColors.white,
+                              onSurface: AppColors.blackDark,
+                            ),
+                            textButtonTheme: TextButtonThemeData(
+                              style: TextButton.styleFrom(
+                                foregroundColor: AppColors.blackLight,
+                              ),
+                            ),
+                          ),
+                          child: child!,
+                        );
+                      },
+                    );
+                    if (pickeddate != null) {
+                      setState(() {
+                        widget.info.text =
+                            DateFormat('yyyy/MM/dd').format(pickeddate);
+                      });
+                    }
+                  }
+                : null,
+            child: AbsorbPointer(
+              absorbing: widget.isDate,
+              child: SizedBox(
+                height: 50.h,
+                child: TextFormField(
+                  readOnly: widget.isDate,
+                  keyboardType: TextInputType.datetime,
+                  controller: widget.info,
+                  decoration: InputDecoration(
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: InkWell(
+                        onTap: widget.isDate
+                            ? () async {
+                                DateTime? pickeddate = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime.now(),
+                                  lastDate: DateTime(2100),
+                                  builder:
+                                      (BuildContext context, Widget? child) {
+                                    return Theme(
+                                      data: ThemeData.light().copyWith(
+                                        colorScheme: ColorScheme.light(
+                                          primary: AppColors.primary,
+                                          onPrimary: AppColors.white,
+                                          onSurface: AppColors.blackDark,
+                                        ),
+                                        textButtonTheme: TextButtonThemeData(
+                                          style: TextButton.styleFrom(
+                                            foregroundColor:
+                                                AppColors.blackLight,
+                                          ),
+                                        ),
+                                      ),
+                                      child: child!,
+                                    );
+                                  },
+                                );
+                                if (pickeddate != null) {
+                                  setState(() {
+                                    widget.info.text = DateFormat('yyyy/MM/dd')
+                                        .format(pickeddate);
+                                  });
+                                }
+                              }
+                            : null,
+                        child: SvgPicture.asset(
+                          "assets/calendar.svg",
+                        ),
+                      ),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 4.h,
+                      horizontal: 4.w,
+                    ),
+                    prefixIconConstraints: BoxConstraints.tight(Size(40, 40)),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: AppColors.greyBorder,
+                        width: 1.0,
+                      ),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: AppColors.primary,
+                        width: 1.0,
+                      ),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}

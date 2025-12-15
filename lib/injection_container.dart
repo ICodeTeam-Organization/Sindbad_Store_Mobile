@@ -1,12 +1,10 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:sindbad_management_app/features/offers_features/data/data_source/remote/new_offer_remot_data_source.dart';
+import 'package:sindbad_management_app/features/offers_features/data/data_source/remote/offer_remot_data_source_impl.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/usecases/get_offer_products_use_case.dart';
 import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_products_cubit/offer_products_cubit.dart';
-import 'package:sindbad_management_app/features/offers_features/data/data_source/remote/view_offer_remot_data_source_impl.dart';
-import 'package:sindbad_management_app/features/offers_features/data/repos/new_offer_repo_impl.dart';
-import 'package:sindbad_management_app/features/offers_features/data/repos/view_offer_repo_impl.dart';
+import 'package:sindbad_management_app/features/offers_features/data/repos/offers_repository_impl.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/usecases/get_offer_use_case.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/usecases/get_offer_details_use_case.dart';
 import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_cubit/offer_cubit.dart';
@@ -100,10 +98,8 @@ void initializationContainer() {
       ProductRemoteDataSourceImpl(getit(), getit()));
   getit.registerSingleton<AddProductToStoreRemoteDataSourceImpl>(
       AddProductToStoreRemoteDataSourceImpl(getit(), getit()));
-  getit.registerSingleton<ViewOfferRemotDataSourceImpl>(
-      ViewOfferRemotDataSourceImpl(getit(), getit()));
-  getit.registerSingleton<NewOfferRemotDataSourceImpl>(
-      NewOfferRemotDataSourceImpl(getit(), getit()));
+  getit.registerSingleton<OfferRemotDataSourceImpl>(
+      OfferRemotDataSourceImpl(getit(), getit()));
   getit.registerSingleton<NotifictionRemoteDataSourceImpl>(
       NotifictionRemoteDataSourceImpl(getit()));
   getit
@@ -123,8 +119,6 @@ void initializationContainer() {
   getit.registerSingleton<AddAndEditProductStoreRepoImpl>(
       AddAndEditProductStoreRepoImpl(getit()));
   getit.registerSingleton<OffersRepositoryImpl>(OffersRepositoryImpl(getit()));
-  getit.registerSingleton<NewOfferRepositoryImpl>(
-      NewOfferRepositoryImpl(getit()));
   getit.registerSingleton<NotifictionRepoImpl>(NotifictionRepoImpl(getit()));
   getit.registerSingleton<ProfileRepositoryImple>(
       ProfileRepositoryImple(getit()));
@@ -187,6 +181,7 @@ void initializationContainer() {
   getit.registerFactory<AttributeProductCubit>(() => AttributeProductCubit());
   getit
       .registerFactory<ProductDetailsCubit>(() => ProductDetailsCubit(getit()));
+
   // Use cases for offers
   getit.registerSingleton<UpdateOfferUseCase>(UpdateOfferUseCase(getit()));
   getit.registerSingleton<GetOfferDataUseCase>(GetOfferDataUseCase(getit()));

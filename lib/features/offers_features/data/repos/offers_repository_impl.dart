@@ -4,16 +4,19 @@ import 'package:sindbad_management_app/core/errors/failure.dart';
 import 'package:sindbad_management_app/features/offers_features/data/data_source/remote/offer_remot_data_source_impl.dart';
 import 'package:sindbad_management_app/features/offers_features/data/models/offer_head_offer.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_data_entity.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_details_entity.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_entity.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_products_entity.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/entities/post_response_entity.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/entities/update_offer_entity.dart';
-import 'package:sindbad_management_app/features/offers_features/data/repos/new_offer_repo.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/repo/offers_repository.dart';
 
-class NewOfferRepositoryImpl extends NewOfferRepo {
+class OffersRepositoryImpl extends OffersRepository {
   final OfferRemotDataSourceImpl offerRemotDataSource;
 
-  NewOfferRepositoryImpl(this.offerRemotDataSource);
+  OffersRepositoryImpl(this.offerRemotDataSource);
 
-  // basic fetch list Entity function
+  // Generic fetch list function
   Future<Either<Failure, List<T>>> fetchData<T>(
       Future<List<T>> Function() fetchFunction) async {
     try {
@@ -28,7 +31,7 @@ class NewOfferRepositoryImpl extends NewOfferRepo {
     }
   }
 
-  // basic fetch Entity function
+  // Generic fetch single entity function
   Future<Either<Failure, T>> fetchOneData<T>(
       Future<T> Function() fetchFunction) async {
     try {
@@ -43,7 +46,7 @@ class NewOfferRepositoryImpl extends NewOfferRepo {
     }
   }
 
-  // Generic PostData function
+  // Generic post data function
   Future<Either<Failure, T>> postOneData<T>(
       Future<T> Function() postDataFunction) async {
     try {
@@ -57,6 +60,39 @@ class NewOfferRepositoryImpl extends NewOfferRepo {
       }
     }
   }
+
+  // ============================================================
+  // View Offer Operations
+  // ============================================================
+
+  @override
+  Future<Either<Failure, List<OfferEntity>>> getOffers(
+      int pageSize, int pageNumber) {
+    return fetchData(() => offerRemotDataSource.getOffer(pageSize, pageNumber));
+  }
+
+  @override
+  Future<Either<Failure, List<OfferDetailsEntity>>> getOfferDetails(
+      int pageSize, int pageNumber, int offerHeadId) {
+    return fetchData(() => offerRemotDataSource.getOfferDetails(
+        pageSize, pageNumber, offerHeadId));
+  }
+
+  @override
+  Future<Either<Failure, PostResponseEntity>> deleteOffer(int offerHeadId) {
+    return postOneData(() => offerRemotDataSource.deleteOffer(offerHeadId));
+  }
+
+  @override
+  Future<Either<Failure, PostResponseEntity>> changeStatusOffer(
+      int offerHeadId) {
+    return postOneData(
+        () => offerRemotDataSource.changeStatusOffer(offerHeadId));
+  }
+
+  // ============================================================
+  // New/Edit Offer Operations
+  // ============================================================
 
   @override
   Future<Either<Failure, List<OfferProductsEntity>>> getOfferProducts(
@@ -80,7 +116,7 @@ class NewOfferRepositoryImpl extends NewOfferRepo {
     required int numberOfOrders,
     required int offerHeadType,
     required List<Map<String, dynamic>> offerHeadOffers,
-  }) async {
+  }) {
     return postOneData(() => offerRemotDataSource.addOffer(
           name: name,
           description: description,
@@ -102,7 +138,7 @@ class NewOfferRepositoryImpl extends NewOfferRepo {
     int typeName,
     List<OfferHeadOffer>? listProduct,
     int offerHeadId,
-  ) async {
+  ) {
     return postOneData(() => offerRemotDataSource.updateOffer(
           offerTitle,
           startOffer,

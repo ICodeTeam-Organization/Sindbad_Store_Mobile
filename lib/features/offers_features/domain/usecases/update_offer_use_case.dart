@@ -1,19 +1,19 @@
 import 'package:dartz/dartz.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
 import 'package:sindbad_management_app/core/use_cases/param_use_case.dart';
-import 'package:sindbad_management_app/features/offers_features/data/models/offer_data_model/offer_head_offer.dart';
+import 'package:sindbad_management_app/features/offers_features/data/models/offer_head_offer.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/entities/update_offer_entity.dart';
-import 'package:sindbad_management_app/features/offers_features/data/repos/new_offer_repo_impl.dart';
+import 'package:sindbad_management_app/features/offers_features/data/repos/offers_repository_impl.dart';
 
 class UpdateOfferUseCase
     extends UseCaseWithParam<UpdateOfferEntity, UpdateOfferParams> {
-  final NewOfferRepositoryImpl newOfferRepo;
+  final OffersRepositoryImpl offersRepository;
 
-  UpdateOfferUseCase(this.newOfferRepo);
+  UpdateOfferUseCase(this.offersRepository);
 
   @override
   Future<Either<Failure, UpdateOfferEntity>> execute(UpdateOfferParams params) {
-    return newOfferRepo.updateOffer(
+    return offersRepository.updateOffer(
       params.offerTitle,
       params.startOffer,
       params.endOffer,

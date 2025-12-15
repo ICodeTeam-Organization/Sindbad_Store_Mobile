@@ -60,3 +60,77 @@ class OfferInfoTextFieldWidget extends StatelessWidget {
           );
   }
 }
+
+class NewOfferInfoTextFieldWidget extends StatefulWidget {
+  final String title;
+  final TextEditingController controller;
+  final bool isDate;
+  final String? initialValue;
+
+  const NewOfferInfoTextFieldWidget({
+    super.key,
+    required this.title,
+    required this.controller,
+    required this.isDate,
+    this.initialValue,
+  });
+
+  @override
+  State<NewOfferInfoTextFieldWidget> createState() =>
+      _NewOfferInfoTextFieldWidgetState();
+}
+
+class _NewOfferInfoTextFieldWidgetState
+    extends State<NewOfferInfoTextFieldWidget> {
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialValue != null && widget.controller.text.isEmpty) {
+      widget.controller.text = widget.initialValue!;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.isDate == false
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              RequiredText(title: widget.title),
+              SizedBox(height: 10.h),
+              SizedBox(
+                height: 50.h,
+                child: TextFormField(
+                  controller: widget.controller,
+                  decoration: InputDecoration(
+                    hintText: 'أكتب هنا...',
+                    hintStyle: KTextStyle.textStyle12.copyWith(
+                      color: AppColors.greyLight,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: AppColors.greyBorder,
+                        width: 1.0,
+                      ),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: AppColors.primary,
+                        width: 1.0,
+                      ),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )
+        : NewHorizontalTitleAndTextField(
+            title: widget.title,
+            info: widget.controller,
+            isDate: widget.isDate,
+            initialValue: widget.initialValue,
+          );
+  }
+}

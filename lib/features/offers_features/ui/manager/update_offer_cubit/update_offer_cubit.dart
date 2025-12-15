@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:sindbad_management_app/features/offers_features/data/models/offer_data_model/offer_head_offer.dart';
+import 'package:sindbad_management_app/features/offers_features/data/models/offer_head_offer.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/usecases/update_offer_use_case.dart';
 
 part 'update_offer_state.dart';

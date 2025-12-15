@@ -1,48 +1,26 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sindbad_management_app/core/api_service.dart';
+import 'package:sindbad_management_app/features/offers_features/data/data_source/remote/offer_remot_data_source.dart';
 import 'package:sindbad_management_app/features/offers_features/data/models/offer_data_model.dart';
 import 'package:sindbad_management_app/features/offers_features/data/models/offer_head_offer.dart';
+import 'package:sindbad_management_app/features/offers_features/data/models/offer_details_model.dart';
+import 'package:sindbad_management_app/features/offers_features/data/models/offer_model.dart';
 import 'package:sindbad_management_app/features/offers_features/data/models/offer_products_model.dart';
+import 'package:sindbad_management_app/features/offers_features/data/models/post_response_model.dart';
 import 'package:sindbad_management_app/features/offers_features/data/models/update_offer_model.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_data_entity.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_details_entity.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_entity.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_products_entity.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/entities/post_response_entity.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/entities/update_offer_entity.dart';
 
-abstract class NewOfferRemotDataSource {
-  Future<List<OfferProductsEntity>> getOfferProducts(
-    int pageSize,
-    int pageNumber,
-  );
-  Future<bool> addOffer({
-    required String name,
-    required String description,
-    required DateTime startDate,
-    required DateTime endDate,
-    required bool isActive,
-    required int numberOfOrders,
-    required int offerHeadType,
-    required List<Map<String, dynamic>> offerHeadOffers,
-  });
-  Future<UpdateOfferEntity> updateOffer(
-    String offerTitle,
-    DateTime startOffer,
-    DateTime endOffer,
-    int countProducts,
-    int typeName,
-    List<OfferHeadOffer>? listProduct,
-    int offerHeadId,
-  );
-  Future<OfferDataEntity> getOfferData(
-    int offerHeadId,
-  );
-}
-
-class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
+class OfferRemotDataSourceImpl extends OfferRemotDataSource {
   final ApiService apiService;
   final FlutterSecureStorage secureStorage;
 
-  NewOfferRemotDataSourceImpl(this.apiService, this.secureStorage);
+  OfferRemotDataSourceImpl(this.apiService, this.secureStorage);
 
   Future<String?> getToken() async {
     return await secureStorage.read(key: 'token');
@@ -58,30 +36,76 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
         entities.add(fromJson(item));
       }
     } else if (data['message'] != null) {
-      // If data['data'] is not a list, add the message to the list
       entities.add(fromJson(data));
     }
-
     return entities;
   }
 
-  List<T> getItemsFromData<T>(
-      Map<String, dynamic> data, T Function(Map<String, dynamic>) fromJson) {
-    List<T> entities = [];
+  // ============================================================
+  // View Offer Operations
+  // ============================================================
 
-    if (data['data']['items'] is List) {
-      for (var item in data['data']['items']) {
-        entities.add(fromJson(item));
-      }
-    } else if (data['message'] != null) {
-      // If data['data'] is not a list, add the message to the list
-      entities.add(fromJson(data));
-    }
-
-    return entities;
+  List<OfferEntity> getOfferList(Map<String, dynamic> data) {
+    return getListItemsFromData(data, (item) => OfferModel.fromJson(item));
   }
 
-  // get OfferProductsEntity List function-------------------------------------------------
+  @override
+  Future<List<OfferEntity>> getOffer(int pageSize, int pageNumber) async {
+    String? token = await getToken();
+    var data = await apiService.get(
+      endPoint:
+          'Offers/Store/GetStoreOfferHeads?PageSize=100&PageNumber=$pageNumber',
+      headers: {'Authorization': 'BEARER $token'},
+    );
+    List<OfferEntity> response = getOfferList(data);
+    return response;
+  }
+
+  List<OfferDetailsEntity> getOfferDetailsList(Map<String, dynamic> data) {
+    return getListItemsFromData(
+        data, (item) => OfferDetailsModel.fromJson(item));
+  }
+
+  @override
+  Future<List<OfferDetailsEntity>> getOfferDetails(
+    int pageSize,
+    int pageNumber,
+    int offerHeadId,
+  ) async {
+    String? token = await getToken();
+    var data = await apiService.get(
+      endPoint: 'Offers/Store/GetStoreOffers?OfferHeadId=$offerHeadId',
+      headers: {'Authorization': 'BEARER $token'},
+    );
+    List<OfferDetailsEntity> response = getOfferDetailsList(data);
+    return response;
+  }
+
+  @override
+  Future<PostResponseEntity> deleteOffer(int offerHeadId) async {
+    String? token = await getToken();
+    var data = await apiService.delete(
+        endPoint: "Offers/Store/DeleteOffer/$offerHeadId",
+        headers: {'Authorization': 'BEARER $token'});
+    PostResponseEntity response = PostResponseModel.fromJson(data);
+    return response;
+  }
+
+  @override
+  Future<PostResponseEntity> changeStatusOffer(int offerHeadId) async {
+    String? token = await getToken();
+    var data = await apiService.post(
+        data: {},
+        endPoint: "Offers/Store/ActivateOffers/$offerHeadId",
+        headers: {'Authorization': 'BEARER $token'});
+    PostResponseEntity response = PostResponseModel.fromJson(data);
+    return response;
+  }
+
+  // ============================================================
+  // New/Edit Offer Operations
+  // ============================================================
+
   List<OfferProductsEntity> getOfferProductsList(Map<String, dynamic> data) {
     return getListItemsFromData(
         data, (item) => OfferProductsModel.fromJson(item));
@@ -107,7 +131,6 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
     return response;
   }
 
-  // add offer function-------------------------------------------------
   @override
   Future<bool> addOffer({
     required String name,
@@ -180,7 +203,6 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
         );
       }
     } on DioException catch (e) {
-      // Handle Dio-specific exceptions
       switch (e.type) {
         case DioExceptionType.connectionTimeout:
         case DioExceptionType.sendTimeout:
@@ -197,7 +219,6 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
             type: e.type,
           );
         case DioExceptionType.badResponse:
-          // Extract error from response if available
           final errorData = e.response?.data;
           final errorMessage = errorData is Map
               ? errorData['error'] ??
@@ -232,12 +253,10 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
           );
       }
     } catch (e) {
-      // Handle non-Dio exceptions
       if (e is ArgumentError) {
-        rethrow; // Re-throw argument errors as-is
+        rethrow;
       }
 
-      // Wrap other non-Dio exceptions in DioException
       throw DioException(
         requestOptions: RequestOptions(path: 'Offers/Store/AddOffer'),
         error: 'Failed to add offer: $e',
@@ -246,7 +265,6 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
     }
   }
 
-  // get AddOfferEntity a function-------------------------------------------------
   @override
   Future<UpdateOfferEntity> updateOffer(
     String offerTitle,
@@ -269,7 +287,6 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
           "offerHeadType": typeName,
           "offerHeadOffers": listProduct,
           "justActiveAndDis": false,
-          // "id": offerHeadId
         },
         endPoint: "Offers/Store/EditOffer/$offerHeadId",
         headers: {'Authorization': 'BEARER $token'});
@@ -277,11 +294,8 @@ class NewOfferRemotDataSourceImpl extends NewOfferRemotDataSource {
     return response;
   }
 
-  // get OfferDataEntity for update a function-------------------------------------------------
   @override
-  Future<OfferDataEntity> getOfferData(
-    int offerHeadId,
-  ) async {
+  Future<OfferDataEntity> getOfferData(int offerHeadId) async {
     String? token = await getToken();
     var data = await apiService.post(
         data: {},
