@@ -342,24 +342,24 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                         ),
                       ),
                     ),
-                    BlocConsumer<UpdateOfferCubit, UpdateOfferState>(
+                    BlocConsumer<OfferCubit, OfferState>(
                       listener: (context, state) {
-                        if (state is UpdateOfferFailure) {
+                        if (state is OfferLoadFailuer) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                                content: Text(state.errorMessage.toString())),
+                                content: Text(state.errMessage.toString())),
                           );
-                        } else if (state is UpdateOfferSuccess) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text(state.updateOffer.toString())),
-                          );
+                        } else if (state is OfferLoadSuccess) {
+                          // ScaffoldMessenger.of(context).showSnackBar(
+                          //   SnackBar(
+                          //       content: Text(state.offerProducts.toString())),
+                          // );
                           Navigator.pop(context);
-                          context.read<OfferCubit>().getOffer(100, 1);
+                          context.read<OfferCubit>().getOffers(100, 1);
                         }
                       },
                       builder: (context, state) {
-                        if (state is UpdateOfferLoading) {
+                        if (state is OfferLoadInProgress) {
                           return Container(
                             alignment: Alignment.center,
                             height: 40.h,
@@ -448,7 +448,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                               );
                             }).toList();
                             populateListProduct();
-                            await context.read<UpdateOfferCubit>().updateOffer(
+                            await context.read<OfferCubit>().updateOffer(
                                   offerTitleConroller.text,
                                   startOfferFormat,
                                   endOfferFormat,

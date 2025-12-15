@@ -1,19 +1,19 @@
-part of 'add_offer_cubit.dart';
+// part of 'add_offer_cubit.dart';
 
-sealed class AddOfferState {}
+// sealed class AddOfferState {}
 
-final class AddOfferInitial extends AddOfferState {}
+// final class AddOfferInitial extends AddOfferState {}
 
-class AddOfferLoading extends AddOfferState {}
+// class AddOfferLoading extends AddOfferState {}
 
-class AddOfferSuccess extends AddOfferState {
-  final String addOffer;
+// class AddOfferSuccess extends AddOfferState {
+//   final String addOffer;
 
-  AddOfferSuccess(this.addOffer);
-}
+//   AddOfferSuccess(this.addOffer);
+// }
 
-class AddOfferFailure extends AddOfferState {
-  final String errorMessage;
+// class AddOfferFailure extends AddOfferState {
+//   final String errorMessage;
 
-  AddOfferFailure(this.errorMessage);
-}
+//   AddOfferFailure(this.errorMessage);
+// }

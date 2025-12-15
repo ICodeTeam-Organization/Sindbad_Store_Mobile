@@ -1,19 +1,20 @@
 import 'package:dartz/dartz.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
 import 'package:sindbad_management_app/core/use_cases/param_use_case.dart';
+import 'package:sindbad_management_app/features/offers_features/data/repos/offers_repository_impl.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/entities/post_response_entity.dart';
-import 'package:sindbad_management_app/features/offers_features/domain/repo/view_offer_repo.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/repo/offers_repository.dart';
 
 class ChangeStatusOfferUseCase
     extends UseCaseWithParam<PostResponseEntity, ChangeStatusOfferParams> {
-  final ViewOfferRepo viewOfferRepo;
+  final OffersRepositoryImpl offerRepo;
 
-  ChangeStatusOfferUseCase(this.viewOfferRepo);
+  ChangeStatusOfferUseCase(this.offerRepo);
 
   @override
   Future<Either<Failure, PostResponseEntity>> execute(
       ChangeStatusOfferParams params) {
-    return viewOfferRepo.changeStatusOffer(params.offerHeadId);
+    return offerRepo.changeStatusOffer(params.offerHeadId);
   }
 }
 

@@ -1,20 +1,20 @@
-part of 'offer_data_cubit.dart';
+// part of 'offer_data_cubit.dart';
 
-@immutable
-sealed class OfferDataState {}
+// @immutable
+// sealed class OfferDataState {}
 
-final class OfferDataInitial extends OfferDataState {}
+// final class OfferDataInitial extends OfferDataState {}
 
-final class OfferDataLoading extends OfferDataState {}
+// final class OfferDataLoading extends OfferDataState {}
 
-final class OfferDataFailuer extends OfferDataState {
-  final String errMessage;
+// final class OfferDataFailuer extends OfferDataState {
+//   final String errMessage;
 
-  OfferDataFailuer({required this.errMessage});
-}
+//   OfferDataFailuer({required this.errMessage});
+// }
 
-final class OfferDataSuccess extends OfferDataState {
-  final OfferDataEntity offerData;
+// final class OfferDataSuccess extends OfferDataState {
+//   final OfferDataEntity offerData;
 
-  OfferDataSuccess({required this.offerData});
-}
+//   OfferDataSuccess({required this.offerData});
+// }

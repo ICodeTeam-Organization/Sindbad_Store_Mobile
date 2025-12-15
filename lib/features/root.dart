@@ -58,9 +58,9 @@ class _RootState extends State<Root> {
                   setState(() {
                     myIndex = index;
                   });
-                  if (index == 2) {
-                    context.read<OfferCubit>().getOffer(100, 1);
-                  }
+                  // if (index == 2) {
+                  //   context.read<OfferCubit>().getOffer(100, 1);
+                  // }
                 },
                 items: [
                   CustomBottomNavigationBarItem(

@@ -13,8 +13,6 @@ final class OfferLoadFailuer extends OfferState {
   OfferLoadFailuer({required this.errMessage});
 }
 
-final class OfferLoadSuccess extends OfferState {
-  final List<OfferEntity> offers;
+final class OfferLoadSuccess extends OfferState {}
 
-  OfferLoadSuccess(this.offers);
-}
+final class OfferAddSuccess extends OfferState {}

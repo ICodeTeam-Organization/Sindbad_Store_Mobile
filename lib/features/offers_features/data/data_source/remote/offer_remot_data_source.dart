@@ -8,7 +8,7 @@ import 'package:sindbad_management_app/features/offers_features/domain/entities/
 
 abstract class OfferRemotDataSource {
   // View Offer Operations
-  Future<List<OfferEntity>> getOffer(
+  Future<List<OfferEntity>> getOffers(
     int pageSize,
     int pageNumber,
   );

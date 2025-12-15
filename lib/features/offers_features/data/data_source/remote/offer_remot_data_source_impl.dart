@@ -50,15 +50,104 @@ class OfferRemotDataSourceImpl extends OfferRemotDataSource {
   }
 
   @override
-  Future<List<OfferEntity>> getOffer(int pageSize, int pageNumber) async {
-    String? token = await getToken();
-    var data = await apiService.get(
-      endPoint:
-          'Offers/Store/GetStoreOfferHeads?PageSize=100&PageNumber=$pageNumber',
-      headers: {'Authorization': 'BEARER $token'},
-    );
-    List<OfferEntity> response = getOfferList(data);
-    return response;
+  Future<List<OfferEntity>> getOffers(int pageSize, int pageNumber) async {
+    try {
+      // Check token
+      final String? token = await getToken();
+
+      if (token == null || token.isEmpty) {
+        throw DioException(
+          requestOptions: RequestOptions(path: ''),
+          error: 'Authentication token is missing or invalid',
+        );
+      }
+
+      final dio = Dio();
+      final response = await dio.get(
+        'https://www.sindibad-back.com:82/api/Offers/Store/GetStoreOfferHeads?PageSize=$pageSize&PageNumber=$pageNumber',
+        options: Options(
+          headers: {
+            "Authorization": "BEARER $token",
+            "Content-Type": "application/json",
+            "accept": "text/plain",
+          },
+        ),
+      );
+
+      final responseData = response.data;
+
+      if (responseData['success'] == true) {
+        List<OfferEntity> offers = getOfferList(responseData);
+        return offers;
+      } else {
+        final errorMessage = responseData['error'] ??
+            responseData['message'] ??
+            'Failed to get offers';
+
+        throw DioException(
+          requestOptions: response.requestOptions,
+          response: response,
+          error: errorMessage,
+          type: DioExceptionType.badResponse,
+        );
+      }
+    } on DioException catch (e) {
+      switch (e.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.sendTimeout:
+        case DioExceptionType.receiveTimeout:
+          throw DioException(
+            requestOptions: e.requestOptions,
+            error: 'Request timeout. Please try again.',
+            type: e.type,
+          );
+        case DioExceptionType.badCertificate:
+          throw DioException(
+            requestOptions: e.requestOptions,
+            error: 'SSL certificate error. Please check your connection.',
+            type: e.type,
+          );
+        case DioExceptionType.badResponse:
+          final errorData = e.response?.data;
+          final errorMessage = errorData is Map
+              ? errorData['error'] ??
+                  errorData['message'] ??
+                  e.error?.toString() ??
+                  'Server error occurred'
+              : e.error?.toString() ?? 'Server error occurred';
+
+          throw DioException(
+            requestOptions: e.requestOptions,
+            response: e.response,
+            error: errorMessage,
+            type: e.type,
+          );
+        case DioExceptionType.cancel:
+          throw DioException(
+            requestOptions: e.requestOptions,
+            error: 'Request was cancelled',
+            type: e.type,
+          );
+        case DioExceptionType.connectionError:
+          throw DioException(
+            requestOptions: e.requestOptions,
+            error: 'No internet connection. Please check your network.',
+            type: e.type,
+          );
+        case DioExceptionType.unknown:
+          throw DioException(
+            requestOptions: e.requestOptions,
+            error: 'Network error: ${e.error}',
+            type: e.type,
+          );
+      }
+    } catch (e) {
+      throw DioException(
+        requestOptions: RequestOptions(path: 'Offers/Store/GetStoreOfferHeads'),
+        error: 'Failed to get offers: $e',
+        type: DioExceptionType.unknown,
+      );
+    }
   }
 
   List<OfferDetailsEntity> getOfferDetailsList(Map<String, dynamic> data) {

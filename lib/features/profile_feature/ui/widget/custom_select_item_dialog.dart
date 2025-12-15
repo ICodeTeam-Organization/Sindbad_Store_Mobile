@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
 import 'package:sindbad_management_app/config/styles/text_style.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_products_entity.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_cubit/offer_cubit.dart';
 import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_products_cubit/offer_products_cubit.dart';
 import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_products_cubit/offer_products_state.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/widget/product_check_box_tile_widget.dart';
@@ -36,7 +37,7 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
     selectedItems = List.from(widget.selectedItems);
     // Fetch products only if state is being initialized for the first time
     if (isSetState) {
-      context.read<OfferProductsCubit>().getOfferProducts(100, 1);
+      context.read<OfferCubit>().getOfferProducts(100, 1);
       isSetState = false;
     }
     // Initialize search controller
@@ -146,11 +147,11 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                     height: 10.h,
                   ),
                   Expanded(
-                    child: BlocBuilder<OfferProductsCubit, OfferProductsState>(
+                    child: BlocBuilder<OfferCubit, OfferState>(
                       builder: (context, state) {
-                        if (state is OfferProductsSuccess) {
+                        if (state is OfferLoadSuccess) {
                           // Apply search filter on the complete list of products
-                          final allProducts = state.offerProducts;
+                          final allProducts = [];
                           final mergedList = [
                             ...selectedItems, // Include selected items first
                             ...allProducts.where((item) => !selectedItems.any(
@@ -189,13 +190,13 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                               );
                             },
                           );
-                        } else if (state is OfferProductsFailuer) {
+                        } else if (state is OfferLoadFailuer) {
                           return Center(
                               child: Text(
                             state.errMessage,
                             textAlign: TextAlign.center,
                           ));
-                        } else if (state is OfferProductsLoading) {
+                        } else if (state is OfferLoadInProgress) {
                           return Center(child: CircularProgressIndicator());
                         } else {
                           return Center(

@@ -2,6 +2,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sindbad_management_app/features/offers_features/data/data_source/remote/offer_remot_data_source_impl.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/usecases/change_status_offer_use_case.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/usecases/delete_offer_use_case.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/usecases/get_offer_products_use_case.dart';
 import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_products_cubit/offer_products_cubit.dart';
 import 'package:sindbad_management_app/features/offers_features/data/repos/offers_repository_impl.dart';
@@ -160,7 +162,7 @@ void initializationContainer() {
   //  Cubits
   // ----------------
   getit.registerFactory<SignInCubit>(() => SignInCubit(getit()));
-  getit.registerFactory<OfferProductsCubit>(() => OfferProductsCubit(getit()));
+  // getit.registerFactory<OfferProductsCubit>(() => OfferProductsCubit(getit()));
   getit.registerFactory<ExcelCubit>(() => ExcelCubit(getit()));
   getit.registerFactory<OrdersCubit>(() => OrdersCubit(getit()));
   getit.registerFactory<GetProfileCubit>(() => GetProfileCubit(getit()));
@@ -173,7 +175,8 @@ void initializationContainer() {
   getit.registerFactory<ConfirmPasswordCubit>(
       () => ConfirmPasswordCubit(getit()));
   getit.registerFactory<GetCategory>(() => GetCategory(getit()));
-  getit.registerFactory<OfferCubit>(() => OfferCubit(getit(), getit()));
+  getit.registerFactory<OfferCubit>(() => OfferCubit(
+      getit(), getit(), getit(), getit(), getit(), getit(), getit()));
   getit.registerFactory<GetCategoryNamesCubit>(
       () => GetCategoryNamesCubit(getit()));
   getit.registerFactory<AddProductToStoreCubit>(
@@ -184,8 +187,11 @@ void initializationContainer() {
 
   // Use cases for offers
   getit.registerSingleton<UpdateOfferUseCase>(UpdateOfferUseCase(getit()));
+  getit.registerSingleton<ChangeStatusOfferUseCase>(
+      ChangeStatusOfferUseCase(getit()));
   getit.registerSingleton<GetOfferDataUseCase>(GetOfferDataUseCase(getit()));
   getit.registerSingleton<AddOfferUseCase>(AddOfferUseCase(getit()));
+  getit.registerSingleton<DeleteOfferUseCase>(DeleteOfferUseCase(getit()));
   // Use cases for orders
   getit.registerSingleton<OrderDetailsUsecase>(OrderDetailsUsecase(getit()));
   getit.registerSingleton<OrderInvoiceUsecase>(OrderInvoiceUsecase(getit()));
@@ -197,10 +203,10 @@ void initializationContainer() {
   getit.registerSingleton<GetUnreadNotiftionUseCase>(
       GetUnreadNotiftionUseCase(getit()));
   // Cubits for offers
-  getit.registerFactory<UpdateOfferCubit>(() => UpdateOfferCubit(getit()));
-  getit.registerFactory<OfferDataCubit>(() => OfferDataCubit(getit()));
-  getit.registerFactory<AddOfferCubit>(() => AddOfferCubit(getit()));
-  getit.registerFactory<OfferDetailsCubit>(() => OfferDetailsCubit(getit()));
+  // getit.registerFactory<UpdateOfferCubit>(() => UpdateOfferCubit(getit()));
+  // getit.registerFactory<OfferDataCubit>(() => OfferDataCubit(getit()));
+  // getit.registerFactory<AddOfferCubit>(() => AddOfferCubit(getit()));
+  // getit.registerFactory<OfferDetailsCubit>(() => OfferDetailsCubit(getit()));
   // Cubits for orders
   getit.registerFactory<OrderDetailsCubit>(() => OrderDetailsCubit(getit()));
   getit.registerFactory<OrderInvoiceCubit>(() => OrderInvoiceCubit(getit()));

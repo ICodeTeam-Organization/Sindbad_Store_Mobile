@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sindbad_management_app/features/offers_features/data/models/offer_head_offer.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_products_entity.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_cubit/offer_cubit.dart';
 import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_data_cubit/offer_data_cubit.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/widget/update_offer_widget.dart';
 
@@ -19,14 +20,14 @@ class _UpdateOfferBodyState extends State<UpdateOfferBody> {
   @override
   void initState() {
     super.initState();
-    context.read<OfferDataCubit>().getOfferData(widget.offerHeadId);
+    // context.read<OfferCubit>().getOfferProducts(widget.offerHeadId);
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<OfferDataCubit, OfferDataState>(
+    return BlocBuilder<OfferCubit, OfferState>(
       builder: (context, state) {
-        if (state is OfferDataSuccess) {
+        if (state is OfferLoadSuccess) {
           // Convert OfferHeadOffer list to OfferProductsEntity list
           List<OfferProductsEntity> convertToOfferProductsEntity(
               List<OfferHeadOffer> offerHeadList) {
@@ -45,29 +46,30 @@ class _UpdateOfferBodyState extends State<UpdateOfferBody> {
             }).toList();
           }
 
+          return SizedBox();
           // Debugging: Print the data of each product
-          for (var offerMap in state.offerData.listProduct) {
-            debugPrint(jsonEncode(offerMap.toJson()));
-          }
+          // for (var offerMap in state.offerProducts) {
+          //   debugPrint(jsonEncode(offerMap.toJson()));
+          // }
 
           // Pass data to the UpdateOfferWidget
-          return UpdateOfferWidget(
-            offerHeadId: widget.offerHeadId,
-            offerTitle: state.offerData.offerTitle,
-            startOffer: state.offerData.startOffer,
-            endOffer: state.offerData.endOffer,
-            offerType: state.offerData.offerType,
-            discountRate: state.offerData.discountRate?.toInt() ?? 0,
-            numberToBuy: state.offerData.numberToBuy?.toInt() ?? 0,
-            numberToGet: state.offerData.numberToGet?.toInt() ?? 0,
-            listProducts: convertToOfferProductsEntity(
-              state.offerData.listProduct,
-            ),
-          );
-        } else if (state is OfferDataFailuer) {
+          // return UpdateOfferWidget(
+          //   offerHeadId: widget.offerHeadId,
+          //   offerTitle: state.offerProducts.offerTitle,
+          //   startOffer: state.offerProducts.startOffer,
+          //   endOffer: state.offerProducts.endOffer,
+          //   offerType: state.offerProducts.offerType,
+          //   discountRate: state.offerProducts.discountRate?.toInt() ?? 0,
+          //   numberToBuy: state.offerProducts.numberToBuy?.toInt() ?? 0,
+          //   numberToGet: state.offerProducts.numberToGet?.toInt() ?? 0,
+          //   listProducts: convertToOfferProductsEntity(
+          //     state.offerProducts,
+          //   ),
+          // );
+        } else if (state is OfferLoadFailuer) {
           // Handle failure state
           return Center(child: Text(state.errMessage));
-        } else if (state is OfferDataLoading) {
+        } else if (state is OfferLoadInProgress) {
           // Show loading indicator while data is being fetched
           return const Center(child: CircularProgressIndicator());
         } else {

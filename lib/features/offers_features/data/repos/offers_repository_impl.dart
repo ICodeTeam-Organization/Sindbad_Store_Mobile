@@ -67,8 +67,17 @@ class OffersRepositoryImpl extends OffersRepository {
 
   @override
   Future<Either<Failure, List<OfferEntity>>> getOffers(
-      int pageSize, int pageNumber) {
-    return fetchData(() => offerRemotDataSource.getOffer(pageSize, pageNumber));
+      int pageSize, int pageNumber) async {
+    try {
+      var data = await offerRemotDataSource.getOffers(pageSize, pageNumber);
+      return right(data);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      } else {
+        return left(ServerFailure(e.toString()));
+      }
+    }
   }
 
   @override

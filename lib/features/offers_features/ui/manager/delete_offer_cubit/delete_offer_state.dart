@@ -1,20 +1,20 @@
-part of 'delete_offer_cubit.dart';
+// part of 'delete_offer_cubit.dart';
 
-@immutable
-sealed class DeleteOfferState {}
+// @immutable
+// sealed class DeleteOfferState {}
 
-final class DeleteOfferInitial extends DeleteOfferState {}
+// final class DeleteOfferInitial extends DeleteOfferState {}
 
-class DeleteOfferLoading extends DeleteOfferState {}
+// class DeleteOfferLoading extends DeleteOfferState {}
 
-class DeleteOfferSuccess extends DeleteOfferState {
-  final String deleteOffer;
+// class DeleteOfferSuccess extends DeleteOfferState {
+//   final String deleteOffer;
 
-  DeleteOfferSuccess(this.deleteOffer);
-}
+//   DeleteOfferSuccess(this.deleteOffer);
+// }
 
-class DeleteOfferFailure extends DeleteOfferState {
-  final String errorMessage;
+// class DeleteOfferFailure extends DeleteOfferState {
+//   final String errorMessage;
 
-  DeleteOfferFailure(this.errorMessage);
-}
+//   DeleteOfferFailure(this.errorMessage);
+// }

@@ -1,20 +1,20 @@
-part of 'update_offer_cubit.dart';
+// part of 'update_offer_cubit.dart';
 
-@immutable
-sealed class UpdateOfferState {}
+// @immutable
+// sealed class UpdateOfferState {}
 
-final class UpdateOfferInitial extends UpdateOfferState {}
+// final class UpdateOfferInitial extends UpdateOfferState {}
 
-class UpdateOfferLoading extends UpdateOfferState {}
+// class UpdateOfferLoading extends UpdateOfferState {}
 
-class UpdateOfferSuccess extends UpdateOfferState {
-  final String updateOffer;
+// class UpdateOfferSuccess extends UpdateOfferState {
+//   final String updateOffer;
 
-  UpdateOfferSuccess(this.updateOffer);
-}
+//   UpdateOfferSuccess(this.updateOffer);
+// }
 
-class UpdateOfferFailure extends UpdateOfferState {
-  final String errorMessage;
+// class UpdateOfferFailure extends UpdateOfferState {
+//   final String errorMessage;
 
-  UpdateOfferFailure(this.errorMessage);
-}
+//   UpdateOfferFailure(this.errorMessage);
+// }

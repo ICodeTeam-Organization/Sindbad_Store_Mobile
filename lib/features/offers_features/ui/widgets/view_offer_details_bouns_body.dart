@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/core/swidgets/new_widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
 import 'package:sindbad_management_app/config/styles/text_style.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_cubit/offer_cubit.dart';
 import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_details_cubit/offer_details_cubit.dart';
 import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_details_cubit/offer_details_state.dart';
 import 'package:sindbad_management_app/features/offers_features/ui/widgets/card_message_widget.dart';
@@ -31,7 +32,7 @@ class _ViewOfferDetailsBounsBodyState extends State<ViewOfferDetailsBounsBody> {
   void initState() {
     super.initState();
     offerTypeTitle = 'المنتجات بعد عمل البونص';
-    context.read<OfferDetailsCubit>().getOfferDetails(10, 1, widget.offerId);
+    // context.read<OfferDetailsCubit>().getOfferDetails(10, 1, widget.offerId);
   }
 
   @override
@@ -57,9 +58,9 @@ class _ViewOfferDetailsBounsBodyState extends State<ViewOfferDetailsBounsBody> {
                 ),
               ),
               SizedBox(height: 20.h),
-              BlocBuilder<OfferDetailsCubit, OfferDetailsState>(
+              BlocBuilder<OfferCubit, OfferState>(
                 builder: (context, state) {
-                  if (state is OfferDetailsSuccess) {
+                  if (state is OfferLoadSuccess) {
                     return Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -69,20 +70,20 @@ class _ViewOfferDetailsBounsBodyState extends State<ViewOfferDetailsBounsBody> {
                             color: AppColors.white,
                           ),
                           child: ListView.builder(
-                            itemCount: state.offerDetails.length,
+                            itemCount: 0,
                             itemBuilder: (context, i) {
                               return Column(
                                 children: [
-                                  CardOfferDetailsBounsWidget(
-                                    productName:
-                                        state.offerDetails[i].productTitle,
-                                    productImage:
-                                        state.offerDetails[i].productImage,
-                                    numberToBuy:
-                                        state.offerDetails[i].numberToBuy!,
-                                    numberToGet:
-                                        state.offerDetails[i].numberToGet!,
-                                  ),
+                                  // CardOfferDetailsBounsWidget(
+                                  //   productName:
+                                  //       state.offerDetails[i].productTitle,
+                                  //   productImage:
+                                  //       state.offerDetails[i].productImage,
+                                  //   numberToBuy:
+                                  //       state.offerDetails[i].numberToBuy!,
+                                  //   numberToGet:
+                                  //       state.offerDetails[i].numberToGet!,
+                                  // ),
                                 ],
                               );
                             },
@@ -90,7 +91,7 @@ class _ViewOfferDetailsBounsBodyState extends State<ViewOfferDetailsBounsBody> {
                         ),
                       ),
                     );
-                  } else if (state is OfferDetailsFailuer) {
+                  } else if (state is OfferLoadFailuer) {
                     return Center(
                       child: CardMesssageWidget(
                         logo: Image.asset(
@@ -102,7 +103,7 @@ class _ViewOfferDetailsBounsBodyState extends State<ViewOfferDetailsBounsBody> {
                         subTitle: 'الخطأ : ${state.errMessage}',
                       ),
                     );
-                  } else if (state is OfferDetailsLoading) {
+                  } else if (state is OfferLoadInProgress) {
                     return Center(child: CircularProgressIndicator());
                   } else {
                     return Center(
