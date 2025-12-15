@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/features/custom_bottom_navigation_bar.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_cubit/offer_cubit.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/screens/view_offer_screen.dart';
-// import 'order_management _features/ui/screen/order_management_screen.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_cubit/offer_cubit.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/screens/view_offer_screen.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/screen/temp_widget/orders_tabbar_widget.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
 import 'package:sindbad_management_app/features/reports_offer_index.dart';
+
 import 'products_feature/view_product_features/ui/widgets/products_tabbat_widget.dart';
 
 class Root extends StatefulWidget {

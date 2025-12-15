@@ -4,7 +4,6 @@ import 'package:sindbad_management_app/features/orders_feature/data/repos_impl/a
 import 'package:sindbad_management_app/features/orders_feature/domain/entities/order_invoice_entity.dart';
 import '../../../../core/errors/failure.dart';
 import '../../../../core/use_cases/param_use_case.dart';
-import '../repos/all_order_repo.dart';
 
 class OrderInvoiceUsecase
     extends UseCaseWithParam<OrderInvoiceEntity, OrderInvoiceParam> {

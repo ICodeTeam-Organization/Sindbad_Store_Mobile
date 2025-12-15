@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:sindbad_management_app/core/use_cases/param_use_case.dart';
 import 'package:sindbad_management_app/features/orders_feature/data/repos_impl/all_order_repo_impl.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/entities/company_shipping_entity.dart';
-import 'package:sindbad_management_app/features/orders_feature/domain/repos/all_order_repo.dart';
 import '../../../../core/errors/failure.dart';
 
 class CompanyShippingUsecase extends UseCaseWithParam<

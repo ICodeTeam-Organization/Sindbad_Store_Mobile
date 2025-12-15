@@ -1,15 +1,16 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/data/data_source/remote/new_offer_remot_data_source.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/data/repos/new_offer_repo_impl.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/usecases/get_offer_products_use_case.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/offer_products_cubit/offer_products_cubit.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/data_source/remote/view_offer_remot_data_source.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/data/repos/view_offer_repo_impl.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/usecases/get_offer_use_case.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/usecases/get_offer_details_use_case.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_cubit/offer_cubit.dart';
+import 'package:sindbad_management_app/features/offers_features/data/data_source/remote/new_offer_remot_data_source.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/usecases/get_offer_products_use_case.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_products_cubit/offer_products_cubit.dart';
+import 'package:sindbad_management_app/features/offers_features/data/data_source/remote/view_offer_remot_data_source_impl.dart';
+import 'package:sindbad_management_app/features/offers_features/data/repos/new_offer_repo_impl.dart';
+import 'package:sindbad_management_app/features/offers_features/data/repos/view_offer_repo_impl.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/usecases/get_offer_use_case.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/usecases/get_offer_details_use_case.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_cubit/offer_cubit.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/usecases/add_offer_use_case_1.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/add_product_use_case.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/use_cases/get_product_details_to_store_use_case.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/ProductDetails/product_details_cubit.dart';
@@ -57,13 +58,12 @@ import 'features/products_feature/view_product_features/data/data_source/add_and
 import 'features/products_feature/view_product_features/data/repos/product_repository_impl.dart';
 import 'features/profile_feature/data/data_source/profile_data_source.dart';
 import 'features/profile_feature/data/repo/profile_repository_impl.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/usecases/add_offer_use_case.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/usecases/get_offer_data_use_case.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/domain/usecases/update_offer_use_case.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/add_offer_cubit/add_offer_cubit.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/offer_data_cubit/offer_data_cubit.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/update_offer_cubit/update_offer_cubit.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_details_cubit/offer_details_cubit.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/usecases/get_offer_data_use_case.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/usecases/update_offer_use_case.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/manager/add_offer_cubit/add_offer_cubit.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_data_cubit/offer_data_cubit.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/manager/update_offer_cubit/update_offer_cubit.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_details_cubit/offer_details_cubit.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/usecases/order_details_usecase.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/usecases/order_invoice_usecasse.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/usecases/order_shipping_usecase.dart';
@@ -122,7 +122,7 @@ void initializationContainer() {
       ProductRepositoryImpl(getit(), getit()));
   getit.registerSingleton<AddAndEditProductStoreRepoImpl>(
       AddAndEditProductStoreRepoImpl(getit()));
-  getit.registerSingleton<ViewOfferRepoImpl>(ViewOfferRepoImpl(getit()));
+  getit.registerSingleton<OffersRepositoryImpl>(OffersRepositoryImpl(getit()));
   getit.registerSingleton<NewOfferRepositoryImpl>(
       NewOfferRepositoryImpl(getit()));
   getit.registerSingleton<NotifictionRepoImpl>(NotifictionRepoImpl(getit()));
@@ -137,7 +137,7 @@ void initializationContainer() {
       GetOfferProductsUseCase(getit()));
   getit.registerSingleton<DownloadAllFilesUseCase>(
       DownloadAllFilesUseCase(getit()));
-  getit.registerSingleton<GetOfferUseCase>(GetOfferUseCase(getit()));
+  getit.registerSingleton<GetOffersUseCase>(GetOffersUseCase(getit()));
   getit.registerSingleton<GetOfferDetailsUseCase>(
       GetOfferDetailsUseCase(getit()));
   getit.registerSingleton<GetMainAndSubCategoryUseCase>(
@@ -179,7 +179,7 @@ void initializationContainer() {
   getit.registerFactory<ConfirmPasswordCubit>(
       () => ConfirmPasswordCubit(getit()));
   getit.registerFactory<GetCategory>(() => GetCategory(getit()));
-  getit.registerFactory<OfferCubit>(() => OfferCubit(getit()));
+  getit.registerFactory<OfferCubit>(() => OfferCubit(getit(), getit()));
   getit.registerFactory<GetCategoryNamesCubit>(
       () => GetCategoryNamesCubit(getit()));
   getit.registerFactory<AddProductToStoreCubit>(

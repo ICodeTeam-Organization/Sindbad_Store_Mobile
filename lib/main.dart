@@ -13,12 +13,12 @@ import 'package:sindbad_management_app/config/routers/route.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/confirm_password_cubit/confirm_password_cubit.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/forget_password_cubit.dart/forget_password_cubit.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/add_offer_cubit/add_offer_cubit.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/offer_data_cubit/offer_data_cubit.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/offer_products_cubit/offer_products_cubit.dart';
-import 'package:sindbad_management_app/features/offer_management_features/modify_offer_feature/ui/manager/update_offer_cubit/update_offer_cubit.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_cubit/offer_cubit.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/ui/manager/offer_details_cubit/offer_details_cubit.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/manager/add_offer_cubit/add_offer_cubit.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_data_cubit/offer_data_cubit.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_products_cubit/offer_products_cubit.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/manager/update_offer_cubit/update_offer_cubit.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_cubit/offer_cubit.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_details_cubit/offer_details_cubit.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/all_order/order%20cubit/orders_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/ProductDetails/product_details_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
@@ -118,7 +118,7 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
           create: (_) => ProductDetailsCubit(getit()),
         ),
         BlocProvider(
-          create: (_) => OfferCubit(getit()),
+          create: (_) => OfferCubit(getit(), getit()),
         ),
         BlocProvider(
           create: (_) => AddProductToStoreCubit(getit()),

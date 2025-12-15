@@ -1,0 +1,23 @@
+import 'package:dartz/dartz.dart';
+import 'package:sindbad_management_app/core/errors/failure.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_details_entity.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_entity.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/entities/post_response_entity.dart';
+
+abstract class ViewOfferRepo {
+  Future<Either<Failure, List<OfferEntity>>> getOffers(
+    int pageSize,
+    int pageNumber,
+  );
+  Future<Either<Failure, List<OfferDetailsEntity>>> getOfferDetails(
+    int pageSize,
+    int pageNumber,
+    int offerHeadId,
+  );
+  Future<Either<Failure, PostResponseEntity>> deleteOffer(
+    int offerHeadId,
+  );
+  Future<Either<Failure, PostResponseEntity>> changeStatusOffer(
+    int offerHeadId,
+  );
+}

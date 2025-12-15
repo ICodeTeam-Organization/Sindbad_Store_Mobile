@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
-import '../../../add_and_edit_product_feature/ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
-import '../../../add_and_edit_product_feature/ui/manger/cubit/edit_product_from_store/edit_product_from_store_cubit.dart';
 import '../../../add_and_edit_product_feature/ui/widgets/after_selected_image_for_add_and_edit_screen.dart';
 import '../../../add_and_edit_product_feature/ui/widgets/button_design_add_image_main_product_widget.dart';
 import '../../../add_and_edit_product_feature/ui/widgets/design_for_title_under_image_widget.dart';
