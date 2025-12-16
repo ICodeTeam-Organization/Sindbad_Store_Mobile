@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 
-import 'errors/failure.dart';
+import '../errors/failure.dart';
 
 class ApiService {
   final Dio _dio = Dio();

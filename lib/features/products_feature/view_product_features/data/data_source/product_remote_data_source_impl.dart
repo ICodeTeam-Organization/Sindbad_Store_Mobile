@@ -7,7 +7,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/data/data_source/products_endpoint_parameters.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/data/data_source/product_remote_datasource.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/delete_entity_product.dart';
-import '../../../../../core/api_service.dart';
+import '../../../../../core/services/api_service.dart';
 import '../../domain/entities/main_category_for_view_entity.dart';
 import '../../domain/entities/product_entity.dart';
 import '../models/delete_product_model.dart';

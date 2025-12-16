@@ -1,16 +1,16 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:sindbad_management_app/core/services/new_api_service.dart';
 import 'package:sindbad_management_app/features/offers_features/data/data_source/remote/offer_remot_data_source_impl.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/usecases/change_status_offer_use_case.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/usecases/delete_offer_use_case.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/usecases/get_offer_products_use_case.dart';
-import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_products_cubit/offer_products_cubit.dart';
 import 'package:sindbad_management_app/features/offers_features/data/repos/offers_repository_impl.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/usecases/get_offer_use_case.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/usecases/get_offer_details_use_case.dart';
 import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_cubit/offer_cubit.dart';
-import 'package:sindbad_management_app/features/offers_features/domain/usecases/add_offer_use_case_1.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/usecases/add_offer_use_case.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/add_product_use_case.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/use_cases/get_product_details_to_store_use_case.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/ProductDetails/product_details_cubit.dart';
@@ -60,10 +60,6 @@ import 'features/profile_feature/data/data_source/profile_data_source.dart';
 import 'features/profile_feature/data/repo/profile_repository_impl.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/usecases/get_offer_data_use_case.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/usecases/update_offer_use_case.dart';
-import 'package:sindbad_management_app/features/offers_features/ui/manager/add_offer_cubit/add_offer_cubit.dart';
-import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_data_cubit/offer_data_cubit.dart';
-import 'package:sindbad_management_app/features/offers_features/ui/manager/update_offer_cubit/update_offer_cubit.dart';
-import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_details_cubit/offer_details_cubit.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/usecases/order_details_usecase.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/usecases/order_invoice_usecasse.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/usecases/order_shipping_usecase.dart';
@@ -76,7 +72,7 @@ import 'package:sindbad_management_app/features/orders_feature/ui/manager/cancel
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/company_shipping/cubit/company_shipping_cubit.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/domin/use_case/get_unread_notiftion.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/ui/cubit/notifiction_cubit/unread_notifiction_cubit.dart';
-import 'core/api_service.dart';
+import 'core/services/api_service.dart';
 
 final getit = GetIt.instance;
 
@@ -86,6 +82,7 @@ void initializationContainer() {
   // ----------------
   getit.registerSingleton<FlutterSecureStorage>(FlutterSecureStorage());
   getit.registerSingleton<ApiService>(ApiService());
+  getit.registerSingleton<NewApiService>(NewApiService(getit()));
   getit.registerSingleton<Dio>(Dio());
   getit.registerSingleton<BulkService>(
       BulkService("https://sindibad-back.com:84/", getit(), getit()));
@@ -101,7 +98,7 @@ void initializationContainer() {
   getit.registerSingleton<AddProductToStoreRemoteDataSourceImpl>(
       AddProductToStoreRemoteDataSourceImpl(getit(), getit()));
   getit.registerSingleton<OfferRemotDataSourceImpl>(
-      OfferRemotDataSourceImpl(getit(), getit()));
+      OfferRemotDataSourceImpl(getit()));
   getit.registerSingleton<NotifictionRemoteDataSourceImpl>(
       NotifictionRemoteDataSourceImpl(getit()));
   getit

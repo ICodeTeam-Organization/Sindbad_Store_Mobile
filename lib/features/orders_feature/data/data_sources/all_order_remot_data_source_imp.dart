@@ -5,7 +5,7 @@ import 'package:sindbad_management_app/features/orders_feature/domain/entities/c
 import 'package:sindbad_management_app/features/orders_feature/domain/entities/order_detalis_entity.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/entities/order_invoice_entity.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/entities/order_shipping_entity.dart';
-import '../../../../core/api_service.dart';
+import '../../../../core/services/api_service.dart';
 import '../../domain/entities/all_order_entity.dart';
 import '../../domain/entities/order_cancel_entity.dart';
 import '../models/all_order_model/all_orders_model.dart';

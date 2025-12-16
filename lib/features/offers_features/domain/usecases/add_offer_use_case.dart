@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
 import 'package:sindbad_management_app/core/use_cases/param_use_case.dart';
 import 'package:sindbad_management_app/features/offers_features/data/repos/offers_repository_impl.dart';
-import 'package:sindbad_management_app/features/offers_features/domain/usecases/add_offer_usecase_1.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/entities/add_offer_paramers.dart';
 
 class AddOfferUseCase extends UseCaseWithParam<bool, AddOfferParams> {
   final OffersRepositoryImpl offersRepository;

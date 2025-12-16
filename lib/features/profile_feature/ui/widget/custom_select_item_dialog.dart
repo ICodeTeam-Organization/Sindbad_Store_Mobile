@@ -5,8 +5,6 @@ import 'package:sindbad_management_app/config/styles/Colors.dart';
 import 'package:sindbad_management_app/config/styles/text_style.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_products_entity.dart';
 import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_cubit/offer_cubit.dart';
-import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_products_cubit/offer_products_cubit.dart';
-import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_products_cubit/offer_products_state.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/widget/product_check_box_tile_widget.dart';
 
 class CustomSelectItemDialog extends StatefulWidget {
@@ -190,7 +188,7 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                               );
                             },
                           );
-                        } else if (state is OfferLoadFailuer) {
+                        } else if (state is OffersLoadFailuer) {
                           return Center(
                               child: Text(
                             state.errMessage,

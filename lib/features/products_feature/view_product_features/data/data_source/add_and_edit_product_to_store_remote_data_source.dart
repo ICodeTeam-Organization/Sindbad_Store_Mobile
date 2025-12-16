@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:sindbad_management_app/core/api_service.dart';
+import 'package:sindbad_management_app/core/services/api_service.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/data/models/add_product_model.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/data/models/edit_product_model.dart';
 import '../../../add_and_edit_product_feature/domain/entities/add_product_entities/add_product_entity.dart';

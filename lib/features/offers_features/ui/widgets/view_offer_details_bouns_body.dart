@@ -5,10 +5,7 @@ import 'package:sindbad_management_app/core/swidgets/new_widgets/custom_app_bar.
 import 'package:sindbad_management_app/config/styles/Colors.dart';
 import 'package:sindbad_management_app/config/styles/text_style.dart';
 import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_cubit/offer_cubit.dart';
-import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_details_cubit/offer_details_cubit.dart';
-import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_details_cubit/offer_details_state.dart';
 import 'package:sindbad_management_app/features/offers_features/ui/widgets/card_message_widget.dart';
-import 'package:sindbad_management_app/features/offers_features/ui/widgets/card_offer_details_bouns_widget.dart';
 
 class ViewOfferDetailsBounsBody extends StatefulWidget {
   final String offerName;
@@ -91,7 +88,7 @@ class _ViewOfferDetailsBounsBodyState extends State<ViewOfferDetailsBounsBody> {
                         ),
                       ),
                     );
-                  } else if (state is OfferLoadFailuer) {
+                  } else if (state is OffersLoadFailuer) {
                     return Center(
                       child: CardMesssageWidget(
                         logo: Image.asset(

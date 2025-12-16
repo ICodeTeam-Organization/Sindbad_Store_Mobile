@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/features/custom_bottom_navigation_bar.dart';
-import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_cubit/offer_cubit.dart';
 import 'package:sindbad_management_app/features/offers_features/ui/screens/view_offer_screen.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/screen/temp_widget/orders_tabbar_widget.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
@@ -42,6 +40,57 @@ class _RootState extends State<Root> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        // Enable swipe from left to right to open drawer
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                ),
+                child: Text(
+                  'القائمة',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.home),
+                title: Text('الرئيسية'),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.person),
+                title: Text('الملف الشخصي'),
+                onTap: () {
+                  Navigator.pop(context);
+                  // Navigate to profile
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text('الإعدادات'),
+                onTap: () {
+                  Navigator.pop(context);
+                  // Navigate to settings
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.logout),
+                title: Text('تسجيل الخروج'),
+                onTap: () {
+                  Navigator.pop(context);
+                  // Handle logout
+                },
+              ),
+            ],
+          ),
+        ),
         body: Stack(
           children: [
             // Main content (IndexedStack)

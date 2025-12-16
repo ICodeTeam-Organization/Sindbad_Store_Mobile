@@ -1,11 +1,8 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sindbad_management_app/features/offers_features/data/models/offer_head_offer.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_products_entity.dart';
 import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_cubit/offer_cubit.dart';
-import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_data_cubit/offer_data_cubit.dart';
-import 'package:sindbad_management_app/features/profile_feature/ui/widget/update_offer_widget.dart';
 
 class UpdateOfferBody extends StatefulWidget {
   final int offerHeadId;
@@ -66,7 +63,7 @@ class _UpdateOfferBodyState extends State<UpdateOfferBody> {
           //     state.offerProducts,
           //   ),
           // );
-        } else if (state is OfferLoadFailuer) {
+        } else if (state is OffersLoadFailuer) {
           // Handle failure state
           return Center(child: Text(state.errMessage));
         } else if (state is OfferLoadInProgress) {

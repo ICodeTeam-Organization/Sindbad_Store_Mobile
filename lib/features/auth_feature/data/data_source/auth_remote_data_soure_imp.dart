@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:sindbad_management_app/core/api_service.dart';
+import 'package:sindbad_management_app/core/services/api_service.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
 import 'package:sindbad_management_app/core/models/response_error.dart';
 import 'package:sindbad_management_app/core/models/responsive_model.dart';

@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sindbad_management_app/core/api_service.dart';
+import 'package:sindbad_management_app/core/services/api_service.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/data/data_source/product_remote_data_source_impl.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 

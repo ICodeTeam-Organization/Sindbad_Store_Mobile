@@ -1,5 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:sindbad_management_app/core/api_service.dart';
+import 'package:sindbad_management_app/core/services/api_service.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/data/model/notifiction_model.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/data/model/read_notifiction_model.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/domin/entity/get_unread_nutficon.dart';
