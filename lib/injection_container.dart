@@ -40,7 +40,9 @@ import 'package:sindbad_management_app/features/orders_feature/ui/manager/all_or
 import 'package:sindbad_management_app/features/profile_feature/data/data_source/store_data_source_impl.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/repo/exell_repository.dart';
 import 'package:sindbad_management_app/features/profile_feature/domin/usecase/download_dll_files_use_case.dart';
+import 'package:sindbad_management_app/features/profile_feature/domin/usecase/download_file_usecase.dart';
 import 'package:sindbad_management_app/features/profile_feature/domin/usecase/get_profile_data_usecase.dart';
+import 'package:sindbad_management_app/features/profile_feature/domin/usecase/post_files_usecase.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/excell_cubit/excell_cubt.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/reset_password_cubit/reset_password_cubit.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/data/remote_data/notifiction_remote_data_source.dart';
@@ -84,8 +86,7 @@ void initializationContainer() {
   getit.registerSingleton<ApiService>(ApiService());
   getit.registerSingleton<NewApiService>(NewApiService(getit()));
   getit.registerSingleton<Dio>(Dio());
-  getit.registerSingleton<BulkService>(
-      BulkService("https://sindibad-back.com:84/", getit(), getit()));
+  getit.registerSingleton<BulkService>(BulkService(getit()));
 
   // ----------------
   //  Data Sources"To
@@ -126,11 +127,14 @@ void initializationContainer() {
   //  Use Cases
   // ----------------
   getit.registerSingleton<SignInUseCase>(SignInUseCase(getit()));
+  getit.registerSingleton<UploadExcelFileUseCase>(
+      UploadExcelFileUseCase(getit()));
   getit.registerSingleton<GetOfferProductsUseCase>(
       GetOfferProductsUseCase(getit()));
   getit.registerSingleton<DownloadAllFilesUseCase>(
       DownloadAllFilesUseCase(getit()));
   getit.registerSingleton<GetOffersUseCase>(GetOffersUseCase(getit()));
+  getit.registerSingleton<DownloadFileUseCase>(DownloadFileUseCase(getit()));
   getit.registerSingleton<GetOfferDetailsUseCase>(
       GetOfferDetailsUseCase(getit()));
   getit.registerSingleton<GetMainAndSubCategoryUseCase>(
@@ -160,7 +164,8 @@ void initializationContainer() {
   // ----------------
   getit.registerFactory<SignInCubit>(() => SignInCubit(getit()));
   // getit.registerFactory<OfferProductsCubit>(() => OfferProductsCubit(getit()));
-  getit.registerFactory<ExcelCubit>(() => ExcelCubit(getit()));
+  getit
+      .registerFactory<ExcelCubit>(() => ExcelCubit(getit(), getit(), getit()));
   getit.registerFactory<OrdersCubit>(() => OrdersCubit(getit()));
   getit.registerFactory<GetProfileCubit>(() => GetProfileCubit(getit()));
   getit.registerFactory<AllOrderCubit>(() => AllOrderCubit(getit()));

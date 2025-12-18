@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/data_source/excell_api_services.dart';
@@ -46,12 +45,7 @@ Future<void> runIntegrationTest({required String token}) async {
   final fakeStorage = FakeSecureStorage();
   await fakeStorage.write(key: 'token', value: token); // Inject Real Token
 
-  final dio = Dio();
-  // Optional: Add logging to see network traffic
-  // dio.interceptors.add(LogInterceptor(responseBody: true));
-
-  final bulkService =
-      BulkService("https://sindibad-back.com:84/", fakeStorage, dio);
+  final bulkService = BulkService(fakeStorage);
   final repository = ExcellRepositoryImpl(bulkService);
 
   // B. Execute

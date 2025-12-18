@@ -87,7 +87,7 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
           create: (_) => SignInCubit(getit()),
         ),
         BlocProvider(create: (_) => AllOrderCubit(getit())),
-        BlocProvider(create: (_) => ExcelCubit(getit())),
+        BlocProvider(create: (_) => ExcelCubit(getit(), getit(), getit())),
         BlocProvider(
             create: (_) => ProductsCubit(
                 getit(), getit(), getit(), getit(), getit(), getit())),
@@ -122,21 +122,7 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
         BlocProvider(
           create: (_) => AttributeProductCubit(),
         ),
-        // BlocProvider(
-        //   create: (_) => OfferDetailsCubit(getit()),
-        // ),
-        // BlocProvider(
-        //   create: (_) => OfferProductsCubit(getit()),
-        // ),
-        // BlocProvider(
-        //   create: (_) => UpdateOfferCubit(getit()),
-        // ),
-        // BlocProvider(
-        //   create: (_) => OfferDataCubit(getit()),
-        // ),
-        // BlocProvider(
-        //   create: (_) => AddOfferCubit(getit()),
-        // ),
+
         BlocProvider(
           create: (_) => OrderDetailsCubit(getit()),
         ),

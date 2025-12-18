@@ -14,3 +14,8 @@ class ExcellLoadFailure extends ExcelState {
   final String message;
   ExcellLoadFailure(this.message);
 }
+
+class ExcellUploadSuccess extends ExcelState {
+  final Map<String, dynamic> data;
+  ExcellUploadSuccess(this.data);
+}

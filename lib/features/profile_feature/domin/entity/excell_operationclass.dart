@@ -10,12 +10,12 @@ class ExcellOperation {
 
 class Operation {
   final String name;
-  final String downloadExcellLink;
+  final String? downloadExcellLink;
   final String note;
 
   Operation({
     required this.name,
-    required this.downloadExcellLink,
+    this.downloadExcellLink,
     required this.note,
   });
 
