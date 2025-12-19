@@ -36,18 +36,34 @@ class BulkService {
 
   Future<List<FileModel>> getFilesNames() async {
     try {
-      // JSON.stringify("GET_TO_DOWN_FILES") in JS = json.encode in Dart
-      // This produces: "GET_TO_DOWN_FILES" (with quotes - important!)
-      final body = json.encode("GET_TO_DOWN_FILES");
-
-      final response = await dio.post(
-        'GetUserToDownFilesList',
+      final token = await _secureStorage.read(key: 'token');
+      if (token == null) {
+        throw Exception('Token not found');
+      }
+      const body = 'GET_TO_DOWN_FILES';
+      final response = await Dio().post(
+        'https://www.sindibad-back.com:84/api/GetUserToDownFilesList',
         data: body,
         options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
           // Send as raw string, prevent Dio from re-encoding
           contentType: 'application/json',
         ),
       );
+      // JSON.stringify("GET_TO_DOWN_FILES") in JS = json.encode in Dart
+      // This produces: "GET_TO_DOWN_FILES" (with quotes - important!)
+
+      // final response = await dio.post(
+      //   'GetUserToDownFilesList',
+      //   data: body,
+      //   options: Options(
+      //     // Send as raw string, prevent Dio from re-encoding
+      //     contentType: 'application/json',
+      //   ),
+      // );
 
       if (response.statusCode == 200) {
         print("DEBUG: Response Type: ${response.data.runtimeType}");
