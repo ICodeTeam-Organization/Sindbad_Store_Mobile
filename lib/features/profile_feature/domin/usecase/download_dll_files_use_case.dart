@@ -21,6 +21,7 @@ class DownloadAllFilesUseCase extends MyUseCase<String, void> {
           String savedDirectory = "";
 
           for (var file in files) {
+            print("DEBUG: Downloading file: ${file.strTField}"); // Add this
             if (file.strTField.isEmpty) continue;
 
             final downloadResult =

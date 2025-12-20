@@ -35,12 +35,31 @@ class BulkService {
     ));
   }
   Future<List<FileModel>> getFilesNames() async {
+    final token = await getToken();
+
     try {
+      final headers = {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      };
+
       final body = json.encode("GET_TO_DOWN_FILES");
 
-      final response = await dio.post(
-        'GetUserToDownFilesList',
+      // DEBUG: Print what we're sending
+      const url = 'https://sindibad-back.com:84/api/GetUserToDownFilesList';
+      print("DEBUG: ========================================");
+      print("DEBUG: URL = $url");
+      print(
+          "DEBUG: Token = ${token?.substring(0, 20)}..."); // Print first 20 chars only
+      print("DEBUG: Body = $body");
+      print("DEBUG: ========================================");
+
+      // Use Dio() directly - matching old working pattern from commit a1b343a
+      // Old URL was: '${baseUrl}api/GetUserToDownFilesList' where baseUrl='https://sindibad-back.com:84/'
+      final response = await Dio().post(
+        url,
         data: body,
+        options: Options(headers: headers),
       );
 
       if (response.statusCode == 200) {
@@ -89,7 +108,7 @@ class BulkService {
 
   /// Download a single file from the server and return raw bytes
   Future<List<int>> downloadFile(String fileName) async {
-    String? token = await getToken();
+    final token = await getToken();
 
     try {
       final headers = {
@@ -99,17 +118,18 @@ class BulkService {
 
       final body = json.encode("GET_TO_DOWN_FILES");
 
+      // Use Dio() directly - matching old working pattern from commit a1b343a
       final response = await Dio().post(
         '${ApiConstants.baseUrlBulk}BulkDownload/$fileName',
         data: body,
         options: Options(
           headers: headers,
-          responseType: ResponseType.bytes, // Important! Get raw bytes
+          responseType: ResponseType.bytes,
         ),
       );
 
       if (response.statusCode == 200) {
-        return (response.data as List<dynamic>).cast<int>(); // raw bytes
+        return (response.data as List<dynamic>).cast<int>();
       } else {
         throw Exception(
           "Request failed | Status Code: ${response.statusCode} | Message: ${response.statusMessage}",
