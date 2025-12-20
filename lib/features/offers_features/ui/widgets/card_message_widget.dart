@@ -18,50 +18,44 @@ class CardMesssageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(30.0),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: AppColors.greyBorder),
-                borderRadius: BorderRadius.circular(25.r),
-                color: Colors.white,
-              ),
-              alignment: Alignment.center,
-              width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    logo,
-                    Text(
-                      title,
-                      style: KTextStyle.textStyle16.copyWith(
-                        color: AppColors.blackDark,
-                      ),
-                    ),
-                    Text(
-                      subTitle,
-                      textAlign: TextAlign.center,
-                      style: KTextStyle.textStyle12.copyWith(
-                        color: AppColors.greyLight,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 15.h),
-                      child: extra ?? SizedBox.shrink(),
-                    )
-                  ],
+    return Padding(
+      padding: const EdgeInsets.all(30.0),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: AppColors.greyBorder),
+          borderRadius: BorderRadius.circular(25.r),
+          color: Colors.white,
+        ),
+        alignment: Alignment.center,
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              logo,
+              Text(
+                title,
+                style: KTextStyle.textStyle16.copyWith(
+                  color: AppColors.blackDark,
                 ),
               ),
-            ),
+              Text(
+                subTitle,
+                textAlign: TextAlign.center,
+                style: KTextStyle.textStyle12.copyWith(
+                  color: AppColors.greyLight,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 15.h),
+                child: extra ?? SizedBox.shrink(),
+              )
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
