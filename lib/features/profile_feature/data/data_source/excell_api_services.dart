@@ -41,8 +41,8 @@ class BulkService {
         throw Exception('Token not found');
       }
       const body = 'GET_TO_DOWN_FILES';
-      final response = await Dio().post(
-        'https://www.sindibad-back.com:84/api/GetUserToDownFilesList',
+      final response = await dio.post(
+        '${ApiConstants.baseUrlBulk}GetUserToDownFilesList',
         data: body,
         options: Options(
           headers: {
