@@ -14,14 +14,26 @@ class ExcellRepositoryImpl extends ExcellRepository {
     this._excellServices,
   );
 
-  Future<List<FileModel>> getFilesNames() async {
-    final result = await _excellServices.getFilesNames();
-    return result;
+  @override
+  Future<Either<DataFailed, DataSuccess<List<FileModel>>>>
+      getFilesNames() async {
+    try {
+      final result = await _excellServices.getFilesNames();
+      return Right(DataSuccess(result));
+    } catch (e) {
+      return Left(DataFailed("Failed to get files: $e"));
+    }
   }
 
-  Future<List<int>> downloadFile(String fileName) async {
-    final result = await _excellServices.downloadFile(fileName);
-    return result;
+  @override
+  Future<Either<DataFailed, DataSuccess<List<int>>>> downloadFile(
+      String fileName) async {
+    try {
+      final result = await _excellServices.downloadFile(fileName);
+      return Right(DataSuccess(result));
+    } catch (e) {
+      return Left(DataFailed("Failed to get files: $e"));
+    }
   }
 
   Future<List<int>> downloadSpecificFile(String fileName) async {

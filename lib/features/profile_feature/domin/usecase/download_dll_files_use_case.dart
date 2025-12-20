@@ -12,20 +12,43 @@ class DownloadAllFilesUseCase extends MyUseCase<String, void> {
   @override
   Future<Either<DataFailed, DataSuccess<String>>> call({void params}) async {
     try {
-      final List<FileModel> files = await excellRepositoryImpl.getFilesNames();
-      String savedDirectory = "";
+      final filesResult = await excellRepositoryImpl.getFilesNames();
 
-      for (var file in files) {
-        if (file.strTField.isEmpty) continue;
+      return filesResult.fold(
+        (failure) => Left(failure),
+        (success) async {
+          final List<FileModel> files = success.data ?? [];
+          String savedDirectory = "";
 
-        final bytes = await excellRepositoryImpl.downloadFile(file.strTField);
-        savedDirectory = await excellRepositoryImpl.saveFileLocally(
-          bytes,
-          file.strTField.split('/').last,
-        );
-      }
+          for (var file in files) {
+            if (file.strTField.isEmpty) continue;
 
-      return Right(DataSuccess(savedDirectory));
+            final downloadResult =
+                await excellRepositoryImpl.downloadFile(file.strTField);
+
+            // Handle download failure
+            if (downloadResult.isLeft()) {
+              return downloadResult.fold(
+                (failure) => Left(failure),
+                (_) => Left(DataFailed("Unexpected error")),
+              );
+            }
+
+            // Extract bytes from success
+            final bytes = downloadResult.fold(
+              (_) => <int>[],
+              (success) => success.data ?? <int>[],
+            );
+
+            savedDirectory = await excellRepositoryImpl.saveFileLocally(
+              bytes,
+              file.strTField.split('/').last,
+            );
+          }
+
+          return Right(DataSuccess(savedDirectory));
+        },
+      );
     } catch (e) {
       return Left(DataFailed("Failed: $e"));
     }

@@ -51,18 +51,33 @@ Future<void> runIntegrationTest({required String token}) async {
   // B. Execute
   try {
     print("Sending Request...");
-    final files = await repository.getFilesNames();
+    final result = await repository.getFilesNames();
 
     // C. Verify
-    print("----------------------------------------------------------------");
-    print("SUCCESS! Received ${files.length} files:");
-    for (var file in files) {
-      print("- ${file.strField} (ID: ${file.intField})");
-    }
-    print("----------------------------------------------------------------");
+    result.fold(
+      (failure) {
+        print(
+            "----------------------------------------------------------------");
+        print("FAILURE! Error occurred:");
+        print(failure.message);
+        print(
+            "----------------------------------------------------------------");
+      },
+      (success) {
+        final files = success.data ?? [];
+        print(
+            "----------------------------------------------------------------");
+        print("SUCCESS! Received ${files.length} files:");
+        for (var file in files) {
+          print("- ${file.strField} (ID: ${file.intField})");
+        }
+        print(
+            "----------------------------------------------------------------");
+      },
+    );
   } catch (e) {
     print("----------------------------------------------------------------");
-    print("FAILURE! Error occurred:");
+    print("FAILURE! Unexpected error:");
     print(e);
     print("----------------------------------------------------------------");
   }

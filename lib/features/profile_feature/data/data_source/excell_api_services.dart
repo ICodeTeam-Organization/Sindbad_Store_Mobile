@@ -85,96 +85,15 @@ class BulkService {
       throw Exception("Unexpected error: $e");
     }
   }
-  // Future<List<FileModel>> getFilesNames() async {
-  //   try {
-  //     final token = await _secureStorage.read(key: 'token');
-  //     if (token == null) {
-  //       throw Exception('Token not found');
-  //     }
-  //     const body = 'GET_TO_DOWN_FILES';
-  //     final response = await dio.post(
-  //       '${ApiConstants.baseUrlBulk}GetUserToDownFilesList',
-  //       data: body,
-  //       options: Options(
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           'Authorization': 'Bearer $token',
-  //         },
-  //         // Send as raw string, prevent Dio from re-encoding
-  //         contentType: 'application/json',
-  //       ),
-  //     );
-  //     // JSON.stringify("GET_TO_DOWN_FILES") in JS = json.encode in Dart
-  //     // This produces: "GET_TO_DOWN_FILES" (with quotes - important!)
-
-  //     // final response = await dio.post(
-  //     //   'GetUserToDownFilesList',
-  //     //   data: body,
-  //     //   options: Options(
-  //     //     // Send as raw string, prevent Dio from re-encoding
-  //     //     contentType: 'application/json',
-  //     //   ),
-  //     // );
-
-  //     if (response.statusCode == 200) {
-  //       print("DEBUG: Response Type: ${response.data.runtimeType}");
-  //       print("DEBUG: Response Data: ${response.data}");
-
-  //       List<dynamic> listData;
-  //       if (response.data is List) {
-  //         listData = response.data;
-  //       } else if (response.data is Map<String, dynamic>) {
-  //         final mapData = response.data as Map<String, dynamic>;
-  //         if (mapData.containsKey('data') && mapData['data'] is List) {
-  //           listData = mapData['data'];
-  //         } else if (mapData.containsKey('result') &&
-  //             mapData['result'] is List) {
-  //           listData = mapData['result'];
-  //         } else if (mapData.containsKey('value') && mapData['value'] is List) {
-  //           listData = mapData['value'];
-  //         } else {
-  //           throw Exception(
-  //               "Response is a Map but couldn't find a List inside. Keys: ${mapData.keys}");
-  //         }
-  //       } else {
-  //         throw Exception(
-  //             "Unexpected response type: ${response.data.runtimeType}");
-  //       }
-
-  //       final List<FileModel> files =
-  //           listData.map((json) => FileModel.fromJson(json)).toList();
-  //       return files;
-  //     } else {
-  //       throw Exception(
-  //         "Request failed | Status Code: ${response.statusCode} | Message: ${response.statusMessage}",
-  //       );
-  //     }
-  //   } on DioException catch (e) {
-  //     if (e.type == DioExceptionType.connectionTimeout) {
-  //       throw Exception(
-  //           "Connection timeout - server unreachable at ${ApiConstants.baseUrlBulk}");
-  //     } else if (e.type == DioExceptionType.receiveTimeout) {
-  //       throw Exception("Receive timeout - server took too long to respond");
-  //     } else if (e.type == DioExceptionType.sendTimeout) {
-  //       throw Exception("Send timeout - request took too long to send");
-  //     }
-  //     throw Exception("Dio error: ${e.message}");
-  //   } catch (e) {
-  //     throw Exception("Unexpected error: $e");
-  //   }
-  // }
 
   /// Download a single file from the server and return raw bytes
   Future<List<int>> downloadFile(String fileName) async {
     try {
       final body = json.encode("GET_TO_DOWN_FILES");
 
-      final response = await Dio().post(
+      final response = await dio.post(
         'BulkDownload/$fileName',
         data: body,
-        options: Options(
-          responseType: ResponseType.bytes,
-        ),
       );
 
       if (response.statusCode == 200) {
@@ -195,7 +114,7 @@ class BulkService {
     try {
       final body = json.encode("GET_TO_DOWN_FILES");
 
-      final response = await Dio().post(
+      final response = await dio.post(
         'BulkDownload/$fileName',
         data: body,
         options: Options(
