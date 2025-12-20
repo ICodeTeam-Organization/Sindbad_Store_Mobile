@@ -3,10 +3,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 class LocalesConfig {
   static const List<Locale> supportedLocales = [
-    Locale('ar', 'AR'), // Arabic, no country code
-    // Add more locales here as needed
-    // Locale('en', 'US'),
-    // Locale('fr', 'FR'),
+    Locale('ar', 'AR'), // Arabic
+    Locale('en', 'US'), // English
   ];
 
   static const Locale defaultLocale = Locale('ar', 'AR');

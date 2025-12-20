@@ -35,6 +35,7 @@ import 'injection_container.dart';
 import 'core/services/simple_bloc_observer.dart';
 import 'features/orders_feature/ui/manager/all_order/all_order_cubit.dart';
 import 'features/orders_feature/ui/manager/button_disable/button_disable_cubit.dart';
+import 'package:sindbad_management_app/core/cubit/app_settings_cubit.dart';
 
 void main() async {
   // HttpOverrides.global = MyhttpsOverride();
@@ -75,7 +76,8 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
   @override
   void initState() {
     super.initState();
-    // initialization();
+    // Load saved app settings (theme, locale)
+    getit<AppSettingsCubit>().loadSettings();
   }
 
   @override
@@ -150,19 +152,23 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
         designSize: const Size(428, 1000),
         minTextAdapt: true,
         splitScreenMode: true,
-        builder: (context, child) => MaterialApp.router(
-          // for using with the device preview //
-          // locale: DevicePreview.locale(context),
-          builder: DevicePreview.appBuilder,
-          ///////////////////////////////////////
-          routerConfig: AppRouter.router,
-          theme: LightTheme.theme,
-          darkTheme: DarkTheme.theme,
-          themeMode: ThemeMode.light, // Auto switch based on system
-          localizationsDelegates: LocalesConfig.localizationsDelegates,
-          supportedLocales: LocalesConfig.supportedLocales,
-          locale: LocalesConfig.defaultLocale,
-          debugShowCheckedModeBanner: false,
+        builder: (context, child) =>
+            BlocBuilder<AppSettingsCubit, AppSettingsState>(
+          bloc: getit<AppSettingsCubit>(),
+          builder: (context, settings) => MaterialApp.router(
+            // for using with the device preview //
+            // locale: DevicePreview.locale(context),
+            builder: DevicePreview.appBuilder,
+            ///////////////////////////////////////
+            routerConfig: AppRouter.router,
+            theme: LightTheme.theme,
+            darkTheme: DarkTheme.theme,
+            themeMode: settings.themeMode,
+            localizationsDelegates: LocalesConfig.localizationsDelegates,
+            supportedLocales: LocalesConfig.supportedLocales,
+            locale: settings.locale,
+            debugShowCheckedModeBanner: false,
+          ),
         ),
       ),
     );

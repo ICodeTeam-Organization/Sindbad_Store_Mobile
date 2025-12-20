@@ -14,6 +14,8 @@ import 'package:sindbad_management_app/core/swidgets/new_widgets/custom_app_bar.
 import 'package:sindbad_management_app/features/profile_feature/domin/entity/get_profile_data_entity.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/get_profile_cubit/get_profile_cubit.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/widget/info_row_widget.dart';
+import 'package:sindbad_management_app/core/cubit/app_settings_cubit.dart';
+import 'package:sindbad_management_app/injection_container.dart';
 
 class ProfileBody extends StatefulWidget {
   const ProfileBody({super.key});
@@ -200,6 +202,52 @@ class _ProfileBodyState extends State<ProfileBody> {
                                 key: 'pay',
                                 value: value ? '1' : '2',
                               );
+                            },
+                          ),
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        // Dark Mode Switch
+                        _buildActionButton(
+                          'الوضع الليلي',
+                          null,
+                          switchWidget: Switch.adaptive(
+                            activeColor: AppColors.primary,
+                            value: getit<AppSettingsCubit>().isDarkMode,
+                            onChanged: (value) {
+                              getit<AppSettingsCubit>().toggleTheme();
+                              setState(() {});
+                            },
+                          ),
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        // Language Dropdown
+                        _buildActionButton(
+                          'اللغة',
+                          null,
+                          switchWidget: DropdownButton<String>(
+                            value: getit<AppSettingsCubit>().localeCode,
+                            underline: const SizedBox(),
+                            icon: const Icon(Icons.arrow_drop_down),
+                            items: const [
+                              DropdownMenuItem(
+                                value: 'ar',
+                                child: Text('العربية'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'en',
+                                child: Text('English'),
+                              ),
+                            ],
+                            onChanged: (value) {
+                              if (value != null) {
+                                getit<AppSettingsCubit>()
+                                    .setLocale(Locale(value));
+                                setState(() {});
+                              }
                             },
                           ),
                         ),

@@ -75,6 +75,8 @@ import 'package:sindbad_management_app/features/orders_feature/ui/manager/compan
 import 'package:sindbad_management_app/features/notifiction_featurs/domin/use_case/get_unread_notiftion.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/ui/cubit/notifiction_cubit/unread_notifiction_cubit.dart';
 import 'core/services/api_service.dart';
+import 'core/services/app_settings_service.dart';
+import 'core/cubit/app_settings_cubit.dart';
 
 final getit = GetIt.instance;
 
@@ -87,6 +89,8 @@ void initializationContainer() {
   getit.registerSingleton<NewApiService>(NewApiService(getit()));
   getit.registerSingleton<Dio>(Dio());
   getit.registerSingleton<BulkService>(BulkService(getit()));
+  getit.registerSingleton<AppSettingsService>(AppSettingsService());
+  getit.registerSingleton<AppSettingsCubit>(AppSettingsCubit(getit()));
 
   // ----------------
   //  Data Sources"To
