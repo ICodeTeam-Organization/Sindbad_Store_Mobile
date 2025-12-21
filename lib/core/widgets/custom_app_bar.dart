@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
 import 'package:sindbad_management_app/config/styles/text_style.dart';
+import 'package:sindbad_management_app/core/widgets/icon_button.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/ui/cubit/notifiction_cubit/unread_notifiction_cubit.dart';
+import 'package:sindbad_management_app/features/root.dart';
 
 import '../../config/styles/Colors.dart';
 
@@ -71,30 +74,30 @@ class _CustomAppBarState extends State<CustomAppBar> {
               ),
             ),
             widget.isSearch == true
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Padding(
-                            padding: const EdgeInsets.only(right: 15),
-                            child: InkWell(
-                              onTap: widget.onSearchPressed ??
-                                  () => GoRouter.of(context)
-                                      .push(AppRoutes.profile),
-                              child: Icon(Icons.person_outline,
-                                  size: 30.w, color: AppColors.blackDark),
-                            )),
-                      ),
-                      SizedBox(width: 10),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                            padding: const EdgeInsets.only(left: 15),
-                            child: InkWell(
-                              onTap: widget.onSearchPressed ??
-                                  () => GoRouter.of(context)
-                                      .push(AppRoutes.notification),
+                ? Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        // Notification icon - opens notification page
+                        // Person icon - opens drawer
+                        IconWidget(
+                          onPressed: () =>
+                              rootScaffoldKey.currentState?.openDrawer(),
+                          icon: Icons.person_outline_rounded,
+                        ),
+                        SizedBox(width: 5.w),
+                        Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () => GoRouter.of(context)
+                                .push(AppRoutes.notification),
+                            borderRadius: BorderRadius.circular(12.r),
+                            child: Container(
+                              padding: EdgeInsets.all(8.w),
+                              decoration: BoxDecoration(
+                                color: AppColors.grey.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(12.r),
+                              ),
                               child: BlocConsumer<UnreadNotifictionCubit,
                                   UnreadNotifictionState>(
                                 listener: (context, state) {
@@ -107,21 +110,20 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                   }
                                 },
                                 builder: (context, state) {
-                                  if (state is UnreadNotifictionSuccess) {
-                                    return count > 0
-                                        ? Badge(
-                                            label: count > 99
-                                                ? Text('99+')
-                                                : Text(count.toString()),
-                                            backgroundColor: Colors.red,
-                                            child: Icon(
-                                                Icons.notifications_none,
-                                                size: 30.w,
-                                                color: AppColors.blackDark),
-                                          )
-                                        : Icon(Icons.notifications_none,
-                                            size: 30.w,
-                                            color: AppColors.blackDark);
+                                  final icon = Icon(
+                                    Icons.notifications_none_rounded,
+                                    size: 26.w,
+                                    color: AppColors.blackDark,
+                                  );
+                                  if (state is UnreadNotifictionSuccess &&
+                                      count > 0) {
+                                    return Badge(
+                                      label: count > 99
+                                          ? Text('99+')
+                                          : Text(count.toString()),
+                                      backgroundColor: Colors.red,
+                                      child: icon,
+                                    );
                                   }
                                   return count > 0
                                       ? Badge(
@@ -129,18 +131,16 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                               ? Text('99+')
                                               : Text(count.toString()),
                                           backgroundColor: Colors.red,
-                                          child: Icon(Icons.notifications_none,
-                                              size: 30.w,
-                                              color: AppColors.blackDark),
+                                          child: icon,
                                         )
-                                      : Icon(Icons.notifications_none,
-                                          size: 30.w,
-                                          color: AppColors.blackDark);
+                                      : icon;
                                 },
                               ),
-                            )),
-                      ),
-                    ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   )
                 : SizedBox(),
           ],

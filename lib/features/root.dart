@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sindbad_management_app/config/l10n/app_localizations.dart';
+import 'package:sindbad_management_app/core/widgets/profile_drawer.dart';
 import 'package:sindbad_management_app/features/custom_bottom_navigation_bar.dart';
 import 'package:sindbad_management_app/features/offers_features/ui/screens/view_offer_screen.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/widget/orders_tabbar_widget.dart';
@@ -8,6 +9,9 @@ import 'package:sindbad_management_app/features/products_feature/add_and_edit_pr
 import 'package:sindbad_management_app/features/reports_offer_index.dart';
 
 import 'products_feature/view_product_features/ui/widgets/products_tabbat_widget.dart';
+
+/// Global key for the root scaffold - allows opening drawer from nested widgets
+final GlobalKey<ScaffoldState> rootScaffoldKey = GlobalKey<ScaffoldState>();
 
 class Root extends StatefulWidget {
   const Root({super.key});
@@ -43,57 +47,9 @@ class _RootState extends State<Root> {
 
     return SafeArea(
       child: Scaffold(
+        key: rootScaffoldKey,
         // Enable swipe from left to right to open drawer
-        drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                ),
-                child: Text(
-                  'القائمة',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                  ),
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.home),
-                title: Text('الرئيسية'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.person),
-                title: Text('الملف الشخصي'),
-                onTap: () {
-                  Navigator.pop(context);
-                  // Navigate to profile
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.settings),
-                title: Text('الإعدادات'),
-                onTap: () {
-                  Navigator.pop(context);
-                  // Navigate to settings
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.logout),
-                title: Text('تسجيل الخروج'),
-                onTap: () {
-                  Navigator.pop(context);
-                  // Handle logout
-                },
-              ),
-            ],
-          ),
-        ),
+        drawer: const ProfileDrawer(),
         body: Stack(
           children: [
             // Main content (IndexedStack)
