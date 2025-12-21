@@ -61,27 +61,27 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
           child: Column(
             children: [
               // Header with close button
-              Container(
-                padding: const EdgeInsets.all(16),
-                color: Theme.of(context).primaryColor,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'الملف الشخصي',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.close, color: Colors.white),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ],
-                ),
-              ),
+              // Container(
+              //   padding: const EdgeInsets.all(16),
+              //   color: Theme.of(context).primaryColor,
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       Text(
+              //         'الملف الشخصي',
+              //         style: TextStyle(
+              //           color: Colors.white,
+              //           fontSize: 20,
+              //           fontWeight: FontWeight.bold,
+              //         ),
+              //       ),
+              //       IconButton(
+              //         icon: Icon(Icons.close, color: Colors.white),
+              //         onPressed: () => Navigator.pop(context),
+              //       ),
+              //     ],
+              //   ),
+              // ),
 
               const SizedBox(height: 20),
 
