@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
 
-import '../../../config/styles/text_style.dart';
+import '../../config/styles/text_style.dart';
 
 TabController? tabController;
 

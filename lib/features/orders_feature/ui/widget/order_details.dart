@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../injection_container.dart';
-import '../../../../../core/swidgets/new_widgets/custom_app_bar.dart';
-import '../../../data/repos_impl/all_order_repo_impl.dart';
-import '../../../domain/usecases/order_details_usecase.dart';
-import '../../manager/order_details/order_details_cubit.dart';
-import '../../widget/order_body.dart';
-import '../../widget/order_body_details.dart';
-import '../../widget/order_details_widget/order_details_body.dart';
-import '../../widget/order_details_widget/show_create_bill_and_cancel_order.dart';
-import '../../widget/order_details_widget/show_print_and_shipping_order.dart';
+import '../../../../injection_container.dart';
+import '../../../../core/widgets/custom_app_bar.dart';
+import '../../data/repos_impl/all_order_repo_impl.dart';
+import '../../domain/usecases/order_details_usecase.dart';
+import '../manager/order_details/order_details_cubit.dart';
+import 'order_body.dart';
+import 'order_body_details.dart';
+import 'order_details_widget/order_details_body.dart';
+import 'order_details_widget/show_create_bill_and_cancel_order.dart';
+import 'order_details_widget/show_print_and_shipping_order.dart';
 
 class OrderDetails extends StatelessWidget {
   const OrderDetails({

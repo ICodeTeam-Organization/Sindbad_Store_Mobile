@@ -6,9 +6,17 @@ class OrdersInitial extends OrdersState {}
 
 class OrdersLoadInProgress extends OrdersState {}
 
+class OrdersLoadMoreInProgress extends OrdersState {
+  final List<AllOrderEntity> orders;
+  final int currentPage;
+  OrdersLoadMoreInProgress(this.orders, this.currentPage);
+}
+
 class OrdersLoadSuccess extends OrdersState {
   final List<AllOrderEntity> orders;
-  OrdersLoadSuccess(this.orders);
+  final int currentPage;
+  final bool hasMore;
+  OrdersLoadSuccess(this.orders, {this.currentPage = 1, this.hasMore = true});
 }
 
 class OrdersLoadFailure extends OrdersState {

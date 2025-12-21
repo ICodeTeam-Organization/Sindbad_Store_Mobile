@@ -8,6 +8,14 @@ class NoDataWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get current locale to determine which image to show
+    final locale = Localizations.localeOf(context);
+    final isEnglish = locale.languageCode == 'en';
+
+    final imagePath = isEnglish
+        ? 'assets/images/no_data_image_en.png'
+        : 'assets/images/no_data_image.png';
+
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -15,7 +23,7 @@ class NoDataWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.asset(
-            'assets/images/no_data_image.png',
+            imagePath,
             height: 135.h,
             width: 135.w,
           ),

@@ -1,3 +1,5 @@
+import 'package:sindbad_management_app/config/l10n/app_localizations.dart';
+
 enum PackageStatus {
   notApprovedYet,
   packageConfirmedByYemeniAccountant,
@@ -11,6 +13,33 @@ enum PackageStatus {
 }
 
 extension PackageStatusExtension on PackageStatus {
+  /// Returns the translated display name using AppLocalizations.
+  /// Use this method when you have access to context.
+  String getDisplayName(AppLocalizations l10n) {
+    switch (this) {
+      case PackageStatus.notApprovedYet:
+        return l10n.packageStatusNotApproved;
+      case PackageStatus.packageConfirmedByYemeniAccountant:
+        return l10n.packageStatusConfirmed;
+      case PackageStatus.packageInvoiceCreated:
+        return l10n.packageStatusInvoiceCreated;
+      case PackageStatus.packageInvoicePaidByTheSaudiAccountant:
+        return l10n.packageStatusInvoicePaid;
+      case PackageStatus.packageShippedFromStore:
+        return l10n.packageStatusShipped;
+      case PackageStatus.packageReceivedToDeliveryMan:
+        return l10n.packageStatusReceived;
+      case PackageStatus.packageDeliveredToCustomer:
+        return l10n.packageStatusDelivered;
+      case PackageStatus.canceled:
+        return l10n.packageStatusCanceled;
+      case PackageStatus.all:
+        return l10n.packageStatusAll;
+    }
+  }
+
+  /// @deprecated Use getDisplayName(l10n) instead for translations.
+  /// Kept for backward compatibility.
   String get displayName {
     switch (this) {
       case PackageStatus.notApprovedYet:

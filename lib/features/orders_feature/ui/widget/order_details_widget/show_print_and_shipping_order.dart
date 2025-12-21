@@ -3,16 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:sindbad_management_app/core/swidgets/new_widgets/custom_tab_bar_widget.dart';
+import 'package:sindbad_management_app/core/widgets/custom_tab_bar_widget.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/function/image_picker_function.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/shipping/shipping_cubit.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/widget/order_body.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/widget/order_shipping_widgets/build_info_row_add.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/widget/order_shipping_widgets/drop_down_widget.dart';
-import '../../../../../core/swidgets/new_widgets/store_primary_button.dart';
-import '../../../../../core/swidgets/new_widgets/sub_custom_tab_bar.dart';
+import '../../../../../core/widgets/store_primary_button.dart';
+import '../../../../../core/widgets/sub_custom_tab_bar.dart';
 import '../../function/pdf.dart';
-import '../../manager/all_order/all_order_cubit.dart';
 import '../../manager/button_disable/button_disable_cubit.dart';
 import '../order_shipping_widgets/custom_order_print_dialog.dart';
 import '../order_shipping_widgets/custom_order_shipping_dialog.dart';
@@ -75,7 +74,7 @@ class _ShowPrintAndShippingOrderState extends State<ShowPrintAndShippingOrder> {
                             context
                                 .read<ButtonDisableCubit>()
                                 .enableButtonForOrder(idOrders!.toString());
-                            refreshAfterShippingInvoice(context);
+                            //  refreshAfterShippingInvoice(context);
                             Navigator.pop(context);
                             Navigator.pop(context);
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -270,27 +269,27 @@ class _ShowPrintAndShippingOrderState extends State<ShowPrintAndShippingOrder> {
     }
   }
 
-  void refreshAfterShippingInvoice(BuildContext context) {
-    int subTab = subTabController!.index;
-    int tab = tabController!.index;
-    if (subTab == 0) {
-      context.read<AllOrderCubit>().fetchAllOrder(
-        statuses: [2, 3, 4],
-        isUrgent: tab == 1,
-        pageNumber: 1,
-        pageSize: 10,
-        // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
-        // srearchKeyword: ''
-      );
-    } else if (subTab == 3) {
-      context.read<AllOrderCubit>().fetchAllOrder(
-        statuses: [4],
-        isUrgent: tab == 1,
-        pageNumber: 1,
-        pageSize: 10,
-        // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
-        // srearchKeyword: ''
-      );
-    }
-  }
+  // void refreshAfterShippingInvoice(BuildContext context) {
+  //   int subTab = subTabController!.index;
+  //   int tab = tabController!.index;
+  //   if (subTab == 0) {
+  //     context.read<AllOrderCubit>().fetchAllOrder(
+  //       statuses: [2, 3, 4],
+  //       isUrgent: tab == 1,
+  //       pageNumber: 1,
+  //       pageSize: 10,
+  //       // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
+  //       // srearchKeyword: ''
+  //     );
+  //   } else if (subTab == 3) {
+  //     context.read<AllOrderCubit>().fetchAllOrder(
+  //       statuses: [4],
+  //       isUrgent: tab == 1,
+  //       pageNumber: 1,
+  //       pageSize: 10,
+  //       // storeId: '85dda4e8-4685-4ae3-b1bb-ea78569fb966'
+  //       // srearchKeyword: ''
+  //     );
+  //   }
+  // }
 }

@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sindbad_management_app/features/orders_feature/ui/screen/temp_widget/orders_list_view_shared.dart';
-import '../../../../../core/swidgets/new_widgets/custom_app_bar.dart';
-import '../../../../../core/swidgets/new_widgets/custom_tab_bar_widget.dart';
-import '../new_orders_tap.dart';
-import '../urgent_orders_tab.dart';
+import 'package:sindbad_management_app/features/orders_feature/ui/widget/orders_list_view_shared.dart';
+import 'package:sindbad_management_app/config/l10n/app_localizations.dart';
+import '../../../../core/widgets/custom_app_bar.dart';
+import '../../../../core/widgets/custom_tab_bar_widget.dart';
+import '../screen/new_orders_tap.dart';
+import '../screen/urgent_orders_tab.dart';
 
 class OrderManagementWidget extends StatelessWidget {
   const OrderManagementWidget({super.key});
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w),
         child: Column(
           children: [
             CustomAppBar(
-              tital: 'الطلبات',
+              tital: l10n.orders,
               isBack: false,
             ),
             SizedBox(height: 10.h),
@@ -25,20 +28,20 @@ class OrderManagementWidget extends StatelessWidget {
                 length: 4,
                 tabs: [
                   Tab(
-                    child: Text('الجديدة',
+                    child: Text(l10n.newOrders,
                         textAlign: TextAlign.center,
                         style: TextTheme.of(context).titleMedium),
                   ),
                   Tab(
-                    child: Text('المستعجلة',
+                    child: Text(l10n.urgentOrders,
                         style: TextTheme.of(context).titleMedium),
                   ),
                   Tab(
-                    child: Text('السابقة',
+                    child: Text(l10n.previousOrders,
                         style: TextTheme.of(context).titleMedium),
                   ),
                   Tab(
-                    child: Text('الملغية',
+                    child: Text(l10n.canceledOrders,
                         style: TextTheme.of(context).titleMedium),
                   ),
                 ],

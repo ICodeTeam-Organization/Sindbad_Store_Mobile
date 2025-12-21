@@ -36,7 +36,7 @@ import 'package:sindbad_management_app/features/auth_feature/ui/manger/confirm_p
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/forget_password_cubit.dart/forget_password_cubit.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit.dart';
 import 'package:sindbad_management_app/features/orders_feature/data/data_sources/all_order_remot_data_source_imp.dart';
-import 'package:sindbad_management_app/features/orders_feature/ui/manager/all_order/order%20cubit/orders_cubit.dart';
+import 'package:sindbad_management_app/features/orders_feature/ui/manager/order%20cubit/orders_cubit.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/data_source/store_data_source_impl.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/repo/exell_repository.dart';
 import 'package:sindbad_management_app/features/profile_feature/domin/usecase/download_dll_files_use_case.dart';
@@ -48,7 +48,6 @@ import 'package:sindbad_management_app/features/profile_feature/ui/cubit/reset_p
 import 'package:sindbad_management_app/features/notifiction_featurs/data/remote_data/notifiction_remote_data_source.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/data/repo/notifiction_repo_impl.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/usecases/all_order_usecase.dart';
-import 'package:sindbad_management_app/features/orders_feature/ui/manager/all_order/all_order_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/data/repos/add_and_edit_product_store_repo_impl.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/data/data_source/product_remote_data_source_impl.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/get_products_usecase.dart';
@@ -172,7 +171,6 @@ void initializationContainer() {
       .registerFactory<ExcelCubit>(() => ExcelCubit(getit(), getit(), getit()));
   getit.registerFactory<OrdersCubit>(() => OrdersCubit(getit()));
   getit.registerFactory<GetProfileCubit>(() => GetProfileCubit(getit()));
-  getit.registerFactory<AllOrderCubit>(() => AllOrderCubit(getit()));
   getit.registerFactory<ProductsCubit>(() =>
       ProductsCubit(getit(), getit(), getit(), getit(), getit(), getit()));
   getit.registerFactory<ResetPasswordCubit>(() => ResetPasswordCubit(getit()));

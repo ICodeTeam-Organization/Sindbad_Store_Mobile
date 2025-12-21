@@ -7,7 +7,7 @@ import 'package:sindbad_management_app/config/routers/routers_names.dart';
 import 'package:sindbad_management_app/config/styles/text_style.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/ui/cubit/notifiction_cubit/unread_notifiction_cubit.dart';
 
-import '../../../config/styles/Colors.dart';
+import '../../config/styles/Colors.dart';
 
 class CustomAppBar extends StatefulWidget {
   final String tital;

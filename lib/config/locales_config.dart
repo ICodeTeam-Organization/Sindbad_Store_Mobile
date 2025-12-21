@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:sindbad_management_app/config/l10n/app_localizations.dart';
 
 class LocalesConfig {
   static const List<Locale> supportedLocales = [
@@ -9,11 +9,11 @@ class LocalesConfig {
 
   static const Locale defaultLocale = Locale('ar', 'AR');
 
-  static final List<LocalizationsDelegate<dynamic>> localizationsDelegates = [
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    // Add your app-specific delegates here if needed
-    // AppLocalizations.delegate,
-  ];
+  /// Use AppLocalizations.localizationsDelegates which includes:
+  /// - AppLocalizations.delegate
+  /// - GlobalMaterialLocalizations.delegate
+  /// - GlobalCupertinoLocalizations.delegate
+  /// - GlobalWidgetsLocalizations.delegate
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      AppLocalizations.localizationsDelegates;
 }

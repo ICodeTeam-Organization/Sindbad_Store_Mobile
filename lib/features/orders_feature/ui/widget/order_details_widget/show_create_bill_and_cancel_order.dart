@@ -3,14 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:sindbad_management_app/core/swidgets/new_widgets/custom_tab_bar_widget.dart';
-import 'package:sindbad_management_app/core/swidgets/new_widgets/sub_custom_tab_bar.dart';
+import 'package:sindbad_management_app/core/widgets/custom_tab_bar_widget.dart';
+import 'package:sindbad_management_app/core/widgets/sub_custom_tab_bar.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/widget/order_body.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/widget/order_details_widget/radio_widget.dart';
-import '../../../../../core/swidgets/new_widgets/store_primary_button.dart';
+import '../../../../../core/widgets/store_primary_button.dart';
 import '../../../../../config/styles/Colors.dart';
 import '../../function/image_picker_function.dart';
-import '../../manager/all_order/all_order_cubit.dart';
 import '../../manager/cancel/cancel_cubit.dart';
 import '../../manager/invoice/order_invoice_cubit.dart';
 import 'custom_create_bill_dialog.dart';
@@ -86,7 +85,7 @@ class _ShowCreateBillAndCancelOrderState
                     listener: (context, state) {
                       if (state is OrderInvoiceSuccess) {
                         //!تحديث الصفحة بعد انشاء الفاتورة
-                        refreshAfterCreateInvoice(context);
+                        //    refreshAfterCreateInvoice(context);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(state.serverMessage.serverMessage),
@@ -269,23 +268,23 @@ class _ShowCreateBillAndCancelOrderState
     );
   }
 
-  void refreshAfterCreateInvoice(BuildContext context) {
-    int subTab = subTabController!.index;
-    int tab = tabController!.index;
-    if (subTab == 0) {
-      context.read<AllOrderCubit>().fetchAllOrder(
-        statuses: [2, 3, 4],
-        isUrgent: tab == 1,
-        pageNumber: 1,
-        pageSize: 10,
-      );
-    } else if (subTab == 1) {
-      context.read<AllOrderCubit>().fetchAllOrder(
-        statuses: [2],
-        isUrgent: tab == 1,
-        pageNumber: 1,
-        pageSize: 10,
-      );
-    }
-  }
+  // void refreshAfterCreateInvoice(BuildContext context) {
+  //   int subTab = subTabController!.index;
+  //   int tab = tabController!.index;
+  //   if (subTab == 0) {
+  //     context.read<AllOrderCubit>().fetchAllOrder(
+  //       statuses: [2, 3, 4],
+  //       isUrgent: tab == 1,
+  //       pageNumber: 1,
+  //       pageSize: 10,
+  //     );
+  //   } else if (subTab == 1) {
+  //     context.read<AllOrderCubit>().fetchAllOrder(
+  //       statuses: [2],
+  //       isUrgent: tab == 1,
+  //       pageNumber: 1,
+  //       pageSize: 10,
+  //     );
+  //   }
+  // }
 }

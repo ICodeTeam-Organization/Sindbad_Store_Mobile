@@ -10,7 +10,7 @@ import 'package:sindbad_management_app/core/dialogs/okey_dialog.dart';
 import 'package:sindbad_management_app/core/dialogs/release_dialog_info.dart';
 import 'package:sindbad_management_app/core/resources/release.dart';
 import 'package:sindbad_management_app/core/services/githubApiservices.dart';
-import 'package:sindbad_management_app/core/swidgets/new_widgets/custom_app_bar.dart';
+import 'package:sindbad_management_app/core/widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/features/profile_feature/domin/entity/get_profile_data_entity.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/get_profile_cubit/get_profile_cubit.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/widget/info_row_widget.dart';
@@ -209,17 +209,22 @@ class _ProfileBodyState extends State<ProfileBody> {
                         const SizedBox(height: 10),
 
                         // Dark Mode Switch
-                        _buildActionButton(
-                          'الوضع الليلي',
-                          null,
-                          switchWidget: Switch.adaptive(
-                            activeColor: AppColors.primary,
-                            value: getit<AppSettingsCubit>().isDarkMode,
-                            onChanged: (value) {
-                              getit<AppSettingsCubit>().toggleTheme();
-                              setState(() {});
-                            },
-                          ),
+                        BlocBuilder<AppSettingsCubit, AppSettingsState>(
+                          bloc: getit<AppSettingsCubit>(),
+                          builder: (context, settingsState) {
+                            return _buildActionButton(
+                              'الوضع الليلي',
+                              null,
+                              switchWidget: Switch.adaptive(
+                                activeColor: AppColors.primary,
+                                value:
+                                    settingsState.themeMode == ThemeMode.dark,
+                                onChanged: (value) {
+                                  getit<AppSettingsCubit>().toggleTheme();
+                                },
+                              ),
+                            );
+                          },
                         ),
 
                         const SizedBox(height: 10),

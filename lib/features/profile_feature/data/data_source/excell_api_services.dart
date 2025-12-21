@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:dio/dio.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sindbad_management_app/core/constants/api_constants.dart';
 import 'package:sindbad_management_app/core/services/auth_interceptor.dart';

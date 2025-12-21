@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sindbad_management_app/core/swidgets/new_widgets/custom_app_bar.dart';
+import 'package:sindbad_management_app/core/widgets/custom_app_bar.dart';
 
 class ViewReportsScreen extends StatelessWidget {
   const ViewReportsScreen({super.key});

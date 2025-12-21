@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sindbad_management_app/config/l10n/app_localizations.dart';
 import 'package:sindbad_management_app/features/custom_bottom_navigation_bar.dart';
 import 'package:sindbad_management_app/features/offers_features/ui/screens/view_offer_screen.dart';
-import 'package:sindbad_management_app/features/orders_feature/ui/screen/temp_widget/orders_tabbar_widget.dart';
+import 'package:sindbad_management_app/features/orders_feature/ui/widget/orders_tabbar_widget.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
 import 'package:sindbad_management_app/features/reports_offer_index.dart';
 
@@ -38,6 +39,8 @@ class _RootState extends State<Root> {
   ];
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return SafeArea(
       child: Scaffold(
         // Enable swipe from left to right to open drawer
@@ -114,7 +117,7 @@ class _RootState extends State<Root> {
                 items: [
                   CustomBottomNavigationBarItem(
                     icon: 'assets/logo_orders.svg',
-                    label: 'الطلبات',
+                    label: l10n.orders,
                   ),
                   CustomBottomNavigationBarItem(
                     icon: 'assets/logo_products.svg',

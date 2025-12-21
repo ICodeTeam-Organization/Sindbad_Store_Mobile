@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sindbad_management_app/core/swidgets/new_widgets/custom_app_bar.dart';
-import 'package:sindbad_management_app/core/swidgets/new_widgets/store_primary_button.dart';
+import 'package:sindbad_management_app/core/widgets/custom_app_bar.dart';
+import 'package:sindbad_management_app/core/widgets/store_primary_button.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/widgets/custom_text_form_widget.dart';
 import '../cubit/reset_password_cubit/reset_password_cubit.dart';
 

@@ -14,7 +14,7 @@ import 'package:sindbad_management_app/features/auth_feature/ui/manger/confirm_p
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/forget_password_cubit.dart/forget_password_cubit.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit.dart';
 import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_cubit/offer_cubit.dart';
-import 'package:sindbad_management_app/features/orders_feature/ui/manager/all_order/order%20cubit/orders_cubit.dart';
+import 'package:sindbad_management_app/features/orders_feature/ui/manager/order%20cubit/orders_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/ProductDetails/product_details_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/attribute_product/attribute_product_cubit.dart';
@@ -33,7 +33,6 @@ import 'package:sindbad_management_app/features/products_feature/view_product_fe
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/get_profile_cubit/get_profile_cubit.dart';
 import 'injection_container.dart';
 import 'core/services/simple_bloc_observer.dart';
-import 'features/orders_feature/ui/manager/all_order/all_order_cubit.dart';
 import 'features/orders_feature/ui/manager/button_disable/button_disable_cubit.dart';
 import 'package:sindbad_management_app/core/cubit/app_settings_cubit.dart';
 
@@ -88,7 +87,7 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
         BlocProvider(
           create: (_) => SignInCubit(getit()),
         ),
-        BlocProvider(create: (_) => AllOrderCubit(getit())),
+        //  BlocProvider(create: (_) => AllOrderCubit(getit())),
         BlocProvider(create: (_) => ExcelCubit(getit(), getit(), getit())),
         BlocProvider(
             create: (_) => ProductsCubit(
