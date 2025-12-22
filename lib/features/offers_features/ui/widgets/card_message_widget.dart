@@ -18,13 +18,21 @@ class CardMesssageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final bgColor = isDark ? Colors.grey[850] : Colors.white;
+    final borderColor = isDark ? Colors.grey[700]! : AppColors.greyBorder;
+    final titleColor = theme.textTheme.bodyLarge?.color ?? AppColors.blackDark;
+    final subtitleColor = isDark ? Colors.grey[400]! : AppColors.greyLight;
+
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: AppColors.greyBorder),
+          border: Border.all(color: borderColor),
           borderRadius: BorderRadius.circular(25.r),
-          color: Colors.white,
+          color: bgColor,
         ),
         alignment: Alignment.center,
         width: double.infinity,
@@ -39,14 +47,14 @@ class CardMesssageWidget extends StatelessWidget {
               Text(
                 title,
                 style: KTextStyle.textStyle16.copyWith(
-                  color: AppColors.blackDark,
+                  color: titleColor,
                 ),
               ),
               Text(
                 subTitle,
                 textAlign: TextAlign.center,
                 style: KTextStyle.textStyle12.copyWith(
-                  color: AppColors.greyLight,
+                  color: subtitleColor,
                 ),
               ),
               Padding(

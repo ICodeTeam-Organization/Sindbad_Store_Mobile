@@ -15,7 +15,6 @@ import '../manager/get_category_cubit/get_category_cubit.dart';
 import '../manager/products_cubit/products_cubit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
-import '../../../../../config/styles/Colors.dart';
 
 class AllProductsTap extends StatefulWidget {
   const AllProductsTap({
@@ -155,6 +154,9 @@ class _AllProductsTapState extends State<AllProductsTap> {
   }
 
   Padding _buildActionsButtons(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final stopButtonColor = isDark ? Colors.grey[700]! : Colors.grey;
+
     return Padding(
       padding: EdgeInsets.only(
         left: 15.w,
@@ -167,7 +169,7 @@ class _AllProductsTapState extends State<AllProductsTap> {
             // disabled: !anyProductsSelected,
             title: "أضافة منتجات",
             svgIconPath: 'assets/svgs/add.svg',
-            buttonColor: AppColors.primary,
+            // Uses theme.colorScheme.primary by default
             height: 32.h,
             width: 126.w,
             onTap: () {
@@ -181,7 +183,7 @@ class _AllProductsTapState extends State<AllProductsTap> {
                 (ProductsCubit cubit) => cubit.selectedProducts.isEmpty),
             title: "ايقاف منتجات",
             icon: Icons.refresh,
-            buttonColor: Colors.grey,
+            buttonColor: stopButtonColor,
             height: 32.h,
             width: 126.w,
             onTap: () {

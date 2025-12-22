@@ -52,6 +52,7 @@ class _OrdersListViewState extends State<OrdersListView>
 
   Future<void> _fetchOrders({bool isRefresh = false}) async {
     if (isRefresh) {
+      if (!mounted) return;
       setState(() {
         pageNumber = 1;
         orders.clear();
@@ -59,6 +60,7 @@ class _OrdersListViewState extends State<OrdersListView>
     }
 
     if (isFetching) return;
+    if (!mounted) return;
     setState(() => isFetching = true);
 
     await context.read<OrdersCubit>().fetchAllOrders(
@@ -68,6 +70,7 @@ class _OrdersListViewState extends State<OrdersListView>
           widget.pageSize,
         );
 
+    if (!mounted) return;
     setState(() => isFetching = false);
   }
 
@@ -93,6 +96,7 @@ class _OrdersListViewState extends State<OrdersListView>
     return BlocConsumer<OrdersCubit, OrdersState>(
       listener: (context, state) {
         if (state is OrdersLoadSuccess) {
+          if (!mounted) return;
           setState(() {
             if (pageNumber == 1) {
               orders = state.orders;

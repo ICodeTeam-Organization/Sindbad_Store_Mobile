@@ -49,16 +49,16 @@ class _ViewProductBodyState extends State<_ViewProductBody> {
             child: CustomTabBarWidget(
               tabs: [
                 Tab(
-                  child: Text('جميع المنتجات',
+                  child: Text('الجميع',
                       textAlign: TextAlign.center,
                       style: TextTheme.of(context).titleMedium),
                 ),
                 Tab(
-                    child: Text("منتجات عليها عروض",
+                    child: Text("عليها عروض",
                         textAlign: TextAlign.center,
                         style: TextTheme.of(context).titleMedium)),
                 Tab(
-                    child: Text("منتجات موقوفة",
+                    child: Text("الموقوفة",
                         textAlign: TextAlign.center,
                         style: TextTheme.of(context).titleMedium)),
               ],

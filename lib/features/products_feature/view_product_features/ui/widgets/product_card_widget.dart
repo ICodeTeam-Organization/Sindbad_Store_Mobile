@@ -30,6 +30,15 @@ class ProductCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    // Theme-aware colors
+    final evenBgColor = isDark ? Colors.grey[850] : AppColors.background;
+    final oddBgColor = isDark ? Colors.grey[900] : Colors.white;
+    final subtitleColor = isDark ? Colors.grey[400]! : Color(0xff636773);
+    final priceColor = theme.colorScheme.primary;
+
     return AnimationConfiguration.staggeredList(
       position: 0,
       duration: const Duration(milliseconds: 375),
@@ -42,7 +51,7 @@ class ProductCardWidget extends StatelessWidget {
                 : null,
             padding: EdgeInsets.only(top: 26.h, bottom: 26.h, left: 10.w),
             decoration: BoxDecoration(
-              color: isEven ? AppColors.background : Colors.white,
+              color: isEven ? evenBgColor : oddBgColor,
               borderRadius: BorderRadius.circular(4.r),
             ),
             child: Row(
@@ -80,7 +89,7 @@ class ProductCardWidget extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextTheme.of(context).bodySmall!.copyWith(
                             fontWeight: FontWeight.normal,
-                            color: Color(0xff636773),
+                            color: subtitleColor,
                             fontSize: 12),
                       ),
                       SizedBox(height: 10.h),
@@ -90,13 +99,13 @@ class ProductCardWidget extends StatelessWidget {
                         text: TextSpan(
                           style: TextTheme.of(context).bodySmall!.copyWith(
                               fontWeight: FontWeight.normal,
-                              color: Color(0xff636773),
+                              color: subtitleColor,
                               fontSize: 12),
                           children: [
                             TextSpan(text: 'السعر: '),
                             TextSpan(
                               text: '${product.price ?? ''}',
-                              style: TextStyle(color: Color(0xffFF746B)),
+                              style: TextStyle(color: priceColor),
                             ),
                             TextSpan(text: ' ريال'),
                           ],
