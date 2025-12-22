@@ -37,5 +37,13 @@
   "orderNumber": "رقم الطلب",
   "billNumber": "رقم الفاتورة",
   "itemCount": "عدد الاصناف",
-  "paymentInfo": "بيانات السداد"
+  "paymentInfo": "بيانات السداد",
+  "oldPassword": "كلمة المرور القديمة",
+  "newPassword": "كلمة المرور الجديدة",
+  "confirmPassword": "تأكيد كلمة المرور",
+  "pleaseFillAllFields": "الرجاء ملء جميع الحقول",
+  "passwordsDoNotMatch": "كلمة المرور غير متطابقة",
+  "passwordRequirements": "يجب أن تكون كلمة المرور على الأقل 9 حروف، ويجب أن تحتوي على حرف واحد على الأقل و رقم واحد على الأقل",
+  "thisFieldIsRequired": "هذا الحقل مطلوب",
+  "typeHere": "أكتب هنا..."
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sindbad_management_app/config/l10n/app_localizations.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
 import 'package:sindbad_management_app/config/styles/text_style.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/widget/required_text.dart';
@@ -35,6 +36,7 @@ class CustomTextFormWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final isDark = theme.brightness == Brightness.dark;
     final borderColor = isDark ? Colors.grey[600]! : AppColors.greyBorder;
     final hintColor = isDark ? Colors.grey[400]! : AppColors.greyLight;
@@ -77,13 +79,13 @@ class CustomTextFormWidget extends StatelessWidget {
                   (isRequired == true
                       ? (value) {
                           if (value == null || value.isEmpty) {
-                            return 'هذا الحقل مطلوب';
+                            return l10n.thisFieldIsRequired;
                           }
                           return null;
                         }
                       : null),
               decoration: InputDecoration(
-                hintText: 'أكتب هنا...',
+                hintText: l10n.typeHere,
                 hintStyle: KTextStyle.textStyle12.copyWith(
                   color: hintColor,
                 ),

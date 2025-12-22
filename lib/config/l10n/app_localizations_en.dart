@@ -123,4 +123,29 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get paymentInfo => 'Payment Info';
+
+  @override
+  String get oldPassword => 'Old Password';
+
+  @override
+  String get newPassword => 'New Password';
+
+  @override
+  String get confirmPassword => 'Confirm Password';
+
+  @override
+  String get pleaseFillAllFields => 'Please fill all fields';
+
+  @override
+  String get passwordsDoNotMatch => 'Passwords do not match';
+
+  @override
+  String get passwordRequirements =>
+      'Password must be at least 9 characters and contain at least one letter and one number';
+
+  @override
+  String get thisFieldIsRequired => 'This field is required';
+
+  @override
+  String get typeHere => 'Type here...';
 }

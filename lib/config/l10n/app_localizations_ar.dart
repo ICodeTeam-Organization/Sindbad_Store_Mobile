@@ -124,4 +124,29 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get paymentInfo => 'بيانات السداد';
+
+  @override
+  String get oldPassword => 'كلمة المرور القديمة';
+
+  @override
+  String get newPassword => 'كلمة المرور الجديدة';
+
+  @override
+  String get confirmPassword => 'تأكيد كلمة المرور';
+
+  @override
+  String get pleaseFillAllFields => 'الرجاء ملء جميع الحقول';
+
+  @override
+  String get passwordsDoNotMatch => 'كلمة المرور غير متطابقة';
+
+  @override
+  String get passwordRequirements =>
+      'يجب أن تكون كلمة المرور على الأقل 9 حروف، ويجب أن تحتوي على حرف واحد على الأقل و رقم واحد على الأقل';
+
+  @override
+  String get thisFieldIsRequired => 'هذا الحقل مطلوب';
+
+  @override
+  String get typeHere => 'أكتب هنا...';
 }

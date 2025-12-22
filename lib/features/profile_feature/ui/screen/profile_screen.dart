@@ -386,7 +386,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
       children: [
         CircleAvatar(
           backgroundColor: Colors.blue[800],
-          radius: 40,
+          radius: 50,
           child: Text(
             userName.isNotEmpty ? userName[0] : '',
             style: const TextStyle(

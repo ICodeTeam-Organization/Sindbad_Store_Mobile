@@ -10,10 +10,10 @@ class CustomTabBarWidget extends StatefulWidget {
   final List<Widget> tabs;
   final List<Widget> tabViews;
   final int length;
-  final Color indicatorColor;
+  final Color? indicatorColor;
   final double indicatorWeight;
-  final Color labelColor;
-  final Color unselectedLabelColor;
+  final Color? labelColor;
+  final Color? unselectedLabelColor;
   final double height;
   final double heightTab;
 
@@ -32,10 +32,10 @@ class CustomTabBarWidget extends StatefulWidget {
     required this.tabs,
     required this.tabViews,
     required this.length,
-    this.indicatorColor = Colors.transparent,
+    this.indicatorColor,
     this.indicatorWeight = 2.0,
-    this.labelColor = AppColors.black,
-    this.unselectedLabelColor = AppColors.black,
+    this.labelColor,
+    this.unselectedLabelColor,
     this.height = 700.0,
     this.heightTab = 65,
   })  : assert(tabs.length == tabViews.length,
@@ -57,6 +57,18 @@ class _CustomTabBarWidgetState extends State<CustomTabBarWidget>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    // Theme-aware colors
+    final tabBarBgColor = isDark ? Colors.grey[800]! : AppColors.colorButton;
+    final selectedIndicatorColor = isDark ? Colors.grey[700]! : Colors.white;
+    final effectiveLabelColor = widget.labelColor ??
+        theme.textTheme.bodyLarge?.color ??
+        AppColors.black;
+    final effectiveUnselectedLabelColor = widget.unselectedLabelColor ??
+        (isDark ? Colors.grey[400]! : AppColors.black);
+
     return DefaultTabController(
       length: widget.length,
       child: Column(
@@ -66,7 +78,7 @@ class _CustomTabBarWidgetState extends State<CustomTabBarWidget>
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: DecoratedBox(
               decoration: BoxDecoration(
-                  color: AppColors.colorButton,
+                  color: tabBarBgColor,
                   borderRadius: BorderRadius.circular(25)),
               child: SizedBox(
                 height: 60.h,
@@ -75,15 +87,15 @@ class _CustomTabBarWidgetState extends State<CustomTabBarWidget>
                   labelStyle: KTextStyle.textStyle16
                       .copyWith(fontWeight: FontWeight.bold),
                   dividerColor: Colors.transparent,
-                  indicatorColor: widget.indicatorColor,
+                  indicatorColor: widget.indicatorColor ?? Colors.transparent,
                   indicatorWeight: widget.indicatorWeight.w,
-                  labelColor: widget.labelColor,
+                  labelColor: effectiveLabelColor,
                   labelPadding: EdgeInsets.symmetric(
-                      horizontal: 0), // تقليل المسافة بين العناوين
-                  unselectedLabelColor: widget.unselectedLabelColor,
+                      horizontal: 0), // reduce spacing between titles
+                  unselectedLabelColor: effectiveUnselectedLabelColor,
                   tabs: widget.tabs,
                   indicator: BoxDecoration(
-                    color: Colors.white,
+                    color: selectedIndicatorColor,
                     borderRadius: BorderRadius.circular(
                         CustomTabBarWidget._borderRadius.r),
                   ),

@@ -33,33 +33,37 @@ class OrderCardWidget extends StatelessWidget {
     required this.animate,
   });
 
-  Color _getOrderColor(String orderStatus) {
+  Color _getOrderColor(String orderStatus, bool isDark) {
     // بدون فاتورة
     if (orderStatus == '2') {
-      return Color(0xffE8E8E8);
+      return isDark ? Color(0xFF3D3D3D) : Color(0xffE8E8E8);
     }
     // لم تسدد
     else if (orderStatus == '3') {
-      return Color(0xCCFFF2F5);
+      return isDark ? Color(0xFF4D2A30) : Color(0xCCFFF2F5);
     }
     // للشحن
     else if (orderStatus == '4') {
-      return Color(0xffCEECF0);
+      return isDark ? Color(0xFF2A4448) : Color(0xffCEECF0);
     }
     // السابقة
     else if (orderStatus == '5' || orderStatus == '6') {
-      return Color(0xffCDE8F6);
+      return isDark ? Color(0xFF2A3D4D) : Color(0xffCDE8F6);
     }
     // غيره
     else {
-      return Colors.white;
+      return isDark ? Colors.grey[800]! : Colors.white;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final orderColor = _getOrderColor(order.orderStatuse);
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final orderColor = _getOrderColor(order.orderStatuse, isDark);
+    final textColor = theme.textTheme.bodyMedium?.color;
+    final borderColor = isDark ? Colors.grey[600]! : AppColors.grey;
 
     return AnimatedOrderItem(
       index: index,
@@ -82,7 +86,7 @@ class OrderCardWidget extends StatelessWidget {
             child: Container(
               margin: EdgeInsets.all(5),
               decoration: BoxDecoration(
-                border: Border.all(color: AppColors.grey),
+                border: Border.all(color: borderColor),
                 borderRadius: BorderRadius.circular(16.r),
               ),
               width: 380.w,
@@ -96,8 +100,10 @@ class OrderCardWidget extends StatelessWidget {
                         EdgeInsets.symmetric(vertical: 6.h, horizontal: 8.w),
                     decoration: BoxDecoration(
                       border: Border(
-                        bottom:
-                            BorderSide(color: AppColors.greyHint, width: 0.3),
+                        bottom: BorderSide(
+                            color:
+                                isDark ? Colors.grey[700]! : AppColors.greyHint,
+                            width: 0.3),
                       ),
                       color: orderColor,
                       borderRadius: BorderRadius.circular(16.r),
@@ -115,11 +121,13 @@ class OrderCardWidget extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(l10n.orderNumber,
-                                        style: KTextStyle.textStyle12),
+                                        style: KTextStyle.textStyle12
+                                            .copyWith(color: textColor)),
                                     SizedBox(height: 4.h),
                                     Text(
                                       order.orderNum,
-                                      style: KTextStyle.textStyle14,
+                                      style: KTextStyle.textStyle14
+                                          .copyWith(color: textColor),
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       textAlign: TextAlign.center,
@@ -136,11 +144,13 @@ class OrderCardWidget extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(l10n.billNumber,
-                                        style: KTextStyle.textStyle12),
+                                        style: KTextStyle.textStyle12
+                                            .copyWith(color: textColor)),
                                     SizedBox(height: 4.h),
                                     Text(
                                       order.orderBill,
-                                      style: KTextStyle.textStyle14,
+                                      style: KTextStyle.textStyle14
+                                          .copyWith(color: textColor),
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       textAlign: TextAlign.center,
@@ -157,7 +167,8 @@ class OrderCardWidget extends StatelessWidget {
                               Flexible(
                                 child: Text(
                                   '${l10n.orderNumber} ${order.orderNum}',
-                                  style: KTextStyle.textStyle12,
+                                  style: KTextStyle.textStyle12
+                                      .copyWith(color: textColor),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -166,7 +177,8 @@ class OrderCardWidget extends StatelessWidget {
                               Flexible(
                                 child: Text(
                                   '${l10n.billNumber} ${order.orderBill}',
-                                  style: KTextStyle.textStyle12,
+                                  style: KTextStyle.textStyle12
+                                      .copyWith(color: textColor),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -189,11 +201,16 @@ class OrderCardWidget extends StatelessWidget {
                                 "assets/alarm.svg",
                                 width: 24,
                                 height: 24,
+                                colorFilter: ColorFilter.mode(
+                                  textColor ?? Colors.black,
+                                  BlendMode.srcIn,
+                                ),
                               ),
                               SizedBox(width: 10.w),
                               Text(
                                 order.orderDates,
-                                style: KTextStyle.textStyle12,
+                                style: KTextStyle.textStyle12
+                                    .copyWith(color: textColor),
                               ),
                             ],
                           ),
@@ -228,7 +245,8 @@ class OrderCardWidget extends StatelessWidget {
                                 ]),
                               ),
                               Text(l10n.itemCount,
-                                  style: KTextStyle.textStyle12),
+                                  style: KTextStyle.textStyle12
+                                      .copyWith(color: textColor)),
                             ],
                           ),
                         )
@@ -241,8 +259,11 @@ class OrderCardWidget extends StatelessWidget {
                     child: Row(
                       children: [
                         Text('${l10n.paymentInfo}: ',
-                            style: KTextStyle.textStyle12),
-                        Text(order.payStatus, style: KTextStyle.textStyle12),
+                            style: KTextStyle.textStyle12
+                                .copyWith(color: textColor)),
+                        Text(order.payStatus,
+                            style: KTextStyle.textStyle12
+                                .copyWith(color: textColor)),
                       ],
                     ),
                   ),

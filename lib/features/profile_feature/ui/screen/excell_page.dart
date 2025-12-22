@@ -2,6 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sindbad_management_app/core/dialogs/ErrorDialog.dart';
+import 'package:sindbad_management_app/core/widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/features/profile_feature/domin/entity/excell_operationclass.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/excell_cubit/excell_cubt.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/excell_cubit/excell_states.dart';
@@ -253,36 +254,31 @@ class _AddExcelPageState extends State<AddExcelPage> {
           }
         },
         child: Scaffold(
-          appBar: AppBar(
-            title: const Text(
-              'اضافة منتجات عبر الإكسيل',
-              style: TextStyle(
-                fontFamily: 'Cairo',
-                fontWeight: FontWeight.w700,
-                fontSize: 18,
-              ),
-            ),
-            centerTitle: true,
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.black,
-          ),
           body: Container(
-            color: const Color(0xFFF7F7F7),
+            color: Theme.of(context).scaffoldBackgroundColor,
             padding: const EdgeInsets.all(16),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  CustomAppBar(
+                      tital: "اضافة منتجات عبر الإكسيل", isSearch: false),
+                  SizedBox(
+                    height: 10,
+                  ),
                   _downloadAllFilesSection(context),
                   const SizedBox(height: 18),
                   Card(
-                    color: Colors.white,
+                    color: Theme.of(context).cardColor,
                     elevation: 2,
                     child: Padding(
                       padding: const EdgeInsets.all(12),
                       child: Column(
                         children: [
-                          const Align(
+                          Align(
                             alignment: Alignment.centerRight,
                             child: Text(
                               "اختر نوع العملية :",
@@ -290,6 +286,10 @@ class _AddExcelPageState extends State<AddExcelPage> {
                                 fontFamily: 'Cairo',
                                 fontWeight: FontWeight.w700,
                                 fontSize: 16,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.color,
                               ),
                             ),
                           ),
@@ -368,6 +368,10 @@ class _AddExcelPageState extends State<AddExcelPage> {
                                 fontFamily: 'Cairo',
                                 fontWeight: FontWeight.w700,
                                 fontSize: 16,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.color,
                               ),
                             ),
                           ),
@@ -378,25 +382,57 @@ class _AddExcelPageState extends State<AddExcelPage> {
                               height: 48,
                               width: 326,
                               decoration: BoxDecoration(
-                                  border: Border.all(color: Color(0xffF2F3F4))),
+                                  border: Border.all(
+                                color: Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? Colors.grey[600]!
+                                    : Color(0xffF2F3F4),
+                              )),
                               child: Row(
                                 children: [
                                   Container(
                                     decoration: BoxDecoration(
-                                        color: Color(0xffF2F3F4),
+                                        color: Theme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? Colors.grey[700]
+                                            : Color(0xffF2F3F4),
                                         border: Border.all(
-                                            color: Color(0xffF2F3F4))),
+                                            color:
+                                                Theme.of(context).brightness ==
+                                                        Brightness.dark
+                                                    ? Colors.grey[600]!
+                                                    : Color(0xffF2F3F4))),
                                     height: 48,
                                     width: 93,
-                                    child: Center(child: Text("اختر الملف")),
+                                    child: Center(
+                                        child: Text(
+                                      "اختر الملف",
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.color,
+                                      ),
+                                    )),
                                   ),
                                   if (file != null)
-                                    Center(
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8),
                                         child: Text(
-                                      file!.files.first.name,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    )),
+                                          file!.files.first.name,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.color,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                 ],
                               ),
                             ),
@@ -409,6 +445,10 @@ class _AddExcelPageState extends State<AddExcelPage> {
                                   fontFamily: 'Cairo',
                                   fontWeight: FontWeight.normal,
                                   fontSize: 14,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.color,
                                 ),
                               )),
                           const SizedBox(height: 20),
@@ -424,7 +464,8 @@ class _AddExcelPageState extends State<AddExcelPage> {
                               child: ElevatedButton(
                                 onPressed: _upload,
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFFFF746B),
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.primary,
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 20),
                                   shape: RoundedRectangleBorder(
@@ -462,14 +503,16 @@ class _AddExcelPageState extends State<AddExcelPage> {
                   ),
                   // Dynamic Note / Explanation Card
                   Card(
-                    color: Colors.white,
+                    color: Theme.of(context).cardColor,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Container(
                           width: double.infinity,
                           height: 48,
-                          color: const Color(0xffE1E2E3),
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.grey[800]
+                              : const Color(0xffE1E2E3),
                           child: Align(
                             alignment: Alignment.centerRight,
                             child: Padding(
@@ -478,8 +521,11 @@ class _AddExcelPageState extends State<AddExcelPage> {
                                 selectedOperation != null
                                     ? "شرح عملية: ${selectedOperation!.name}"
                                     : "شرح العملية",
-                                style: const TextStyle(
-                                  color: Colors.black,
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.color,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
@@ -493,7 +539,11 @@ class _AddExcelPageState extends State<AddExcelPage> {
                                     selectedOperation!.note.isNotEmpty
                                 ? selectedOperation!.note
                                 : 'يتم تعبئة ملف الإكسل حسب النموذج المخصص. يجب أن يحتوي الملف على الحقول الأساسية: الرقم، الاسم، السعر. يجب أن تكون البيانات صحيحة وإلا سيتم رفض الملف. يعرض النظام الملاحظات مع رقم السطر عند وجود أخطاء. يمكن إضافة آلاف المنتجات دفعة واحدة من خلال ملف إكسل واحد.',
-                            style: const TextStyle(color: Colors.black),
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.color),
                           ),
                         ),
                       ],
@@ -518,6 +568,7 @@ class _AddExcelPageState extends State<AddExcelPage> {
             fontFamily: 'Cairo',
             fontWeight: FontWeight.w700,
             fontSize: 16,
+            color: Theme.of(context).textTheme.bodyLarge?.color,
           ),
         ),
         ConstrainedBox(

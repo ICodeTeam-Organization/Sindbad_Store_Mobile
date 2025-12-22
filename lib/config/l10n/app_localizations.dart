@@ -325,6 +325,54 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'بيانات السداد'**
   String get paymentInfo;
+
+  /// No description provided for @oldPassword.
+  ///
+  /// In ar, this message translates to:
+  /// **'كلمة المرور القديمة'**
+  String get oldPassword;
+
+  /// No description provided for @newPassword.
+  ///
+  /// In ar, this message translates to:
+  /// **'كلمة المرور الجديدة'**
+  String get newPassword;
+
+  /// No description provided for @confirmPassword.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأكيد كلمة المرور'**
+  String get confirmPassword;
+
+  /// No description provided for @pleaseFillAllFields.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرجاء ملء جميع الحقول'**
+  String get pleaseFillAllFields;
+
+  /// No description provided for @passwordsDoNotMatch.
+  ///
+  /// In ar, this message translates to:
+  /// **'كلمة المرور غير متطابقة'**
+  String get passwordsDoNotMatch;
+
+  /// No description provided for @passwordRequirements.
+  ///
+  /// In ar, this message translates to:
+  /// **'يجب أن تكون كلمة المرور على الأقل 9 حروف، ويجب أن تحتوي على حرف واحد على الأقل و رقم واحد على الأقل'**
+  String get passwordRequirements;
+
+  /// No description provided for @thisFieldIsRequired.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا الحقل مطلوب'**
+  String get thisFieldIsRequired;
+
+  /// No description provided for @typeHere.
+  ///
+  /// In ar, this message translates to:
+  /// **'أكتب هنا...'**
+  String get typeHere;
 }
 
 class _AppLocalizationsDelegate
