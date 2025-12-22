@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/entities/all_order_entity.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/entities/entities_states.dart';
@@ -38,56 +37,24 @@ class OrdersCubit extends Cubit<OrdersState> {
       statusList = [status];
     }
 
-    // TODO: Uncomment when API is ready
-    // final result = await _orderUseCase.execute(
-    //   OrderParam(
-    //     statuses: statusList,
-    //     pageNumber: page,
-    //     pageSize: size,
-    //   ),
-    // );
-
-    // ===== MOCK DATA FOR TESTING PAGINATION =====
-    await Future.delayed(const Duration(seconds: 1)); // Simulate network delay
-
-    final random = Random();
-    const totalPages = 5; // Simulate 5 pages total (50 items)
-
-    // Generate mock orders for this page
-    final List<AllOrderEntity> mockOrders = List.generate(size, (index) {
-      final itemIndex = ((page - 1) * size) + index;
-      final orderId = 1000 + itemIndex;
-      final packageId = 5000 + itemIndex;
-      final productCount = random.nextInt(25) + 1;
-      final day = random.nextInt(28) + 1;
-      final month = random.nextInt(12) + 1;
-      final statuses = ['2', '3', '4', '5', '6'];
-      final payStatuses = ['2', '3', '4', '5', '6'];
-
-      return AllOrderEntity(
-        idOrder: orderId,
-        idPackage: packageId,
-        orderNum: "ORD-2025-${orderId.toString().padLeft(4, '0')}",
-        orderBill: "BILL-${(5500 + itemIndex).toString()}",
-        productMount: productCount.toString(),
-        orderStatuse: statuses[random.nextInt(statuses.length)],
-        payStatus: payStatuses[random.nextInt(payStatuses.length)],
-        orderDates:
-            "2025-${month.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}",
-      );
-    });
+    final result = await _orderUseCase.execute(
+      OrderParam(
+        statuses: statusList,
+        pageNumber: page,
+        pageSize: size,
+      ),
+    );
 
     _isLoading = false;
 
-    // Simulate hasMore based on current page
-    final hasMore = page < totalPages;
-
-    emit(OrdersLoadSuccess(
-      mockOrders,
-      currentPage: page,
-      hasMore: hasMore,
-    ));
-    // ===== END MOCK DATA =====
+    result.fold(
+      (failure) => emit(OrdersLoadFailure(failure.toString())),
+      (orders) => emit(OrdersLoadSuccess(
+        orders,
+        currentPage: page,
+        hasMore: orders.length == size, // hasMore if we got a full page
+      )),
+    );
   }
 
   void loadMoreOrders() async {
@@ -110,58 +77,29 @@ class OrdersCubit extends Cubit<OrdersState> {
       statusList = [_currentStatus];
     }
 
-    // TODO: Uncomment when API is ready
-    // final result = await _orderUseCase.execute(
-    //   OrderParam(
-    //     statuses: statusList,
-    //     pageNumber: nextPage,
-    //     pageSize: _pageSize,
-    //   ),
-    // );
-
-    // ===== MOCK DATA FOR TESTING PAGINATION =====
-    await Future.delayed(const Duration(seconds: 1)); // Simulate network delay
-
-    final random = Random();
-    const totalPages = 5; // Simulate 5 pages total (50 items)
-
-    // Generate mock orders for this page
-    final List<AllOrderEntity> newOrders = List.generate(_pageSize, (index) {
-      final itemIndex = ((nextPage - 1) * _pageSize) + index;
-      final orderId = 1000 + itemIndex;
-      final packageId = 5000 + itemIndex;
-      final productCount = random.nextInt(25) + 1;
-      final day = random.nextInt(28) + 1;
-      final month = random.nextInt(12) + 1;
-      final statuses = ['2', '3', '4', '5', '6'];
-      final payStatuses = ['2', '3', '4', '5', '6'];
-
-      return AllOrderEntity(
-        idOrder: orderId,
-        idPackage: packageId,
-        orderNum: "ORD-2025-${orderId.toString().padLeft(4, '0')}",
-        orderBill: "BILL-${(5500 + itemIndex).toString()}",
-        productMount: productCount.toString(),
-        orderStatuse: statuses[random.nextInt(statuses.length)],
-        payStatus: payStatuses[random.nextInt(payStatuses.length)],
-        orderDates:
-            "2025-${month.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}",
-      );
-    });
+    final result = await _orderUseCase.execute(
+      OrderParam(
+        statuses: statusList,
+        pageNumber: nextPage,
+        pageSize: _pageSize,
+      ),
+    );
 
     _isLoading = false;
 
-    // Simulate hasMore based on current page
-    final hasMore = nextPage < totalPages;
-
-    _currentPage = nextPage;
-    final allOrders = [...currentState.orders, ...newOrders];
-    emit(OrdersLoadSuccess(
-      allOrders,
-      currentPage: nextPage,
-      hasMore: hasMore,
-    ));
-    // ===== END MOCK DATA =====
+    result.fold(
+      (failure) => emit(OrdersLoadFailure(failure.toString())),
+      (newOrders) {
+        _currentPage = nextPage;
+        final allOrders = [...currentState.orders, ...newOrders];
+        emit(OrdersLoadSuccess(
+          allOrders,
+          currentPage: nextPage,
+          hasMore:
+              newOrders.length == _pageSize, // hasMore if we got a full page
+        ));
+      },
+    );
   }
 
   void fetchUrgentOrders(int status) async {
@@ -197,40 +135,23 @@ class OrdersCubit extends Cubit<OrdersState> {
   Future<void> fetchAllOrders(
       List<int> status, bool isUrgent, int pageNumber, int pageSize) async {
     emit(OrdersLoadInProgress());
-//Generate random orders
-    final random = Random();
-    final orderCount = random.nextInt(11) + 10; // Random 10-20 orders
 
-    final statuses = [
-      '2',
-      '3',
-      '4',
-      '5',
-      '6',
-    ];
-    final payStatuses = ['2', '3', '4', '5', '6'];
+    final result = await _orderUseCase.execute(
+      OrderParam(
+        statuses: status,
+        isUrgent: isUrgent,
+        pageNumber: pageNumber,
+        pageSize: pageSize,
+      ),
+    );
 
-    final List<AllOrderEntity> orders = List.generate(orderCount, (index) {
-      final orderId = random.nextInt(10000) + 1;
-      final packageId = random.nextInt(5000) + 100;
-      final productCount = random.nextInt(25) + 1;
-      final day = random.nextInt(28) + 1;
-      final month = random.nextInt(12) + 1;
-
-      return AllOrderEntity(
-        idOrder: orderId,
-        idPackage: packageId,
-        orderNum: "ORD-2025-${orderId.toString().padLeft(4, '0')}",
-        orderBill: "BILL-${(5500 + index).toString()}",
-        productMount: productCount.toString(),
-        orderStatuse: statuses[random.nextInt(statuses.length)],
-        payStatus: payStatuses[random.nextInt(payStatuses.length)],
-        orderDates:
-            "2025-${month.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}",
-      );
-    });
-
-    await Future.delayed(const Duration(seconds: 1));
-    emit(OrdersLoadSuccess(orders));
+    result.fold(
+      (failure) => emit(OrdersLoadFailure(failure.toString())),
+      (orders) => emit(OrdersLoadSuccess(
+        orders,
+        currentPage: pageNumber,
+        hasMore: orders.length == pageSize,
+      )),
+    );
   }
 }
