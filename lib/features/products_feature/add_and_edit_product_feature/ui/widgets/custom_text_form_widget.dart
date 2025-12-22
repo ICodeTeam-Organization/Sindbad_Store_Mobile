@@ -34,6 +34,12 @@ class CustomTextFormWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final borderColor = isDark ? Colors.grey[600]! : AppColors.greyBorder;
+    final hintColor = isDark ? Colors.grey[400]! : AppColors.greyLight;
+    final textColor = isDark ? Colors.grey[300]! : AppColors.greyLight;
+
     return SizedBox(
       width: width.w,
       child: Column(
@@ -49,7 +55,7 @@ class CustomTextFormWidget extends StatelessWidget {
                     : Text(
                         text,
                         style: KTextStyle.textStyle13.copyWith(
-                          color: AppColors.greyLight,
+                          color: textColor,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -66,6 +72,7 @@ class CustomTextFormWidget extends StatelessWidget {
               onFieldSubmitted: onFieldSubmitted,
               enabled: enabled,
               keyboardType: keyboardType,
+              style: TextStyle(color: theme.textTheme.bodyLarge?.color),
               validator: validator ??
                   (isRequired == true
                       ? (value) {
@@ -78,18 +85,20 @@ class CustomTextFormWidget extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: 'أكتب هنا...',
                 hintStyle: KTextStyle.textStyle12.copyWith(
-                  color: AppColors.greyLight,
+                  color: hintColor,
                 ),
+                filled: true,
+                fillColor: theme.cardColor,
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                    color: AppColors.greyBorder,
+                    color: borderColor,
                     width: 1.0,
                   ),
                   borderRadius: BorderRadius.circular(5.0),
                 ),
                 disabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                    color: AppColors.greyBorder,
+                    color: borderColor,
                     width: 1.0,
                   ),
                   borderRadius: BorderRadius.circular(5.0),

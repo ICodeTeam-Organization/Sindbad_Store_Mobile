@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
 import 'package:sindbad_management_app/config/styles/text_style.dart';
+import 'package:sindbad_management_app/core/widgets/back_button_widget.dart';
 import 'package:sindbad_management_app/core/widgets/icon_button.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/ui/cubit/notifiction_cubit/unread_notifiction_cubit.dart';
 import 'package:sindbad_management_app/features/root.dart';
@@ -41,9 +41,18 @@ class _CustomAppBarState extends State<CustomAppBar> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final backgroundColor = theme.scaffoldBackgroundColor;
+    final textColor = theme.textTheme.titleLarge?.color ??
+        (isDark ? Colors.white : AppColors.blackDark);
+    final iconColor = isDark ? Colors.white : AppColors.blackDark;
+    final iconBgColor =
+        isDark ? Colors.grey[800]! : AppColors.grey.withOpacity(0.1);
+
     int count = 0;
     return Material(
-      color: AppColors.white,
+      color: backgroundColor,
       child: SizedBox(
         height: 75.h,
         width: double.infinity.w,
@@ -52,24 +61,17 @@ class _CustomAppBarState extends State<CustomAppBar> {
             widget.isBack == true
                 ? Align(
                     alignment: Alignment.centerRight,
-                    child: Padding(
-                        padding: const EdgeInsets.only(right: 15),
-                        child: InkWell(
-                          onTap: widget.onBackPressed ??
-                              () => Navigator.of(context).pop(),
-                          child: SvgPicture.asset(
-                            "assets/back_appbar.svg",
-                            width: 40.w,
-                            height: 40.w,
-                          ),
-                        )),
+                    child: BackButtonWidget(
+                        iconBgColor: iconBgColor,
+                        widget: widget,
+                        iconColor: iconColor),
                   )
                 : SizedBox(),
             Center(
               child: Text(
                 widget.tital,
                 style: KTextStyle.textStyle20.copyWith(
-                  color: AppColors.blackDark,
+                  color: textColor,
                 ),
               ),
             ),
@@ -95,7 +97,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                             child: Container(
                               padding: EdgeInsets.all(8.w),
                               decoration: BoxDecoration(
-                                color: AppColors.grey.withOpacity(0.1),
+                                color: iconBgColor,
                                 borderRadius: BorderRadius.circular(12.r),
                               ),
                               child: BlocConsumer<UnreadNotifictionCubit,
@@ -113,7 +115,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                   final icon = Icon(
                                     Icons.notifications_none_rounded,
                                     size: 26.w,
-                                    color: AppColors.blackDark,
+                                    color: iconColor,
                                   );
                                   if (state is UnreadNotifictionSuccess &&
                                       count > 0) {

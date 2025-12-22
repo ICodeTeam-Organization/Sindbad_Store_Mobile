@@ -23,10 +23,10 @@ class InfoRow extends StatelessWidget {
           // Field name
           Text(
             value,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
-              color: Colors.black,
+              color: Theme.of(context).textTheme.bodyLarge?.color,
             ),
           ),
 
@@ -49,7 +49,7 @@ class InfoRow extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 14,
-                        color: Colors.grey[600],
+                        color: Theme.of(context).textTheme.bodySmall?.color,
                       ),
                       textAlign: TextAlign.end,
                     ),

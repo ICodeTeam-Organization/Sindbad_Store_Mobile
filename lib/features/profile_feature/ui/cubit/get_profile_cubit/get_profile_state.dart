@@ -8,7 +8,7 @@ final class GetProfileInitial extends GetProfileState {}
 class GetProfileLoadInProgress extends GetProfileState {}
 
 class GetProfileLoadSuccess extends GetProfileState {
-  final GetProfileDataEntity profileModel;
+  final GetProfileDataEntity? profileModel;
   GetProfileLoadSuccess(this.profileModel);
 }
 

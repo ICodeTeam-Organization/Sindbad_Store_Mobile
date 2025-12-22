@@ -93,7 +93,7 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
             create: (_) => ProductsCubit(
                 getit(), getit(), getit(), getit(), getit(), getit())),
         BlocProvider(
-          create: (_) => GetProfileCubit(getit()),
+          create: (_) => ProfileCubit(getit(), getit()),
         ),
         BlocProvider(
           create: (_) => ResetPasswordCubit(getit()),

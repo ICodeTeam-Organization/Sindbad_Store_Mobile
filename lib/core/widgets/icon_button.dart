@@ -15,6 +15,12 @@ class IconWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final iconColor = isDark ? Colors.white : AppColors.blackDark;
+    final bgColor =
+        isDark ? Colors.grey[800]! : AppColors.grey.withOpacity(0.1);
+
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -25,13 +31,13 @@ class IconWidget extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(8.w),
           decoration: BoxDecoration(
-            color: AppColors.grey.withOpacity(0.1),
+            color: bgColor,
             borderRadius: BorderRadius.circular(12.r),
           ),
           child: Icon(
             icon,
             size: 26.w,
-            color: AppColors.blackDark,
+            color: iconColor,
           ),
         ),
       ),

@@ -37,11 +37,13 @@ import 'package:sindbad_management_app/features/auth_feature/ui/manger/forget_pa
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit.dart';
 import 'package:sindbad_management_app/features/orders_feature/data/data_sources/all_order_remot_data_source_imp.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/order%20cubit/orders_cubit.dart';
+import 'package:sindbad_management_app/features/profile_feature/data/data_source/profie_data_source_impl.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/data_source/store_data_source_impl.dart';
 import 'package:sindbad_management_app/features/profile_feature/data/repo/exell_repository.dart';
 import 'package:sindbad_management_app/features/profile_feature/domin/usecase/download_dll_files_use_case.dart';
 import 'package:sindbad_management_app/features/profile_feature/domin/usecase/download_file_usecase.dart';
 import 'package:sindbad_management_app/features/profile_feature/domin/usecase/get_profile_data_usecase.dart';
+import 'package:sindbad_management_app/features/profile_feature/domin/usecase/logout_use_case.dart';
 import 'package:sindbad_management_app/features/profile_feature/domin/usecase/post_files_usecase.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/excell_cubit/excell_cubt.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/reset_password_cubit/reset_password_cubit.dart';
@@ -105,8 +107,8 @@ void initializationContainer() {
       OfferRemotDataSourceImpl(getit()));
   getit.registerSingleton<NotifictionRemoteDataSourceImpl>(
       NotifictionRemoteDataSourceImpl(getit()));
-  getit
-      .registerSingleton<ProfileDataSourceImpl>(ProfileDataSourceImpl(getit()));
+  getit.registerSingleton<ProfileDataSourceImpl>(
+      ProfileDataSourceImpl(getit(), getit()));
   getit.registerSingleton<StoreDataSourceImpl>(StoreDataSourceImpl(getit()));
 
   // ----------------
@@ -170,7 +172,7 @@ void initializationContainer() {
   getit
       .registerFactory<ExcelCubit>(() => ExcelCubit(getit(), getit(), getit()));
   getit.registerFactory<OrdersCubit>(() => OrdersCubit(getit()));
-  getit.registerFactory<GetProfileCubit>(() => GetProfileCubit(getit()));
+  getit.registerFactory<ProfileCubit>(() => ProfileCubit(getit(), getit()));
   getit.registerFactory<ProductsCubit>(() =>
       ProductsCubit(getit(), getit(), getit(), getit(), getit(), getit()));
   getit.registerFactory<ResetPasswordCubit>(() => ResetPasswordCubit(getit()));
@@ -191,6 +193,7 @@ void initializationContainer() {
 
   // Use cases for offers
   getit.registerSingleton<UpdateOfferUseCase>(UpdateOfferUseCase(getit()));
+  getit.registerSingleton<LogoutUseCase>(LogoutUseCase(getit()));
   getit.registerSingleton<ChangeStatusOfferUseCase>(
       ChangeStatusOfferUseCase(getit()));
   getit.registerSingleton<GetOfferDataUseCase>(GetOfferDataUseCase(getit()));

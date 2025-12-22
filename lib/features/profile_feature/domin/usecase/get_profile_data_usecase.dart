@@ -6,10 +6,10 @@ import '../../../../core/use_cases/no_param_use_case.dart';
 import '../entity/get_profile_data_entity.dart';
 
 class GetProfileDataUsecase extends UseCaseWithNoParam {
-  final ProfileRepositoryImple profileRepo;
-  GetProfileDataUsecase(this.profileRepo);
+  final ProfileRepositoryImple _profileRepository;
+  GetProfileDataUsecase(this._profileRepository);
   @override
   Future<Either<Failure, GetProfileDataEntity>> execute() {
-    return profileRepo.getProfile();
+    return _profileRepository.getProfile();
   }
 }

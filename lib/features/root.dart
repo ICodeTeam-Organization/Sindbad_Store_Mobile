@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sindbad_management_app/config/l10n/app_localizations.dart';
-import 'package:sindbad_management_app/core/widgets/profile_drawer.dart';
+import 'package:sindbad_management_app/features/profile_feature/ui/screen/profile_screen.dart';
 import 'package:sindbad_management_app/features/custom_bottom_navigation_bar.dart';
 import 'package:sindbad_management_app/features/offers_features/ui/screens/view_offer_screen.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/widget/orders_tabbar_widget.dart';

@@ -14,6 +14,7 @@ class ChangePasssowrdScreen extends StatelessWidget {
     final newPasswordController = TextEditingController();
     final confirmPasswordController = TextEditingController();
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Column(
         children: [
           SizedBox(

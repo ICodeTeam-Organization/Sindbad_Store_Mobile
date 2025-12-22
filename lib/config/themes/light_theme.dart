@@ -3,11 +3,28 @@ import 'package:flutter/material.dart';
 class LightTheme {
   LightTheme._(); // Private constructor to prevent instantiation
 
+  // Color constants for light theme
+  static const Color _primaryColor =
+      Color(0xFFFF746B); // Coral/salmon - AppColors.primary
+
   static final ThemeData theme = ThemeData(
     brightness: Brightness.light,
     fontFamily: 'Cairo',
-    primaryColor: Colors.blue,
+    primaryColor: _primaryColor,
     scaffoldBackgroundColor: Colors.white,
+    cardColor: Colors.white,
+
+    // Color scheme
+    colorScheme: const ColorScheme.light(
+      primary: _primaryColor,
+      secondary: _primaryColor,
+      surface: Colors.white,
+      background: Colors.white,
+      onPrimary: Colors.white,
+      onSecondary: Colors.white,
+      onSurface: Colors.black,
+      onBackground: Colors.black,
+    ),
     textTheme: const TextTheme(
       headlineMedium: TextStyle(
         fontFamily: 'Cairo', // font-family

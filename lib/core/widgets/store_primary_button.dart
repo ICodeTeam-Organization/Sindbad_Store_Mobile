@@ -16,8 +16,8 @@ class StorePrimaryButton extends StatefulWidget {
       this.width = 140,
       this.icon,
       this.svgIconPath,
-      this.textColor = AppColors.white,
-      this.buttonColor = AppColors.primary});
+      this.textColor,
+      this.buttonColor});
 
   bool? isLoading;
   bool? disabled;
@@ -44,6 +44,15 @@ class _StorePrimaryButtonState extends State<StorePrimaryButton> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    // Use widget colors if provided, otherwise use theme colors
+    final effectiveButtonColor =
+        widget.buttonColor ?? theme.colorScheme.primary;
+    final effectiveTextColor = widget.textColor ?? theme.colorScheme.onPrimary;
+    final disabledColor = isDark ? Colors.grey[700]! : Color(0xFFD9D9D9);
+
     return InkWell(
       onTap: widget.disabled == true || widget.isLoading == true
           ? null
@@ -53,8 +62,7 @@ class _StorePrimaryButtonState extends State<StorePrimaryButton> {
         width: 140,
         height: 40,
         decoration: BoxDecoration(
-          color:
-              widget.disabled == true ? Color(0xFFD9D9D9) : widget.buttonColor,
+          color: widget.disabled == true ? disabledColor : effectiveButtonColor,
           borderRadius: BorderRadiusDirectional.circular(
               StorePrimaryButton._borderRadius.r),
         ),
@@ -63,8 +71,7 @@ class _StorePrimaryButtonState extends State<StorePrimaryButton> {
                 backgroundColor: AppColors.transparent,
                 child: CircularProgressIndicator(
                   strokeAlign: -2,
-                  // strokeWidth: 5,
-                  color: AppColors.white,
+                  color: effectiveTextColor,
                 ),
               )
             : Row(
@@ -76,22 +83,20 @@ class _StorePrimaryButtonState extends State<StorePrimaryButton> {
                       width: StorePrimaryButton._iconSize.w,
                       height: StorePrimaryButton._iconSize.w,
                       colorFilter: ColorFilter.mode(
-                        AppColors.white,
+                        effectiveTextColor,
                         BlendMode.srcIn,
                       ),
                     )
                   else if (widget.icon != null)
                     Icon(
                       widget.icon,
-                      color: AppColors.white,
+                      color: effectiveTextColor,
                       size: StorePrimaryButton._iconSize.w,
                     ),
                   Text(widget.title ?? '',
                       textAlign: TextAlign.center,
-                      // matches text-align: center
-                      style: TextTheme.of(context)
-                          .titleSmall!
-                          .copyWith(color: Colors.white))
+                      style: theme.textTheme.titleSmall!
+                          .copyWith(color: effectiveTextColor))
                 ],
               ),
       ),

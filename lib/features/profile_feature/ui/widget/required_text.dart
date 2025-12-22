@@ -11,11 +11,15 @@ class RequiredText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final labelColor = isDark ? Colors.grey[300]! : AppColors.greyLight;
+
     return Text.rich(
       TextSpan(
         text: title,
         style: KTextStyle.textStyle13.copyWith(
-          color: AppColors.greyLight,
+          color: labelColor,
         ),
         children: <TextSpan>[
           TextSpan(
