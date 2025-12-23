@@ -28,11 +28,9 @@ class DarkTheme {
       primary: _primaryColor,
       secondary: _primaryColor,
       surface: _surfaceColor,
-      background: _backgroundColor,
       onPrimary: Colors.white,
       onSecondary: Colors.white,
       onSurface: _textPrimary,
-      onBackground: _textPrimary,
     ),
 
     // AppBar theme
@@ -199,14 +197,14 @@ class DarkTheme {
 
     // Switch theme
     switchTheme: SwitchThemeData(
-      thumbColor: MaterialStateProperty.resolveWith((states) {
-        if (states.contains(MaterialState.selected)) {
+      thumbColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) {
           return _primaryColor;
         }
         return _textSecondary;
       }),
-      trackColor: MaterialStateProperty.resolveWith((states) {
-        if (states.contains(MaterialState.selected)) {
+      trackColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) {
           return _primaryColor.withOpacity(0.5);
         }
         return _surfaceColor;

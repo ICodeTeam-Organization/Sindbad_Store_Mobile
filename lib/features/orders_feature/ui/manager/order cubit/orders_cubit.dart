@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sindbad_management_app/features/orders_feature/domain/entities/all_order_entity.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/entities/entities_states.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/entities/all_order_param.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/usecases/all_order_usecase.dart';

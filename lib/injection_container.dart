@@ -59,7 +59,6 @@ import 'features/orders_feature/data/repos_impl/all_order_repo_impl.dart';
 import 'features/orders_feature/data/data_sources/all_order_remot_data_source.dart';
 import 'features/products_feature/view_product_features/data/data_source/add_and_edit_product_to_store_remote_data_source.dart';
 import 'features/products_feature/view_product_features/data/repos/product_repository_impl.dart';
-import 'features/profile_feature/data/data_source/profile_data_source.dart';
 import 'features/profile_feature/data/repo/profile_repository_impl.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/usecases/get_offer_data_use_case.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/usecases/update_offer_use_case.dart';

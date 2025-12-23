@@ -45,5 +45,6 @@
   "passwordsDoNotMatch": "Passwords do not match",
   "passwordRequirements": "Password must be at least 9 characters and contain at least one letter and one number",
   "thisFieldIsRequired": "This field is required",
-  "typeHere": "Type here..."
+  "typeHere": "Type here...",
+  "errorMessage": "An error occurred. Please try again later"
 }

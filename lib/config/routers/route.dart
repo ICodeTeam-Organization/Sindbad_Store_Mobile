@@ -14,7 +14,6 @@ import 'package:sindbad_management_app/features/notifiction_featurs/ui/screen/no
 import 'package:sindbad_management_app/features/offers_features/ui/screens/new_offer_screen.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/screen/change_passsowrd_screen.dart';
 import 'package:sindbad_management_app/core/widgets/splahs_screen.dart';
-import 'package:sindbad_management_app/features/profile_feature/ui/screen/profile_screen_old.dart';
 import '../../features/root.dart';
 
 abstract class AppRouter {

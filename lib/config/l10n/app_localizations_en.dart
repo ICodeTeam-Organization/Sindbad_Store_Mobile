@@ -148,4 +148,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get typeHere => 'Type here...';
+
+  @override
+  String get errorMessage => 'An error occurred. Please try again later';
 }

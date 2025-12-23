@@ -22,11 +22,9 @@ class LightTheme {
       primary: _primaryColor,
       secondary: _primaryColor,
       surface: Colors.white,
-      background: Colors.white,
       onPrimary: Colors.white,
       onSecondary: Colors.white,
       onSurface: Colors.black,
-      onBackground: Colors.black,
     ),
 
     // AppBar theme

@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide ErrorWidget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sindbad_management_app/features/offers_features/ui/widgets/card_message_widget.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/entities/entities_states.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/order%20cubit/orders_cubit.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/order%20cubit/orders_cubit_states.dart';
 import 'package:sindbad_management_app/core/widgets/no_data_widget.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/widget/order_body.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/widget/package_status_filterBar.dart';
+import 'package:sindbad_management_app/core/widgets/error_widget.dart';
 
 class UrgentTabViews extends StatelessWidget {
   const UrgentTabViews({super.key});
@@ -73,17 +73,7 @@ class UrgentTabViews extends StatelessWidget {
                   );
                 }
               } else if (state is OrdersLoadFailure) {
-                return Center(
-                  child: CardMesssageWidget(
-                    logo: Image.asset(
-                      'assets/image_loading.png',
-                      height: 80.h,
-                      width: 80.w,
-                    ),
-                    title: 'هناك خطأ الرجاء المحاولة لاحقاً',
-                    subTitle: state.message,
-                  ),
-                );
+                return ErrorWidget(message: state.message);
               }
               return Center(
                   child: SizedBox(

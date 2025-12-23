@@ -6,7 +6,6 @@ import '../../../../core/errors/failure.dart';
 import '../../domin/entity/edit_profile_entity.dart';
 import '../../domin/entity/get_profile_data_entity.dart';
 import '../../domin/repo/profile_repository.dart';
-import '../data_source/profile_data_source.dart';
 
 class ProfileRepositoryImple extends ProfileRepository {
   final ProfileDataSourceImpl _profileDataSource;

@@ -373,6 +373,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'أكتب هنا...'**
   String get typeHere;
+
+  /// No description provided for @errorMessage.
+  ///
+  /// In ar, this message translates to:
+  /// **'هناك خطأ الرجاء المحاولة لاحقاً'**
+  String get errorMessage;
 }
 
 class _AppLocalizationsDelegate

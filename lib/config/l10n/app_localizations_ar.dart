@@ -149,4 +149,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get typeHere => 'أكتب هنا...';
+
+  @override
+  String get errorMessage => 'هناك خطأ الرجاء المحاولة لاحقاً';
 }
