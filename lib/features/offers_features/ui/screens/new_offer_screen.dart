@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:sindbad_management_app/config/l10n/app_localizations.dart';
 import 'package:sindbad_management_app/core/widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
 import 'package:sindbad_management_app/config/styles/text_style.dart';
@@ -143,6 +144,8 @@ class _NewOfferScreenState extends State<NewOfferScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SafeArea(
@@ -152,7 +155,7 @@ class _NewOfferScreenState extends State<NewOfferScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomAppBar(
-                tital: 'اضافة عرض',
+                tital: l10n.addOffer,
               ),
               Expanded(
                 child: Padding(
@@ -162,7 +165,7 @@ class _NewOfferScreenState extends State<NewOfferScreen> {
                       children: [
                         Container(
                           width: double.maxFinite,
-                          color: AppColors.white,
+                          color: theme.cardColor,
                           child: Padding(
                             padding: const EdgeInsets.all(20.0),
                             child: Column(
@@ -171,23 +174,23 @@ class _NewOfferScreenState extends State<NewOfferScreen> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    SectionTitleWidget(title: 'معلومات العرض'),
+                                    SectionTitleWidget(title: l10n.offerInfo),
                                     SizedBox(height: 20.h),
                                     OfferInfoTextFieldWidget(
-                                      title: 'اسم العرض',
+                                      title: l10n.offerName,
                                       controller: nameController,
                                       isDate: false,
                                     ),
                                     SizedBox(height: 40.h),
                                     NewOfferInfoTextFieldWidget(
-                                        title: 'بداية العرض',
+                                        title: l10n.offerStart,
                                         controller: startOfferConroller,
                                         isDate: true,
                                         initialValue:
                                             DateTime.now().toString()),
                                     SizedBox(height: 40.h),
                                     OfferInfoTextFieldWidget(
-                                      title: 'نهاية العرض',
+                                      title: l10n.offerEnd,
                                       controller: endOfferConroller,
                                       isDate: true,
                                     ),
@@ -242,16 +245,17 @@ class _NewOfferScreenState extends State<NewOfferScreen> {
                         SizedBox(height: 10.h),
                         Container(
                           width: double.maxFinite,
-                          color: AppColors.white,
+                          color: theme.cardColor,
                           child: Padding(
                             padding: const EdgeInsets.all(20.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                RequiredText(title: 'اختر  المنتجات '),
+                                RequiredText(title: l10n.selectProducts),
                                 SizedBox(height: 10.h),
                                 ActionButtonWidget(
-                                  title: 'تصفح المنتجات',
+                                  color: theme.colorScheme.primary,
+                                  title: l10n.browseProducts,
                                   iconPath: 'assets/add.svg',
                                   width: double.infinity,
                                   height: 50,
@@ -341,9 +345,9 @@ class _NewOfferScreenState extends State<NewOfferScreen> {
                                         EdgeInsets.symmetric(vertical: 30.h),
                                     child: Center(
                                       child: Text(
-                                        'اضف منتجات للعرض',
+                                        l10n.addProductsToOffer,
                                         style: KTextStyle.textStyle14.copyWith(
-                                          color: AppColors.greyLight,
+                                          color: theme.hintColor,
                                         ),
                                       ),
                                     ),
@@ -363,12 +367,12 @@ class _NewOfferScreenState extends State<NewOfferScreen> {
                                         height: 40.h,
                                         width: screenWidth <= 360 ? 80 : 100.w,
                                         decoration: BoxDecoration(
-                                          color: AppColors.greyLight,
+                                          color: theme.disabledColor,
                                           borderRadius:
                                               BorderRadius.circular(5.r),
                                         ),
                                         child: Text(
-                                          'الغاء',
+                                          l10n.cancel,
                                           style:
                                               KTextStyle.textStyle16.copyWith(
                                             color: AppColors.white,
@@ -389,9 +393,9 @@ class _NewOfferScreenState extends State<NewOfferScreen> {
                                             endOfferFormat == null) {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
-                                            const SnackBar(
-                                              content: Text(
-                                                  'صيغة التاريخ غير صحيحة. من فضلك تحقق من التواريخ.'),
+                                            SnackBar(
+                                              content:
+                                                  Text(l10n.invalidDateFormat),
                                             ),
                                           );
                                           return;
@@ -417,12 +421,12 @@ class _NewOfferScreenState extends State<NewOfferScreen> {
                                         height: 40.h,
                                         width: screenWidth <= 360 ? 180 : 195.w,
                                         decoration: BoxDecoration(
-                                          color: AppColors.primary,
+                                          color: theme.colorScheme.primary,
                                           borderRadius:
                                               BorderRadius.circular(5.r),
                                         ),
                                         child: Text(
-                                          'تاكيد',
+                                          l10n.confirm,
                                           style:
                                               KTextStyle.textStyle16.copyWith(
                                             color: AppColors.white,

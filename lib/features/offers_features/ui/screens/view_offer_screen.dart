@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sindbad_management_app/config/l10n/app_localizations.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
 import 'package:sindbad_management_app/core/dialogs/delete_confirm_dialog.dart';
 import 'package:sindbad_management_app/core/widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
+import 'package:sindbad_management_app/core/widgets/store_primary_button.dart';
 import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_cubit/offer_cubit.dart';
 import 'package:sindbad_management_app/features/offers_features/ui/widgets/action_button_widget.dart';
 import 'package:sindbad_management_app/features/offers_features/ui/widgets/card_message_widget.dart';
@@ -52,14 +54,14 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
     return currentScroll >= (maxScroll - 200);
   }
 
-  VoidCallback _onChangeStatusTap(int offerHeadId) {
+  VoidCallback _onChangeStatusTap(int offerHeadId, AppLocalizations l10n) {
     return () {
       showDialog(
         context: context,
         builder: (context) => CustomDialogWidget(
           isWarning: false,
-          confirmText: 'نعم , قم بتغيير الحالة',
-          title: 'هل انت متأكد من تغيير حالة العرض ؟',
+          confirmText: l10n.yesChangeStatus,
+          title: l10n.confirmChangeOfferStatus,
           subtitle: '',
           iconPath: "assets/change_status.svg",
           onConfirm: () async {
@@ -76,12 +78,12 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
     };
   }
 
-  VoidCallback _onDeleteTap(int offerHeadId) {
+  VoidCallback _onDeleteTap(int offerHeadId, AppLocalizations l10n) {
     return () {
       showDeleteConfirmDialog(
         context: context,
-        title: 'هل انت متأكد من الحذف ؟',
-        message: 'سيتم حذف هذا العرض, هل تريد المتابعة ',
+        title: l10n.confirmDeleteOffer,
+        message: l10n.offerWillBeDeleted,
         onConfirm: () async {
           await context.read<OfferCubit>().deleteOffer(offerHeadId);
         },
@@ -91,19 +93,20 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       body: SafeArea(
         child: Container(
-          color: AppColors.transparent,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomAppBar(
-                tital: 'العروض',
+                tital: l10n.offers,
                 isBack: false,
               ),
-              _buildAddOfferButton(context),
-              _buildListSection(context),
+              _buildAddOfferButton(context, l10n),
+              _buildListSection(context, l10n),
             ],
           ),
         ),
@@ -111,7 +114,8 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
     );
   }
 
-  BlocConsumer<OfferCubit, OfferState> _buildListSection(BuildContext context) {
+  BlocConsumer<OfferCubit, OfferState> _buildListSection(
+      BuildContext context, AppLocalizations l10n) {
     return BlocConsumer<OfferCubit, OfferState>(
       listener: (context, state) {
         if (state is OffersLoadFailuer) {
@@ -120,7 +124,7 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
           );
         } else if (state is OfferAddSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('تمت إضافة العرض بنجاح')),
+            SnackBar(content: Text(l10n.offerAddedSuccess)),
           );
           // Refresh offers list after adding
           context.read<OfferCubit>().refreshOffers();
@@ -153,20 +157,20 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
                             height: 80.h,
                             width: 80.w,
                           ),
-                          title: 'لم تضف اي عروض حتى الان!',
-                          subTitle: 'شجع عملائك على الشراء بتقديم عروض مغرية',
+                          title: l10n.noOffersYet,
+                          subTitle: l10n.encourageCustomers,
                           extra: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SizedBox(height: 20.h),
-                              ActionButtonWidget(
-                                title: 'إضافة عرض',
-                                iconPath: 'assets/add.svg',
+                              StorePrimaryButton(
+                                title: l10n.addOffer,
                                 onTap: () {
                                   context.push(
                                     AppRoutes.newOffer,
                                   );
                                 },
+                                svgIconPath: 'assets/add.svg',
                               )
                             ],
                           ),
@@ -226,10 +230,10 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
 
                                 //here Change Status button
                                 onChangeStatusTap:
-                                    _onChangeStatusTap(offerHeadId),
+                                    _onChangeStatusTap(offerHeadId, l10n),
 
                                 //here Delete button
-                                onDeleteTap: _onDeleteTap(offerHeadId),
+                                onDeleteTap: _onDeleteTap(offerHeadId, l10n),
                               ),
                             ),
                             if (i == offers.length - 1 &&
@@ -251,7 +255,7 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
                 height: 80.h,
                 width: 80.w,
               ),
-              title: 'هناك خطأ الرجاء المحاولة لاحقاً',
+              title: l10n.errorTryAgainLater,
               subTitle: state.errMessage,
             ),
           );
@@ -263,7 +267,7 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
                 height: 80.h,
                 width: 80.w,
               ),
-              title: 'لم يتم جلب المعلومات!!',
+              title: l10n.infoNotFetched,
               subTitle: '',
             ),
           );
@@ -272,12 +276,12 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
     );
   }
 
-  Padding _buildAddOfferButton(BuildContext context) {
+  Padding _buildAddOfferButton(BuildContext context, AppLocalizations l10n) {
     return Padding(
         padding: const EdgeInsets.all(30.0),
-        child: ActionButtonWidget(
-          title: 'إضافة عرض',
-          iconPath: 'assets/add.svg',
+        child: StorePrimaryButton(
+          svgIconPath: 'assets/add.svg',
+          title: l10n.addOffer,
           onTap: () {
             context.push(
               AppRoutes.newOffer,

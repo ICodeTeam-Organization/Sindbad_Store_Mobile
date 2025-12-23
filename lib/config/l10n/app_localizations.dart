@@ -655,6 +655,156 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'إعادة تنشيط المنتجات'**
   String get reactivateProducts;
+
+  /// No description provided for @addOffer.
+  ///
+  /// In ar, this message translates to:
+  /// **'اضافة عرض'**
+  String get addOffer;
+
+  /// No description provided for @offerInfo.
+  ///
+  /// In ar, this message translates to:
+  /// **'معلومات العرض'**
+  String get offerInfo;
+
+  /// No description provided for @offerName.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم العرض'**
+  String get offerName;
+
+  /// No description provided for @offerStart.
+  ///
+  /// In ar, this message translates to:
+  /// **'بداية العرض'**
+  String get offerStart;
+
+  /// No description provided for @offerEnd.
+  ///
+  /// In ar, this message translates to:
+  /// **'نهاية العرض'**
+  String get offerEnd;
+
+  /// No description provided for @selectProducts.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر المنتجات'**
+  String get selectProducts;
+
+  /// No description provided for @browseProducts.
+  ///
+  /// In ar, this message translates to:
+  /// **'تصفح المنتجات'**
+  String get browseProducts;
+
+  /// No description provided for @addProductsToOffer.
+  ///
+  /// In ar, this message translates to:
+  /// **'اضف منتجات للعرض'**
+  String get addProductsToOffer;
+
+  /// No description provided for @invalidDateFormat.
+  ///
+  /// In ar, this message translates to:
+  /// **'صيغة التاريخ غير صحيحة. من فضلك تحقق من التواريخ.'**
+  String get invalidDateFormat;
+
+  /// No description provided for @yesChangeStatus.
+  ///
+  /// In ar, this message translates to:
+  /// **'نعم , قم بتغيير الحالة'**
+  String get yesChangeStatus;
+
+  /// No description provided for @confirmChangeOfferStatus.
+  ///
+  /// In ar, this message translates to:
+  /// **'هل انت متأكد من تغيير حالة العرض ؟'**
+  String get confirmChangeOfferStatus;
+
+  /// No description provided for @confirmDeleteOffer.
+  ///
+  /// In ar, this message translates to:
+  /// **'هل انت متأكد من الحذف ؟'**
+  String get confirmDeleteOffer;
+
+  /// No description provided for @offerWillBeDeleted.
+  ///
+  /// In ar, this message translates to:
+  /// **'سيتم حذف هذا العرض, هل تريد المتابعة'**
+  String get offerWillBeDeleted;
+
+  /// No description provided for @offerAddedSuccess.
+  ///
+  /// In ar, this message translates to:
+  /// **'تمت إضافة العرض بنجاح'**
+  String get offerAddedSuccess;
+
+  /// No description provided for @noOffersYet.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم تضف اي عروض حتى الان!'**
+  String get noOffersYet;
+
+  /// No description provided for @encourageCustomers.
+  ///
+  /// In ar, this message translates to:
+  /// **'شجع عملائك على الشراء بتقديم عروض مغرية'**
+  String get encourageCustomers;
+
+  /// No description provided for @errorTryAgainLater.
+  ///
+  /// In ar, this message translates to:
+  /// **'هناك خطأ الرجاء المحاولة لاحقاً'**
+  String get errorTryAgainLater;
+
+  /// No description provided for @infoNotFetched.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم يتم جلب المعلومات!!'**
+  String get infoNotFetched;
+
+  /// No description provided for @discountType.
+  ///
+  /// In ar, this message translates to:
+  /// **'نوع الخصم'**
+  String get discountType;
+
+  /// No description provided for @discountAmount.
+  ///
+  /// In ar, this message translates to:
+  /// **'خصم مبلغ من منتج'**
+  String get discountAmount;
+
+  /// No description provided for @buyXGetY.
+  ///
+  /// In ar, this message translates to:
+  /// **'اشتري x واحصل على y'**
+  String get buyXGetY;
+
+  /// No description provided for @defaultValue.
+  ///
+  /// In ar, this message translates to:
+  /// **'القيمة الأفتراضية'**
+  String get defaultValue;
+
+  /// No description provided for @addOfferProducts.
+  ///
+  /// In ar, this message translates to:
+  /// **'اضافة منتجات العرض'**
+  String get addOfferProducts;
+
+  /// No description provided for @searchProductNumberOrName.
+  ///
+  /// In ar, this message translates to:
+  /// **'بحث عن رقم المنتج او اسمه'**
+  String get searchProductNumberOrName;
+
+  /// No description provided for @infoNotReached.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم يتم الوصول الى المعلومات'**
+  String get infoNotReached;
 }
 
 class _AppLocalizationsDelegate

@@ -291,4 +291,83 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reactivateProducts => 'Reactivate Products';
+
+  @override
+  String get addOffer => 'Add Offer';
+
+  @override
+  String get offerInfo => 'Offer Information';
+
+  @override
+  String get offerName => 'Offer Name';
+
+  @override
+  String get offerStart => 'Offer Start';
+
+  @override
+  String get offerEnd => 'Offer End';
+
+  @override
+  String get selectProducts => 'Select Products';
+
+  @override
+  String get browseProducts => 'Browse Products';
+
+  @override
+  String get addProductsToOffer => 'Add products to offer';
+
+  @override
+  String get invalidDateFormat =>
+      'Invalid date format. Please check the dates.';
+
+  @override
+  String get yesChangeStatus => 'Yes, change status';
+
+  @override
+  String get confirmChangeOfferStatus =>
+      'Are you sure you want to change the offer status?';
+
+  @override
+  String get confirmDeleteOffer => 'Are you sure you want to delete?';
+
+  @override
+  String get offerWillBeDeleted =>
+      'This offer will be deleted, do you want to continue?';
+
+  @override
+  String get offerAddedSuccess => 'Offer added successfully';
+
+  @override
+  String get noOffersYet => 'You haven\'t added any offers yet!';
+
+  @override
+  String get encourageCustomers =>
+      'Encourage your customers to buy by offering attractive offers';
+
+  @override
+  String get errorTryAgainLater => 'An error occurred. Please try again later';
+
+  @override
+  String get infoNotFetched => 'Information could not be retrieved!!';
+
+  @override
+  String get discountType => 'Discount Type';
+
+  @override
+  String get discountAmount => 'Discount amount from product';
+
+  @override
+  String get buyXGetY => 'Buy X get Y';
+
+  @override
+  String get defaultValue => 'Default Value';
+
+  @override
+  String get addOfferProducts => 'Add Offer Products';
+
+  @override
+  String get searchProductNumberOrName => 'Search by product number or name';
+
+  @override
+  String get infoNotReached => 'Could not access the information';
 }

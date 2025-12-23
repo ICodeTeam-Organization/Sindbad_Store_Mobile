@@ -11,6 +11,7 @@ class ActionButtonWidget extends StatelessWidget {
   final double? width;
   final double? height;
   final void Function()? onTap;
+  final Color? color;
   const ActionButtonWidget(
       {super.key,
       required this.iconPath,
@@ -18,7 +19,8 @@ class ActionButtonWidget extends StatelessWidget {
       this.isSolid = true,
       this.onTap,
       this.width = 120,
-      this.height = 40});
+      this.height = 40,
+      this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class ActionButtonWidget extends StatelessWidget {
         width: width!.w,
         decoration: isSolid == true
             ? BoxDecoration(
-                color: AppColors.primary,
+                color: color ?? AppColors.primary,
                 borderRadius: BorderRadius.circular(5))
             : BoxDecoration(
                 color: AppColors.white,
@@ -41,7 +43,9 @@ class ActionButtonWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(
-              color: isSolid == false ? AppColors.primary : AppColors.white,
+              color: isSolid == false
+                  ? color ?? AppColors.primary
+                  : AppColors.white,
               iconPath,
               width: 25.w,
               height: 25.h,

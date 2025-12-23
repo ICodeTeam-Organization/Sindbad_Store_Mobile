@@ -291,4 +291,80 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get reactivateProducts => 'إعادة تنشيط المنتجات';
+
+  @override
+  String get addOffer => 'اضافة عرض';
+
+  @override
+  String get offerInfo => 'معلومات العرض';
+
+  @override
+  String get offerName => 'اسم العرض';
+
+  @override
+  String get offerStart => 'بداية العرض';
+
+  @override
+  String get offerEnd => 'نهاية العرض';
+
+  @override
+  String get selectProducts => 'اختر المنتجات';
+
+  @override
+  String get browseProducts => 'تصفح المنتجات';
+
+  @override
+  String get addProductsToOffer => 'اضف منتجات للعرض';
+
+  @override
+  String get invalidDateFormat =>
+      'صيغة التاريخ غير صحيحة. من فضلك تحقق من التواريخ.';
+
+  @override
+  String get yesChangeStatus => 'نعم , قم بتغيير الحالة';
+
+  @override
+  String get confirmChangeOfferStatus => 'هل انت متأكد من تغيير حالة العرض ؟';
+
+  @override
+  String get confirmDeleteOffer => 'هل انت متأكد من الحذف ؟';
+
+  @override
+  String get offerWillBeDeleted => 'سيتم حذف هذا العرض, هل تريد المتابعة';
+
+  @override
+  String get offerAddedSuccess => 'تمت إضافة العرض بنجاح';
+
+  @override
+  String get noOffersYet => 'لم تضف اي عروض حتى الان!';
+
+  @override
+  String get encourageCustomers => 'شجع عملائك على الشراء بتقديم عروض مغرية';
+
+  @override
+  String get errorTryAgainLater => 'هناك خطأ الرجاء المحاولة لاحقاً';
+
+  @override
+  String get infoNotFetched => 'لم يتم جلب المعلومات!!';
+
+  @override
+  String get discountType => 'نوع الخصم';
+
+  @override
+  String get discountAmount => 'خصم مبلغ من منتج';
+
+  @override
+  String get buyXGetY => 'اشتري x واحصل على y';
+
+  @override
+  String get defaultValue => 'القيمة الأفتراضية';
+
+  @override
+  String get addOfferProducts => 'اضافة منتجات العرض';
+
+  @override
+  String get searchProductNumberOrName => 'بحث عن رقم المنتج او اسمه';
+
+  @override
+  String get infoNotReached => 'لم يتم الوصول الى المعلومات';
 }

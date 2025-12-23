@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sindbad_management_app/config/l10n/app_localizations.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
 import 'package:sindbad_management_app/config/styles/text_style.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_products_entity.dart';
@@ -60,6 +61,9 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
@@ -70,7 +74,7 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
-              color: AppColors.white, // Color of the bottom border
+              color: theme.cardColor, // Color of the bottom border
               width: 10.w, // Width of the bottom border
             ),
           ),
@@ -85,7 +89,7 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: AppColors.primary,
+                      color: theme.colorScheme.primary,
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(25.r)),
                     ),
@@ -96,16 +100,16 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'اضافة منتجات العرض',
+                            l10n.addOfferProducts,
                             style: KTextStyle.textStyle18.copyWith(
-                              color: AppColors.white,
+                              color: Colors.white,
                             ),
                           ),
                           InkWell(
                             onTap: () => Navigator.of(context).pop(),
                             child: Icon(
                               Icons.close,
-                              color: AppColors.white,
+                              color: Colors.white,
                               size: 30.sp,
                             ),
                           ),
@@ -119,9 +123,9 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                     child: TextField(
                       controller: searchController,
                       decoration: InputDecoration(
-                        hintText: 'بحث عن رقم المنتج او اسمه',
+                        hintText: l10n.searchProductNumberOrName,
                         hintStyle: KTextStyle.textStyle14.copyWith(
-                          color: AppColors.greyDark,
+                          color: theme.hintColor,
                         ),
                         prefixIcon: Icon(Icons.search),
                         enabledBorder: OutlineInputBorder(
@@ -133,7 +137,7 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: AppColors.primary,
+                            color: theme.colorScheme.primary,
                             width: 1.0.w,
                           ),
                           borderRadius: BorderRadius.circular(10.r),
@@ -199,9 +203,9 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                         } else {
                           return Center(
                             child: Container(
-                              color: Colors.red.shade400,
+                              color: theme.colorScheme.error.withAlpha(100),
                               height: 50.h,
-                              child: Text('لم يتم الوصول الى المعلومات'),
+                              child: Text(l10n.infoNotReached),
                             ),
                           );
                         }
@@ -216,7 +220,7 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 alignment: Alignment.bottomCenter,
-                color: AppColors.white,
+                color: theme.cardColor,
                 height: 70.h,
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -234,9 +238,9 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                             borderRadius: BorderRadius.circular(5.r),
                           ),
                           child: Text(
-                            'الغاء',
+                            l10n.cancel,
                             style: KTextStyle.textStyle16.copyWith(
-                              color: AppColors.white,
+                              color: Colors.white,
                             ),
                           ),
                         ),
@@ -256,13 +260,13 @@ class _CustomSelectItemDialogState extends State<CustomSelectItemDialog> {
                           height: 40.h,
                           width: 170.w,
                           decoration: BoxDecoration(
-                            color: AppColors.primary,
+                            color: theme.colorScheme.primary,
                             borderRadius: BorderRadius.circular(5.r),
                           ),
                           child: Text(
-                            'تاكيد',
+                            l10n.confirm,
                             style: KTextStyle.textStyle16.copyWith(
-                              color: AppColors.white,
+                              color: Colors.white,
                             ),
                           ),
                         ),
