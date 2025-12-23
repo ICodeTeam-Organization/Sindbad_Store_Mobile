@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sindbad_management_app/config/l10n/app_localizations.dart';
 
 Future<bool?> showDeleteConfirmDialog({
   required BuildContext context,
   required String title,
   required String message,
-  String cancelText = 'الغاء',
-  String okText = 'موافق',
+  String cancelText = 'Cancel',
+  String okText = 'OK',
   required Function onConfirm,
   String subtitle = '',
 }) {
@@ -15,6 +16,8 @@ Future<bool?> showDeleteConfirmDialog({
     context: context,
     barrierDismissible: false, // user must tap one of the buttons
     builder: (context) {
+      final theme = Theme.of(context);
+
       return Dialog(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
@@ -34,7 +37,7 @@ Future<bool?> showDeleteConfirmDialog({
                     child: Icon(
                       Icons.close,
                       size: 24.sp,
-                      color: Colors.grey,
+                      color: theme.hintColor,
                     ),
                   ),
                 ],
@@ -46,11 +49,11 @@ Future<bool?> showDeleteConfirmDialog({
               ),
               SizedBox(height: 20.h),
               Text(
-                "هل انت متاكد من الحذف؟",
+                title,
                 style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black87,
+                  color: theme.textTheme.bodyLarge?.color,
                 ),
               ),
               SizedBox(height: 10.h),
@@ -59,7 +62,7 @@ Future<bool?> showDeleteConfirmDialog({
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 15.sp,
-                  color: Colors.grey[700],
+                  color: theme.hintColor,
                 ),
               ),
               SizedBox(height: 20.h),
@@ -74,16 +77,16 @@ Future<bool?> showDeleteConfirmDialog({
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        backgroundColor: Colors.red.withAlpha(20),
+                        backgroundColor: theme.colorScheme.error.withAlpha(20),
                         side: BorderSide.none,
                       ),
-                      child: Text("نعم, متابعة الحذف",
-                          style: const TextStyle(
-                            color: Color(0xFFDE3838),
+                      child: Text(okText,
+                          style: TextStyle(
+                            color: theme.colorScheme.error,
                           )),
                     ),
                   ),
-                  SizedBox(width: 10.w),
+                  SizedBox(width: 5.w),
                   Expanded(
                     child: OutlinedButton(
                       onPressed: () => Navigator.pop(context, false),
@@ -92,11 +95,17 @@ Future<bool?> showDeleteConfirmDialog({
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        backgroundColor: Color(0xff00498B).withAlpha(20),
+                        backgroundColor: theme.brightness == Brightness.light
+                            ? const Color(0xff00498B).withAlpha(20)
+                            : theme.colorScheme.primary.withAlpha(20),
                         side: BorderSide.none,
                       ),
-                      child: Text("لا,إالغاء العملية",
-                          style: TextStyle(color: const Color(0xff00498B))),
+                      child: Text(cancelText,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: theme.brightness == Brightness.light
+                                  ? const Color(0xff00498B)
+                                  : theme.colorScheme.primary)),
                     ),
                   ),
                 ],

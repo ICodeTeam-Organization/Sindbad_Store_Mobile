@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sindbad_management_app/config/l10n/app_localizations.dart';
 import 'package:sindbad_management_app/core/widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/widget/section_title_widget.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/widgets/custom_dropdown_widget.dart';
@@ -62,6 +63,9 @@ class _AddProductPageState extends State<AddProductPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       body: Form(
         key: _formKey,
@@ -73,7 +77,7 @@ class _AddProductPageState extends State<AddProductPage> {
               SizedBox(height: 25.h),
               CustomAppBar(
                 isSearch: false,
-                tital: 'إضافة منتج',
+                tital: l10n.addProduct,
               ),
               SizedBox(height: 10.h),
               Padding(
@@ -86,19 +90,19 @@ class _AddProductPageState extends State<AddProductPage> {
                       Container(
                         width: double.maxFinite,
                         decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(color: Colors.grey.shade300),
+                            color: theme.cardColor,
+                            border: Border.all(color: theme.dividerColor),
                             borderRadius: BorderRadius.circular(10)),
                         child: Padding(
                           padding: const EdgeInsets.all(20.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SectionTitleWidget(title: 'معلومات المنتج'),
+                              SectionTitleWidget(title: l10n.productInfo),
                               SizedBox(height: 20.h),
                               CustomTextFormWidget(
                                 textController: nameProductController,
-                                text: 'أسم المنتج',
+                                text: l10n.productName,
                                 height: 65.h,
                                 width: 400.w,
                                 isRequired: true,
@@ -111,7 +115,7 @@ class _AddProductPageState extends State<AddProductPage> {
                                   CustomTextFormWidget(
                                     keyboardType: TextInputType.number,
                                     textController: priceProductController,
-                                    text: 'السعر',
+                                    text: l10n.priceLabel,
                                     width: 130.w,
                                     height: 65.h,
                                     isRequired: true,
@@ -120,7 +124,7 @@ class _AddProductPageState extends State<AddProductPage> {
                                   CustomTextFormWidget(
                                     keyboardType: TextInputType.number,
                                     textController: numberProductController,
-                                    text: 'رقم المنتج',
+                                    text: l10n.productNumberLabel,
                                     width: 130.w,
                                     height: 65.h,
                                     isRequired: true,
@@ -131,7 +135,7 @@ class _AddProductPageState extends State<AddProductPage> {
                               CustomTextFormWidget(
                                 keyboardType: TextInputType.number,
                                 textController: oldPriceController,
-                                text: 'السعر السابق',
+                                text: l10n.oldPrice,
                                 width: 130.w,
                                 height: 65.h,
                                 isRequired: false,
@@ -139,7 +143,7 @@ class _AddProductPageState extends State<AddProductPage> {
                               SizedBox(height: 20.h),
                               CustomTextFormWidget(
                                 textController: shortDescriptionController,
-                                text: 'وصف مختصر',
+                                text: l10n.shortDescription,
                                 isRequired: false,
                                 maxLines: 3,
                                 width: 400.w,
@@ -155,15 +159,16 @@ class _AddProductPageState extends State<AddProductPage> {
                       Container(
                         width: double.maxFinite,
                         decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(color: Colors.grey.shade300),
+                            color: theme.cardColor,
+                            border: Border.all(color: theme.dividerColor),
                             borderRadius: BorderRadius.circular(10)),
                         child: Padding(
                           padding: const EdgeInsets.all(20.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SectionTitleWidget(title: "أختر صورة المنتح"),
+                              SectionTitleWidget(
+                                  title: l10n.selectProductImage),
                               SizedBox(height: 20.h),
                               ImagePacker.Add(
                                 // cubitAddProduct:
@@ -236,8 +241,8 @@ class _AddProductPageState extends State<AddProductPage> {
                       //  ================= for drop down =========
                       CustomDropdownWidget(
                         enabled: true,
-                        textTitle: 'أختر الفئة',
-                        hintText: "قم بإختيار الفئة المناسبة",
+                        textTitle: l10n.selectCategory,
+                        hintText: l10n.selectCategoryHint,
                         initialItem: null,
                         items: [],
                         // TODO: Populate items from categories list
@@ -262,10 +267,10 @@ class _AddProductPageState extends State<AddProductPage> {
                       SizedBox(height: 16.h),
                       CustomDropdownWidget(
                         enabled: mainCategoryId != null,
-                        textTitle: 'أختر القسم',
+                        textTitle: l10n.selectSection,
                         hintText: mainCategoryId != null
-                            ? "قم بإختيار القسم المناسب"
-                            : "إختر الفئة الأساسية أولا",
+                            ? l10n.selectSectionHint
+                            : l10n.selectCategoryFirst,
                         items: [],
                         // TODO: Populate items from sub-categories list
                         onChanged: (value) {
@@ -280,10 +285,10 @@ class _AddProductPageState extends State<AddProductPage> {
                       SizedBox(height: 16.h),
                       CustomDropdownWidget(
                         enabled: mainCategoryId != null,
-                        textTitle: 'أختر اسم البراند',
+                        textTitle: l10n.selectBrand,
                         hintText: mainCategoryId != null
-                            ? "قم بإختيار البراند المناسب"
-                            : "إختر الفئة الأساسية أولا",
+                            ? l10n.selectBrandHint
+                            : l10n.selectCategoryFirst,
                         isRequired: false,
                         items: [],
                         // TODO: Populate items from brands list
@@ -310,15 +315,15 @@ class _AddProductPageState extends State<AddProductPage> {
                       Container(
                         width: double.maxFinite,
                         decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(color: Colors.grey.shade300),
+                            color: theme.cardColor,
+                            border: Border.all(color: theme.dividerColor),
                             borderRadius: BorderRadius.circular(10)),
                         child: Padding(
                           padding: const EdgeInsets.all(20.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SectionTitleWidget(title: "خصائص المنتج"),
+                              SectionTitleWidget(title: l10n.productAttributes),
                               SizedBox(height: 20.h),
                               SizedBox(
                                 child: Column(
@@ -332,11 +337,11 @@ class _AddProductPageState extends State<AddProductPage> {
                                         children: [
                                           CustomSimpleTextFormField(
                                             textController: keys[index],
-                                            hintText: 'خاصية',
+                                            hintText: l10n.attribute,
                                           ),
                                           CustomSimpleTextFormField(
                                             textController: values[index],
-                                            hintText: 'قيمة',
+                                            hintText: l10n.value,
                                           ),
                                           IconButton(
                                             icon: Icon(Icons.remove_circle,
@@ -367,15 +372,15 @@ class _AddProductPageState extends State<AddProductPage> {
                                           values.add(TextEditingController());
                                         });
                                       },
-                                      child: const SizedBox(
+                                      child: SizedBox(
                                         child: Row(
                                           children: [
                                             Icon(
                                               Icons.add_circle_outline_sharp,
                                               size: 20,
-                                              color: Color(0xFF1E88E5),
+                                              color: theme.colorScheme.primary,
                                             ),
-                                            Text(" أضف المزيد"),
+                                            Text(" ${l10n.addMore}"),
                                           ],
                                         ),
                                       ),
@@ -403,14 +408,12 @@ class _AddProductPageState extends State<AddProductPage> {
                         if (state is AddProductToStoreSuccess) {
                           Navigator.of(context).pop();
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('تم إضافة المنتج بنجاح!')),
+                            SnackBar(content: Text(l10n.productAddedSuccess)),
                           );
                         }
                         if (state is AddProductToStoreFailure) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text(
-                                    'فشل في إضافة المنتج, الرجاء المحاولة مرة أخرى')),
+                            SnackBar(content: Text(l10n.productAddFailed)),
                           );
                         }
                       },
@@ -473,20 +476,20 @@ class _AddProductPageState extends State<AddProductPage> {
                               );
                             }
                           },
-                          title: "تأكيد",
+                          title: l10n.confirm,
                           width: 280.w,
                           height: 50.h,
-                          buttonColor: Color(0xFFFF746B),
+                          buttonColor: theme.colorScheme.primary,
                         );
                       },
                     ),
                     SizedBox(width: 8.w),
                     StorePrimaryButton(
                       onTap: () => Navigator.of(context).pop(),
-                      title: "الغاء",
+                      title: l10n.cancel,
                       width: 100.w,
                       height: 50.h,
-                      buttonColor: Colors.grey,
+                      buttonColor: theme.disabledColor,
                     ),
                   ],
                 ),

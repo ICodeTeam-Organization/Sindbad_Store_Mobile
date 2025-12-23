@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart' hide ErrorWidget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sindbad_management_app/config/l10n/app_localizations.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/entities/entities_states.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/order%20cubit/orders_cubit.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/order%20cubit/orders_cubit_states.dart';
@@ -14,18 +15,20 @@ class UrgentTabViews extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       children: [
-        PackageStatusFilterBar<String>(
+        PackageStatusFilterBar<PackageStatus>(
           items: [
-            PackageStatus.all.displayName,
-            PackageStatus.packageConfirmedByYemeniAccountant.displayName,
-            PackageStatus.packageInvoiceCreated.displayName,
-            PackageStatus.packageShippedFromStore.displayName,
+            PackageStatus.all,
+            PackageStatus.packageConfirmedByYemeniAccountant,
+            PackageStatus.packageInvoiceCreated,
+            PackageStatus.packageShippedFromStore,
           ],
-          onChange: (value) {
-            context.read<OrdersCubit>().fetchUrgentOrders(
-                PackageStatusExtension.idFromDisplayName(value));
+          labelBuilder: (status) => status.getDisplayName(l10n),
+          onChange: (status) {
+            context.read<OrdersCubit>().fetchUrgentOrders(status.id);
           },
         ),
         Expanded(

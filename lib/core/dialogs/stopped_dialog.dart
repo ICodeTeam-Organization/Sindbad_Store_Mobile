@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sindbad_management_app/config/l10n/app_localizations.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/product_entity.dart';
 
 void showProductSelectionDialog({
@@ -70,6 +71,9 @@ class _ProductSelectionDialogState extends State<ProductSelectionDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
+
     return Dialog(
       insetPadding: const EdgeInsets.symmetric(horizontal: 16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -79,8 +83,8 @@ class _ProductSelectionDialogState extends State<ProductSelectionDialog> {
           children: [
             // Header
             Container(
-              decoration: const BoxDecoration(
-                color: Color(0xffFF746B),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primary,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
               ),
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
@@ -144,7 +148,7 @@ class _ProductSelectionDialogState extends State<ProductSelectionDialog> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 12, vertical: 12),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.shade300),
+                      border: Border.all(color: theme.dividerColor),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Row(
@@ -165,9 +169,10 @@ class _ProductSelectionDialogState extends State<ProductSelectionDialog> {
                             const SizedBox(width: 12),
                             Text(
                               product.name ?? "",
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,
+                                color: theme.textTheme.bodyLarge?.color,
                               ),
                             ),
                           ],
@@ -179,13 +184,13 @@ class _ProductSelectionDialogState extends State<ProductSelectionDialog> {
                           child: Container(
                             padding: const EdgeInsets.all(4),
                             decoration: BoxDecoration(
-                              color: Colors.red.shade100,
+                              color: theme.colorScheme.error.withAlpha(30),
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.close,
                               size: 18,
-                              color: Colors.red,
+                              color: theme.colorScheme.error,
                             ),
                           ),
                         ),
@@ -212,13 +217,13 @@ class _ProductSelectionDialogState extends State<ProductSelectionDialog> {
                         Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xffFF746B),
+                        backgroundColor: theme.colorScheme.primary,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
                         ),
                       ),
-                      child: const Text(
-                        "تأكيد",
+                      child: Text(
+                        l10n.confirm,
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ),
@@ -231,13 +236,13 @@ class _ProductSelectionDialogState extends State<ProductSelectionDialog> {
                     child: ElevatedButton(
                       onPressed: () => Navigator.pop(context),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xff979797),
+                        backgroundColor: theme.disabledColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
                         ),
                       ),
-                      child: const Text(
-                        "الغاء",
+                      child: Text(
+                        l10n.cancel,
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ),

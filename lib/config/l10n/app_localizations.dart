@@ -379,6 +379,282 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'هناك خطأ الرجاء المحاولة لاحقاً'**
   String get errorMessage;
+
+  /// No description provided for @products.
+  ///
+  /// In ar, this message translates to:
+  /// **'المنتجات'**
+  String get products;
+
+  /// No description provided for @offers.
+  ///
+  /// In ar, this message translates to:
+  /// **'العروض'**
+  String get offers;
+
+  /// No description provided for @reports.
+  ///
+  /// In ar, this message translates to:
+  /// **'التقارير'**
+  String get reports;
+
+  /// No description provided for @allProducts.
+  ///
+  /// In ar, this message translates to:
+  /// **'الجميع'**
+  String get allProducts;
+
+  /// No description provided for @withOffers.
+  ///
+  /// In ar, this message translates to:
+  /// **'عليها عروض'**
+  String get withOffers;
+
+  /// No description provided for @stopped.
+  ///
+  /// In ar, this message translates to:
+  /// **'الموقوفة'**
+  String get stopped;
+
+  /// No description provided for @addProducts.
+  ///
+  /// In ar, this message translates to:
+  /// **'أضافة منتجات'**
+  String get addProducts;
+
+  /// No description provided for @stopProducts.
+  ///
+  /// In ar, this message translates to:
+  /// **'ايقاف منتجات'**
+  String get stopProducts;
+
+  /// No description provided for @somethingWentWrong.
+  ///
+  /// In ar, this message translates to:
+  /// **'هناك خطأ ما...'**
+  String get somethingWentWrong;
+
+  /// No description provided for @ok.
+  ///
+  /// In ar, this message translates to:
+  /// **'حسنا'**
+  String get ok;
+
+  /// No description provided for @productNumber.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم المنتج:'**
+  String get productNumber;
+
+  /// No description provided for @price.
+  ///
+  /// In ar, this message translates to:
+  /// **'السعر:'**
+  String get price;
+
+  /// No description provided for @currency.
+  ///
+  /// In ar, this message translates to:
+  /// **'ريال'**
+  String get currency;
+
+  /// No description provided for @edit.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل'**
+  String get edit;
+
+  /// No description provided for @delete.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف'**
+  String get delete;
+
+  /// No description provided for @deleteProduct.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف المنتج'**
+  String get deleteProduct;
+
+  /// No description provided for @deleteProductConfirm.
+  ///
+  /// In ar, this message translates to:
+  /// **'هل انت متأكد من حذف المنتج'**
+  String get deleteProductConfirm;
+
+  /// No description provided for @deleteProductPermanent.
+  ///
+  /// In ar, this message translates to:
+  /// **'سيتم حذف هذا المنتج بشكل نهائي'**
+  String get deleteProductPermanent;
+
+  /// No description provided for @addProduct.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة منتج'**
+  String get addProduct;
+
+  /// No description provided for @productInfo.
+  ///
+  /// In ar, this message translates to:
+  /// **'معلومات المنتج'**
+  String get productInfo;
+
+  /// No description provided for @productName.
+  ///
+  /// In ar, this message translates to:
+  /// **'أسم المنتج'**
+  String get productName;
+
+  /// No description provided for @priceLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'السعر'**
+  String get priceLabel;
+
+  /// No description provided for @productNumberLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم المنتج'**
+  String get productNumberLabel;
+
+  /// No description provided for @oldPrice.
+  ///
+  /// In ar, this message translates to:
+  /// **'السعر السابق'**
+  String get oldPrice;
+
+  /// No description provided for @shortDescription.
+  ///
+  /// In ar, this message translates to:
+  /// **'وصف مختصر'**
+  String get shortDescription;
+
+  /// No description provided for @selectProductImage.
+  ///
+  /// In ar, this message translates to:
+  /// **'أختر صورة المنتج'**
+  String get selectProductImage;
+
+  /// No description provided for @selectCategory.
+  ///
+  /// In ar, this message translates to:
+  /// **'أختر الفئة'**
+  String get selectCategory;
+
+  /// No description provided for @selectCategoryHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'قم بإختيار الفئة المناسبة'**
+  String get selectCategoryHint;
+
+  /// No description provided for @selectSection.
+  ///
+  /// In ar, this message translates to:
+  /// **'أختر القسم'**
+  String get selectSection;
+
+  /// No description provided for @selectSectionHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'قم بإختيار القسم المناسب'**
+  String get selectSectionHint;
+
+  /// No description provided for @selectCategoryFirst.
+  ///
+  /// In ar, this message translates to:
+  /// **'إختر الفئة الأساسية أولا'**
+  String get selectCategoryFirst;
+
+  /// No description provided for @selectBrand.
+  ///
+  /// In ar, this message translates to:
+  /// **'أختر اسم البراند'**
+  String get selectBrand;
+
+  /// No description provided for @selectBrandHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'قم بإختيار البراند المناسب'**
+  String get selectBrandHint;
+
+  /// No description provided for @productAttributes.
+  ///
+  /// In ar, this message translates to:
+  /// **'خصائص المنتج'**
+  String get productAttributes;
+
+  /// No description provided for @attribute.
+  ///
+  /// In ar, this message translates to:
+  /// **'خاصية'**
+  String get attribute;
+
+  /// No description provided for @value.
+  ///
+  /// In ar, this message translates to:
+  /// **'قيمة'**
+  String get value;
+
+  /// No description provided for @addMore.
+  ///
+  /// In ar, this message translates to:
+  /// **'أضف المزيد'**
+  String get addMore;
+
+  /// No description provided for @confirm.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأكيد'**
+  String get confirm;
+
+  /// No description provided for @cancel.
+  ///
+  /// In ar, this message translates to:
+  /// **'الغاء'**
+  String get cancel;
+
+  /// No description provided for @productAddedSuccess.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم إضافة المنتج بنجاح!'**
+  String get productAddedSuccess;
+
+  /// No description provided for @productAddFailed.
+  ///
+  /// In ar, this message translates to:
+  /// **'فشل في إضافة المنتج, الرجاء المحاولة مرة أخرى'**
+  String get productAddFailed;
+
+  /// No description provided for @addImage.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة صورة'**
+  String get addImage;
+
+  /// No description provided for @noCancelOperation.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا, إلغاء العملية'**
+  String get noCancelOperation;
+
+  /// No description provided for @yesContinueProcess.
+  ///
+  /// In ar, this message translates to:
+  /// **'نعم, متابعة الحذف'**
+  String get yesContinueProcess;
+
+  /// No description provided for @reactivate.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة تنشيط'**
+  String get reactivate;
+
+  /// No description provided for @reactivateProducts.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة تنشيط المنتجات'**
+  String get reactivateProducts;
 }
 
 class _AppLocalizationsDelegate

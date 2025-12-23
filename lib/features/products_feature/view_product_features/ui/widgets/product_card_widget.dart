@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sindbad_management_app/config/l10n/app_localizations.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
 import 'package:sindbad_management_app/core/dialogs/delete_confirm_dialog.dart';
@@ -32,6 +33,7 @@ class ProductCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
 
     // Theme-aware colors
     final evenBgColor = isDark ? Colors.grey[850] : AppColors.background;
@@ -55,6 +57,8 @@ class ProductCardWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(4.r),
             ),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 CheckBoxCustom(
                   val: selected,
@@ -73,19 +77,20 @@ class ProductCardWidget extends StatelessWidget {
                 SizedBox(width: 10),
                 Expanded(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         product.name ?? '',
-                        textAlign: TextAlign.right,
+                        textAlign: TextAlign.start,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextTheme.of(context).titleMedium,
                       ),
                       SizedBox(height: 10.h),
                       Text(
-                        'رقم المنتج: ${product.number ?? ''}',
-                        textAlign: TextAlign.right,
+                        '${l10n.productNumber} ${product.number ?? ''}',
+                        textAlign: TextAlign.start,
                         overflow: TextOverflow.ellipsis,
                         style: TextTheme.of(context).bodySmall!.copyWith(
                             fontWeight: FontWeight.normal,
@@ -95,19 +100,19 @@ class ProductCardWidget extends StatelessWidget {
                       SizedBox(height: 10.h),
                       RichText(
                         overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.right,
+                        textAlign: TextAlign.start,
                         text: TextSpan(
                           style: TextTheme.of(context).bodySmall!.copyWith(
                               fontWeight: FontWeight.normal,
                               color: subtitleColor,
                               fontSize: 12),
                           children: [
-                            TextSpan(text: 'السعر: '),
+                            TextSpan(text: '${l10n.price} '),
                             TextSpan(
                               text: '${product.price ?? ''}',
                               style: TextStyle(color: priceColor),
                             ),
-                            TextSpan(text: ' ريال'),
+                            TextSpan(text: ' ${l10n.currency}'),
                           ],
                         ),
                       ),
@@ -116,9 +121,11 @@ class ProductCardWidget extends StatelessWidget {
                 ),
                 SizedBox(width: 10.w),
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     MenuButtonWidget(
-                      title: 'تعديل',
+                      title: l10n.edit,
                       iconPath: "assets/update.svg",
                       isSolid: false,
                       onTap: () {
@@ -135,15 +142,17 @@ class ProductCardWidget extends StatelessWidget {
                     ),
                     SizedBox(height: 5.h),
                     MenuButtonWidget(
-                      title: 'حذف',
+                      title: l10n.delete,
                       iconPath: "assets/delete.svg",
                       isSolid: false,
                       onTap: () {
                         showDeleteConfirmDialog(
-                          subtitle: 'سيتم حذف هذا المنتج بشكل نهائي',
+                          okText: l10n.yesContinueProcess,
+                          cancelText: l10n.noCancelOperation,
+                          subtitle: l10n.deleteProductPermanent,
                           context: context,
-                          title: 'حذف المنتج',
-                          message: 'هل انت متأكد من حذف المنتج',
+                          title: l10n.deleteProduct,
+                          message: l10n.deleteProductConfirm,
                           onConfirm: () {
                             context
                                 .read<ProductsCubit>()
@@ -151,47 +160,10 @@ class ProductCardWidget extends StatelessWidget {
                           },
                         );
                       },
-                    )
-                    // ActionButtonWidget(
-                    //   title: 'تعديل المنتج',
-                    //   iconPath: "assets/update.svg",
-                    //   isSolid: false,
-                    //   onTap: () {},
-                    // ),
+                    ),
                   ],
-                )
-                // TwoButtonInsideListViewProducts(
-                //   onTapEdit: () {
-                //     context
-                //         .read<ProductDetailsCubit>()
-                //         .getProductDetails(productId: product.id);
-                //     showGetProductDetailsDialog(
-                //       contextParent: context,
-                //       productDetailsCubit: context.read<ProductDetailsCubit>(),
-                //     );
-                //   },
-                //   reactivate: widget.storeProductsFilter == 2,
-                //  onTapDeleteOrReactivate: () {
-                // widget.storeProductsFilter == 2
-                //     ? showActivateOneOrMoreProductsDialog(
-                //         contextParent: context,
-                //         ids: [product.productId!],
-                //         storeProductsFilter:
-                //             widget.storeProductsFilter,
-                //         activateProductsCubit: context.read<
-                //             ActivateProductsByIdsCubit>(),
-                //       )
-                //     : showDeleteProductDialog(
-                //         contextParent: context,
-                //         productId: product.productId!,
-                //         storeProductsFilter:
-                //             widget.storeProductsFilter,
-                //         deleteProductCubit: context.read<
-                //             DeleteProductByIdFromStoreCubit>(),
-                //       );
-                //  },
-                //   reactivate: 0 == 2,
-                //  ),
+                ),
+                SizedBox(width: 10),
               ],
             ),
           ),

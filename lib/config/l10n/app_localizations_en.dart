@@ -151,4 +151,144 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorMessage => 'An error occurred. Please try again later';
+
+  @override
+  String get products => 'Products';
+
+  @override
+  String get offers => 'Offers';
+
+  @override
+  String get reports => 'Reports';
+
+  @override
+  String get allProducts => 'All';
+
+  @override
+  String get withOffers => 'With Offers';
+
+  @override
+  String get stopped => 'Stopped';
+
+  @override
+  String get addProducts => 'Add Products';
+
+  @override
+  String get stopProducts => 'Stop Products';
+
+  @override
+  String get somethingWentWrong => 'Something went wrong...';
+
+  @override
+  String get ok => 'OK';
+
+  @override
+  String get productNumber => 'Product No:';
+
+  @override
+  String get price => 'Price:';
+
+  @override
+  String get currency => 'SAR';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get deleteProduct => 'Delete Product';
+
+  @override
+  String get deleteProductConfirm =>
+      'Are you sure you want to delete this product?';
+
+  @override
+  String get deleteProductPermanent =>
+      'This product will be permanently deleted';
+
+  @override
+  String get addProduct => 'Add Product';
+
+  @override
+  String get productInfo => 'Product Information';
+
+  @override
+  String get productName => 'Product Name';
+
+  @override
+  String get priceLabel => 'Price';
+
+  @override
+  String get productNumberLabel => 'Product Number';
+
+  @override
+  String get oldPrice => 'Old Price';
+
+  @override
+  String get shortDescription => 'Short Description';
+
+  @override
+  String get selectProductImage => 'Select Product Image';
+
+  @override
+  String get selectCategory => 'Select Category';
+
+  @override
+  String get selectCategoryHint => 'Choose the appropriate category';
+
+  @override
+  String get selectSection => 'Select Section';
+
+  @override
+  String get selectSectionHint => 'Choose the appropriate section';
+
+  @override
+  String get selectCategoryFirst => 'Select main category first';
+
+  @override
+  String get selectBrand => 'Select Brand';
+
+  @override
+  String get selectBrandHint => 'Choose the appropriate brand';
+
+  @override
+  String get productAttributes => 'Product Attributes';
+
+  @override
+  String get attribute => 'Attribute';
+
+  @override
+  String get value => 'Value';
+
+  @override
+  String get addMore => 'Add More';
+
+  @override
+  String get confirm => 'Confirm';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get productAddedSuccess => 'Product added successfully!';
+
+  @override
+  String get productAddFailed => 'Failed to add product, please try again';
+
+  @override
+  String get addImage => 'Add Image';
+
+  @override
+  String get noCancelOperation => 'No, Cancel the operation';
+
+  @override
+  String get yesContinueProcess => 'Yes, continue process';
+
+  @override
+  String get reactivate => 'Reactivate';
+
+  @override
+  String get reactivateProducts => 'Reactivate Products';
 }

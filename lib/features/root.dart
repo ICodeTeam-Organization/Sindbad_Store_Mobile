@@ -77,15 +77,15 @@ class _RootState extends State<Root> {
                   ),
                   CustomBottomNavigationBarItem(
                     icon: 'assets/logo_products.svg',
-                    label: 'المنتجات',
+                    label: l10n.products,
                   ),
                   CustomBottomNavigationBarItem(
                     icon: 'assets/logo_offers.svg',
-                    label: 'العروض',
+                    label: l10n.offers,
                   ),
                   CustomBottomNavigationBarItem(
                     icon: 'assets/logo_reports.svg',
-                    label: 'التقارير',
+                    label: l10n.reports,
                   ),
                 ],
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sindbad_management_app/config/l10n/app_localizations.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/screens/all_products_tap.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/screens/offered_produts_tap.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/screens/stopped_products_tap.dart';
@@ -37,11 +38,13 @@ class _ViewProductBodyState extends State<_ViewProductBody> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       body: Column(
         children: [
           CustomAppBar(
-            tital: "المنتجات",
+            tital: l10n.products,
             isBack: false,
           ),
           SizedBox(height: 10.h),
@@ -49,16 +52,16 @@ class _ViewProductBodyState extends State<_ViewProductBody> {
             child: CustomTabBarWidget(
               tabs: [
                 Tab(
-                  child: Text('الجميع',
+                  child: Text(l10n.allProducts,
                       textAlign: TextAlign.center,
                       style: TextTheme.of(context).titleMedium),
                 ),
                 Tab(
-                    child: Text("عليها عروض",
+                    child: Text(l10n.withOffers,
                         textAlign: TextAlign.center,
                         style: TextTheme.of(context).titleMedium)),
                 Tab(
-                    child: Text("الموقوفة",
+                    child: Text(l10n.stopped,
                         textAlign: TextAlign.center,
                         style: TextTheme.of(context).titleMedium)),
               ],
@@ -78,232 +81,4 @@ class _ViewProductBodyState extends State<_ViewProductBody> {
       ),
     );
   }
-
-  // /// Builds the view for all products t"Yab
-  // Widget buildAllProductsTap(BuildContext context, int tabIndex) {
-  //   return Column(
-  //     children: [
-  //       CategoryFilterBarTemp(
-  //         storeProductsFilter: tabIndex,
-  //       ),
-  //       BlocBuilder<ProductsCubit, ProductsState>(
-  //         builder: (context, state) {
-  //           return TwoButtonInRow(
-  //             anyProductsSelected:
-  //                 context.read<ProductsCubit>().updatedProductsSelected.isEmpty,
-  //             onTapLeft: () {
-  //               showDisableOneOrMoreProductsDialog(
-  //                 parentContext: context,
-  //                 storeProductsFilter: tabIndex,
-  //                 ids: context.read<ProductsCubit>().updatedProductsSelected,
-  //                 cubitDisableProducts:
-  //                     context.read<DisableProductsByIdsCubit>(),
-  //               );
-  //             },
-  //           );
-  //         },
-  //       ),
-  //       SizedBox(height: 15.h),
-  //       Expanded(
-  //         child: ProductsListView(
-  //           storeProductsFilter: tabIndex,
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
-
-  // /// Builds the view for products with offers tab
-  // Widget buildOfferProductsTap(BuildContext context, int tabIndex) {
-  //   return Column(
-  //     children: [
-  //       // CategoryFilterBarTemp(
-  //       //   storeProductsFilter: tabIndex,
-  //       // ),
-  //       BlocBuilder<ProductsCubit, ProductsState>(
-  //         builder: (context, state) {
-  //           return TwoButtonInRow(
-  //             anyProductsSelected:
-  //                 context.read<ProductsCubit>().updatedProductsSelected.isEmpty,
-  //             onTapLeft: () {
-  //               showDisableOneOrMoreProductsDialog(
-  //                 parentContext: context,
-  //                 storeProductsFilter: tabIndex,
-  //                 ids: context.read<ProductsCubit>().updatedProductsSelected,
-  //                 cubitDisableProducts:
-  //                     context.read<DisableProductsByIdsCubit>(),
-  //               );
-  //             },
-  //           );
-  //         },
-  //       ),
-  //       SizedBox(height: 15.h),
-  //       Expanded(
-  //         child: ProductsListView(
-  //           storeProductsFilter: tabIndex,
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
-
-  /// Builds the view for stopped/disabled products tab
-  // Widget buildStoppedProductsTap(BuildContext context, int tabIndex) {
-  //   return Column(
-  //     children: [
-  //       BlocBuilder<ProductsCubit, ProductsState>(
-  //         builder: (context, state) {
-  //           return TwoButtonInRow(
-  //             titleLeft: "إعادة تنشيط",
-  //             anyProductsSelected:
-  //                 context.read<ProductsCubit>().updatedProductsSelected.isEmpty,
-  //             onTapLeft: () {
-  //               showActivateOneOrMoreProductsDialog(
-  //                 contextParent: context,
-  //                 ids: context.read<ProductsCubit>().updatedProductsSelected,
-  //                 storeProductsFilter: tabIndex,
-  //                 activateProductsCubit:
-  //                     context.read<ActivateProductsByIdsCubit>(),
-  //               );
-  //             },
-  //           );
-  //         },
-  //       ),
-  //       SizedBox(height: 15.h),
-  //       Expanded(
-  //         child: ProductsListView(
-  //           storeProductsFilter: tabIndex,
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
 }
-
-// void showDisableOneOrMoreProductsDialog({
-//   required BuildContext parentContext,
-//   required int storeProductsFilter,
-//   required List<int> ids,
-//  // required DisableProductsByIdsCubit cubitDisableProducts,
-// }) {
-//   showDialog(
-//     context: parentContext,
-//     builder: (BuildContext dialogContext) {
-//       return BlocProvider.value(
-//      //   value: cubitDisableProducts,
-//         child:
-//             BlocConsumer<DisableProductsByIdsCubit, DisableProductsByIdsState>(
-//           listener: (dialogContext, state) {
-//             if (state is DisableProductsByIdsSuccess) {
-//               ScaffoldMessenger.of(parentContext).showSnackBar(
-//                 SnackBar(content: Text('تم إيقاف المنتجات بنجاح!')),
-//               );
-//               Navigator.of(dialogContext, rootNavigator: true).pop();
-//               parentContext.read<ProductsCubit>().getStoreProductsWitheFilter(
-//                     storeProductsFilter: storeProductsFilter,
-//                     categoryId: parentContext
-//                         .read<ProductsCubit>()
-//                         .currentMainCategoryId,
-//                     pageNumber: 1,
-//                     pageSize: 100,
-//                   );
-//             } else if (state is DisableProductsByIdsFailure) {
-//               ScaffoldMessenger.of(parentContext).showSnackBar(
-//                 SnackBar(content: Text(state.errMessage)),
-//               );
-//             }
-//           },
-//           builder: (dialogContext, state) {
-//             return CustomShowDialogForViewWidget(
-//               title: 'هل انت متأكد من إيقاف المنتجات؟',
-//               subtitle: 'عدد المنتجات التي تريد إيقافها : ${ids.length}',
-//               isLoading: state is DisableProductsByIdsLoading,
-//               onConfirm: () =>
-//                   cubitDisableProducts.disableProductsByIds(ids: ids),
-//               confirmText: "إيقاف",
-//               cancelText: 'إلغاء',
-//             );
-//           },
-//         ),
-//       );
-//     },
-//   );
-// }
-
-// void showActivateOneOrMoreProductsDialog({
-//   required BuildContext contextParent,
-//   required List<int> ids,
-//   required int storeProductsFilter,
-//   required ActivateProductsByIdsCubit activateProductsCubit,
-// }) {
-//   showDialog(
-//     context: contextParent,
-//     builder: (BuildContext dialogContext) {
-//       return BlocProvider.value(
-//         value: activateProductsCubit,
-//         child: BlocConsumer<ActivateProductsByIdsCubit,
-//             ActivateProductsByIdsState>(
-//           listener: (dialogContext, state) {
-//             if (state is ActivateProductsByIdsSuccess) {
-//               ScaffoldMessenger.of(contextParent).showSnackBar(
-//                 SnackBar(content: Text('تم إعادة تنشيط المنتج بنجاح!')),
-//               );
-//               Navigator.of(dialogContext, rootNavigator: true).pop();
-//               contextParent.read<ProductsCubit>().getStoreProductsWitheFilter(
-//                     storeProductsFilter: storeProductsFilter,
-//                     categoryId: contextParent
-//                         .read<ProductsCubit>()
-//                         .currentMainCategoryId,
-//                     pageNumber: 1,
-//                     pageSize: 100,
-//                   );
-//             } else if (state is ActivateProductsByIdsFailure) {
-//               ScaffoldMessenger.of(contextParent).showSnackBar(
-//                 SnackBar(content: Text(state.errMessage)),
-//               );
-//             }
-//           },
-//           builder: (dialogContext, state) {
-//             return CustomShowDialogForViewWidget(
-//               title: ids.length > 1
-//                   ? 'هل انت متأكد من إعادة تنشيط المنتجات؟'
-//                   : 'إعادة تنشيط المنتج',
-//               subtitle: ids.length > 1
-//                   ? 'عدد المنتجات التي تريد تنشطيها : ${ids.length}'
-//                   : 'هل تريد بالتأكيد إعادة تنشيط هذا المنتج؟',
-//               isLoading: state is ActivateProductsByIdsLoading,
-//               onConfirm: () => activateProductsCubit.activateProductsByIds(ids),
-//               confirmText: 'إعادة تنشيط',
-//               cancelText: 'إلغاء',
-//             );
-//           },
-//         ),
-//       );
-//     },
-//   );
-// }
-
-
-// BlocProvider(
-        //   create: (context) =>
-        //       DisableProductsByIdsCubit(DisableProductsByIdsUseCase(
-        //     getit.get<ProductRepositoryImpl>(),
-        //   )),
-        // ),
-        // BlocProvider(
-        //   create: (context) => DeleteProductByIdFromStoreCubit(
-        //     DeleteProductByIdUseCase(
-        //       getit.get<ProductRepositoryImpl>(),
-        //     ),
-        //   ),
-        // ),
-        // BlocProvider(
-        //     create: (context) =>
-        //         ActivateProductsByIdsCubit(ActivateProductsByIdsUseCase(
-        //           getit.get<ProductRepositoryImpl>(),
-        //         ))),
-        // BlocProvider(
-        //     create: (context) =>
-        //         ProductDetailsCubit(GetProductDetailsToStoreUseCase(
-        //           getit.get<AddAndEditProductStoreRepoImpl>(),
-        //         ))),

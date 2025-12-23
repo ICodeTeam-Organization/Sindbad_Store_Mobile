@@ -128,6 +128,8 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
       body: BlocListener<ProductDetailsCubit, ProductDetailsState>(
         listener: (context, state) {
@@ -172,9 +174,8 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                             Container(
                               width: double.maxFinite,
                               decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: Colors.grey.shade300),
+                                  color: theme.cardColor,
+                                  border: Border.all(color: theme.dividerColor),
                                   borderRadius: BorderRadius.circular(10)),
                               child: Padding(
                                 padding: const EdgeInsets.all(20.0),
@@ -255,9 +256,8 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                             Container(
                               width: double.maxFinite,
                               decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: Colors.grey.shade300),
+                                  color: theme.cardColor,
+                                  border: Border.all(color: theme.dividerColor),
                                   borderRadius: BorderRadius.circular(10)),
                               child: Padding(
                                 padding: const EdgeInsets.all(20.0),
@@ -367,9 +367,8 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                             Container(
                               width: double.maxFinite,
                               decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: Colors.grey.shade300),
+                                  color: theme.cardColor,
+                                  border: Border.all(color: theme.dividerColor),
                                   borderRadius: BorderRadius.circular(10)),
                               child: Padding(
                                 padding: const EdgeInsets.all(20.0),
@@ -431,14 +430,15 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                                                     TextEditingController());
                                               });
                                             },
-                                            child: const SizedBox(
+                                            child: SizedBox(
                                               child: Row(
                                                 children: [
                                                   Icon(
                                                     Icons
                                                         .add_circle_outline_sharp,
                                                     size: 20,
-                                                    color: Color(0xFF1E88E5),
+                                                    color: theme
+                                                        .colorScheme.primary,
                                                   ),
                                                   Text(" أضف المزيد"),
                                                 ],
@@ -522,7 +522,7 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                             title: "حفظ التعديلات",
                             width: 280.w,
                             height: 50.h,
-                            buttonColor: Color(0xFFFF746B),
+                            buttonColor: theme.colorScheme.primary,
                           ),
                           SizedBox(width: 8.w),
                           StorePrimaryButton(
@@ -530,7 +530,7 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                             title: "الغاء",
                             width: 100.w,
                             height: 50.h,
-                            buttonColor: Colors.grey,
+                            buttonColor: theme.disabledColor,
                           ),
                         ],
                       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:sindbad_management_app/config/l10n/app_localizations.dart';
 import 'package:sindbad_management_app/core/dialogs/ErrorDialog.dart';
 import 'package:sindbad_management_app/core/dialogs/stopped_dialog.dart';
 import 'package:sindbad_management_app/core/widgets/store_primary_button.dart';
@@ -59,18 +60,20 @@ class _OfferedProdutsTapState extends State<OfferedProdutsTap> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       children: [
         buildCategoryFilterBar(),
         SizedBox(height: 10.h),
-        _buildActionsButtons(context),
+        _buildActionsButtons(context, l10n),
         SizedBox(height: 15.h),
-        _buildProductsList()
+        _buildProductsList(l10n)
       ],
     );
   }
 
-  Expanded _buildProductsList() {
+  Expanded _buildProductsList(AppLocalizations l10n) {
     return Expanded(
       child: BlocConsumer<ProductsCubit, ProductsState>(
         buildWhen: (previous, current) => current is! ProductsLoadFailure,
@@ -138,23 +141,23 @@ class _OfferedProdutsTapState extends State<OfferedProdutsTap> {
           } else if (state is ProductsLoadFailure) {
             return ErrorWidget(state.errMessage);
           } else {
-            return ErrorWidget("هناك خطأ ما...");
+            return ErrorWidget(l10n.somethingWentWrong);
           }
         },
         listener: (BuildContext context, ProductsState state) {
           if (state is ProductsLoadFailure) {
             showErrorDialog(
                 context: context,
-                title: "خطأ",
+                title: l10n.error,
                 description: state.errMessage,
-                buttonText: "حسنا");
+                buttonText: l10n.ok);
           }
         },
       ),
     );
   }
 
-  Padding _buildActionsButtons(BuildContext context) {
+  Padding _buildActionsButtons(BuildContext context, AppLocalizations l10n) {
     return Padding(
       padding: EdgeInsets.only(
         left: 15.w,
@@ -165,9 +168,9 @@ class _OfferedProdutsTapState extends State<OfferedProdutsTap> {
         children: [
           StorePrimaryButton(
             // disabled: !anyProductsSelected,
-            title: "أضافة منتجات",
+            title: l10n.addProducts,
             svgIconPath: 'assets/svgs/add.svg',
-            buttonColor: AppColors.primary,
+            buttonColor: Theme.of(context).primaryColor,
             height: 32.h,
             width: 126.w,
             onTap: () {
@@ -179,7 +182,7 @@ class _OfferedProdutsTapState extends State<OfferedProdutsTap> {
           StorePrimaryButton(
             disabled: context.select(
                 (ProductsCubit cubit) => cubit.selectedOfferedProducts.isEmpty),
-            title: "ايقاف منتجات",
+            title: l10n.stopProducts,
             icon: Icons.refresh,
             buttonColor: Colors.grey,
             height: 32.h,
@@ -190,7 +193,7 @@ class _OfferedProdutsTapState extends State<OfferedProdutsTap> {
               // if (selectedProducts.isEmpty) return;
 
               showProductSelectionDialog(
-                  title: "ايقاف المنتجات",
+                  title: l10n.stopProducts,
                   context: context,
                   products:
                       context.read<ProductsCubit>().selectedOfferedProducts,

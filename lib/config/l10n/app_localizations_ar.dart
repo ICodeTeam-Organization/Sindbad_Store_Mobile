@@ -152,4 +152,143 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get errorMessage => 'هناك خطأ الرجاء المحاولة لاحقاً';
+
+  @override
+  String get products => 'المنتجات';
+
+  @override
+  String get offers => 'العروض';
+
+  @override
+  String get reports => 'التقارير';
+
+  @override
+  String get allProducts => 'الجميع';
+
+  @override
+  String get withOffers => 'عليها عروض';
+
+  @override
+  String get stopped => 'الموقوفة';
+
+  @override
+  String get addProducts => 'أضافة منتجات';
+
+  @override
+  String get stopProducts => 'ايقاف منتجات';
+
+  @override
+  String get somethingWentWrong => 'هناك خطأ ما...';
+
+  @override
+  String get ok => 'حسنا';
+
+  @override
+  String get productNumber => 'رقم المنتج:';
+
+  @override
+  String get price => 'السعر:';
+
+  @override
+  String get currency => 'ريال';
+
+  @override
+  String get edit => 'تعديل';
+
+  @override
+  String get delete => 'حذف';
+
+  @override
+  String get deleteProduct => 'حذف المنتج';
+
+  @override
+  String get deleteProductConfirm => 'هل انت متأكد من حذف المنتج';
+
+  @override
+  String get deleteProductPermanent => 'سيتم حذف هذا المنتج بشكل نهائي';
+
+  @override
+  String get addProduct => 'إضافة منتج';
+
+  @override
+  String get productInfo => 'معلومات المنتج';
+
+  @override
+  String get productName => 'أسم المنتج';
+
+  @override
+  String get priceLabel => 'السعر';
+
+  @override
+  String get productNumberLabel => 'رقم المنتج';
+
+  @override
+  String get oldPrice => 'السعر السابق';
+
+  @override
+  String get shortDescription => 'وصف مختصر';
+
+  @override
+  String get selectProductImage => 'أختر صورة المنتج';
+
+  @override
+  String get selectCategory => 'أختر الفئة';
+
+  @override
+  String get selectCategoryHint => 'قم بإختيار الفئة المناسبة';
+
+  @override
+  String get selectSection => 'أختر القسم';
+
+  @override
+  String get selectSectionHint => 'قم بإختيار القسم المناسب';
+
+  @override
+  String get selectCategoryFirst => 'إختر الفئة الأساسية أولا';
+
+  @override
+  String get selectBrand => 'أختر اسم البراند';
+
+  @override
+  String get selectBrandHint => 'قم بإختيار البراند المناسب';
+
+  @override
+  String get productAttributes => 'خصائص المنتج';
+
+  @override
+  String get attribute => 'خاصية';
+
+  @override
+  String get value => 'قيمة';
+
+  @override
+  String get addMore => 'أضف المزيد';
+
+  @override
+  String get confirm => 'تأكيد';
+
+  @override
+  String get cancel => 'الغاء';
+
+  @override
+  String get productAddedSuccess => 'تم إضافة المنتج بنجاح!';
+
+  @override
+  String get productAddFailed =>
+      'فشل في إضافة المنتج, الرجاء المحاولة مرة أخرى';
+
+  @override
+  String get addImage => 'إضافة صورة';
+
+  @override
+  String get noCancelOperation => 'لا, إلغاء العملية';
+
+  @override
+  String get yesContinueProcess => 'نعم, متابعة الحذف';
+
+  @override
+  String get reactivate => 'إعادة تنشيط';
+
+  @override
+  String get reactivateProducts => 'إعادة تنشيط المنتجات';
 }

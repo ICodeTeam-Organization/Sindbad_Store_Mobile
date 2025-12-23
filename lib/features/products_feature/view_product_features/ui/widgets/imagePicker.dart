@@ -53,6 +53,8 @@ class _ImagePackerState extends State<ImagePacker> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return SizedBox(
       width: widget.containerWidth.w,
       height: widget.mainContainerHeight.h,
@@ -62,7 +64,7 @@ class _ImagePackerState extends State<ImagePacker> {
             width: widget.containerWidth.w,
             height: widget.upContainerHeight.h,
             child: DottedBorder(
-              color: AppColors.primary,
+              color: theme.colorScheme.primary,
               strokeWidth: 1.w,
               dashPattern: [16, 3],
               child: GestureDetector(
@@ -114,6 +116,7 @@ class _ImagePackerState extends State<ImagePacker> {
                   ),
                 ),
               ),
+              //  SizedBox()
             ),
           ),
           DesignForTitleUnderImage(

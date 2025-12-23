@@ -22,6 +22,7 @@ class MenuButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
@@ -34,7 +35,7 @@ class MenuButtonWidget extends StatelessWidget {
         padding: EdgeInsets.only(left: 16.w, right: 8.w),
         decoration: isSolid == true
             ? BoxDecoration(
-                color: AppColors.primary,
+                color: theme.colorScheme.primary,
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
@@ -57,10 +58,13 @@ class MenuButtonWidget extends StatelessWidget {
               ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SvgPicture.asset(
-              color: isSolid == false ? AppColors.primary : AppColors.white,
+              color: isSolid == false
+                  ? theme.colorScheme.primary
+                  : AppColors.white,
               iconPath,
               width: 20.w,
               height: 20.h,

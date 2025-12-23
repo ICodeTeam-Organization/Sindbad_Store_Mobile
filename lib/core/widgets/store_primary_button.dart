@@ -76,6 +76,7 @@ class _StorePrimaryButtonState extends State<StorePrimaryButton> {
               )
             : Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   if (widget.svgIconPath != null)
                     SvgPicture.asset(
