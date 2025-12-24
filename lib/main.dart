@@ -154,20 +154,23 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
         builder: (context, child) =>
             BlocBuilder<AppSettingsCubit, AppSettingsState>(
           bloc: getit<AppSettingsCubit>(),
-          builder: (context, settings) => MaterialApp.router(
-            // for using with the device preview //
-            // locale: DevicePreview.locale(context),
-            builder: DevicePreview.appBuilder,
-            ///////////////////////////////////////
-            routerConfig: AppRouter.router,
-            theme: LightTheme.theme,
-            darkTheme: DarkTheme.theme,
-            themeMode: settings.themeMode,
-            localizationsDelegates: LocalesConfig.localizationsDelegates,
-            supportedLocales: LocalesConfig.supportedLocales,
-            locale: settings.locale,
-            debugShowCheckedModeBanner: false,
-          ),
+          builder: (context, state) {
+            final cubit = getit<AppSettingsCubit>();
+            return MaterialApp.router(
+              // for using with the device preview //
+              // locale: DevicePreview.locale(context),
+              builder: DevicePreview.appBuilder,
+              ///////////////////////////////////////
+              routerConfig: AppRouter.router,
+              theme: LightTheme.theme,
+              darkTheme: DarkTheme.theme,
+              themeMode: cubit.themeMode,
+              localizationsDelegates: LocalesConfig.localizationsDelegates,
+              supportedLocales: LocalesConfig.supportedLocales,
+              locale: cubit.locale,
+              debugShowCheckedModeBanner: false,
+            );
+          },
         ),
       ),
     );

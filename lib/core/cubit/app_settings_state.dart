@@ -1,22 +1,19 @@
 part of 'app_settings_cubit.dart';
 
-@immutable
-class AppSettingsState {
-  final ThemeMode themeMode;
-  final Locale locale;
+/// Base class for all app settings states.
+sealed class AppSettingsState {}
 
-  const AppSettingsState({
-    this.themeMode = ThemeMode.light,
-    this.locale = const Locale('ar', 'AR'),
-  });
+/// Initial state before settings are loaded.
+class AppSettingsInitial extends AppSettingsState {}
 
-  AppSettingsState copyWith({
-    ThemeMode? themeMode,
-    Locale? locale,
-  }) {
-    return AppSettingsState(
-      themeMode: themeMode ?? this.themeMode,
-      locale: locale ?? this.locale,
-    );
-  }
+/// State while settings are being loaded.
+class AppSettingsLoading extends AppSettingsState {}
+
+/// State when settings are successfully loaded.
+class AppSettingsLoaded extends AppSettingsState {}
+
+/// State when loading settings failed.
+class AppSettingsError extends AppSettingsState {
+  final String message;
+  AppSettingsError(this.message);
 }

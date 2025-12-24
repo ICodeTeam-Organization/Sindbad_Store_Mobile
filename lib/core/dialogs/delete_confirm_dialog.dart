@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sindbad_management_app/config/l10n/app_localizations.dart';
 
 Future<bool?> showDeleteConfirmDialog({
   required BuildContext context,

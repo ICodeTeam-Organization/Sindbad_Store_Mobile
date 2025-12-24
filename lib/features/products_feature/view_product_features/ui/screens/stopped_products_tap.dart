@@ -16,7 +16,6 @@ import '../manager/get_category_cubit/get_category_cubit.dart';
 import '../manager/products_cubit/products_cubit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
-import '../../../../../config/styles/Colors.dart';
 
 class StoppedProductsTap extends StatefulWidget {
   const StoppedProductsTap({

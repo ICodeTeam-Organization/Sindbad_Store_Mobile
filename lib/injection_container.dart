@@ -54,6 +54,7 @@ import 'package:sindbad_management_app/features/products_feature/view_product_fe
 import 'package:sindbad_management_app/features/products_feature/view_product_features/data/data_source/product_remote_data_source_impl.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/use_cases/get_products_usecase.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/manager/products_cubit/products_cubit.dart';
+import 'package:sindbad_management_app/features/profile_feature/ui/cubit/drawer_cubit/drawer_cubit.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/get_profile_cubit/get_profile_cubit.dart';
 import 'features/orders_feature/data/repos_impl/all_order_repo_impl.dart';
 import 'features/orders_feature/data/data_sources/all_order_remot_data_source.dart';
@@ -77,6 +78,7 @@ import 'package:sindbad_management_app/features/notifiction_featurs/ui/cubit/not
 import 'core/services/api_service.dart';
 import 'core/services/app_settings_service.dart';
 import 'core/cubit/app_settings_cubit.dart';
+import 'core/services/githubApiservices.dart';
 
 final getit = GetIt.instance;
 
@@ -90,6 +92,7 @@ void initializationContainer() {
   getit.registerSingleton<Dio>(Dio());
   getit.registerSingleton<BulkService>(BulkService(getit()));
   getit.registerSingleton<AppSettingsService>(AppSettingsService());
+  getit.registerSingleton<GitHubApiService>(GitHubApiService());
   getit.registerSingleton<AppSettingsCubit>(AppSettingsCubit(getit()));
 
   // ----------------
@@ -172,6 +175,8 @@ void initializationContainer() {
       .registerFactory<ExcelCubit>(() => ExcelCubit(getit(), getit(), getit()));
   getit.registerFactory<OrdersCubit>(() => OrdersCubit(getit()));
   getit.registerFactory<ProfileCubit>(() => ProfileCubit(getit(), getit()));
+  getit.registerFactory<DrawerCubit>(
+      () => DrawerCubit(getit(), getit(), getit()));
   getit.registerFactory<ProductsCubit>(() =>
       ProductsCubit(getit(), getit(), getit(), getit(), getit(), getit()));
   getit.registerFactory<ResetPasswordCubit>(() => ResetPasswordCubit(getit()));
