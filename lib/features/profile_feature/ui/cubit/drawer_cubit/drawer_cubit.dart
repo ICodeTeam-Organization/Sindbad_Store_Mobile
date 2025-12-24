@@ -32,27 +32,27 @@ class DrawerCubit extends Cubit<DrawerState> {
 
   /// Loads profile data from API.
   Future<void> loadProfile() async {
-    emit(DrawerLoading());
+    emit(DrawerLoadInProgress());
     // Load current app version
     final packageInfo = await PackageInfo.fromPlatform();
     currentVersion = packageInfo.version;
 
     final result = await _getProfileUsecase.execute();
     result.fold(
-      (failure) => emit(DrawerError(failure.message)),
+      (failure) => emit(DrawerLoadFailure(failure.message)),
       (profileData) {
         profile = profileData;
-        emit(DrawerLoaded());
+        emit(DrawerLoadInProgress());
       },
     );
   }
 
   /// Logs out the user and clears data.
   Future<void> logout() async {
-    emit(DrawerLoading());
+    emit(DrawerLoadInProgress());
     final result = await _logoutUseCase.execute();
     result.fold(
-      (failure) => emit(DrawerError(failure.message!)),
+      (failure) => emit(DrawerLoadFailure(failure.message!)),
       (_) {
         profile = null;
         emit(DrawerLoggedOut());
@@ -62,7 +62,7 @@ class DrawerCubit extends Cubit<DrawerState> {
 
   /// Checks for app updates and stores result in latestRelease property.
   Future<void> checkForUpdate() async {
-    emit(DrawerLoading());
+    emit(DrawerLoadInProgress());
     try {
       final packageInfo = await PackageInfo.fromPlatform();
       currentVersion = packageInfo.version;
@@ -74,9 +74,9 @@ class DrawerCubit extends Cubit<DrawerState> {
       } else {
         latestRelease = null;
       }
-      emit(DrawerLoaded());
+      emit(DrawerLoadInProgress());
     } catch (e) {
-      emit(DrawerError(e.toString()));
+      emit(DrawerLoadFailure(e.toString()));
     }
   }
 }

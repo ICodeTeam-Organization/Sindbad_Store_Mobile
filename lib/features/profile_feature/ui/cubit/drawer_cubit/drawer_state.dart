@@ -7,16 +7,24 @@ sealed class DrawerState {}
 class DrawerInitial extends DrawerState {}
 
 /// State while profile is being loaded.
-class DrawerLoading extends DrawerState {}
+class DrawerLoadInProgress extends DrawerState {}
 
 /// State when profile is successfully loaded.
-class DrawerLoaded extends DrawerState {}
+class DrawerLoadSuccess extends DrawerState {}
 
 /// State when loading profile failed.
-class DrawerError extends DrawerState {
+class DrawerLoadFailure extends DrawerState {
   final String message;
-  DrawerError(this.message);
+  DrawerLoadFailure(this.message);
 }
 
 /// State after successful logout.
 class DrawerLoggedOut extends DrawerState {}
+
+
+/// --- IGNORE ---
+/// sealed class CounterState {}
+// final class CounterInitial extends CounterState {}
+// final class CounterLoadInProgress extends CounterState {}
+// final class CounterLoadSuccess extends CounterState {}
+// final class CounterLoadFailure extends CounterState {}

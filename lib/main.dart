@@ -34,7 +34,7 @@ import 'package:sindbad_management_app/features/profile_feature/ui/cubit/get_pro
 import 'injection_container.dart';
 import 'core/services/simple_bloc_observer.dart';
 import 'features/orders_feature/ui/manager/button_disable/button_disable_cubit.dart';
-import 'package:sindbad_management_app/core/cubit/app_settings_cubit.dart';
+import 'package:sindbad_management_app/features/profile_feature/ui/cubit/setting_cubit/app_settings_cubit.dart';
 
 void main() async {
   // HttpOverrides.global = MyhttpsOverride();
@@ -76,7 +76,7 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
   void initState() {
     super.initState();
     // Load saved app settings (theme, locale)
-    getit<AppSettingsCubit>().loadSettings();
+    getit<SettingsCubit>().loadSettings();
   }
 
   @override
@@ -151,11 +151,10 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
         designSize: const Size(428, 1000),
         minTextAdapt: true,
         splitScreenMode: true,
-        builder: (context, child) =>
-            BlocBuilder<AppSettingsCubit, AppSettingsState>(
-          bloc: getit<AppSettingsCubit>(),
+        builder: (context, child) => BlocBuilder<SettingsCubit, SettingsState>(
+          bloc: getit<SettingsCubit>(),
           builder: (context, state) {
-            final cubit = getit<AppSettingsCubit>();
+            final cubit = getit<SettingsCubit>();
             return MaterialApp.router(
               // for using with the device preview //
               // locale: DevicePreview.locale(context),

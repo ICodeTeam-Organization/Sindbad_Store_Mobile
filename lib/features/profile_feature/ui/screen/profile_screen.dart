@@ -8,7 +8,7 @@ import 'package:sindbad_management_app/core/dialogs/okey_dialog.dart';
 import 'package:sindbad_management_app/core/dialogs/release_dialog_info.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/drawer_cubit/drawer_cubit.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/widget/info_row_widget.dart';
-import 'package:sindbad_management_app/core/cubit/app_settings_cubit.dart';
+import 'package:sindbad_management_app/features/profile_feature/ui/cubit/setting_cubit/app_settings_cubit.dart';
 import 'package:sindbad_management_app/injection_container.dart';
 
 /// A drawer widget that displays the full profile content.
@@ -38,7 +38,8 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
       bloc: _drawerCubit,
       listener: (context, state) {
         // Handle update check results
-        if (state is DrawerLoaded && _drawerCubit.isUpdateAvailable != null) {
+        if (state is DrawerLoadInProgress &&
+            _drawerCubit.isUpdateAvailable != null) {
           if (_drawerCubit.isUpdateAvailable == true &&
               _drawerCubit.latestRelease != null) {
             showReleaseInfoDialog(context,
@@ -52,7 +53,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
           }
           // Reset the flag after handling
           _drawerCubit.isUpdateAvailable = null;
-        } else if (state is DrawerError &&
+        } else if (state is DrawerLoadFailure &&
             _drawerCubit.isUpdateAvailable != null) {
           showErrorDialog(
             context: context,
@@ -117,10 +118,10 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                       const SizedBox(height: 10),
 
                       // Pay Later Switch
-                      BlocBuilder<AppSettingsCubit, AppSettingsState>(
-                        bloc: getit<AppSettingsCubit>(),
+                      BlocBuilder<SettingsCubit, SettingsState>(
+                        bloc: getit<SettingsCubit>(),
                         builder: (context, state) {
-                          final cubit = getit<AppSettingsCubit>();
+                          final cubit = getit<SettingsCubit>();
                           return _buildActionButton(
                             l10n.defaultDeferredPayment,
                             null,
@@ -137,10 +138,10 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                       const SizedBox(height: 10),
 
                       // Dark Mode Switch
-                      BlocBuilder<AppSettingsCubit, AppSettingsState>(
-                        bloc: getit<AppSettingsCubit>(),
+                      BlocBuilder<SettingsCubit, SettingsState>(
+                        bloc: getit<SettingsCubit>(),
                         builder: (context, state) {
-                          final cubit = getit<AppSettingsCubit>();
+                          final cubit = getit<SettingsCubit>();
                           return _buildActionButton(
                             l10n.darkMode,
                             null,
@@ -161,7 +162,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                         l10n.language,
                         null,
                         switchWidget: DropdownButton<String>(
-                          value: getit<AppSettingsCubit>().localeCode,
+                          value: getit<SettingsCubit>().localeCode,
                           underline: const SizedBox(),
                           icon: const Icon(Icons.arrow_drop_down),
                           items: const [
@@ -199,7 +200,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                       _buildActionButton(
                         l10n.logout,
                         () async {
-                          await getit<AppSettingsCubit>().clearAllSettings();
+                          await getit<SettingsCubit>().clearAllSettings();
                           _drawerCubit.logout();
 
                           if (context.mounted) {
@@ -249,35 +250,35 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
 
   void _toggleLocalsMethod(value) {
     if (value != null) {
-      getit<AppSettingsCubit>().setLocale(Locale(value));
+      getit<SettingsCubit>().setLocale(Locale(value));
       setState(() {});
     }
   }
 
   void _toggleThemMethod(value) {
-    getit<AppSettingsCubit>().toggleTheme();
+    getit<SettingsCubit>().toggleTheme();
   }
 
   void _togglePayMethod(value) {
-    getit<AppSettingsCubit>().togglePayLater();
+    getit<SettingsCubit>().togglePayLater();
   }
 
   Widget _buildInfoRow(String label) {
     return BlocBuilder<DrawerCubit, DrawerState>(
       bloc: _drawerCubit,
       builder: (context, state) {
-        if (state is DrawerLoaded) {
+        if (state is DrawerLoadInProgress) {
           return InfoRow(
             value: label,
             label: _drawerCubit.profile?.userPhoneNumber ?? "",
           );
-        } else if (state is DrawerLoading) {
+        } else if (state is DrawerLoadInProgress) {
           return InfoRow(
             isLoading: true,
             value: label,
             label: "",
           );
-        } else if (state is DrawerError) {
+        } else if (state is DrawerLoadFailure) {
           return InfoRow(
             value: label,
             label: state.message,
@@ -292,18 +293,18 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
     return BlocBuilder<DrawerCubit, DrawerState>(
       bloc: _drawerCubit,
       builder: (context, state) {
-        if (state is DrawerLoaded) {
+        if (state is DrawerLoadInProgress) {
           return InfoRow(
             value: l10n.email,
             label: _drawerCubit.profile?.userEmail ?? "",
           );
-        } else if (state is DrawerLoading) {
+        } else if (state is DrawerLoadInProgress) {
           return InfoRow(
             isLoading: true,
             value: l10n.email,
             label: "",
           );
-        } else if (state is DrawerError) {
+        } else if (state is DrawerLoadFailure) {
           return InfoRow(
             value: l10n.email,
             label: state.message,
@@ -318,19 +319,19 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
     return BlocBuilder<DrawerCubit, DrawerState>(
       bloc: _drawerCubit,
       builder: (context, state) {
-        if (state is DrawerLoaded) {
+        if (state is DrawerLoadInProgress) {
           return InfoRow(
             value: l10n.country,
             label:
                 _drawerCubit.profile?.userCuntry == 1 ? l10n.saudiArabia : "",
           );
-        } else if (state is DrawerLoading) {
+        } else if (state is DrawerLoadInProgress) {
           return InfoRow(
             isLoading: true,
             value: l10n.country,
             label: "",
           );
-        } else if (state is DrawerError) {
+        } else if (state is DrawerLoadFailure) {
           return InfoRow(
             value: l10n.country,
             label: state.message,
@@ -397,7 +398,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
             CircleAvatar(
               backgroundColor: Colors.blue[800],
               radius: 50,
-              child: state is DrawerLoading
+              child: state is DrawerLoadInProgress
                   ? const CircularProgressIndicator(color: Colors.white)
                   : Text(
                       userName.isNotEmpty ? userName[0] : '',

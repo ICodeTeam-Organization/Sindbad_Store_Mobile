@@ -77,7 +77,7 @@ import 'package:sindbad_management_app/features/notifiction_featurs/domin/use_ca
 import 'package:sindbad_management_app/features/notifiction_featurs/ui/cubit/notifiction_cubit/unread_notifiction_cubit.dart';
 import 'core/services/api_service.dart';
 import 'core/services/app_settings_service.dart';
-import 'core/cubit/app_settings_cubit.dart';
+import 'features/profile_feature/ui/cubit/setting_cubit/app_settings_cubit.dart';
 import 'core/services/githubApiservices.dart';
 
 final getit = GetIt.instance;
@@ -91,9 +91,9 @@ void initializationContainer() {
   getit.registerSingleton<NewApiService>(NewApiService(getit()));
   getit.registerSingleton<Dio>(Dio());
   getit.registerSingleton<BulkService>(BulkService(getit()));
-  getit.registerSingleton<AppSettingsService>(AppSettingsService());
+  getit.registerSingleton<SettingsService>(SettingsService());
   getit.registerSingleton<GitHubApiService>(GitHubApiService());
-  getit.registerSingleton<AppSettingsCubit>(AppSettingsCubit(getit()));
+  getit.registerSingleton<SettingsCubit>(SettingsCubit(getit()));
 
   // ----------------
   //  Data Sources"To

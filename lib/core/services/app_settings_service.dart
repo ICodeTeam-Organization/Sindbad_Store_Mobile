@@ -2,7 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /// Service to handle app settings persistence using SharedPreferences.
 /// Manages theme, locale, and pay later preferences.
-class AppSettingsService {
+class SettingsService {
   static const String _isDarkModeKey = 'isDarkMode';
   static const String _localeCodeKey = 'localeCode';
   static const String _isPayLaterEnabledKey = 'isPayLaterEnabled';
