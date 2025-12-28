@@ -82,9 +82,9 @@ import 'core/services/githubApiservices.dart';
 
 final getit = GetIt.instance;
 
-void initializationContainer() {
+Future<void> initializationContainer() async {
   // ----------------
-  //  Servicesf
+  //  Services
   // ----------------
   getit.registerSingleton<FlutterSecureStorage>(FlutterSecureStorage());
   getit.registerSingleton<ApiService>(ApiService());
@@ -94,6 +94,9 @@ void initializationContainer() {
   getit.registerSingleton<SettingsService>(SettingsService());
   getit.registerSingleton<GitHubApiService>(GitHubApiService());
   getit.registerSingleton<SettingsCubit>(SettingsCubit(getit()));
+
+  // Load saved settings before app starts
+  //await getit<SettingsCubit>().loadSettings();
 
   // ----------------
   //  Data Sources"To
