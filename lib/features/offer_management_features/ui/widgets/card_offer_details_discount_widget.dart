@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
 import 'package:sindbad_management_app/config/styles/text_style.dart';
 import 'package:sindbad_management_app/core/utils/currancy.dart';
-import 'package:sindbad_management_app/features/offer_management_features/ui/widgets/text_discount_prices_widget.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/widgets/text_discount_prices_widget.dart';
 
 class CardOfferDetailsDiscountWidget extends StatefulWidget {
   final String productName;

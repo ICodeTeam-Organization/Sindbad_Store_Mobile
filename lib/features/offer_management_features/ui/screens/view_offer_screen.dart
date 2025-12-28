@@ -3,15 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
-import 'package:sindbad_management_app/core/swidgets/new_widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
-import 'package:sindbad_management_app/features/offer_management_features/ui/manager/change_status_offer_cubit/change_status_offer_cubit.dart';
-import 'package:sindbad_management_app/features/offer_management_features/ui/manager/delete_offer_cubit/delete_offer_cubit.dart';
-import 'package:sindbad_management_app/features/offer_management_features/ui/manager/offer_cubit/offer_cubit.dart';
-import 'package:sindbad_management_app/features/offer_management_features/ui/widgets/action_button_widget.dart';
-import 'package:sindbad_management_app/features/offer_management_features/ui/widgets/card_message_widget.dart';
+import 'package:sindbad_management_app/core/widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/features/offer_management_features/ui/widgets/card_offer_widget.dart';
-import 'package:sindbad_management_app/features/offer_management_features/ui/widgets/custom_dialog_widget.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_cubit/offer_cubit.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/widgets/action_button_widget.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/widgets/card_message_widget.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/widgets/custom_dialog_widget.dart';
 
 class ViewOfferScreen extends StatefulWidget {
   const ViewOfferScreen({super.key});
@@ -24,7 +22,7 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<OfferCubit>().getOffer(100, 1);
+    context.read<OfferCubit>().getOffers(100, 1);
   }
 
   @override
@@ -54,7 +52,8 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
               BlocBuilder<OfferCubit, OfferState>(
                 builder: (context, state) {
                   if (state is OfferLoadSuccess) {
-                    return state.offers.isEmpty
+                    final offers = context.read<OfferCubit>().offers;
+                    return offers.isEmpty
                         ? CardMesssageWidget(
                             logo: Image.asset(
                               'assets/image_loading.png',
@@ -82,36 +81,32 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
                         : Expanded(
                             child: ListView.builder(
                               scrollDirection: Axis.vertical,
-                              itemCount: state.offers.length,
+                              itemCount: offers.length,
                               physics: const AlwaysScrollableScrollPhysics(),
                               itemBuilder: (context, i) {
-                                late int offerHeadId = state.offers[i].offerId;
+                                late int offerHeadId = offers[i].offerId;
                                 return Column(
                                   children: [
                                     InkWell(
                                       onTap: () {
                                         context.push(AppRoutes.offerDetails,
                                             extra: [
-                                              state.offers[i].offerId,
-                                              state.offers[i].offerTitle,
-                                              state.offers[i].typeName
+                                              offers[i].offerId,
+                                              offers[i].offerTitle,
+                                              offers[i].typeName
                                             ]);
                                       },
                                       child: CardOfferWidget(
-                                        offerId: state.offers[i].offerId,
-                                        offerTitle: state.offers[i].offerTitle,
-                                        typeName: state.offers[i].typeName,
-                                        isActive: state.offers[i].isActive,
-                                        startOffer: state.offers[i].startOffer,
-                                        endOffer: state.offers[i].endOffer,
-                                        countProducts:
-                                            state.offers[i].countProducts,
-                                        numberToBuy:
-                                            state.offers[i].numberToBuy,
-                                        numberToGet:
-                                            state.offers[i].numberToGet,
-                                        discountRate:
-                                            state.offers[i].discountRate,
+                                        offerId: offers[i].offerId,
+                                        offerTitle: offers[i].offerTitle,
+                                        typeName: offers[i].typeName,
+                                        isActive: offers[i].isActive,
+                                        startOffer: offers[i].startOffer,
+                                        endOffer: offers[i].endOffer,
+                                        countProducts: offers[i].countProducts,
+                                        numberToBuy: offers[i].numberToBuy,
+                                        numberToGet: offers[i].numberToGet,
+                                        discountRate: offers[i].discountRate,
 
                                         //here update button
                                         onUpdateTap: () {
@@ -124,142 +119,46 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
                                         //here Change Status button
                                         onChangeStatusTap: () {
                                           showDialog(
-                                            context:
-                                                context, // Ensure this context has access to the provider
+                                            context: context,
                                             builder:
                                                 (BuildContext dialogContext) {
-                                              return BlocConsumer<
-                                                  ChangeStatusOfferCubit,
-                                                  ChangeStatusOfferState>(
-                                                listener: (context, state) {
-                                                  if (state
-                                                      is ChangeStatusOfferFailure) {
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      SnackBar(
-                                                          content: Text(state
-                                                              .errorMessage)),
-                                                    );
-                                                    Navigator.pop(
-                                                        dialogContext); // Close the dialog
-                                                  } else if (state
-                                                      is ChangeStatusOfferSuccess) {
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      SnackBar(
-                                                          content: Text(state
-                                                              .changeStatusOffer)),
-                                                    );
-                                                    context
-                                                        .read<OfferCubit>()
-                                                        .getOffer(100, 1);
-
-                                                    Navigator.pop(
-                                                        dialogContext); // Close the dialog
-                                                  }
-                                                },
-                                                builder: (context, state) {
-                                                  if (state
-                                                      is ChangeStatusOfferLoading) {
-                                                    return CustomDialogWidget(
-                                                      isLoading: true,
-                                                      isWarning: false,
-                                                      confirmText:
-                                                          'نعم , قم بتغيير الحالة',
-                                                      title:
-                                                          'هل انت متأكد من تغيير حالة العرض ؟',
-                                                      subtitle: '',
-                                                      iconPath:
-                                                          "assets/change_status.svg",
-                                                      onConfirm: () {},
-                                                    );
-                                                  }
-                                                  return CustomDialogWidget(
-                                                    isWarning: false,
-                                                    confirmText:
-                                                        'نعم , قم بتغيير الحالة',
-                                                    title:
-                                                        'هل انت متأكد من تغيير حالة العرض ؟',
-                                                    subtitle: '',
-                                                    iconPath:
-                                                        "assets/change_status.svg",
-                                                    onConfirm: () async {
-                                                      await context
-                                                          .read<
-                                                              ChangeStatusOfferCubit>()
-                                                          .changeStatusOffer(
-                                                              offerHeadId);
-                                                    },
-                                                  );
+                                              return CustomDialogWidget(
+                                                isWarning: false,
+                                                confirmText:
+                                                    'نعم , قم بتغيير الحالة',
+                                                title:
+                                                    'هل انت متأكد من تغيير حالة العرض ؟',
+                                                subtitle: '',
+                                                iconPath:
+                                                    "assets/change_status.svg",
+                                                onConfirm: () async {
+                                                  Navigator.pop(dialogContext);
+                                                  await context
+                                                      .read<OfferCubit>()
+                                                      .changeStatusOffer(
+                                                          offerHeadId);
                                                 },
                                               );
                                             },
                                           );
                                         },
 
-                                        //here Change Status button
+                                        //here Delete button
                                         onDeleteTap: () {
                                           showDialog(
                                             context: context,
                                             builder:
-                                                (BuildContext contextDialog) {
-                                              return BlocConsumer<
-                                                  DeleteOfferCubit,
-                                                  DeleteOfferState>(
-                                                listener: (context, state) {
-                                                  if (state
-                                                      is DeleteOfferFailure) {
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(SnackBar(
-                                                            content: Text(
-                                                      state.errorMessage
-                                                          .toString(),
-                                                    )));
-                                                    Navigator.pop(context);
-                                                  } else if (state
-                                                      is DeleteOfferSuccess) {
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(SnackBar(
-                                                            content: Text(
-                                                      state.deleteOffer
-                                                          .toString(),
-                                                    )));
-                                                    context
-                                                        .read<OfferCubit>()
-                                                        .getOffer(100, 1);
-                                                    Navigator.pop(context);
-                                                  }
-                                                },
-                                                builder: (context, state) {
-                                                  if (state
-                                                      is DeleteOfferLoading) {
-                                                    return CustomDialogWidget(
-                                                      isLoading: true,
-                                                      title:
-                                                          'هل انت متأكد من الحذف ؟',
-                                                      subtitle:
-                                                          'يوجد بيانات مرتبطة بهذا المدخل',
-                                                      onConfirm: () {},
-                                                    );
-                                                  }
-
-                                                  return CustomDialogWidget(
-                                                    title:
-                                                        'هل انت متأكد من الحذف ؟',
-                                                    subtitle:
-                                                        'يوجد بيانات مرتبطة بهذا المدخل',
-                                                    onConfirm: () async {
-                                                      await context
-                                                          .read<
-                                                              DeleteOfferCubit>()
-                                                          .deleteOffer(
-                                                              offerHeadId);
-                                                    },
-                                                  );
+                                                (BuildContext dialogContext) {
+                                              return CustomDialogWidget(
+                                                title:
+                                                    'هل انت متأكد من الحذف ؟',
+                                                subtitle:
+                                                    'يوجد بيانات مرتبطة بهذا المدخل',
+                                                onConfirm: () async {
+                                                  Navigator.pop(dialogContext);
+                                                  await context
+                                                      .read<OfferCubit>()
+                                                      .deleteOffer(offerHeadId);
                                                 },
                                               );
                                             },
@@ -267,7 +166,7 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
                                         },
                                       ),
                                     ),
-                                    if (i == state.offers.length - 1)
+                                    if (i == offers.length - 1)
                                       SizedBox(
                                         height: 120.h,
                                       ),
@@ -276,7 +175,7 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
                               },
                             ),
                           );
-                  } else if (state is OfferLoadFailuer) {
+                  } else if (state is OffersLoadFailuer) {
                     return Center(
                       child: CardMesssageWidget(
                         logo: Image.asset(

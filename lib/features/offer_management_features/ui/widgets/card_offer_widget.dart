@@ -4,9 +4,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
 import 'package:sindbad_management_app/config/styles/text_style.dart';
 import 'package:sindbad_management_app/features/offer_management_features/ui/widgets/all_action_button_widget.dart';
-import 'package:sindbad_management_app/features/offer_management_features/ui/widgets/container_status_widget.dart';
-import 'package:sindbad_management_app/features/offer_management_features/ui/widgets/remaining_notice_widget.dart';
-import 'package:sindbad_management_app/features/offer_management_features/ui/widgets/text_grey_light_widget.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/widgets/container_status_widget.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/widgets/remaining_notice_widget.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/widgets/text_grey_light_widget.dart';
 
 class CardOfferWidget extends StatefulWidget {
   final int? offerId;

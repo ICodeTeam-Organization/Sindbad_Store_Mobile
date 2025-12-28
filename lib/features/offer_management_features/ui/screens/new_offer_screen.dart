@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:sindbad_management_app/core/swidgets/new_widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
 import 'package:sindbad_management_app/config/styles/text_style.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/offer_products_entity.dart';
-import 'package:sindbad_management_app/features/offer_management_features/ui/manager/add_offer_cubit/add_offer_cubit.dart';
+import 'package:sindbad_management_app/core/widgets/custom_app_bar.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_products_entity.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_cubit/offer_cubit.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/widgets/action_button_widget.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/widget/custom_select_item_dialog.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/widget/offer_default_value_widget.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/widget/offer_info_text_field_widget.dart';
@@ -15,8 +16,6 @@ import 'package:sindbad_management_app/features/profile_feature/ui/widget/card_p
 import 'package:sindbad_management_app/features/profile_feature/ui/widget/card_product_discount_widget.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/widget/required_text.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/widget/section_title_widget.dart';
-import 'package:sindbad_management_app/features/offer_management_features/ui/manager/offer_cubit/offer_cubit.dart';
-import 'package:sindbad_management_app/features/offer_management_features/ui/widgets/action_button_widget.dart';
 
 class NewOfferScreen extends StatefulWidget {
   const NewOfferScreen({super.key});
@@ -353,30 +352,30 @@ class _NewOfferScreenState extends State<NewOfferScreen> {
                                         ),
                                       ),
                                     ),
-                                    BlocConsumer<AddOfferCubit, AddOfferState>(
+                                    BlocConsumer<OfferCubit, OfferState>(
                                       listener: (context, state) {
-                                        if (state is AddOfferFailure) {
+                                        if (state is OffersLoadFailuer) {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             SnackBar(
-                                                content: Text(state.errorMessage
-                                                    .toString())),
+                                                content:
+                                                    Text(state.errMessage)),
                                           );
-                                        } else if (state is AddOfferSuccess) {
+                                        } else if (state is OfferAddSuccess) {
                                           Navigator.pop(context);
                                           context
                                               .read<OfferCubit>()
-                                              .getOffer(100, 1);
+                                              .getOffers(100, 1);
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             SnackBar(
                                                 content: Text(
-                                                    state.addOffer.toString())),
+                                                    'تم إضافة العرض بنجاح')),
                                           );
                                         }
                                       },
                                       builder: (context, state) {
-                                        if (state is AddOfferLoading) {
+                                        if (state is OfferLoadInProgress) {
                                           return Container(
                                             alignment: Alignment.center,
                                             height: 40.h,
@@ -458,14 +457,18 @@ class _NewOfferScreenState extends State<NewOfferScreen> {
                                             }
                                             populateListProduct();
                                             await context
-                                                .read<AddOfferCubit>()
+                                                .read<OfferCubit>()
                                                 .addOffer(
-                                                  offerTitleConroller.text,
-                                                  startOfferFormat,
-                                                  endOfferFormat,
-                                                  selectedItems.length,
-                                                  offerType,
-                                                  listProduct,
+                                                  name:
+                                                      offerTitleConroller.text,
+                                                  description: '',
+                                                  startDate: startOfferFormat,
+                                                  endDate: endOfferFormat,
+                                                  isActive: true,
+                                                  numberOfOrders:
+                                                      selectedItems.length,
+                                                  offerHeadType: offerType,
+                                                  offerHeadOffers: listProduct,
                                                 );
                                           },
                                           child: Container(

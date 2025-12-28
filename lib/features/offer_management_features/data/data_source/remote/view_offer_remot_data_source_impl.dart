@@ -1,14 +1,12 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:sindbad_management_app/core/api_service.dart';
+import 'package:sindbad_management_app/core/services/api_service.dart';
 import 'package:sindbad_management_app/features/offer_management_features/data/data_source/remote/view_offer_remot_data_source.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:sindbad_management_app/core/api_service.dart';
-import 'package:sindbad_management_app/features/offer_management_features/data/models/offer_details_model.dart';
-import 'package:sindbad_management_app/features/offer_management_features/data/models/offer_model.dart';
-import 'package:sindbad_management_app/features/offer_management_features/data/models/post_response_model.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/offer_details_entity.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/offer_entity.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/post_response_entity.dart';
+import 'package:sindbad_management_app/features/offers_features/data/models/offer_details_model.dart';
+import 'package:sindbad_management_app/features/offers_features/data/models/offer_model.dart';
+import 'package:sindbad_management_app/features/offers_features/data/models/post_response_model.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_details_entity.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_entity.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/entities/post_response_entity.dart';
 
 class ViewOfferRemotDataSourceImpl extends ViewOfferRemotDataSource {
   final ApiService apiService;

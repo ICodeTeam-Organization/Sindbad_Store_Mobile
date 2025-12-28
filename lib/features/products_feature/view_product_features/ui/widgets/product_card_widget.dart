@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
 import 'package:sindbad_management_app/core/dialogs/delete_confirm_dialog.dart';
-import 'package:sindbad_management_app/features/offer_management_features/ui/widgets/menu_button_widget.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/widgets/menu_button_widget.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/domain/entities/product_entity.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/manager/products_cubit/products_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/widgets/check_box_custom.dart';

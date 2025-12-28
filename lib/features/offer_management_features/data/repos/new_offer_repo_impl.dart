@@ -2,12 +2,12 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
 import 'package:sindbad_management_app/features/offer_management_features/data/data_source/remote/new_offer_remot_data_source.dart';
-import 'package:sindbad_management_app/features/offer_management_features/data/models/offer_data_model/offer_head_offer.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/add_offer_entity.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/offer_data_entity.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/offer_products_entity.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/update_offer_entity.dart';
 import 'package:sindbad_management_app/features/offer_management_features/data/repos/new_offer_repo.dart';
+import 'package:sindbad_management_app/features/offers_features/data/models/offer_head_offer.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/entities/add_offer_entity.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_data_entity.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_products_entity.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/entities/update_offer_entity.dart';
 
 class NewOfferRepositoryImpl extends NewOfferRepo {
   final NewOfferRemotDataSourceImpl newOfferRemotDataSource;

@@ -1,14 +1,17 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:sindbad_management_app/core/errors/failure.dart';
-import 'package:sindbad_management_app/features/offer_management_features/data/data_source/remote/view_offer_remot_data_source.dart';
 import 'package:sindbad_management_app/features/offer_management_features/data/data_source/remote/view_offer_remot_data_source_impl.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/offer_details_entity.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/offer_entity.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/entities/post_response_entity.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/repo/view_offer_repo.dart';
+import 'package:sindbad_management_app/features/offers_features/data/models/offer_head_offer.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_data_entity.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_details_entity.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_entity.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_products_entity.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/entities/post_response_entity.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/entities/update_offer_entity.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/repo/offers_repository.dart';
 
-class OffersRepositoryImpl extends ViewOfferRepo {
+class OffersRepositoryImpl extends OffersRepository {
   final ViewOfferRemotDataSourceImpl offersRemotDataSource;
 
   OffersRepositoryImpl(this.offersRemotDataSource);
@@ -70,5 +73,45 @@ class OffersRepositoryImpl extends ViewOfferRepo {
   ) async {
     return postOneData(
         () => offersRemotDataSource.changeStatusOffer(offerHeadId));
+  }
+
+  @override
+  Future<Either<Failure, bool>> addOffer(
+      {required String name,
+      required String description,
+      required DateTime startDate,
+      required DateTime endDate,
+      required bool isActive,
+      required int numberOfOrders,
+      required int offerHeadType,
+      required List<Map<String, dynamic>> offerHeadOffers}) {
+    // TODO: implement addOffer
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, OfferDataEntity>> getOfferData(int offerHeadId) {
+    // TODO: implement getOfferData
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, List<OfferProductsEntity>>> getOfferProducts(
+      int pageSize, int pageNumber) {
+    // TODO: implement getOfferProducts
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, UpdateOfferEntity>> updateOffer(
+      String offerTitle,
+      DateTime startOffer,
+      DateTime endOffer,
+      int countProducts,
+      int typeName,
+      List<OfferHeadOffer>? listProduct,
+      int offerHeadId) {
+    // TODO: implement updateOffer
+    throw UnimplementedError();
   }
 }

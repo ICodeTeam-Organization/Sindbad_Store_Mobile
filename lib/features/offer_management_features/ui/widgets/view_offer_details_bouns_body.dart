@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sindbad_management_app/core/swidgets/new_widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
 import 'package:sindbad_management_app/config/styles/text_style.dart';
+import 'package:sindbad_management_app/core/widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/features/offer_management_features/ui/manager/offer_details_cubit/offer_details_cubit.dart';
-import 'package:sindbad_management_app/features/offer_management_features/ui/manager/offer_details_cubit/offer_details_state.dart';
-import 'package:sindbad_management_app/features/offer_management_features/ui/widgets/card_message_widget.dart';
-import 'package:sindbad_management_app/features/offer_management_features/ui/widgets/card_offer_details_bouns_widget.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/widgets/card_message_widget.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/widgets/card_offer_details_bouns_widget.dart';
 
 class ViewOfferDetailsBounsBody extends StatefulWidget {
   final String offerName;

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:sindbad_management_app/features/offer_management_features/ui/manager/offer_products_cubit/offer_products_state.dart';
-import 'package:sindbad_management_app/features/offer_management_features/view_offer_feature/domain/usecases/get_offer_products_use_case.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_products_params.dart';
+import 'package:sindbad_management_app/features/offers_features/domain/usecases/get_offer_products_use_case.dart';
 
 class OfferProductsCubit extends Cubit<OfferProductsState> {
   final GetOfferProductsUseCase getOfferProductsUseCase;
