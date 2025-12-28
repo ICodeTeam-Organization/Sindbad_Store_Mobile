@@ -805,6 +805,48 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'لم يتم الوصول الى المعلومات'**
   String get infoNotReached;
+
+  /// No description provided for @login.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل الدخول'**
+  String get login;
+
+  /// No description provided for @welcomeBack.
+  ///
+  /// In ar, this message translates to:
+  /// **'أهلاً بك من جديد، لقد افتقدناك.'**
+  String get welcomeBack;
+
+  /// No description provided for @password.
+  ///
+  /// In ar, this message translates to:
+  /// **'كلمة المرور'**
+  String get password;
+
+  /// No description provided for @forgotPassword.
+  ///
+  /// In ar, this message translates to:
+  /// **'نسيت كلمة المرور؟'**
+  String get forgotPassword;
+
+  /// No description provided for @pleaseEnterPhoneNumber.
+  ///
+  /// In ar, this message translates to:
+  /// **'يرجى إدخال رقم الجوال'**
+  String get pleaseEnterPhoneNumber;
+
+  /// No description provided for @pleaseEnterPassword.
+  ///
+  /// In ar, this message translates to:
+  /// **'يرجى إدخال كلمة المرور'**
+  String get pleaseEnterPassword;
+
+  /// No description provided for @failedToShowVersion.
+  ///
+  /// In ar, this message translates to:
+  /// **'فشل في عرض نسخه التطبيق'**
+  String get failedToShowVersion;
 }
 
 class _AppLocalizationsDelegate

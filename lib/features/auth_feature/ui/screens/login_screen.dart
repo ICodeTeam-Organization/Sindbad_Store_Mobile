@@ -9,6 +9,8 @@ import 'package:sindbad_management_app/features/auth_feature/ui/widgets/show_err
 import 'package:sindbad_management_app/injection_container.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit.dart';
+import 'package:sindbad_management_app/features/profile_feature/ui/cubit/setting_cubit/app_settings_cubit.dart';
+import 'package:sindbad_management_app/config/l10n/app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -32,6 +34,9 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+
     return Scaffold(
       body: GestureDetector(
         onTap: () {
@@ -45,15 +50,17 @@ class _LoginPageState extends State<LoginPage> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      SizedBox(height: 105),
-                      _buildTitleSection(),
-                      SizedBox(height: 40.h),
-                      _buildUserNameTextFormFeild(),
-                      SizedBox(height: 25.h),
-                      _buildPasswordTextFormFeild(),
-                      _buildForgetPasswordText(),
+                      SizedBox(height: 50.h),
+                      _buildLanguageDropdown(),
                       SizedBox(height: 20.h),
-                      _buildLoginButton(),
+                      _buildTitleSection(l10n),
+                      SizedBox(height: 40.h),
+                      _buildUserNameTextFormFeild(l10n, isRtl),
+                      SizedBox(height: 25.h),
+                      _buildPasswordTextFormFeild(l10n, isRtl),
+                      _buildForgetPasswordText(l10n, isRtl),
+                      SizedBox(height: 20.h),
+                      _buildLoginButton(l10n),
                       SizedBox(height: 15.h),
                       //  _buildRegisterText(),
                     ],
@@ -63,7 +70,66 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Column _buildTitleSection() {
+  Widget _buildLanguageDropdown() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Color(0xffDDDDDD)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 4,
+                  offset: Offset(0, 2),
+                ),
+              ],
+            ),
+            child: BlocBuilder<SettingsCubit, SettingsState>(
+              bloc: getit<SettingsCubit>(),
+              builder: (context, state) {
+                final settingsCubit = getit<SettingsCubit>();
+                return Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: settingsCubit.localeCode,
+                      icon: Icon(Icons.language, color: Color(0xffFF746B)),
+                      isDense: true,
+                      items: [
+                        DropdownMenuItem(
+                          value: 'ar',
+                          child:
+                              Text('العربية', style: TextStyle(fontSize: 14)),
+                        ),
+                        DropdownMenuItem(
+                          value: 'en',
+                          child:
+                              Text('English', style: TextStyle(fontSize: 14)),
+                        ),
+                      ],
+                      onChanged: (String? newValue) {
+                        if (newValue != null) {
+                          settingsCubit.setLocale(Locale(newValue));
+                        }
+                      },
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Column _buildTitleSection(AppLocalizations l10n) {
     return Column(
       children: [
         Image.asset(
@@ -72,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
           "assets/login_image.png",
         ),
         Text(
-          "تسجيل الدخول",
+          l10n.login,
           style: TextStyle(
             color: Color(0xff231f20),
             fontSize: 25,
@@ -81,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         SizedBox(height: 10.h),
         Text(
-          "أهلاً بك من جديد، لقد افتقدناك.",
+          l10n.welcomeBack,
           style: TextStyle(
             color: Color(0xff000000),
             fontSize: 15,
@@ -123,14 +189,18 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  GestureDetector _buildForgetPasswordText() {
+  GestureDetector _buildForgetPasswordText(AppLocalizations l10n, bool isRtl) {
     return GestureDetector(
       onTap: () => GoRouter.of(context).push(AppRoutes.forgetPassword),
       child: Align(
-        alignment: Alignment.centerRight,
+        alignment: isRtl ? Alignment.centerRight : Alignment.centerLeft,
         child: Padding(
-          padding: const EdgeInsets.only(right: 15, top: 10),
-          child: Text("نسيت كلمة المرور؟",
+          padding: EdgeInsets.only(
+            right: isRtl ? 15 : 0,
+            left: isRtl ? 0 : 15,
+            top: 10,
+          ),
+          child: Text(l10n.forgotPassword,
               style: TextStyle(
                 decoration: TextDecoration.underline,
                 decorationColor: Color(0xffFF746B),
@@ -143,7 +213,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Column _buildLoginButton() {
+  Column _buildLoginButton(AppLocalizations l10n) {
     return Column(
       children: [
         BlocConsumer<SignInCubit, SigninState>(
@@ -185,7 +255,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               child: MaterialButton(
                 child: Text(
-                  "تسجيل الدخول",
+                  l10n.login,
                   style: TextStyle(
                     color: Color(0xffffffff),
                     fontSize: 14,
@@ -216,7 +286,7 @@ class _LoginPageState extends State<LoginPage> {
               if (snapshot.hasData) {
                 return Text("v${snapshot.data!.version}");
               } else {
-                return Text("فشل في عرض نسخه التطبيق");
+                return Text(l10n.failedToShowVersion);
               }
             }
             return SizedBox(height: 20, child: CircularProgressIndicator());
@@ -226,14 +296,18 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Column _buildPasswordTextFormFeild() {
+  Column _buildPasswordTextFormFeild(AppLocalizations l10n, bool isRtl) {
     return Column(
       children: [
         Align(
-          alignment: Alignment.centerRight,
+          alignment: isRtl ? Alignment.centerRight : Alignment.centerLeft,
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 8.0, right: 15),
-            child: Text("كلمة المرور",
+            padding: EdgeInsets.only(
+              bottom: 8.0,
+              right: isRtl ? 15 : 0,
+              left: isRtl ? 0 : 15,
+            ),
+            child: Text(l10n.password,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 13,
@@ -285,7 +359,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'يرجى إدخال كلمة المرور';
+                return l10n.pleaseEnterPassword;
               }
 
               return null;
@@ -296,14 +370,18 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Column _buildUserNameTextFormFeild() {
+  Column _buildUserNameTextFormFeild(AppLocalizations l10n, bool isRtl) {
     return Column(
       children: [
         Align(
-          alignment: Alignment.centerRight,
+          alignment: isRtl ? Alignment.centerRight : Alignment.centerLeft,
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 8.0, right: 15),
-            child: Text("رقم الجوال",
+            padding: EdgeInsets.only(
+              bottom: 8.0,
+              right: isRtl ? 15 : 0,
+              left: isRtl ? 0 : 15,
+            ),
+            child: Text(l10n.phoneNumber,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 13,
@@ -332,7 +410,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'يرجى إدخال رقم الجوال';
+                return l10n.pleaseEnterPhoneNumber;
               }
               // تحقق من صحة رقم الجوال (مثال بسيط)
               // final phoneRegExp = RegExp(r'^\+?\d{7,15}$');

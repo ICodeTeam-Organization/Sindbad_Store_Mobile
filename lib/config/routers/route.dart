@@ -4,17 +4,18 @@ import 'package:sindbad_management_app/features/auth_feature/ui/screens/forget_p
 import 'package:sindbad_management_app/features/auth_feature/ui/screens/confirm_password_screen.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/screens/login_screen.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/screens/reset_password_screen.dart';
-import 'package:sindbad_management_app/features/offers_features/ui/screens/update_offer_screen.dart';
-import 'package:sindbad_management_app/features/offers_features/ui/screens/view_offer_details_screen.dart';
-import 'package:sindbad_management_app/features/orders_feature/ui/widget/order_details.dart';
+import 'package:sindbad_management_app/features/offer_management_features/ui/screens/new_offer_screen.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/screens/add_product_page.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/screens/update_product_page.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/screen/excell_page.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/ui/screen/notificion_screen.dart';
-import 'package:sindbad_management_app/features/offers_features/ui/screens/new_offer_screen.dart';
+import 'package:sindbad_management_app/features/offer_management_features/ui/screens/view_offer_details_screen.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/screen/change_passsowrd_screen.dart';
-import 'package:sindbad_management_app/core/widgets/splahs_screen.dart';
+import 'package:sindbad_management_app/features/profile_feature/ui/screen/profile_screen.dart';
 import '../../features/root.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
+import 'package:sindbad_management_app/injection_container.dart';
 
 abstract class AppRouter {
   static final router = GoRouter(
@@ -60,7 +61,17 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: AppRoutes.root,
-        builder: (context, state) => const Root(),
+        builder: (context, state) => MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => getit<OfferCubit>(),
+            ),
+            BlocProvider(
+              create: (context) => getit<GetCategoryNamesCubit>(),
+            ),
+          ],
+          child: const Root(),
+        ),
       ),
       GoRoute(
         path: AppRoutes.newOffer,
@@ -136,6 +147,11 @@ abstract class AppRouter {
             return const NotificionScreen();
           }),
 
+      GoRoute(
+          path: AppRoutes.profile,
+          builder: (context, state) {
+            return const ProfileScreen();
+          }),
       GoRoute(
           path: AppRoutes.changePassword,
           builder: (context, state) {

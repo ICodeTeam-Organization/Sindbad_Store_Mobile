@@ -22,7 +22,7 @@ String? orderStatuss;
 Color? orderColors;
 
 class OrderCardWidget extends StatelessWidget {
-  final AllOrderEntity order;
+  final OrderEntity order;
   final int index;
   final bool animate;
 

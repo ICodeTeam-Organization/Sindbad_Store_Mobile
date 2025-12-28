@@ -8,17 +8,22 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:sindbad_management_app/config/locales_config.dart';
 import 'package:sindbad_management_app/config/themes/dark_theme.dart';
 import 'package:sindbad_management_app/config/themes/light_theme.dart';
+import 'package:sindbad_management_app/core/services/simple_bloc_observer.dart';
 import 'package:sindbad_management_app/core/utils/currancy.dart';
 import 'package:sindbad_management_app/config/routers/route.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/confirm_password_cubit/confirm_password_cubit.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/forget_password_cubit.dart/forget_password_cubit.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit.dart';
+import 'package:sindbad_management_app/features/offer_management_features/ui/manager/offer_products_cubit/offer_products_cubit.dart';
+import 'package:sindbad_management_app/features/offer_management_features/ui/manager/update_offer_cubit/update_offer_cubit.dart';
+import 'package:sindbad_management_app/features/offer_management_features/ui/manager/offer_details_cubit/offer_details_cubit.dart';
 import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_cubit/offer_cubit.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/order%20cubit/orders_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/ProductDetails/product_details_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/add_product_to_store/add_product_to_store_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/attribute_product/attribute_product_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/manager/get_category_cubit/get_category_cubit.dart';
+import 'package:sindbad_management_app/features/profile_feature/ui/cubit/drawer_cubit/drawer_cubit.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/excell_cubit/excell_cubt.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/reset_password_cubit/reset_password_cubit.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/ui/cubit/notifiction_cubit/unread_notifiction_cubit.dart';
@@ -30,11 +35,8 @@ import 'package:sindbad_management_app/features/orders_feature/ui/manager/shippi
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/manager/products_cubit/products_cubit.dart';
-import 'package:sindbad_management_app/features/profile_feature/ui/cubit/get_profile_cubit/get_profile_cubit.dart';
 import 'injection_container.dart';
-import 'core/services/simple_bloc_observer.dart';
 import 'features/orders_feature/ui/manager/button_disable/button_disable_cubit.dart';
-import 'package:sindbad_management_app/features/profile_feature/ui/cubit/setting_cubit/app_settings_cubit.dart';
 
 void main() async {
   // HttpOverrides.global = MyhttpsOverride();
@@ -75,8 +77,7 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
   @override
   void initState() {
     super.initState();
-    // Load saved app settings (theme, locale)
-    getit<SettingsCubit>().loadSettings();
+    // initialization();
   }
 
   @override
@@ -87,13 +88,13 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
         BlocProvider(
           create: (_) => SignInCubit(getit()),
         ),
-        //  BlocProvider(create: (_) => AllOrderCubit(getit())),
+        BlocProvider(create: (_) => OrdersCubit(getit())),
         BlocProvider(create: (_) => ExcelCubit(getit(), getit(), getit())),
         BlocProvider(
             create: (_) => ProductsCubit(
                 getit(), getit(), getit(), getit(), getit(), getit())),
         BlocProvider(
-          create: (_) => ProfileCubit(getit(), getit()),
+          create: (_) => DrawerCubit(getit(), getit(), getit()),
         ),
         BlocProvider(
           create: (_) => ResetPasswordCubit(getit()),
@@ -123,7 +124,21 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
         BlocProvider(
           create: (_) => AttributeProductCubit(),
         ),
-
+        BlocProvider(
+          create: (_) => OfferDetailsCubit(getit()),
+        ),
+        BlocProvider(
+          create: (_) => OfferProductsCubit(getit()),
+        ),
+        BlocProvider(
+          create: (_) => UpdateOfferCubit(getit()),
+        ),
+        // BlocProvider(
+        //   create: (_) => OfferDataCubit(getit()),
+        // ),
+        // BlocProvider(
+        //   create: (_) => AddOfferCubit(getit()),
+        // ),
         BlocProvider(
           create: (_) => OrderDetailsCubit(getit()),
         ),
@@ -151,25 +166,19 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
         designSize: const Size(428, 1000),
         minTextAdapt: true,
         splitScreenMode: true,
-        builder: (context, child) => BlocBuilder<SettingsCubit, SettingsState>(
-          bloc: getit<SettingsCubit>(),
-          builder: (context, state) {
-            final cubit = getit<SettingsCubit>();
-            return MaterialApp.router(
-              // for using with the device preview //
-              // locale: DevicePreview.locale(context),
-              builder: DevicePreview.appBuilder,
-              ///////////////////////////////////////
-              routerConfig: AppRouter.router,
-              theme: LightTheme.theme,
-              darkTheme: DarkTheme.theme,
-              themeMode: cubit.themeMode,
-              localizationsDelegates: LocalesConfig.localizationsDelegates,
-              supportedLocales: LocalesConfig.supportedLocales,
-              locale: cubit.locale,
-              debugShowCheckedModeBanner: false,
-            );
-          },
+        builder: (context, child) => MaterialApp.router(
+          // for using with the device preview //
+          // locale: DevicePreview.locale(context),
+          builder: DevicePreview.appBuilder,
+          ///////////////////////////////////////
+          routerConfig: AppRouter.router,
+          theme: LightTheme.theme,
+          darkTheme: DarkTheme.theme,
+          themeMode: ThemeMode.light, // Auto switch based on system
+          localizationsDelegates: LocalesConfig.localizationsDelegates,
+          supportedLocales: LocalesConfig.supportedLocales,
+          locale: LocalesConfig.defaultLocale,
+          debugShowCheckedModeBanner: false,
         ),
       ),
     );

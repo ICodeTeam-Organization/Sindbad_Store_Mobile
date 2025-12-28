@@ -1,34 +1,31 @@
-import 'package:flutter/material.dart' hide ErrorWidget;
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sindbad_management_app/config/l10n/app_localizations.dart';
+import 'package:sindbad_management_app/features/offer_management_features/ui/widgets/card_message_widget.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/entities/entities_states.dart';
-import 'package:sindbad_management_app/features/orders_feature/ui/manager/order%20cubit/orders_cubit.dart';
-import 'package:sindbad_management_app/features/orders_feature/ui/manager/order%20cubit/orders_cubit_states.dart';
-import 'package:sindbad_management_app/core/widgets/no_data_widget.dart';
+import 'package:sindbad_management_app/features/orders_feature/ui/manager/all_order/order%20cubit/orders_cubit.dart';
+import 'package:sindbad_management_app/features/orders_feature/ui/manager/all_order/order%20cubit/orders_cubit_states.dart';
+import 'package:sindbad_management_app/core/swidgets/no_data_widget.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/widget/order_body.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/widget/package_status_filterBar.dart';
-import 'package:sindbad_management_app/core/widgets/error_widget.dart';
 
 class UrgentTabViews extends StatelessWidget {
   const UrgentTabViews({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-
     return Column(
       children: [
-        PackageStatusFilterBar<PackageStatus>(
+        PackageStatusFilterBar<String>(
           items: [
-            PackageStatus.all,
-            PackageStatus.packageConfirmedByYemeniAccountant,
-            PackageStatus.packageInvoiceCreated,
-            PackageStatus.packageShippedFromStore,
+            PackageStatus.all.displayName,
+            PackageStatus.packageConfirmedByYemeniAccountant.displayName,
+            PackageStatus.packageInvoiceCreated.displayName,
+            PackageStatus.packageShippedFromStore.displayName,
           ],
-          labelBuilder: (status) => status.getDisplayName(l10n),
-          onChange: (status) {
-            context.read<OrdersCubit>().fetchUrgentOrders(status.id);
+          onChange: (value) {
+            context.read<OrdersCubit>().fetchUrgentOrders(
+                PackageStatusExtension.idFromDisplayName(value));
           },
         ),
         Expanded(
@@ -76,7 +73,17 @@ class UrgentTabViews extends StatelessWidget {
                   );
                 }
               } else if (state is OrdersLoadFailure) {
-                return ErrorWidget(message: state.message);
+                return Center(
+                  child: CardMesssageWidget(
+                    logo: Image.asset(
+                      'assets/image_loading.png',
+                      height: 80.h,
+                      width: 80.w,
+                    ),
+                    title: 'هناك خطأ الرجاء المحاولة لاحقاً',
+                    subTitle: state.message,
+                  ),
+                );
               }
               return Center(
                   child: SizedBox(

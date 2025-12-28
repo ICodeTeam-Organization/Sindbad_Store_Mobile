@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:sindbad_management_app/core/services/new_api_service.dart';
 import 'package:sindbad_management_app/features/orders_feature/data/data_sources/all_order_remot_data_source.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/entities/company_shipping_entity.dart';
 import 'package:sindbad_management_app/features/orders_feature/domain/entities/order_detalis_entity.dart';
@@ -17,12 +19,32 @@ import '../models/shipping/order_shipping_model.dart';
 
 class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
   final ApiService apiService;
+  final NewApiService _newApiService;
   final FlutterSecureStorage secureStorage;
 
-  AllOrderRemotDataSourceImpl(this.apiService, this.secureStorage);
+  AllOrderRemotDataSourceImpl(
+      this.apiService, this.secureStorage, this._newApiService);
 
   Future<String?> getToken() async {
     return await secureStorage.read(key: 'token');
+  }
+
+  /// Handles errors from API calls and throws appropriate exceptions.
+  /// Use this in catch blocks across all repository methods.
+  Never _handleError(Object error, String operation) {
+    if (error is DioException) {
+      String message = 'Network error occurred';
+      try {
+        final data = error.response?.data;
+        if (data is Map<String, dynamic> && data['message'] != null) {
+          message = data['message'].toString();
+        }
+      } catch (_) {
+        // Keep default message if parsing fails
+      }
+      throw Exception('$operation: $message');
+    }
+    throw Exception('$operation failed: $error');
   }
 
   // Generic function to convert data to a list of items entities
@@ -58,12 +80,12 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
   }
 
   //! عرض جميع الطلبات
-  List<AllOrderEntity> getAllOrderList(Map<String, dynamic> data) {
-    return getListItemsFromData(data, (item) => AllOrdersModel.fromJson(item));
+  List<OrderEntity> getAllOrderList(Map<String, dynamic> data) {
+    return getListItemsFromData(data, (item) => OrderModel.fromJson(item));
   }
 
   @override
-  Future<List<AllOrderEntity>> fetchAllOrder(
+  Future<List<OrderEntity>> fetchAllOrder(
     List<int> statuses,
     bool? isUrgent,
     int pageNumber,
@@ -71,25 +93,21 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
     // String storeId,
     // String srearchKeyword,
   ) async {
-    String? token = await getToken();
     var endpoint = "Packages?owned=true";
-    endpoint += "&pageSize=$pageSize&pageNumber=1";
+    endpoint += "&pageSize=$pageSize&pageNumber=$pageNumber";
     endpoint += statuses.map((status) => "&statuses=$status").join();
     if (isUrgent != null && isUrgent) {
       endpoint += "&isUrgent=$isUrgent";
     }
-    var data = await apiService.get(
-      endPoint: endpoint,
-      headers: {
-        'Authorization': 'Bearer $token',
-      },
-    );
-    List<AllOrderEntity> orders = getAllOrderList(data);
-    return orders;
+
+    final response = await _newApiService.dio.get(endpoint);
+    final data = response.data as Map<String, dynamic>;
+    final items = data['data']['items'] as List<dynamic>;
+    return items.map((item) => OrderModel.fromJson(item)).toList();
   }
 
   @override
-  Future<List<AllOrderEntity>> fetchNewOrders(
+  Future<List<OrderEntity>> fetchNewOrders(
     List<int> statuses,
     bool? isUrgent,
     int pageNumber,
@@ -97,21 +115,21 @@ class AllOrderRemotDataSourceImpl extends AllOrderRemotDataSource {
     // String storeId,
     // String srearchKeyword,
   ) async {
-    String? token = await getToken();
-    var endpoint = "Packages?owned=true";
-    endpoint += "&pageSize=$pageSize&pageNumber=1";
-    endpoint += statuses.map((status) => "&statuses=$status").join();
-    if (isUrgent != null && isUrgent) {
-      endpoint += "&isUrgent=$isUrgent";
+    try {
+      var endpoint = "Packages?owned=true";
+      endpoint += "&pageSize=$pageSize&pageNumber=$pageNumber";
+      endpoint += statuses.map((status) => "&statuses=$status").join();
+      if (isUrgent != null && isUrgent) {
+        endpoint += "&isUrgent=$isUrgent";
+      }
+
+      final response = await _newApiService.dio.get(endpoint);
+      final data = response.data as Map<String, dynamic>;
+      final items = data['data']['items'] as List<dynamic>;
+      return items.map((item) => OrderModel.fromJson(item)).toList();
+    } catch (e) {
+      _handleError(e, 'Fetch new orders');
     }
-    var data = await apiService.get(
-      endPoint: endpoint,
-      headers: {
-        'Authorization': 'Bearer $token',
-      },
-    );
-    List<AllOrderEntity> orders = getAllOrderList(data);
-    return orders;
   }
 
   //! ارسال الفاتورة

@@ -1,6 +1,6 @@
 import 'package:sindbad_management_app/features/orders_feature/domain/entities/all_order_entity.dart';
 
-class AllOrdersModel extends AllOrderEntity {
+class OrderModel extends OrderEntity {
   int? orderId;
   int? packageId;
   String? orderNumber;
@@ -11,7 +11,7 @@ class AllOrdersModel extends AllOrderEntity {
   String? orderDate;
   bool? isDelevredOrCancled;
 
-  AllOrdersModel({
+  OrderModel({
     this.orderId,
     this.packageId,
     this.orderNumber,
@@ -32,8 +32,8 @@ class AllOrdersModel extends AllOrderEntity {
           payStatus: paymentStatus ?? 'لا توجد',
         );
 
-  factory AllOrdersModel.fromJson(Map<String, dynamic> json) {
-    return AllOrdersModel(
+  factory OrderModel.fromJson(Map<String, dynamic> json) {
+    return OrderModel(
       orderId: json['orderId'] as int?,
       packageId: json['packageId'] as int?,
       orderNumber: json['orderNumber'] as String?,

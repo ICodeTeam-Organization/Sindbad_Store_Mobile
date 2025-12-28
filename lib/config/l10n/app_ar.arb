@@ -117,5 +117,12 @@
   "defaultValue": "القيمة الأفتراضية",
   "addOfferProducts": "اضافة منتجات العرض",
   "searchProductNumberOrName": "بحث عن رقم المنتج او اسمه",
-  "infoNotReached": "لم يتم الوصول الى المعلومات"
+  "infoNotReached": "لم يتم الوصول الى المعلومات",
+  "login": "تسجيل الدخول",
+  "welcomeBack": "أهلاً بك من جديد، لقد افتقدناك.",
+  "password": "كلمة المرور",
+  "forgotPassword": "نسيت كلمة المرور؟",
+  "pleaseEnterPhoneNumber": "يرجى إدخال رقم الجوال",
+  "pleaseEnterPassword": "يرجى إدخال كلمة المرور",
+  "failedToShowVersion": "فشل في عرض نسخه التطبيق"
 }

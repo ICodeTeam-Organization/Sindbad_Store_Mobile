@@ -10,7 +10,7 @@ import '../entities/order_invoice_entity.dart';
 
 abstract class AllOrderRepo {
   //! All orders
-  Future<Either<Failure, List<AllOrderEntity>>> fetchAllOrder({
+  Future<Either<Failure, List<OrderEntity>>> fetchAllOrder({
     required List<int> statuses,
     required bool isUrgent,
     required int pageNumber,

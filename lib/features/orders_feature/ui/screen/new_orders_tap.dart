@@ -86,7 +86,7 @@ class _NewTabViewsState extends State<NewTabViews> {
               }
 
               // Handle both OrdersLoadSuccess and OrdersLoadMoreInProgress
-              List<AllOrderEntity>? orders;
+              List<OrderEntity>? orders;
               bool isLoadingMore = false;
               bool hasMore = true;
 

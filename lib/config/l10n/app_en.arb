@@ -117,5 +117,12 @@
   "defaultValue": "Default Value",
   "addOfferProducts": "Add Offer Products",
   "searchProductNumberOrName": "Search by product number or name",
-  "infoNotReached": "Could not access the information"
+  "infoNotReached": "Could not access the information",
+  "login": "Login",
+  "welcomeBack": "Welcome back, we missed you.",
+  "password": "Password",
+  "forgotPassword": "Forgot Password?",
+  "pleaseEnterPhoneNumber": "Please enter your phone number",
+  "pleaseEnterPassword": "Please enter your password",
+  "failedToShowVersion": "Failed to show app version"
 }

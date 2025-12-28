@@ -1,4 +1,4 @@
-class AllOrderEntity {
+class OrderEntity {
   final int idOrder;
   final int idPackage;
   final String orderNum;
@@ -8,7 +8,7 @@ class AllOrderEntity {
   final String payStatus;
   final String orderDates;
 
-  AllOrderEntity({
+  OrderEntity({
     required this.idOrder,
     required this.idPackage,
     required this.orderNum,

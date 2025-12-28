@@ -4,8 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:sindbad_management_app/config/styles/Colors.dart';
 import 'package:sindbad_management_app/config/styles/text_style.dart';
+import 'package:sindbad_management_app/features/offer_management_features/ui/manager/update_offer_cubit/update_offer_cubit.dart';
 import 'package:sindbad_management_app/features/offers_features/data/models/offer_head_offer.dart';
 import 'package:sindbad_management_app/features/offers_features/domain/entities/offer_products_entity.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_cubit/offer_cubit.dart';
+import 'package:sindbad_management_app/features/offers_features/ui/widgets/action_button_widget.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/widget/card_product_bouns_widget.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/widget/card_product_discount_widget.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/widget/custom_select_item_dialog.dart';
@@ -15,8 +18,6 @@ import 'package:sindbad_management_app/features/profile_feature/ui/widget/offer_
 import 'package:sindbad_management_app/features/profile_feature/ui/widget/offer_type_radio_widget.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/widget/required_text.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/widget/section_title_widget.dart';
-import 'package:sindbad_management_app/features/offers_features/ui/manager/offer_cubit/offer_cubit.dart';
-import 'package:sindbad_management_app/features/offers_features/ui/widgets/action_button_widget.dart';
 
 class UpdateOfferWidget extends StatefulWidget {
   final String offerTitle;
@@ -341,24 +342,24 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                         ),
                       ),
                     ),
-                    BlocConsumer<OfferCubit, OfferState>(
+                    BlocConsumer<UpdateOfferCubit, UpdateOfferState>(
                       listener: (context, state) {
-                        if (state is OffersLoadFailuer) {
+                        if (state is UpdateOfferFailure) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                                content: Text(state.errMessage.toString())),
+                                content: Text(state.errorMessage.toString())),
                           );
-                        } else if (state is OfferLoadSuccess) {
-                          // ScaffoldMessenger.of(context).showSnackBar(
-                          //   SnackBar(
-                          //       content: Text(state.offerProducts.toString())),
-                          // );
+                        } else if (state is UpdateOfferSuccess) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text(state.updateOffer.toString())),
+                          );
                           Navigator.pop(context);
-                          context.read<OfferCubit>().getOffers(100, 1);
+                          context.read<OfferCubit>().getOffer(100, 1);
                         }
                       },
                       builder: (context, state) {
-                        if (state is OfferLoadInProgress) {
+                        if (state is UpdateOfferLoading) {
                           return Container(
                             alignment: Alignment.center,
                             height: 40.h,
@@ -447,7 +448,7 @@ class _UpdateOfferWidgetState extends State<UpdateOfferWidget> {
                               );
                             }).toList();
                             populateListProduct();
-                            await context.read<OfferCubit>().updateOffer(
+                            await context.read<UpdateOfferCubit>().updateOffer(
                                   offerTitleConroller.text,
                                   startOfferFormat,
                                   endOfferFormat,

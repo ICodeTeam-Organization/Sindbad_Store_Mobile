@@ -51,6 +51,7 @@ class OrderManagementWidget extends StatelessWidget {
                   NewTabViews(),
                   //Urgent TabViews (المستعجلة)
                   UrgentTabViews(),
+
                   //Before TabViews (السابقة)
                   OrdersListView(
                     statuses: [5, 6, 7],

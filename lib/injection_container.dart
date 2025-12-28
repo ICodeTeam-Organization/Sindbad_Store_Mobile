@@ -100,7 +100,7 @@ void initializationContainer() {
   // ----------------
   getit.registerSingleton<AuthRemoteDataSource>(AuthRemoteDataSourceImpl());
   getit.registerSingleton<AllOrderRemotDataSource>(
-      AllOrderRemotDataSourceImpl(getit(), getit()));
+      AllOrderRemotDataSourceImpl(getit(), getit(), getit()));
   getit.registerSingleton<ProductRemoteDataSourceImpl>(
       ProductRemoteDataSourceImpl(getit(), getit()));
   getit.registerSingleton<AddProductToStoreRemoteDataSourceImpl>(

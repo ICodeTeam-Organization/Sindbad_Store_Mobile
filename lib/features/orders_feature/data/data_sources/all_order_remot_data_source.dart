@@ -8,7 +8,7 @@ import '../../domain/entities/order_cancel_entity.dart';
 
 abstract class AllOrderRemotDataSource {
   //! All Order
-  Future<List<AllOrderEntity>> fetchAllOrder(
+  Future<List<OrderEntity>> fetchAllOrder(
     List<int> statuses,
     bool? isUrgent,
     int pageNumber,
@@ -17,7 +17,7 @@ abstract class AllOrderRemotDataSource {
     // String srearchKeyword,
   );
   //! All Order
-  Future<List<AllOrderEntity>> fetchNewOrders(
+  Future<List<OrderEntity>> fetchNewOrders(
     List<int> statuses,
     bool? isUrgent,
     int pageNumber,

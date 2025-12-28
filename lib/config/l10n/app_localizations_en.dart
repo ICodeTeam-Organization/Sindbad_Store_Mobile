@@ -370,4 +370,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get infoNotReached => 'Could not access the information';
+
+  @override
+  String get login => 'Login';
+
+  @override
+  String get welcomeBack => 'Welcome back, we missed you.';
+
+  @override
+  String get password => 'Password';
+
+  @override
+  String get forgotPassword => 'Forgot Password?';
+
+  @override
+  String get pleaseEnterPhoneNumber => 'Please enter your phone number';
+
+  @override
+  String get pleaseEnterPassword => 'Please enter your password';
+
+  @override
+  String get failedToShowVersion => 'Failed to show app version';
 }

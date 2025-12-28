@@ -5,14 +5,12 @@ import '../../../../core/errors/failure.dart';
 import '../../../../core/use_cases/param_use_case.dart';
 import '../entities/all_order_entity.dart';
 
-class NewOrderUsecase
-    extends UseCaseWithParam<List<AllOrderEntity>, OrderParam> {
+class NewOrderUsecase extends UseCaseWithParam<List<OrderEntity>, OrderParam> {
   final AllOrderRepoImpl allOrderRepo;
 
   NewOrderUsecase(this.allOrderRepo);
   @override
-  Future<Either<Failure, List<AllOrderEntity>>> execute(
-      OrderParam params) async {
+  Future<Either<Failure, List<OrderEntity>>> execute(OrderParam params) async {
     return await allOrderRepo.fetchAllOrder(
       statuses: params.statuses,
       isUrgent: params.isUrgent,

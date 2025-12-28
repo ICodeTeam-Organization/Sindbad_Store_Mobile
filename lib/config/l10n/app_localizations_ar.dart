@@ -367,4 +367,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get infoNotReached => 'لم يتم الوصول الى المعلومات';
+
+  @override
+  String get login => 'تسجيل الدخول';
+
+  @override
+  String get welcomeBack => 'أهلاً بك من جديد، لقد افتقدناك.';
+
+  @override
+  String get password => 'كلمة المرور';
+
+  @override
+  String get forgotPassword => 'نسيت كلمة المرور؟';
+
+  @override
+  String get pleaseEnterPhoneNumber => 'يرجى إدخال رقم الجوال';
+
+  @override
+  String get pleaseEnterPassword => 'يرجى إدخال كلمة المرور';
+
+  @override
+  String get failedToShowVersion => 'فشل في عرض نسخه التطبيق';
 }
