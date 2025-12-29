@@ -109,7 +109,7 @@ class OrdersCubit extends Cubit<OrdersState> {
     // If user selected "Call"
 
     if (status == PackageStatus.all.id) {
-      // Fetch all statuses of the order
+      // Fetch all statuses of the order                            
       statusList = [2, 3, 4];
     } else {
       // Fetch only the selected status

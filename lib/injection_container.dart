@@ -99,7 +99,7 @@ Future<void> initializationContainer() async {
   //await getit<SettingsCubit>().loadSettings();
 
   // ----------------
-  //  Data Sources"To
+  //  Data Sources"
   // ----------------
   getit.registerSingleton<AuthRemoteDataSource>(AuthRemoteDataSourceImpl());
   getit.registerSingleton<AllOrderRemotDataSource>(

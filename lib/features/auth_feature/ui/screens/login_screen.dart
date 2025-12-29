@@ -322,28 +322,28 @@ class _LoginPageState extends State<LoginPage> {
             controller: passwordController,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
-              suffixIcon: obscureText
-                  ? InkWell(
-                      onTap: () {
-                        setState(() {
-                          obscureText = !obscureText; // تغيير حالة الرؤية
-                        });
-                      },
-                      child: Icon(
-                        Icons.visibility,
-                        color: Colors.grey,
-                      ))
-                  : InkWell(
-                      onTap: () {
-                        setState(() {
-                          obscureText = !obscureText; // تغيير حالة الرؤية
-                        });
-                      },
-                      child: Icon(
-                        Icons.visibility_off,
-                        color: Colors.grey,
-                      ),
-                    ),
+              suffixIcon: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 200),
+                transitionBuilder: (child, animation) => FadeTransition(
+                  opacity: animation,
+                  child: ScaleTransition(scale: animation, child: child),
+                ),
+                child: IconButton(
+                  key: ValueKey<bool>(obscureText),
+                  icon: Icon(
+                    obscureText
+                        ? Icons.visibility_rounded
+                        : Icons.visibility_off_rounded,
+                    color: const Color(0xFFFF746B),
+                  ),
+                  splashRadius: 20,
+                  onPressed: () {
+                    setState(() {
+                      obscureText = !obscureText;
+                    });
+                  },
+                ),
+              ),
               hintText: "****************",
               filled: true,
               fillColor: Colors.white,

@@ -49,6 +49,7 @@ class OrderManagementWidget extends StatelessWidget {
                 tabViews: [
                   //New tabViews
                   NewTabViews(),
+
                   //Urgent TabViews (المستعجلة)
                   UrgentTabViews(),
 
@@ -58,6 +59,7 @@ class OrderManagementWidget extends StatelessWidget {
                     isUrgent: false,
                     pageSize: 10,
                   ),
+
                   //Canceled TabViews (الملغية)
                   OrdersListView(
                     statuses: [8],
