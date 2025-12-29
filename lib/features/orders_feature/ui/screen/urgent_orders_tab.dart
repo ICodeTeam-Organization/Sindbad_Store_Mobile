@@ -6,7 +6,8 @@ import 'package:sindbad_management_app/features/offers_features/ui/widgets/card_
 import 'package:sindbad_management_app/features/orders_feature/domain/entities/entities_states.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/order%20cubit/orders_cubit.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/order%20cubit/orders_cubit_states.dart';
-import 'package:sindbad_management_app/features/orders_feature/ui/widget/order_body.dart';
+import 'package:sindbad_management_app/features/orders_feature/ui/widget/order_card_widget.dart';
+import 'package:sindbad_management_app/features/orders_feature/ui/widget/orders_shimmer_loading.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/widget/package_status_filterBar.dart';
 
 class UrgentTabViews extends StatelessWidget {
@@ -32,11 +33,7 @@ class UrgentTabViews extends StatelessWidget {
           child: BlocConsumer<OrdersCubit, OrdersState>(
             builder: (context, state) {
               if (state is OrdersLoadInProgress) {
-                return Center(
-                    child: SizedBox(
-                        height: 35,
-                        width: 35,
-                        child: CircularProgressIndicator()));
+                return const OrdersShimmerLoading();
               }
               if (state is OrdersLoadSuccess) {
                 if (state.orders.isEmpty) {
@@ -46,21 +43,10 @@ class UrgentTabViews extends StatelessWidget {
                     itemCount: state.orders.length,
                     itemBuilder: (context, index) {
                       if (index < state.orders.length) {
-                        return Column(
-                          children: [
-                            OrderBody(
-                              billNumber: state.orders[index].orderBill,
-                              orderNumber: state.orders[index].orderNum,
-                              date: state.orders[index].orderDates,
-                              itemNumber: state.orders[index].productMount,
-                              paymentInfo: state.orders[index].payStatus,
-                              orderStatus: state.orders[index].orderStatuse,
-                              idOrder: state.orders[index].idOrder,
-                              idPackage: state.orders[index].idPackage,
-                            ),
-                            if (index == state.orders.length - 1)
-                              SizedBox(height: 120.h),
-                          ],
+                        return OrderCardWidget(
+                          order: state.orders[index],
+                          index: index,
+                          animate: true,
                         );
                       } else {
                         return Center(

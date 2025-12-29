@@ -70,204 +70,219 @@ class OrderCardWidget extends StatelessWidget {
       animate: animate,
       child: Column(
         children: [
-          InkWell(
-            onTap: () {
-              idOrders = order.idOrder;
-              idPackages = order.idPackage;
-              orderNumbers = order.orderNum;
-              billNumbers = order.orderBill;
-              dates = order.orderDates;
-              itemNumbers = order.productMount;
-              paymentInfos = order.payStatus;
-              orderStatuss = order.orderStatuse;
-              orderColors = orderColor;
-              context.push(AppRoutes.details, extra: order.idPackage);
-            },
-            child: Container(
-              margin: EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                border: Border.all(color: borderColor),
+          Container(
+            margin: EdgeInsets.all(5),
+            width: 380.w,
+            child: Material(
+              color: isDark ? Colors.grey[850] : Colors.white,
+              borderRadius: BorderRadius.circular(16.r),
+              child: InkWell(
                 borderRadius: BorderRadius.circular(16.r),
-              ),
-              width: 380.w,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // ===== TOP INFO ORDER (inlined) =====
-                  Container(
-                    constraints: BoxConstraints(minHeight: 50.h),
-                    padding:
-                        EdgeInsets.symmetric(vertical: 6.h, horizontal: 8.w),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                            color:
-                                isDark ? Colors.grey[700]! : AppColors.greyHint,
-                            width: 0.3),
-                      ),
-                      color: orderColor,
-                      borderRadius: BorderRadius.circular(16.r),
-                    ),
-                    child: order.orderNum.length >= 5
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Flexible(
-                                flex: 1,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(l10n.orderNumber,
-                                        style: KTextStyle.textStyle12
-                                            .copyWith(color: textColor)),
-                                    SizedBox(height: 4.h),
-                                    Text(
-                                      order.orderNum,
-                                      style: KTextStyle.textStyle14
-                                          .copyWith(color: textColor),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width: 8.w),
-                              Flexible(
-                                flex: 1,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(l10n.billNumber,
-                                        style: KTextStyle.textStyle12
-                                            .copyWith(color: textColor)),
-                                    SizedBox(height: 4.h),
-                                    Text(
-                                      order.orderBill,
-                                      style: KTextStyle.textStyle14
-                                          .copyWith(color: textColor),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          )
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  '${l10n.orderNumber} ${order.orderNum}',
-                                  style: KTextStyle.textStyle12
-                                      .copyWith(color: textColor),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              SizedBox(width: 8.w),
-                              Flexible(
-                                child: Text(
-                                  '${l10n.billNumber} ${order.orderBill}',
-                                  style: KTextStyle.textStyle12
-                                      .copyWith(color: textColor),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ],
-                          ),
+                onTap: () {
+                  idOrders = order.idOrder;
+                  idPackages = order.idPackage;
+                  orderNumbers = order.orderNum;
+                  billNumbers = order.orderBill;
+                  dates = order.orderDates;
+                  itemNumbers = order.productMount;
+                  paymentInfos = order.payStatus;
+                  orderStatuss = order.orderStatuse;
+                  orderColors = orderColor;
+                  context.push(AppRoutes.details, extra: order.idPackage);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: borderColor),
+                    borderRadius: BorderRadius.circular(16.r),
                   ),
-                  SizedBox(height: 10.h),
-                  // ===== BOTTOM INFO ORDER (inlined) =====
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 15),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                "assets/alarm.svg",
-                                width: 24,
-                                height: 24,
-                                colorFilter: ColorFilter.mode(
-                                  textColor ?? Colors.black,
-                                  BlendMode.srcIn,
-                                ),
-                              ),
-                              SizedBox(width: 10.w),
-                              Text(
-                                order.orderDates,
-                                style: KTextStyle.textStyle12
-                                    .copyWith(color: textColor),
-                              ),
-                            ],
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // ===== TOP INFO ORDER (inlined) =====
+                      Container(
+                        constraints: BoxConstraints(minHeight: 50.h),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 6.h, horizontal: 8.w),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                                color: isDark
+                                    ? Colors.grey[700]!
+                                    : AppColors.greyHint,
+                                width: 0.3),
                           ),
+                          color: orderColor,
+                          borderRadius: BorderRadius.circular(16.r),
                         ),
-                        Padding(
-                          padding: (MediaQuery.sizeOf(context).width) >= 480
-                              ? const EdgeInsets.only(left: 35)
-                              : const EdgeInsets.only(left: 15),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: 40.w,
-                                height: 40.h,
-                                child: Stack(children: [
-                                  Align(
-                                    alignment: Alignment.bottomCenter,
-                                    child: SvgPicture.asset(
-                                      "assets/Bag.svg",
-                                      width: 24,
-                                      height: 24,
+                        child: order.orderNum.length >= 5
+                            ? Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Flexible(
+                                    flex: 1,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(l10n.orderNumber,
+                                            style: KTextStyle.textStyle12
+                                                .copyWith(color: textColor)),
+                                        SizedBox(height: 4.h),
+                                        Text(
+                                          order.orderNum,
+                                          style: KTextStyle.textStyle14
+                                              .copyWith(color: textColor),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  Align(
-                                    alignment: Alignment.bottomCenter,
+                                  SizedBox(width: 8.w),
+                                  Flexible(
+                                    flex: 1,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(l10n.billNumber,
+                                            style: KTextStyle.textStyle12
+                                                .copyWith(color: textColor)),
+                                        SizedBox(height: 4.h),
+                                        Text(
+                                          order.orderBill,
+                                          style: KTextStyle.textStyle14
+                                              .copyWith(color: textColor),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Flexible(
                                     child: Text(
-                                      order.productMount,
-                                      style: KTextStyle.textStyle12.copyWith(
-                                        color: AppColors.white,
-                                      ),
+                                      '${l10n.orderNumber} ${order.orderNum}',
+                                      style: KTextStyle.textStyle12
+                                          .copyWith(color: textColor),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
-                                ]),
+                                  SizedBox(width: 8.w),
+                                  Flexible(
+                                    child: Text(
+                                      '${l10n.billNumber} ${order.orderBill}',
+                                      style: KTextStyle.textStyle12
+                                          .copyWith(color: textColor),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Text(l10n.itemCount,
-                                  style: KTextStyle.textStyle12
-                                      .copyWith(color: textColor)),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 10.h),
+                      // ===== BOTTOM INFO ORDER (inlined) =====
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 15),
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/alarm.svg",
+                                    width: 24,
+                                    height: 24,
+                                    colorFilter: ColorFilter.mode(
+                                      textColor ?? Colors.black,
+                                      BlendMode.srcIn,
+                                    ),
+                                  ),
+                                  SizedBox(width: 10.w),
+                                  Text(
+                                    order.orderDates,
+                                    style: KTextStyle.textStyle12
+                                        .copyWith(color: textColor),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: (MediaQuery.sizeOf(context).width) >= 480
+                                  ? const EdgeInsets.only(left: 35)
+                                  : const EdgeInsets.only(left: 15),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 40.w,
+                                    height: 40.h,
+                                    child: Stack(children: [
+                                      Align(
+                                        alignment: Alignment.bottomCenter,
+                                        child: SvgPicture.asset(
+                                          "assets/Bag.svg",
+                                          width: 24,
+                                          height: 24,
+                                        ),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.bottomCenter,
+                                        child: Text(
+                                          order.productMount,
+                                          style:
+                                              KTextStyle.textStyle12.copyWith(
+                                            color: AppColors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ]),
+                                  ),
+                                  Text(l10n.itemCount,
+                                      style: KTextStyle.textStyle12
+                                          .copyWith(color: textColor)),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      // ===== PAYMENT INFO =====
+                      Container(
+                        padding: EdgeInsets.only(right: 35.w, bottom: 10.w),
+                        child: Row(
+                          children: [
+                            Text('${l10n.paymentInfo}: ',
+                                style: KTextStyle.textStyle12
+                                    .copyWith(color: textColor)),
+                            Text(order.payStatus,
+                                style: KTextStyle.textStyle12
+                                    .copyWith(color: textColor)),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  // ===== PAYMENT INFO =====
-                  Container(
-                    padding: EdgeInsets.only(right: 35.w, bottom: 10.w),
-                    child: Row(
-                      children: [
-                        Text('${l10n.paymentInfo}: ',
-                            style: KTextStyle.textStyle12
-                                .copyWith(color: textColor)),
-                        Text(order.payStatus,
-                            style: KTextStyle.textStyle12
-                                .copyWith(color: textColor)),
-                      ],
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           ),

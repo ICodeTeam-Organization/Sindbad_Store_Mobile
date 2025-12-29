@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/order%20cubit/orders_cubit.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/order%20cubit/orders_cubit_states.dart';
 import 'package:sindbad_management_app/core/widgets/no_data_widget.dart';
-import 'package:sindbad_management_app/features/orders_feature/ui/widget/order_body.dart';
+import 'package:sindbad_management_app/features/orders_feature/ui/widget/order_card_widget.dart';
+import 'package:sindbad_management_app/features/orders_feature/ui/widget/orders_shimmer_loading.dart';
 
 typedef ItemBuilder = Widget Function(
     BuildContext context, int index, dynamic item);
@@ -115,23 +115,7 @@ class _OrdersListViewState extends State<OrdersListView>
       builder: (context, state) {
         // Use the Shimmer loading when the initial page is loading.
         if (state is OrdersLoadInProgress && pageNumber == 1) {
-          return Shimmer.fromColors(
-            baseColor: Colors.grey[300]!,
-            highlightColor: Colors.grey[100]!,
-            child: ListView.builder(
-              padding: EdgeInsets.zero,
-              itemCount: 6,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Container(
-                    color: Colors.white,
-                    height: 130.h,
-                    width: MediaQuery.of(context).size.width,
-                  ),
-                );
-              },
-            ),
-          );
+          return const OrdersShimmerLoading();
         }
         if (orders.isEmpty) {
           return NoDataWidget();
@@ -149,27 +133,10 @@ class _OrdersListViewState extends State<OrdersListView>
                   _animatedIndices.add(index);
                 }
 
-                return AnimatedOrderItem(
+                return OrderCardWidget(
+                  order: orders[index],
                   index: index,
                   animate: shouldAnimate,
-                  child: Column(
-                    children: [
-                      OrderBody(
-                        billNumber: orders[index].orderBill,
-                        orderNumber: orders[index].orderNum,
-                        date: orders[index].orderDates,
-                        itemNumber: orders[index].productMount,
-                        paymentInfo: orders[index].payStatus,
-                        orderStatus: orders[index].orderStatuse,
-                        idOrder: orders[index].idOrder,
-                        idPackage: orders[index].idPackage,
-                      ),
-                      if (index == orders.length - 1)
-                        SizedBox(
-                          height: 120.h,
-                        ),
-                    ],
-                  ),
                 );
               } else {
                 // Show a loading indicator at the bottom while fetching

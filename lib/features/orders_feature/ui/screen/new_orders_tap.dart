@@ -10,6 +10,7 @@ import 'package:sindbad_management_app/features/orders_feature/ui/manager/order%
 import 'package:sindbad_management_app/core/widgets/no_data_widget.dart';
 import 'package:sindbad_management_app/core/widgets/error_widget.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/widget/order_card_widget.dart';
+import 'package:sindbad_management_app/features/orders_feature/ui/widget/orders_shimmer_loading.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/widget/package_status_filterBar.dart';
 
 class NewTabViews extends StatefulWidget {
@@ -78,11 +79,7 @@ class _NewTabViewsState extends State<NewTabViews> {
           child: BlocConsumer<OrdersCubit, OrdersState>(
             builder: (context, state) {
               if (state is OrdersLoadInProgress) {
-                return Center(
-                    child: SizedBox(
-                        height: 35,
-                        width: 35,
-                        child: CircularProgressIndicator()));
+                return const OrdersShimmerLoading();
               }
 
               // Handle both OrdersLoadSuccess and OrdersLoadMoreInProgress

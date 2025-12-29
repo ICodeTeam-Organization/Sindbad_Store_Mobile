@@ -246,30 +246,33 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               );
             }
-            return Container(
+            return SizedBox(
               width: 380.w,
               height: 47.h,
-              decoration: BoxDecoration(
-                color: Color(0xffFF746B),
+              child: Material(
+                color: const Color(0xffFF746B),
                 borderRadius: BorderRadius.circular(10),
-              ),
-              child: MaterialButton(
-                child: Text(
-                  l10n.login,
-                  style: TextStyle(
-                    color: Color(0xffffffff),
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(10),
+                  onTap: () {
+                    if (_formKey.currentState!.validate()) {
+                      context.read<SignInCubit>().signIn(
+                            phoneNumberController.text,
+                            passwordController.text,
+                          );
+                    }
+                  },
+                  child: Center(
+                    child: Text(
+                      l10n.login,
+                      style: const TextStyle(
+                        color: Color(0xffffffff),
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    context.read<SignInCubit>().signIn(
-                          phoneNumberController.text,
-                          passwordController.text,
-                        );
-                  }
-                },
               ),
             );
           },
