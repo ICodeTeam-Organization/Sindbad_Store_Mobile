@@ -17,7 +17,7 @@ class OrdersCubit extends Cubit<OrdersState> {
   static const int _pageSize = 10;
 
   // Set to true to use mock data, false to use real API
-  static const bool _useMockData = true;
+  static const bool _useMockData = false;
 
   OrdersCubit(this._orderUseCase) : super(OrdersInitial());
 
