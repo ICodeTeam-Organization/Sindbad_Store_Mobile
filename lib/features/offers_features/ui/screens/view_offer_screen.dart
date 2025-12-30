@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/config/l10n/app_localizations.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
+import 'package:sindbad_management_app/config/styles/Colors.dart';
 import 'package:sindbad_management_app/core/dialogs/delete_confirm_dialog.dart';
 import 'package:sindbad_management_app/core/widgets/custom_app_bar.dart';
 import 'package:sindbad_management_app/core/widgets/store_primary_button.dart';
@@ -92,10 +93,13 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       body: SafeArea(
         child: Container(
+          color:
+              isDark ? Theme.of(context).scaffoldBackgroundColor : Colors.white,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/order_details/order_details_cubit.dart';
-import '../../../../config/styles/Colors.dart';
+import '../../../../config/styles/colors.dart';
 import '../../../../config/styles/text_style.dart';
 import 'order_management_widget/bottom_info_order.dart';
 import 'order_management_widget/top_info_order.dart';

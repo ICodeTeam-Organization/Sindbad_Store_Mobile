@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sindbad_management_app/config/routers/routers_names.dart';
 import '../../../../../core/widgets/store_primary_button.dart';
-import '../../../../../config/styles/Colors.dart';
+import '../../../../../config/styles/colors.dart';
 import '../manager/products_cubit/products_cubit.dart';
 
 class TwoButtonInRow extends StatelessWidget {

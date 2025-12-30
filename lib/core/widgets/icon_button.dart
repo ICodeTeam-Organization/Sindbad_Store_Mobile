@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sindbad_management_app/config/styles/Colors.dart';
+import 'package:sindbad_management_app/config/styles/colors.dart';
 
 class IconWidget extends StatelessWidget {
   const IconWidget({

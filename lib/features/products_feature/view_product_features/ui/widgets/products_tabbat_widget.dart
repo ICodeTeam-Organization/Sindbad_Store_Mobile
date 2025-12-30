@@ -6,7 +6,7 @@ import 'package:sindbad_management_app/features/products_feature/view_product_fe
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/screens/stopped_products_tap.dart';
 import '../../../../../core/widgets/custom_app_bar.dart';
 import '../../../../../core/widgets/custom_tab_bar_widget.dart';
-import '../../../../../config/styles/Colors.dart';
+import '../../../../../config/styles/colors.dart';
 
 class ProductsTabBatWidget extends StatelessWidget {
   const ProductsTabBatWidget({

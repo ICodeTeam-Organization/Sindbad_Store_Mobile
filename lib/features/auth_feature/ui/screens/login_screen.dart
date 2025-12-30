@@ -7,7 +7,7 @@ import 'package:sindbad_management_app/config/routers/routers_names.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit_state.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/widgets/show_error_dialoge.dart';
 import 'package:sindbad_management_app/injection_container.dart';
-import 'package:sindbad_management_app/config/styles/Colors.dart';
+import 'package:sindbad_management_app/config/styles/colors.dart';
 import 'package:sindbad_management_app/features/auth_feature/ui/manger/sgin_in_cubit/sgin_in_cubit.dart';
 import 'package:sindbad_management_app/features/profile_feature/ui/cubit/setting_cubit/app_settings_cubit.dart';
 import 'package:sindbad_management_app/config/l10n/app_localizations.dart';

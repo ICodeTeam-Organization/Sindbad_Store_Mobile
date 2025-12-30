@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sindbad_management_app/core/widgets/counter_quantity_widget.dart';
-import 'package:sindbad_management_app/config/styles/Colors.dart';
+import 'package:sindbad_management_app/config/styles/colors.dart';
 import 'package:sindbad_management_app/config/styles/text_style.dart';
 
 class CounterQuantityTileWidget extends StatelessWidget {

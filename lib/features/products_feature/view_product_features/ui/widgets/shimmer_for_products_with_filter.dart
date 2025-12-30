@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:shimmer/shimmer.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/widgets/shimmer_product_item.dart';
-import '../../../../../config/styles/Colors.dart';
+import '../../../../../config/styles/colors.dart';
 
 class ShimmerForProductsWithFilter extends StatelessWidget {
   const ShimmerForProductsWithFilter({

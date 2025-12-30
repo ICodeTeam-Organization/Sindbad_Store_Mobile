@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../config/styles/Colors.dart';
+import '../../../../../config/styles/colors.dart';
 import '../../../../../config/styles/text_style.dart';
 
 class DesignForTitleUnderImage extends StatelessWidget {

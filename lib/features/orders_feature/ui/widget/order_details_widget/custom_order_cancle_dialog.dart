@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../../../core/widgets/store_primary_button.dart';
-import '../../../../../config/styles/Colors.dart';
+import '../../../../../config/styles/colors.dart';
 import '../../../../../config/styles/text_style.dart';
 
 // TextEditingController cancelConroller = TextEditingController();

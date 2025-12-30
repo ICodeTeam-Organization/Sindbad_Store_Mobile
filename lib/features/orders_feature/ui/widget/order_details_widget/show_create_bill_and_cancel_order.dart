@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/widget/order_body.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/widget/order_details_widget/radio_widget.dart';
 import '../../../../../core/widgets/store_primary_button.dart';
-import '../../../../../config/styles/Colors.dart';
+import '../../../../../config/styles/colors.dart';
 import '../../function/image_picker_function.dart';
 import '../../manager/cancel/cancel_cubit.dart';
 import '../../manager/invoice/order_invoice_cubit.dart';

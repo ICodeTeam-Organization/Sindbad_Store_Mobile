@@ -9,7 +9,7 @@ import 'package:sindbad_management_app/core/widgets/icon_button.dart';
 import 'package:sindbad_management_app/features/notifiction_featurs/ui/cubit/notifiction_cubit/unread_notifiction_cubit.dart';
 import 'package:sindbad_management_app/features/root.dart';
 
-import '../../config/styles/Colors.dart';
+import '../../config/styles/colors.dart';
 
 class CustomAppBar extends StatefulWidget {
   final String tital;

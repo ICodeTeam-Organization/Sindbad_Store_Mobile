@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sindbad_management_app/features/orders_feature/ui/manager/order_details/order_details_cubit.dart';
-import '../../../../../config/styles/Colors.dart';
+import '../../../../../config/styles/colors.dart';
 import 'bottom_order_details.dart';
 import 'mid_order_details.dart';
 import 'top_order_details.dart';
