@@ -34,9 +34,9 @@ import 'package:sindbad_management_app/features/orders_feature/ui/manager/shippi
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/domain/entities/add_product_entities/main_category_entity.dart';
 import 'package:sindbad_management_app/features/products_feature/add_and_edit_product_feature/ui/manger/cubit/main_and_sub_drop_down/cubit/get_main_and_sub_category_names_cubit.dart';
 import 'package:sindbad_management_app/features/products_feature/view_product_features/ui/manager/products_cubit/products_cubit.dart';
+import 'package:sindbad_management_app/features/profile_feature/ui/cubit/setting_cubit/app_settings_cubit.dart';
 import 'injection_container.dart';
 import 'features/orders_feature/ui/manager/button_disable/button_disable_cubit.dart';
-import 'features/profile_feature/ui/cubit/setting_cubit/app_settings_cubit.dart';
 
 void main() async {
   // HttpOverrides.global = MyhttpsOverride();
@@ -89,6 +89,7 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
           create: (_) => SignInCubit(getit()),
         ),
         BlocProvider(create: (_) => OrdersCubit(getit())),
+        BlocProvider.value(value: getit<SettingsCubit>()),
         BlocProvider(create: (_) => ExcelCubit(getit(), getit(), getit())),
         BlocProvider(
             create: (_) => ProductsCubit(
@@ -163,30 +164,30 @@ class _SindbadManagementAppState extends State<SindbadManagementApp> {
         ),
       ],
       child: ScreenUtilInit(
-        designSize: const Size(428, 1000),
-        minTextAdapt: true,
-        splitScreenMode: true,
-        builder: (context, child) => BlocBuilder<SettingsCubit, SettingsState>(
-          bloc: getit<SettingsCubit>(),
-          builder: (context, state) {
-            final settingsCubit = getit<SettingsCubit>();
-            return MaterialApp.router(
-              // for using with the device preview //
-              // locale: DevicePreview.locale(context),
-              builder: DevicePreview.appBuilder,
-              ///////////////////////////////////////
-              routerConfig: AppRouter.router,
-              theme: LightTheme.theme,
-              darkTheme: DarkTheme.theme,
-              themeMode: settingsCubit.themeMode,
-              localizationsDelegates: LocalesConfig.localizationsDelegates,
-              supportedLocales: LocalesConfig.supportedLocales,
-              locale: settingsCubit.locale,
-              debugShowCheckedModeBanner: false,
+          designSize: const Size(428, 1000),
+          minTextAdapt: true,
+          splitScreenMode: true,
+          builder: (context, child) {
+            return BlocBuilder<SettingsCubit, SettingsState>(
+              builder: (context, state) {
+                final settingsCubit = context.read<SettingsCubit>();
+                return MaterialApp.router(
+                  // for using with the device preview //
+                  // locale: DevicePreview.locale(context),
+                  builder: DevicePreview.appBuilder,
+                  ///////////////////////////////////////
+                  routerConfig: AppRouter.router,
+                  theme: LightTheme.theme,
+                  darkTheme: DarkTheme.theme,
+                  themeMode: settingsCubit.themeMode,
+                  localizationsDelegates: LocalesConfig.localizationsDelegates,
+                  supportedLocales: LocalesConfig.supportedLocales,
+                  locale: settingsCubit.locale,
+                  debugShowCheckedModeBanner: false,
+                );
+              },
             );
-          },
-        ),
-      ),
+          }),
     );
   }
 }
