@@ -96,7 +96,7 @@ Future<void> initializationContainer() async {
   getit.registerSingleton<SettingsCubit>(SettingsCubit(getit()));
 
   // Load saved settings before app starts
-  //await getit<SettingsCubit>().loadSettings();
+  await getit<SettingsCubit>().loadSettings();
 
   // ----------------
   //  Data Sources"
